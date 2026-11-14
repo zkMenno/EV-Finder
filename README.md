@@ -24,7 +24,7 @@ It is a finder, not a marketplace. We don't host listings. We link you to them.
 
 ## Stack (planned)
 
-Next.js + TypeScript · Postgres · Python + Dagster pipeline · hosted on Hetzner with Coolify. Details: [DECISIONS.md](DECISIONS.md).
+Next.js + TypeScript · Postgres + PostGIS · Python data jobs · hosted in the EU on Hetzner. Details: [DECISIONS.md](DECISIONS.md).
 
 ## Repo layout
 

@@ -9,7 +9,7 @@ Format: `Q-NNN` · task id (if any) · who asked · date.
 ## Open
 
 ### Q-001 · Server capacity · coordinator · 2026-11-15
-Which Hetzner ARM server tier runs Coolify now, what else runs on it, and how much RAM is free (`free -h`)? This decides whether Decision 005 (build in CI, no upgrade) holds.
+Does the AppInfra server have room for EV Finder? Partly answered (see Decision 006): CAX31, 16 GB, shared with GardenLayer and Dungeon Tracker; fits on paper while Cahier stays off. Still needed from the "EV Finder capacity check" chat: real `docker stats`, free disk, existing job timers (to confirm the 00:30–02:30 UTC window), and off-site backup status.
 
 **Answer:**
 

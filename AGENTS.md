@@ -8,7 +8,7 @@ Read this file in full at the start of every session. Then read your task file. 
 
 - **Name:** EV Finder (working name; the real brand is still open, so don't hard-code the name in code; use config)
 - **Owner:** Menno (solo maintainer). Agents do most of the building.
-- **Stack:** Next.js + TypeScript (`apps/web`), Postgres, Python + Dagster + DuckDB/Parquet (`pipeline`), JSON Schema as the single source of types (`packages/schema`), Hetzner + Coolify (`infra`). See DECISIONS.md 003.
+- **Stack:** Next.js + TypeScript (`apps/web`), its own database in the shared Postgres 17 + PostGIS server, Python jobs scheduled through pg-boss (`pipeline`), JSON Schema as the single source of types (`packages/schema`). Hosted on Menno's shared AppInfra server (Hetzner Arm, next to GardenLayer and Dungeon Tracker): Caddy, CI → Arm image → SSH deploy (`infra`). See DECISIONS.md 006.
 - **Source of truth for product scope:** the Master spec v2 (link in DECISIONS.md). This repo holds the engineering rules; the spec holds what to build.
 
 ## Directory structure
@@ -27,7 +27,7 @@ audits/              A-xx-slug.md audit reports
 apps/web/            Next.js app (Phase 0)
 pipeline/            Python data pipeline (Phase 0)
 packages/schema/     JSON Schema → generated TS + Python types (Phase 0)
-infra/               server, Coolify, backups (Phase 0)
+infra/               deploy config for the AppInfra server (Phase 0)
 .github/             CI, issue templates, Dependabot
 ```
 
@@ -88,7 +88,7 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 
 ## Security and privacy
 
-- **Never commit secrets.** Use `.env` (git-ignored) locally and Coolify/GitHub secrets in deployment. Add new variables to `.env.example` with a dummy value.
+- **Never commit secrets.** Use `.env` (git-ignored) locally, and server env files / GitHub secrets in deployment. Add new variables to `.env.example` with a dummy value.
 - **This repo is public.** Marketplace sampling targets, rates and partner/affiliate credentials never go in it (Decision 004). Code reads them from config at runtime.
 - User data lives in its own schema, never mixed with catalogue data. GDPR export and delete must keep working.
 - Privacy-friendly analytics only; nothing that needs a cookie banner.
@@ -119,7 +119,8 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 
 **Python (`pipeline`)**
 - Python 3.12+, type hints everywhere, `ruff` for lint and format, `pytest` for tests.
-- One Dagster asset per dataset step; lineage is our provenance, so don't bypass it.
+- Jobs are small, idempotent Python steps queued and scheduled through pg-boss. Each step records its inputs and outputs in the run log, and every Fact carries its own source and date: that is our provenance, so never write a value without it.
+- **Respect the shared server.** Jobs run at night at low priority inside their memory limit (Decision 006). Big one-off imports go to a temporary machine, not the shared server.
 - Source adapters live in `pipeline/sources/<name>/`, each with its own fixtures and tests.
 
 **Schema (`packages/schema`)**

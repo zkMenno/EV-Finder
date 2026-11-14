@@ -13,7 +13,8 @@ Where this project is going. The full plan, with phase gates and durations, live
 Repo and infrastructure:
 - [x] GitHub repo, licences, agent scaffold, CI skeleton, issue templates
 - [ ] Monorepo skeleton: `apps/web`, `pipeline`, `packages/schema`, `infra`, each with a nested `AGENTS.md`
-- [ ] Hetzner + Coolify deploy, Postgres, backups (Decision 005 to confirm)
+- [ ] Deploy on the AppInfra server: database + login in shared Postgres, Caddy route, staging, watchdog `/health` (Decision 006)
+- [ ] Off-site backups confirmed working before launch (AppInfra #482)
 - [ ] CI builds arm64 images and preview deploys per branch
 
 Data:
@@ -54,7 +55,7 @@ Listing feeds, price bands, Gem Score, alerts, battery-health context, PHEVs wit
 
 - **Agent scaffold and workflow** → Decision 001
 - **Public repo, AGPL + CC BY** → Decision 002
-- **Lean monolith + pipeline** → Decision 003
+- **Lean monolith + pipeline** → Decision 003, hosting → Decision 006
 - **Secrets and sampling config out of repo** → Decision 004
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

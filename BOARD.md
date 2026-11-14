@@ -10,8 +10,8 @@ _Last updated: 2026-11-15_
 ## Next (wave 1, Phase 0)
 - Monorepo skeleton with nested lane `AGENTS.md` files
 - JSON Schema v0 (Make → Model → Generation → Variant → Market variant → Fact)
-- Pipeline skeleton (Dagster project, first source: OpenEV)
-- Infra: Coolify app + Postgres on the existing server (needs Q-001)
+- Pipeline skeleton (pg-boss scheduled jobs, first source: OpenEV)
+- Infra: database + login in the shared Postgres, deploy to AppInfra (waits on the capacity check, Q-001)
 
 ## Blocked
 - _nothing_

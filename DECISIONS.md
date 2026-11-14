@@ -50,7 +50,7 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 ## Decision 003: Lean monolith + separate data pipeline, one EU server
 
-**Status:** Accepted
+**Status:** Superseded by 006 (hosting and pipeline tooling); the monolith shape still holds
 **Date:** 2026-11-15 (product decision 2026-11-14)
 
 **Context:** A solo builder with AI agents must be able to understand, run and fix everything.
@@ -78,15 +78,38 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 ## Decision 005: Build images in GitHub Actions, not on the server
 
-**Status:** Proposed
+**Status:** Accepted (deploy details in 006)
 **Date:** 2026-11-15
 
-**Context:** The app will share an existing Hetzner ARM server running Coolify. Building Next.js on the server peaks at 2–4 GB RAM and can starve other services. Public repos get free Actions minutes, including arm64 runners.
+**Context:** The app will share an existing Hetzner Arm server. Building Next.js on the server peaks at 2–4 GB RAM and can starve other services. Public repos get free Actions minutes, including arm64 runners.
 
-**Decision:** CI builds arm64 Docker images for `apps/web` and `pipeline`, pushes them to GitHub Container Registry, and Coolify pulls and runs them. Run the Dagster UI only on demand at first.
+**Decision:** CI builds arm64 Docker images for `apps/web` and `pipeline`, pushes them to GitHub Container Registry, and the server pulls and runs them (SSH deploy, see 006).
 
 **Consequences:** Likely no server upgrade at launch (to be confirmed once current free RAM is known). Adds a deploy workflow in Phase 0 (`infra` lane).
 
-**Open:** confirm server tier and free RAM → accept or revise.
+
+---
+
+## Decision 006: Host on the shared AppInfra server; drop Coolify, Dagster and Brevo
+
+**Status:** Accepted (limits to confirm with the capacity check, Q-001)
+**Date:** 2026-11-15
+**Source:** advice from AppInfra, agreed in the project chat; spec §13 updated to match.
+
+**Context:** Menno already runs a Hetzner CAX31 (Arm, 8 cores, 16 GB) with Caddy, an image-based deploy, backups, a watchdog, Umami and staging for GardenLayer and Dungeon Tracker. Reusing that is cheaper and simpler than a new Coolify setup. Dagster's always-on services cost about 1–1.5 GB, too much on a shared server.
+
+**Decision:**
+- **Server:** the shared AppInfra server. Reuse Caddy, CI → Arm image → SSH deploy, backups, the `/health` watchdog, Umami, Scaleway email, the Sveltia editor and the staging setup. No Coolify.
+- **Database:** EV Finder gets its own database, login and private network inside the shared Postgres 17 + PostGIS. No separate Postgres container. Connection pool: about 10 live, 3 staging, 3 jobs, out of the server's 100.
+- **Pipeline:** Python jobs queued and scheduled through pg-boss. No Dagster. Raw snapshots go to Scaleway Object Storage.
+- **Limits:** `ev-web` 768 MB / 1 CPU; `ev-web-staging` 256 MB / 0.5 CPU; `ev-jobs` 1 GB / 1 CPU at low priority, nightly only (🟡 00:30–02:30 UTC, to confirm).
+- **Fit:** about 13.8 GB of 16 GB in limits by day, about 14.8 GB in the job window. Works while the paused Cahier app stays off.
+- **When to grow:** upgrade, or move GardenLayer to its own server, once busy evenings show more than 70% RAM or CPU for weeks.
+- "Coolify environment" in Decision 004 now means the server's env files.
+
+**Consequences:**
+- Provenance no longer comes from Dagster lineage. Every Fact stores source and date itself, and each job writes a run log (AGENTS.md, Python conventions).
+- The shared Postgres has no CPU limit, so heavy imports run at night at low priority. Big one-off imports run on a temporary machine.
+- 🔴 Off-site backups on the server may not be running. Fix that (AppInfra #482) before launch; it affects the other apps too.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
