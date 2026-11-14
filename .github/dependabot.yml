@@ -1,0 +1,11 @@
+# Keeps GitHub Actions up to date now.
+# Add npm (/apps/web) and pip (/pipeline) entries once those folders have manifests.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

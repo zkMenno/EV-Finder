@@ -1,0 +1,47 @@
+name: Report a data issue
+description: A number, spec, price or link looks wrong or is missing.
+title: "[Data] "
+labels: ["data"]
+body:
+  - type: input
+    id: vehicle
+    attributes:
+      label: Which car?
+      description: Make, model, generation or variant, or paste the page link.
+      placeholder: Hyundai Ioniq 5, gen 1, 77 kWh RWD
+    validations:
+      required: true
+  - type: input
+    id: field
+    attributes:
+      label: Which value?
+      placeholder: Usable battery (kWh), winter range, used price NL…
+    validations:
+      required: true
+  - type: input
+    id: shown
+    attributes:
+      label: What we show
+  - type: input
+    id: correct
+    attributes:
+      label: What you think is correct
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: A link, document, test or your own measurement (with conditions such as speed and temperature).
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: Country (if it's about prices or availability)
+  - type: checkboxes
+    id: credit
+    attributes:
+      label: Credit
+      options:
+        - label: I'm happy to be credited for this correction

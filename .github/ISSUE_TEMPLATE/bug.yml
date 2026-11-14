@@ -1,0 +1,33 @@
+name: Bug report
+description: Something on the site doesn't work.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to …
+        2. Click …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+  - type: input
+    id: url
+    attributes:
+      label: Page link
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: iPhone 15, Safari / Windows, Firefox 140

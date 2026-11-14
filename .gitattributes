@@ -1,0 +1,12 @@
+# Normalise line endings so agents on any OS produce clean diffs.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.webp binary
+*.parquet binary
+*.duckdb binary
+
+# Generated files: collapsed in PR diffs.
+packages/schema/generated/** linguist-generated=true
+pnpm-lock.yaml linguist-generated=true

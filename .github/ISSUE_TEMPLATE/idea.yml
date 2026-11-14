@@ -1,0 +1,24 @@
+name: Idea or feature request
+description: Suggest something new.
+title: "[Idea] "
+labels: ["idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! We keep scope tight on purpose: one person builds this. Good ideas go into the roadmap's Next or Later lists, so it may take a while before yours is built.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe the situation, not only the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: How do you handle this today?
