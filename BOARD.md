@@ -5,7 +5,7 @@ One screen: what's happening. Coordinator only. Task details live in `tasks/`.
 _Last updated: 2026-11-15_
 
 ## Now
-- Repo setup: done; waiting on Menno for the open questions in `QUESTIONS.md`
+- Repo setup: files done. Menno: switch on repo security settings + `main` ruleset by hand (API can't), answer `QUESTIONS.md`
 
 ## Next (wave 1, Phase 0)
 - Monorepo skeleton with nested lane `AGENTS.md` files
