@@ -1,0 +1,821 @@
+# Hand-curated seed list of used-EV favourites and their generations.
+# Written from model knowledge only (no sources fetched). Every `uncertain: true`
+# entry must be hand-checked against a primary source before it is published.
+# Years = model years on sale in Europe (end null = still on sale) unless a note says otherwise.
+# Validate: python3 -I data/seed/validate_seed.py data/seed/models.yaml
+schema: seed-models/v1
+makes:
+  - id: tesla
+    name: Tesla
+    models:
+      - id: tesla-model-3
+        name: Model 3
+        segment: D
+        body: sedan
+        generations:
+          - id: tesla-model-3-gen1
+            name: Model 3 (2019-2023)
+            years: [2019, 2023]
+            uncertain: false
+            change_markers:
+              - {year: 2019, text: "European deliveries start (Fremont-built)"}
+              - {year: 2021, text: "Refresh: heat pump, chrome delete, powered boot; Shanghai-built supply for Europe"}
+              - {year: 2021, text: "Standard Range Plus moves to LFP battery (late 2021)"}
+              - {year: 2022, text: "Trim names change to RWD / Long Range / Performance"}
+          - id: tesla-model-3-highland
+            name: Highland
+            years: [2024, null]
+            uncertain: true
+            notes: "First European Highland deliveries were late 2023 (sold as MY2024); start year could be argued as 2023. The 2025 Standard trim and its European timing are not verified."
+            change_markers:
+              - {year: 2024, text: "Highland facelift: new front/rear, ventilated seats, rear screen, no stalks"}
+              - {year: 2024, text: "Highland Performance variant"}
+              - {year: 2025, text: "Lower-cost Standard trim announced (European availability unverified)"}
+
+      - id: tesla-model-y
+        name: Model Y
+        segment: J-medium
+        body: suv
+        generations:
+          - id: tesla-model-y-gen1
+            name: Model Y (2021-2024)
+            years: [2021, 2024]
+            uncertain: false
+            change_markers:
+              - {year: 2021, text: "European deliveries start (Shanghai-built)"}
+              - {year: 2022, text: "Giga Berlin production starts"}
+              - {year: 2022, text: "RWD (LFP) entry version added in Europe"}
+          - id: tesla-model-y-juniper
+            name: Juniper
+            years: [2025, null]
+            uncertain: true
+            notes: "European Juniper deliveries began around March 2025; exact timing of Performance and lower-cost Standard variants in Europe not verified."
+            change_markers:
+              - {year: 2025, text: "Juniper facelift: light bars, new interior, rear screen"}
+              - {year: 2025, text: "Juniper Performance and Standard variants (timing per market unverified)"}
+
+      - id: tesla-model-s
+        name: Model S
+        segment: F
+        body: sedan
+        generations:
+          - id: tesla-model-s-gen1
+            name: Pre-facelift (2013-2016)
+            years: [2013, 2016]
+            uncertain: true
+            notes: "Kept simple per brief. European deliveries started around mid-2013 (US 2012). Many battery sizes (40/60/70/85/90 kWh) in this span."
+            change_markers:
+              - {year: 2014, text: "Dual-motor 'D' variants and Autopilot hardware 1"}
+              - {year: 2015, text: "70 and 90 kWh batteries"}
+          - id: tesla-model-s-facelift
+            name: Facelift (2016-2021)
+            years: [2016, 2021]
+            uncertain: true
+            notes: "Nose facelift April 2016. The 2019 'Raven' drivetrain/suspension update is sometimes treated as its own sub-generation; kept as a change marker."
+            change_markers:
+              - {year: 2016, text: "New front end, HEPA filter, Autopilot hardware 2 (late 2016)"}
+              - {year: 2017, text: "100 kWh battery; 60/75 kWh entry versions"}
+              - {year: 2019, text: "'Raven' update: permanent-magnet front motor, adaptive air suspension"}
+          - id: tesla-model-s-palladium
+            name: Palladium refresh
+            years: [2022, 2026]
+            uncertain: true
+            notes: "Palladium refresh launched 2021 in the US but European deliveries only began around late 2022 (gap in European supply in 2021-22). Tesla announced in early 2026 that Model S production would end; end year 2026 needs checking."
+            change_markers:
+              - {year: 2022, text: "Yoke steering, landscape screen, Plaid tri-motor"}
+              - {year: 2023, text: "Round steering wheel option"}
+              - {year: 2025, text: "Minor refresh (new wheels, lighting, suspension tweaks)"}
+
+  - id: renault
+    name: Renault
+    models:
+      - id: renault-zoe
+        name: Zoe
+        segment: B
+        body: hatchback
+        name_aliases: [ZOE, Zoé, Zoe E-Tech]
+        generations:
+          - id: renault-zoe-ph1
+            name: Phase 1 (22/41 kWh)
+            years: [2013, 2019]
+            uncertain: false
+            notes: "Many used cars still have a battery rental contract (battery lease); check whether the battery is owned."
+            change_markers:
+              - {year: 2013, text: "22 kWh, Q210 motor (43 kW AC charging)"}
+              - {year: 2015, text: "R240 motor (longer range, 22 kW AC max)"}
+              - {year: 2016, text: "Z.E. 40 battery (41 kWh)"}
+              - {year: 2018, text: "R110 motor"}
+          - id: renault-zoe-ph2
+            name: Phase 2 (ZE50)
+            years: [2019, 2024]
+            uncertain: true
+            notes: "Launched late 2019, most deliveries from 2020. Production reported to have ended early 2024; confirm last model year."
+            change_markers:
+              - {year: 2019, text: "52 kWh battery, new interior, optional 50 kW CCS"}
+              - {year: 2021, text: "Renamed Zoe E-Tech Electric"}
+
+      - id: renault-megane-e-tech
+        name: Megane E-Tech Electric
+        segment: C
+        body: crossover
+        name_aliases: [Megane E-Tech, Mégane E-Tech, Megane E-Tech Electric, Megane EV]
+        generations:
+          - id: renault-megane-e-tech-gen1
+            name: Megane E-Tech Electric
+            years: [2022, null]
+            uncertain: true
+            notes: "Whether it is still on sale in all European markets (and any facelift timing) is unverified."
+            change_markers:
+              - {year: 2022, text: "Launch: EV40 (40 kWh) and EV60 (60 kWh)"}
+
+  - id: nissan
+    name: Nissan
+    models:
+      - id: nissan-leaf
+        name: Leaf
+        segment: C
+        body: hatchback
+        name_aliases: [LEAF]
+        generations:
+          - id: nissan-leaf-ze0
+            name: ZE0
+            years: [2011, 2017]
+            uncertain: true
+            notes: "European deliveries started 2011 (Japan/US late 2010). Covers both ZE0 (2011-2013) and the 2013 AZE0 update; some sources split these. No active battery cooling."
+            change_markers:
+              - {year: 2013, text: "Europe-built (Sunderland) AZE0 update, 6.6 kW charger option"}
+              - {year: 2016, text: "30 kWh battery"}
+          - id: nissan-leaf-ze1
+            name: ZE1
+            years: [2018, 2025]
+            uncertain: true
+            notes: "End year uncertain: ZE1 production overlapped with the third-generation launch."
+            change_markers:
+              - {year: 2018, text: "40 kWh, new body; still CHAdeMO, no active battery cooling"}
+              - {year: 2019, text: "e+ 62 kWh variant"}
+          - id: nissan-leaf-gen3
+            name: 3rd generation (crossover)
+            years: [2025, null]
+            uncertain: true
+            notes: "Added beyond the brief's ZE0/ZE1 so ZE1 has a successor. Revealed mid-2025 as a crossover with CCS; European on-sale year (2025 vs 2026) and chassis code unverified. Body differs from earlier Leafs."
+            change_markers: []
+
+  - id: volkswagen
+    name: Volkswagen
+    models:
+      - id: volkswagen-e-golf
+        name: e-Golf
+        segment: C
+        body: hatchback
+        name_aliases: [e Golf, eGolf, Golf electric]
+        generations:
+          - id: volkswagen-e-golf-mk7
+            name: Mk7
+            years: [2014, 2017]
+            uncertain: false
+            change_markers:
+              - {year: 2014, text: "24.2 kWh, CCS"}
+          - id: volkswagen-e-golf-mk75
+            name: Mk7.5
+            years: [2017, 2020]
+            uncertain: false
+            change_markers:
+              - {year: 2017, text: "Facelift: 35.8 kWh, 100 kW motor"}
+              - {year: 2020, text: "Production ends late 2020"}
+
+      - id: volkswagen-id3
+        name: ID.3
+        segment: C
+        body: hatchback
+        name_aliases: [ID3, ID 3]
+        generations:
+          - id: volkswagen-id3-gen1
+            name: ID.3
+            years: [2020, null]
+            uncertain: true
+            notes: "The 2023 update is treated as a facelift (change marker). Reports of a later rename (e.g. 'ID.3 Neo') are unverified."
+            change_markers:
+              - {year: 2020, text: "1st Edition deliveries; early software issues"}
+              - {year: 2021, text: "77 kWh Pro S"}
+              - {year: 2023, text: "Facelift: new front, upgraded interior materials, software 3.x"}
+              - {year: 2024, text: "APP550 motor, Pro S 79 kWh; GTX variant"}
+
+      - id: volkswagen-id4
+        name: ID.4
+        segment: J-medium
+        body: suv
+        name_aliases: [ID4, ID 4]
+        generations:
+          - id: volkswagen-id4-gen1
+            name: ID.4
+            years: [2021, null]
+            uncertain: true
+            notes: "1st Edition deliveries late 2020/early 2021. A facelift or rename around 2026 has been reported but is unverified."
+            change_markers:
+              - {year: 2021, text: "GTX dual-motor"}
+              - {year: 2023, text: "MY24 update: APP550 motor, new infotainment"}
+
+  - id: hyundai
+    name: Hyundai
+    models:
+      - id: hyundai-ioniq-electric
+        name: Ioniq Electric
+        segment: C
+        body: hatchback
+        name_aliases: [IONIQ Electric, Ioniq EV, Ioniq (electric)]
+        generations:
+          - id: hyundai-ioniq-electric-gen1
+            name: Ioniq Electric
+            years: [2016, 2022]
+            uncertain: true
+            notes: "Not to be confused with Ioniq 5/6. European launch late 2016; facelift deliveries spread over 2019-2020; production ended 2022."
+            change_markers:
+              - {year: 2016, text: "28 kWh"}
+              - {year: 2019, text: "Facelift: 38.3 kWh, 7.2 kW on-board charger"}
+
+      - id: hyundai-kona-electric
+        name: Kona Electric
+        segment: J-small
+        body: suv
+        name_aliases: [Kona EV, KONA Electric, Kauai Electric]
+        generations:
+          - id: hyundai-kona-electric-os
+            name: Gen 1 (OS)
+            years: [2018, 2023]
+            uncertain: false
+            notes: "2018-2020 cars with LG cells were part of a 2021 battery recall; check recall work was done."
+            change_markers:
+              - {year: 2018, text: "39 and 64 kWh"}
+              - {year: 2020, text: "Czech (Nosovice) production for Europe; 3-phase 11 kW charger"}
+              - {year: 2021, text: "Facelift: smooth nose, new screens"}
+          - id: hyundai-kona-electric-sx2
+            name: Gen 2 (SX2)
+            years: [2023, null]
+            uncertain: false
+            change_markers:
+              - {year: 2023, text: "New body, 48.6 and 65.4 kWh"}
+
+      - id: hyundai-ioniq-5
+        name: Ioniq 5
+        segment: J-medium
+        body: crossover
+        name_aliases: [IONIQ 5]
+        generations:
+          - id: hyundai-ioniq-5-gen1
+            name: Ioniq 5
+            years: [2021, null]
+            uncertain: true
+            notes: "Exact European timing of the 77.4 kWh battery and the 84 kWh facelift unverified."
+            change_markers:
+              - {year: 2021, text: "58 and 72.6 kWh, 800 V"}
+              - {year: 2022, text: "77.4 kWh replaces 72.6 kWh"}
+              - {year: 2023, text: "Ioniq 5 N"}
+              - {year: 2024, text: "Facelift: 84 kWh, rear wiper, new controls"}
+
+      - id: hyundai-ioniq-6
+        name: Ioniq 6
+        segment: D
+        body: sedan
+        name_aliases: [IONIQ 6]
+        generations:
+          - id: hyundai-ioniq-6-gen1
+            name: Ioniq 6
+            years: [2022, null]
+            uncertain: true
+            notes: "European deliveries started late 2022 / early 2023. Facelift and Ioniq 6 N timing unverified."
+            change_markers:
+              - {year: 2022, text: "53 and 77.4 kWh, 800 V"}
+              - {year: 2025, text: "Facelift and Ioniq 6 N"}
+
+  - id: kia
+    name: Kia
+    models:
+      - id: kia-soul-ev
+        name: Soul EV
+        segment: J-small
+        body: crossover
+        name_aliases: [e-Soul, Soul Electric, Soul EV]
+        generations:
+          - id: kia-soul-ev-ps
+            name: Gen 1 (PS)
+            years: [2014, 2019]
+            uncertain: true
+            notes: "Whether the 30 kWh update reached Europe (vs 27 kWh throughout) is uncertain. CHAdeMO."
+            change_markers:
+              - {year: 2014, text: "27 kWh"}
+              - {year: 2018, text: "30 kWh battery in some markets"}
+          - id: kia-soul-ev-sk3
+            name: Gen 2 (e-Soul, SK3)
+            years: [2019, 2022]
+            uncertain: true
+            notes: "European end of sales is unverified (2022 vs 2023). Sold as e-Soul in most of Europe."
+            change_markers:
+              - {year: 2019, text: "39.2 and 64 kWh, CCS"}
+
+      - id: kia-niro-ev
+        name: Niro EV
+        segment: J-small
+        body: crossover
+        name_aliases: [e-Niro, Niro EV, Niro Electric, e Niro]
+        generations:
+          - id: kia-niro-ev-de
+            name: e-Niro (Gen 1, DE)
+            years: [2018, 2022]
+            uncertain: true
+            notes: "Launched late 2018, most European deliveries from 2019. Gen 2 overlap in 2022."
+            change_markers:
+              - {year: 2018, text: "39.2 and 64 kWh"}
+              - {year: 2020, text: "MY21 update: 3-phase 11 kW charger, new screens"}
+          - id: kia-niro-ev-sg2
+            name: Niro EV (Gen 2, SG2)
+            years: [2022, null]
+            uncertain: false
+            change_markers:
+              - {year: 2022, text: "New body, 64.8 kWh"}
+
+      - id: kia-ev6
+        name: EV6
+        segment: J-medium
+        body: crossover
+        generations:
+          - id: kia-ev6-gen1
+            name: EV6
+            years: [2021, null]
+            uncertain: true
+            notes: "Facelift European timing (late 2024, MY25) unverified."
+            change_markers:
+              - {year: 2021, text: "58 and 77.4 kWh, 800 V"}
+              - {year: 2022, text: "EV6 GT"}
+              - {year: 2024, text: "Facelift: 84 kWh"}
+
+  - id: bmw
+    name: BMW
+    models:
+      - id: bmw-i3
+        name: i3
+        segment: B
+        body: hatchback
+        name_aliases: [i3s, i3 REx, i3 Range Extender]
+        generations:
+          - id: bmw-i3-i01
+            name: i3 (I01)
+            years: [2013, 2022]
+            uncertain: true
+            notes: "Single generation; battery size is the key used-buyer variable. Year the REx was dropped in Europe is unverified (around 2019)."
+            change_markers:
+              - {year: 2013, text: "60 Ah (22 kWh); optional range extender (REx)"}
+              - {year: 2016, text: "94 Ah (33 kWh)"}
+              - {year: 2017, text: "Facelift; sportier i3s added"}
+              - {year: 2018, text: "120 Ah (42 kWh)"}
+              - {year: 2022, text: "Production ends mid-2022"}
+
+      - id: bmw-i4
+        name: i4
+        segment: D
+        body: sedan
+        notes: "Five-door Gran Coupe (liftback)."
+        generations:
+          - id: bmw-i4-g26
+            name: i4 (G26)
+            years: [2021, null]
+            uncertain: false
+            change_markers:
+              - {year: 2021, text: "eDrive40 and M50"}
+              - {year: 2022, text: "eDrive35 entry version"}
+              - {year: 2024, text: "LCI facelift"}
+
+  - id: peugeot
+    name: Peugeot
+    models:
+      - id: peugeot-e-208
+        name: e-208
+        segment: B
+        body: hatchback
+        name_aliases: [e208, E-208, 208 Electric]
+        generations:
+          - id: peugeot-e-208-p21
+            name: e-208 (P21)
+            years: [2019, null]
+            uncertain: true
+            notes: "Launched late 2019, most deliveries 2020. Timing of the 51 kWh update and facelift unverified."
+            change_markers:
+              - {year: 2019, text: "50 kWh (gross), 100 kW"}
+              - {year: 2023, text: "51 kWh / 115 kW update"}
+              - {year: 2023, text: "Facelift (late 2023)"}
+
+      - id: peugeot-e-2008
+        name: e-2008
+        segment: J-small
+        body: suv
+        name_aliases: [e2008, E-2008, 2008 Electric]
+        generations:
+          - id: peugeot-e-2008-p24
+            name: e-2008 (P24)
+            years: [2020, null]
+            uncertain: true
+            notes: "Timing of the 54 kWh update and facelift unverified."
+            change_markers:
+              - {year: 2020, text: "50 kWh (gross), 100 kW"}
+              - {year: 2023, text: "Facelift and 54 kWh / 115 kW update"}
+
+  - id: opel
+    name: Opel
+    models:
+      - id: opel-corsa-e
+        name: Corsa-e
+        segment: B
+        body: hatchback
+        name_aliases: [Corsa Electric, Corsa-e, Corsa e, Vauxhall Corsa-e, Vauxhall Corsa Electric]
+        notes: "Sold as Vauxhall in the UK."
+        generations:
+          - id: opel-corsa-e-f
+            name: Corsa F
+            years: [2020, null]
+            uncertain: true
+            notes: "Rename to Corsa Electric and the 51 kWh update came with the 2023 facelift; exact year unverified."
+            change_markers:
+              - {year: 2020, text: "50 kWh (gross), 100 kW"}
+              - {year: 2023, text: "Facelift, renamed Corsa Electric, 51 kWh / 115 kW option"}
+
+  - id: fiat
+    name: Fiat
+    models:
+      - id: fiat-500e
+        name: 500e
+        segment: A
+        body: hatchback
+        name_aliases: [500 Electric, New 500, 500 elettrica, Nuova 500, 500 La Prima, Abarth 500e]
+        generations:
+          - id: fiat-500e-312
+            name: 500e (US-only)
+            years: [2013, 2019]
+            uncertain: true
+            notes: "Not officially sold in Europe: years are US model years. Appears in Europe only as grey imports. Platform code 312 assumed."
+            change_markers:
+              - {year: 2013, text: "24 kWh, US (California/Oregon) only"}
+          - id: fiat-500e-332
+            name: New 500 (332)
+            years: [2020, null]
+            uncertain: true
+            notes: "Project code 332 assumed. Production pauses at Mirafiori were reported in 2024; check continuous availability."
+            change_markers:
+              - {year: 2020, text: "Launch: 24 and 42 kWh, hatchback, cabrio and 3+1"}
+              - {year: 2023, text: "Abarth 500e"}
+
+  - id: skoda
+    name: Skoda
+    models:
+      - id: skoda-enyaq
+        name: Enyaq
+        segment: J-medium
+        body: suv
+        name_aliases: [Enyaq iV, Enyaq Coupe, Enyaq Coupé, Enyaq Coupe iV]
+        notes: "Elroq is a separate, smaller model and is deliberately not an alias."
+        generations:
+          - id: skoda-enyaq-gen1
+            name: Enyaq
+            years: [2020, null]
+            uncertain: true
+            notes: "Launched late 2020, most deliveries 2021. 2025 facelift timing unverified. 'iV' suffix dropped around 2023-24."
+            change_markers:
+              - {year: 2020, text: "Enyaq iV 60/80"}
+              - {year: 2022, text: "Enyaq Coupe and RS"}
+              - {year: 2023, text: "APP550 motor update (85)"}
+              - {year: 2025, text: "Facelift: new 'Modern Solid' front"}
+
+  - id: mg
+    name: MG
+    models:
+      - id: mg-mg4
+        name: MG4
+        segment: C
+        body: hatchback
+        name_aliases: [MG4 Electric, MG 4, MG4 EV, Mulan]
+        notes: "Do not confuse with the 2025 'MG4 Urban', reported to be a different car (unverified)."
+        generations:
+          - id: mg-mg4-gen1
+            name: MG4
+            years: [2022, null]
+            uncertain: true
+            notes: "European deliveries from autumn 2022; facelift timing unverified."
+            change_markers:
+              - {year: 2022, text: "51 and 64 kWh"}
+              - {year: 2023, text: "XPOWER and Extended Range 77 kWh"}
+              - {year: 2025, text: "Facelift (interior/software)"}
+
+      - id: mg-zs-ev
+        name: ZS EV
+        segment: J-small
+        body: suv
+        name_aliases: [MG ZS EV, ZS Electric, MG ZS Electric]
+        generations:
+          - id: mg-zs-ev-gen1
+            name: ZS EV
+            years: [2019, null]
+            uncertain: true
+            notes: "The 2021 facelift (new nose, 51/72 kWh) is a large change some buyers treat as a new generation. Successor/end of sales unclear (MG S5 EV reportedly takes over in some markets from 2025)."
+            change_markers:
+              - {year: 2019, text: "44.5 kWh"}
+              - {year: 2021, text: "Facelift: 51 and 72 kWh (Long Range)"}
+
+  - id: polestar
+    name: Polestar
+    models:
+      - id: polestar-2
+        name: Polestar 2
+        segment: D
+        body: sedan
+        name_aliases: [Polestar2, PS2]
+        notes: "Fastback with raised ride height."
+        generations:
+          - id: polestar-2-gen1
+            name: Polestar 2
+            years: [2020, null]
+            uncertain: true
+            notes: "MY24 switch from FWD to RWD single motor kept as a change marker per brief; start of MY24 deliveries (2023) unverified."
+            change_markers:
+              - {year: 2020, text: "Launch: dual motor 78 kWh"}
+              - {year: 2021, text: "Single-motor FWD Standard and Long Range"}
+              - {year: 2023, text: "MY24: single motor switches to RWD, new motors, 82 kWh Long Range, new front"}
+
+  - id: audi
+    name: Audi
+    models:
+      - id: audi-e-tron
+        name: e-tron
+        segment: J-large
+        body: suv
+        name_aliases: [e-tron, etron, e-tron Sportback, Q8 e-tron, Q8 Sportback e-tron, e-tron quattro]
+        notes: "Do not confuse with e-tron GT, a different model."
+        generations:
+          - id: audi-e-tron-ge
+            name: e-tron (GE)
+            years: [2019, 2022]
+            uncertain: false
+            change_markers:
+              - {year: 2019, text: "e-tron 55 (95 kWh gross)"}
+              - {year: 2020, text: "Sportback body; e-tron 50 (71 kWh)"}
+              - {year: 2020, text: "e-tron S"}
+          - id: audi-e-tron-q8
+            name: Q8 e-tron
+            years: [2023, 2025]
+            uncertain: true
+            notes: "Facelift plus rename (late 2022, MY2023), bigger batteries (106/114 kWh gross). Brussels production reported to end early 2025; last on-sale year unverified."
+            change_markers:
+              - {year: 2023, text: "Renamed Q8 e-tron, 106/114 kWh"}
+
+      - id: audi-q4-e-tron
+        name: Q4 e-tron
+        segment: J-medium
+        body: suv
+        name_aliases: [Q4 e-tron, Q4 Sportback e-tron, Q4 etron]
+        generations:
+          - id: audi-q4-e-tron-gen1
+            name: Q4 e-tron
+            years: [2021, null]
+            uncertain: true
+            notes: "MY24 update timing (2023 vs 2024) unverified."
+            change_markers:
+              - {year: 2021, text: "35/40/50 e-tron, Sportback body"}
+              - {year: 2023, text: "MY24 update: more power, 82 kWh (gross) versions renamed 45/55"}
+
+  - id: mercedes
+    name: Mercedes-Benz
+    models:
+      - id: mercedes-eqa
+        name: EQA
+        segment: J-medium
+        body: suv
+        name_aliases: [EQA 250, EQA 300, EQA 350]
+        generations:
+          - id: mercedes-eqa-h243
+            name: EQA (H243)
+            years: [2021, null]
+            uncertain: true
+            notes: "Facelift year (2023 vs 2024) unverified."
+            change_markers:
+              - {year: 2021, text: "66.5 kWh"}
+              - {year: 2024, text: "Facelift"}
+
+      - id: mercedes-eqc
+        name: EQC
+        segment: J-large
+        body: suv
+        name_aliases: [EQC 400]
+        generations:
+          - id: mercedes-eqc-n293
+            name: EQC (N293)
+            years: [2019, 2023]
+            uncertain: true
+            notes: "End of European sales (2022 vs 2023) unverified. On-board charger upgrade timing unverified."
+            change_markers:
+              - {year: 2019, text: "80 kWh, 7.4 kW AC"}
+              - {year: 2020, text: "11 kW on-board charger"}
+
+  - id: jaguar
+    name: Jaguar
+    models:
+      - id: jaguar-i-pace
+        name: I-Pace
+        segment: J-large
+        body: suv
+        name_aliases: [IPace, I Pace]
+        generations:
+          - id: jaguar-i-pace-x590
+            name: I-Pace (X590)
+            years: [2018, 2024]
+            uncertain: true
+            notes: "Production reported to end in late 2024 as Jaguar reset the brand; confirm. Battery replacement campaign on some cars; check history."
+            change_markers:
+              - {year: 2018, text: "90 kWh, 7 kW AC"}
+              - {year: 2020, text: "MY21: 11 kW AC, Pivi Pro infotainment"}
+
+  - id: dacia
+    name: Dacia
+    models:
+      - id: dacia-spring
+        name: Spring
+        segment: A
+        body: hatchback
+        name_aliases: [Spring Electric, Renault City K-ZE, K-ZE]
+        generations:
+          - id: dacia-spring-gen1
+            name: Spring
+            years: [2021, null]
+            uncertain: true
+            notes: "The 2024 update (new front and interior) is marketed as a 'new Spring'; kept as a facelift change marker. Whether to split it is a judgment call."
+            change_markers:
+              - {year: 2021, text: "27 kWh, 33 kW"}
+              - {year: 2022, text: "Extreme 48 kW version"}
+              - {year: 2024, text: "Major facelift (new body panels and interior)"}
+
+  - id: smart
+    name: Smart
+    models:
+      - id: smart-eq-fortwo
+        name: EQ fortwo
+        segment: A
+        body: hatchback
+        name_aliases: [fortwo electric drive, fortwo ED, fortwo EQ, smart EQ, smart ED, fortwo cabrio electric]
+        generations:
+          - id: smart-eq-fortwo-451
+            name: fortwo electric drive (451)
+            years: [2012, 2015]
+            uncertain: true
+            notes: "Third-generation ED, first sold to private buyers. Earlier 451 ED lease-only fleets from 2007/2009 not included."
+            change_markers:
+              - {year: 2012, text: "17.6 kWh, optional 22 kW charger"}
+          - id: smart-eq-fortwo-453
+            name: fortwo ED / EQ fortwo (453)
+            years: [2017, 2024]
+            uncertain: true
+            notes: "Electric 453 launched 2017 as 'electric drive', renamed EQ fortwo around 2019. End of production (2024) unverified."
+            change_markers:
+              - {year: 2017, text: "17.6 kWh, 4.6 kW or 22 kW charger"}
+              - {year: 2019, text: "Renamed EQ fortwo"}
+              - {year: 2020, text: "Facelift"}
+
+  - id: honda
+    name: Honda
+    models:
+      - id: honda-e
+        name: e
+        segment: B
+        body: hatchback
+        name_aliases: [Honda e, Honda-e, e Advance]
+        generations:
+          - id: honda-e-gen1
+            name: Honda e
+            years: [2020, 2024]
+            uncertain: true
+            notes: "End of production/sales (early 2024) unverified."
+            change_markers:
+              - {year: 2020, text: "35.5 kWh, 100 kW / 113 kW (Advance)"}
+
+  - id: mini
+    name: Mini
+    models:
+      - id: mini-cooper-se
+        name: Cooper SE
+        segment: B
+        body: hatchback
+        name_aliases: [Mini Electric, Cooper SE, Cooper E, Mini Cooper Electric, Mini E, Mini Full Electric]
+        generations:
+          - id: mini-cooper-se-f56
+            name: F56
+            years: [2020, 2023]
+            uncertain: false
+            change_markers:
+              - {year: 2020, text: "32.6 kWh, 135 kW"}
+              - {year: 2021, text: "Facelift (LCI2)"}
+          - id: mini-cooper-se-j01
+            name: J01
+            years: [2024, null]
+            uncertain: false
+            notes: "China-built (Spotlight JV). Sold as Cooper E and Cooper SE."
+            change_markers:
+              - {year: 2024, text: "Cooper E 40.7 kWh, Cooper SE 54.2 kWh"}
+
+  - id: cupra
+    name: Cupra
+    models:
+      - id: cupra-born
+        name: Born
+        segment: C
+        body: hatchback
+        name_aliases: [Born, CUPRA Born, Seat el-Born, el-Born]
+        generations:
+          - id: cupra-born-gen1
+            name: Born
+            years: [2021, null]
+            uncertain: true
+            notes: "Timing of the 79 kWh / VZ update unverified."
+            change_markers:
+              - {year: 2021, text: "58 kWh"}
+              - {year: 2022, text: "45 and 77 kWh versions"}
+              - {year: 2024, text: "VZ (240 kW), 79 kWh"}
+
+  - id: byd
+    name: BYD
+    models:
+      - id: byd-atto-3
+        name: Atto 3
+        segment: J-medium
+        body: suv
+        name_aliases: [Atto3, Yuan Plus, Yuan Plus EV]
+        generations:
+          - id: byd-atto-3-gen1
+            name: Atto 3
+            years: [2022, null]
+            uncertain: true
+            notes: "European launch late 2022. Content of later model-year updates unverified."
+            change_markers:
+              - {year: 2022, text: "60.5 kWh Blade (LFP)"}
+              - {year: 2024, text: "Model-year update (software/infotainment); details unverified"}
+
+  - id: volvo
+    name: Volvo
+    models:
+      - id: volvo-xc40-recharge
+        name: XC40 Recharge
+        segment: J-medium
+        body: suv
+        name_aliases: [XC40 Recharge, XC40 Pure Electric, XC40 P8, EX40, XC40 BEV]
+        notes: "Do not confuse with plug-in hybrid XC40 Recharge T4/T5. C40 Recharge / EC40 is a separate model, not in this seed."
+        generations:
+          - id: volvo-xc40-recharge-gen1
+            name: XC40 Recharge
+            years: [2020, 2023]
+            uncertain: true
+            notes: "Split from EX40 follows the brief; the EX40 is a rename (early 2024), not a new platform, so this split is a naming boundary."
+            change_markers:
+              - {year: 2020, text: "P8 dual motor, 78 kWh"}
+              - {year: 2022, text: "Single-motor FWD"}
+              - {year: 2023, text: "MY24: single motor switches to RWD, new motors"}
+          - id: volvo-xc40-recharge-ex40
+            name: EX40
+            years: [2024, null]
+            uncertain: true
+            notes: "Rename of XC40 Recharge; exact European rename date unverified."
+            change_markers:
+              - {year: 2024, text: "Renamed EX40"}
+
+  - id: ford
+    name: Ford
+    models:
+      - id: ford-mustang-mach-e
+        name: Mustang Mach-E
+        segment: J-medium
+        body: suv
+        name_aliases: [Mach-E, Mach E, Mustang MachE]
+        generations:
+          - id: ford-mustang-mach-e-gen1
+            name: Mustang Mach-E
+            years: [2021, null]
+            uncertain: true
+            notes: "First European deliveries late 2020/early 2021. Timing of battery updates unverified."
+            change_markers:
+              - {year: 2021, text: "Standard 75 kWh and Extended 98 kWh (gross)"}
+              - {year: 2022, text: "GT"}
+              - {year: 2024, text: "Extended Range battery update (91 kWh usable)"}
+
+  - id: citroen
+    name: Citroën
+    models:
+      - id: citroen-e-c4
+        name: ë-C4
+        segment: C
+        body: crossover
+        name_aliases: [e-C4, eC4, C4 Electric, ë-C4 Electric, e-C4 X, ë-C4 X]
+        notes: "ë-C4 X is the saloon-style sibling; alias included for matching, may deserve its own model later."
+        generations:
+          - id: citroen-e-c4-c41
+            name: ë-C4 (C41)
+            years: [2020, null]
+            uncertain: true
+            notes: "Launched late 2020, most deliveries 2021. Project code C41 assumed. Facelift and 54 kWh timing unverified."
+            change_markers:
+              - {year: 2020, text: "50 kWh (gross), 100 kW"}
+              - {year: 2022, text: "ë-C4 X body added"}
+              - {year: 2023, text: "54 kWh / 115 kW update"}
+              - {year: 2024, text: "Facelift"}
