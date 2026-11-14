@@ -23,11 +23,6 @@ Right now `main` only blocks force-pushes and deletion. Once code arrives, shoul
 
 **Answer:**
 
-### Q-004 · Push access · coordinator · 2026-11-15
-The overnight session could clone the repo (it's public) but was refused push access, so nothing could be pushed to `proto/overnight-1` and no draft PR could be opened. **Default:** all work is committed locally on `proto/overnight-1` and handed over as a git bundle; you push it with `git fetch <bundle> proto/overnight-1:proto/overnight-1 && git push -u origin proto/overnight-1`. Next time, attach the repo with write access before starting the session.
-
-**Answer:**
-
 ### Q-005 · Conflicting rules: "stop and ask" vs "never stop" · coordinator · 2026-11-15
 AGENTS.md says a blocked builder stops and asks; the overnight brief says never stop. Repo files win, but nobody could answer overnight. **Default:** builders picked the safest option, logged it here and carried on, which is what "ask in QUESTIONS.md" amounts to when unattended. Should unattended runs get an explicit exception in AGENTS.md?
 
@@ -50,4 +45,9 @@ Decision 009 lets only sources with a named licence or written permission reach 
 
 ## Closed
 
-_none yet_
+### Q-004 · Push access · coordinator · 2026-11-15
+The overnight session could clone the repo (it's public) but was refused push access, so nothing could be pushed to `proto/overnight-1` and no draft PR could be opened. **Default:** all work is committed locally on `proto/overnight-1` and handed over as a git bundle; you push it with `git fetch <bundle> proto/overnight-1:proto/overnight-1 && git push -u origin proto/overnight-1`. Next time, attach the repo with write access before starting the session.
+
+**Answer:** Menno granted push access at 00:49. Closed: branch pushed normally.
+
+

@@ -34,7 +34,7 @@ _Last updated: 2026-11-15 (overnight prototype 1, branch `proto/overnight-1`)_
 - T-017 security-pass (coordinator, `audits/`)
 
 ## Blocked
-- Pushing to GitHub and opening the PR: this session has read-only access (Q-004)
+- _nothing_
 
 ## Done
 - 2026-11-15: GitHub repo, licences, scaffold, CI skeleton, templates, security settings
