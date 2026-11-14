@@ -4,3 +4,10 @@
 Validate it with `python3 -I data/seed/validate_seed.py data/seed/models.yaml` (needs PyYAML); `--self-test` checks the validator itself against small inline fixtures.
 It was written from model knowledge only, without fetching sources, so no value here is traceable yet: treat it as a seed for matching, not as published data.
 Every generation with `uncertain: true` must be hand-checked against a primary source (manufacturer or registration data) before it is relied on; its `notes` field says what is in doubt.
+
+## variants.yaml
+
+`variants.yaml` holds hand-entered key battery/drivetrain variants (e.g. Zoe R110, i3 94 Ah, Kona 64 kWh) for generations in `models.yaml`, mainly those starting before 2023 that OpenEV Data (our base spec source, mostly model year 2023+) does not cover.
+It is **unchecked, low-confidence data written from model knowledge**, without fetching sources: every entry has `confidence: low`, unknown fields are left out, approximate WLTP ranges sit in `notes` rather than in `wltp_range_km`, and there are deliberately no prices.
+Downstream, OpenEV wins on any duplicate; each entry is meant to be replaced by sourced data (manufacturer, homologation or OpenEV) as soon as one exists.
+Validate it with `python3 -I data/seed/validate_variants.py` (checks ids, generation links and year spans against `models.yaml`, allowed spec keys and plausible ranges, and no price keys).
