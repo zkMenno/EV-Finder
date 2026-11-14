@@ -43,11 +43,6 @@ Decision 009 lets only sources with a named licence or written permission reach 
 
 **Answer:**
 
-### Q-009 · `dc_curve` cannot pass through SourceRecord · T-004 · builder · 2026-11-15
-The schema now has `FactField.dc_curve` with a `ChargeCurve` value, but `records.SpecValue.value` is still `float | str | bool`, so an adapter cannot emit a curve. **Default:** no curves emitted. This costs nothing tonight: no OpenEV record has a `dc_charge_curve`. Should the coordinator widen `SpecValue.value` to `float | str | bool | ChargeCurve` between waves?
-
-**Answer:**
-
 ### Q-010 · RDW: counting BEVs without a join · T-004 · builder · 2026-11-15
 Socrata refuses joins, so we can't link fuel type (`8ys7-d773`) to make/model (`m9d7-ebf2`) server-side. **Default:** count in `m9d7-ebf2` with the proxy "passenger car, no engine displacement, first admitted 2010 or later". In 1,000-row checks it was 99.8 % precise with 100 % recall (details in data/SOURCES.md). The exact alternative would download about 1.2M kentekens from both datasets and join them locally. That isn't row-level spec data, but it's far heavier. OK to keep the proxy?
 
@@ -71,6 +66,11 @@ The importer skeleton expects our own placeholder headers (`make, model, variant
 **Answer:**
 
 ## Closed
+
+### Q-009 · `dc_curve` cannot pass through SourceRecord · T-004 · builder · 2026-11-15
+The schema now has `FactField.dc_curve` with a `ChargeCurve` value, but `records.SpecValue.value` is still `float | str | bool`, so an adapter cannot emit a curve. **Default:** no curves emitted. This costs nothing tonight: no OpenEV record has a `dc_charge_curve`. Should the coordinator widen `SpecValue.value` to `float | str | bool | ChargeCurve` between waves?
+
+**Answer:** Coordinator fixed the contract: `SpecValue.value` now accepts a `ChargeCurve` (Decision 009). Closed.
 
 ### Q-004 · Push access · coordinator · 2026-11-15
 The overnight session could clone the repo (it's public) but was refused push access, so nothing could be pushed to `proto/overnight-1` and no draft PR could be opened. **Default:** all work is committed locally on `proto/overnight-1` and handed over as a git bundle; you push it with `git fetch <bundle> proto/overnight-1:proto/overnight-1 && git push -u origin proto/overnight-1`. Next time, attach the repo with write access before starting the session.
