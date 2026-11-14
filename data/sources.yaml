@@ -8,8 +8,8 @@ sources:
      terms: "Licence verified from the LICENCE file in the repo, 2026-11-15."}
   - {id: rdw, name: RDW Open Data, owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active,
      terms: "Registrations, type-approval specs, catalogue price, defects, recalls."}
-  - {id: eea, name: EEA CO2 monitoring of new cars (Reg. 2019/631), owner: European Environment Agency, licence: CC-BY-4.0 (to confirm on datahub page), access: api, cadence: yearly, status: active,
-     terms: "EEA standard reuse policy; T-004 builder confirms the exact licence in data/SOURCES.md."}
+  - {id: eea, name: EEA CO2 monitoring of new cars (Reg. 2019/631), owner: European Environment Agency, licence: CC-BY-4.0, access: api, cadence: yearly, status: active,
+     terms: "Licence confirmed in EEA SDI metadata (copyright holder DG CLIMA), 2026-11-15. 2025 data is provisional."}
   - {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", owner: EV Finder, licence: CC-BY-4.0, access: manual, cadence: ad hoc, status: active,
      terms: "Model knowledge, confidence low; to be replaced by sourced data."}
   - {id: wikidata, name: Wikidata, owner: Wikimedia Foundation, licence: CC0-1.0, access: api, cadence: monthly, status: active, terms: "Not imported tonight."}

@@ -43,6 +43,33 @@ Decision 009 lets only sources with a named licence or written permission reach 
 
 **Answer:**
 
+### Q-009 · `dc_curve` cannot pass through SourceRecord · T-004 · builder · 2026-11-15
+The schema now has `FactField.dc_curve` with a `ChargeCurve` value, but `records.SpecValue.value` is still `float | str | bool`, so an adapter cannot emit a curve. **Default:** no curves emitted. This costs nothing tonight: no OpenEV record has a `dc_charge_curve`. Should the coordinator widen `SpecValue.value` to `float | str | bool | ChargeCurve` between waves?
+
+**Answer:**
+
+### Q-010 · RDW: counting BEVs without a join · T-004 · builder · 2026-11-15
+Socrata refuses joins, so we can't link fuel type (`8ys7-d773`) to make/model (`m9d7-ebf2`) server-side. **Default:** count in `m9d7-ebf2` with the proxy "passenger car, no engine displacement, first admitted 2010 or later". In 1,000-row checks it was 99.8 % precise with 100 % recall (details in data/SOURCES.md). The exact alternative would download about 1.2M kentekens from both datasets and join them locally. That isn't row-level spec data, but it's far heavier. OK to keep the proxy?
+
+**Answer:**
+
+### Q-011 · EEA: which year, and how confident are the counts · T-004 · builder · 2026-11-15
+**Default:** use the latest table, 2025 provisional (`co2cars_2025Pv31`), rather than 2024 final (`co2cars_2024Fv30`). Counts get confidence `medium` because the table is provisional; type-approval averages get `low`. Prefer final data, or `high` for counts?
+
+**Answer:**
+
+### Q-012 · OpenEV field choices · T-004 · builder · 2026-11-15
+1. OpenEV's DC peak is a maker figure. **Default:** keep it as `dc_peak_kw` (as briefed) and not also as `dc_peak_kw_claim`. Should it move to `dc_peak_kw_claim`?
+2. `architecture_voltage_class` ("400v"/"800v", 723 files) has no numeric fact field. **Default:** not emitted; only `voltage_nominal_v` (161 records) and `voltage_max_v` (3) are. Is a voltage-class fact wanted?
+3. **Default:** categorical facts (`chemistry_id`, `cooling_id`) use unit `"id"`. Generic "li-ion" is not emitted as a chemistry. OK?
+
+**Answer:**
+
+### Q-013 · Nyland sheet column mapping · T-004 · builder · 2026-11-15
+The importer skeleton expects our own placeholder headers (`make, model, variant, year, range_km, consumption_kwh_100km, usable_kwh, dc_avg_10_80_kw`). The real sheet layout is unknown, and with permission pending we shouldn't look. **Default:** map the real headers once permission is logged. The real-range field may then need to split into summer/motorway/winter (the new `real_range_*_km` fields).
+
+**Answer:**
+
 ## Closed
 
 ### Q-004 · Push access · coordinator · 2026-11-15

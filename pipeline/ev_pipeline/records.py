@@ -12,11 +12,11 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from ev_pipeline.schema_models import Confidence, Country, FactField, Source
+from ev_pipeline.schema_models import ChargeCurve, Confidence, Country, FactField, Source
 
 
 class SpecValue(BaseModel):
-    value: float | str | bool
+    value: float | str | bool | ChargeCurve
     unit: str
 
 

@@ -1,0 +1,6 @@
+make,model,variant,year,range_km,consumption_kwh_100km,usable_kwh,dc_avg_10_80_kw
+Testmake,Testcar Alpha,Long Range,2024,412,17.5,72.1,118.4
+Testmake,Testcar Alpha,Standard,2024,305,"16,9",51.0,
+Fakebrand,Testcar Beta,,2023,,,,95
+Fakebrand,Testcar Gamma,Base,2022,n/a,,,
+,Testcar Orphan,,2021,300,,,

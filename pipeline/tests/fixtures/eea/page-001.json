@@ -1,0 +1,342 @@
+[
+{
+"MS": "BE",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5",
+"Year": 2025,
+"registrations": 825,
+"mass_kg": 2063.769696969697,
+"z_wh_km": 168.0269277845777,
+"zr_km": 526.3231334149327
+},
+{
+"MS": "BE",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5 N",
+"Year": 2025,
+"registrations": 79,
+"mass_kg": 2275.0,
+"z_wh_km": 212.0,
+"zr_km": 448.0
+},
+{
+"MS": "BE",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF 40KWH",
+"Year": 2025,
+"registrations": 1,
+"mass_kg": 1580.0,
+"z_wh_km": 168.0,
+"zr_km": 278.0
+},
+{
+"MS": "BE",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF 62KWH",
+"Year": 2025,
+"registrations": 7,
+"mass_kg": 1756.0,
+"z_wh_km": 178.0,
+"zr_km": 396.0
+},
+{
+"MS": "BE",
+"Mk": "RENAULT",
+"Cn": "MEGANE E-TECH ELECTRIC",
+"Year": 2025,
+"registrations": 443,
+"mass_kg": 1719.853273137697,
+"z_wh_km": 150.9908883826879,
+"zr_km": 462.8337129840547
+},
+{
+"MS": "BE",
+"Mk": "TESLA",
+"Cn": "MODEL 3",
+"Year": 2025,
+"registrations": 3634,
+"mass_kg": 1845.63841496973,
+"z_wh_km": null,
+"zr_km": null
+},
+{
+"MS": "BE",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 PRO 150 KW",
+"Year": 2025,
+"registrations": 4,
+"mass_kg": 1822.0,
+"z_wh_km": null,
+"zr_km": null
+},
+{
+"MS": "DE",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5",
+"Year": 2025,
+"registrations": 5846,
+"mass_kg": 2072.543619568936,
+"z_wh_km": 165.0271980841601,
+"zr_km": 526.8901249358206
+},
+{
+"MS": "DE",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5 N",
+"Year": 2025,
+"registrations": 763,
+"mass_kg": 2275.0,
+"z_wh_km": 212.0,
+"zr_km": 448.0
+},
+{
+"MS": "DE",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF",
+"Year": 2025,
+"registrations": 26,
+"mass_kg": 1956.0,
+"z_wh_km": null,
+"zr_km": null
+},
+{
+"MS": "DE",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF 40 KWH",
+"Year": 2025,
+"registrations": 2,
+"mass_kg": 1732.5,
+"z_wh_km": 158.5,
+"zr_km": 278.0
+},
+{
+"MS": "DE",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF 62 KWH",
+"Year": 2025,
+"registrations": 6,
+"mass_kg": 1756.0,
+"z_wh_km": 178.0,
+"zr_km": 396.0
+},
+{
+"MS": "DE",
+"Mk": "RENAULT",
+"Cn": "MEGANE E-TECH ELECTRIC",
+"Year": 2025,
+"registrations": 502,
+"mass_kg": 1714.619521912351,
+"z_wh_km": 153.9741035856574,
+"zr_km": 445.9302788844622
+},
+{
+"MS": "DE",
+"Mk": "TESLA",
+"Cn": "MODEL 3",
+"Year": 2025,
+"registrations": 6848,
+"mass_kg": 1860.449620327103,
+"z_wh_km": 139.4897390794488,
+"zr_km": 596.8870967741935
+},
+{
+"MS": "FR",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5",
+"Year": 2025,
+"registrations": 658,
+"mass_kg": 2064.179331306991,
+"z_wh_km": 165.3161094224924,
+"zr_km": 543.6489361702128
+},
+{
+"MS": "FR",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5 N",
+"Year": 2025,
+"registrations": 59,
+"mass_kg": 2275.0,
+"z_wh_km": 212.0,
+"zr_km": 448.0
+},
+{
+"MS": "FR",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF 40KWH",
+"Year": 2025,
+"registrations": 222,
+"mass_kg": 1580.0,
+"z_wh_km": 167.4684684684685,
+"zr_km": 278.3738738738739
+},
+{
+"MS": "FR",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF 62KWH",
+"Year": 2025,
+"registrations": 2,
+"mass_kg": 1756.0,
+"z_wh_km": 178.0,
+"zr_km": 394.5
+},
+{
+"MS": "FR",
+"Mk": "RENAULT",
+"Cn": "MEGANE E-TECH ELECTRIC",
+"Year": 2025,
+"registrations": 9684,
+"mass_kg": 1710.041408508881,
+"z_wh_km": 150.5637133415944,
+"zr_km": 449.1083230070219
+},
+{
+"MS": "FR",
+"Mk": "TESLA",
+"Cn": "MODEL 3",
+"Year": 2025,
+"registrations": 6128,
+"mass_kg": 1847.297160574413,
+"z_wh_km": 135.8746736292428,
+"zr_km": 609.4202023498694
+},
+{
+"MS": "FR",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 GTX 210 KW",
+"Year": 2025,
+"registrations": 173,
+"mass_kg": 1982.872832369942,
+"z_wh_km": 147.0578034682081,
+"zr_km": 598.6473988439307
+},
+{
+"MS": "FR",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 GTX PERF. 240 KW",
+"Year": 2025,
+"registrations": 567,
+"mass_kg": 1994.506172839506,
+"z_wh_km": 155.2398589065256,
+"zr_km": 570.9347442680776
+},
+{
+"MS": "FR",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 PRO 150 KW",
+"Year": 2025,
+"registrations": 2563,
+"mass_kg": 1816.424502536091,
+"z_wh_km": 154.2945766679672,
+"zr_km": 430.3055013655872
+},
+{
+"MS": "FR",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 PRO S 150 KW",
+"Year": 2025,
+"registrations": 2099,
+"mass_kg": 1958.155312053359,
+"z_wh_km": 157.4721295855169,
+"zr_km": 556.8909004287756
+},
+{
+"MS": "FR",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 PURE 125 KW",
+"Year": 2025,
+"registrations": 3281,
+"mass_kg": 1787.0,
+"z_wh_km": 153.0816824138982,
+"zr_km": 386.6656507162451
+},
+{
+"MS": "NL",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5",
+"Year": 2025,
+"registrations": 1118,
+"mass_kg": 2044.610912343471,
+"z_wh_km": 165.7942754919499,
+"zr_km": 522.1296958855098
+},
+{
+"MS": "NL",
+"Mk": "HYUNDAI",
+"Cn": "IONIQ5 N",
+"Year": 2025,
+"registrations": 33,
+"mass_kg": 2275.0,
+"z_wh_km": 212.0,
+"zr_km": 448.0
+},
+{
+"MS": "NL",
+"Mk": "NISSAN",
+"Cn": "NISSAN LEAF 40KWH",
+"Year": 2025,
+"registrations": 121,
+"mass_kg": 1580.0,
+"z_wh_km": 168.0,
+"zr_km": 278.0
+},
+{
+"MS": "NL",
+"Mk": "RENAULT",
+"Cn": "MEGANE E-TECH ELECTRIC",
+"Year": 2025,
+"registrations": 1594,
+"mass_kg": 1719.132998745295,
+"z_wh_km": 150.9002509410289,
+"zr_km": 462.034504391468
+},
+{
+"MS": "NL",
+"Mk": "TESLA",
+"Cn": "MODEL 3",
+"Year": 2025,
+"registrations": 5828,
+"mass_kg": 1840.568462594372,
+"z_wh_km": 135.2451956074125,
+"zr_km": 582.691146190803
+},
+{
+"MS": "NL",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 GTX PERF. 240 KW",
+"Year": 2025,
+"registrations": 63,
+"mass_kg": 1994.444444444444,
+"z_wh_km": 149.7936507936508,
+"zr_km": 589.0793650793651
+},
+{
+"MS": "NL",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 PRO 150 KW",
+"Year": 2025,
+"registrations": 882,
+"mass_kg": 1817.639455782313,
+"z_wh_km": 154.9092970521542,
+"zr_km": 428.8492063492063
+},
+{
+"MS": "NL",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 PRO S 150 KW",
+"Year": 2025,
+"registrations": 699,
+"mass_kg": 1957.721030042919,
+"z_wh_km": 157.4992846924178,
+"zr_km": 559.4349070100143
+},
+{
+"MS": "NL",
+"Mk": "VOLKSWAGEN",
+"Cn": "ID.3 PURE 125 KW",
+"Year": 2025,
+"registrations": 1669,
+"mass_kg": 1787.0,
+"z_wh_km": 154.0035949670461,
+"zr_km": 384.1360095865788
+}
+]

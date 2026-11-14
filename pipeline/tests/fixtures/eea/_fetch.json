@@ -1,0 +1,11 @@
+{
+  "fetched_at": "2026-11-14T23:51:56+00:00",
+  "url": "https://discodata.eea.europa.eu/sql",
+  "table": "[CO2Emission].[latest].[co2cars_2025Pv31]",
+  "query": "SELECT MS, Mk, Cn, Year, SUM(R) AS registrations, SUM(CAST(R AS float) * [M (kg)]) / NULLIF(SUM(CASE WHEN [M (kg)] IS NOT NULL THEN R END), 0) AS mass_kg, SUM(CAST(R AS float) * [Z (Wh/km)]) / NULLIF(SUM(CASE WHEN [Z (Wh/km)] IS NOT NULL THEN R END), 0) AS z_wh_km, SUM(CAST(R AS float) * Zr) / NULLIF(SUM(CASE WHEN Zr IS NOT NULL THEN R END), 0) AS zr_km FROM [CO2Emission].[latest].[co2cars_2025Pv31] WHERE Ft = 'electric' AND MS IN ('NL', 'DE', 'FR', 'BE') GROUP BY MS, Mk, Cn, Year ORDER BY MS, Mk, Cn, Year",
+  "metadata_record": "b4044b06-2e6b-4f8e-a6e6-66e0e98bb0dd",
+  "licence_metadata": "License CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Copyright holder: Directorate-General for Climate Action (DG-CLIMA).",
+  "pages": 1,
+  "rows": 34,
+  "note": "Test fixture: subset of the recorded live aggregate response (LEAF, MODEL 3, ID.3, IONIQ 5, MEGANE), unchanged. EEA / DG CLIMA, CC BY 4.0."
+}
