@@ -112,4 +112,30 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 - The shared Postgres has no CPU limit, so heavy imports run at night at low priority. Big one-off imports run on a temporary machine.
 - 🔴 Off-site backups on the server may not be running. Fix that (AppInfra #482) before launch; it affects the other apps too.
 
+---
+
+## Decision 007: pnpm for the web app, uv for the pipeline
+
+**Status:** Proposed (provisional, pending Q-002)
+**Date:** 2026-11-15
+
+**Context:** The overnight prototype needed a package manager before Q-002 was answered.
+
+**Decision:** pnpm workspace at the root (`apps/*`, `packages/*`); uv for `pipeline/` (Python 3.12+). CI keeps a pip fallback so the existing auto-detect job still works.
+
+**Consequences:** Easy to swap back to npm/pip if Q-002 says so: only lockfiles and CI install lines change.
+
+---
+
+## Decision 008: Prototype reads a published catalogue JSON, not Postgres
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** No database tonight. The web app still needs a stable read path that Postgres can replace later.
+
+**Decision:** The pipeline writes `data/releases/<n>/catalogue.json` (one wide `PublishedVariant` row per variant) plus Parquet. The web app reads it through one `Catalogue` interface in `apps/web/src/lib/catalogue.ts`; a Postgres/Drizzle implementation can sit behind the same interface. Release numbers are integers counting up from 1 (`data/releases/1/`), with `data/releases/latest` naming the current one.
+
+**Consequences:** Releases are plain files, so rollback means pointing `latest` back. Small releases live in git for now; move them to object storage once they grow.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
