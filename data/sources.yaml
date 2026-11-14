@@ -1,0 +1,39 @@
+# Source registry (Decision 009, provisional). One entry per source.
+# status: active | waiting_permission | blocked
+# Rule: only `active` sources with a named licence or written permission reach a public release.
+# Licences marked "(to confirm)" were not verified tonight; they stay blocked until checked.
+schema: sources/v1
+sources:
+  - {id: openev, name: Open EV Data, owner: open-ev-data (GitHub), licence: CDLA-Permissive-2.0, access: bulk, cadence: monthly, status: active,
+     terms: "Licence verified from the LICENCE file in the repo, 2026-11-15."}
+  - {id: rdw, name: RDW Open Data, owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active,
+     terms: "Registrations, type-approval specs, catalogue price, defects, recalls."}
+  - {id: eea, name: EEA CO2 monitoring of new cars (Reg. 2019/631), owner: European Environment Agency, licence: CC-BY-4.0 (to confirm on datahub page), access: api, cadence: yearly, status: active,
+     terms: "EEA standard reuse policy; T-004 builder confirms the exact licence in data/SOURCES.md."}
+  - {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", owner: EV Finder, licence: CC-BY-4.0, access: manual, cadence: ad hoc, status: active,
+     terms: "Model knowledge, confidence low; to be replaced by sourced data."}
+  - {id: wikidata, name: Wikidata, owner: Wikimedia Foundation, licence: CC0-1.0, access: api, cadence: monthly, status: active, terms: "Not imported tonight."}
+  - {id: fueleconomy, name: fueleconomy.gov, owner: US DOE / EPA, licence: US-Government-Public-Domain, access: bulk, cadence: monthly, status: active, terms: "EPA range/consumption. Not imported tonight."}
+  - {id: nhtsa, name: NHTSA recalls, owner: US NHTSA, licence: US-Government-Public-Domain, access: api, cadence: weekly, status: active, terms: "Not imported tonight."}
+  - {id: dvsa-mot, name: DVSA MOT history, owner: DVSA (UK), licence: OGL-UK-3.0, access: api, cadence: monthly, status: active, terms: "Needs an API key (env var). Not imported tonight."}
+  - {id: dft-veh0160, name: "DfT VEH0160 licensed vehicles", owner: UK Department for Transport, licence: OGL-UK-3.0, access: bulk, cadence: quarterly, status: active, terms: "Not imported tonight."}
+  - {id: sdes, name: SDES vehicle fleet, owner: SDES (FR), licence: Licence-Ouverte-2.0 (to confirm), access: bulk, cadence: yearly, status: blocked, terms: "Confirm licence first."}
+  - {id: kba, name: KBA vehicle statistics, owner: Kraftfahrt-Bundesamt (DE), licence: unknown (to confirm), access: bulk, cadence: monthly, status: blocked, terms: "Reuse terms unclear (Q-008)."}
+  - {id: eu-safety-gate, name: EU Safety Gate, owner: European Commission, licence: CC-BY-4.0 (to confirm), access: bulk, cadence: weekly, status: blocked, terms: "Confirm Commission reuse terms."}
+  - {id: maker-docs, name: Maker documents and price lists, owner: various OEMs, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,
+     terms: "Facts cited one by one with URL + date; no copying of tables. Needs a decision before it counts as releasable (Q-008)."}
+  - {id: nyland, name: Bjørn Nyland range/charging tests, owner: Bjørn Nyland, licence: none, access: manual, cadence: ad hoc, status: waiting_permission,
+     terms: "Importer may run; data stays in git-ignored data/local/. Never in repo, release or fixture."}
+  - {id: fastned, name: Fastned charging curves, owner: Fastned, licence: none, access: manual, cadence: ad hoc, status: waiting_permission, terms: "Ask for permission."}
+  - {id: naf, name: NAF El Prix tests, owner: NAF / Motor (NO), licence: none, access: manual, cadence: twice yearly, status: waiting_permission, terms: "Permission email pending (ROADMAP)."}
+  - {id: spritmonitor, name: Spritmonitor, owner: Spritmonitor.de, licence: none, access: manual, cadence: monthly, status: waiting_permission, terms: "Permission email pending (ROADMAP)."}
+  - {id: adac, name: ADAC tests and Ecotest, owner: ADAC, licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "No open licence; would need permission."}
+  - {id: euroncap, name: Euro NCAP, owner: Euro NCAP, licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "No open licence; would need permission."}
+  - {id: automobile-propre, name: Automobile Propre, owner: Automobile Propre (FR), licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "No open licence."}
+  - {id: edmunds, name: Edmunds range tests, owner: Edmunds, licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "No open licence."}
+  - {id: insideevs, name: InsideEVs range tests, owner: InsideEVs, licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "No open licence."}
+  - {id: consumer-reports, name: Consumer Reports, owner: Consumer Reports, licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "No open licence."}
+  - {id: aviloo, name: Aviloo battery reports, owner: Aviloo, licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "Partnership needed."}
+  - {id: recurrent, name: Recurrent battery data, owner: Recurrent, licence: none, access: manual, cadence: ad hoc, status: blocked, terms: "Partnership needed."}
+  - {id: model-estimate, name: EV Finder estimate models, owner: EV Finder, licence: CC-BY-4.0, access: manual, cadence: per release, status: active,
+     terms: "Ratio models and generic curves; always shown as 'estimate'."}

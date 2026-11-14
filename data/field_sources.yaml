@@ -1,0 +1,44 @@
+# Which sources feed which field (Decision 009, provisional).
+# primary: 1–2 source ids, tried first. fallbacks: in order. tolerance: values within it "agree".
+# merge: priority (first available in order) | median (of agreeing values) | newest (most recent retrieval).
+# Conflicts outside tolerance go to data/review/conflicts.csv and are never averaged.
+schema: field-sources/v1
+fields:
+  names_years:       {primary: [eea, rdw], fallbacks: [openev, wikidata, maker-docs], merge: priority}
+  body:              {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs], merge: priority}
+  seats:             {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs], tolerance: {abs: 0}, merge: priority}
+  length_mm:         {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {abs: 10, unit: mm}, merge: priority}
+  width_mm:          {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {abs: 10, unit: mm}, merge: priority}
+  wheelbase_mm:      {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {abs: 10, unit: mm}, merge: priority}
+  weight_kg:         {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {pct: 1}, merge: priority}
+  towing_kg:         {primary: [rdw], fallbacks: [eea, maker-docs, openev, seed-manual], tolerance: {pct: 1}, merge: priority}
+  power_kw:          {primary: [eea, rdw], fallbacks: [openev, fueleconomy, seed-manual], tolerance: {pct: 2}, merge: priority}
+  drivetrain:        {primary: [eea, rdw], fallbacks: [openev, fueleconomy, seed-manual], merge: priority}
+  battery_kwh_net:   {primary: [openev, maker-docs], fallbacks: [nyland, naf, adac, seed-manual], tolerance: {pct: 2}, merge: median}
+  battery_kwh_gross: {primary: [openev, maker-docs], fallbacks: [nyland, naf, adac, seed-manual], tolerance: {pct: 2}, merge: median}
+  ac_kw:             {primary: [openev], fallbacks: [maker-docs, fastned, seed-manual], tolerance: {pct: 2}, merge: priority}
+  dc_curve:          {primary: [fastned], fallbacks: [openev, nyland, model-estimate], merge: priority,
+                      note: "OpenEV only where not a default curve; then same platform/pack; else generic shape (estimated)."}
+  dc_peak_kw:        {primary: [fastned, openev], fallbacks: [maker-docs, seed-manual], tolerance: {pct: 5}, merge: priority}
+  dc_avg_10_80_kw:   {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {pct: 5}, merge: median,
+                      note: "Derived from the curve when present; maker figures labelled 'claim'."}
+  dc_minutes_10_80:  {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {abs: 2, unit: min}, merge: median}
+  wltp_range_km:     {primary: [eea, rdw], fallbacks: [maker-docs, openev, seed-manual], tolerance: {pct: 2}, merge: priority}
+  consumption_kwh_100km: {primary: [eea, rdw], fallbacks: [maker-docs, openev, seed-manual], tolerance: {pct: 3}, merge: priority}
+  epa_range_km:      {primary: [fueleconomy], fallbacks: [openev, seed-manual], tolerance: {pct: 2}, merge: priority}
+  real_range_summer_km:   {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
+  real_range_motorway_km: {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
+  real_range_winter_km:   {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
+  real_range_km:     {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
+  consumption_motorway_kwh_100km: {primary: [spritmonitor, adac], fallbacks: [model-estimate], tolerance: {pct: 5}, merge: median,
+                      note: "Fallback = WLTP consumption x ratio (estimate)."}
+  price_new_nl:      {primary: [rdw], fallbacks: [maker-docs], merge: newest, note: "RDW catalogusprijs."}
+  price_new_other:   {primary: [maker-docs], fallbacks: [], merge: newest, note: "Manual price lists per country."}
+  registered_count:  {primary: [rdw, dft-veh0160], fallbacks: [kba, sdes, eea], merge: newest, note: "Fleet per model/year per country."}
+  inspection_defects: {primary: [rdw, dvsa-mot], fallbacks: [], merge: newest}
+  battery_health:    {primary: [aviloo], fallbacks: [recurrent, model-estimate], merge: newest, note: "Fallback: generic chemistry curve (estimate)."}
+  recalls:           {primary: [rdw, dvsa-mot, nhtsa], fallbacks: [eu-safety-gate], merge: newest}
+  boot_l:            {primary: [maker-docs], fallbacks: [openev, seed-manual], tolerance: {pct: 2}, merge: priority, note: "Manual; cite URL + date."}
+  accel_0_100_s:     {primary: [maker-docs], fallbacks: [openev, seed-manual], tolerance: {abs: 0.2, unit: s}, merge: priority}
+  heat_pump:         {primary: [maker-docs], fallbacks: [openev], merge: priority}
+  warranty:          {primary: [maker-docs], fallbacks: [], merge: newest}

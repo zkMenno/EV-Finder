@@ -84,7 +84,14 @@ export type FactField =
   | "seats"
   | "price_new"
   | "real_range_km"
-  | "registered_count";
+  | "registered_count"
+  | "dc_curve"
+  | "dc_minutes_10_80"
+  | "dc_peak_kw_claim"
+  | "consumption_motorway_kwh_100km"
+  | "real_range_summer_km"
+  | "real_range_motorway_km"
+  | "real_range_winter_km";
 
 /**
  * EV Finder catalogue schema v0. Single source of truth: TS and Python types are generated from this file. Stable ids never change; slugs may.
@@ -201,7 +208,10 @@ export interface Fact {
   subject_type: "model" | "generation" | "variant" | "market_variant";
   subject_id: Id;
   field: FactField;
-  value: number | string | boolean;
+  /**
+   * Scalar, or a ChargeCurve when field = dc_curve.
+   */
+  value: (number | string | boolean) | ChargeCurve;
   /**
    * Metric unit (kWh, km, kW, kWh/100km, l, mm, kg, s, km/h, count) or currency code for prices.
    */
@@ -218,6 +228,30 @@ export interface Fact {
   retrieved_at: string;
   observed_at?: string;
   confidence: Confidence;
+  /**
+   * true when the value is a maker claim rather than measured.
+   */
+  claim?: boolean;
+}
+/**
+ * DC charge curve: list of (state of charge %, kW) points plus test conditions.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ChargeCurve".
+ */
+export interface ChargeCurve {
+  /**
+   * @minItems 2
+   */
+  points: [[unknown, unknown], [unknown, unknown], ...[unknown, unknown][]];
+  status: "measured" | "estimated" | "default";
+  conditions?: {
+    battery_temp_c?: number;
+    preconditioned?: boolean;
+    ambient_temp_c?: number;
+    charger_kw?: number;
+    software_version?: string;
+  };
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -235,6 +269,14 @@ export interface FieldProvenance {
    */
   derived?: boolean;
   note?: string;
+  /**
+   * Number of independent sources agreeing within the field tolerance (UI badge 'N sources agree').
+   */
+  agreeing_sources?: number;
+  /**
+   * true when the value comes from a model/ratio rather than any source.
+   */
+  estimate?: boolean;
 }
 /**
  * One wide row per variant per release. What the web app reads.
@@ -270,7 +312,7 @@ export interface PublishedVariant {
    */
   ac_km_per_h?: number | null;
   /**
-   * Derived: dc_avg_10_80_kw / consumption * 100 / 6.
+   * Derived: km added in 10 min at motorway consumption (dc_avg_10_80_kw / motorway consumption * 100 / 6).
    */
   dc_km_per_10min?: number | null;
   real_range_km?: number | null;
@@ -301,6 +343,27 @@ export interface PublishedVariant {
   provenance: {
     [k: string]: FieldProvenance;
   };
+  /**
+   * Minutes 10-80%.
+   */
+  dc_minutes_10_80?: number | null;
+  /**
+   * Derived: km added in 20 min at motorway consumption. Used for the DC ranking.
+   */
+  dc_km_per_20min?: number | null;
+  /**
+   * Minutes above 90% of peak.
+   */
+  dc_peak_held_min?: number | null;
+  /**
+   * Motorway consumption used for km-in-N-minutes.
+   */
+  consumption_motorway_kwh_100km?: number | null;
+  dc_curve_status?: ("measured" | "estimated" | "default") | null;
+  /**
+   * true when dc_peak_kw is a maker claim, not measured.
+   */
+  dc_peak_kw_is_claim?: boolean;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema

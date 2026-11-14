@@ -1,0 +1,19 @@
+{
+  "id": "fixture:curve:1",
+  "subject_type": "variant",
+  "subject_id": "hyundai-ioniq-5-77kwh",
+  "field": "dc_curve",
+  "value": {
+    "points": [
+      [10, 220],
+      [50, 210],
+      [80, 150]
+    ],
+    "status": "estimated",
+    "conditions": { "preconditioned": true, "ambient_temp_c": 20, "charger_kw": 350 }
+  },
+  "unit": "kW by SoC %",
+  "source": { "id": "fixture", "name": "Fixture", "licence": "CC0-1.0" },
+  "retrieved_at": "2026-11-15",
+  "confidence": "low"
+}

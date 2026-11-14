@@ -138,4 +138,24 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Releases are plain files, so rollback means pointing `latest` back. Small releases live in git for now; move them to object storage once they grow.
 
+---
+
+## Decision 009: Source registry, per-field source rules, conflicts, coverage and charge curves
+
+**Status:** Proposed (provisional, from the latest spec decisions, 2026-11-15 00:45)
+**Date:** 2026-11-15
+
+**Context:** Merging needs explicit rules per field, and we must be able to prove which sources may reach a public release.
+
+**Decision:**
+- `data/sources.yaml` lists every source: id, owner, licence, access (api | bulk | manual), cadence, terms note, status (active | waiting_permission | blocked). Only `active` sources with a named licence or written permission reach a public release.
+- `data/field_sources.yaml` says, per field, which 1–2 primary sources to use, the fallbacks in order, the tolerance and the merge rule (priority | median | newest).
+- Values that agree within tolerance raise confidence and count towards "N sources agree" (`FieldProvenance.agreeing_sources`). Conflicts outside tolerance go to `data/review/conflicts.csv` and are never averaged.
+- Each release writes `coverage.md`: per field, the share of variants with ≥2 agreeing sources, 1 source, estimate only, or missing.
+- DC charge curves are a Fact whose value is a `ChargeCurve`: (state of charge %, kW) points, conditions (battery temp, preconditioned, ambient temp, charger kW, software version) and a status of measured, estimated or default. From it we derive the average kW and minutes from 10 to 80%, km added in 10 and 20 minutes at motorway consumption, minutes above 90% of peak, and claim vs measured.
+- The DC ranking uses km added in 20 minutes, not peak kW.
+- Provisional estimates: motorway consumption = WLTP × 1.30; a generic default curve shape when no curve exists. Both are labelled "estimate".
+
+**Consequences:** Most fields tonight have one source or an estimate, and coverage.md shows that honestly. Maker documents stay `blocked` until Q-008 is answered.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

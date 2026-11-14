@@ -13,7 +13,8 @@ const ref = (def: string) => ajv.getSchema(`${schema.$id}#/$defs/${def}`)!;
 const fixturesDir = join(import.meta.dirname, "../fixtures");
 
 // fixture file name: <entity-kebab>.<valid|invalid>.json
-const defFor = (file: string) =>
+const defFor = (file: string) => (file.startsWith("fact-") ? "Fact" : defForRaw(file));
+const defForRaw = (file: string) =>
   file
     .split(".")[0]
     .split("-")

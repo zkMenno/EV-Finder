@@ -43,6 +43,11 @@ OpenEV Data (CDLA-Permissive-2.0) mostly covers model years 2023+. Pre-2020 used
 
 **Answer:**
 
+### Q-008 · Maker documents and unclear-licence registries · coordinator · 2026-11-15
+Decision 009 lets only sources with a named licence or written permission reach a release. Maker spec sheets and price lists have no licence; we would cite single facts by URL and date. KBA, SDES and EU Safety Gate reuse terms weren't checked tonight. **Default:** all four are `blocked` in data/sources.yaml. Can cited single facts from maker documents count as releasable (facts aren't copyrightable, but EU database right may apply)?
+
+**Answer:**
+
 ## Closed
 
 _none yet_
