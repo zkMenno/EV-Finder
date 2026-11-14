@@ -91,7 +91,20 @@ export type FactField =
   | "consumption_motorway_kwh_100km"
   | "real_range_summer_km"
   | "real_range_motorway_km"
-  | "real_range_winter_km";
+  | "real_range_winter_km"
+  | "voltage_nominal_v"
+  | "voltage_max_v"
+  | "chemistry_id"
+  | "cooling_id"
+  | "cell_format"
+  | "charger_400v_behaviour"
+  | "warranty_years"
+  | "warranty_km";
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "TaxonomyStatus".
+ */
+export type TaxonomyStatus = "mainstream" | "emerging" | "niche" | "legacy" | "experimental";
 
 /**
  * EV Finder catalogue schema v0. Single source of truth: TS and Python types are generated from this file. Stable ids never change; slugs may.
@@ -183,6 +196,49 @@ export interface Variant {
   year_start: number;
   year_end?: number | null;
   drivetrain?: Drivetrain;
+  platform_id?: Id;
+  battery_pack_id?: Id;
+  voltage?: VariantVoltage;
+  charger_400v?: Charger400VBehaviour;
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "VariantVoltage".
+ */
+export interface VariantVoltage {
+  /**
+   * Stated nominal voltage.
+   */
+  nominal_v?: number | "not-disclosed";
+  /**
+   * Stated max voltage.
+   */
+  max_v?: number | "not-disclosed";
+  /**
+   * e.g. '800V', or 'not-disclosed'.
+   */
+  marketing_label?: string;
+  /**
+   * Derived from nominal_v via voltage_classes.
+   */
+  class_id?: Id | "not-disclosed";
+  /**
+   * Pack can switch between 400 and 800 V.
+   */
+  switchable?: boolean | null;
+}
+/**
+ * How an 800 V+ car behaves on older 400 V DC chargers.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "Charger400vBehaviour".
+ */
+export interface Charger400VBehaviour {
+  mode: "native" | "booster" | "limited" | "not-disclosed";
+  /**
+   * Max kW on a 400 V charger (booster or limited).
+   */
+  kw?: number | null;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -205,7 +261,7 @@ export interface MarketVariant {
  */
 export interface Fact {
   id: string;
-  subject_type: "model" | "generation" | "variant" | "market_variant";
+  subject_type: "model" | "generation" | "variant" | "market_variant" | "platform" | "battery_pack";
   subject_id: Id;
   field: FactField;
   /**
@@ -364,6 +420,33 @@ export interface PublishedVariant {
    * true when dc_peak_kw is a maker claim, not measured.
    */
   dc_peak_kw_is_claim?: boolean;
+  platform_id?: string | null;
+  platform_name?: string | null;
+  battery_pack_id?: string | null;
+  /**
+   * Taxonomy id or 'not-disclosed'.
+   */
+  chemistry_id?: string | null;
+  cooling_id?: string | null;
+  cell_format?: string | null;
+  voltage_nominal_v?: number | null;
+  voltage_max_v?: number | null;
+  voltage_label?: string | null;
+  /**
+   * Derived class id, or 'not-disclosed'.
+   */
+  voltage_class_id?: string | null;
+  voltage_switchable?: boolean | null;
+  charger_400v_mode?: "native" | "booster" | "limited" | "not-disclosed" | null;
+  charger_400v_kw?: number | null;
+  /**
+   * Derived: native 400 V car, or booster/limited at >= 50 kW on 400 V chargers.
+   */
+  fast_on_400v?: boolean | null;
+  /**
+   * From the chemistry row.
+   */
+  charge_100_daily?: boolean | null;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -375,4 +458,184 @@ export interface Catalogue {
   sources: Source[];
   generations?: Generation[];
   rows: PublishedVariant[];
+  taxonomy?: Taxonomy;
+  platforms?: Platform[];
+  battery_packs?: BatteryPack[];
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "Taxonomy".
+ */
+export interface Taxonomy {
+  voltage_classes: VoltageClass[];
+  chemistries: Chemistry[];
+  cooling_types: CoolingType[];
+  glossary_terms: GlossaryTerm[];
+}
+/**
+ * Row in data/taxonomy/voltage_classes.yaml. Data, not an enum: add a row, no code change.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "VoltageClass".
+ */
+export interface VoltageClass {
+  id: Id;
+  /**
+   * Display label. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  label: {
+    [k: string]: string;
+  };
+  min_v: number;
+  max_v: number;
+  status: TaxonomyStatus;
+  /**
+   * Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  explainer?: {
+    [k: string]: string;
+  };
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "Chemistry".
+ */
+export interface Chemistry {
+  id: Id;
+  family: string;
+  /**
+   * Display label. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  label: {
+    [k: string]: string;
+  };
+  status: TaxonomyStatus;
+  pros?: {
+    [k: string]: string;
+  }[];
+  cons?: {
+    [k: string]: string;
+  }[];
+  care_tips?: {
+    [k: string]: string;
+  }[];
+  /**
+   * true = maker guidance allows charging to 100% daily (typical for LFP). null = unclear.
+   */
+  charge_100_daily: boolean | null;
+  /**
+   * First year in a series-production passenger EV.
+   */
+  first_year?: number | null;
+  /**
+   * Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  explainer?: {
+    [k: string]: string;
+  };
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "CoolingType".
+ */
+export interface CoolingType {
+  id: Id;
+  /**
+   * Display label. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  label: {
+    [k: string]: string;
+  };
+  /**
+   * Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  explainer?: {
+    [k: string]: string;
+  };
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "GlossaryTerm".
+ */
+export interface GlossaryTerm {
+  id: Id;
+  /**
+   * Plain-language label. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  label: {
+    [k: string]: string;
+  };
+  /**
+   * Technical name shown under the plain label. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  technical?: {
+    [k: string]: string;
+  };
+  /**
+   * Tooltip text, at most 20 words. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  short: {
+    [k: string]: string;
+  };
+  /**
+   * Learn-page text. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  long?: {
+    [k: string]: string;
+  };
+  /**
+   * Extra detail for Nerd mode. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
+  nerd_note?: {
+    [k: string]: string;
+  };
+  related?: Id[];
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "Platform".
+ */
+export interface Platform {
+  id: Id;
+  name: string;
+  /**
+   * Group that owns the platform, e.g. Volkswagen Group.
+   */
+  owner?: string;
+  nominal_v?: number | "not-disclosed";
+  voltage_class_id?: Id | "not-disclosed";
+  notes?: string;
+}
+/**
+ * A battery pack shared by one or more variants. Variants inherit its facts unless they have their own measured fact.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "BatteryPack".
+ */
+export interface BatteryPack {
+  id: Id;
+  name: string;
+  supplier?: string;
+  chemistry_id?: Id | "not-disclosed";
+  /**
+   * e.g. NMC811, NMC622.
+   */
+  cathode_detail?: string;
+  cell_format?: "pouch" | "prismatic" | "cylindrical" | "blade" | "not-disclosed";
+  cell_to_pack?: boolean | null;
+  gross_kwh?: number | "not-disclosed";
+  usable_kwh?: number | "not-disclosed";
+  nominal_v?: number | "not-disclosed";
+  max_v?: number | "not-disclosed";
+  cooling_id?: Id | "not-disclosed";
+  warranty?: Warranty | "not-disclosed";
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "Warranty".
+ */
+export interface Warranty {
+  years?: number;
+  km?: number;
+  min_soh_pct?: number;
 }

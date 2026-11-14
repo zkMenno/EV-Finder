@@ -158,4 +158,21 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Most fields tonight have one source or an estimate, and coverage.md shows that honestly. Maker documents stay `blocked` until Q-008 is answered.
 
+---
+
+## Decision 010: Platforms, battery packs, taxonomy tables and display levels
+
+**Status:** Proposed (provisional, addendum 3, 2026-11-15 00:48)
+**Date:** 2026-11-15
+
+**Context:** Voltage, chemistry and cooling matter to used buyers (fast charging on older chargers, daily charging to 100%) but are poorly explained elsewhere. Many variants share one pack, so pack facts should live in one place.
+
+**Decision:**
+- New entities `Platform` and `BatteryPack`. A Variant points to one of each. Pack facts (supplier, chemistry, cathode detail, cell format, cell-to-pack, gross/usable kWh, nominal and max V, cooling, warranty) are inherited by its variants unless the variant has its own measured fact.
+- Taxonomies are data files in `data/taxonomy/`, not enums: `voltage_classes` (400 V ~300–550, 800 V ~550–850, 900 V+ ~850–1,100), `chemistries` (NMC, NCA, LFP, LMFP, LMO/NMC blend, sodium-ion, semi-solid, all-solid-state, LMR), `cooling_types` (liquid, refrigerant, air, passive) and `glossary_terms`, all with per-language strings. Filters, tooltips and learn pages read them, so adding a row needs no code change. The schema ids are free strings validated against these files at release time.
+- Per variant: stated nominal/max voltage, marketing label, derived class, switchable flag and "400 V charger behaviour" (native | booster kW | limited kW). `not-disclosed` is a valid value everywhere.
+- The UI has a Simple / Detailed / Nerd switch (localStorage + URL). Nerd shows raw values, sources with date and confidence, and the fallback rung. Every glossary term gets an ⓘ tooltip; labels are plain language with the technical name underneath; `/learn/[term]` pages are stubs tonight.
+
+**Consequences:** The catalogue JSON ships the taxonomy tables, which adds a few KB. Most pack facts tonight come from hand-entered seed data (confidence low) or are `not-disclosed`.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

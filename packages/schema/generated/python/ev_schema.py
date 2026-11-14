@@ -165,19 +165,6 @@ class Generation(BaseModel):
     change_markers: list[ChangeMarker] | None = None
 
 
-class Variant(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    id: Id
-    generation_id: Id
-    name: str
-    slug: Id
-    year_start: int = Field(..., ge=2008, le=2035)
-    year_end: int | None = Field(None, ge=2008, le=2035)
-    drivetrain: Drivetrain | None = None
-
-
 class DriveSide(Enum):
     lhd = 'lhd'
     rhd = 'rhd'
@@ -229,6 +216,14 @@ class FactField(Enum):
     real_range_summer_km = 'real_range_summer_km'
     real_range_motorway_km = 'real_range_motorway_km'
     real_range_winter_km = 'real_range_winter_km'
+    voltage_nominal_v = 'voltage_nominal_v'
+    voltage_max_v = 'voltage_max_v'
+    chemistry_id = 'chemistry_id'
+    cooling_id = 'cooling_id'
+    cell_format = 'cell_format'
+    charger_400v_behaviour = 'charger_400v_behaviour'
+    warranty_years = 'warranty_years'
+    warranty_km = 'warranty_km'
 
 
 class SubjectType(Enum):
@@ -236,6 +231,8 @@ class SubjectType(Enum):
     generation = 'generation'
     variant = 'variant'
     market_variant = 'market_variant'
+    platform = 'platform'
+    battery_pack = 'battery_pack'
 
 
 class FieldProvenance(BaseModel):
@@ -264,6 +261,14 @@ class DcCurveStatus(Enum):
     measured = 'measured'
     estimated = 'estimated'
     default = 'default'
+
+
+class Charger400vMode(Enum):
+    native = 'native'
+    booster = 'booster'
+    limited = 'limited'
+    not_disclosed = 'not-disclosed'
+    NoneType_None = None
 
 
 class PublishedVariant(BaseModel):
@@ -336,17 +341,28 @@ class PublishedVariant(BaseModel):
     dc_peak_kw_is_claim: bool | None = Field(
         None, description='true when dc_peak_kw is a maker claim, not measured.'
     )
-
-
-class Catalogue(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
+    platform_id: str | None = None
+    platform_name: str | None = None
+    battery_pack_id: str | None = None
+    chemistry_id: str | None = Field(
+        None, description="Taxonomy id or 'not-disclosed'."
     )
-    release: int = Field(..., ge=1)
-    generated_at: str
-    sources: list[Source]
-    generations: list[Generation] | None = None
-    rows: list[PublishedVariant]
+    cooling_id: str | None = None
+    cell_format: str | None = None
+    voltage_nominal_v: float | None = None
+    voltage_max_v: float | None = None
+    voltage_label: str | None = None
+    voltage_class_id: str | None = Field(
+        None, description="Derived class id, or 'not-disclosed'."
+    )
+    voltage_switchable: bool | None = None
+    charger_400v_mode: Charger400vMode | None = None
+    charger_400v_kw: float | None = None
+    fast_on_400v: bool | None = Field(
+        None,
+        description='Derived: native 400 V car, or booster/limited at >= 50 kW on 400 V chargers.',
+    )
+    charge_100_daily: bool | None = Field(None, description='From the chemistry row.')
 
 
 class Point(RootModel[list]):
@@ -379,6 +395,239 @@ class ChargeCurve(BaseModel):
     conditions: Conditions | None = None
 
 
+class TaxonomyStatus(Enum):
+    mainstream = 'mainstream'
+    emerging = 'emerging'
+    niche = 'niche'
+    legacy = 'legacy'
+    experimental = 'experimental'
+
+
+class VoltageClass(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: dict[str, str] = Field(
+        ...,
+        description='Display label. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    min_v: float
+    max_v: float
+    status: TaxonomyStatus
+    explainer: dict[str, str] | None = Field(
+        None,
+        description='Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+
+
+class Chemistry(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    family: str
+    label: dict[str, str] = Field(
+        ...,
+        description='Display label. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    status: TaxonomyStatus
+    pros: list[dict[str, str]] | None = None
+    cons: list[dict[str, str]] | None = None
+    care_tips: list[dict[str, str]] | None = None
+    charge_100_daily: bool | None = Field(
+        ...,
+        description='true = maker guidance allows charging to 100% daily (typical for LFP). null = unclear.',
+    )
+    first_year: int | None = Field(
+        None, description='First year in a series-production passenger EV.'
+    )
+    explainer: dict[str, str] | None = Field(
+        None,
+        description='Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+
+
+class CoolingType(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: dict[str, str] = Field(
+        ...,
+        description='Display label. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    explainer: dict[str, str] | None = Field(
+        None,
+        description='Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+
+
+class GlossaryTerm(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: dict[str, str] = Field(
+        ...,
+        description='Plain-language label. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    technical: dict[str, str] | None = Field(
+        None,
+        description='Technical name shown under the plain label. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    short: dict[str, str] = Field(
+        ...,
+        description='Tooltip text, at most 20 words. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    long: dict[str, str] | None = Field(
+        None,
+        description='Learn-page text. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    nerd_note: dict[str, str] | None = Field(
+        None,
+        description='Extra detail for Nerd mode. Keyed by language (en, nl, de, fr, es, it); en required.',
+    )
+    related: list[Id] | None = None
+
+
+class Taxonomy(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    voltage_classes: list[VoltageClass]
+    chemistries: list[Chemistry]
+    cooling_types: list[CoolingType]
+    glossary_terms: list[GlossaryTerm]
+
+
+class NominalV(RootModel[float]):
+    root: float = Field(..., ge=0.0)
+
+
+class Platform(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    name: str
+    owner: str | None = Field(
+        None, description='Group that owns the platform, e.g. Volkswagen Group.'
+    )
+    nominal_v: NominalV | str | None = None
+    voltage_class_id: Id | str | None = None
+    notes: str | None = None
+
+
+class Warranty(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    years: float | None = None
+    km: float | None = None
+    min_soh_pct: float | None = None
+
+
+class CellFormat(Enum):
+    pouch = 'pouch'
+    prismatic = 'prismatic'
+    cylindrical = 'cylindrical'
+    blade = 'blade'
+    not_disclosed = 'not-disclosed'
+
+
+class GrossKwh(RootModel[float]):
+    root: float = Field(..., ge=0.0)
+
+
+class UsableKwh(RootModel[float]):
+    root: float = Field(..., ge=0.0)
+
+
+class MaxV(RootModel[float]):
+    root: float = Field(..., ge=0.0)
+
+
+class BatteryPack(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    name: str
+    supplier: str | None = None
+    chemistry_id: Id | str | None = None
+    cathode_detail: str | None = Field(None, description='e.g. NMC811, NMC622.')
+    cell_format: CellFormat | None = None
+    cell_to_pack: bool | None = None
+    gross_kwh: GrossKwh | str | None = None
+    usable_kwh: UsableKwh | str | None = None
+    nominal_v: NominalV | str | None = None
+    max_v: MaxV | str | None = None
+    cooling_id: Id | str | None = None
+    warranty: Warranty | str | None = None
+
+
+class Mode(Enum):
+    native = 'native'
+    booster = 'booster'
+    limited = 'limited'
+    not_disclosed = 'not-disclosed'
+
+
+class Charger400vBehaviour(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    mode: Mode
+    kw: float | None = Field(
+        None, description='Max kW on a 400 V charger (booster or limited).'
+    )
+
+
+class NominalV2(RootModel[float]):
+    root: float = Field(..., description='Stated nominal voltage.', ge=0.0)
+
+
+class MaxV1(RootModel[float]):
+    root: float = Field(..., description='Stated max voltage.', ge=0.0)
+
+
+class VariantVoltage(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    nominal_v: NominalV2 | str | None = Field(
+        None, description='Stated nominal voltage.'
+    )
+    max_v: MaxV1 | str | None = Field(None, description='Stated max voltage.')
+    marketing_label: str | None = Field(
+        None, description="e.g. '800V', or 'not-disclosed'."
+    )
+    class_id: Id | str | None = Field(
+        None, description='Derived from nominal_v via voltage_classes.'
+    )
+    switchable: bool | None = Field(
+        None, description='Pack can switch between 400 and 800 V.'
+    )
+
+
+class Variant(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    generation_id: Id
+    name: str
+    slug: Id
+    year_start: int = Field(..., ge=2008, le=2035)
+    year_end: int | None = Field(None, ge=2008, le=2035)
+    drivetrain: Drivetrain | None = None
+    platform_id: Id | None = None
+    battery_pack_id: Id | None = None
+    voltage: VariantVoltage | None = None
+    charger_400v: Charger400vBehaviour | None = None
+
+
 class Fact(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -407,3 +656,17 @@ class Fact(BaseModel):
     claim: bool | None = Field(
         None, description='true when the value is a maker claim rather than measured.'
     )
+
+
+class Catalogue(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    release: int = Field(..., ge=1)
+    generated_at: str
+    sources: list[Source]
+    generations: list[Generation] | None = None
+    rows: list[PublishedVariant]
+    taxonomy: Taxonomy | None = None
+    platforms: list[Platform] | None = None
+    battery_packs: list[BatteryPack] | None = None

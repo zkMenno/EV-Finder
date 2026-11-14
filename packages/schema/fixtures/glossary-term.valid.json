@@ -1,0 +1,7 @@
+{
+  "id": "lfp",
+  "label": { "en": "Long-life battery (LFP)", "nl": "Langlevende accu (LFP)" },
+  "technical": { "en": "Lithium iron phosphate" },
+  "short": { "en": "A battery type that tolerates daily charging to 100% and lasts many cycles." },
+  "related": ["nmc"]
+}

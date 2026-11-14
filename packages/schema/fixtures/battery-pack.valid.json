@@ -1,0 +1,15 @@
+{
+  "id": "vw-meb-77kwh",
+  "name": "MEB 77 kWh",
+  "supplier": "not disclosed",
+  "chemistry_id": "nmc",
+  "cathode_detail": "NMC712",
+  "cell_format": "pouch",
+  "cell_to_pack": false,
+  "gross_kwh": 82,
+  "usable_kwh": 77,
+  "nominal_v": "not-disclosed",
+  "max_v": "not-disclosed",
+  "cooling_id": "liquid",
+  "warranty": { "years": 8, "km": 160000, "min_soh_pct": 70 }
+}

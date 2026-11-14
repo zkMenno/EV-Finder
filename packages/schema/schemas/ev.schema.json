@@ -223,6 +223,18 @@
         },
         "drivetrain": {
           "$ref": "#/$defs/Drivetrain"
+        },
+        "platform_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "battery_pack_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "voltage": {
+          "$ref": "#/$defs/VariantVoltage"
+        },
+        "charger_400v": {
+          "$ref": "#/$defs/Charger400vBehaviour"
         }
       }
     },
@@ -295,7 +307,15 @@
         "consumption_motorway_kwh_100km",
         "real_range_summer_km",
         "real_range_motorway_km",
-        "real_range_winter_km"
+        "real_range_winter_km",
+        "voltage_nominal_v",
+        "voltage_max_v",
+        "chemistry_id",
+        "cooling_id",
+        "cell_format",
+        "charger_400v_behaviour",
+        "warranty_years",
+        "warranty_km"
       ]
     },
     "Fact": {
@@ -318,7 +338,7 @@
         },
         "subject_type": {
           "type": "string",
-          "enum": ["model", "generation", "variant", "market_variant"]
+          "enum": ["model", "generation", "variant", "market_variant", "platform", "battery_pack"]
         },
         "subject_id": {
           "$ref": "#/$defs/Id"
@@ -600,6 +620,56 @@
         "dc_peak_kw_is_claim": {
           "type": "boolean",
           "description": "true when dc_peak_kw is a maker claim, not measured."
+        },
+        "platform_id": {
+          "type": ["string", "null"]
+        },
+        "platform_name": {
+          "type": ["string", "null"]
+        },
+        "battery_pack_id": {
+          "type": ["string", "null"]
+        },
+        "chemistry_id": {
+          "type": ["string", "null"],
+          "description": "Taxonomy id or 'not-disclosed'."
+        },
+        "cooling_id": {
+          "type": ["string", "null"]
+        },
+        "cell_format": {
+          "type": ["string", "null"]
+        },
+        "voltage_nominal_v": {
+          "type": ["number", "null"]
+        },
+        "voltage_max_v": {
+          "type": ["number", "null"]
+        },
+        "voltage_label": {
+          "type": ["string", "null"]
+        },
+        "voltage_class_id": {
+          "type": ["string", "null"],
+          "description": "Derived class id, or 'not-disclosed'."
+        },
+        "voltage_switchable": {
+          "type": ["boolean", "null"]
+        },
+        "charger_400v_mode": {
+          "type": ["string", "null"],
+          "enum": ["native", "booster", "limited", "not-disclosed", null]
+        },
+        "charger_400v_kw": {
+          "type": ["number", "null"]
+        },
+        "fast_on_400v": {
+          "type": ["boolean", "null"],
+          "description": "Derived: native 400 V car, or booster/limited at >= 50 kW on 400 V chargers."
+        },
+        "charge_100_daily": {
+          "type": ["boolean", "null"],
+          "description": "From the chemistry row."
         }
       }
     },
@@ -631,6 +701,21 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/PublishedVariant"
+          }
+        },
+        "taxonomy": {
+          "$ref": "#/$defs/Taxonomy"
+        },
+        "platforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Platform"
+          }
+        },
+        "battery_packs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BatteryPack"
           }
         }
       }
@@ -685,6 +770,509 @@
               "type": "string"
             }
           }
+        }
+      }
+    },
+    "TaxonomyStatus": {
+      "type": "string",
+      "enum": ["mainstream", "emerging", "niche", "legacy", "experimental"]
+    },
+    "VoltageClass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "min_v", "max_v", "status"],
+      "description": "Row in data/taxonomy/voltage_classes.yaml. Data, not an enum: add a row, no code change.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "label": {
+          "type": "object",
+          "description": "Display label. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "min_v": {
+          "type": "number"
+        },
+        "max_v": {
+          "type": "number"
+        },
+        "status": {
+          "$ref": "#/$defs/TaxonomyStatus"
+        },
+        "explainer": {
+          "type": "object",
+          "description": "Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        }
+      }
+    },
+    "Chemistry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "label", "status", "charge_100_daily"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "family": {
+          "type": "string"
+        },
+        "label": {
+          "type": "object",
+          "description": "Display label. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "status": {
+          "$ref": "#/$defs/TaxonomyStatus"
+        },
+        "pros": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "One pro. Keyed by language (en, nl, de, fr, es, it); en required.",
+            "required": ["en"],
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "enum": ["en", "nl", "de", "fr", "es", "it"]
+            }
+          }
+        },
+        "cons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "One con. Keyed by language (en, nl, de, fr, es, it); en required.",
+            "required": ["en"],
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "enum": ["en", "nl", "de", "fr", "es", "it"]
+            }
+          }
+        },
+        "care_tips": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "One tip. Keyed by language (en, nl, de, fr, es, it); en required.",
+            "required": ["en"],
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "enum": ["en", "nl", "de", "fr", "es", "it"]
+            }
+          }
+        },
+        "charge_100_daily": {
+          "type": ["boolean", "null"],
+          "description": "true = maker guidance allows charging to 100% daily (typical for LFP). null = unclear."
+        },
+        "first_year": {
+          "type": ["integer", "null"],
+          "description": "First year in a series-production passenger EV."
+        },
+        "explainer": {
+          "type": "object",
+          "description": "Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        }
+      }
+    },
+    "CoolingType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "label": {
+          "type": "object",
+          "description": "Display label. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "explainer": {
+          "type": "object",
+          "description": "Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        }
+      }
+    },
+    "GlossaryTerm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "short"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "label": {
+          "type": "object",
+          "description": "Plain-language label. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "technical": {
+          "type": "object",
+          "description": "Technical name shown under the plain label. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "short": {
+          "type": "object",
+          "description": "Tooltip text, at most 20 words. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "long": {
+          "type": "object",
+          "description": "Learn-page text. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "nerd_note": {
+          "type": "object",
+          "description": "Extra detail for Nerd mode. Keyed by language (en, nl, de, fr, es, it); en required.",
+          "required": ["en"],
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          }
+        },
+        "related": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          }
+        }
+      }
+    },
+    "Taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["voltage_classes", "chemistries", "cooling_types", "glossary_terms"],
+      "properties": {
+        "voltage_classes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VoltageClass"
+          }
+        },
+        "chemistries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Chemistry"
+          }
+        },
+        "cooling_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CoolingType"
+          }
+        },
+        "glossary_terms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GlossaryTerm"
+          }
+        }
+      }
+    },
+    "Platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string",
+          "description": "Group that owns the platform, e.g. Volkswagen Group."
+        },
+        "nominal_v": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "voltage_class_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "Warranty": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "years": {
+          "type": "number"
+        },
+        "km": {
+          "type": "number"
+        },
+        "min_soh_pct": {
+          "type": "number"
+        }
+      }
+    },
+    "BatteryPack": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "description": "A battery pack shared by one or more variants. Variants inherit its facts unless they have their own measured fact.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "supplier": {
+          "type": "string"
+        },
+        "chemistry_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "cathode_detail": {
+          "type": "string",
+          "description": "e.g. NMC811, NMC622."
+        },
+        "cell_format": {
+          "type": "string",
+          "enum": ["pouch", "prismatic", "cylindrical", "blade", "not-disclosed"]
+        },
+        "cell_to_pack": {
+          "type": ["boolean", "null"]
+        },
+        "gross_kwh": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "usable_kwh": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "nominal_v": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "max_v": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "cooling_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        },
+        "warranty": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Warranty"
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ]
+        }
+      }
+    },
+    "Charger400vBehaviour": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "description": "How an 800 V+ car behaves on older 400 V DC chargers.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["native", "booster", "limited", "not-disclosed"]
+        },
+        "kw": {
+          "type": ["number", "null"],
+          "description": "Max kW on a 400 V charger (booster or limited)."
+        }
+      }
+    },
+    "VariantVoltage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nominal_v": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ],
+          "description": "Stated nominal voltage."
+        },
+        "max_v": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ],
+          "description": "Stated max voltage."
+        },
+        "marketing_label": {
+          "type": "string",
+          "description": "e.g. '800V', or 'not-disclosed'."
+        },
+        "class_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "string",
+              "const": "not-disclosed"
+            }
+          ],
+          "description": "Derived from nominal_v via voltage_classes."
+        },
+        "switchable": {
+          "type": ["boolean", "null"],
+          "description": "Pack can switch between 400 and 800 V."
         }
       }
     }
