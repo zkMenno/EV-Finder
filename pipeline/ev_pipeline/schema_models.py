@@ -222,6 +222,13 @@ class FactField(Enum):
     price_new = 'price_new'
     real_range_km = 'real_range_km'
     registered_count = 'registered_count'
+    dc_curve = 'dc_curve'
+    dc_minutes_10_80 = 'dc_minutes_10_80'
+    dc_peak_kw_claim = 'dc_peak_kw_claim'
+    consumption_motorway_kwh_100km = 'consumption_motorway_kwh_100km'
+    real_range_summer_km = 'real_range_summer_km'
+    real_range_motorway_km = 'real_range_motorway_km'
+    real_range_winter_km = 'real_range_winter_km'
 
 
 class SubjectType(Enum):
@@ -229,31 +236,6 @@ class SubjectType(Enum):
     generation = 'generation'
     variant = 'variant'
     market_variant = 'market_variant'
-
-
-class Fact(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    id: str
-    subject_type: SubjectType
-    subject_id: Id
-    field: FactField
-    value: float | str | bool
-    unit: str = Field(
-        ...,
-        description='Metric unit (kWh, km, kW, kWh/100km, l, mm, kg, s, km/h, count) or currency code for prices.',
-    )
-    country: Country | None = Field(
-        None, description='Set for market-specific facts (prices, registrations).'
-    )
-    source: Source
-    source_record: str | None = Field(
-        None, description='Pointer to the raw record, e.g. a file path or row key.'
-    )
-    retrieved_at: date
-    observed_at: date | None = None
-    confidence: Confidence
 
 
 class FieldProvenance(BaseModel):
@@ -267,6 +249,21 @@ class FieldProvenance(BaseModel):
         None, description='true when computed by us from other facts.'
     )
     note: str | None = None
+    agreeing_sources: int | None = Field(
+        None,
+        description="Number of independent sources agreeing within the field tolerance (UI badge 'N sources agree').",
+        ge=0,
+    )
+    estimate: bool | None = Field(
+        None,
+        description='true when the value comes from a model/ratio rather than any source.',
+    )
+
+
+class DcCurveStatus(Enum):
+    measured = 'measured'
+    estimated = 'estimated'
+    default = 'default'
 
 
 class PublishedVariant(BaseModel):
@@ -299,7 +296,8 @@ class PublishedVariant(BaseModel):
         None, description='Derived: ac_kw / consumption * 100.'
     )
     dc_km_per_10min: float | None = Field(
-        None, description='Derived: dc_avg_10_80_kw / consumption * 100 / 6.'
+        None,
+        description='Derived: km added in 10 min at motorway consumption (dc_avg_10_80_kw / motorway consumption * 100 / 6).',
     )
     real_range_km: float | None = None
     real_range_rung: RealRangeRung | None = None
@@ -323,6 +321,21 @@ class PublishedVariant(BaseModel):
         ...,
         description='Field name → where the value came from. Every non-null number above must have an entry.',
     )
+    dc_minutes_10_80: float | None = Field(None, description='Minutes 10-80%.')
+    dc_km_per_20min: float | None = Field(
+        None,
+        description='Derived: km added in 20 min at motorway consumption. Used for the DC ranking.',
+    )
+    dc_peak_held_min: float | None = Field(
+        None, description='Minutes above 90% of peak.'
+    )
+    consumption_motorway_kwh_100km: float | None = Field(
+        None, description='Motorway consumption used for km-in-N-minutes.'
+    )
+    dc_curve_status: DcCurveStatus | None = None
+    dc_peak_kw_is_claim: bool | None = Field(
+        None, description='true when dc_peak_kw is a maker claim, not measured.'
+    )
 
 
 class Catalogue(BaseModel):
@@ -334,3 +347,63 @@ class Catalogue(BaseModel):
     sources: list[Source]
     generations: list[Generation] | None = None
     rows: list[PublishedVariant]
+
+
+class Point(RootModel[list]):
+    root: list = Field(..., max_length=2, min_length=2)
+
+
+class Status(Enum):
+    measured = 'measured'
+    estimated = 'estimated'
+    default = 'default'
+
+
+class Conditions(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    battery_temp_c: float | None = None
+    preconditioned: bool | None = None
+    ambient_temp_c: float | None = None
+    charger_kw: float | None = None
+    software_version: str | None = None
+
+
+class ChargeCurve(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    points: list[Point] = Field(..., min_length=2)
+    status: Status
+    conditions: Conditions | None = None
+
+
+class Fact(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: str
+    subject_type: SubjectType
+    subject_id: Id
+    field: FactField
+    value: float | str | bool | ChargeCurve = Field(
+        ..., description='Scalar, or a ChargeCurve when field = dc_curve.'
+    )
+    unit: str = Field(
+        ...,
+        description='Metric unit (kWh, km, kW, kWh/100km, l, mm, kg, s, km/h, count) or currency code for prices.',
+    )
+    country: Country | None = Field(
+        None, description='Set for market-specific facts (prices, registrations).'
+    )
+    source: Source
+    source_record: str | None = Field(
+        None, description='Pointer to the raw record, e.g. a file path or row key.'
+    )
+    retrieved_at: date
+    observed_at: date | None = None
+    confidence: Confidence
+    claim: bool | None = Field(
+        None, description='true when the value is a maker claim rather than measured.'
+    )
