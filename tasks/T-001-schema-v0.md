@@ -1,6 +1,6 @@
 # T-001 Schema v0
 Role: coordinator   Lane: packages/schema   Wave: 1
-Status: todo
+Status: review (coordinator, 2026-11-15)
 
 ## Goal
 JSON Schema for every entity, generated TS + Pydantic types, fixture tests.

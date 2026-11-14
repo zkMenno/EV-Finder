@@ -1,0 +1,14 @@
+# Generated, vendored or data files
+pnpm-lock.yaml
+node_modules/
+.next/
+out/
+dist/
+coverage/
+packages/schema/generated/
+data/
+pipeline/
+apps/web/test-results/
+apps/web/playwright-report/
+# Human-edited docs keep their own formatting
+*.md

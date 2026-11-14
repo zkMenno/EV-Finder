@@ -121,7 +121,7 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 - Python 3.12+, type hints everywhere, `ruff` for lint and format, `pytest` for tests.
 - Jobs are small, idempotent Python steps queued and scheduled through pg-boss. Each step records its inputs and outputs in the run log, and every Fact carries its own source and date: that is our provenance, so never write a value without it.
 - **Respect the shared server.** Jobs run at night at low priority inside their memory limit (Decision 006). Big one-off imports go to a temporary machine, not the shared server.
-- Source adapters live in `pipeline/sources/<name>/`, each with its own fixtures and tests.
+- Source adapters live in `pipeline/ev_pipeline/sources/<name>/`, with fixtures in `pipeline/tests/fixtures/<name>/` (see pipeline/AGENTS.md).
 
 **Schema (`packages/schema`)**
 - JSON Schema is the single source. TypeScript and Python types are generated from it, never hand-written.

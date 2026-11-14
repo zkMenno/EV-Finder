@@ -1,0 +1,50 @@
+[project]
+name = "ev-pipeline"
+version = "0.0.1"
+description = "EV Finder data pipeline: source adapters, match/merge, derived metrics, releases."
+license = "AGPL-3.0-only"
+requires-python = ">=3.12"
+dependencies = [
+  "pydantic>=2",
+  "duckdb",
+  "pyarrow",
+  "pyyaml",
+  "httpx",
+  "jsonschema",
+]
+
+[project.optional-dependencies]
+# Kept in step with [dependency-groups].dev so `pip install -e ".[dev]"` works as a CI fallback.
+dev = [
+  "pytest>=8",
+  "ruff>=0.6",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8",
+  "ruff>=0.6",
+]
+
+[project.scripts]
+ev = "ev_pipeline.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ev_pipeline"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+# schema_models.py is generated from packages/schema (datamodel-codegen); never hand-edit or lint it.
+extend-exclude = ["tests/fixtures", "ev_pipeline/schema_models.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]

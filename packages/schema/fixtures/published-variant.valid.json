@@ -1,0 +1,42 @@
+{
+  "release": 1,
+  "variant_id": "nissan-leaf-ze1-40kwh",
+  "variant_name": "40 kWh",
+  "generation_id": "nissan-leaf-ze1",
+  "generation_name": "ZE1",
+  "generation_uncertain": false,
+  "model_id": "nissan-leaf",
+  "model_name": "Leaf",
+  "make_id": "nissan",
+  "make_name": "Nissan",
+  "year_start": 2018,
+  "year_end": 2024,
+  "era": "2018-20",
+  "segment": "C",
+  "body": "hatchback",
+  "drivetrain": "fwd",
+  "battery_kwh_net": 39,
+  "wltp_range_km": 270,
+  "consumption_kwh_100km": 17.1,
+  "ac_kw": 6.6,
+  "dc_peak_kw": 46,
+  "dc_avg_10_80_kw": 30,
+  "ac_km_per_h": 38.6,
+  "dc_km_per_10min": 29.2,
+  "real_range_km": 235,
+  "real_range_rung": "body-ratio",
+  "on_sale_new": false,
+  "price_new": {},
+  "registered_count_nl": null,
+  "quality_tier": "single-source",
+  "change_markers": [{ "year": 2019, "text": "62 kWh e+ added" }],
+  "provenance": {
+    "battery_kwh_net": { "source_ids": ["fixture"], "confidence": "medium" },
+    "real_range_km": {
+      "source_ids": ["fixture"],
+      "confidence": "low",
+      "derived": true,
+      "note": "body-type ratio"
+    }
+  }
+}

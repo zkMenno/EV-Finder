@@ -1,0 +1,16 @@
+{
+  "id": "openev:nissan/leaf/2023/leaf_62_kwh:battery_kwh_net",
+  "subject_type": "variant",
+  "subject_id": "nissan-leaf-ze1-62kwh",
+  "field": "battery_kwh_net",
+  "value": 62,
+  "unit": "kWh",
+  "source": {
+    "id": "openev",
+    "name": "OpenEV Data",
+    "url": "https://github.com/open-ev-data/open-ev-data-dataset",
+    "licence": "CDLA-Permissive-2.0"
+  },
+  "retrieved_at": "2026-11-15",
+  "confidence": "medium"
+}

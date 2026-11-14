@@ -1,0 +1,10 @@
+{
+  "id": "bad",
+  "subject_type": "variant",
+  "subject_id": "Nissan Leaf",
+  "field": "battery_kwh_net",
+  "value": 62,
+  "unit": "kWh",
+  "retrieved_at": "2026-11-15",
+  "confidence": "certain"
+}

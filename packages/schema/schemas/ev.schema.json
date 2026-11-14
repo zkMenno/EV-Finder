@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ev-finder.example/schema/ev.schema.json",
+  "title": "EvSchema",
+  "description": "EV Finder catalogue schema v0. Single source of truth: TS and Python types are generated from this file. Stable ids never change; slugs may.",
+  "$defs": {
+    "Id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Stable id: lowercase, hyphen-separated."
+    },
+    "Country": { "type": "string", "enum": ["NL", "DE", "FR", "BE", "UK"] },
+    "Currency": { "type": "string", "enum": ["EUR", "GBP"] },
+    "Confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+    "Body": {
+      "type": "string",
+      "enum": ["hatchback", "sedan", "estate", "suv", "crossover", "coupe", "mpv", "cabrio"]
+    },
+    "Segment": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E", "F", "J-small", "J-medium", "J-large"]
+    },
+    "Drivetrain": { "type": "string", "enum": ["fwd", "rwd", "awd"] },
+    "Era": { "type": "string", "enum": ["pre-2018", "2018-20", "2021-22", "2023-24", "2025+"] },
+    "QualityTier": {
+      "type": "string",
+      "enum": ["checked", "sourced", "single-source"],
+      "description": "checked = staff hand-checked; sourced = 2+ agreeing sources; single-source = one source only."
+    },
+    "RealRangeRung": {
+      "type": "string",
+      "enum": [
+        "owner-data",
+        "exact-test",
+        "sibling-variant",
+        "brand-body-drivetrain-ratio",
+        "body-ratio"
+      ],
+      "description": "Which rung of the real-range fallback ladder produced the value (highest first)."
+    },
+    "Money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount", "currency"],
+      "properties": {
+        "amount": { "type": "number", "minimum": 0 },
+        "currency": { "$ref": "#/$defs/Currency" }
+      }
+    },
+    "ChangeMarker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "text"],
+      "properties": {
+        "year": { "type": "integer", "minimum": 2008, "maximum": 2035 },
+        "text": { "type": "string", "minLength": 1 }
+      }
+    },
+    "Source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "licence"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Id" },
+        "name": { "type": "string" },
+        "url": { "type": "string" },
+        "licence": {
+          "type": "string",
+          "description": "SPDX id or licence name, e.g. CDLA-Permissive-2.0, CC0-1.0."
+        },
+        "attribution": { "type": "string" }
+      }
+    },
+    "Make": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "slug"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Id" },
+        "name": { "type": "string" },
+        "slug": { "$ref": "#/$defs/Id" }
+      }
+    },
+    "Model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "make_id", "name", "slug"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Id" },
+        "make_id": { "$ref": "#/$defs/Id" },
+        "name": { "type": "string" },
+        "slug": { "$ref": "#/$defs/Id" },
+        "segment": { "$ref": "#/$defs/Segment" },
+        "body": { "$ref": "#/$defs/Body" },
+        "aliases": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "model_id", "name", "slug", "year_start"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Id" },
+        "model_id": { "$ref": "#/$defs/Id" },
+        "name": { "type": "string" },
+        "slug": { "$ref": "#/$defs/Id" },
+        "year_start": { "type": "integer", "minimum": 2008, "maximum": 2035 },
+        "year_end": {
+          "type": ["integer", "null"],
+          "minimum": 2008,
+          "maximum": 2035,
+          "description": "null = still on sale."
+        },
+        "uncertain": {
+          "type": "boolean",
+          "default": false,
+          "description": "Year boundaries not hand-checked yet."
+        },
+        "change_markers": { "type": "array", "items": { "$ref": "#/$defs/ChangeMarker" } }
+      }
+    },
+    "Variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "generation_id", "name", "slug", "year_start"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Id" },
+        "generation_id": { "$ref": "#/$defs/Id" },
+        "name": { "type": "string" },
+        "slug": { "$ref": "#/$defs/Id" },
+        "year_start": { "type": "integer", "minimum": 2008, "maximum": 2035 },
+        "year_end": { "type": ["integer", "null"], "minimum": 2008, "maximum": 2035 },
+        "drivetrain": { "$ref": "#/$defs/Drivetrain" }
+      }
+    },
+    "MarketVariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "variant_id", "country"],
+      "properties": {
+        "id": { "$ref": "#/$defs/Id" },
+        "variant_id": { "$ref": "#/$defs/Id" },
+        "country": { "$ref": "#/$defs/Country" },
+        "local_name": { "type": "string" },
+        "price_new": { "$ref": "#/$defs/Money" },
+        "wltp_km": { "type": "number", "minimum": 0 },
+        "epa_km": { "type": "number", "minimum": 0 },
+        "drive_side": { "type": "string", "enum": ["lhd", "rhd"] },
+        "on_sale_new": { "type": "boolean" }
+      }
+    },
+    "FactField": {
+      "type": "string",
+      "enum": [
+        "battery_kwh_net",
+        "battery_kwh_gross",
+        "wltp_range_km",
+        "epa_range_km",
+        "consumption_kwh_100km",
+        "ac_kw",
+        "dc_peak_kw",
+        "dc_avg_10_80_kw",
+        "power_kw",
+        "accel_0_100_s",
+        "top_speed_kmh",
+        "boot_l",
+        "frunk_l",
+        "length_mm",
+        "width_mm",
+        "height_mm",
+        "wheelbase_mm",
+        "weight_kg",
+        "towing_kg",
+        "seats",
+        "price_new",
+        "real_range_km",
+        "registered_count"
+      ]
+    },
+    "Fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "subject_type",
+        "subject_id",
+        "field",
+        "value",
+        "unit",
+        "source",
+        "retrieved_at",
+        "confidence"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "subject_type": {
+          "type": "string",
+          "enum": ["model", "generation", "variant", "market_variant"]
+        },
+        "subject_id": { "$ref": "#/$defs/Id" },
+        "field": { "$ref": "#/$defs/FactField" },
+        "value": { "type": ["number", "string", "boolean"] },
+        "unit": {
+          "type": "string",
+          "description": "Metric unit (kWh, km, kW, kWh/100km, l, mm, kg, s, km/h, count) or currency code for prices."
+        },
+        "country": {
+          "$ref": "#/$defs/Country",
+          "description": "Set for market-specific facts (prices, registrations)."
+        },
+        "source": { "$ref": "#/$defs/Source" },
+        "source_record": {
+          "type": "string",
+          "description": "Pointer to the raw record, e.g. a file path or row key."
+        },
+        "retrieved_at": { "type": "string", "format": "date" },
+        "observed_at": { "type": "string", "format": "date" },
+        "confidence": { "$ref": "#/$defs/Confidence" }
+      }
+    },
+    "FieldProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_ids", "confidence"],
+      "properties": {
+        "source_ids": { "type": "array", "items": { "$ref": "#/$defs/Id" }, "minItems": 1 },
+        "confidence": { "$ref": "#/$defs/Confidence" },
+        "fact_ids": { "type": "array", "items": { "type": "string" } },
+        "derived": {
+          "type": "boolean",
+          "description": "true when computed by us from other facts."
+        },
+        "note": { "type": "string" }
+      }
+    },
+    "PublishedVariant": {
+      "type": "object",
+      "description": "One wide row per variant per release. What the web app reads.",
+      "additionalProperties": false,
+      "required": [
+        "release",
+        "variant_id",
+        "variant_name",
+        "generation_id",
+        "generation_name",
+        "model_id",
+        "model_name",
+        "make_id",
+        "make_name",
+        "year_start",
+        "era",
+        "quality_tier",
+        "provenance"
+      ],
+      "properties": {
+        "release": { "type": "integer", "minimum": 1 },
+        "variant_id": { "$ref": "#/$defs/Id" },
+        "variant_name": { "type": "string" },
+        "generation_id": { "$ref": "#/$defs/Id" },
+        "generation_name": { "type": "string" },
+        "generation_uncertain": { "type": "boolean" },
+        "model_id": { "$ref": "#/$defs/Id" },
+        "model_name": { "type": "string" },
+        "make_id": { "$ref": "#/$defs/Id" },
+        "make_name": { "type": "string" },
+        "year_start": { "type": "integer" },
+        "year_end": { "type": ["integer", "null"] },
+        "era": { "$ref": "#/$defs/Era" },
+        "segment": { "$ref": "#/$defs/Segment" },
+        "body": { "$ref": "#/$defs/Body" },
+        "drivetrain": { "$ref": "#/$defs/Drivetrain" },
+        "battery_kwh_net": { "type": ["number", "null"] },
+        "wltp_range_km": { "type": ["number", "null"] },
+        "consumption_kwh_100km": { "type": ["number", "null"] },
+        "ac_kw": { "type": ["number", "null"] },
+        "dc_peak_kw": { "type": ["number", "null"] },
+        "dc_avg_10_80_kw": { "type": ["number", "null"] },
+        "ac_km_per_h": {
+          "type": ["number", "null"],
+          "description": "Derived: ac_kw / consumption * 100."
+        },
+        "dc_km_per_10min": {
+          "type": ["number", "null"],
+          "description": "Derived: dc_avg_10_80_kw / consumption * 100 / 6."
+        },
+        "real_range_km": { "type": ["number", "null"] },
+        "real_range_rung": { "oneOf": [{ "$ref": "#/$defs/RealRangeRung" }, { "type": "null" }] },
+        "power_kw": { "type": ["number", "null"] },
+        "accel_0_100_s": { "type": ["number", "null"] },
+        "boot_l": { "type": ["number", "null"] },
+        "length_mm": { "type": ["number", "null"] },
+        "weight_kg": { "type": ["number", "null"] },
+        "towing_kg": { "type": ["number", "null"] },
+        "seats": { "type": ["integer", "null"] },
+        "on_sale_new": { "type": "boolean" },
+        "price_new": {
+          "type": "object",
+          "description": "New price per country (local currency).",
+          "propertyNames": { "$ref": "#/$defs/Country" },
+          "additionalProperties": { "$ref": "#/$defs/Money" }
+        },
+        "registered_count_nl": {
+          "type": ["integer", "null"],
+          "description": "RDW registrations, counted at generation level."
+        },
+        "quality_tier": { "$ref": "#/$defs/QualityTier" },
+        "change_markers": { "type": "array", "items": { "$ref": "#/$defs/ChangeMarker" } },
+        "provenance": {
+          "type": "object",
+          "description": "Field name → where the value came from. Every non-null number above must have an entry.",
+          "additionalProperties": { "$ref": "#/$defs/FieldProvenance" }
+        }
+      }
+    },
+    "Catalogue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release", "generated_at", "sources", "rows"],
+      "properties": {
+        "release": { "type": "integer", "minimum": 1 },
+        "generated_at": { "type": "string" },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/Source" } },
+        "generations": { "type": "array", "items": { "$ref": "#/$defs/Generation" } },
+        "rows": { "type": "array", "items": { "$ref": "#/$defs/PublishedVariant" } }
+      }
+    }
+  }
+}
