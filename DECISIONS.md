@@ -637,8 +637,8 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Context:** Menno's sheet uses reveal or order years (Elroq 2024, Scenic 2023); the seed uses registration years (2025, 2024). Those rows had no generation, so the shortlist rules could not score them.
 
-**Decision:** `import_menno_sheet.py` maps a year at most one year outside every generation of the model to the nearest one and writes `generation_match: nearest`. Further away stays unmapped. A `--remap` mode refreshes only the seed ids from the existing picks file, so the sheet is not needed after seed changes.
+**Decision:** `import_menno_sheet.py` maps a year at most one year outside every generation of the model to the nearest one and lists those rows when it runs (the EditorialPick schema has no field for it; WS0 may add one). Further away stays unmapped. A `--remap` mode refreshes only the seed ids from the existing picks file, so the sheet is not needed after seed changes.
 
-**Consequences:** Seed years stay evidence-based; the picks file shows which rows were matched by proximity.
+**Consequences:** Seed years stay evidence-based; the importer output and models.yaml notes (Elroq, Scenic) show which rows were matched by proximity.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

@@ -977,7 +977,6 @@ primary_car_picks:
   variant: Elroq 85
   seed_model_id: skoda-elroq
   seed_generation_id: skoda-elroq-gen1
-  generation_match: nearest
   in_seed: true
   evdb_car_id: 3033
   tier: null
@@ -1013,7 +1012,6 @@ primary_car_picks:
   variant: EV87 220hp
   seed_model_id: renault-scenic-e-tech
   seed_generation_id: renault-scenic-e-tech-gen1
-  generation_match: nearest
   in_seed: true
   evdb_car_id: 2069
   tier: null
@@ -1828,7 +1826,6 @@ eras:
   model: e-308
   seed_model_id: peugeot-e-308
   seed_generation_id: peugeot-e-308-gen1
-  generation_match: nearest
   in_seed: true
   battery_options_kwh:
   - 50.0
@@ -1881,7 +1878,6 @@ eras:
   model: e-308 SW
   seed_model_id: peugeot-e-308
   seed_generation_id: peugeot-e-308-gen1
-  generation_match: nearest
   in_seed: true
   battery_options_kwh:
   - 50.0
@@ -1960,7 +1956,6 @@ eras:
   model: '#3'
   seed_model_id: smart-3
   seed_generation_id: smart-3-gen1
-  generation_match: nearest
   in_seed: true
   battery_options_kwh:
   - 60.0
@@ -1974,7 +1969,6 @@ eras:
   model: Scenic
   seed_model_id: renault-scenic-e-tech
   seed_generation_id: renault-scenic-e-tech-gen1
-  generation_match: nearest
   in_seed: true
   battery_options_kwh:
   - 60.0

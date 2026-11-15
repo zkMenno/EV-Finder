@@ -199,8 +199,10 @@ GENS = seed_generations()
 
 # Decision 058: a sheet year one year before or after every seed generation of the model
 # (his reveal or order year vs our registration-based span, e.g. Elroq 2024 vs 2025) maps to
-# the nearest generation, marked `generation_match: nearest`. Further away stays unmapped.
+# the nearest generation (listed on stdout; the picks schema has no field for it yet). Further
+# away stays unmapped.
 NEAREST_YEARS = 1
+NEAREST: list[str] = []
 
 
 def pick_generation_noted(model_id: str | None, year: int | None) -> tuple[str | None, str | None]:
@@ -256,10 +258,11 @@ def entry_ids(make: str, model: str, year: int | None) -> dict:
     model_id = MODEL_MAP.get(key, "UNMAPPED")
     mid = None if model_id == "UNMAPPED" else model_id
     gen, how = pick_generation_noted(mid, year)
+    if how:  # schema EditorialPick has no field for this yet (asked WS0); report on stdout only
+        NEAREST.append(f"{make} {model} {year} -> {gen}")
     return {
         "seed_model_id": mid,
         "seed_generation_id": gen,
-        **({"generation_match": how} if how else {}),
         "in_seed": model_id not in (None, "UNMAPPED"),
         **({"mapping": "unmapped"} if model_id == "UNMAPPED" else {}),
     }
@@ -462,7 +465,7 @@ def remap(path: Path) -> None:
     left = sorted(
         {f"{e['make']} {e['model']}" for rows in sections.values() for e in rows if not e["in_seed"]}
     )
-    print(f"remapped {path}; not in seed: {left or 'none'}")
+    print(f"remapped {path}; not in seed: {left or 'none'}; nearest-year matches: {sorted(set(NEAREST)) or 'none'}")
 
 
 def main() -> None:
