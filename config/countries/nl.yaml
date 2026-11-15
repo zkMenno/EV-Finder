@@ -13,6 +13,10 @@
 #   priority      lower = shown first
 #   verified      true only after a manual check of the live site
 # Loaded at build time by apps/web/scripts/listings.mjs.
+# T-041 (WS3, 2026-11-15): patterns checked against the sites' own URLs as they appear in search
+# engine indexes (no site was fetched: "See listings" links are opened by people, never by us)
+# and, for La Centrale, Menno's own saved searches (data/editorial, July 2025). `verified` stays
+# false until a person taps the link once (checklist: workstreams/WS3/T-041-checklist.md).
 
 country: nl
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
@@ -23,6 +27,9 @@ default_language: nl
 listings:
   - site: autoscout24-nl
     label: AutoScout24
+    # evidence: indexed URL https://www.autoscout24.nl/lst/tesla/model-3 (make/model slugs in the
+    # path; build year as /re_2023). Our model slugs can differ from theirs (slug_overrides).
+    # `fuel=E` is the AutoScout24 electric parameter used on all its country sites (unchecked here).
     url_template: "https://www.autoscout24.nl/lst/{make}/{model}"
     filters:
       electric: { fuel: E }
@@ -30,12 +37,15 @@ listings:
     verified: false
   - site: marktplaats
     label: Marktplaats
-    url_template: "https://www.marktplaats.nl/q/{makeName}+{modelName}/"
+    # evidence: indexed URL https://www.marktplaats.nl/l/auto-s/q/Tesla%20Model%203%202023/ :
+    # free-text query inside the "Auto's" category (was /q/ without category = all of Marktplaats).
+    url_template: "https://www.marktplaats.nl/l/auto-s/q/{makeName}+{modelName}/"
     filters: {}
     priority: 2
     verified: false
   - site: gaspedaal
     label: Gaspedaal
+    # evidence: none found in search indexes on 2026-11-15; pattern still a guess.
     url_template: "https://www.gaspedaal.nl/{make}/{model}/elektrisch"
     filters: {}
     priority: 3
