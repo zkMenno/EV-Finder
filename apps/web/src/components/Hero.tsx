@@ -201,6 +201,8 @@ export function Hero(props: HeroProps) {
   const [hero, setHero] = useState<HeroState>(props.initial);
   const [rows, setRows] = useState<ExploreRow[] | null>(null);
   const [copied, setCopied] = useState(false);
+  // The loan settings box renders only when opened (one LoanBox per page until then).
+  const [loanOpen, setLoanOpen] = useState(false);
   const [dirty, setDirty] = useState(false);
   const lastUrl = useRef(heroToSearchParams(props.initial).toString());
   const [loanSettings, setLoanSettings] = useLoanSettings();
@@ -394,9 +396,9 @@ export function Hero(props: HeroProps) {
               <p className="text-slate-700">{t("hero.monthly.noRate")}</p>
             )}
             {hero.budget !== null ? <LoanWarning t={t} /> : null}
-            <details className="mt-2">
+            <details className="mt-2" onToggle={(e) => setLoanOpen(e.currentTarget.open)}>
               <summary className="min-h-11 cursor-pointer py-2 text-blue-800 underline underline-offset-2">{t("hero.monthly.edit")}</summary>
-              <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={ui} price={hero.budget} />
+              {loanOpen ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={ui} price={hero.budget} /> : null}
             </details>
           </div>
           <Choice<Condition>
