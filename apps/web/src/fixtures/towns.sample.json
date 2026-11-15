@@ -1,0 +1,26 @@
+{
+  "status": "PROVISIONAL",
+  "label": "FIXTURE town list: approximate January / July mean temperatures typed in by hand, not from a source. Replace with GeoNames towns + climate normals (trip-fit spec section 7).",
+  "towns": [
+    { "id": "nl-amsterdam", "name": "Amsterdam", "country": "nl", "jan_c": 3.5, "jul_c": 17.5 },
+    { "id": "nl-rotterdam", "name": "Rotterdam", "country": "nl", "jan_c": 3.5, "jul_c": 17.5 },
+    { "id": "nl-groningen", "name": "Groningen", "country": "nl", "jan_c": 2, "jul_c": 17 },
+    { "id": "nl-eindhoven", "name": "Eindhoven", "country": "nl", "jan_c": 3, "jul_c": 18 },
+    { "id": "nl-maastricht", "name": "Maastricht", "country": "nl", "jan_c": 3, "jul_c": 18.5 },
+    { "id": "be-brussels", "name": "Brussels", "country": "be", "jan_c": 3.5, "jul_c": 18 },
+    { "id": "be-antwerp", "name": "Antwerp", "country": "be", "jan_c": 3, "jul_c": 18 },
+    { "id": "be-liege", "name": "Liège", "country": "be", "jan_c": 2.5, "jul_c": 18 },
+    { "id": "de-berlin", "name": "Berlin", "country": "de", "jan_c": 0.5, "jul_c": 19 },
+    { "id": "de-hamburg", "name": "Hamburg", "country": "de", "jan_c": 1.5, "jul_c": 17.5 },
+    { "id": "de-cologne", "name": "Cologne", "country": "de", "jan_c": 2.5, "jul_c": 18.5 },
+    { "id": "de-munich", "name": "Munich", "country": "de", "jan_c": -0.5, "jul_c": 18.5 },
+    { "id": "fr-paris", "name": "Paris", "country": "fr", "jan_c": 5, "jul_c": 20 },
+    { "id": "fr-lyon", "name": "Lyon", "country": "fr", "jan_c": 3.5, "jul_c": 21.5 },
+    { "id": "fr-strasbourg", "name": "Strasbourg", "country": "fr", "jan_c": 1.5, "jul_c": 19.5 },
+    { "id": "fr-bordeaux", "name": "Bordeaux", "country": "fr", "jan_c": 6.5, "jul_c": 21.5 },
+    { "id": "uk-london", "name": "London", "country": "uk", "jan_c": 5, "jul_c": 19 },
+    { "id": "uk-manchester", "name": "Manchester", "country": "uk", "jan_c": 4.5, "jul_c": 16.5 },
+    { "id": "uk-edinburgh", "name": "Edinburgh", "country": "uk", "jan_c": 3.5, "jul_c": 15 },
+    { "id": "uk-cardiff", "name": "Cardiff", "country": "uk", "jan_c": 5, "jul_c": 16.5 }
+  ]
+}

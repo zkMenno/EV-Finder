@@ -43,6 +43,11 @@ export interface ExploreFilters {
   chemistries: string[];
   coolings: string[];
   charge100: boolean;
+  /**
+   * Trip fit (T-036): only cars that do my trips in winter. The trip itself stays in the browser
+   * (TRIP_KEY); the URL carries only this on/off flag, never a place. Ignored without a trip.
+   */
+  tripFit: boolean;
 }
 
 export interface ExploreState {
@@ -83,7 +88,7 @@ const NUM_PARAM: Record<NumericFilter, string> = {
 
 const ID_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const LIST_PARAM = { voltageClasses: "volt", chemistries: "chem", coolings: "cool" } as const;
-const FLAG_PARAM = { fast400: "fast400", charge100: "c100" } as const;
+const FLAG_PARAM = { fast400: "fast400", charge100: "c100", tripFit: "trip" } as const;
 type ListFilter = keyof typeof LIST_PARAM;
 type FlagFilter = keyof typeof FLAG_PARAM;
 
@@ -113,6 +118,7 @@ export function defaultFilters(): ExploreFilters {
     chemistries: [],
     coolings: [],
     charge100: false,
+    tripFit: false,
   };
 }
 
@@ -244,7 +250,8 @@ export function activeFilterCount(f: ExploreFilters): number {
     (f.chemistries.length ? 1 : 0) +
     (f.coolings.length ? 1 : 0) +
     (f.fast400 ? 1 : 0) +
-    (f.charge100 ? 1 : 0)
+    (f.charge100 ? 1 : 0) +
+    (f.tripFit ? 1 : 0)
   );
 }
 
@@ -284,3 +291,5 @@ export function nextSort(state: ExploreState, key: SortKey): ExploreState {
 
 export const VIEW_KEY = "ev-finder:view:v1";
 export const LEVEL_KEY = "ev-finder:level:v1";
+/** Trip fit answers (src/lib/trip-settings.ts): browser only, a town id at most, never coordinates. */
+export const TRIP_KEY = "ev-finder:trip:v1";

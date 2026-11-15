@@ -2,6 +2,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ChargingLinks } from "@/components/ChargingLinks";
+import { abrpLink, chargingLinks } from "@/lib/charging-links";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PriceBand } from "@/components/PriceBand";
 import { SeeListings } from "@/components/SeeListings";
@@ -162,6 +164,7 @@ export default async function VariantPage({ params }: Props) {
           </ul>
         </section>
       ) : null}
+      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true })} abrp={abrpLink()} t={t} />
     </>
   );
 }

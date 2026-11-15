@@ -235,6 +235,16 @@ No answer needed from Menno unless you disagree; the coordinator may log these i
 
 **Answer:**
 
+### Q-055 · Trip fit quick check runs on a hand-set fixture matrix · T-036 · builder · 2026-11-15
+The quick check (behind `TRIP_FIT=1`, off by default) needs consumption multipliers per body × road band × temperature band. T-033's matrix isn't in the release yet, so `apps/web/src/fixtures/consumption-matrix.sample.json` holds hand-set values shaped after the spec's research table (≈ 0.85× WLTP in summer town driving up to ≈ 1.8× on a cold motorway), plus rough towing (×1.6) and roof-box (×1.15) factors and 1.5–2.5 kWh warm-up per cold start. Town temperatures in `towns.sample.json` are typed from memory, not sourced. Both files say PROVISIONAL, every result shows "estimate · fixture matrix", and nothing is published. Other defaults: used = `year_end` before this year → 90% battery health ("keep 8+ years" → 85%); daily start 80% (100% where `charge_100_daily`); 10% arrival buffer; "a stop, about N min" is not shown yet (no winter DC data), only "short by about N km"; car role, long trips and charging place are stored but change nothing until the Fit score (Core 2), and the card says so. **Default:** keep the flag off in production until T-033 replaces the matrix and the towns come from GeoNames + climate normals. OK?
+
+**Answer:**
+
+### Q-056 · UTM tag on official (government) charging links · T-026 · builder · 2026-11-15
+T-024 put `charging_links` in `config/countries/<cc>.yaml` (job ids from `CountryChargingLink.job`); the web app reads, validates (`apps/web/scripts/charging-links.mjs`) and renders them. The spec's Link rules say "plain URLs plus our UTM tag" with no exception for government sites, so every link, the Bundesnetzagentur map included, gets `utm_source=evfinder&utm_medium=referral&utm_campaign=charging_links` unless its row sets `utm: false`. `official: true` drops `nofollow` (third parties keep `nofollow noopener`). Model pages drop ABRP from the block and show a plain ABRP line instead (no car pre-selection until T-029). **Default:** as described. Should official sites go without UTM (set `utm: false` on those rows)?
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15

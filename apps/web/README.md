@@ -27,16 +27,20 @@ The app reads the published catalogue release `../../data/releases/<n>/catalogue
 
 The browser gets a compact copy for Explore at `/data/catalogue-<release>.json` (cached as immutable) or `/data/catalogue-dev.json` (fixture, no-cache).
 
+"Find a charger / plan a trip" links come from `charging_links` in the same country files (`pnpm charging-links` → `src/config/charging-links.generated.json`); none configured yet means no block.
+
 "See listings" deep links come from `config/countries/<country>.yaml` at the repo root: public search URLs only (Decision 004), all unverified. `pnpm listings` validates them and writes `src/config/listings.generated.json`, which the server imports (no YAML parser at runtime). Commit the regenerated JSON; a unit test fails when it is stale.
 
 ## Environment
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `APP_NAME` | `EV Finder` | Brand name (still open) |
+| `APP_NAME` | `EV Shortlist` | Brand name (working title, Decision 018) |
 | `CATALOGUE_DIR` | `../../data/releases` | Releases directory |
 | `STAFF_PAGES` | off | `1` turns on `/staff/review`; otherwise it is a 404 |
 | `REVIEW_DIR` | `../../data/review` | Folder with the pipeline's review CSVs (staff page) |
+| `TRIP_FIT` | off | `1` shows the trip fit quick check on Explore ("Find cars for my trips"); otherwise no trip UI |
+| `CHARGING_LINKS_FILE` | unset | Tests only: JSON file replacing the charging link-out config |
 
 ## Routes
 

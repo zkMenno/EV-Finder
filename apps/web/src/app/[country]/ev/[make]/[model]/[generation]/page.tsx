@@ -3,6 +3,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ChargingLinks } from "@/components/ChargingLinks";
+import { abrpLink, chargingLinks } from "@/lib/charging-links";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Missing, Num } from "@/components/Num";
 import { PriceBand } from "@/components/PriceBand";
@@ -187,6 +189,7 @@ export default async function GenerationPage({ params }: Props) {
           }))}
         />
       </section>
+      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true })} abrp={abrpLink()} t={t} />
     </>
   );
 }

@@ -7,10 +7,9 @@ import fr from "./fr.json";
 import it from "./it.json";
 import nl from "./nl.json";
 
-export type MsgKey = keyof typeof en;
-export type Dict = Record<MsgKey, string>;
-export type Vars = Record<string, string | number>;
-export type T = (key: MsgKey, vars?: Vars) => string;
+import { makeT, type Dict, type MsgKey, type T } from "./t";
+
+export { interpolate, makeT, type Dict, type MsgKey, type T, type Vars } from "./t";
 
 const PARTIAL: Record<Lang, Partial<Record<string, string>>> = { en, nl, de, fr, es, it };
 
@@ -34,7 +33,7 @@ export function getDict(lang: Lang): Dict {
  * They are left out of the dictionary handed to client components (Explore, CompareTray), so the
  * page payload doesn't grow with every server page. A client component must not use these keys.
  */
-export const SERVER_ONLY_PREFIXES = ["about.", "crumb.", "model.", "gen.", "listings.", "reg.", "variant.", "field.", "drivetrain.", "top.", "staff."] as const;
+export const SERVER_ONLY_PREFIXES = ["about.", "crumb.", "model.", "gen.", "listings.", "reg.", "variant.", "field.", "drivetrain.", "top.", "staff.", "charging."] as const;
 
 const clientDicts = new Map<Lang, Dict>();
 
@@ -48,15 +47,6 @@ export function getClientDict(lang: Lang): Dict {
     clientDicts.set(lang, d);
   }
   return d;
-}
-
-export function interpolate(s: string, vars?: Vars): string {
-  if (!vars) return s;
-  return s.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
-}
-
-export function makeT(dict: Dict): T {
-  return (key, vars) => interpolate(dict[key] ?? key, vars);
 }
 
 /** For keys built at runtime (e.g. `field.${key}`): true when the English dictionary has it. */

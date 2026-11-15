@@ -2,9 +2,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ChargingLinks } from "@/components/ChargingLinks";
 import { isCountrySlug } from "@/config/countries";
 import { getT } from "@/i18n";
 import { getCatalogue } from "@/lib/catalogue";
+import { chargingLinks } from "@/lib/charging-links";
 import { requestLang } from "@/lib/request-lang";
 import { loc } from "@/lib/taxonomy";
 
@@ -69,6 +71,7 @@ export default async function LearnPage({ params }: Props) {
           </ul>
         </section>
       ) : null}
+      <ChargingLinks links={chargingLinks(country)} t={t} />
     </article>
   );
 }

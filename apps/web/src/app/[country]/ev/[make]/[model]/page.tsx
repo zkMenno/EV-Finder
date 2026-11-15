@@ -2,6 +2,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ChargingLinks } from "@/components/ChargingLinks";
+import { abrpLink, chargingLinks } from "@/lib/charging-links";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Num } from "@/components/Num";
 import { TermInfo } from "@/components/Term";
@@ -86,6 +88,7 @@ export default async function ModelPage({ params }: Props) {
           );
         })}
       </ul>
+      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true })} abrp={abrpLink()} t={t} />
     </>
   );
 }

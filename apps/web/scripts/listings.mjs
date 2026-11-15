@@ -32,7 +32,8 @@ export function validateCountry(country, doc) {
   const fail = (m) => errors.push(`${country}: ${m}`);
   if (!isObj(doc)) throw new Error(`${country}: file must be a mapping`);
   if (doc.country !== country) fail(`country must be "${country}"`);
-  for (const k of Object.keys(doc)) if (k !== "country" && k !== "listings") fail(`unknown top-level key "${k}"`);
+  // `charging_links` (T-024/T-026) is validated by scripts/charging-links.mjs.
+  for (const k of Object.keys(doc)) if (k !== "country" && k !== "listings" && k !== "charging_links") fail(`unknown top-level key "${k}"`);
   if (!Array.isArray(doc.listings)) fail("listings must be a list");
   const seen = new Set();
   const sites = [];

@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { generationHref, variantHref } from "@/app/[country]/ev/_lib/routes";
 import type { CountrySlug, Lang } from "@/config/countries";
-import { makeT, type Dict, type MsgKey, type T } from "@/i18n";
+import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
 import { hasDcData } from "@/lib/dc";
 import type { ClientCatalogue, ExploreRow } from "@/lib/explore-data";
@@ -32,6 +32,7 @@ import {
   type Level,
   type NumericFilter,
   type SortKey,
+  TRIP_KEY,
   type View,
 } from "@/lib/state";
 import { readStorage, writeStorage } from "@/lib/storage";
@@ -43,6 +44,14 @@ import { PriceBand } from "./PriceBand";
 import { QualityBadge } from "./QualityBadge";
 import { InfoTip, TermInfo, TermLabel, type TermText } from "./Term";
 import { usePopover } from "./use-popover";
+// Type only: the trip module itself is loaded with import() on demand (T-036, JS budget).
+import type * as TripModuleNs from "./trip/TripModule";
+
+type TripModule = typeof TripModuleNs;
+type CarFit = TripModuleNs.CarFit;
+type TripSettings = TripModuleNs.TripSettings;
+
+const loadTripModule = (): Promise<TripModule> => import("./trip/TripModule");
 
 const PAGE = 50;
 
@@ -63,6 +72,8 @@ export interface ExploreProps {
   taxonomy: UiTaxonomy;
   /** Release date (YYYY-MM-DD), shown with sources at nerd level. */
   asOf: string;
+  /** TRIP_FIT=1 (server env): shows the trip fit quick check. Off → no trip UI at all. */
+  tripFit?: boolean;
 }
 
 interface Ctx {
@@ -83,6 +94,8 @@ interface Ctx {
    * name link, heart and compare; provenance via the variant page or the Nerd "sources" button).
    */
   inTable?: boolean;
+  /** Trip fit verdicts (T-036) once the user entered a trip; drives the "Your trips" column. */
+  trip?: { mod: TripModule; fits: Map<string, CarFit>; ui: TripModuleNs.TripUi };
 }
 
 export function Explore(props: ExploreProps) {
@@ -96,6 +109,17 @@ export function Explore(props: ExploreProps) {
   // True once the user changed anything: from then on counts come from the (partial or full) client list.
   const [dirty, setDirty] = useState(false);
   const lastUrl = useRef(toSearchParams(props.initialState).toString());
+  // Trip fit (T-036): module loaded on demand, answers from localStorage only.
+  const [tripMod, setTripMod] = useState<TripModule | null>(null);
+  const [tripSettings, setTripSettings] = useState<TripSettings | null>(null);
+  const [tripOpen, setTripOpen] = useState(false);
+  const tripFit = props.tripFit === true;
+
+  const tripRows = all ?? props.initialRows;
+  const fits = useMemo(
+    () => (tripMod && tripFit ? tripMod.computeFits(tripRows, tripSettings, props.country) : null),
+    [tripMod, tripFit, tripRows, tripSettings, props.country],
+  );
 
   const ctx: Ctx = useMemo(
     () => ({
@@ -115,9 +139,49 @@ export function Explore(props: ExploreProps) {
       termText: { about: t("term.about"), learnMore: t("term.learnMore") },
       level: state.level,
       asOf: props.asOf,
+      trip: tripMod && fits ? { mod: tripMod, fits, ui: { t, level: state.level, locale, labels: numLabels(t), country: props.country } } : undefined,
     }),
-    [t, locale, sources, props.code, props.currency, props.country, props.taxonomy, state.level, props.asOf],
+    [t, locale, sources, props.code, props.currency, props.country, props.taxonomy, state.level, props.asOf, tripMod, fits],
   );
+
+  const openTrip = () => {
+    setTripOpen(true);
+    if (tripMod) return;
+    loadTripModule()
+      .then((m) => {
+        setTripMod(m);
+        setTripSettings(m.loadTripSettings() ?? m.normalizeTripSettings(null));
+      })
+      .catch(() => setTripOpen(false));
+  };
+
+  // A trip saved earlier: load the module after first paint so the column comes back.
+  useEffect(() => {
+    if (!tripFit || !readStorage(TRIP_KEY)) return;
+    let live = true;
+    loadTripModule()
+      .then((m) => {
+        if (!live) return;
+        setTripMod(m);
+        setTripSettings(m.loadTripSettings());
+      })
+      .catch(() => {
+        /* no trip column; Explore works as before */
+      });
+    return () => {
+      live = false;
+    };
+  }, [tripFit]);
+
+  const changeTrip = (next: TripSettings) => {
+    setTripSettings(next);
+    tripMod?.saveTripSettings(next);
+  };
+  const clearTrip = () => {
+    tripMod?.clearTripSettings();
+    setTripSettings(tripMod ? tripMod.normalizeTripSettings(null) : null);
+    if (state.filters.tripFit) update({ ...state, filters: { ...state.filters, tripFit: false } });
+  };
 
   // Full list, fetched from our own origin after first paint.
   useEffect(() => {
@@ -186,8 +250,14 @@ export function Explore(props: ExploreProps) {
   const matches = useMemo(() => {
     if (!all && !dirty) return props.initialRows;
     const base = all ?? props.initialRows;
-    return sortRows(applyFilters(base, state.filters, props.code), state.sort, state.dir, props.code);
-  }, [all, dirty, state.filters, state.sort, state.dir, props.code, props.initialRows]);
+    let out = applyFilters(base, state.filters, props.code);
+    // "Does my trips in winter": keeps ✓ and ⚠; only with a trip entered (the URL flag alone does nothing).
+    if (state.filters.tripFit && fits) out = out.filter((r) => {
+      const v = fits.get(r.variant_id)?.verdict;
+      return v === "ok" || v === "tight";
+    });
+    return sortRows(out, state.sort, state.dir, props.code);
+  }, [all, dirty, state.filters, state.sort, state.dir, props.code, props.initialRows, fits]);
 
   const matchCount = all || dirty ? matches.length : props.initialMatches;
   const rows = matches.slice(0, limit);
@@ -221,6 +291,32 @@ export function Explore(props: ExploreProps) {
           </div>
         </div>
 
+        {tripFit ? (
+          <TripBar
+            ctx={ctx}
+            open={tripOpen}
+            settings={tripSettings}
+            mod={tripMod}
+            filterOn={state.filters.tripFit}
+            onOpen={openTrip}
+            onFilter={(on) => setFilter({ tripFit: on })}
+          />
+        ) : null}
+        {tripFit && tripOpen ? (
+          tripMod && tripSettings ? (
+            <tripMod.TripPanel
+              settings={tripSettings}
+              onChange={changeTrip}
+              onClose={() => setTripOpen(false)}
+              onClear={clearTrip}
+              fits={fits}
+              ui={{ t, level: state.level, locale, labels: ctx.labels, country: props.country }}
+            />
+          ) : (
+            <p className="mb-4 text-sm text-slate-700">{t("trip.loading")}</p>
+          )
+        ) : null}
+
         {rows.length === 0 ? (
           <p className="rounded-md border border-dashed border-slate-400 p-6 text-center text-slate-800">{t("explore.noResults")}</p>
         ) : state.view === "table" ? (
@@ -246,6 +342,60 @@ export function Explore(props: ExploreProps) {
           </div>
         ) : null}
       </section>
+    </div>
+  );
+}
+
+/* ---------- trip fit entry point (T-036) ---------- */
+
+function TripBar({
+  ctx,
+  open,
+  settings,
+  mod,
+  filterOn,
+  onOpen,
+  onFilter,
+}: {
+  ctx: Ctx;
+  open: boolean;
+  settings: TripSettings | null;
+  mod: TripModule | null;
+  filterOn: boolean;
+  onOpen: () => void;
+  onFilter: (on: boolean) => void;
+}) {
+  const { t } = ctx;
+  const has = !!mod && mod.hasTrip(settings);
+  return (
+    <div className="mb-3 flex flex-wrap items-center gap-3" data-testid="trip-bar">
+      {has ? (
+        <>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-expanded={open}
+            className="inline-flex min-h-9 items-center gap-1 rounded-full border border-blue-800 bg-blue-50 px-3 text-sm font-medium text-blue-900 hover:bg-blue-100"
+            data-testid="trip-chip"
+          >
+            {t("trip.chip", { km: settings!.roundTripKm! })} <span className="underline underline-offset-2">{t("trip.edit")}</span>
+          </button>
+          <label htmlFor="f-trip" className="flex items-center gap-2 text-sm font-medium">
+            <input id="f-trip" type="checkbox" checked={filterOn} onChange={(e) => onFilter(e.target.checked)} className="h-4 w-4 accent-blue-800" />
+            {t("trip.filter")}
+          </label>
+        </>
+      ) : (
+        <button
+          type="button"
+          onClick={onOpen}
+          aria-expanded={open}
+          className="min-h-9 rounded-md border border-blue-800 px-3 text-sm font-semibold text-blue-900 hover:bg-blue-50"
+          data-testid="trip-open"
+        >
+          {t("trip.open")}
+        </button>
+      )}
     </div>
   );
 }
@@ -651,6 +801,7 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
   const ctx = useMemo(() => ({ ...outer, inTable: true }), [outer]);
   const { t, level } = ctx;
   const cols = COLS.filter((c) => c.levels.includes(level));
+  const trip = ctx.trip;
   return (
     <div className="max-h-[75vh] overflow-auto rounded-lg border border-slate-300" tabIndex={0} aria-labelledby="results-heading">
       <table className="w-max min-w-full border-collapse text-sm" data-testid="explore-table">
@@ -689,11 +840,24 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
                 </th>
               );
             })}
+            {trip ? (
+              <th scope="col" className="sticky top-0 z-20 min-w-36 border-b border-slate-300 bg-slate-100 px-3 py-2 text-left align-bottom font-semibold" data-testid="trip-col">
+                {t("trip.col")}
+              </th>
+            ) : null}
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
-            <tr key={r.variant_id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50" data-testid="explore-row">
+          {rows.map((r) => {
+            const fit = trip?.fits.get(r.variant_id);
+            const grey = fit?.verdict === "fail";
+            return (
+            <tr
+              key={r.variant_id}
+              className={`border-b border-slate-200 last:border-0 hover:bg-slate-50 ${grey ? "text-slate-600 [&>td]:opacity-70" : ""}`}
+              data-testid="explore-row"
+              data-trip={fit?.verdict}
+            >
               <th scope="row" className="sticky left-0 z-10 bg-white px-3 py-2 text-left font-medium">
                 <div className="flex items-center gap-2">
                   <RowActions row={r} t={t} />
@@ -716,8 +880,14 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
                   {col.cell(r, ctx)}
                 </td>
               ))}
+              {trip ? (
+                <td className="px-3 py-2">
+                  <trip.mod.TripCell fit={fit} ui={trip.ui} />
+                </td>
+              ) : null}
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
     </div>
@@ -799,7 +969,11 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
   const term = (id: string, fallback: MsgKey) => c.tax.terms[id]?.label ?? t(fallback);
   const more = level !== "simple";
   return (
-    <li className="flex flex-col gap-3 rounded-lg border border-slate-300 bg-white p-4" data-testid="explore-card">
+    <li
+      className={`flex flex-col gap-3 rounded-lg border border-slate-300 bg-white p-4 ${c.trip?.fits.get(r.variant_id)?.verdict === "fail" ? "opacity-70" : ""}`}
+      data-testid="explore-card"
+      data-trip={c.trip?.fits.get(r.variant_id)?.verdict}
+    >
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="font-semibold">
@@ -813,6 +987,12 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
         </div>
         <QualityBadge tier={r.quality_tier} label={t(`tier.${r.quality_tier}`)} help={t(`tier.${r.quality_tier}.help`)} />
       </div>
+      {c.trip ? (
+        <div className="text-sm">
+          <span className="text-xs text-slate-700">{t("trip.col")}</span>
+          <c.trip.mod.TripCell fit={c.trip.fits.get(r.variant_id)} ui={c.trip.ui} inTable={false} />
+        </div>
+      ) : null}
       <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
         {item(term("real-range", "col.range"), num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c)))}
         {item(`${term("dc-km-20min", "col.dc")} (${t("col.dc20.unit")})`, num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0))}

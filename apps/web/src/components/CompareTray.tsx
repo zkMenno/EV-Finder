@@ -3,7 +3,7 @@
 // localStorage (compare-store), so it survives navigation and reloads.
 import Link from "next/link";
 import { useMemo } from "react";
-import { makeT, type Dict } from "@/i18n";
+import { makeT, type Dict } from "@/i18n/t";
 import { COMPARE_MAX, compareHref, compareStore } from "@/lib/compare-store";
 import { useListStore } from "@/lib/use-list-store";
 

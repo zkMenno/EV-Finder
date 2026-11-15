@@ -19,6 +19,12 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
     // Deterministic data: a releases dir with no release → the app serves the dev fixture.
-    env: { CATALOGUE_DIR: process.env.E2E_CATALOGUE_DIR ?? "e2e/no-release" },
+    // TRIP_FIT=1 so e2e/trip.spec.ts can test the trip check (E2E_TRIP_FIT=0 to run with it off);
+    // charging link-outs come from a fixture until T-024 fills config/countries (T-026).
+    env: {
+      CATALOGUE_DIR: process.env.E2E_CATALOGUE_DIR ?? "e2e/no-release",
+      TRIP_FIT: process.env.E2E_TRIP_FIT ?? "1",
+      CHARGING_LINKS_FILE: process.env.E2E_CHARGING_LINKS_FILE ?? "e2e/fixtures/charging-links.json",
+    },
   },
 });

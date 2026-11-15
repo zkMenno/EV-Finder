@@ -19,6 +19,9 @@ export const EXPLORE_FIELDS = [
   "real_range_km",
   "real_range_rung",
   "battery_kwh_net",
+  // Trip fit (T-036): WLTP battery consumption = usable kWh / WLTP km (fallback: published consumption).
+  "wltp_range_km",
+  "consumption_kwh_100km",
   "dc_km_per_20min",
   "dc_km_per_10min",
   "dc_peak_kw",
@@ -52,6 +55,8 @@ export const EXPLORE_FIELDS = [
 const NUMERIC = new Set<string>([
   "real_range_km",
   "battery_kwh_net",
+  // wltp_range_km / consumption_kwh_100km ship without provenance: Explore never shows them, they
+  // only feed the trip estimate, which carries its own "fixture matrix" provenance (T-036).
   "dc_km_per_20min",
   "dc_km_per_10min",
   "dc_peak_kw",
