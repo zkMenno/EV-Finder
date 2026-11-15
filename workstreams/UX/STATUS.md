@@ -1,7 +1,7 @@
 # UX status
 
-- **State:** active in its own claude.ai chat (no repo access yet)
-- **Now:** design system v1 done; car and compare page mockups next
-- **Next:** mirror to docs/design/, range-as-route brief to WS2
-- **Blocked:** repo access
-- **Last updated:** 2026-11-15 by WS0 (from claude/brand-design-decisions.md)
+- **State:** active (repo attached)
+- **Now:** design system v2 "EV Shortlist" published and mirrored to docs/design/
+- **Next:** variant finder designs (Decision 019: differences-only highlight, change timeline, ad clue box), then car page + Compare + Shortlist page mockups
+- **Blocked:** nothing; final logo waits for the final name
+- **Last updated:** 2026-11-15 by UX

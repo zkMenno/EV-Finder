@@ -1,0 +1,6 @@
+<!-- @dsCard group="Forms" height=250 -->
+<div class="evs" style="padding:16px;display:grid;gap:20px;max-width:420px">
+<div class="evs-field"><label class="evs-label" for="town">Your town</label><input class="evs-input" id="town" placeholder="Utrecht" aria-describedby="town-h"><span class="evs-hint" id="town-h">We draw the range map from here. Nothing is stored.</span></div>
+<div class="evs-field"><label class="evs-label" for="bud">Budget up to <output id="bo">€20,000</output></label><input class="evs-range" type="range" id="bud" min="5000" max="60000" step="500" value="20000"></div>
+<div class="evs-field"><label class="evs-label" for="t2">Town</label><input class="evs-input" id="t2" value="Utrect" aria-invalid="true" style="border-color:var(--danger)"><span class="evs-error"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg> We couldn't find that town. Try a nearby city.</span></div>
+</div><script>const r=document.getElementById('bud'),o=document.getElementById('bo');r.addEventListener('input',()=>{o.textContent='€'+Number(r.value).toLocaleString('en-GB')});</script>
