@@ -60,7 +60,7 @@ from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.qa.pack_guard import fill_winning_values, guard_usable_vs_pack
-from ev_pipeline.qa.value_guard import guard_impossible, guard_needs_backing
+from ev_pipeline.qa.value_guard import guard_impossible, guard_mixups, guard_needs_backing
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
 from ev_pipeline.release.charging_stats import build_charging_stats
@@ -322,6 +322,8 @@ def build_release(
     )
     merged = {vid: merge_variant_facts(fs, policies) for vid, fs in by_variant.items()}
     # A-05 F9 / F7: unbacked values and impossible pairs go to review, not into rows.
+    # Field mix-ups first (ac_kw that is really the battery kWh), so later guards see clean values.
+    pack_conflicts += guard_mixups(merged, by_variant, policies)
     pack_conflicts += guard_needs_backing(merged, by_variant, policies)
     pack_conflicts += guard_impossible(merged, by_variant, policies)
     fill_winning_values(pack_conflicts, merged)

@@ -426,4 +426,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Mach-E GT 82 → 88 kWh net, 98.7 gross; Mach-E SR 70 → 68 net. No cited value loses anywhere in the release.
 
+## Decision 029: A value equal to another field of the same car is a mix-up and goes to review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** KilowattApp put battery sizes in the AC charging field (Zoe R240 "23.3 kW", e-Golf 36 kWh "32 kW").
+
+**Decision:**
+- A field can list `mixup_with` fields in `data/field_sources.yaml` (today `ac_kw` → battery net and gross). A fact within 0.5 of one of them, on the same row or in the same source record, goes to conflicts.csv as a field mix-up and the field is merged again without it, unless the fact is cited or backed by another independent origin.
+- Official manufacturer documents hosted on third-party sites may be cited at medium confidence when they name the exact version, low when they name only trims.
+
+**Consequences:** Zoe Q90 43 kW, R110 22 kW, R240 22 kW, e-Golf 36 kWh 7.2 kW. Zoe Q210 and R90 still show 11 kW until a source names those motors (low-confidence citations can't win).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

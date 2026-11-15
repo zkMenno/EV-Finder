@@ -234,12 +234,20 @@ variants:
     drivetrain: fwd
     specs:
       battery_kwh_net: 22
-      ac_kw: 43
       power_kw: 65
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      ac_kw:
+        value: 43
+        source_url: https://www.rinnovabili.it/wp-content/uploads/2015/03/Listino-Cliente-ZOE.pdf
+        source_name: "Renault Italia, ZOE customer price list (Listino Prezzi del 05/02/2015), copy hosted by rinnovabili.it"
+        retrieved: 2026-11-15
+        locator: "Price table, column 'Potenza max in 30' kW': 43 for ZOE Life, Intens and Zen (65 kW / 88 CV)"
+        confidence: low
+        notes: "Low: the list names trims, not the Q210 motor, and is a third-party copy. In Feb 2015 the 65 kW motor was the only ZOE motor (R240 came in spring 2015). Consistent with the Renault UK brochure of 12 Apr 2016 (Dynamique Nav Rapid Charge: 'Adaptable for single or three-phase power from 3 - 43 kW') and the Alliance press release on the 2012 24-hour record ('fast-charged at 43 kW', alliance-renault-nissan.com/content/1618-km-24-hours-new-world-record-zoe). No source found that names Q210 with its AC power."
     notes: "Chameleon charger: up to 43 kW AC on 3-phase, no DC socket. NEDC 210 km; no WLTP figure. Battery often rented (battery lease)."
     confidence: low
   - generation_id: renault-zoe-ph1
@@ -249,12 +257,21 @@ variants:
     drivetrain: fwd
     specs:
       battery_kwh_net: 22
-      ac_kw: 22
       power_kw: 65
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      ac_kw:
+        value: 22
+        source_url: https://xr793.com/wp-content/uploads/2022/12/2016-Renault-Zoe-UK.pdf
+        source_name: "Renault UK, ZOE brochure and price list (7701 380 801, 12 April 2016), third-party copy"
+        retrieved: 2026-11-15
+        quote: "Chameleon™ Charger Adaptable for single or three-phase power from 3 - 22 kW"
+        locator: "Technical specifications, Charging row, Expression Nav and Dynamique Nav columns (the Rapid Charge column says 3 - 43 kW)"
+        confidence: low
+        notes: "Low: the brochure names trims, not the R240 motor (in the UK in 2016 the non-Rapid-Charge ZOE had the R240), and is a third-party copy. Renault Press (2016, Z.E. 40 launch): 'The R75/90 motor was previously known as the R240'; Renault UK's July 2017 press kit gives the 22 kWh Expression Nav R90 3 - 22 kW."
     notes: "R240 motor: longer range than Q210 but AC capped at 22 kW. NEDC 240 km."
     confidence: low
   - generation_id: renault-zoe-ph1
@@ -263,13 +280,20 @@ variants:
     years: [2017, 2019]
     drivetrain: fwd
     specs:
-      ac_kw: 43
       power_kw: 65
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
     cited:
+      ac_kw:
+        value: 43
+        source_url: https://www.press.renault.co.uk/assets/documents/original/10706-RenaultZOEPressKitJuly2017.pdf
+        source_name: "Renault UK Press, Renault ZOE Press Information, July 2017"
+        retrieved: 2026-11-15
+        quote: "A rapid charge version of the latest Z.E.40 is also available, which allows charging at 43kW and a 0-80% charge in one hour."
+        locator: "At a glance; technical specifications, column 'Dynamique Nav / Signature Nav Q90 Z.E. 40 Quick Charge option', Chameleon charger 3 - 43 kW, 43 kW charge point 65 mins (80%)"
+        confidence: medium
       battery_kwh_net:
         value: 41
         source_url: https://www.press.renault.co.uk/assets/documents/original/10706-RenaultZOEPressKitJuly2017.pdf
@@ -301,7 +325,7 @@ variants:
         quote: "The ZOE's new Z.E. 40 battery boasts 41kWh of useful energy"
         locator: "Z.E. 40 battery section; technical specifications table, On-board power (kWh) 41"
         confidence: medium
-    notes: "41 kWh, 22 kW AC, no DC. NEDC 400 km; Renault later quoted roughly 300 km WLTP. ac_kw 22 stays unchecked (2026-11-15): no Renault page found that states the R90's AC limit plainly; the July 2017 UK press kit lists 3-43 kW charge points and charge times only, and media.group.renault.com disallows robots."
+    notes: "41 kWh, 22 kW AC, no DC. NEDC 400 km; Renault later quoted roughly 300 km WLTP. ac_kw 22 stays unchecked (2026-11-15, re-checked): no Renault page found that states the R90's AC limit plainly. The July 2017 UK press kit's R90 Z.E. 40 column reads 'from 3 - 43 kW' but gives 1h40 (80%) at a 43 kW point, which fits a 22 kW limit, so it is not usable either way; Renault Press 2016 and 2018 releases give no charge power."
     confidence: low
   - generation_id: renault-zoe-ph1
     id: renault-zoe-ph1-r110
@@ -310,12 +334,21 @@ variants:
     drivetrain: fwd
     specs:
       battery_kwh_net: 41
-      ac_kw: 22
       power_kw: 80
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      ac_kw:
+        value: 22
+        source_url: https://projekt-renault.de/images/pdf/21204255_Technical_characteristics_ZOE_R110.pdf
+        source_name: "Renault Press, 'R110 MOTOR - Renault ZOE' technical characteristics (21204255), copy hosted by a Renault dealer (projekt-renault.de)"
+        retrieved: 2026-11-15
+        quote: "Charger Adaptable for single or three-phase power from 2 to 22 kW"
+        locator: "Charge section; same sheet: maximum power 80 (108) kW (hp), on-board power 41 kWh"
+        confidence: medium
+        notes: "Renault Press document (footer media.renault.com) on a dealer site; no copy found on a Renault domain."
     notes: "More powerful R110 motor, 41 kWh, 22 kW AC, no DC. Roughly 300 km WLTP."
     confidence: low
   - generation_id: renault-zoe-ph2

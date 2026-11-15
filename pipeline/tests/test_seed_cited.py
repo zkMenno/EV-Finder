@@ -158,3 +158,31 @@ def test_plain_i3_120ah_version_is_not_an_i3s_once_both_have_a_battery() -> None
     res = _run([I3_2018_120, _i3s_120ah()], _variants_with_cited())
     assert _placed(res, I3_2018_120) == {"bmw-i3-i01-120ah"}
     assert _placed(res, _i3s_120ah()) == {"bmw-i3-i01-i3s"}
+
+
+def test_cited_ac_kw_uses_the_zoe_q_motor_exception() -> None:
+    """43 kW AC is allowed only on the Zoe Q-motor rows, cited or not."""
+    v = _validator()
+    ac = {
+        "ac_kw": {
+            "value": 43,
+            "source_url": "https://example.org/kit.pdf",
+            "retrieved": date(2026, 11, 15),
+            "locator": "charging table",
+            "confidence": "medium",
+        }
+    }
+    day = date(2026, 11, 15)
+    assert v.validate_cited(ac, {}, "x", today=day, vid="renault-zoe-ph1-q90") == []
+    errs = v.validate_cited(ac, {}, "x", today=day, vid="renault-zoe-ph1-r90")
+    assert errs and "outside plausible range" in errs[0]
+
+
+def test_repo_seed_cites_zoe_phase1_ac_power() -> None:
+    data = yaml.safe_load((REPO / "data" / "seed" / "variants.yaml").read_text(encoding="utf-8"))
+    by_id = {v["id"]: v for v in data["variants"]}
+    want = {"q210": (43, "low"), "r240": (22, "low"), "q90": (43, "medium"), "r110": (22, "medium")}
+    for motor, (kw, conf) in want.items():
+        c = by_id[f"renault-zoe-ph1-{motor}"]["cited"]["ac_kw"]
+        assert (c["value"], c["confidence"]) == (kw, conf)
+        assert "ac_kw" not in by_id[f"renault-zoe-ph1-{motor}"]["specs"]

@@ -87,9 +87,12 @@ def is_num(x: Any) -> bool:
     return isinstance(x, (int, float)) and not isinstance(x, bool)
 
 
-def validate_cited(cited: Any, specs: Any, where: str, today: date | None = None) -> list[str]:
+def validate_cited(
+    cited: Any, specs: Any, where: str, today: date | None = None, vid: Any = None
+) -> list[str]:
     """`cited`: {field: {value, source_url (https), retrieved (date, not future), confidence,
-    quote and/or locator, optional source_name/notes}}. A field is cited or in specs, not both."""
+    quote and/or locator, optional source_name/notes}}. A field is cited or in specs, not both.
+    `vid` applies the same AC_EXCEPTIONS as `specs` (Zoe Q-motor 43 kW AC)."""
     if cited is None:
         return []
     if not isinstance(cited, dict) or not cited:
@@ -119,6 +122,8 @@ def validate_cited(cited: Any, specs: Any, where: str, today: date | None = None
             errors.append(f"{w}: value must be a number")
         else:
             lo, hi = SPEC_RANGES[k] or (0, float("inf"))
+            if k == "ac_kw" and vid in AC_EXCEPTIONS:
+                hi = AC_EXCEPTION_MAX
             if not lo <= val <= hi:
                 errors.append(f"{w}: value {val} outside plausible range {lo}-{hi}")
         url = c.get("source_url")
@@ -223,7 +228,7 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
                 elif g1 is not None:
                     errors.append(f"{where}: open end but generation ended {g1}")
 
-        errors += validate_cited(v.get("cited"), v.get("specs"), where)
+        errors += validate_cited(v.get("cited"), v.get("specs"), where, vid=vid)
 
         specs = v.get("specs")
         if not isinstance(specs, dict):

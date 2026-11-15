@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T04:55:30+00:00",
+ "generated_at": "2026-11-15T05:07:50+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -47,12 +47,12 @@
      "eea": 944,
      "fueleconomy": 171,
      "kba-fz10": 233,
-     "kilowatt-openev": 1112,
+     "kilowatt-openev": 1110,
      "model-estimate": 1655,
      "openev": 2481,
      "rdw": 1230,
      "rdw-tgk": 1059,
-     "seed-manual": 1834
+     "seed-manual": 1839
     },
     "errors": [],
     "error_count": 0
@@ -74,15 +74,14 @@
    "title": "Outliers and impossible values",
    "blocking": false,
    "status": "flag",
-   "summary": "0 impossible value(s), 33 outside P1-P99 (reference: this release)",
+   "summary": "0 impossible value(s), 32 outside P1-P99 (reference: this release)",
    "details": {
     "impossible_count": 0,
     "impossible_by_rule": {},
     "impossible": [],
-    "percentile_count": 33,
+    "percentile_count": 32,
     "percentile_by_field": {
      "ac_km_per_h": 2,
-     "ac_kw": 1,
      "accel_0_100_s": 1,
      "battery_kwh_net": 2,
      "consumption_kwh_100km": 1,
@@ -323,14 +322,6 @@
       "value": 21.2,
       "p1": 22.1,
       "p99": 77.0
-     },
-     {
-      "variant_id": "volkswagen-e-golf-mk75-36kwh",
-      "segment": "C",
-      "field": "ac_kw",
-      "value": 32.0,
-      "p1": 3.6,
-      "p99": 28.8
      },
      {
       "variant_id": "volkswagen-id3-gen1-gtx",
@@ -3277,8 +3268,8 @@
    "ATTRIBUTION.md": 4407,
    "LICENSE": 715,
    "README.md": 14164,
-   "variants.csv": 1091706,
-   "variants.json": 2095719
+   "variants.csv": 1091765,
+   "variants.json": 2095778
   }
  }
 }
