@@ -22,3 +22,5 @@ Drafts only. Nothing has been sent. Each file in `drafts/` has front matter (`st
 | [marketplace-local.md](drafts/marketplace-local.md) | German, Dutch, French | National-team versions of variants A and B in `marketplace-groups.md` |
 
 Spritmonitor is already German. NAF, Euro NCAP, ABRP, Bjørn Nyland and the group-level marketplace emails stay English.
+
+| EAFO, RDW, ABRP licence questions | Licence confirmation / car-model list | EN, NL, EN | draft | see [drafts/licence-questions.md](drafts/licence-questions.md) |

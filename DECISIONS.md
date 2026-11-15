@@ -537,4 +537,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** WS1 updates `data/sources.yaml`; schema follow-ups in T-065.
 
+## Decision 037: Use EAFO and RDW data now, confirm licences afterwards
+
+**Status:** Accepted (Menno, 2026-11-15); supersedes the EAFO "blocked" line in Decision 036
+**Date:** 2026-11-15
+
+**Context:** EAFO states no dataset licence (Commission notice: CC BY 4.0 unless otherwise indicated; data via Eco-Movement). RDW is CC0 but its notice says reusers may not state the data comes from RDW (Q-037). Menno: use the data now, ask afterwards.
+
+**Decision:** EAFO aggregates go into releases now, credited "Source: European Alternative Fuels Observatory (European Commission), [date]", aggregates only, status `active_pending_confirmation` in data/sources.yaml. RDW stays in use; until RDW answers, attribution reads "Dutch open vehicle register (opendata.rdw.nl), CC0" with a link, no RDW logo or house style. Menno sends the questions in docs/outreach/drafts/licence-questions.md. If either answer is no, that source leaves the next release.
+
+**Consequences:** Small, reversible licence risk 🟡 (aggregates, credited, removable). Belgium charging can use EAFO now.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
