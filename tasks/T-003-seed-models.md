@@ -39,3 +39,12 @@ Anything outside the lane above. No auth, no pg-boss, no Postgres tonight.
 - No pytest wrapper: `pipeline/tests/` is outside this lane. The pipeline lane can call `validate()` from `data/seed/validate_seed.py` or run the script.
 
 ## Review
+
+**Reviewer (fresh agent), 2026-11-15. Verdict: pass for the prototype; changes needed before any public release.**
+
+`python3 -I data/seed/validate_seed.py data/seed/models.yaml` OK (25 makes / 40 models / 56 generations), `validate_variants.py` OK (123 variants; 7 generations without variants), `validate_taxonomy.py` 0 errors.
+
+Findings
+1. **Seed-manual numbers dominate release 1.** 1,706 of 3,642 provenance entries in `data/releases/1/catalogue.json` rest only on `seed-manual` (hand-entered from model knowledge, never checked), and 107 of 210 rows have nothing except seed-manual and RDW counts. The gate passes them, because `data/sources.yaml:13` gives seed-manual `status: active` with a self-assigned CC-BY-4.0 licence. That meets the letter of Decision 009, but not data rule 1 (traceable to a real source). Menno needs to decide whether unchecked seed values may appear in a *public* release, or must stay behind "estimate" styling / a hand-check flag.
+2. **Missing alias drops almost all Kona Electric registrations.** `models.yaml:240` has `[Kona EV, KONA Electric, Kauai Electric]` but not bare `Kona`/`KONA, KAUAI`. RDW lists the BEV Kona as `KONA` (the query is BEV-only), so those rows go to unmatched.csv ("model not in seed", 9x and 12x), and `hyundai-kona-electric-os` ships `registered_count_nl = 1`. Add the aliases (bare "Kona" is safe because the RDW and EEA queries are BEV-only), or publish null rather than an undercount.
+3. The 40 vs 44 model count is still open (handoff). 44 of 56 generations are `uncertain: true`. That is fine for tonight, but each one must be hand-checked before release (handoff says the same).

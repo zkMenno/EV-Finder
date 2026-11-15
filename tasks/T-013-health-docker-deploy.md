@@ -6,10 +6,10 @@ Status: todo
 /health, arm64 Dockerfile, compose and Caddy files (not applied).
 
 ## Acceptance criteria
-- [ ] /health returns 200 JSON
+- [x] /health returns 200 JSON
 - [ ] Image builds for linux/arm64
-- [ ] Limits as in Decision 006
-- [ ] Tests cover it (with fixtures, no live network calls)
+- [x] Limits as in Decision 006
+- [x] Tests cover it (with fixtures, no live network calls)
 
 ## Inputs
 Overnight brief (prototype 1), AGENTS.md, DECISIONS.md.
@@ -42,3 +42,21 @@ Builder, overnight 2026-11-15 (branch proto/overnight-1). Nothing applied anywhe
 - Catalogue is baked into the web image (latest release only), so a data rollback is an image rollback. Mounting `/srv/ev/data/releases` is a listed next step.
 
 ## Review
+
+**Reviewer (fresh agent), 2026-11-15. Verdict: changes needed (small); not ready to apply.**
+
+Checked:
+- `/health` returns 200 JSON with `cache-control: no-store` and leaks nothing; `src/app/health/route.test.ts` passes (3/3).
+- Limits in `infra/deploy/compose.ev.yml` match Decision 006 exactly: ev-web 768m/1.0, ev-web-staging 256m/0.5, ev-jobs 1g/1.0 with `cpu_shares: 256` and `oom_score_adj: 500`, profile `jobs` (never started by `up`).
+- Both images are non-root (web `USER node`; jobs uid 10001), and compose adds read-only rootfs, cap_drop ALL and no-new-privileges.
+- Base images (node:22-slim, python:3.12-slim, busybox, uv) are multi-arch, so arm64 should work.
+- Nothing is applied: `images.yml` has no deploy step, and compose/Caddy say NOT APPLIED with placeholder domains.
+- No secrets: env files are referenced by path only, and the registry login uses `GITHUB_TOKEN`.
+
+Findings
+1. **Status still says `todo`** even though the work is done. Set it to `review`. The arm64 box stays unticked: no arm64 image has been built yet. The first `Images` run on main is the real test (handoff says so too).
+2. **`images.yml` runs only on push to main** (`.github/workflows/images.yml:5-8`). A broken Dockerfile reaches main before anyone sees it. Add a `pull_request` trigger that builds with `push: false`, at least when Dockerfiles, lockfiles or `.dockerignore` change.
+3. **The jobs image ships `pipeline/tests/`**, fixtures included (`pipeline/Dockerfile:34` `COPY pipeline/ ./`; `.dockerignore` allows all of `pipeline/`). That includes the real-car "nyland" release fixture (T-006 finding 1). Exclude `pipeline/tests` in `.dockerignore`.
+4. `COPY --from=ghcr.io/astral-sh/uv:latest` (`pipeline/Dockerfile:11`) is unpinned, so builds aren't reproducible. Pin a version tag.
+5. The second `uv sync` (`pipeline/Dockerfile:35-37`) doesn't mount the optional `extra_ca` secret, unlike the first. A local build behind the proxy failed at that step (`hatchling` fetch) while the first step passed. No effect in CI, but the two should match.
+6. The jobs container mounts only `/srv/ev/data`, so seed, taxonomy, sources.yaml and field_sources.yaml have to be on the server already. That's undocumented in `infra/README.md`. Either bake them into the image or add a sync step.

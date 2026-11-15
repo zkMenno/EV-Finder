@@ -43,3 +43,18 @@ coverage.md, charge curves) and Decision 010 (platforms, packs, voltage, taxonom
 Open questions raised: Q-014 to Q-023 in QUESTIONS.md.
 
 ## Review
+
+**Reviewer (fresh agent), 2026-11-15. Verdict: pass, with notes.**
+
+Formulas checked against the brief and Decision 009, in code (`derive/metrics.py`) and on all 210 rows of release 1 (`tests/test_real_release.py`):
+- `ac_km_per_h = ac_kw / consumption × 100` holds on every row.
+- `dc_km_per_10/20min = min(dc_avg × N/60, net × 0.7) / motorway consumption × 100` holds, with motorway = WLTP consumption × 1.30 wherever it is an estimate.
+- Every `real_range_km` names its rung, and the 120 `body-ratio` rows are flagged `estimate` with the model-estimate source.
+- Provisional ratios are documented in the module docstring and in provenance notes.
+- The DC ranking input (`dc_km_per_20min`) uses motorway consumption, not peak kW.
+
+Notes
+1. `rows.py:319-325` applies ×1.30 to *any* `consumption_kwh_100km`, and the note says "WLTP consumption" even when the value came from EEA's registration-weighted average (see T-004) or a seed figure. Word the note after the actual source, or apply the ratio only to WLTP-cycle values. Low.
+2. Every dc_avg/dc_minutes/peak_held value tonight comes from the generic default curve (coverage.md: 83% estimate-only). That is fine while it's labelled, but the UI must show "estimate" clearly, especially on the DC ranking.
+3. `registered_count_nl` is a generation total on every variant (documented, Q-023). Because of the matching errors in T-005 (e-tron GT, Leaf gen3, Kona), several of these totals are wrong. That's an input problem, not a derive bug.
+4. Quality tier: 210/210 `single-source`. Correct given Q-019.

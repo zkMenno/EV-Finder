@@ -42,3 +42,24 @@ coverage.md, charge curves) and Decision 010 (platforms, packs, voltage, taxonom
 Open questions raised: Q-014 to Q-023 in QUESTIONS.md.
 
 ## Review
+
+**Reviewer (fresh agent), 2026-11-15. Verdict: changes needed (one hard-rule breach in fixtures).**
+
+Boxes hold. Range checks: `release/validate.py:23-34`. Release folder: catalogue.json + catalogue.parquet + facts.parquet + diff.json + coverage.md + README + run_log. Diff is tested. All offline. The reviewer added `pipeline/tests/test_real_release.py` (11 tests), which loads the committed `data/releases/latest` and asserts:
+- the Catalogue JSON Schema;
+- every non-null number in every row, on any key, has provenance (prices included);
+- every provenance entry has a source and a confidence, and every source is listed;
+- every fact_id resolves in facts.parquet;
+- every released source is `active` with a named, confirmed licence in `data/sources.yaml`;
+- no "nyland"/"bjørn" bytes in any release file;
+- real range ⇔ rung, and estimated rungs are flagged `estimate`;
+- the AC/DC formulas;
+- merged values are never averages.
+All pass on release 1.
+
+Findings
+1. **Nyland fixture uses a real car (high, hard rule).** `pipeline/tests/fixtures/release/staging/nyland.records.jsonl` is attributed to `nyland` but describes a real car: *Tesla Model 3 Long Range 2022, real_range 480 km, 76 kWh*. The rule allows only synthetic "Testcar" rows. Even if the numbers were invented, they look like a real Nyland result, and they now ship inside the jobs Docker image (see T-013). `tests/test_release.py:250-266` and `tests/test_match.py:241-251` use the same car. Replace it with a Testcar make/model, plus a matching Testcar entry in `tests/fixtures/release/models.yaml`.
+2. **The gate fails open without a registry.** `release/gate.py:44-45`: when `data/sources.yaml` is missing, every source except nyland is releasable. `tests/test_release.py:261` locks this in. A missing registry should block the release, per Decision 009's "only active sources... reach a public release".
+3. **"(to confirm)" licences pass the gate.** `gate.py:51` strips the parenthesis. That contradicts `data/sources.yaml:4` ("they stay blocked until checked"). No active source carries "(to confirm)" today, so there is no impact yet, but the two rules should agree. Prefer blocking.
+4. `data/releases/1/run_log.json` holds absolute host paths (`/home/claude/zkmenno/ev-finder/...`, lines 6-48). `release/build.py:109,127,224,226,257` use `str(path)` where `sources/_common.py::rel()` exists. That leaks the build machine layout into a public repo and makes runs machine-dependent. Low.
+5. Range checks don't cover `power_kw`, `weight_kg`, `real_range_km`, `seats`, `dc_minutes_10_80` or the derived `dc_km_*`. The box is met for kWh/km/kW/price, but these should be added. Low.
