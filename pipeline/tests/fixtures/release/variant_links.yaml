@@ -1,0 +1,5 @@
+links:
+  - {generation_id: tesla-model-3-gen1, platform_id: tesla-3y, voltage: {marketing_label: "400V"}, charger_400v: {mode: native}}
+  - {variant_id: tesla-model-3-gen1-lr, battery_pack_id: tesla-lfp-60}
+  - {variant_id: ford-mustang-mach-e-gen1-extended-range-awd, platform_id: ford-ge1, voltage: {nominal_v: 800, marketing_label: "800V"}, charger_400v: {mode: limited, kw: 40}}
+  - {variant_id: nissan-leaf-ze0-24kwh, battery_pack_id: nissan-24-air}

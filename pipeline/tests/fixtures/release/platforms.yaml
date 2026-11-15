@@ -1,0 +1,3 @@
+platforms:
+  - {id: tesla-3y, name: "Tesla 3/Y platform", owner: Tesla, nominal_v: 350, voltage_class_id: 400v}
+  - {id: ford-ge1, name: "Ford GE1", owner: Ford, nominal_v: not-disclosed}

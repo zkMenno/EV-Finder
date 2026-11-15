@@ -1,0 +1,3 @@
+chemistries:
+  - {id: nmc, family: nickel, label: {en: "NMC"}, status: mainstream, charge_100_daily: false}
+  - {id: lfp, family: iron, label: {en: "LFP"}, status: mainstream, charge_100_daily: true}

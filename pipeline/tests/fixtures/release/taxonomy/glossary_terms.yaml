@@ -1,0 +1,2 @@
+glossary_terms:
+  - {id: soc, label: {en: "Charge level"}, short: {en: "How full the battery is, in percent."}}

@@ -1057,7 +1057,7 @@
           "description": "Group that owns the platform, e.g. Volkswagen Group."
         },
         "nominal_v": {
-          "oneOf": [
+          "anyOf": [
             {
               "type": "number",
               "minimum": 0
@@ -1069,7 +1069,7 @@
           ]
         },
         "voltage_class_id": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/$defs/Id"
             },
@@ -1115,7 +1115,7 @@
           "type": "string"
         },
         "chemistry_id": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/$defs/Id"
             },
@@ -1137,7 +1137,7 @@
           "type": ["boolean", "null"]
         },
         "gross_kwh": {
-          "oneOf": [
+          "anyOf": [
             {
               "type": "number",
               "minimum": 0
@@ -1149,7 +1149,7 @@
           ]
         },
         "usable_kwh": {
-          "oneOf": [
+          "anyOf": [
             {
               "type": "number",
               "minimum": 0
@@ -1161,7 +1161,7 @@
           ]
         },
         "nominal_v": {
-          "oneOf": [
+          "anyOf": [
             {
               "type": "number",
               "minimum": 0
@@ -1173,7 +1173,7 @@
           ]
         },
         "max_v": {
-          "oneOf": [
+          "anyOf": [
             {
               "type": "number",
               "minimum": 0
@@ -1185,7 +1185,7 @@
           ]
         },
         "cooling_id": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/$defs/Id"
             },
@@ -1196,7 +1196,7 @@
           ]
         },
         "warranty": {
-          "oneOf": [
+          "anyOf": [
             {
               "$ref": "#/$defs/Warranty"
             },
@@ -1229,7 +1229,8 @@
       "additionalProperties": false,
       "properties": {
         "nominal_v": {
-          "oneOf": [
+          "description": "Stated nominal voltage.",
+          "anyOf": [
             {
               "type": "number",
               "minimum": 0
@@ -1238,11 +1239,11 @@
               "type": "string",
               "const": "not-disclosed"
             }
-          ],
-          "description": "Stated nominal voltage."
+          ]
         },
         "max_v": {
-          "oneOf": [
+          "description": "Stated max voltage.",
+          "anyOf": [
             {
               "type": "number",
               "minimum": 0
@@ -1251,15 +1252,15 @@
               "type": "string",
               "const": "not-disclosed"
             }
-          ],
-          "description": "Stated max voltage."
+          ]
         },
         "marketing_label": {
           "type": "string",
           "description": "e.g. '800V', or 'not-disclosed'."
         },
         "class_id": {
-          "oneOf": [
+          "description": "Derived from nominal_v via voltage_classes.",
+          "anyOf": [
             {
               "$ref": "#/$defs/Id"
             },
@@ -1267,8 +1268,7 @@
               "type": "string",
               "const": "not-disclosed"
             }
-          ],
-          "description": "Derived from nominal_v via voltage_classes."
+          ]
         },
         "switchable": {
           "type": ["boolean", "null"],

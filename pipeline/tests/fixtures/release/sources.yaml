@@ -1,0 +1,61 @@
+# Test copy of data/sources.yaml (subset).
+schema: sources/v1
+sources:
+- id: openev
+  name: Open EV Data
+  owner: open-ev-data (GitHub)
+  licence: CDLA-Permissive-2.0
+  access: bulk
+  cadence: monthly
+  status: active
+  terms: Licence verified from the LICENCE file in the repo, 2026-11-15.
+- id: rdw
+  name: RDW Open Data
+  owner: RDW (NL)
+  licence: CC0-1.0
+  access: api
+  cadence: weekly
+  status: active
+  terms: Registrations, type-approval specs, catalogue price, defects, recalls.
+- id: eea
+  name: EEA CO2 monitoring of new cars (Reg. 2019/631)
+  owner: European Environment Agency
+  licence: CC-BY-4.0
+  access: api
+  cadence: yearly
+  status: active
+  terms: Licence confirmed in EEA SDI metadata (copyright holder DG CLIMA), 2026-11-15.
+    2025 data is provisional.
+- id: seed-manual
+  name: EV Finder seed (hand-entered, unchecked)
+  owner: EV Finder
+  licence: CC-BY-4.0
+  access: manual
+  cadence: ad hoc
+  status: active
+  terms: Model knowledge, confidence low; to be replaced by sourced data.
+- id: nyland
+  name: Bjørn Nyland range/charging tests
+  owner: Bjørn Nyland
+  licence: none
+  access: manual
+  cadence: ad hoc
+  status: waiting_permission
+  terms: Importer may run; data stays in git-ignored data/local/. Never in repo, release
+    or fixture.
+- id: fastned
+  name: Fastned charging curves
+  owner: Fastned
+  licence: none
+  access: manual
+  cadence: ad hoc
+  status: waiting_permission
+  terms: Ask for permission.
+- id: model-estimate
+  name: EV Finder estimate models
+  owner: EV Finder
+  licence: CC-BY-4.0
+  access: manual
+  cadence: per release
+  status: active
+  terms: Ratio models and generic curves; always shown as 'estimate'.

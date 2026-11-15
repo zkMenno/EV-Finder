@@ -1,0 +1,23 @@
+source: {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", licence: CC-BY-4.0}
+variants:
+  - generation_id: tesla-model-3-gen1
+    id: tesla-model-3-gen1-lr
+    name: "Long Range"
+    years: [2019, 2023]
+    drivetrain: awd
+    specs: {battery_kwh_net: 74, wltp_range_km: null, ac_kw: 11, seats: 5}
+    confidence: low
+  - generation_id: nissan-leaf-ze0
+    id: nissan-leaf-ze0-24kwh
+    name: "24 kWh"
+    years: [2011, 2015]
+    drivetrain: fwd
+    specs: {battery_kwh_gross: 24, wltp_range_km: null, ac_kw: 3.6, dc_peak_kw: 50}
+    confidence: low
+  - generation_id: renault-zoe-ph1
+    id: renault-zoe-ph1-q90
+    name: "Q90"
+    years: [2016, 2019]
+    drivetrain: fwd
+    specs: {battery_kwh_net: 41, ac_kw: 43, wltp_range_km: 300}
+    confidence: low

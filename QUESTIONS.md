@@ -65,7 +65,82 @@ The importer skeleton expects our own placeholder headers (`make, model, variant
 
 **Answer:**
 
+### Q-014 · Shared boundary year between generations · T-005 · builder · 2026-11-15
+Some seed generations share a year (Model S 2016, Zoe 2019, e-Golf 2017). A record with that model year could be either. **Default:** the newer generation wins (a facelift year is usually sold as the new car). Alternative: send these to review. OK?
+
+**Answer:**
+
+### Q-015 · Does `seed-manual` count as an independent source? · T-005 · builder · 2026-11-15
+`seed-manual` (and `model-estimate`) values are hand-entered from memory, so they may echo the same public sources. **Default:** they never count towards "2+ independent sources agree" (no `high` confidence, no `sourced` tier, not in `agreeing_sources`), but they still appear in `source_ids` when they agree. OK?
+
+**Answer:**
+
+### Q-016 · Real-range ratio for cabrio · T-007 · builder · 2026-11-15
+The brief's provisional body ratios have no `cabrio`. **Default:** 0.84 (between hatchback 0.85 and coupe 0.86). All body ratios are PROVISIONAL (mild-weather mixed driving). OK?
+
+**Answer:**
+
+### Q-018 · Default DC curve shape · T-007 · builder · 2026-11-15
+No measured curves tonight, so every car with only a peak figure gets a generic curve. The coordinator sketched "flat at peak to ~45 %, then down to ~45 % of peak at 80 %" (average ≈ 0.82 × peak). That is optimistic for most 400 V cars (e.g. Model 3 LR: 250 kW peak, ~120–130 kW average). **Default:** flat at peak 10–25 %, linear down to 35 % of peak at 80 % (average ≈ 0.67 × peak), labelled `dc_curve_status: default`, `estimate: true`. Which shape do you want until real curves arrive?
+
+**Answer:**
+
+### Q-019 · EEA rows have no variant name, so nothing ever "agrees" · T-005 · builder · 2026-11-15
+Per the brief, a record without a variant name becomes `<generation>-base`. EEA (WLTP, consumption, weight) never names a variant, so its facts sit on 32 separate "Base" rows and never meet OpenEV's named variants. Result tonight: 0 rows reach `sourced`, and only 1 WLTP value has 2 agreeing sources. **Default:** literal rule (no guessing which variant an EEA row belongs to). Options: (a) attach EEA generation-level values as corroboration to every variant in that generation whose own value is within tolerance (agreement only, never a value); (b) hide "Base" rows that only hold EEA data. Which?
+
+**Answer:**
+
+### Q-020 · `fast_on_400v` for `charger_400v.mode: native` · T-007 · builder · 2026-11-15
+The rule given was "class 400v, or booster/limited with kW ≥ 50". **Default:** `native` (an 800 V car that charges at full speed on 400 V) also counts as fast. Unknown mode on an 800 V car → null. OK?
+
+**Answer:**
+
+### Q-021 · Seed aliases for registration-style names · T-003 / seed · builder · 2026-11-15
+RDW and EEA use names the seed does not match, e.g. `FIAT 500`, `PEUGEOT 208`/`2008`, `OPEL CORSA`, `KIA NIRO`/`SOUL`, `HYUNDAI KONA, KAUAI`, `VOLKSWAGEN GOLF`, `AUDI Q4 40 E-TRON`, `BMW IX3`. These datasets hold only BEVs, so `500` means the 500e there, but adding `500` as a general alias could mis-match spec sources. **Default:** no fuzzy matching in the pipeline; they sit in `data/review/unmatched.csv`. Should the seed get source-scoped aliases (e.g. `rdw_aliases`), or plain `name_aliases`?
+
+**Answer:**
+
+### Q-023 · Provenance for identity numbers and RDW counts · T-006 · builder · 2026-11-15
+The schema says "every non-null number has provenance". **Default:** this covers spec, derived and count fields; `release`, `year_start` and `year_end` are identity fields from the seed and carry none. `registered_count_nl` is the RDW total for the whole generation, so every variant of a generation shows the same number (noted in its provenance). OK?
+
+**Answer:**
+
+### Q-024 · Glossary ids the web app needs that `glossary_terms.yaml` lacks · T-008 · builder · 2026-11-15
+Explore puts a glossary ⓘ on every column and filter. These ids are used but not yet in `data/taxonomy/glossary_terms.yaml`: `new-price`, `registrations-nl`, `model-years`, `segment`, `body-type`, `boot-volume`, `vehicle-length`, `towing-capacity`, `charge-to-100`. **Default:** the web dev fixture carries draft rows for them (EN + NL), and a missing term just shows the plain label without ⓘ (no crash). Please add them to the YAML (the drafts are in `apps/web/src/fixtures/catalogue.sample.json`, last entries of `taxonomy.glossary_terms`). I also switched my ids to yours: `chemistry`, `cooling`, `quality-tier`, `peak-kw`, `400v-charger-behaviour`, `usable-vs-gross` (the last is a slightly odd plain label for a "Battery size" column; a `battery-capacity` term may read better).
+
+**Answer:**
+
+### Q-025 · Nerd mode wants "sources with date", but FieldProvenance has no date · T-008 / schema · builder · 2026-11-15
+`FieldProvenance` carries source ids, confidence, agreeing_sources, estimate and note, but no `retrieved_at`. **Default:** Nerd mode shows the release date (`generated_at`) next to the sources. Should `FieldProvenance` get `retrieved_at` (latest of its facts), or should the client JSON resolve `fact_ids` to dates?
+
+**Answer:**
+
+### Q-026 · Default display level and Explore row links · T-008 · builder · 2026-11-15
+**Defaults:** (1) Explore opens at **Detailed** (the brief's column set); Simple and Nerd are one click away and remembered in localStorage + `?level=`. Simple may be the friendlier default for first-time visitors. (2) Explore rows don't link to model pages yet because T-009 hasn't fixed the route; once it has, the car name should link there. Which default level do you want?
+
+**Answer:**
+
+### Q-027 · `CATALOGUE_DIR` in `.env.example` · T-008 · builder · 2026-11-15
+The web app reads `data/releases/<latest>/catalogue.json` and accepts `CATALOGUE_DIR` to point elsewhere (e.g. in the Docker image). `.env.example` is outside the web lane. **Default:** documented in `apps/web/README.md` only. Coordinator: please add `CATALOGUE_DIR=` to `.env.example`.
+
+**Answer:**
+
+### Q-028 · "See listings" URL patterns are guesses · T-008 / T-009 · builder · 2026-11-15
+`apps/web/src/config/countries.ts` holds 2–3 marketplace search templates per country, all `verified: false` (best guesses, nothing fetched). **Default:** ship them marked unverified; someone opens each by hand before launch. Cazoo (UK) is skipped because it closed.
+
+**Answer:**
+
 ## Closed
+
+### Q-022 · EEA licence marked "(to confirm)" but status `active` · coordinator · builder · 2026-11-15
+`data/sources.yaml` says licences marked "(to confirm)" stay blocked, but EEA is `active` with "CC-BY-4.0 (to confirm on datahub page)". **Default:** the gate follows `status` (EEA is released) and the release README credits EEA as CC-BY-4.0. If EEA must wait, set its status to `waiting_permission` and the gate drops it (tested).
+
+**Answer:** Coordinator confirmed the licence from the T-004 metadata check and removed "(to confirm)" from data/sources.yaml. Closed.
+
+### Q-017 · Schema bug: `oneOf [Id, const 'not-disclosed']` · coordinator (schema) · builder · 2026-11-15
+`Platform.voltage_class_id`, `BatteryPack.chemistry_id`/`cooling_id` and `VariantVoltage.class_id` are `oneOf [{$ref Id}, {const: not-disclosed}]`. The string `not-disclosed` also matches the Id pattern, so it is valid under both branches and **fails `oneOf`**. The real `data/seed/platforms.yaml` uses it. **Default (pipeline, interim):** shipped platform/pack objects leave such keys out (absent = not known); rows still carry `not-disclosed`. Fix: change those four to `anyOf`, then remove `_ONEOF_ID_KEYS` in `pipeline/ev_pipeline/derive/links.py` and its test assertion.
+
+**Answer:** Coordinator switched those properties to `anyOf` and removed the workaround in `derive/links.py`. Closed.
 
 ### Q-009 · `dc_curve` cannot pass through SourceRecord · T-004 · builder · 2026-11-15
 The schema now has `FactField.dc_curve` with a `ChargeCurve` value, but `records.SpecValue.value` is still `float | str | bool`, so an adapter cannot emit a curve. **Default:** no curves emitted. This costs nothing tonight: no OpenEV record has a `dc_charge_curve`. Should the coordinator widen `SpecValue.value` to `float | str | bool | ChargeCurve` between waves?

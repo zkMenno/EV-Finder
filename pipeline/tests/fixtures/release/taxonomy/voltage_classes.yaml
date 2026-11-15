@@ -1,0 +1,3 @@
+voltage_classes:
+  - {id: 400v, label: {en: "400 V"}, min_v: 250, max_v: 600, status: mainstream}
+  - {id: 800v, label: {en: "800 V"}, min_v: 600, max_v: 1000, status: emerging}

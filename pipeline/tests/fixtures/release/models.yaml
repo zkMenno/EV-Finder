@@ -1,0 +1,75 @@
+# Small test seed in the shape of data/seed/models.yaml (seed-models/v1).
+schema: seed-models/v1
+makes:
+  - id: tesla
+    name: Tesla
+    models:
+      - id: tesla-model-3
+        name: Model 3
+        segment: D
+        body: sedan
+        generations:
+          - id: tesla-model-3-gen1
+            name: Model 3 (2019-2023)
+            years: [2019, 2023]
+            uncertain: false
+            change_markers:
+              - {year: 2021, text: "Refresh: heat pump"}
+          - id: tesla-model-3-highland
+            name: Highland
+            years: [2024, null]
+            uncertain: true
+  - id: nissan
+    name: Nissan
+    models:
+      - id: nissan-leaf
+        name: Leaf
+        segment: C
+        body: hatchback
+        name_aliases: [LEAF]
+        generations:
+          - id: nissan-leaf-ze0
+            name: ZE0
+            years: [2011, 2017]
+          - id: nissan-leaf-ze1
+            name: ZE1
+            years: [2018, 2025]
+  - id: citroen
+    name: Citroën
+    models:
+      - id: citroen-e-c4
+        name: ë-C4
+        segment: C
+        body: crossover
+        name_aliases: [e-C4, C4 Electric]
+        generations:
+          - id: citroen-e-c4-c41
+            name: ë-C4 (C41)
+            years: [2020, null]
+  - id: ford
+    name: Ford
+    models:
+      - id: ford-mustang-mach-e
+        name: Mustang Mach-E
+        segment: J-medium
+        body: suv
+        name_aliases: [Mach-E]
+        generations:
+          - id: ford-mustang-mach-e-gen1
+            name: Mustang Mach-E
+            years: [2021, null]
+  - id: renault
+    name: Renault
+    models:
+      - id: renault-zoe
+        name: Zoe
+        segment: B
+        body: hatchback
+        name_aliases: [ZOE]
+        generations:
+          - id: renault-zoe-ph1
+            name: Phase 1
+            years: [2013, 2019]
+          - id: renault-zoe-ph2
+            name: Phase 2
+            years: [2019, 2024]
