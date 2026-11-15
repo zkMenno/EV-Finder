@@ -628,5 +628,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** The hero sits at the top of `/{country}/{lang}/` and Explore follows under `#explore` (same URL, no redirects). The hero's refine filters are Explore's filters and URL params (new: `seats`, `ac`, `ymin`/`ymax`, `make`/`xmake`); the two components stay in step through a browser event. Ranking runs in the browser from `src/config/shortlist-rules.generated.json`, built from `data/editorial/shortlist_rules.yaml` (rows only, no evidence or sheet values). A profile's filter presets and gates exclude a car only on a known value; a missing value passes and is shown as "not known yet" (the visitor's own refine filters stay strict, as in Explore). A car without a price stays in the list, marked, unless a known price is over budget. Units in the rules: a factor whose `sheet_field` is `dc_km_per_h` reads `dc_km_per_20min × 3`; efficiency reads Wh/km; other DC factors (daily driver, runabout) read km per 20 min. Winter range shows "not known yet" until the release publishes it.
 
 **Consequences:** No URL changes, nothing hidden for lack of data. WS3 should state units on each rule row (`unit:`) to remove the DC ambiguity; WS1/WS0 to publish a winter range field and used price bands, which the hero picks up without code changes.
+## Decision 059: Heat pump fitment as cited manual facts; heater and temperature labels as taxonomy rows
+
+**Status:** Accepted (WS3, T-031)
+**Date:** 2026-11-15
+
+**Context:** The consumption model (T-033) needs per-variant heat pump fitment and readable labels for its temperature columns and heater types. R-21 found fitment for about 40 generations, often only for some model years or one market.
+
+**Decision:** Fitment goes in `data/manual/heat-pump/*.yaml` as one cited `heat_pump` fact per generation, only where the source covers the whole generation; `not-disclosed` is never entered (it is the default). Rows that change inside a generation wait for a year span on manual facts (asked WS1) or a seed variant split. `data/taxonomy/temperature_bands.yaml` and `heater_types.yaml` carry six-language labels and tooltips; their numbers mirror the model defaults in `consumption_params.yaml` and change there and here together.
+
+**Consequences:** Fitment stays internal until Q-008 (source `manual` is blocked). The model's numbers are unchanged; only labels are added.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

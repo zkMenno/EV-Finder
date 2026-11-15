@@ -70,6 +70,9 @@ TAXONOMY_FILES = {
     "power_bands": ("power_bands.yaml", "PowerBand"),
     # Decision 017 (price modes, T-043).
     "finance_profiles": ("finance_profiles.yaml", "FinanceProfile"),
+    # Decision 059 (T-031): consumption matrix labels; numbers mirror WS1's model defaults.
+    "temperature_bands": ("temperature_bands.yaml", "TemperatureBand"),
+    "heater_types": ("heater_types.yaml", "HeaterType"),
 }
 # Tables whose rows carry a localized `label` and `short` (EN + NL required, short <= 20 words).
 LABELLED_NEW = (
@@ -82,6 +85,8 @@ LABELLED_NEW = (
     "charging_metrics",
     "charging_definitions",
     "power_bands",
+    "temperature_bands",
+    "heater_types",
 )
 NO_LABEL = {"bidi_equipment", "finance_profiles"}  # rows have no localized label
 # Ids the spec requires (docs/spec/bidirectional-and-connectors.md §2.2/§3.1,
