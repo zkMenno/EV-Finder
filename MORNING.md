@@ -1,0 +1,81 @@
+# Good morning — overnight prototype 1
+
+_Working title EV Shortlist (Decision 018). Branch `proto/overnight-1`, draft PR [#1](https://github.com/zkMenno/EV-Finder/pull/1). This file is refreshed after every item; the newest state is at the top of each section._
+
+## 0. Do this first (2 minutes)
+1. **Nothing to undo on `main`.** The first hour of work landed on `main` by mistake (Q-030). WS0 has built on top of it, so it stays; everything since then is in PR #1.
+2. **Answer the starred questions** in section 5 when you have time. Nothing is blocked on you tonight.
+
+## 1. What works now
+Run it locally (needs Node 22, pnpm 10, Python 3.12 + uv):
+
+```bash
+git clone https://github.com/zkMenno/EV-Finder && cd EV-Finder && git checkout proto/overnight-1
+pnpm install
+pnpm --filter @ev/web dev          # http://localhost:3000 → redirects to /nl
+# optional: rebuild the data release from recorded samples (no network)
+cd pipeline && uv sync && uv run ev release
+```
+
+Checks: `pnpm --filter @ev/web test`, `pnpm --filter @ev/web e2e`, `cd pipeline && uv run pytest`.
+
+## 2. Screens
+| Route | What it is |
+|---|---|
+| `/nl` (also `/de`, `/fr`, `/be`, `/uk`) | Explore: one table of new + used EVs, table/cards toggle, filters (price, era, segment, body, real range, battery, DC km in 20 min, boot, length, towing, voltage class, chemistry, cooling, "fast on older 400 V chargers", "charge to 100% daily"), Simple / Detailed / Nerd, hearts, compare tray that never resets |
+| `/nl/ev/<make>/<model>` | Model overview with generations |
+| `/nl/ev/<make>/<model>/<generation>` | Generation page: change markers, spec diff per year, See listings, registrations per country, source + confidence on every number |
+| `/nl/ev/…/<variant>` | Full spec sheet |
+| `/nl/compare?ids=…` | Up to 4 side by side, differences highlighted, share + print |
+| `/nl/top` | Rankings: longest real range under €30k, fastest DC (km in 20 min), most registered in NL |
+| `/nl/learn/<term>` | Glossary pages |
+| `/nl/about` | What we are, how numbers are made, credits for every source |
+| `/health` | Health check for the server watchdog |
+| `/staff/review` | Review queue (only with `STAFF_PAGES=1`) |
+
+## 3. Data
+Release 1: **195 variants** across 55 generations of the 40 seed models.
+
+| Source | Ran | Licence | Used for |
+|---|---|---|---|
+| Open EV Data (open-ev-data-dataset) | live | CDLA-Permissive-2.0 | base specs |
+| Open EV Data (KilowattApp) | live | MIT + attribution | specs, 51 non-default charge curves (estimates) |
+| RDW | live | CC0 | NL fleet counts |
+| EEA CO₂ monitoring | live | CC BY 4.0 | new registrations NL/DE/FR/BE |
+| KBA FZ10 | live | dl-de/by-2-0 | DE new registrations |
+| DfT VEH0120 | live | OGL v3 | UK fleet |
+| ADEME Car Labelling | live | Licence Ouverte | FR prices (7 variants), fallback specs |
+| Seed (hand-entered) | — | CC BY 4.0 | older cars, confidence **low** |
+| Bjørn Nyland | importer only | permission pending | never in a release |
+
+Honest caveats: 🟡 every real-range and DC figure is an **estimate** tonight (ratio model, default or unverified curves). 🔴 About half of all numbers rest only on the hand-entered seed (low confidence). Coverage per field: `data/releases/1/coverage.md`.
+
+Research (all on the branch): R-02 launch countries, R-03 future markets, R-04 European expansion.
+
+## 4. Not done, and why
+_(filled in at the end of the run)_
+
+## 5. Questions for Menno (most important first)
+_(final list at the end of the run; all are in QUESTIONS.md)_
+
+## 6. Suggested wave 5
+_(at the end of the run)_
+
+## Addenda 4 + 5
+| Item | Status | Notes |
+|---|---|---|
+| A4.0 sync with main, R-02 rename, Q-030 closed | done | merged main twice; my schema decision renumbered to 019 |
+| A4 T-018 bidi + ports schema | done | Decision 019 |
+| A4 T-023 charging stats schema | done | |
+| A4 T-030 Trip fit schema | done | |
+| A4 T-024 charging taxonomies + country links | running | |
+| A4 T-019 bidi taxonomies (coordinator half) | running | |
+| A4 T-026 charging link-out block | running | |
+| A4 T-036 Trip fit quick check (flag, fixture matrix) | running | |
+| A5.1 country + language URLs | queued | after the web builder finishes |
+| A5.2 price modes | data running, UI queued | |
+| A5.3 open data bundle | running | |
+| A5.4 /learn drafts | running | |
+| A5.5 release QA | running | |
+| A5.6 security baseline | running (CI + pipeline) | web CSP nonce queued |
+| A5.7 back-test skeleton | running | |
