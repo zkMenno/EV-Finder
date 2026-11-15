@@ -150,7 +150,8 @@ def brand_name() -> str:
         name = (yaml.safe_load(brand_file.read_text(encoding="utf-8")) or {}).get("name")
     except OSError:
         name = None
-    return str(name).strip() if name else BRAND_FALLBACK
+    name = str(name).strip() if name else ""
+    return name or BRAND_FALLBACK  # a blank name in config must not publish an empty brand
 
 
 def source_allowed(registry: Registry, licences: dict[str, str], sid: str) -> bool:

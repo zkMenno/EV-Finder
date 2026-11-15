@@ -89,3 +89,34 @@ an ODbL source is present, a taxonomy/platform/pack id is unknown, or `data/sour
 
 All provisional constants (body ratios, default charge curve, motorway factor, net/gross) are
 documented at the top of `ev_pipeline/derive/metrics.py`.
+
+## Test coverage (overnight)
+
+Measured 2026-11-15 on branch `proto/overnight-1`; full suite 524 -> 672 tests, all green.
+Overall package coverage 94% -> 96% (the rest is mostly source adapters' network paths and
+`match/`, which another builder is editing).
+
+| Module | Before | After |
+|---|---|---|
+| `derive/rows.py` | 93% | 100% |
+| `derive/links.py` | 97% | 100% |
+| `derive/metrics.py` | 99% | 100% |
+| `release/build.py` | 96% | 100% |
+| `release/validate.py` | 96% | 100% |
+| `release/gate.py` | 98% | 100% |
+| `release/taxonomy.py` | 96% | 100% |
+| `qa/checks.py` | 98% | 100% |
+| `qa/release_step.py` | 98% | 100% |
+| `qa/report.py` | 97% | 100% |
+| `opendata/bundle.py` | 99% | 100% |
+| `backtest/harness.py` | 98% | 100% |
+| `net.py` | 90% | 98% (gzip flush-tail cap, lines 268-271, not reachable with a test stream) |
+
+The edge-case tests live in `tests/test_*_edges.py` (derive, release, qa, opendata, net,
+backtest) and use small synthetic fixtures only; no network. Run coverage with
+(pytest-cov is pulled in for the run only; it is not a project dependency):
+
+```sh
+cd pipeline
+uv run --with pytest-cov pytest --cov=ev_pipeline --cov-report=term-missing -q
+```
