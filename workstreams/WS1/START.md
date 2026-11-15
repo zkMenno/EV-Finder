@@ -22,16 +22,18 @@ Schema change needed? Append to `workstreams/WS0/INBOX.md` with the exact fields
 - One task = one branch (`t-0NN-slug`) = one PR, CI green before review. Never push to `main`.
 - Don't invent data. "Not disclosed" is a real value. Uncertain → review queue (`data/review/`).
 
-## 3. Task list (in order; skip blocked ones, come back later)
-Task files in `tasks/` hold acceptance criteria. Claim a task by writing your name and date in its Status line.
-1. **Overnight leftovers**: after WS0 merges `proto/overnight-1`, read `MORNING.md` and the T-004–T-007 handoff notes; fix anything WS0 queued in your INBOX first.
-2. **T-019** taxonomy-seed-bidi: validation and release wiring for the bidi taxonomies WS3 seeds (WS3 writes the rows, you load and validate them). Needs T-018 (WS0).
-3. **T-025** charging-stats-ingest: `charging_stats` job + loaders for EAFO, Bundesnetzagentur, DfT; manual YAML path for Avere-France and Belgium; licence check per download recorded in `data/sources.yaml`. Needs T-023 (WS0).
-4. **T-032** consumption-tests-ingest: condition-tagged tests (speed, temperature, wheels, source, date) from licence-clean sources; Bjørn Nyland stays `waiting_permission`.
-5. **T-033** consumption-model: per-variant matrix (3 road bands × 5 temperature bands), fallback ladder measured → platform → physics → WLTP ratio, temperature curves per heater type, rung + confidence per cell, static JSON in the release.
-6. **T-034** climate-normals: Meteostat normals (confirm licence first; Copernicus ERA5 fallback), GeoNames cities (CC BY 4.0) for town search.
-7. **T-035** back-test harness: real-range ratio model and consumption model against NAF El Prix routes and condition-tagged tests; report median error per top-40 used model; launch gate < 10 %.
-8. Research for Phase 4 (only when 1–7 are done or blocked): US + AU sources (EPA fuel economy, state registrations, Australian data) as `research/R-NN-us-au-sources.md` (ask WS0 for the number).
+## 3. Task list (updated 2026-11-15 10:30 by WS0, after overnight PR #1 merged; in order, skip blocked ones)
+Overnight 1 built a lot: read `MORNING.md` and the handoff notes in each task file before you start. Claim a task by writing your name + date in its Status line; set `review` when your PR is open.
+1. **T-064** releases out of git (Decision 035), ≈2 h. Release files to GitHub Release assets (tag `data-v<n>`) from a workflow with least-privilege `contents: write`; repo keeps `data/releases/<n>/manifest.json` + a tiny fixture release; web build fetches by manifest and checks sha256 (agree the loader change with WS2 via its INBOX, or make the change behind `CATALOGUE_SOURCE=manifest` so WS2 can review); split the catalogue per generation; rollback documented. CI release cap back to 5 MB when done (ask WS0 in its INBOX; WS0 owns `.github/`).
+2. **T-025** finish charging stats, ≈1.5 h. Loaders exist (see handoff notes). Open: EAFO now allowed (Decision 037: `active_pending_confirmation`, credit line in the decision), manual YAML path `data/manual/charging/*.yaml`, release diff (>15 % change or any drop → review), wire into `ev refresh`. Answer Q-075/Q-076 defaults yourself if they're engineering choices and log them.
+3. **Decision 036/037 housekeeping**, ≈20 min: update `data/sources.yaml` (EAFO, RDW attribution wording, ERA5-Land primary climate, Washington DOL internal-only, ECB MIR finance series ids from research/R-20).
+4. **T-034** climate normals, ≈1 h: Meteostat bulk normals (CC BY 4.0, no key) for launch-country towns from GeoNames now; ERA5-Land loader stubbed behind an env key (Copernicus CDS key arrives via WS4, Q-093).
+5. **T-032 + T-033** consumption tests + model, ≈2 h: licence-clean inputs only (WLTP from EEA/ADEME, EPA city/highway from fueleconomy.gov, physics rung from mass/Cd/frontal area where cited); Bjørn Nyland/NAF stay `waiting_permission`. Output the per-variant matrix (3 road bands × 5 temperature bands, rung + confidence) as static JSON in the release so WS2 can swap out T-036's fixture.
+6. **T-035** back-test harness on real inputs where licence-clean; report in `qa.json` and `audits/` (number from WS0's INBOX, or use A-30–A-39).
+7. **T-051 part 2**: the remaining top-20 models from `data/review/coverage-gaps.md` (ID.7, Elroq, EV3, Q6 e-tron, …), from staged source data only.
+8. If time remains: T-062 (retired ids) and T-063 (AC optional charger) if their handoff notes are still empty; then research R-21/R-22 gap follow-ups that WS3 asked for in your INBOX.
+
+**Numbers you may use without asking** (to avoid clashes): decisions 040–049, tasks T-070–T-079, research R-40–R-44, audits A-30–A-34. Fetch `main` before numbering anything.
 
 ## 4. Definition of done (per task)
 Acceptance criteria ticked · tests for every data rule and bug · CI green · PR opened with the template filled · handoff notes in the task file · coverage report regenerated if the release changed · STATUS.md updated · anything another lane needs written to its INBOX.
