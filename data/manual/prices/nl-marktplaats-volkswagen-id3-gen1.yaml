@@ -1,0 +1,42 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: volkswagen-id3-gen1
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/volkswagen+id.3/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2020
+  n: 21
+  p25: 18500.0
+  median: 19400.0
+  p75: 20900.0
+- build_year: 2021
+  n: 15
+  p25: 18400.0
+  median: 20900.0
+  p75: 21900.0
+- build_year: 2022
+  n: 20
+  p25: 20600.0
+  median: 21900.0
+  p75: 24900.0
+- build_year: 2023
+  n: 13
+  p25: 25000.0
+  median: 26000.0
+  p75: 28000.0
+- build_year: 2024
+  n: 14
+  p25: 27100.0
+  median: 27900.0
+  p75: 29200.0
+- build_year: 2025
+  n: 7
+  p25: 31600.0
+  median: 32900.0
+  p75: 34900.0
