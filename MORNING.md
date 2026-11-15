@@ -74,8 +74,8 @@ _(at the end of the run)_
 | A4 T-036 Trip fit quick check (flag, fixture matrix) | done | behind `TRIP_FIT=1`; fixture matrix + 20 towns typed from memory, labelled PROVISIONAL; keep off in production (Q-055) |
 | A5.1 country + language URLs | running | |
 | A5.2 price modes | running (data + UI) | |
-| A5.3 open data bundle | running | |
+| A5.3 open data bundle | done (pipeline) | `data/releases/1/open/`: CSV + JSON, 195 rows, ATTRIBUTION, LICENSE, README; ODbL test; `/data` page queued for web |
 | A5.4 /learn drafts | running | |
-| A5.5 release QA | running | |
+| A5.5 release QA | done | blocking checks pass; flags EV6 77 kWh AWD usable 80 > gross 77.4 (data bug); 0 of top-40 have 2+ agreeing sources on all headline fields |
 | A5.6 security baseline | partial | done: Actions least privilege + pinned SHAs, audit job (warn only), safe fetch (host allowlist, SSRF guard, size caps); web nonce CSP + staff guard running; server items for WS4 in audits/A-02 |
-| A5.7 back-test skeleton | running | |
+| A5.7 back-test skeleton | done | leave-one-out on synthetic fixtures; skipped on real data (no licence-cleared tests yet) |
