@@ -1,40 +1,40 @@
 # Coverage, release 1
 
-197 variants. Share of variants per field (count in brackets). 'estimate only' = our model or ratio, no source; derived values count by their weakest input.
+218 variants. Share of variants per field (count in brackets). 'estimate only' = our model or ratio, no source; derived values count by their weakest input.
 
 | Field | 2+ agreeing sources | 1 source | estimate only | missing |
 |---|---|---|---|---|
-| battery_kwh_net | 16% (32) | 81% (160) | 3% (5) | 0% (0) |
-| wltp_range_km | 10% (19) | 48% (94) | 0% (0) | 43% (84) |
-| epa_range_km | 6% (12) | 37% (72) | 0% (0) | 57% (113) |
-| consumption_kwh_100km | 0% (0) | 27% (54) | 44% (86) | 29% (57) |
-| ac_kw | 21% (41) | 78% (154) | 0% (0) | 1% (2) |
-| dc_peak_kw | 13% (26) | 84% (166) | 0% (0) | 3% (5) |
-| dc_avg_10_80_kw | 0% (0) | 0% (0) | 97% (192) | 3% (5) |
-| ac_km_per_h | 0% (0) | 27% (54) | 43% (85) | 29% (58) |
-| dc_km_per_10min | 0% (0) | 0% (0) | 70% (137) | 30% (60) |
-| real_range_km | 0% (0) | 0% (0) | 71% (140) | 29% (57) |
-| power_kw | 0% (0) | 86% (169) | 0% (0) | 14% (28) |
-| accel_0_100_s | 0% (0) | 45% (89) | 0% (0) | 55% (108) |
-| boot_l | 0% (0) | 58% (114) | 0% (0) | 42% (83) |
-| length_mm | 0% (0) | 99% (195) | 0% (0) | 1% (2) |
-| weight_kg | 1% (2) | 44% (87) | 0% (0) | 55% (108) |
-| towing_kg | 0% (0) | 35% (68) | 0% (0) | 65% (129) |
-| seats | 0% (0) | 100% (197) | 0% (0) | 0% (0) |
-| registered_count_nl | 0% (0) | 100% (197) | 0% (0) | 0% (0) |
-| dc_minutes_10_80 | 0% (0) | 0% (0) | 97% (192) | 3% (5) |
-| dc_km_per_20min | 0% (0) | 0% (0) | 70% (137) | 30% (60) |
-| dc_peak_held_min | 0% (0) | 0% (0) | 97% (192) | 3% (5) |
-| consumption_motorway_kwh_100km | 0% (0) | 0% (0) | 71% (140) | 29% (57) |
-| voltage_nominal_v | 0% (0) | 12% (24) | 0% (0) | 88% (173) |
-| voltage_max_v | 0% (0) | 0% (0) | 0% (0) | 100% (197) |
-| charger_400v_kw | 0% (0) | 6% (12) | 0% (0) | 94% (185) |
+| battery_kwh_net | 19% (42) | 78% (171) | 2% (5) | 0% (0) |
+| wltp_range_km | 10% (22) | 51% (112) | 0% (0) | 39% (84) |
+| epa_range_km | 7% (15) | 37% (80) | 0% (0) | 56% (123) |
+| consumption_kwh_100km | 0% (1) | 29% (64) | 44% (96) | 26% (57) |
+| ac_kw | 25% (54) | 74% (162) | 0% (0) | 1% (2) |
+| dc_peak_kw | 17% (36) | 81% (177) | 0% (0) | 2% (5) |
+| dc_avg_10_80_kw | 0% (0) | 0% (0) | 98% (213) | 2% (5) |
+| ac_km_per_h | 0% (1) | 29% (64) | 44% (95) | 27% (58) |
+| dc_km_per_10min | 0% (0) | 0% (0) | 72% (158) | 28% (60) |
+| real_range_km | 0% (0) | 0% (0) | 74% (161) | 26% (57) |
+| power_kw | 0% (0) | 87% (190) | 0% (0) | 13% (28) |
+| accel_0_100_s | 0% (0) | 50% (110) | 0% (0) | 50% (108) |
+| boot_l | 0% (0) | 54% (117) | 0% (0) | 46% (101) |
+| length_mm | 0% (0) | 99% (215) | 0% (0) | 1% (3) |
+| weight_kg | 3% (6) | 47% (103) | 0% (0) | 50% (109) |
+| towing_kg | 0% (0) | 31% (68) | 0% (0) | 69% (150) |
+| seats | 0% (0) | 100% (218) | 0% (0) | 0% (0) |
+| registered_count_nl | 0% (0) | 100% (218) | 0% (0) | 0% (0) |
+| dc_minutes_10_80 | 0% (0) | 0% (0) | 98% (213) | 2% (5) |
+| dc_km_per_20min | 0% (0) | 0% (0) | 72% (158) | 28% (60) |
+| dc_peak_held_min | 0% (0) | 0% (0) | 98% (213) | 2% (5) |
+| consumption_motorway_kwh_100km | 0% (0) | 0% (0) | 74% (161) | 26% (57) |
+| voltage_nominal_v | 0% (0) | 13% (29) | 0% (0) | 87% (189) |
+| voltage_max_v | 0% (0) | 0% (0) | 0% (0) | 100% (218) |
+| charger_400v_kw | 0% (0) | 6% (12) | 0% (0) | 94% (206) |
 
 ## Other sections
 
-- **EPA range** (`epa_range_km`, compared with EPA figures only): 84 variants; 12 with 2+ agreeing sources, of which 12 through fueleconomy.gov.
-- **Generation years vs Wikidata** (corroboration only, +/-1 year): 8 generations checked, 6 corroborated; 7 of 9 years agree.
-- **Known issues** (RDW APK defects, NL): 47 generations, 152 first-registration-year cohorts (35 marked few reports), 22 defect codes.
+- **EPA range** (`epa_range_km`, compared with EPA figures only): 95 variants; 15 with 2+ agreeing sources, of which 15 through fueleconomy.gov.
+- **Generation years vs Wikidata** (corroboration only, +/-1 year): 12 generations checked, 10 corroborated; 11 of 13 years agree.
+- **Known issues** (RDW APK defects, NL): 53 generations, 168 first-registration-year cohorts (43 marked few reports), 22 defect codes.
 - **Charging stats** `bnetza`: 2720 rows in, 2720 rows shipped.
 - **Charging stats** `dft-charging`: 141 rows in, 141 rows shipped.
 - **Charging stats** `eafo`: 898 rows in, gated: status blocked.

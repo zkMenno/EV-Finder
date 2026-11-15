@@ -197,6 +197,68 @@ cf-8c08b2d85b,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,431.3,km,449.0,�
 cf-8a6f8166a5,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,461.9,km,449.0,±2%,fueleconomy:vehicles.csv:id=50192;market=us:epa_range_km
 cf-436f709bab,open,bmw-i4-g26-xdrive40,epa_range_km,openev,494.0,km,449.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_xdrive40.json:epa_range_km
 cf-d8b9a6faaf,open,bmw-i4-g26-xdrive40,epa_range_km,openev,494.0,km,449.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_xdrive40.json:epa_range_km
+cf-8d0f8713b3,open,bmw-ix-gen1-m60,ac_kw,kilowatt-openev,22.0,kW,11.0,±2%,kilowatt-openev:data/v2/models/bmw.json#5076b1d4-9b07-4f36-8050-64668d5b3634:ac_kw
+cf-ed3d96cc28,open,bmw-ix-gen1-m60,consumption_kwh_100km,ademe,21.69,kWh/100km,22.65,±3%,ademe:ademe-car-labelling:B.M.W.|IX|iX M60:consumption_kwh_100km
+cf-f0af5226fa,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,463.5,km,441.0,±2%,fueleconomy:vehicles.csv:id=45326;market=us:epa_range_km
+cf-d3bf2206dd,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,476.4,km,441.0,±2%,fueleconomy:vehicles.csv:id=46938;market=us:epa_range_km
+cf-9affd36fd1,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,476.4,km,441.0,±2%,fueleconomy:vehicles.csv:id=46937;market=us:epa_range_km
+cf-a647099812,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,458.7,km,441.0,±2%,fueleconomy:vehicles.csv:id=48334;market=us:epa_range_km
+cf-c561c3c584,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,457.1,km,441.0,±2%,fueleconomy:vehicles.csv:id=48333;market=us:epa_range_km
+cf-de4ebefae5,open,bmw-ix-gen1-m60,epa_range_km,openev,463.0,km,441.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json+src/bmw/ix/2023/ix_m60.json:epa_range_km
+cf-35f81ba217,open,bmw-ix-gen1-m60,epa_range_km,openev,463.0,km,441.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2024/ix.json+src/bmw/ix/2024/ix_m60.json:epa_range_km
+cf-13c202a547,open,bmw-ix-gen1-m60,epa_range_km,openev,459.0,km,441.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2025/ix.json+src/bmw/ix/2025/ix_m60.json:epa_range_km
+cf-0e5f72dc8c,open,bmw-ix-gen1-m60,weight_kg,ademe,2584.0,kg,2710.0,±1%,ademe:ademe-car-labelling:B.M.W.|IX|iX M60:weight_kg
+cf-ddbef90c8c,open,bmw-ix-gen1-m60,wltp_range_km,rdw,567.0,km,547.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX XDRIVE45|2025#wltp_range_km:wltp_range_km
+cf-2c24027a16,open,bmw-ix-gen1-m60,wltp_range_km,openev,561.0,km,547.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json+src/bmw/ix/2023/ix_m60.json:wltp_range_km
+cf-0969d2b1a7,open,bmw-ix-gen1-m60,wltp_range_km,openev,563.0,km,547.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2024/ix.json+src/bmw/ix/2024/ix_m60.json:wltp_range_km
+cf-3df8c4997c,open,bmw-ix-gen1-m60,wltp_range_km,openev,561.0,km,547.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2025/ix.json+src/bmw/ix/2025/ix_m60.json:wltp_range_km
+cf-465c09aa92,open,bmw-ix-gen1-m60,wltp_range_km,ademe,567.0,km,547.0,±2%,ademe:ademe-car-labelling:B.M.W.|IX|iX M60:wltp_range_km
+cf-600484c7d9,open,bmw-ix-gen1-xdrive40,consumption_kwh_100km,ademe,19.31,kWh/100km,20.7,±3%,ademe:ademe-car-labelling:B.M.W.|IX|iX xDrive40:consumption_kwh_100km
+cf-0981d78816,open,bmw-ix-gen1-xdrive40,epa_range_km,fueleconomy,339.6,km,349.2,±2%,fueleconomy:vehicles.csv:id=48336;market=us:epa_range_km
+cf-4deccff4a7,open,bmw-ix-gen1-xdrive40,epa_range_km,openev,322.0,km,349.2,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json+src/bmw/ix/2023/ix_xdrive40.json:epa_range_km
+cf-1ff396d6e0,open,bmw-ix-gen1-xdrive40,wltp_range_km,rdw,414.0,km,401.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX XDRIVE40|2023#wltp_range_km:wltp_range_km
+cf-f7ead547cd,open,bmw-ix-gen1-xdrive40,wltp_range_km,rdw,417.0,km,401.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX XDRIVE40|2024#wltp_range_km:wltp_range_km
+cf-a81e69328f,open,bmw-ix-gen1-xdrive40,wltp_range_km,openev,425.0,km,401.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json+src/bmw/ix/2023/ix_xdrive40.json:wltp_range_km
+cf-00702ed5f7,open,bmw-ix-gen1-xdrive40,wltp_range_km,openev,425.0,km,401.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2024/ix.json+src/bmw/ix/2024/ix_xdrive40.json:wltp_range_km
+cf-dd7fb19bd8,open,bmw-ix-gen1-xdrive40,wltp_range_km,ademe,426.0,km,401.0,±2%,ademe:ademe-car-labelling:B.M.W.|IX|iX xDrive40:wltp_range_km
+cf-ddc2e42a11,open,bmw-ix-gen1-xdrive50,consumption_kwh_100km,ademe,19.73,kWh/100km,21.3,±3%,ademe:ademe-car-labelling:B.M.W.|IX|iX xDrive50:consumption_kwh_100km
+cf-7b28b5c1ae,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,490.8,km,506.9,±2%,fueleconomy:vehicles.csv:id=45136;market=us:epa_range_km
+cf-6d9a113eb7,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,521.4,km,506.9,±2%,fueleconomy:vehicles.csv:id=45135;market=us:epa_range_km
+cf-6417612023,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,490.8,km,506.9,±2%,fueleconomy:vehicles.csv:id=45997;market=us:epa_range_km
+cf-9b6d06dc91,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,521.4,km,506.9,±2%,fueleconomy:vehicles.csv:id=45996;market=us:epa_range_km
+cf-3e430ddcc7,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,494.1,km,506.9,±2%,fueleconomy:vehicles.csv:id=46944;market=us:epa_range_km
+cf-996860aafd,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,494.1,km,506.9,±2%,fueleconomy:vehicles.csv:id=46943;market=us:epa_range_km
+cf-a0e6694d4b,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,494.1,km,506.9,±2%,fueleconomy:vehicles.csv:id=46942;market=us:epa_range_km
+cf-708639cfc2,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,486.0,km,506.9,±2%,fueleconomy:vehicles.csv:id=48340;market=us:epa_range_km
+cf-1b9a12d3f5,open,bmw-ix-gen1-xdrive50,epa_range_km,fueleconomy,487.6,km,506.9,±2%,fueleconomy:vehicles.csv:id=48339;market=us:epa_range_km
+cf-18555735d2,open,bmw-ix-gen1-xdrive50,epa_range_km,openev,520.0,km,506.9,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json:epa_range_km
+cf-98f1290c92,open,bmw-ix-gen1-xdrive50,epa_range_km,openev,520.0,km,506.9,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json+src/bmw/ix/2023/ix_xdrive50.json:epa_range_km
+cf-439c213e06,open,bmw-ix-gen1-xdrive50,weight_kg,ademe,2510.0,kg,2585.0,±1%,ademe:ademe-car-labelling:B.M.W.|IX|iX xDrive50:weight_kg
+cf-e3703c3a03,open,bmw-ix-gen1-xdrive50,wltp_range_km,openev,630.0,km,593.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json:wltp_range_km
+cf-13ec193cf9,open,bmw-ix-gen1-xdrive50,wltp_range_km,openev,630.0,km,593.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json+src/bmw/ix/2023/ix_xdrive50.json:wltp_range_km
+cf-e2efda16f7,open,bmw-ix-gen1-xdrive50,wltp_range_km,openev,629.0,km,593.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2024/ix.json:wltp_range_km
+cf-cc85fad3d2,open,bmw-ix-gen1-xdrive50,wltp_range_km,openev,629.0,km,593.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2024/ix.json+src/bmw/ix/2024/ix_xdrive50.json:wltp_range_km
+cf-d3641b7b38,open,bmw-ix-gen1-xdrive50,wltp_range_km,openev,630.0,km,593.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2025/ix.json:wltp_range_km
+cf-e42c8beddb,open,bmw-ix-gen1-xdrive50,wltp_range_km,openev,630.0,km,593.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2025/ix.json+src/bmw/ix/2025/ix_xdrive50.json:wltp_range_km
+cf-90634c520c,open,bmw-ix-gen1-xdrive50,wltp_range_km,ademe,632.0,km,593.0,±2%,ademe:ademe-car-labelling:B.M.W.|IX|iX xDrive50:wltp_range_km
+cf-b719666646,open,bmw-ix1-gen1-xdrive30,consumption_kwh_100km,rdw,16.1,kWh/100km,17.1,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2023#consumption_kwh_100km:consumption_kwh_100km
+cf-9fa1a28b2e,open,bmw-ix1-gen1-xdrive30,consumption_kwh_100km,rdw,16.0,kWh/100km,17.1,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2024#consumption_kwh_100km:consumption_kwh_100km
+cf-f6b2b9c8ef,open,bmw-ix1-gen1-xdrive30,consumption_kwh_100km,rdw,16.1,kWh/100km,17.1,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2025#consumption_kwh_100km:consumption_kwh_100km
+cf-5b2238e6bf,open,bmw-ix1-gen1-xdrive30,consumption_kwh_100km,rdw,14.9,kWh/100km,17.1,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2026#consumption_kwh_100km:consumption_kwh_100km
+cf-6183fbcdce,open,bmw-ix1-gen1-xdrive30,wltp_range_km,rdw,432.0,km,421.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 XDRIVE30|2022#wltp_range_km:wltp_range_km
+cf-2194bc9180,open,bmw-ix1-gen1-xdrive30,wltp_range_km,rdw,454.0,km,421.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2023#wltp_range_km:wltp_range_km
+cf-1513ca2b4a,open,bmw-ix1-gen1-xdrive30,wltp_range_km,rdw,456.0,km,421.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2024#wltp_range_km:wltp_range_km
+cf-397832394d,open,bmw-ix1-gen1-xdrive30,wltp_range_km,rdw,453.0,km,421.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2025#wltp_range_km:wltp_range_km
+cf-2ed2de7958,open,bmw-ix1-gen1-xdrive30,wltp_range_km,rdw,492.0,km,421.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2026#wltp_range_km:wltp_range_km
+cf-ad93dd74af,open,bmw-ix1-gen1-xdrive30,wltp_range_km,openev,438.0,km,421.0,±2%,openev:src/bmw/ix1/base.json+src/bmw/ix1/2023/ix1.json:wltp_range_km
+cf-586d309338,open,bmw-ix1-gen1-xdrive30,wltp_range_km,openev,438.0,km,421.0,±2%,openev:src/bmw/ix1/base.json+src/bmw/ix1/2024/ix1.json:wltp_range_km
+cf-59abae26c8,open,bmw-ix1-gen1-xdrive30,wltp_range_km,openev,438.0,km,421.0,±2%,openev:src/bmw/ix1/base.json+src/bmw/ix1/2025/ix1.json:wltp_range_km
+cf-d7b7d6d554,open,bmw-ix3-gen1-ix3,consumption_kwh_100km,rdw,18.0,kWh/100km,19.0,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX3|2024#consumption_kwh_100km:consumption_kwh_100km
+cf-9b69a9887b,open,bmw-ix3-gen1-ix3,consumption_kwh_100km,rdw,18.0,kWh/100km,19.0,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX3|2025#consumption_kwh_100km:consumption_kwh_100km
+cf-fe99787ac1,open,bmw-ix3-gen1-ix3,price_new.NL,rdw,73271.0,EUR,78064.0,±3%,rdw:m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX3|2021#price_new:NL:price_new
+cf-f57de09e4f,open,bmw-ix3-gen1-ix3,price_new.NL,rdw,75072.0,EUR,78064.0,±3%,rdw:m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX3|2022#price_new:NL:price_new
+cf-a0810b320b,open,bmw-ix3-gen1-ix3,weight_kg,ademe,2180.0,kg,2260.0,±1%,ademe:ademe-car-labelling:B.M.W.|IX3|iX3:weight_kg
+cf-d35c7e70ee,open,bmw-ix3-gen1-ix3,wltp_range_km,ademe,462.0,km,452.0,±2%,ademe:ademe-car-labelling:B.M.W.|IX3|iX3:wltp_range_km
 cf-a0198243c7,open,citroen-e-c4-c41-base,ac_kw,kilowatt-openev,7.4,kW,11.0,±2%,kilowatt-openev:data/v2/models/citroen.json#eaf3ae02-0c15-4d94-b762-d50b58456a78:ac_kw
 cf-76924e015c,open,citroen-e-c4-c41-base,battery_kwh_net,kilowatt-openev,50.8,kWh,46.0,±2%,kilowatt-openev:data/v2/models/citroen.json#7dce0341-5cff-4caa-8bc9-8be9b10a480d:battery_kwh_net
 cf-b1b50dfdd0,open,citroen-e-c4-c41-base,battery_kwh_net,kilowatt-openev,50.8,kWh,46.0,±2%,kilowatt-openev:data/v2/models/citroen.json#2f3755f9-35f3-4656-a195-dcd47abb30e7:battery_kwh_net
@@ -289,6 +351,13 @@ cf-3188fbf34e,open,fiat-500e-332-base,consumption_kwh_100km,rdw,13.6,kWh/100km,1
 cf-e0fcec82b3,open,fiat-500e-332-base,epa_range_km,fueleconomy,239.8,km,226.9,±2%,fueleconomy:vehicles.csv:id=47816;market=us:epa_range_km
 cf-a2dd792cea,open,fiat-500e-332-base,epa_range_km,fueleconomy,239.8,km,226.9,±2%,fueleconomy:vehicles.csv:id=48703;market=us:epa_range_km
 cf-8e15c8cf4e,open,fiat-500e-332-base,epa_range_km,fueleconomy,239.8,km,226.9,±2%,fueleconomy:vehicles.csv:id=50198;market=us:epa_range_km
+cf-de1198426d,open,ford-explorer-gen1-base,battery_kwh_net,kilowatt-openev,77.0,kWh,75.0,±2%,kilowatt-openev:data/v2/models/ford.json#d44abee9-5e05-4438-984c-d35bbab84c1b:battery_kwh_net
+cf-2183fbde49,open,ford-explorer-gen1-base,battery_kwh_net,kilowatt-openev,79.0,kWh,75.0,±2%,kilowatt-openev:data/v2/models/ford.json#b075897d-5450-4749-9db8-2e62e014bcd1:battery_kwh_net
+cf-fefc0c49ec,open,ford-explorer-gen1-base,battery_kwh_net,kilowatt-openev,52.0,kWh,75.0,±2%,kilowatt-openev:data/v2/models/ford.json#99e0abb4-782c-4a54-bd3e-5f287aed0afb:battery_kwh_net
+cf-4859c6203e,open,ford-explorer-gen1-base,dc_peak_kw,kilowatt-openev,135.0,kW,150.0,±5%,kilowatt-openev:data/v2/models/ford.json#d44abee9-5e05-4438-984c-d35bbab84c1b:dc_peak_kw
+cf-afe1f1e026,open,ford-explorer-gen1-base,dc_peak_kw,kilowatt-openev,185.0,kW,150.0,±5%,kilowatt-openev:data/v2/models/ford.json#b075897d-5450-4749-9db8-2e62e014bcd1:dc_peak_kw
+cf-9e8cd9f483,open,ford-explorer-gen1-base,wltp_range_km,openev,500.0,km,572.0,±2%,openev:src/ford/explorer_ev/base.json+src/ford/explorer_ev/2024/explorer_ev.json:wltp_range_km
+cf-528fcf1c80,open,ford-explorer-gen1-base,wltp_range_km,openev,500.0,km,572.0,±2%,openev:src/ford/explorer_ev/base.json+src/ford/explorer_ev/2025/explorer_ev.json:wltp_range_km
 cf-de439d8c54,open,ford-mustang-mach-e-gen1-er-awd,battery_kwh_net,kilowatt-openev,88.0,kWh,68.0,±2%,kilowatt-openev:data/v2/models/ford.json#4d84c2e6-2902-4086-aa87-f3852a42d15d:battery_kwh_net
 cf-1114fae500,open,ford-mustang-mach-e-gen1-er-awd,battery_kwh_net,kilowatt-openev,72.6,kWh,68.0,±2%,kilowatt-openev:data/v2/models/ford.json#20a4cd2b-abf4-4218-a3b0-0ca2095cf4ee:battery_kwh_net
 cf-b4a3150c23,open,ford-mustang-mach-e-gen1-er-awd,battery_kwh_net,kilowatt-openev,72.6,kWh,68.0,±2%,kilowatt-openev:data/v2/models/ford.json#00ad1272-18a0-443e-a38f-fb7021270ff1:battery_kwh_net
@@ -442,6 +511,28 @@ cf-049433f189,open,mercedes-eqa-h243-base,wltp_range_km,rdw,506.0,km,416.0,±2%,
 cf-c26ec832b8,open,mercedes-eqa-h243-base,wltp_range_km,openev,426.0,km,416.0,±2%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2023/eqa.json:wltp_range_km
 cf-ec8ec45af6,open,mercedes-eqa-h243-base,wltp_range_km,openev,426.0,km,416.0,±2%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2024/eqa.json:wltp_range_km
 cf-6f15578f2d,open,mercedes-eqa-h243-base,wltp_range_km,openev,426.0,km,416.0,±2%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2025/eqa.json:wltp_range_km
+cf-ca4e72248f,open,mercedes-eqb-gen1-300-4matic,battery_kwh_net,kilowatt-openev,66.5,kWh,60.0,±2%,kilowatt-openev:data/v2/models/mercedes.json#12e04cfb-632a-4cf8-bb24-5abb08338bb5:battery_kwh_net
+cf-656337cb6d,open,mercedes-eqb-gen1-300-4matic,dc_peak_kw,kilowatt-openev,112.0,kW,100.0,±5%,kilowatt-openev:data/v2/models/mercedes.json#12e04cfb-632a-4cf8-bb24-5abb08338bb5:dc_peak_kw
+cf-b44dec18ea,open,mercedes-eqb-gen1-350-4matic,battery_kwh_net,kilowatt-openev,66.5,kWh,60.0,±2%,kilowatt-openev:data/v2/models/mercedes.json#3c0bd61a-e37f-4cf3-bb5a-e4df78035395:battery_kwh_net
+cf-b43e1a4a22,open,mercedes-eqb-gen1-350-4matic,dc_peak_kw,kilowatt-openev,112.0,kW,100.0,±5%,kilowatt-openev:data/v2/models/mercedes.json#3c0bd61a-e37f-4cf3-bb5a-e4df78035395:dc_peak_kw
+cf-51159c9771,open,mercedes-eqb-gen1-base,battery_kwh_net,kilowatt-openev,66.5,kWh,60.0,±2%,kilowatt-openev:data/v2/models/mercedes.json#252bc870-b9cf-7729-362a-ffc48dc486f5:battery_kwh_net
+cf-a863f7d434,open,mercedes-eqb-gen1-base,consumption_kwh_100km,rdw,16.9,kWh/100km,18.6,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250|2022#consumption_kwh_100km:consumption_kwh_100km
+cf-f95fceeef7,open,mercedes-eqb-gen1-base,consumption_kwh_100km,rdw,17.1,kWh/100km,18.6,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250|2023#consumption_kwh_100km:consumption_kwh_100km
+cf-8694bcf359,open,mercedes-eqb-gen1-base,consumption_kwh_100km,rdw,17.0,kWh/100km,18.6,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250+|2023#consumption_kwh_100km:consumption_kwh_100km
+cf-8fcffff17e,open,mercedes-eqb-gen1-base,dc_peak_kw,kilowatt-openev,113.0,kW,100.0,±5%,kilowatt-openev:data/v2/models/mercedes.json#252bc870-b9cf-7729-362a-ffc48dc486f5:dc_peak_kw
+cf-ce776aa652,open,mercedes-eqb-gen1-base,epa_range_km,fueleconomy,391.1,km,365.3,±2%,fueleconomy:vehicles.csv:id=46331;market=us:epa_range_km
+cf-0ddfdbf64c,open,mercedes-eqb-gen1-base,epa_range_km,fueleconomy,329.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=48472;market=us:epa_range_km
+cf-7610523f48,open,mercedes-eqb-gen1-base,epa_range_km,fueleconomy,333.1,km,365.3,±2%,fueleconomy:vehicles.csv:id=47845;market=us:epa_range_km
+cf-1c5b0abf59,open,mercedes-eqb-gen1-base,epa_range_km,fueleconomy,403.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=47844;market=us:epa_range_km
+cf-70fffb85ab,open,mercedes-eqb-gen1-base,epa_range_km,fueleconomy,333.1,km,365.3,±2%,fueleconomy:vehicles.csv:id=49118;market=us:epa_range_km
+cf-1727bb78be,open,mercedes-eqb-gen1-base,epa_range_km,fueleconomy,329.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=49117;market=us:epa_range_km
+cf-81fc1ce1ea,open,mercedes-eqb-gen1-base,epa_range_km,fueleconomy,403.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=49116;market=us:epa_range_km
+cf-2b68eede66,open,mercedes-eqb-gen1-base,wltp_range_km,rdw,458.0,km,408.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250|2022#wltp_range_km:wltp_range_km
+cf-2187c66c2d,open,mercedes-eqb-gen1-base,wltp_range_km,rdw,451.0,km,408.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250|2023#wltp_range_km:wltp_range_km
+cf-80c6c7a3d6,open,mercedes-eqb-gen1-base,wltp_range_km,rdw,484.0,km,408.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250+|2023#wltp_range_km:wltp_range_km
+cf-30dcbe50f9,open,mercedes-eqb-gen1-base,wltp_range_km,openev,419.0,km,408.0,±2%,openev:src/mercedes_benz/eqb/base.json+src/mercedes_benz/eqb/2023/eqb.json:wltp_range_km
+cf-13ef718276,open,mercedes-eqb-gen1-base,wltp_range_km,openev,419.0,km,408.0,±2%,openev:src/mercedes_benz/eqb/base.json+src/mercedes_benz/eqb/2024/eqb.json:wltp_range_km
+cf-9d3687099c,open,mercedes-eqb-gen1-base,wltp_range_km,openev,419.0,km,408.0,±2%,openev:src/mercedes_benz/eqb/base.json+src/mercedes_benz/eqb/2025/eqb.json:wltp_range_km
 cf-8443d52255,open,mercedes-eqc-n293-400,ac_kw,kilowatt-openev,11.0,kW,7.4,±2%,kilowatt-openev:data/v2/models/mercedes.json#8a5cd1a2-f84a-22b9-b397-470fe5ca5bca:ac_kw
 cf-aa72cbacdf,open,mercedes-eqc-n293-400,dc_peak_kw,seed-manual,110.0,kW,125.0,±5%,seed-manual:mercedes-eqc-n293-400:dc_peak_kw
 cf-a186901616,open,mg-mg4-gen1-extended-range,battery_kwh_net,seed-manual,77.0,kWh,74.4,±2%,seed-manual:mg-mg4-gen1-extended-range:battery_kwh_net
@@ -571,6 +662,124 @@ cf-c87d77483a,open,polestar-2-gen1-performance-pack-long-range-dual-motor,epa_ra
 cf-012f04dcdc,open,polestar-2-gen1-standard-range-single-motor,dc_peak_kw,kilowatt-openev,133.0,kW,150.0,±5%,kilowatt-openev:data/v2/models/polestar.json#6b218147-f5a4-2612-9a1a-054556ff6849:dc_peak_kw
 cf-7269d5f9e3,open,polestar-2-gen1-standard-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2024/polestar_2.json+src/polestar/polestar_2/2024/polestar_2_standard_range_single_motor.json:power_kw
 cf-7f3df0d42f,open,polestar-2-gen1-standard-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2025/polestar_2.json+src/polestar/polestar_2/2025/polestar_2_standard_range_single_motor.json:power_kw
+cf-0ec9111986,open,porsche-taycan-gen1-4s,battery_kwh_net,kilowatt-openev,71.0,kWh,83.7,±2%,kilowatt-openev:data/v2/models/porsche.json#34b5ef32-efea-48fc-8386-3800d0b737f0:battery_kwh_net
+cf-5fae9927c7,open,porsche-taycan-gen1-4s,battery_kwh_net,kilowatt-openev,71.0,kWh,83.7,±2%,kilowatt-openev:data/v2/models/porsche.json#6330cebd-38e0-dd93-a2a4-0d50eaf8ac2d:battery_kwh_net
+cf-5ea5e0547a,open,porsche-taycan-gen1-4s,consumption_kwh_100km,ademe,18.9,kWh/100km,20.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#2:consumption_kwh_100km
+cf-6caa7efa17,open,porsche-taycan-gen1-4s,consumption_kwh_100km,ademe,18.8,kWh/100km,20.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#1:consumption_kwh_100km
+cf-e6119d67ca,open,porsche-taycan-gen1-4s,consumption_kwh_100km,ademe,21.8,kWh/100km,20.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S CROSS TURISMO:consumption_kwh_100km
+cf-695d2df594,open,porsche-taycan-gen1-4s,consumption_kwh_100km,ademe,21.6,kWh/100km,20.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4 CROSS TURISMO:consumption_kwh_100km
+cf-3413a48882,open,porsche-taycan-gen1-4s,dc_peak_kw,kilowatt-openev,225.0,kW,270.0,±5%,kilowatt-openev:data/v2/models/porsche.json#34b5ef32-efea-48fc-8386-3800d0b737f0:dc_peak_kw
+cf-6a01f2248c,open,porsche-taycan-gen1-4s,dc_peak_kw,kilowatt-openev,223.0,kW,270.0,±5%,kilowatt-openev:data/v2/models/porsche.json#6330cebd-38e0-dd93-a2a4-0d50eaf8ac2d:dc_peak_kw
+cf-d25182b8cc,open,porsche-taycan-gen1-4s,price_new.FR,ademe,118130.0,EUR,151885.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#2#price_new:FR:price_new
+cf-f7a8028c2a,open,porsche-taycan-gen1-4s,price_new.FR,ademe,111602.0,EUR,151885.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#1#price_new:FR:price_new
+cf-e3912a524d,open,porsche-taycan-gen1-4s,price_new.FR,ademe,109129.0,EUR,151885.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S CROSS TURISMO#price_new:FR:price_new
+cf-7b25ce9650,open,porsche-taycan-gen1-4s,weight_kg,ademe,2250.0,kg,2215.0,±1%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#2:weight_kg
+cf-1f6241c83e,open,porsche-taycan-gen1-4s,weight_kg,ademe,2170.0,kg,2215.0,±1%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#1:weight_kg
+cf-f2454f61b8,open,porsche-taycan-gen1-4s,weight_kg,ademe,2245.0,kg,2215.0,±1%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S CROSS TURISMO:weight_kg
+cf-234437b93d,open,porsche-taycan-gen1-4s,weight_kg,ademe,2245.0,kg,2215.0,±1%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4 CROSS TURISMO:weight_kg
+cf-0475868f17,open,porsche-taycan-gen1-4s,wltp_range_km,ademe,499.0,km,463.0,±2%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S:wltp_range_km
+cf-72dcddb208,open,porsche-taycan-gen1-4s,wltp_range_km,ademe,545.0,km,463.0,±2%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#2:wltp_range_km
+cf-1bfd93f80a,open,porsche-taycan-gen1-base,battery_kwh_net,kilowatt-openev,82.3,kWh,71.0,±2%,kilowatt-openev:data/v2/models/porsche.json#d53f838d-a398-44ce-8b71-d92ee2a1edee:battery_kwh_net
+cf-a9c7dbace7,open,porsche-taycan-gen1-base,battery_kwh_net,kilowatt-openev,82.3,kWh,71.0,±2%,kilowatt-openev:data/v2/models/porsche.json#0905f36e-df59-47b5-ae1b-047678b453d1:battery_kwh_net
+cf-af3d2a7507,open,porsche-taycan-gen1-base,consumption_kwh_100km,rdw,22.85,kWh/100km,24.8,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN 4|2021#consumption_kwh_100km:consumption_kwh_100km
+cf-21f7211a0f,open,porsche-taycan-gen1-base,consumption_kwh_100km,rdw,22.45,kWh/100km,24.8,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN GTS|2022#consumption_kwh_100km:consumption_kwh_100km
+cf-ae51f1cb72,open,porsche-taycan-gen1-base,consumption_kwh_100km,rdw,23.1,kWh/100km,24.8,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN 4S|2022#consumption_kwh_100km:consumption_kwh_100km
+cf-7b92091195,open,porsche-taycan-gen1-base,consumption_kwh_100km,rdw,22.6,kWh/100km,24.8,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN GTS|2023#consumption_kwh_100km:consumption_kwh_100km
+cf-3c5083afde,open,porsche-taycan-gen1-base,consumption_kwh_100km,rdw,21.75,kWh/100km,24.8,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN 4|2023#consumption_kwh_100km:consumption_kwh_100km
+cf-ce05ffd669,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,309.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=42427;market=us:epa_range_km
+cf-13c81fa9c3,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,346.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=44722;market=us:epa_range_km
+cf-8af6752648,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,346.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=44721;market=us:epa_range_km
+cf-1b7aad465e,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,341.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=43910;market=us:epa_range_km
+cf-b707f2a8d8,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,362.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=43803;market=us:epa_range_km
+cf-0d5f31b039,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,365.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=43685;market=us:epa_range_km
+cf-069ede0098,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,375.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=45716;market=us:epa_range_km
+cf-4138b459ea,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,395.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=45715;market=us:epa_range_km
+cf-f9d87e3338,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,346.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=44794;market=us:epa_range_km
+cf-290945dbf4,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,346.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=44793;market=us:epa_range_km
+cf-295b714520,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,341.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=44791;market=us:epa_range_km
+cf-75109a4cd9,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,362.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=44790;market=us:epa_range_km
+cf-4adc46bf14,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,365.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=44788;market=us:epa_range_km
+cf-fc5efc2c8d,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,357.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=46029;market=us:epa_range_km
+cf-ad4c60d058,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,357.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=46028;market=us:epa_range_km
+cf-974c9b7170,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,375.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=46027;market=us:epa_range_km
+cf-4eaf117fde,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,383.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=46026;market=us:epa_range_km
+cf-d9a4a823e0,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,334.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=46025;market=us:epa_range_km
+cf-c90cfcc4c3,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,389.5,km,326.7,±2%,fueleconomy:vehicles.csv:id=46024;market=us:epa_range_km
+cf-95b821dfee,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,375.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=46023;market=us:epa_range_km
+cf-1c182007a9,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,395.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=46022;market=us:epa_range_km
+cf-2017fbef0e,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,378.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=46020;market=us:epa_range_km
+cf-ae6dde10d5,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,370.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=46019;market=us:epa_range_km
+cf-7149846c7c,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,378.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=46018;market=us:epa_range_km
+cf-abe84e5cc0,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,370.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=47860;market=us:epa_range_km
+cf-070b3c2d33,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,357.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=47476;market=us:epa_range_km
+cf-e1ab6f697c,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,375.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=47475;market=us:epa_range_km
+cf-4f8ba143cd,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,378.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=47474;market=us:epa_range_km
+cf-959091791a,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,357.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=47473;market=us:epa_range_km
+cf-f669fff23a,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,383.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=47472;market=us:epa_range_km
+cf-6d574c9b1b,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,334.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=47471;market=us:epa_range_km
+cf-af4eb6e5ae,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,389.5,km,326.7,±2%,fueleconomy:vehicles.csv:id=47470;market=us:epa_range_km
+cf-898388c11d,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,375.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=47469;market=us:epa_range_km
+cf-797a0dfbc7,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,395.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=47468;market=us:epa_range_km
+cf-007cc8088f,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,378.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=47466;market=us:epa_range_km
+cf-391038e0f2,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,449.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=49122;market=us:epa_range_km
+cf-a18a63e807,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,471.5,km,326.7,±2%,fueleconomy:vehicles.csv:id=49121;market=us:epa_range_km
+cf-68449d2e4a,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,473.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=49120;market=us:epa_range_km
+cf-ca22ed984d,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,420.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=48741;market=us:epa_range_km
+cf-16b99f3192,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,479.6,km,326.7,±2%,fueleconomy:vehicles.csv:id=48740;market=us:epa_range_km
+cf-2d23435038,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,428.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=48739;market=us:epa_range_km
+cf-871b855482,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,432.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=48738;market=us:epa_range_km
+cf-62e866d45a,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,444.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=48737;market=us:epa_range_km
+cf-0c5b7360af,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,426.5,km,326.7,±2%,fueleconomy:vehicles.csv:id=48736;market=us:epa_range_km
+cf-8e66cd81a2,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,510.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=48735;market=us:epa_range_km
+cf-7eeab4cf61,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,469.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=48734;market=us:epa_range_km
+cf-5d8a3ce1d2,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,405.6,km,326.7,±2%,fueleconomy:vehicles.csv:id=48733;market=us:epa_range_km
+cf-1a3ece7a53,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,474.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=48732;market=us:epa_range_km
+cf-5e3e0d93d8,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,437.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=48731;market=us:epa_range_km
+cf-ae958a94e4,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,445.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=48730;market=us:epa_range_km
+cf-6139f16212,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,441.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=48415;market=us:epa_range_km
+cf-68d36a46b1,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,511.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=48414;market=us:epa_range_km
+cf-5bd8a54931,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=48413;market=us:epa_range_km
+cf-db82a4fdc1,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,481.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=51113;market=us:epa_range_km
+cf-6309a25784,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,403.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=50457;market=us:epa_range_km
+cf-061719dd62,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=50456;market=us:epa_range_km
+cf-861b9febd9,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,420.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=50248;market=us:epa_range_km
+cf-9d30b9b6ac,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,428.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=50247;market=us:epa_range_km
+cf-1a7a7ce6fd,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,432.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=50246;market=us:epa_range_km
+cf-23056a2399,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,444.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=50245;market=us:epa_range_km
+cf-7f0a5654e2,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,426.5,km,326.7,±2%,fueleconomy:vehicles.csv:id=50244;market=us:epa_range_km
+cf-3a0785ba94,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,469.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=50243;market=us:epa_range_km
+cf-bb9acf3167,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,441.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=50242;market=us:epa_range_km
+cf-f3be9ff0cc,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,449.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=50241;market=us:epa_range_km
+cf-963e3710c2,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,471.5,km,326.7,±2%,fueleconomy:vehicles.csv:id=50240;market=us:epa_range_km
+cf-147ec35f98,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,405.6,km,326.7,±2%,fueleconomy:vehicles.csv:id=50239;market=us:epa_range_km
+cf-09561cc752,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=50238;market=us:epa_range_km
+cf-28fc116f69,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,474.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=50237;market=us:epa_range_km
+cf-38c6c48a6d,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,437.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=50236;market=us:epa_range_km
+cf-bc8fcd7aa3,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,473.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=50235;market=us:epa_range_km
+cf-0b81dd498c,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,445.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=50234;market=us:epa_range_km
+cf-912ca9ee66,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,428.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=51064;market=us:epa_range_km
+cf-87289f6914,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,444.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=51063;market=us:epa_range_km
+cf-afc2d1765f,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,469.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=51062;market=us:epa_range_km
+cf-d7d7cef6b6,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,471.5,km,326.7,±2%,fueleconomy:vehicles.csv:id=51061;market=us:epa_range_km
+cf-f436b77152,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=51060;market=us:epa_range_km
+cf-798d13945f,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,474.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=51059;market=us:epa_range_km
+cf-f5b5a5b74d,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,437.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=51058;market=us:epa_range_km
+cf-c30b4cdfcc,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=51057;market=us:epa_range_km
+cf-2e9ac4e672,open,porsche-taycan-gen1-base,epa_range_km,fueleconomy,473.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=51056;market=us:epa_range_km
+cf-93768a3349,open,porsche-taycan-gen1-base,wltp_range_km,rdw,448.0,km,405.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN 4|2021#wltp_range_km:wltp_range_km
+cf-26fec25841,open,porsche-taycan-gen1-base,wltp_range_km,rdw,458.0,km,405.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN GTS|2022#wltp_range_km:wltp_range_km
+cf-963bc91154,open,porsche-taycan-gen1-base,wltp_range_km,rdw,444.0,km,405.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN 4S|2022#wltp_range_km:wltp_range_km
+cf-d231af8f9b,open,porsche-taycan-gen1-base,wltp_range_km,rdw,455.0,km,405.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN GTS|2023#wltp_range_km:wltp_range_km
+cf-7e2fabfeb6,open,porsche-taycan-gen1-base,wltp_range_km,rdw,481.0,km,405.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN 4|2023#wltp_range_km:wltp_range_km
+cf-ae73751af9,open,porsche-taycan-gen1-base,wltp_range_km,rdw,624.0,km,405.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:PORSCHE|TAYCAN|2025#wltp_range_km:wltp_range_km
+cf-fa4b840b77,open,porsche-taycan-gen1-base,wltp_range_km,openev,431.0,km,405.0,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2023/taycan.json:wltp_range_km
+cf-2facf2e3e6,open,porsche-taycan-gen1-base,wltp_range_km,openev,431.0,km,405.0,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2024/taycan.json:wltp_range_km
+cf-3319ad729f,open,porsche-taycan-gen1-base,wltp_range_km,openev,431.0,km,405.0,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2025/taycan.json:wltp_range_km
+cf-7227113c79,open,porsche-taycan-gen1-turbo,wltp_range_km,ademe,468.0,km,450.0,±2%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN TURBO CROSS TURISMO:wltp_range_km
+cf-993690b5fd,open,porsche-taycan-gen1-turbo-s,consumption_kwh_100km,ademe,22.9,kWh/100km,20.6,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN TURBO S CROSS TURISMO:consumption_kwh_100km
+cf-a05a3e55d9,open,porsche-taycan-gen1-turbo-s,price_new.FR,ademe,151885.0,EUR,165454.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN TURBO S SPORT TURISMO#price_new:FR:price_new
+cf-6113b264ed,open,porsche-taycan-gen1-turbo-s,price_new.FR,ademe,151885.0,EUR,165454.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN TURBO S CROSS TURISMO#price_new:FR:price_new
+cf-ece1655e2c,open,porsche-taycan-gen1-turbo-s,wltp_range_km,ademe,493.0,km,440.0,±2%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN TURBO S SPORT TURISMO:wltp_range_km
 cf-73102db73c,open,renault-megane-e-tech-gen1-base,ac_kw,kilowatt-openev,11.0,kW,22.0,±2%,kilowatt-openev:data/v2/models/renault.json#86bc7a35-f05f-4ba1-b02a-502f8132abae:ac_kw
 cf-37dbca1c8b,open,renault-megane-e-tech-gen1-base,ac_kw,kilowatt-openev,11.0,kW,22.0,±2%,kilowatt-openev:data/v2/models/renault.json#9883b3d1-55f8-4dd3-be76-b09f69ee3ab5:ac_kw
 cf-9dcb07fede,open,renault-megane-e-tech-gen1-base,ac_kw,kilowatt-openev,11.0,kW,22.0,±2%,kilowatt-openev:data/v2/models/renault.json#468bac3a-0cc5-4fc8-bd76-e635897463cb:ac_kw
@@ -895,6 +1104,19 @@ cf-9c01bb9739,open,volkswagen-id4-gen1-pure,wltp_range_km,rdw,362.0,km,343.0,±2
 cf-ca8c0d9f54,open,volkswagen-id4-gen1-pure,wltp_range_km,rdw,356.0,km,343.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:VOLKSWAGEN|ID.4 PURE 125KW|2025#wltp_range_km:wltp_range_km
 cf-cb0b8f5c35,open,volkswagen-id4-gen1-pure,wltp_range_km,rdw,425.0,km,343.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:VOLKSWAGEN|ID.4 PURE 140 KW|2026#wltp_range_km:wltp_range_km
 cf-de33a5f447,open,volkswagen-id4-gen1-pure,wltp_range_km,rdw,355.0,km,343.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:VOLKSWAGEN|ID.4 PURE 125KW|2026#wltp_range_km:wltp_range_km
+cf-c28219b6a4,open,volvo-ex30-gen1-base,battery_kwh_net,kilowatt-openev,64.0,kWh,49.0,±2%,kilowatt-openev:data/v2/models/volvo.json#01c96493-f9ae-4a9f-9bc8-78cf8857e8e6:battery_kwh_net
+cf-1a85c3c89a,open,volvo-ex30-gen1-base,battery_kwh_net,kilowatt-openev,64.0,kWh,49.0,±2%,kilowatt-openev:data/v2/models/volvo.json#ccfdee94-3bb5-4d68-97ab-375ac5a3ef77:battery_kwh_net
+cf-61cc1bc8fc,open,volvo-ex30-gen1-base,consumption_kwh_100km,rdw,18.7,kWh/100km,17.0,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:VOLVO|EX30 CROSS COUNTRY|2025#consumption_kwh_100km:consumption_kwh_100km
+cf-476d5755ff,open,volvo-ex30-gen1-base,epa_range_km,fueleconomy,420.0,km,402.3,±2%,fueleconomy:vehicles.csv:id=48450;market=us:epa_range_km
+cf-3b02a0a61c,open,volvo-ex30-gen1-base,epa_range_km,fueleconomy,413.6,km,402.3,±2%,fueleconomy:vehicles.csv:id=48449;market=us:epa_range_km
+cf-967c653686,open,volvo-ex30-gen1-base,epa_range_km,fueleconomy,365.3,km,402.3,±2%,fueleconomy:vehicles.csv:id=49991;market=us:epa_range_km
+cf-2ac731f8dc,open,volvo-ex30-gen1-base,epa_range_km,fueleconomy,326.7,km,402.3,±2%,fueleconomy:vehicles.csv:id=49990;market=us:epa_range_km
+cf-40f629abd1,open,volvo-ex30-gen1-base,epa_range_km,fueleconomy,420.0,km,402.3,±2%,fueleconomy:vehicles.csv:id=49989;market=us:epa_range_km
+cf-22b237ad28,open,volvo-ex30-gen1-base,wltp_range_km,rdw,427.0,km,475.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:VOLVO|EX30 CROSS COUNTRY|2025#wltp_range_km:wltp_range_km
+cf-062c4b6744,open,volvo-ex30-gen1-base,wltp_range_km,rdw,463.0,km,475.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:VOLVO|EX30 CROSS COUNTRY|2026#wltp_range_km:wltp_range_km
+cf-358330624f,open,volvo-ex30-gen1-base,wltp_range_km,openev,344.0,km,475.0,±2%,openev:src/volvo/ex30/base.json+src/volvo/ex30/2023/ex30.json:wltp_range_km
+cf-2fcc4f5441,open,volvo-ex30-gen1-base,wltp_range_km,openev,344.0,km,475.0,±2%,openev:src/volvo/ex30/base.json+src/volvo/ex30/2024/ex30.json:wltp_range_km
+cf-6822d5b817,open,volvo-ex30-gen1-base,wltp_range_km,openev,344.0,km,475.0,±2%,openev:src/volvo/ex30/base.json+src/volvo/ex30/2025/ex30.json:wltp_range_km
 cf-0a90d3596f,open,volvo-xc40-recharge-ex40-base,battery_kwh_net,kilowatt-openev,79.0,kWh,69.0,±2%,kilowatt-openev:data/v2/models/volvo.json#68c3e594-d21d-4777-83fe-c13377f05ec5:battery_kwh_net
 cf-fd514139aa,open,volvo-xc40-recharge-ex40-base,battery_kwh_net,kilowatt-openev,67.0,kWh,69.0,±2%,kilowatt-openev:data/v2/models/volvo.json#5aec618c-8818-49da-8d7e-25ad43647302:battery_kwh_net
 cf-d5ceb1504e,open,volvo-xc40-recharge-ex40-base,battery_kwh_net,kilowatt-openev,79.0,kWh,69.0,±2%,kilowatt-openev:data/v2/models/volvo.json#0b3da409-7e07-43c4-808c-2f5fc45e152f:battery_kwh_net

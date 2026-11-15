@@ -96,8 +96,8 @@ totals:
   used_in_rank: true
 summary:
   models: 40
-  in_seed: 32
-  not_in_seed: 8
+  in_seed: 40
+  not_in_seed: 0
 models:
 - rank: 1
   model_id: tesla-model-3
@@ -1403,7 +1403,7 @@ models:
 - rank: 18
   model_id: volvo-ex30
   name: Volvo EX30
-  in_seed: false
+  in_seed: true
   score_pct: 1.523
   rank_share_pct:
     NL: 1.85
@@ -2006,7 +2006,7 @@ models:
 - rank: 26
   model_id: bmw-ix1
   name: BMW iX1
-  in_seed: false
+  in_seed: true
   score_pct: 1.193
   rank_share_pct:
     NL: 1.324
@@ -2086,7 +2086,7 @@ models:
 - rank: 27
   model_id: bmw-ix3
   name: BMW iX3
-  in_seed: false
+  in_seed: true
   score_pct: 1.183
   rank_share_pct:
     NL: 1.344
@@ -2239,8 +2239,8 @@ models:
     - 17 FIAT|500E
 - rank: 29
   model_id: opel-mokka
-  name: Opel/Vauxhall Mokka Electric
-  in_seed: false
+  name: Opel Mokka-e
+  in_seed: true
   score_pct: 1.023
   rank_share_pct:
     NL: 0.863
@@ -2498,6 +2498,86 @@ models:
     - 143 FORD|Mustang Mach-E
     - 1 FORD|MUSTACH MACH E
 - rank: 33
+  model_id: mercedes-eqb
+  name: Mercedes-Benz EQB
+  in_seed: true
+  score_pct: 0.904
+  rank_share_pct:
+    NL: 0.634
+    UK: 1.175
+  counts:
+    NL:
+    - source: eea
+      period: '2025'
+      kind: new_registrations
+      count: 1714
+      share_pct: 1.078
+      used_in_rank: false
+    - source: rdw
+      period: first admission 2018-2024, fleet on 2026-11-15
+      kind: fleet
+      count: 3811
+      share_pct: 0.634
+      used_in_rank: true
+    DE:
+    - source: eea
+      period: '2025'
+      kind: new_registrations
+      count: 7479
+      share_pct: 1.374
+      used_in_rank: false
+    - source: kba-fz10
+      period: 2025-01..12
+      kind: new_registrations
+      count: 7318
+      share_pct: 1.353
+      used_in_rank: false
+    - source: kba-fz10
+      period: 2026-01..10
+      kind: new_registrations
+      count: 8911
+      share_pct: 1.282
+      used_in_rank: false
+    FR:
+    - source: eea
+      period: '2025'
+      kind: new_registrations
+      count: 2797
+      share_pct: 0.823
+      used_in_rank: false
+    BE:
+    - source: eea
+      period: '2025'
+      kind: new_registrations
+      count: 5180
+      share_pct: 3.645
+      used_in_rank: false
+    UK:
+    - source: dft-veh
+      period: 2026-Q2
+      kind: fleet
+      count: 23671
+      share_pct: 1.175
+      used_in_rank: true
+  source_names:
+    dft-veh:
+    - 3406 MERCEDES|EQB 250+ SPORT EXECUTIVE
+    - 3051 MERCEDES|EQB 250+ AMG LINE EXECUTIVE
+    - 2511 MERCEDES|EQB 350 AMG LNE PREMIUM 4MATIC
+    - 2241 MERCEDES-BENZ|EQB 250PLUS URBAN EDITION
+    eea:
+    - 14273 MERCEDES-BENZ|EQB 250+
+    - 1575 MERCEDES-BENZ|EQB 300 4MATIC
+    - 1133 MERCEDES-BENZ|EQB 350 4MATIC
+    - 67 MERCEDES-BENZ|GLB 350 4MATIC WITH EQ T.
+    kba-fz10:
+    - 16229 MERCEDES|GLB
+    rdw:
+    - 2111 MERCEDES-BENZ|EQB 250+
+    - 1033 MERCEDES-BENZ|EQB 250
+    - 514 MERCEDES-BENZ|EQB 300 4MATIC
+    - 153 MERCEDES-BENZ|EQB 350 4MATIC
+- rank: 34
   model_id: renault-megane-e-tech
   name: Renault Megane E-Tech Electric
   in_seed: true
@@ -2571,87 +2651,87 @@ models:
     - 1277 RENAULT|MEGANE
     rdw:
     - 7021 RENAULT|MEGANE E-TECH ELECTRIC
-- rank: 34
-  model_id: mercedes-eqb
-  name: Mercedes EQB / GLB
-  in_seed: false
-  score_pct: 0.873
+- rank: 35
+  model_id: porsche-taycan
+  name: Porsche Taycan
+  in_seed: true
+  score_pct: 0.874
   rank_share_pct:
-    NL: 0.634
-    UK: 1.112
+    NL: 0.618
+    UK: 1.129
   counts:
     NL:
     - source: eea
       period: '2025'
       kind: new_registrations
-      count: 1714
-      share_pct: 1.078
+      count: 135
+      share_pct: 0.085
       used_in_rank: false
     - source: rdw
       period: first admission 2018-2024, fleet on 2026-11-15
       kind: fleet
-      count: 3811
-      share_pct: 0.634
+      count: 3717
+      share_pct: 0.618
       used_in_rank: true
     DE:
     - source: eea
       period: '2025'
       kind: new_registrations
-      count: 7315
-      share_pct: 1.344
+      count: 2808
+      share_pct: 0.516
       used_in_rank: false
     - source: kba-fz10
       period: 2025-01..12
       kind: new_registrations
-      count: 7318
-      share_pct: 1.353
+      count: 2799
+      share_pct: 0.517
       used_in_rank: false
     - source: kba-fz10
       period: 2026-01..10
       kind: new_registrations
-      count: 8911
-      share_pct: 1.282
+      count: 1800
+      share_pct: 0.259
       used_in_rank: false
     FR:
     - source: eea
       period: '2025'
       kind: new_registrations
-      count: 2792
-      share_pct: 0.822
+      count: 247
+      share_pct: 0.073
       used_in_rank: false
     BE:
     - source: eea
       period: '2025'
       kind: new_registrations
-      count: 5180
-      share_pct: 3.645
+      count: 311
+      share_pct: 0.219
       used_in_rank: false
     UK:
     - source: dft-veh
       period: 2026-Q2
       kind: fleet
-      count: 22410
-      share_pct: 1.112
+      count: 22754
+      share_pct: 1.129
       used_in_rank: true
   source_names:
     dft-veh:
-    - 3406 MERCEDES|EQB 250+ SPORT EXECUTIVE
-    - 3051 MERCEDES|EQB 250+ AMG LINE EXECUTIVE
-    - 2511 MERCEDES|EQB 350 AMG LNE PREMIUM 4MATIC
-    - 2241 MERCEDES-BENZ|EQB 250PLUS URBAN EDITION
+    - 4160 PORSCHE|TAYCAN 4S 93KWH
+    - 3227 PORSCHE|TAYCAN 4X2
+    - 3032 PORSCHE|TAYCAN 4S CROSS TURISMO
+    - 1594 PORSCHE|TAYCAN TURBO
     eea:
-    - 14273 MERCEDES-BENZ|EQB 250+
-    - 1575 MERCEDES-BENZ|EQB 300 4MATIC
-    - 1133 MERCEDES-BENZ|EQB 350 4MATIC
-    - 19 MERCEDES-BENZ|EQB 250
+    - 1001 PORSCHE|TAYCAN
+    - 959 PORSCHE|TAYCAN 4S
+    - 592 PORSCHE|TAYCAN GTS
+    - 585 PORSCHE|TAYCAN 4
     kba-fz10:
-    - 16229 MERCEDES|GLB
+    - 4599 PORSCHE|TAYCAN
     rdw:
-    - 2111 MERCEDES-BENZ|EQB 250+
-    - 1033 MERCEDES-BENZ|EQB 250
-    - 514 MERCEDES-BENZ|EQB 300 4MATIC
-    - 153 MERCEDES-BENZ|EQB 350 4MATIC
-- rank: 35
+    - 1184 PORSCHE|TAYCAN
+    - 970 PORSCHE|TAYCAN 4S
+    - 485 PORSCHE|TAYCAN 4
+    - 283 PORSCHE|TAYCAN GTS
+- rank: 36
   model_id: volkswagen-e-golf
   name: Volkswagen e-Golf
   in_seed: true
@@ -2700,90 +2780,10 @@ models:
     - 36 VW|GOLF
     - 2 VOLKSWAGEN|E GOLF
     - 1 VOLKSWAGEN|E-GOLF
-- rank: 36
-  model_id: porsche-taycan
-  name: Porsche Taycan
-  in_seed: false
-  score_pct: 0.795
-  rank_share_pct:
-    NL: 0.522
-    UK: 1.068
-  counts:
-    NL:
-    - source: eea
-      period: '2025'
-      kind: new_registrations
-      count: 98
-      share_pct: 0.062
-      used_in_rank: false
-    - source: rdw
-      period: first admission 2018-2024, fleet on 2026-11-15
-      kind: fleet
-      count: 3139
-      share_pct: 0.522
-      used_in_rank: true
-    DE:
-    - source: eea
-      period: '2025'
-      kind: new_registrations
-      count: 2372
-      share_pct: 0.436
-      used_in_rank: false
-    - source: kba-fz10
-      period: 2025-01..12
-      kind: new_registrations
-      count: 2799
-      share_pct: 0.517
-      used_in_rank: false
-    - source: kba-fz10
-      period: 2026-01..10
-      kind: new_registrations
-      count: 1800
-      share_pct: 0.259
-      used_in_rank: false
-    FR:
-    - source: eea
-      period: '2025'
-      kind: new_registrations
-      count: 203
-      share_pct: 0.06
-      used_in_rank: false
-    BE:
-    - source: eea
-      period: '2025'
-      kind: new_registrations
-      count: 243
-      share_pct: 0.171
-      used_in_rank: false
-    UK:
-    - source: dft-veh
-      period: 2026-Q2
-      kind: fleet
-      count: 21514
-      share_pct: 1.068
-      used_in_rank: true
-  source_names:
-    dft-veh:
-    - 4160 PORSCHE|TAYCAN 4S 93KWH
-    - 3227 PORSCHE|TAYCAN 4X2
-    - 3032 PORSCHE|TAYCAN 4S CROSS TURISMO
-    - 1594 PORSCHE|TAYCAN TURBO
-    eea:
-    - 1001 PORSCHE|TAYCAN
-    - 959 PORSCHE|TAYCAN 4S
-    - 592 PORSCHE|TAYCAN GTS
-    - 148 PORSCHE|TAYCAN TURBO
-    kba-fz10:
-    - 4599 PORSCHE|TAYCAN
-    rdw:
-    - 1184 PORSCHE|TAYCAN
-    - 970 PORSCHE|TAYCAN 4S
-    - 283 PORSCHE|TAYCAN GTS
-    - 191 PORSCHE|TAYCAN TURBO S
 - rank: 37
   model_id: bmw-ix
   name: BMW iX
-  in_seed: false
+  in_seed: true
   score_pct: 0.695
   rank_share_pct:
     NL: 0.393
@@ -2941,7 +2941,7 @@ models:
 - rank: 39
   model_id: ford-explorer
   name: Ford Explorer EV
-  in_seed: false
+  in_seed: true
   score_pct: 0.669
   rank_share_pct:
     NL: 0.243
@@ -3144,5 +3144,5 @@ seed_models_outside_top:
   rank: 76
   score_pct: 0.25
 - model_id: honda-e
-  rank: 121
+  rank: 120
   score_pct: 0.079

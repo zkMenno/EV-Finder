@@ -1,10 +1,10 @@
 {
  "step": "release",
- "at": "2026-11-15T02:19:09+00:00",
+ "at": "2026-11-15T02:34:01+00:00",
  "inputs": [
   {
    "path": "data/seed/models.yaml",
-   "modified": "2026-11-15T01:47:57+00:00"
+   "modified": "2026-11-15T02:33:41+00:00"
   },
   {
    "path": "data/staging/ademe.records.jsonl",
@@ -126,9 +126,9 @@
  ],
  "outputs": {
   "release": 1,
-  "rows": 197,
-  "generations_with_rows": 55,
-  "facts": 8846,
+  "rows": 218,
+  "generations_with_rows": 62,
+  "facts": 10627,
   "sources": [
    "ademe",
    "dft-veh",
@@ -143,7 +143,7 @@
    "seed-manual",
    "wikidata"
   ],
-  "matched_records": 3576,
+  "matched_records": 4340,
   "excluded_records": {},
   "count_only_spec_records_skipped": {},
   "match_flags": {
@@ -160,51 +160,51 @@
    "variants_corroborated_by_field": {}
   },
   "attach_only_records_attached": {
-   "ademe": 24,
-   "fueleconomy": 412,
-   "kilowatt-openev": 358,
-   "rdw": 525
+   "ademe": 48,
+   "fueleconomy": 546,
+   "kilowatt-openev": 388,
+   "rdw": 621
   },
   "ignored_fields": {
-   "fueleconomy:consumption_kwh_100km": 365,
-   "kilowatt-openev:consumption_kwh_100km": 287
+   "fueleconomy:consumption_kwh_100km": 499,
+   "kilowatt-openev:consumption_kwh_100km": 317
   },
   "registrations_coverage": {
    "BE": {
-    "variants": 136,
-    "eea:new_registrations:generation": 136
+    "variants": 157,
+    "eea:new_registrations:generation": 157
    },
    "DE": {
-    "variants": 141,
-    "eea:new_registrations:generation": 139,
-    "kba-fz10:new_registrations:generation": 134,
+    "variants": 162,
+    "eea:new_registrations:generation": 160,
+    "kba-fz10:new_registrations:generation": 155,
     "kba-fz10:new_registrations:model": 6
    },
    "FR": {
-    "variants": 139,
-    "eea:new_registrations:generation": 139
+    "variants": 160,
+    "eea:new_registrations:generation": 160
    },
    "NL": {
-    "variants": 197,
-    "rdw:fleet:generation": 197,
-    "eea:new_registrations:generation": 139,
+    "variants": 218,
+    "rdw:fleet:generation": 218,
+    "eea:new_registrations:generation": 160,
     "rdw:fleet:model": 29
    },
    "UK": {
-    "variants": 197,
-    "dft-veh:fleet:model": 78,
-    "dft-veh:fleet:generation": 119
+    "variants": 218,
+    "dft-veh:fleet:model": 85,
+    "dft-veh:fleet:generation": 133
    }
   },
   "dc_curve_status": {
    "estimated": 51,
-   "default": 141,
+   "default": 162,
    "none": 5
   },
   "price_new_coverage": {
-   "DE": 7,
-   "FR": 7,
-   "NL": 25
+   "DE": 11,
+   "FR": 14,
+   "NL": 31
   },
   "year_bands": [
    {
@@ -299,18 +299,18 @@
     ]
    }
   ],
-  "unmatched_records": 9780,
-  "unmatched_seed_makes": 6268,
+  "unmatched_records": 9016,
+  "unmatched_seed_makes": 5956,
   "validation_problems": 0,
-  "conflicts": 924,
+  "conflicts": 1146,
   "gated_sources": {},
   "real_range_rungs": {
-   "body-ratio": 140,
+   "body-ratio": 161,
    "none": 57
   },
   "quality_tiers": {
-   "single-source": 184,
-   "sourced": 13
+   "single-source": 202,
+   "sourced": 16
   },
   "optional_taxonomy_rows": {
    "bidi_modes": 4,
@@ -342,22 +342,20 @@
   },
   "sections": {
    "epa_range_km": {
-    "fueleconomy_only": 45,
-    "rows": 84,
-    "second_source_via_fueleconomy": 12,
-    "two_plus_agreeing": 12,
-    "with_fueleconomy": 65
+    "fueleconomy_only": 48,
+    "rows": 95,
+    "second_source_via_fueleconomy": 15,
+    "two_plus_agreeing": 15,
+    "with_fueleconomy": 71
    },
    "generation_years": {
     "records": 13,
-    "checks": 9,
-    "agree": 7,
+    "checks": 13,
+    "agree": 11,
     "disagree": 2,
-    "generations_checked": 8,
-    "generations_corroborated": 6,
-    "skipped": {
-     "model not in seed": 4
-    },
+    "generations_checked": 12,
+    "generations_corroborated": 10,
+    "skipped": {},
     "disagreements": [
      {
       "generation_id": "skoda-enyaq-gen1",
@@ -378,15 +376,15 @@
    "known_issues": {
     "status": "shipped",
     "groups_in": 306,
-    "groups_placed": 211,
+    "groups_placed": 232,
     "skipped_groups": {
-     "model not in seed": 89,
+     "model not in seed": 68,
      "shared year, generation unknown": 5,
      "year outside every generation": 1
     },
-    "generations": 47,
-    "cohorts": 152,
-    "cohorts_few_reports": 35,
+    "generations": 53,
+    "cohorts": 168,
+    "cohorts_few_reports": 43,
     "cohorts_below_min_sample": 0,
     "codes": 22
    },
@@ -419,12 +417,12 @@
     }
    }
   },
-  "catalogue_json_bytes": 3541190,
-  "catalogue_json_gzip_bytes": 192113,
+  "catalogue_json_bytes": 4065577,
+  "catalogue_json_gzip_bytes": 211865,
   "diff": {
    "rows_previous": 0,
-   "rows": 197,
-   "added": 197,
+   "rows": 218,
+   "added": 218,
    "removed": 0,
    "changed": 0
   }

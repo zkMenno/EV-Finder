@@ -138,7 +138,8 @@ def _model_of(seed, rec: SourceRecord) -> tuple[str | None, str, str | None]:
         ("MINI", "MINI", None),  # all MINIs in one row: not mapped (Q-051)
         ("AUDI", "E-TRON GT", None),
         ("HONDA", "E:NY1", None),
-        ("BMW", "X1", None),  # iX1 is not in the seed: never invent models
+        ("BMW", "X1", "bmw-ix1"),  # BEV column of the X1 series (T-051 added the iX1)
+        ("BMW", "X2", None),  # iX2 is not in the seed: never invent models
     ],
 )
 def test_kba_names(real_seed, make: str, model: str, expected: str | None) -> None:

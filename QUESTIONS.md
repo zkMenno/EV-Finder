@@ -362,6 +362,11 @@ No answer needed unless you disagree; coordinator/WS2 notes. **Defaults taken:**
 
 **Answer:**
 
+### Q-081 · T-051 seed: segments and two split generations are judgement calls · T-051 · data builder · 2026-11-15
+No answer needed unless you disagree. The 8 missing top-40 models are now in `data/seed/models.yaml` (EX30, iX1, iX3, Mokka-e, EQB, Taycan, iX, Explorer EV), built only from staged data. **Defaults taken:** (1) **Segment** is required by `validate_seed.py`, but no source gives one. Rule used: the segment of the existing seed model with the nearest OpenEV length, same body family. Results: EX30 J-small, iX1 J-medium, iX3 J-medium, iX J-large, **EQB J-large** (I-Pace 4682 mm vs EV6 4680 mm, J-medium; the EQA is J-medium, so J-medium is defensible too), Taycan F. Mokka-e has no length anywhere: J-small from Wikidata (mini SUV / supermini, item for all Mokkas). **Explorer EV has no size source: J-medium as a placeholder.** (2) **Year rule:** start = first RDW first-admission year with ≥ 5 % of the cars, one year earlier when RDW has cars then and Wikidata or a spec model year agrees (so OpenEV 2023 EX30 records still match). (3) **Two generations, not one,** where all registration sources switch names: iX3 (plain "IX3" to 2025, "IX3 50 XDRIVE"/"IX3 40" from 2026) and EQB → "GLB" (from 2026). The new halves start in 2026, not 2025, because the matcher picks a generation by year and would move all 2025 cars to the variant-less new generation; about 780 EEA 2025 iX3 and 164 GLB cars with the new names therefore sit on the old generation. Both new halves and the Mokka-e have **no variant rows** (no OpenEV record; KilowattApp/ADEME/RDW only attach). (4) OpenEV lists the Explorer EV with 7 seats / 3 rows: worth a check against a primary source.
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15
