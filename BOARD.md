@@ -4,6 +4,18 @@ One screen: what's happening. Coordinator only. Task details live in `tasks/`.
 
 _Last updated: 2026-11-15 01:00 UTC by WS0. Waves 1–4 are being built by overnight prototype 1 on `proto/overnight-1`; status updates when it is reviewed and merged._
 
+## Launch scope (Decision 051, docs/spec/launch-scope.md)
+
+Builders take only tasks in **Launch**. Everything else needs Menno's yes. Built work for parked features stays behind feature flags (off).
+
+**Launch, hero:** T-080 hero shortlist (WS2) · T-067 profile picker + suggested sort (WS2) · T-066 schema shortlist rules (WS0) · T-069 shortlist scores in the release (WS1) · T-068 seed gaps for picks (WS3) · T-081 used price by build year (WS1 + WS3) · T-056 free price indices (WS1) · T-043 loan estimate only (WS2/WS3)
+**Launch, catalogue:** T-010 compare · T-045 differences only · T-050 country + language URLs · T-012 i18n · T-051 / T-052 seed coverage · T-041 listing templates · T-062 / T-063 data fixes · T-065 schema follow-ups
+**Launch, data:** T-064 releases out of git · T-034 climate · T-032 / T-033 consumption model (winter range) · T-035 back-test · T-031 heat pump seed · open data download (built, Decision 016)
+**Launch, content:** T-039 winter range · T-027 charging in 2026 · T-082 batteries + battery health · glossary tooltips
+**Launch, infra:** T-040 AppInfra staging · T-013 deploy · T-064 storage part
+
+**After launch (parked):** T-011 rankings pages · T-019 / T-020 / T-021 / T-022 bidirectional · T-024 / T-025 / T-026 / T-028 charging pages + link-outs (built parts stay flagged off) · T-029 ABRP deep links · T-036 quick range check (absorbed into T-080) · T-037 / T-038 Trip fit routes · T-042 bidi verification · T-044 / T-046–T-049 variant clues + finder · T-053 / T-058 registration history display · T-061 known issues · lease figures (rest of T-043)
+
 ## Now
 - Waves 1–4 — overnight prototype 1 (branch `proto/overnight-1`, review pending MORNING.md)
 - WS0: T-018 schema-bidi-connectors, T-023, T-030 schemas

@@ -110,7 +110,7 @@ Pre-approved by Menno (2026-11-15): read, search and fetch any public website, d
 ### Don't
 - Touch files outside your lane or change the schema (unless you're the coordinator).
 - Add a dependency without saying why in the PR.
-- Add features that aren't in your task. The scope guard is strict: Core / Next / Later (spec §2).
+- Add features that aren't in your task. The scope guard is strict: only what docs/spec/launch-scope.md lists ships at launch (Decision 051); new ideas go to ROADMAP.md.
 - Call external services or scrape sites in tests. Use fixtures.
 - Delete or rewrite DECISIONS.md entries. Supersede them with a new one.
 

@@ -4,6 +4,7 @@ Source of truth for product scope is the claude.ai doc "Used-EV Finder — Produ
 
 | File | Tab | What it covers |
 |---|---|---|
+| [launch-scope.md](launch-scope.md) | Launch scope | **Read first.** What ships at launch and what waits (Decision 051); wins over other tabs |
 | [master-spec-v2.md](master-spec-v2.md) | Master spec v2 | The product: scope guard, Explore, pages, data model, phases, hosting |
 | [research-and-notes.md](research-and-notes.md) | Research & notes | Market research, competitor notes, earlier ideas |
 | [data-sources.md](data-sources.md) | Data sources | Open data sources per region and licence notes |

@@ -580,4 +580,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** One template drives both Explore presets and the "Suggested" sort. Only road-tripper is back-tested; the other profiles use research thresholds (research/R-33) until the normie test (R-30) calibrates them 🟡. These profiles become `usage_profiles` rows once T-066 lands, so Trip fit and shortlist share one table.
 
+## Decision 051: Strict launch scope: hero shortlist + catalogue, five countries
+
+**Status:** Accepted (Menno, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Building with agents kept adding features. Menno: "EV Database, but better UX, some more features and more countries."
+
+**Decision:** Launch = (1) a three-step hero (country → profile from the 4-tap picker, Decision 050 → budget with a rough "≈ €X/month" loan estimate; optional refine filters incl. body/seats, min winter range, towing, new/used and build years, brands in/out) that returns a top 10 of models with variant and build years, top 5 highlighted as the shortlist; (2) the full catalogue to browse (Explore, model/generation/variant pages, Compare with differences-only, tooltips); (3) five countries, six languages, used price bands per country by build year, the data pipeline, the open data download, and three /learn pages (winter range, charging in 2026, batteries and used battery health). Everything else is after launch or later (docs/spec/launch-scope.md). Builders take only BOARD tasks tagged Launch; anything else needs Menno's yes. Built work for parked features stays behind feature flags, off by default.
+
+**Consequences:** Trip fit routes, charging pages, bidi filters, variant clue box/finder, lease figures, accounts, alerts and rankings pages wait. Supersedes the phase tags in earlier decisions where they conflict (e.g. Decision 017: only the loan estimate ships; Decision 019: only differences-only ships).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
