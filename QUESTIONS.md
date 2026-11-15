@@ -150,6 +150,16 @@ Tried to make the ev, top and learn pages static. **Not done**, for three reason
 
 **Answer:**
 
+### Q-036 · RVO vs RDW · R-01 · coordinator · 2026-11-15
+You asked to prefer RVO's cleaned data over RDW. RVO's EV dashboard is **CC BY-SA 4.0** (share-alike), which could force our derived dataset under BY-SA too, clashing with our CC BY 4.0 output (Decision 002). **Default:** RVO is `blocked` for ingestion and used only to cross-check RDW-derived totals by hand; we aggregate RDW (CC0) ourselves, applying RVO-style cleaning (BEV filter, imports, exports). Same pattern elsewhere: KBA FZ10 (DE), DfT VEH (UK), FPS Mobility (BE, licence to confirm), EEA for FR (no open make/model register in France). Ask RVO for a CC BY licence or permission?
+
+**Answer:**
+
+### Q-037 · RDW notice: "do not state the data comes from RDW" · R-01 · coordinator · 2026-11-15
+RDW's bijsluiter says reusers may not state that the data comes from RDW, or use its logo or house style. That clashes with showing "Source: RDW" on every number. **Default:** the UI keeps the source id but the label needs your call. Probably the clause targets edited data being passed off as official RDW data; an email to RDW would settle it. Options: label "Dutch vehicle register (open data, CC0)" with a method note, or ask RDW.
+
+**Answer:**
+
 ## Closed
 
 ### Q-031 · DC ranking: km in 10 or 20 minutes? · T-011 · builder · 2026-11-15

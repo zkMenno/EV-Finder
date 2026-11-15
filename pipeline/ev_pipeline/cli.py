@@ -8,11 +8,11 @@ import sys
 
 from ev_pipeline import __version__
 
-SOURCES = ["openev", "rdw", "eea", "nyland"]
+SOURCES = ["openev", "rdw", "eea", "nyland", "dft-veh", "kba-fz10", "ademe"]
 
 
 def _adapter(name: str):
-    return importlib.import_module(f"ev_pipeline.sources.{name}.adapter")
+    return importlib.import_module(f"ev_pipeline.sources.{name.replace('-', '_')}.adapter")
 
 
 def build_parser() -> argparse.ArgumentParser:
