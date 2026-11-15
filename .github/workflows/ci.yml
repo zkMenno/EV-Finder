@@ -221,6 +221,8 @@ jobs:
         run: uv run python -I ../data/seed/validate_variants.py
       - name: Validate taxonomy, platforms, packs and variant links
         run: uv run python -I ../data/taxonomy/validate_taxonomy.py
+      - name: Back-test shortlist rules against Menno's picks (Decision 038)
+        run: uv run python -I ../data/editorial/backtest_rules.py
       - name: Blocking QA on the committed release
         run: |
           if [ ! -e ../data/releases/latest ]; then echo "No committed release yet; skipped."; exit 0; fi

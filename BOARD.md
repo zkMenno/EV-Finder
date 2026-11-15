@@ -79,6 +79,12 @@ _Last updated: 2026-11-15 01:00 UTC by WS0. Waves 1–4 are being built by overn
 - T-048 web-spot-it-box (WS2) — after T-046, T-047
 - T-038 web-trip-routes (WS2) — after T-033, T-034, T-037
 
+### Wave 9 — Owner picks + shortlist rules (Decision 038, research/R-32)
+- T-066 schema-shortlist-rules (WS0, `packages/schema`)
+- T-067 web-owner-picks-and-suggested-shortlist (WS2, `apps/web`) — YAML now, types after T-066
+- T-068 seed-owner-picks-gaps (WS3, `data/seed`)
+- T-069 release-shortlist-scores (WS1, `pipeline`) — after T-066
+
 ## Blocked
 - Overnight review (step 4 of the handoff) waits for MORNING.md on `proto/overnight-1`.
 - Real data in production waits for off-site backups (AppInfra #93).

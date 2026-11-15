@@ -1,0 +1,160 @@
+# Shortlist rules, derived from Menno's own picks (data/editorial/menno-picks.yaml, Nov 2026).
+# Rules are rows, not code (Decision 038). Back-test: python3 -I data/editorial/backtest_rules.py
+#
+# How a car is scored for one profile:
+#   1. gates: fail one → "ruled out" with the gate's reason (plain words, shown to users)
+#   2. factors: each maps a value onto 0..1 between `poor` and `great` (linear, clamped), times its weight
+#   3. bonuses / penalties: small fixed points with a reason
+#   4. score 0..100 → band (shortlist / consider / fallback)
+# Price is NOT a factor. Menno sorted quality first and put price in its own group
+# ("awesome, yet expensive"). The app filters or splits by budget after scoring.
+#
+# `field` = PublishedVariant field the app will read. `sheet_field` = the column used in the
+# back-test (Menno's sheet values, internal only). `status: gap` = field not in the schema yet
+# (schema request T-066); the factor scores 0.5 (neutral) until the data exists, never a guess.
+schema: shortlist-rules/v1
+derived_from: data/editorial/menno-picks.yaml
+review: true   # agent-derived from 41 rows of one person's picks; Menno to confirm thresholds
+
+profiles:
+  - id: only-car-long-trips
+    label: {en: "Only or main car, regular long trips", nl: "Enige of hoofdauto, vaak lange ritten"}
+    matches_usage_profile: only-car-often-long   # data/taxonomy/usage_profiles.yaml (trip-fit §6)
+    origin: "Menno's 'EVs top tier' tab: primary car, quick charging, Dutch + French used market"
+    # Bands per voltage class: Menno holds 800 V cars to a higher bar and judges 400 V cars
+    # against each other (his tab is split into 800 V and 400 V sections; the best 400 V cars,
+    # L03 / ID.7 Pro S / Zeekr 001, are green even though they charge slower than 'fallback' 800 V cars).
+    bands:
+      800v: {shortlist: 68, consider: 63}
+      400v: {shortlist: 52, consider: 45}
+      default: {shortlist: 60, consider: 50}
+
+    gates:
+      - id: dc-not-terrible
+        field: dc_km_per_20min
+        sheet_field: dc_km_per_h
+        min_km_per_h: 300
+        reason: {en: "Fast charging is too slow for long trips (adds less than 100 km in 20 minutes)."}
+        evidence: "OTHER EVs tab: Ampera-e, Zoe, Leaf, MG5 greyed out as 'Terrible DC charging'."
+      - id: winter-range-floor
+        field: real_range_km   # winter figure once Trip fit's consumption model lands
+        sheet_field: range_winter_km
+        min_km: 250
+        reason: {en: "Under 250 km in winter: too short as your only car."}
+        evidence: "Used EVs tab: 54 kWh IONIQ 5 / EV6 (250-255 km winter) were the lowest tier (A4) despite fast charging."
+
+    factors:
+      - id: dc-speed
+        label: {en: "Fast-charging speed (km added per hour, 10-80%)"}
+        field: dc_km_per_20min       # x3 = km per hour
+        sheet_field: dc_km_per_h
+        poor: 450
+        great: 1300
+        weight: 30
+        evidence: "Strongest signal. Every A/B-tier car charges at 1,100+ km/h; older versions of the same cars
+          (960-1,070 km/h) drop to 'fallback'. Menno measures it in km/h, not kW (same idea as Decision 009)."
+      - id: winter-range
+        label: {en: "Winter range"}
+        field: real_range_km
+        sheet_field: range_winter_km
+        poor: 300
+        great: 430
+        weight: 20
+        evidence: "Shortlist cars sit at 380-465 km winter; 'consider' 400 V cars with ~370-395 km."
+      - id: space
+        label: {en: "Boot plus frunk"}
+        field: boot_l                # + frunk_l (gap)
+        sheet_field: [boot_l, frunk_l]
+        poor: 380
+        great: 600
+        weight: 12
+        evidence: "MG4 (363 L) stays 'fallback'; IONIQ 6 (401 + 45 L) only 'watching'; estates/wagons get
+          yellow in the era tab (e-308 SW, Astra Sports Tourer) and dominate his petrol shortlist."
+      - id: efficiency
+        label: {en: "Efficiency"}
+        field: consumption_kwh_100km   # x10 = Wh/km
+        sheet_field: efficiency_wh_km
+        poor: 290
+        great: 210
+        weight: 10
+        evidence: "Picks cluster at 212-240 Wh/km (P7+, 7GT, ID.7, G6); 270+ is tolerated only with very fast charging."
+      - id: one-pedal
+        label: {en: "Strong regen / one-pedal driving"}
+        field: one_pedal
+        status: gap
+        sheet_field: notes_one_pedal
+        weight: 10
+        evidence: "IM6 demoted to C-tier with the note 'Weak regen / No one-pedal driving'; every note on a
+          shortlisted car names its regen control (flippers + i-Pedal, Xpedal, one-pedal). Used tab has a '1-pedal' column."
+      - id: v2l
+        label: {en: "Power out (V2L)"}
+        field: bidi                  # bidi.modes contains v2l
+        sheet_field: v2l
+        weight: 5
+        evidence: "All 800 V shortlist cars have V2L; the two 'watching' 800 V cars without it (CLA, A6) stay unrated."
+      - id: home-power
+        label: {en: "Can power a home or the grid (V2H / V2G)"}
+        field: bidi
+        sheet_field: [v2h, v2g]
+        weight: 5
+        evidence: "Called out with '!' in notes on EX60, iX3, Megane 2026 ('V2H, AC @ 11kw!')."
+      - id: ac-speed
+        label: {en: "Home charging speed (AC)"}
+        field: ac_kw
+        sheet_field: ac_kw
+        poor: 7
+        great: 22
+        weight: 4
+        evidence: "MG4 (6.6 kW) is 'fallback'; 22 kW noted as a plus (Zeekr, Volvo, Megane 2022)."
+
+    bonuses:
+      - id: newest-version
+        points: 4
+        rule: "Newest model year of a model that also appears in an older version (same model, later battery/charging update)."
+        evidence: "G6 2025 (A) vs 2024 (C); EV6 2024 (A) vs 2021 (C); IONIQ 5 2024 (B) vs 2022 (C)."
+      - id: lfp-daily-100
+        points: 2
+        field: charge_100_daily
+        sheet_field: chemistry
+        rule: "LFP battery: charge to 100% every day without worry."
+        evidence: "Three of the top-tier picks are LFP (G6 2025, P7+, L03); Menno tracks chemistry per car."
+
+    penalties:
+      - id: too-big-for-b-roads
+        points: -16
+        field: [length_mm, kerb_mass_kg]   # width_mm is a gap
+        status: calibrate
+        rule: "Wide or heavy SUV (width over ~1.95 m or kerb mass over ~2,300 kg) on narrow rural roads."
+        sheet_rule: "notes contain 'chubby'"
+        evidence: "Zeekr 7X: 'Quite chubby for B roads', C-tier despite 1,330 km/h charging."
+      - id: older-version
+        points: -6
+        rule: "An older version of a model that has a newer, better-charging version on the list."
+        evidence: "Same pairs as newest-version."
+
+    not_rules:
+      - "Looks ('Ugly' on iX3) and small annoyances (rear-only parking sensors on the G6): personal, shown as owner notes, never scored."
+      - "ADAS level and software (Level 3 ADAS, Android Automotive, OTA) matter to Menno but have no source field yet; candidates for a later 'tech' factor."
+      - "Price: separate axis. Used-market prices and availability differ by country (NL vs FR) and moved after the 2026 oil shock."
+
+  - id: used-on-a-budget
+    label: {en: "Used, fixed budget"}
+    origin: "Menno's 'Used EVs' tab, July 2025, La Centrale FR in EUR 15-20k / 20-25k / 25-30k bands"
+    status: draft
+    inherits: only-car-long-trips
+    notes: >
+      Same factors, scored inside one price band at a time, plus market supply. His July 2025 order per band:
+      15-20k: Model 3 LR > Megane 60 / MG4 / Enyaq 60 / ZS EV > e-Niro / Niro EV / ID.3; 25-30k: EV6 74 / IONIQ 5 74 >
+      Model Y / Enyaq 80 > ID.4 / Scenic / Ariya. Ruled out: Kona, e-Soul, MG5, Leaf (slow DC).
+    extra_factors:
+      - id: supply
+        label: {en: "How many are for sale"}
+        field: registrations   # proxy until listing counts exist (layer 3 stays off, Decision 004)
+        weight: 8
+        evidence: "'Availability' column (Plenty / Good / Ok / Rare) next to every used pick."
+      - id: model-year-floor
+        label: {en: "Not too old"}
+        field: year_start
+        rule: "2021+ is a pro, 2019 is a con"
+        weight: 4
+        evidence: "Pros/Cons columns: '2022+', '2021+' as pros; '2019+' as cons."
