@@ -160,12 +160,32 @@ RDW's bijsluiter says reusers may not state that the data comes from RDW, or use
 
 **Answer:**
 
-### Q-038 · Two different "Open EV Data" datasets · coordinator · 2026-11-15
-The project decisions log says "Open EV Data (MIT + attribution, drop default curves)". That describes **KilowattApp/open-ev-data** (MIT with attribution requirement, © Tijs Teulings), which has DC charge curves. Tonight's pipeline uses **open-ev-data/open-ev-data-dataset** (CDLA-Permissive-2.0), which has no curves. **Default:** keep the CDLA dataset as the base spec source and add the KilowattApp dataset in wave 5 as a curve source (drop its default curves, keep measured ones, attribution in the UI). Did you mean one, or both?
+### Q-039 · EEA spec facts: per type approval, or counts only? · T-004 · builder · 2026-11-15
+The EEA grouped query averaged mass, consumption and range over every type approval under one commercial name (all packs, wheels, trims), so a published "fact" could match no real car. Its `M (kg)` is also mass in running order (curb + 75 kg driver), not curb weight. **Default (done tonight):** EEA is count-only. The adapter emits only `registered_count`, the matcher drops any EEA spec record (`COUNT_ONLY_SOURCES`), and EEA mass is not used anywhere. Release 1 lost 21 EEA-only `-base` rows, and EEA no longer confirms WLTP/consumption. **Option:** group by type-approval variant/version (TAN, Va, Ve) so each row is one configuration, and emit WLTP/Z only when that group is a single car. Then either map M to a separate `mass_running_order_kg` field (schema change) or subtract 75 kg with a note. Worth doing, and which mass option?
+
+**Answer:**
+
+### Q-040 · Year bands: ids and thresholds · T-005 · builder · 2026-11-15
+Old variants were taking the newest model year's specs. **Defaults (done):** (1) within one source, merge now prefers the *earliest* model year (newest is still used for prices and counts). (2) If a later model year differs from the band's first year by more than 5% WLTP or 10% DC peak, it becomes its own variant. The first band keeps the existing id, so seed links and URLs stay stable, and ends the year before the next band. Later bands are `<variant_id>-<first year>`, named "<name> (<year>+)". Release 1 has 6 splits: ID.3 Pro (2023: 100→135 kW), Born 77 kWh (2023), Enyaq 60 (2024), e-208 and e-2008 (2024, WLTP +10-17%), and Atto 3 Standard Range (2025). Smaller changes stay in one variant, and the later values go to conflicts.csv. OK? Or should both bands get a year suffix (`-2020`, `-2023`), as the brief's example suggests? That would rename existing ids.
+
+**Answer:**
+
+### Q-041 · Bare trade-name aliases and shared-year counts · T-005 / seed · builder · 2026-11-15
+This applies the answer to Q-021's question. **Done:** models.yaml now has `bev_only_aliases` (KONA, "KONA, KAUAI", KAUAI, IONIQ, SOUL, NIRO, 208, 2008, CORSA, 500, GOLF). They are honoured only for BEV-filtered sources (rdw, eea), and only as a whole-name match, never a prefix, so "GOLF GTI" and "FIAT 500 1.4 16V" stay out. Names that are unambiguously electric became plain `name_aliases`: Q4 35-55 e-tron, Q4 Sportback xx e-tron, Q8 50/55 e-tron, SQ8 e-tron, e-Corsa. `name_excludes` keeps e-tron GT off the e-tron and Honda e:Ny1/e:N* off the Honda e. The RDW BEV filter is a proxy (998/1000 in the sample), so the generation's year range is the second guard. Shared-year records with no name or battery evidence now go to review as `ambiguous-generation` when both generations have variants. That is 12 rows: Kona 2023, Niro 2022, Soul 2019, Zoe 2019, Model S 2016, e-Golf 2017, and those NL counts are no longer in either generation. Is that better than "newer wins"? Note that a record with no evidence still goes to the newer generation when the older one is the only one with variants (e.g. EEA "NISSAN LEAF" 2025 → gen3).
+
+**Answer:**
+
+### Q-042 · Test fixtures use `wikidata` as the second spec source · T-005 / T-006 · builder · 2026-11-15
+With EEA count-only, the release fixture needed another independent spec source to test the confidence and tier rules. **Default:** `tests/fixtures/release/staging/wikidata.records.jsonl` holds two synthetic rows (record keys `wikidata:fixture:*`), and the fixture registry lists `wikidata` as `data/sources.yaml` does. Nothing is imported from Wikidata. OK, or would you prefer an obviously fake `testsource` id?
 
 **Answer:**
 
 ## Closed
+
+### Q-038 · Two different "Open EV Data" datasets · coordinator · 2026-11-15
+The project decisions log says "Open EV Data (MIT + attribution, drop default curves)". That describes **KilowattApp/open-ev-data** (MIT with attribution requirement, © Tijs Teulings), which has DC charge curves. Tonight's pipeline uses **open-ev-data/open-ev-data-dataset** (CDLA-Permissive-2.0), which has no curves. **Default:** keep the CDLA dataset as the base spec source and add the KilowattApp dataset in wave 5 as a curve source (drop its default curves, keep measured ones, attribution in the UI). Did you mean one, or both?
+
+**Answer:** Menno, 01:41: both. KilowattApp dataset added as source `kilowatt-openev` (curves, attribution required). Closed.
 
 ### Q-031 · DC ranking: km in 10 or 20 minutes? · T-011 · builder · 2026-11-15
 The T-011 acceptance criterion says "Fastest DC km/10 min", but Decision 009 and the overnight brief say the DC ranking uses km added in **20** minutes. **Default:** `/[country]/top/fastest-dc` ranks by `dc_km_per_20min` (Decision 009). The 10-minute figure is still shown on variant pages and in compare. Please fix the acceptance line, or say if you want 10 min.

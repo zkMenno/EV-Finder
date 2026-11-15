@@ -8,7 +8,7 @@ import sys
 
 from ev_pipeline import __version__
 
-SOURCES = ["openev", "rdw", "eea", "nyland", "dft-veh", "kba-fz10", "ademe"]
+SOURCES = ["openev", "rdw", "eea", "nyland", "dft-veh", "kba-fz10", "ademe", "kilowatt-openev"]
 
 
 def _adapter(name: str):
