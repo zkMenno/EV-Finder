@@ -1,10 +1,10 @@
 # WS0 status
 
-- **State:** active (coordinator chat, claude.ai project)
-- **Now:** handoff steps 1–5 from claude/handoff-2026-11-15.md
-- **Next:** review proto/overnight-1 once MORNING.md exists; research gaps queue
-- **Blocked:** overnight run still pushing to proto/overnight-1 (no MORNING.md / PR yet at 00:40 UTC)
-- **Last updated:** 2026-11-15 01:10 UTC
+- **State:** active
+- **Now:** both overnight PRs merged; main green
+- **Next:** T-065 schema follow-ups; wait for Menno on Q-093/Q-094; workstream chats can open
+- **Blocked:** —
+- **Last updated:** 2026-11-15 09:05 UTC
 
 ## Log
 - 2026-11-15 · spec exported to docs/spec (9 tabs + existing bidi file); note added at top of the claude.ai doc
@@ -14,3 +14,4 @@
 - 2026-11-15 · overnight addendum 4 written (workstreams/OVERNIGHT/ADDENDUM-4.md); review scheduled 07:30 Paris
 - At merge: add to QUESTIONS.md the owed items (name + domain, affiliate links day 1, emerging-market order), renumber after the branch's last Q
 - 2026-11-15 · working title EV Shortlist (Decision 018). TODO at next project-log update: add brand line to claude/decisions.md (Business) + Open list
+- 2026-11-15 · PR #1 merged by Menno 08:41 UTC; PR #2 merged by WS0. main CI fixed (Decision 035, T-064). Decision 036, T-065, Q-093/094. claude/decisions.md updated.
