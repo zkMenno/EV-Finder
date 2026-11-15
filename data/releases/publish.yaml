@@ -25,6 +25,7 @@ in_git:
   - qa.json
   - coverage.md
   - diff.json
+  - retired_ids.json
 
 # Per-generation split (page speed): one index plus one file per generation.
 split:

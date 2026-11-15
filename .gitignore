@@ -206,3 +206,4 @@ data/releases/[0-9]*/*
 !data/releases/[0-9]*/qa.json
 !data/releases/[0-9]*/coverage.md
 !data/releases/[0-9]*/diff.json
+!data/releases/[0-9]*/retired_ids.json

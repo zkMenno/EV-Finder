@@ -80,6 +80,7 @@ from ev_pipeline.release.taxonomy import load_optional_taxonomy, optional_taxono
 from ev_pipeline.release.validate import (
     ROW_NUMBER_FIELDS,
     ReleaseError,
+    _schema,
     check_fact_ranges,
     enum_fact_errors,
     excluded_source_errors,
@@ -127,6 +128,8 @@ class ReleaseResult:
     towns: dict[str, dict[str, Any]] = field(default_factory=dict)
     # T-033: per-variant consumption matrix (consumption_matrix.json), None = not shipped.
     consumption: dict[str, Any] | None = None
+    # T-062: retired variant ids -> successor (or None); never loses an entry.
+    retired_ids: dict[str, str | None] = field(default_factory=dict)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -524,7 +527,9 @@ def build_release(
 
             try:
                 ensure_local(
-                    data_dir, prev_nums[-1], only=frozenset({"catalogue.json", CHARGING_STATS_FILE})
+                    data_dir,
+                    prev_nums[-1],
+                    only=frozenset({"catalogue.json", CHARGING_STATS_FILE, "retired_ids.json"}),
                 )
             except PublishError as e:
                 raise ReleaseError(f"previous release {prev_nums[-1]} unavailable: {e}") from e
@@ -535,6 +540,23 @@ def build_release(
         cs_path = data_dir / "releases" / str(prev_nums[-1]) / CHARGING_STATS_FILE
         if cs_path.exists():
             prev_charging = json.loads(cs_path.read_text(encoding="utf-8"))
+    from ev_pipeline.release.retired import FILE_NAME as RETIRED_FILE
+    from ev_pipeline.release.retired import compute_retired, has_catalogue_field, load_hand_kept
+
+    prev_retired: dict[str, str | None] = dict((prev or {}).get("retired_ids") or {})
+    if prev_nums:
+        rp = data_dir / "releases" / str(prev_nums[-1]) / RETIRED_FILE
+        if rp.exists():
+            prev_retired.update(json.loads(rp.read_text(encoding="utf-8")).get("retired_ids") or {})
+    try:
+        hand_kept = load_hand_kept(data_dir / "seed")
+    except ValueError as e:
+        raise ReleaseError(str(e)) from e
+    retired = compute_retired(
+        prev, prev_retired, {str(r["variant_id"]) for r in catalogue["rows"]}, hand_kept
+    )
+    if retired.ids and has_catalogue_field(_schema()):
+        catalogue["retired_ids"] = retired.ids
     charging_review = charging_review_rows(prev_charging if prev_nums else None, charging.document)
     charging.log["review_rows"] = len(charging_review)
     diff = compute_diff(prev, catalogue)
@@ -556,6 +578,7 @@ def build_release(
         taxonomy_held_back=optional.held_back,
         charging_stats=charging.document,
         charging_review=charging_review,
+        retired_ids=retired.ids,
         towns=towns.documents,
         consumption=matrix.document,
         sections={
@@ -565,6 +588,7 @@ def build_release(
             "charging_stats": charging.log,
             "towns": towns.log,
             "consumption_matrix": matrix.log,
+            "retired_ids": retired.log,
             "pack_links": link_coverage(link_report),
         },
     )
@@ -972,6 +996,17 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
             json.dumps(res.charging_stats, separators=(",", ":"), ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
+    if res.retired_ids and "retired_ids" not in res.catalogue:  # T-062, until the schema has it
+        from ev_pipeline.release.retired import FILE_NAME as RETIRED_FILE
+
+        (tmp / RETIRED_FILE).write_text(
+            json.dumps(
+                {"release": res.release, "generated_at": res.catalogue["generated_at"],
+                 "retired_ids": dict(sorted(res.retired_ids.items()))},
+                indent=1, ensure_ascii=False,
+            ) + "\n",
+            encoding="utf-8",
+        )  # fmt: skip
     if res.consumption is not None:  # T-033: static JSON for the Trip fit browser model
         from ev_pipeline.derive.consumption import FILE_NAME as MATRIX_FILE
 
