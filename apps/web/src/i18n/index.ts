@@ -33,7 +33,7 @@ export function getDict(lang: Lang): Dict {
  * They are left out of the dictionary handed to client components (Explore, CompareTray), so the
  * page payload doesn't grow with every server page. A client component must not use these keys.
  */
-export const SERVER_ONLY_PREFIXES = ["about.", "crumb.", "model.", "gen.", "listings.", "reg.", "variant.", "field.", "drivetrain.", "top.", "staff.", "charging."] as const;
+export const SERVER_ONLY_PREFIXES = ["about.", "crumb.", "model.", "gen.", "listings.", "reg.", "variant.", "field.", "drivetrain.", "top.", "staff.", "charging.", "owner."] as const;
 
 const clientDicts = new Map<Lang, Dict>();
 

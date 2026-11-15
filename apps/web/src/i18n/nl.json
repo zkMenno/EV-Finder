@@ -708,5 +708,11 @@
   "hero.gate.dc-not-terrible": "snelladen voegt minder dan 100 km toe in 20 minuten;",
   "hero.gate.winter-range-floor": "minder dan 250 km echt bereik;",
   "hero.gate.winter-range-daily": "minder dan 200 km echt bereik (250 km op het platteland);",
-  "hero.gate.winter-range-runabout": "minder dan 120 km echt bereik (160 km op het platteland)."
+  "hero.gate.winter-range-runabout": "minder dan 120 km echt bereik (160 km op het platteland).",
+  "owner.title": "Notitie van een eigenaar",
+  "owner.verdict.shortlist": "op zijn shortlist",
+  "owner.verdict.consider": "het overwegen waard",
+  "owner.verdict.fallback": "een reserve",
+  "owner.favourite": "een favoriet",
+  "owner.label": "De keuzes van één eigenaar voor een enige auto met geregeld lange ritten, Nederlandse en Franse markt, november 2026. Een mening, geen test; onze cijfers veranderen er niet door."
 }

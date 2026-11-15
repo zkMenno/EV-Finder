@@ -720,5 +720,11 @@
   "hero.gate.dc-not-terrible": "fast charging adds under 100 km in 20 minutes;",
   "hero.gate.winter-range-floor": "under 250 km real range;",
   "hero.gate.winter-range-daily": "under 200 km real range (250 km in the countryside);",
-  "hero.gate.winter-range-runabout": "under 120 km real range (160 km in the countryside)."
+  "hero.gate.winter-range-runabout": "under 120 km real range (160 km in the countryside).",
+  "owner.title": "Owner's note",
+  "owner.verdict.shortlist": "on his shortlist",
+  "owner.verdict.consider": "worth considering",
+  "owner.verdict.fallback": "a fallback",
+  "owner.favourite": "a favourite",
+  "owner.label": "One owner's picks for an only car with regular long trips, Dutch and French market, November 2026. Opinion, not a test; it doesn't change our numbers."
 }

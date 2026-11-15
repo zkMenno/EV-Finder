@@ -23,3 +23,14 @@ test("without a profile the sort asks for one", async ({ page }) => {
   await page.goto("/nl/en?sort=-suggested");
   await expect(page.getByTestId("suggested-none")).toBeVisible();
 });
+
+test("owner's note on model and generation pages, labelled as one owner's opinion", async ({ page }) => {
+  await page.goto("/nl/en/ev/hyundai/ioniq-5/gen1");
+  const note = page.getByTestId("owner-note");
+  await expect(note).toContainText("Owner's note");
+  await expect(note).toContainText("Opinion, not a test");
+  await page.goto("/nl/en/ev/hyundai/ioniq-5");
+  await expect(page.getByTestId("owner-note")).toBeVisible();
+  await page.goto("/nl/en/ev/renault/zoe/ph1");
+  await expect(page.getByTestId("owner-note")).toHaveCount(0);
+});
