@@ -326,6 +326,21 @@ Measured 2026-11-15 (live): each fetch + normalise under 90 MB peak and under 5 
   15 % a month (compound, so yearly series compare fairly), fell, were revised, or vanished
   since the previous release. The first release of a series checks its whole history once.
 
+## Towns and climate (T-034, Trip fit)
+
+`ev fetch|normalise geonames` then `ev fetch|normalise meteostat` (order matters: Meteostat
+picks stations near the towns). The release writes `towns/<country>.json` per launch country:
+towns (GeoNames cities5000, names in our six languages, coordinates rounded to ~1 km), the
+stations they use, and `provenance` for both. Climate per station, 1991–2020: monthly means of
+daily mean temperature, January mean, and P10 = 10th percentile of January daily means.
+
+- A town takes the nearest station within 60 km and 250 m of its elevation, preferring one
+  with a P10; no interpolation. Live 2026-11-15: 7,654 towns, 7,203 with climate (FR and
+  rural UK have gaps), 10 without P10. Fetch ≈ 2 min, 1,000 stations tried, < 200 MB RAM.
+- Meteostat is CC BY 4.0 (its own redistribution, R-27); credit "Meteostat and its data
+  providers"; confidence medium. ERA5-Land (primary, Decision 036) is a stub until the CDS key
+  arrives (`CDSAPI_KEY`, WS4); `ev refresh` skips it until then.
+
 ## Manual facts and the review queue
 
 **Manual facts** are single values a person looked up by hand (a warranty booklet, a maker

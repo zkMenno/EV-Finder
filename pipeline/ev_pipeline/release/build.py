@@ -123,6 +123,8 @@ class ReleaseResult:
     sections: dict[str, Any] = field(default_factory=dict)
     # T-025: charging figures for review (big step, fall, revision, gone since last release).
     charging_review: list[dict[str, str]] = field(default_factory=list)
+    # T-034: towns + January climate per country (towns/<cc>.json), empty = not shipped.
+    towns: dict[str, dict[str, Any]] = field(default_factory=dict)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -472,6 +474,10 @@ def build_release(
         manual_dir=data_dir / "manual" / "charging",  # T-025: staff figures, WS3 writes
     )
     inputs += charging.inputs
+    from ev_pipeline.release.towns import build_towns
+
+    towns = build_towns(data_dir / "staging", registry, n, catalogue["generated_at"])
+    inputs += towns.inputs
     facts = [_fact_dict(mf) for mf in all_facts]
     pfacts = pack_facts(links)
     facts += pfacts
@@ -535,11 +541,13 @@ def build_release(
         taxonomy_held_back=optional.held_back,
         charging_stats=charging.document,
         charging_review=charging_review,
+        towns=towns.documents,
         sections={
             "epa_range_km": epa_summary(rows),
             "generation_years": years.log,
             "known_issues": known.log,
             "charging_stats": charging.log,
+            "towns": towns.log,
             "pack_links": link_coverage(link_report),
         },
     )
@@ -738,6 +746,15 @@ def sections_md(sections: dict[str, Any]) -> list[str]:
     for name, f in sorted((cs.get("files") or {}).items()):
         state = f"gated: {f['gated']}" if f.get("gated") else f"{f['shipped']} rows shipped"
         lines.append(f"- **Charging stats** `{name}`: {f['rows_in']} rows in, {state}.")
+    tw = sections.get("towns") or {}
+    if tw.get("status") == "shipped":
+        n_towns = sum(v for k, v in tw.items() if k.startswith("towns "))
+        lines.append(
+            f"- **Towns + climate** (GeoNames, Meteostat): {n_towns} towns,"
+            f" {tw.get('with climate', 0)} with January climate"
+            f" ({tw.get('climate without P10', 0)} without P10),"
+            f" {tw.get('no station in range', 0)} without a station in range."
+        )
     if cs.get("review_rows"):
         lines.append(
             f"- **Charging stats to review**: {cs['review_rows']} figures (step over 15 %, fall,"
@@ -930,6 +947,13 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
             json.dumps(res.charging_stats, separators=(",", ":"), ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
+    if res.towns:  # T-034: one file per country, loaded on demand by the trip module
+        (tmp / "towns").mkdir()
+        for cc, doc in sorted(res.towns.items()):
+            (tmp / "towns" / f"{cc}.json").write_text(
+                json.dumps(doc, separators=(",", ":"), ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
     for name, doc in (_default_extras(res, data_dir) if extras is None else extras).items():
         if "/" in name or name.startswith("."):
             raise ReleaseError(f"bad extra file name: {name!r}")
