@@ -33,6 +33,7 @@ Checks: `pnpm --filter @ev/web test`, `pnpm --filter @ev/web e2e`, `cd pipeline 
 | `/nl/nl/compare?ids=…` | Up to 4 side by side, differences highlighted, share + print |
 | `/nl/nl/top` | Rankings: longest real range under €30k, fastest DC (km in 20 min), most registered in NL |
 | `/nl/nl/learn` | 5 articles (draft) + 88 glossary terms |
+| `/de/de/charging`, `/uk/en/charging` | Public charging points over time and by power band (BNetzA, DfT) |
 | `/nl/nl/about` | What we are, how numbers are made, credits for every source |
 | `/health` | Health check for the server watchdog |
 | `/staff/review` | Review queue (only with `STAFF_PAGES=1`) |
@@ -124,6 +125,7 @@ All 70+ open questions are in [QUESTIONS.md](QUESTIONS.md); most only record a d
 | 2–4 + "if time" | Explore polish, compare, rankings, dark theme, axe | done | axe 0 findings on 8 pages × 2 themes; dark "Night drive" from design tokens; empty state names the filter to remove; compare share/print/differences tested (lost `pay=` fixed); "under €15k/20k/25k" pages ready but hidden until ≥ 5 cars have used prices |
 | — | T-054 RDW split by type code | done | NL price records 366 → 1,257; a power gate (Q-086) sends records without a matching-power row to review instead of guessing (Model Y 378 kW, Q6 Performance, ID.4 4MOTION) |
 | — | R-08 + RDW TGK (pre-2020 specs, T-052) | done | RDW type approvals (CC0) cover 96.5% of NL BEVs incl. all 17 pre-2020 targets; NEDC, worst-case WLTP and running-order mass are separate fields (Decision 023); WLTP now on 178 rows, 25 rows reach "sourced" (was 2); older cars like Zoe ph1 still need aliases to attach |
+| — | T-061 web: Known issues, EPA, year badge, charging | done | defect rates per first-registration year vs all EVs of that year; "EPA range (US test)" never mixed with WLTP; Wikidata year badge; `/{country}/{lang}/charging` with hand-written SVG charts for DE + UK |
 | 10 | Proposed tasks | done | T-051–T-060 on BOARD under "Proposed by overnight 1" |
 | — | Seed quality (MG4 dupes, year evidence, shared years) | done | MG4 8 → 6 rows; ID.4 starts 2020 and Soul SK3 ends 2024 (RDW counts in notes); 10,413 NL cars in shared years now counted at model level instead of dropped; new BMW i3 in RDW/EEA not invented (Q-065) |
 | — | RDW WLTP + catalogue price (from item 5) | done | 56 variants get an RDW WLTP figure, 25 an NL price (catalogusprijs incl. VAT + BPM); wide-spread groups dropped; WLTP from a 10% plate sample (no joins possible) |
