@@ -28,6 +28,7 @@ const PAGES: { name: string; path: string; ready: (p: Page) => Promise<void> }[]
     path: "/nl/en/compare?ids=renault-zoe-ph1-r240,renault-zoe-ph2-r135",
     ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()),
   },
+  { name: "open-data", path: "/nl/en/data", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "learn-article", path: "/nl/en/learn/winter-range", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "rankings", path: "/nl/en/top/fastest-dc", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   // T-061: known issues (Nerd: code + sample columns), years badge detail, charging charts.

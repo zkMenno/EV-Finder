@@ -1,0 +1,81 @@
+{
+  "release": 1,
+  "generated_at": "2026-11-15T01:00:00+00:00",
+  "country": "nl",
+  "sources": [
+    {
+      "id": "geonames",
+      "name": "GeoNames cities",
+      "licence": "CC-BY-4.0",
+      "attribution": "GeoNames (geonames.org), CC BY 4.0",
+      "url": "https://www.geonames.org/"
+    },
+    {
+      "id": "meteostat",
+      "name": "Meteostat climate normals",
+      "licence": "CC-BY-4.0",
+      "attribution": "Meteostat (meteostat.net) and its data providers (dev.meteostat.net/providers)",
+      "url": "https://meteostat.net/"
+    }
+  ],
+  "provenance": {
+    "towns": {
+      "source_id": "geonames",
+      "retrieved_at": "2026-11-15",
+      "licence": "CC-BY-4.0",
+      "confidence": "high"
+    },
+    "climate": {
+      "source_id": "meteostat",
+      "retrieved_at": "2026-11-15",
+      "licence": "CC-BY-4.0",
+      "confidence": "medium",
+      "unit": "°C",
+      "period": "1991-2020",
+      "method": "town -> nearest station with 1991-2020 data within 60 km and 250 m elevation; no interpolation",
+      "definitions": {
+        "months_mean_c": "mean of daily mean temperature per month, Jan..Dec",
+        "jan_mean_c": "January mean of daily mean temperature",
+        "jan_p10_c": "10th percentile of January daily mean temperature"
+      }
+    }
+  },
+  "stations": {
+    "06260": {
+      "name": "De Bilt",
+      "lat": 52.1,
+      "lon": 5.1833,
+      "elevation_m": 2,
+      "months_mean_c": [3.6, 3.9, 6.5, 9.7, 13.2, 15.8, 18.2, 17.7, 14.8, 10.9, 6.9, 4.2],
+      "jan_mean_c": 3.6,
+      "jan_mean_method": "daily",
+      "jan_p10_c": -2.1,
+      "jan_years": 30
+    }
+  },
+  "towns": [
+    {
+      "id": "geonames:2759794",
+      "name": "Amsterdam",
+      "country": "nl",
+      "lat": 52.37,
+      "lon": 4.89,
+      "population": 741636,
+      "admin1": "07",
+      "elevation_m": 13,
+      "station_id": "06260",
+      "station_km": 36.1
+    },
+    {
+      "id": "geonames:2759821",
+      "name": "Assen",
+      "names": {
+        "nl": "Assen"
+      },
+      "country": "nl",
+      "lat": 53.0,
+      "lon": 6.56,
+      "population": 67708
+    }
+  ]
+}

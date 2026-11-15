@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from datetime import date
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, RootModel
 
@@ -1270,32 +1270,8 @@ class Kind1(Enum):
     addon = 'addon'
 
 
-class UsageProfile(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    id: Id
-    label: LocalizedText = Field(..., description='Plain-language label.')
-    short: LocalizedText | None = Field(
-        None, description='Tooltip text, at most 20 words.'
-    )
-    kind: Kind1 | None = 'base'
-    applies_when: dict[str, list[str]] | None = Field(
-        None,
-        description='Picker answers that select this profile: question id → accepted answer ids.',
-    )
-    weights: dict[str, WeightLevel] | None = Field(
-        None,
-        description='Factor → weight (price, efficiency, dc_km_20min_winter, winter_1000km_time, ac_speed, battery_risk ...).',
-    )
-    weight_steps: dict[str, int] | None = Field(
-        None,
-        description='Add-ons: factor → steps up (+) or down (-), e.g. battery_risk +1.',
-    )
-    order: int | None = None
-    glossary_id: Id | None = Field(
-        None, description='Glossary term for the ⓘ tooltip, if any.'
-    )
+class PickerItem(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
 
 
 class TestKind(Enum):
@@ -1347,52 +1323,6 @@ class Conditions1(BaseModel):
     battery_soh_pct: float | None = Field(None, ge=0.0, le=110.0)
     software_version: str | None = None
     notes: str | None = None
-
-
-class ConsumptionTest(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    id: str
-    variant_id: Id
-    test_kind: TestKind = Field(
-        ...,
-        description='constant-speed = steady speed run; route = mixed real route; cycle = lab cycle.',
-    )
-    speed_kmh: float | None = Field(
-        None, description='Constant speed, or average speed for a route.', ge=0.0
-    )
-    road_band: RoadBand | None = Field(
-        None, description='Band the test represents, if a single one.'
-    )
-    band_km: BandKm | None = Field(None, description='Route tests: km per road band.')
-    distance_km: float | None = Field(None, ge=0.0)
-    climb_m: float | None = Field(None, ge=0.0)
-    temperature_c: float = Field(
-        ..., description='Ambient temperature (average for the test).'
-    )
-    wheel_size_in: float | None = Field(
-        None,
-        description='Rim diameter code (ISO/ETRTO designation, inches by convention).',
-        ge=10.0,
-        le=26.0,
-    )
-    tyre: str | None = Field(None, description="Tyre size, e.g. '235/45 R19'.")
-    tyre_season: TyreSeason | None = None
-    consumption_wh_km: float = Field(..., gt=0.0)
-    energy_basis: EnergyBasis = Field(
-        ...,
-        description="battery = from the car's own meter / SoC; wall = includes charging losses.",
-    )
-    range_km: float | None = Field(
-        None, description='Range result, if the test reports one.', ge=0.0
-    )
-    observed_at: date | None = Field(None, description='Test date.')
-    conditions: Conditions1 | None = None
-    source: Source
-    source_record: str | None = None
-    retrieved_at: date
-    confidence: Confidence
 
 
 class ConsumptionCell(BaseModel):
@@ -1929,6 +1859,642 @@ class UsedPriceBand(BaseModel):
     fact_ids: list[str] | None = None
 
 
+class FeatureAvailability(Enum):
+    yes = 'yes'
+    no = 'no'
+    not_disclosed = 'not-disclosed'
+
+
+class OnePedal(Enum):
+    yes = 'yes'
+    via_setting = 'via-setting'
+    no = 'no'
+    not_disclosed = 'not-disclosed'
+
+
+class OtaUpdates(Enum):
+    full = 'full'
+    infotainment_only = 'infotainment-only'
+    none = 'none'
+    not_disclosed = 'not-disclosed'
+
+
+class SourceRef(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+
+
+class ProvenanceNote(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    source_id: Id
+    retrieved_at: str | None = Field(..., description='ISO date the source was read.')
+    licence: str
+    confidence: Confidence
+
+
+class ClimateProvenance(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    source_id: Id
+    retrieved_at: str | None = None
+    licence: str
+    confidence: Confidence
+    unit: str | None = Field(None, description='Temperature unit, °C.')
+    period: str | None = Field(
+        None,
+        description="Reference period, e.g. '1991-2020'.",
+        pattern='^[0-9]{4}-[0-9]{4}$',
+    )
+    method: str | None = None
+    definitions: dict[str, str] | None = Field(
+        None, description='Field name → plain-language definition (Nerd mode).'
+    )
+
+
+class WeatherStation(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    name: str | None = None
+    lat: float = Field(..., ge=-90.0, le=90.0)
+    lon: float = Field(..., ge=-180.0, le=180.0)
+    elevation_m: float | None = None
+    months_mean_c: list[float | None] | None = Field(
+        None,
+        description='Mean of daily mean temperature per month, Jan..Dec, °C.',
+        max_length=12,
+        min_length=12,
+    )
+    jan_mean_c: float | None = None
+    jan_mean_method: str | None = Field(
+        None, description="How jan_mean_c was computed (e.g. 'daily')."
+    )
+    jan_p10_c: float | None = Field(
+        None,
+        description='10th percentile of January daily mean temperature, 1991-2020 (Decision 041).',
+    )
+    jan_years: int | None = Field(
+        None, description='Full Januaries behind the figures.', ge=0
+    )
+
+
+class Town(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: str = Field(
+        ...,
+        description="Source-scoped id, e.g. 'geonames:2759794'.",
+        pattern='^[a-z]+:[0-9A-Za-z_-]+$',
+    )
+    name: str
+    names: dict[str, str] | None = Field(
+        None, description='Name per UI language when it differs.'
+    )
+    country: str = Field(
+        ...,
+        description='Lowercase country code as in the file name (uk for the United Kingdom).',
+        pattern='^[a-z]{2}$',
+    )
+    lat: float = Field(..., ge=-90.0, le=90.0)
+    lon: float = Field(..., ge=-180.0, le=180.0)
+    population: int | None = Field(None, ge=0)
+    admin1: str | None = Field(None, description='GeoNames admin1 code (region).')
+    elevation_m: float | None = None
+    station_id: str | None = Field(
+        ...,
+        description="Key in the file's `stations`; null = no station in range, the app uses its country default.",
+    )
+    station_km: float | None = Field(None, ge=0.0)
+
+
+class Provenance(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    towns: ProvenanceNote
+    climate: ClimateProvenance | None = Field(
+        ...,
+        description='null = climate source gated or missing; towns ship without climate.',
+    )
+
+
+class TownsRelease(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    release: int = Field(..., ge=1)
+    generated_at: str
+    country: str = Field(..., pattern='^[a-z]{2}$')
+    sources: list[Source]
+    provenance: Provenance
+    stations: dict[str, WeatherStation]
+    towns: list[Town]
+
+
+class Params(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    wall_to_battery: float | None = Field(None, gt=0.0, le=1.0)
+    climb_regen_recovery: float | None = Field(None, ge=0.0, le=1.0)
+    drivetrain_efficiency: float | None = Field(None, gt=0.0, le=1.0)
+
+
+class ShortlistRuleStatus(Enum):
+    ok = 'ok'
+    gap = 'gap'
+    calibrate = 'calibrate'
+    draft = 'draft'
+
+
+class ShortlistBand(Enum):
+    shortlist = 'shortlist'
+    consider = 'consider'
+    fallback = 'fallback'
+    ruled_out = 'ruled-out'
+    not_enough_data = 'not-enough-data'
+
+
+class ShortlistBandThresholds(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    shortlist: float = Field(..., ge=0.0, le=100.0)
+    consider: float = Field(..., ge=0.0, le=100.0)
+
+
+class ShortlistBands(RootModel[dict[str, ShortlistBandThresholds] | None]):
+    root: dict[str, ShortlistBandThresholds] | None = None
+
+
+class FieldModel(RootModel[str]):
+    root: str = Field(
+        ...,
+        description='PublishedVariant field(s) the app reads.',
+        pattern='^[a-z0-9_]+$',
+    )
+
+
+class Field1Item(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class Field1(RootModel[list[Field1Item]]):
+    root: list[Field1Item] = Field(
+        ..., description='PublishedVariant field(s) the app reads.', min_length=1
+    )
+
+
+class SheetField(RootModel[str]):
+    root: str = Field(
+        ...,
+        description='Owner-sheet column used by the back-test only (internal).',
+        pattern='^[a-z0-9_]+$',
+    )
+
+
+class SheetField1Item(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class SheetField1(RootModel[list[SheetField1Item]]):
+    root: list[SheetField1Item] = Field(
+        ...,
+        description='Owner-sheet column used by the back-test only (internal).',
+        min_length=1,
+    )
+
+
+class ShortlistGate(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    field: FieldModel | Field1 = Field(
+        ..., description='PublishedVariant field(s) the app reads.'
+    )
+    sheet_field: SheetField | SheetField1 | None = Field(
+        None, description='Owner-sheet column used by the back-test only (internal).'
+    )
+    min: float | None = None
+    max: float | None = None
+    min_km: float | None = Field(None, ge=0.0)
+    rural_min_km: float | None = Field(
+        None,
+        description='Floor used instead of min_km with the rural modifier.',
+        ge=0.0,
+    )
+    min_km_per_h: float | None = Field(None, ge=0.0)
+    status: ShortlistRuleStatus | None = None
+    reason: LocalizedText | None = Field(
+        None, description='Plain words shown to users when the gate fails.'
+    )
+    evidence: str | None = Field(
+        None, description='Why the rule exists (owner picks, research).'
+    )
+
+
+class Field2(RootModel[str]):
+    root: str = Field(
+        ...,
+        description='PublishedVariant field(s) the app reads.',
+        pattern='^[a-z0-9_]+$',
+    )
+
+
+class Field3Item(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class Field3(RootModel[list[Field3Item]]):
+    root: list[Field3Item] = Field(
+        ..., description='PublishedVariant field(s) the app reads.', min_length=1
+    )
+
+
+class SheetField2(RootModel[str]):
+    root: str = Field(
+        ...,
+        description='Owner-sheet column used by the back-test only (internal).',
+        pattern='^[a-z0-9_]+$',
+    )
+
+
+class SheetField3Item(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class SheetField3(RootModel[list[SheetField3Item]]):
+    root: list[SheetField3Item] = Field(
+        ...,
+        description='Owner-sheet column used by the back-test only (internal).',
+        min_length=1,
+    )
+
+
+class ShortlistFactor(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText | None = None
+    field: Field2 | Field3 = Field(
+        ..., description='PublishedVariant field(s) the app reads.'
+    )
+    sheet_field: SheetField2 | SheetField3 | None = Field(
+        None, description='Owner-sheet column used by the back-test only (internal).'
+    )
+    poor: float | None = None
+    great: float | None = None
+    weight: float = Field(..., ge=0.0)
+    status: ShortlistRuleStatus | None = None
+    note: str | None = None
+    evidence: str | None = None
+
+
+class Field4(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class Field5Item(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class Field5(RootModel[list[Field5Item]]):
+    root: list[Field5Item] = Field(..., min_length=1)
+
+
+class SheetField4(RootModel[str]):
+    root: str = Field(
+        ..., description='Internal, back-test only.', pattern='^[a-z0-9_]+$'
+    )
+
+
+class SheetField5Item(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class SheetField5(RootModel[list[SheetField5Item]]):
+    root: list[SheetField5Item] = Field(
+        ..., description='Internal, back-test only.', min_length=1
+    )
+
+
+class ShortlistAdjustment(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    points: float
+    rule: str | None = None
+    field: Field4 | Field5 | None = None
+    sheet_field: SheetField4 | SheetField5 | None = Field(
+        None, description='Internal, back-test only.'
+    )
+    sheet_rule: str | None = Field(None, description='Internal, back-test only.')
+    applies_with: Id | None = Field(
+        None, description='Only with this modifier (e.g. rural).'
+    )
+    status: ShortlistRuleStatus | None = None
+    evidence: str | None = None
+
+
+class FilterPreset(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    field: str = Field(..., pattern='^[a-z0-9_]+$')
+    min: float | None = None
+    max: float | None = None
+    equals: str | float | bool | None = None
+    why: LocalizedText | None = None
+
+
+class Answer(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class SkipIfItem(RootModel[str]):
+    root: str = Field(..., pattern='^[a-z0-9_]+$')
+
+
+class PickerQuestion(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: str = Field(..., pattern='^[a-z0-9_]+$')
+    question: LocalizedText
+    answers: list[Answer] = Field(..., min_length=2)
+    skip_if: dict[str, list[SkipIfItem]] | None = Field(
+        None, description='Skip this question when an earlier answer matches.'
+    )
+
+
+class ShortlistModifier(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText
+    short: LocalizedText | None = None
+    picker: dict[str, list[PickerItem]] | None = Field(
+        None,
+        description='Picker answers that select this row: question id → accepted answer ids.',
+    )
+    weight_steps: dict[str, int] | None = Field(
+        None,
+        description='Factor id → steps up (+) or down (-); one step = × weight_step_factor, then renormalised.',
+    )
+    gate_scale: float | None = Field(None, gt=0.0)
+    use_rural_gates: bool | None = Field(
+        None, description='Gates with rural_min_km use that value.'
+    )
+    penalties: list[ShortlistAdjustment] | None = None
+    hints: list[str] | None = None
+
+
+class ShortlistComboKey(RootModel[str]):
+    root: str = Field(
+        ...,
+        description="Profile combination key: <profile>[+<overlay>][.<modifier>], e.g. 'road-tripper', 'runabout+kerbside.rural'.",
+        pattern='^[a-z0-9]+(-[a-z0-9]+)*([+.][a-z0-9]+(-[a-z0-9]+)*)*$',
+    )
+
+
+class ShortlistScore(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    score: float = Field(..., ge=0.0, le=100.0)
+    band: ShortlistBand
+    reasons: list[str] | None = Field(
+        None,
+        description="Reason codes: '+<factor>', '-<factor>', 'gate:<id>', 'bonus:<id>', 'penalty:<id>'; the app turns them into plain words.",
+    )
+    unknown: list[str] | None = Field(
+        None, description='Factors / gates without data (scored 0.5 or passed).'
+    )
+
+
+class ShortlistVariantScores(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    variant_id: Id
+    derived: dict[str, float | None] | None = Field(
+        None,
+        description='Derived inputs (winter range, real Wh/km, ...), all estimates.',
+    )
+    factors: dict[str, dict[str, float | None]] | None = Field(
+        None, description='Profile id → factor id → 0..1 value (null = unknown).'
+    )
+    unknown: dict[str, list[str]] | None = Field(
+        None, description='Profile id → unknown factors / gates.'
+    )
+    scores: dict[str, ShortlistScore] = Field(
+        ..., description='Profile combination → score.'
+    )
+
+
+class Rules(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    path: str | None = None
+    sha256: str | None = Field(None, pattern='^[0-9a-f]{64}$')
+    schema_: str | None = Field(None, alias='schema')
+    review: bool | None = None
+
+
+class ShortlistScoresRelease(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    release: int = Field(..., ge=1)
+    generated_at: str
+    model_version: str | None = None
+    estimate: bool | None = None
+    editorial: bool | None = Field(
+        None, description="true: one owner's rules, opinion not fact."
+    )
+    note: str | None = None
+    rules: Rules | None = None
+    licence: str | None = None
+    combos: list[ShortlistComboKey] | None = None
+    bands: list[ShortlistBand] | None = None
+    variants: list[ShortlistVariantScores]
+
+
+class EditorialVerdict(Enum):
+    shortlist = 'shortlist'
+    consider = 'consider'
+    fallback = 'fallback'
+    ruled_out = 'ruled_out'
+    unrated = 'unrated'
+
+
+class EditorialFlag(Enum):
+    love = 'love'
+    like = 'like'
+    watching = 'watching'
+    expensive = 'expensive'
+
+
+class EditorialSheetValues(BaseModel):
+    use: Literal['internal']
+
+
+class EditorialPick(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    tab: str | None = Field(None, description='Sheet tab.')
+    row: int | None = Field(None, ge=1)
+    section: str | None = None
+    group: str | None = None
+    make: str
+    model: str
+    model_year: int | None = Field(None, ge=1990, le=2035)
+    variant: str | None = None
+    seed_model_id: Id | None = None
+    seed_generation_id: Id | None = None
+    in_seed: bool | None = None
+    evdb_car_id: int | None = Field(
+        None,
+        description='Cross-reference id only (link check); never used to copy data.',
+    )
+    tier: float | None = Field(
+        None, description='Rank inside a group, lower is better (1.1-1.5).'
+    )
+    verdict: EditorialVerdict
+    favourite: bool
+    flags: list[EditorialFlag] | None = None
+    notes: str | None = Field(None, description="Owner's own words (CC BY 4.0).")
+
+
+class EditorialPickSheetRow(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    tab: str | None = Field(None, description='Sheet tab.')
+    row: int | None = Field(None, ge=1)
+    section: str | None = None
+    group: str | None = None
+    make: str
+    model: str
+    model_year: int | None = Field(None, ge=1990, le=2035)
+    variant: str | None = None
+    seed_model_id: Id | None = None
+    seed_generation_id: Id | None = None
+    in_seed: bool | None = None
+    evdb_car_id: int | None = Field(
+        None,
+        description='Cross-reference id only (link check); never used to copy data.',
+    )
+    tier: float | None = Field(
+        None, description='Rank inside a group, lower is better (1.1-1.5).'
+    )
+    verdict: EditorialVerdict
+    favourite: bool
+    flags: list[EditorialFlag] | None = None
+    notes: str | None = Field(None, description="Owner's own words (CC BY 4.0).")
+    sheet_values: EditorialSheetValues
+
+
+class BatteryOptionsKwhItem(RootModel[float]):
+    root: float = Field(..., ge=0.0)
+
+
+class EditorialEraPick(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    tab: str | None = Field(None, description='Sheet tab.')
+    row: int | None = Field(None, ge=1)
+    era: str = Field(..., pattern='^[0-9]{4}(-[0-9]{4})?\\+?$')
+    make: str
+    model: str
+    seed_model_id: Id | None = None
+    seed_generation_id: Id | None = None
+    in_seed: bool | None = None
+    battery_options_kwh: list[BatteryOptionsKwhItem] | None = None
+    verdict: EditorialVerdict
+    favourite: bool
+    remark: str | None = None
+
+
+class EditorialUsedBudgetPick(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    tab: str | None = Field(None, description='Sheet tab.')
+    row: int | None = Field(None, ge=1)
+    price_band: str
+    tier: str | None = Field(None, description="Sheet tier code, e.g. 'A1'.")
+    make: str
+    model: str
+    seed_model_id: Id | None = None
+    seed_generation_id: Id | None = None
+    in_seed: bool | None = None
+    battery_kwh: float | None = Field(None, ge=0.0)
+    verdict: EditorialVerdict
+    favourite: bool
+    availability: str | None = None
+    pros: str | None = None
+    cons: str | None = None
+    sheet_values: EditorialSheetValues | None = None
+
+
+class Source1(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    name: str | None = None
+    imported: date | None = None
+    importer: str | None = None
+
+
+class UsedBudgetBands202507(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    note: str | None = None
+    rows: list[EditorialUsedBudgetPick] | None = None
+
+
+class EditorialPicks(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    schema_: str = Field(..., alias='schema', pattern='^editorial-picks/v[0-9]+$')
+    author: str
+    source: Source1 | None = None
+    scope: str | None = None
+    licence: str | None = None
+    primary_car_picks: list[EditorialPickSheetRow]
+    eras: list[EditorialEraPick] | None = None
+    used_budget_bands_2025_07: UsedBudgetBands202507 | None = None
+
+
+class RetiredIds(RootModel[dict[str, Id | None] | None]):
+    root: dict[str, Id | None] | None = None
+
+
+class RetiredIdsFile(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    release: int = Field(..., ge=1)
+    generated_at: str
+    retired_ids: RetiredIds
+
+
 class Generation(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -1966,6 +2532,14 @@ class Variant(BaseModel):
     abrp_typecode: str | None = Field(
         None,
         description='ABRP car model code for deep links (Decision 012); null = plain ABRP link.',
+    )
+    abrp_deprecated: bool | None = Field(
+        None,
+        description='ABRP lists abrp_typecode as deprecated (old codes still work in the planner, R-24).',
+    )
+    abrp_replaced_by: str | None = Field(
+        None,
+        description="ABRP's replacement typecode when abrp_typecode is deprecated (R-24). An ABRP code, not a variant id: renamed or merged variants go in Catalogue.retired_ids.",
     )
 
 
@@ -2025,8 +2599,31 @@ class PublishedVariant(BaseModel):
         None,
         description='EPA (US 5-cycle) range in km, from fueleconomy.gov / OpenEV. Its own field: agreement is only ever counted against other EPA figures, never against WLTP (T-059).',
     )
+    epa_range_city_km: float | None = Field(
+        None, description='EPA city range, km (R-28).', ge=0.0
+    )
+    epa_range_hwy_km: float | None = Field(
+        None,
+        description='EPA highway range, km (R-28). The EPA highway cycle is not 120 km/h motorway driving.',
+        ge=0.0,
+    )
     consumption_kwh_100km: float | None = None
+    consumption_epa_kwh_100km: float | None = Field(
+        None,
+        description='EPA label consumption (combined), kWh/100 km, wall basis. Separate from the WLTP consumption_kwh_100km (R-28).',
+        ge=0.0,
+    )
     ac_kw: float | None = None
+    ac_kw_optional: float | None = Field(
+        None,
+        description='Optional bigger on-board charger, kW (Decision 034, T-063). ac_kw stays the standard one; null = no option or not known.',
+        ge=0.0,
+    )
+    ac_full_charge_h: float | None = Field(
+        None,
+        description='EPA 240 V empty-to-full charge time, hours (R-28). Info only; never used to derive ac_kw.',
+        ge=0.0,
+    )
     dc_peak_kw: float | None = None
     dc_avg_10_80_kw: float | None = None
     ac_km_per_h: float | None = Field(
@@ -2041,7 +2638,13 @@ class PublishedVariant(BaseModel):
     power_kw: float | None = None
     accel_0_100_s: float | None = None
     boot_l: float | None = None
+    frunk_l: float | None = Field(
+        None, description='Front boot, litres. 0 = no frunk; null = not known.', ge=0.0
+    )
     length_mm: float | None = None
+    width_mm: float | None = Field(
+        None, description='Width without mirrors, mm.', ge=0.0
+    )
     weight_kg: float | None = None
     towing_kg: float | None = None
     seats: int | None = None
@@ -2102,6 +2705,10 @@ class PublishedVariant(BaseModel):
     abrp_typecode: str | None = Field(
         None, description='ABRP car model code; null = plain ABRP link.'
     )
+    abrp_replaced_by: str | None = Field(
+        None,
+        description="ABRP's replacement typecode when abrp_typecode is deprecated (R-24).",
+    )
     iso15118_20_support: Iso15118Support | None = Field(
         'not-disclosed',
         description='Car-side ISO 15118-20. Default not-disclosed; never inferred.',
@@ -2115,6 +2722,16 @@ class PublishedVariant(BaseModel):
     )
     heat_pump: HeatPumpFitment | None = Field(
         None, description='Heat pump: standard / option / none / not-disclosed.'
+    )
+    one_pedal: OnePedal | None = Field(
+        None,
+        description='One-pedal driving (T-066). null = not in the data yet; not-disclosed = looked for, not stated.',
+    )
+    regen_paddles: FeatureAvailability | None = Field(
+        None, description='Steering-wheel paddles to change regen strength (T-066).'
+    )
+    ota_updates: OtaUpdates | None = Field(
+        None, description='Over-the-air software updates (T-066).'
     )
     drag_coefficient: float | None = Field(None, description='Cd, unitless.')
     frontal_area_m2: float | None = None
@@ -2131,6 +2748,20 @@ class PublishedVariant(BaseModel):
         description="Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues.",
         ge=0,
     )
+    shortlist_score: dict[str, float] | None = Field(
+        None,
+        description='Profile combination → score 0..100 (T-069). Editorial opinion, not fact.',
+    )
+    shortlist_band: dict[str, ShortlistBand] | None = Field(
+        None, description='Profile combination → band (T-069).'
+    )
+    shortlist_reasons: dict[str, list[str]] | None = Field(
+        None,
+        description='Profile combination → reason codes (see ShortlistScore.reasons).',
+    )
+    shortlist_unknown_factors: dict[str, list[str]] | None = Field(
+        None, description='Profile combination → factors / gates without data.'
+    )
     nedc_range_km: float | None = Field(
         None, description='NEDC range (old EU cycle). Never used to fill WLTP.'
     )
@@ -2142,6 +2773,168 @@ class PublishedVariant(BaseModel):
         None,
         description='Mass in running order (incl. 75 kg driver), as in type approval; weight_kg stays kerb weight.',
     )
+
+
+class UsageProfile(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    aliases: list[Id] | None = Field(
+        None,
+        description='Older ids that still resolve to this row (URLs, saved profiles).',
+    )
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    kind: Kind1 | None = 'base'
+    applies_when: dict[str, list[str]] | None = Field(
+        None,
+        description='Picker answers that select this profile: question id → accepted answer ids.',
+    )
+    picker: dict[str, list[PickerItem]] | None = Field(
+        None,
+        description='shortlist_rules.yaml spelling of applies_when (same meaning). New rows: use applies_when.',
+    )
+    matches_usage_profile: Id | None = Field(
+        None,
+        description='Transitional: the usage_profiles row this shortlist profile maps to, until both live in one table (T-066).',
+    )
+    combines_with: list[Id] | None = Field(
+        None,
+        description='Overlay profile (e.g. kerbside-charger): applied on top of these base profiles.',
+    )
+    weights: dict[str, WeightLevel] | None = Field(
+        None,
+        description='Factor → weight (price, efficiency, dc_km_20min_winter, winter_1000km_time, ac_speed, battery_risk ...).',
+    )
+    weight_steps: dict[str, int] | None = Field(
+        None,
+        description='Add-ons, modifiers and overlays: factor id → steps up (+) or down (-), e.g. battery-health-risk +1. One step = × weight_step_factor, then renormalised.',
+    )
+    bands: ShortlistBands | None = None
+    gates: list[ShortlistGate] | None = None
+    factors: list[ShortlistFactor] | None = None
+    extra_factors: list[ShortlistFactor] | None = Field(
+        None, description="Overlays and add-ons: factors added to the base profile's."
+    )
+    bonuses: list[ShortlistAdjustment] | None = None
+    penalties: list[ShortlistAdjustment] | None = None
+    filter_presets: list[FilterPreset] | None = None
+    prefer: dict[str, list[str | float | bool]] | None = Field(
+        None,
+        description='Soft preference: PublishedVariant field → preferred values (sorts up, never filters).',
+    )
+    sort_default: str | None = Field(
+        None,
+        description='Default Explore sort for this profile, e.g. price_used_asc.',
+        pattern='^[a-z0-9_]+$',
+    )
+    not_rules: list[str] | None = Field(
+        None, description='What the owner cares about but is deliberately not scored.'
+    )
+    calibration: str | None = Field(
+        None, description='How the thresholds were checked (back-test, research).'
+    )
+    origin: str | None = None
+    why_a_profile: str | None = None
+    notes: str | None = None
+    status: ShortlistRuleStatus | None = None
+    order: int | None = None
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class ConsumptionTest(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: str
+    variant_id: Id
+    test_kind: TestKind = Field(
+        ...,
+        description='constant-speed = steady speed run; route = mixed real route; cycle = lab cycle.',
+    )
+    speed_kmh: float | None = Field(
+        None, description='Constant speed, or average speed for a route.', ge=0.0
+    )
+    road_band: RoadBand | None = Field(
+        None, description='Band the test represents, if a single one.'
+    )
+    band_km: BandKm | None = Field(None, description='Route tests: km per road band.')
+    distance_km: float | None = Field(None, ge=0.0)
+    climb_m: float | None = Field(None, ge=0.0)
+    temperature_c: float = Field(
+        ..., description='Ambient temperature (average for the test).'
+    )
+    wheel_size_in: float | None = Field(
+        None,
+        description='Rim diameter code (ISO/ETRTO designation, inches by convention).',
+        ge=10.0,
+        le=26.0,
+    )
+    tyre: str | None = Field(None, description="Tyre size, e.g. '235/45 R19'.")
+    tyre_season: TyreSeason | None = None
+    consumption_wh_km: float = Field(..., gt=0.0)
+    energy_basis: EnergyBasis = Field(
+        ...,
+        description="battery = from the car's own meter / SoC; wall = includes charging losses.",
+    )
+    range_km: float | None = Field(
+        None, description='Range result, if the test reports one.', ge=0.0
+    )
+    observed_at: date | None = Field(None, description='Test date.')
+    conditions: Conditions1 | None = None
+    source: Source | SourceRef = Field(
+        ...,
+        description='Full Source in staging files; a SourceRef inside consumption_matrix.json (the file lists the Sources once).',
+    )
+    source_record: str | None = None
+    retrieved_at: date
+    confidence: Confidence
+
+
+class ConsumptionMatrixRelease(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    release: int = Field(..., ge=1)
+    generated_at: str
+    model_version: str
+    estimate: Literal[True]
+    note: str | None = None
+    road_bands: list[RoadBand] | None = None
+    band_speed_kmh: BandSpeeds | None = None
+    temperature_bands: list[TemperatureBand] | None = None
+    heater_types: list[HeaterType] | None = None
+    params: Params | None = Field(
+        None,
+        description='Model parameters (all estimates, pipeline/ev_pipeline/derive/consumption_params.yaml).',
+    )
+    sources: list[Source] | None = None
+    tests: list[ConsumptionTest] | None = Field(
+        None,
+        description='Tests behind measured cells; source is a SourceRef into `sources`.',
+    )
+    variants: list[ConsumptionModel]
+
+
+class ShortlistRules(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    schema_: str = Field(..., alias='schema', pattern='^shortlist-rules/v[0-9]+$')
+    derived_from: str | None = None
+    review: bool | None = Field(
+        None, description='true = agent-derived, owner still to confirm thresholds.'
+    )
+    profiles: list[UsageProfile] = Field(..., min_length=1)
+    modifiers: list[ShortlistModifier] | None = None
+    addons: list[UsageProfile] | None = None
+    weight_step_factor: float | None = Field(1.5, gt=1.0)
+    picker: list[PickerQuestion] | None = None
 
 
 class Taxonomy(BaseModel):
