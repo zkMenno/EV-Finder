@@ -1,6 +1,6 @@
 # T-080 Hero: three steps to a top 10 with a top-5 shortlist
 Role: WS2   Lane: apps/web   Wave: 10
-Status: todo
+Status: doing (WS2, 2026-11-15)
 
 ## Goal
 The landing page asks country, profile and budget (plus optional refine) and returns a top 10 with the top 5 highlighted (Decision 051).
