@@ -28,15 +28,41 @@ jobs:
       web: ${{ steps.check.outputs.web }}
       schema: ${{ steps.check.outputs.schema }}
       pipeline: ${{ steps.check.outputs.pipeline }}
+      data: ${{ steps.data.outputs.data }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 0 # full history, so the data step can diff against the base commit
       - id: check
         run: |
           [ -f apps/web/package.json ] && echo "web=true" >> "$GITHUB_OUTPUT" || echo "web=false" >> "$GITHUB_OUTPUT"
           [ -f packages/schema/package.json ] && echo "schema=true" >> "$GITHUB_OUTPUT" || echo "schema=false" >> "$GITHUB_OUTPUT"
           [ -f pipeline/pyproject.toml ] && echo "pipeline=true" >> "$GITHUB_OUTPUT" || echo "pipeline=false" >> "$GITHUB_OUTPUT"
+      # T-057: data-qa runs when data/, pipeline/ or config/ changed (PR: vs the base commit;
+      # push: vs the previous head). Manual runs, new branches and unknown bases always run it.
+      # Event values come in through env, never pasted into the script (injection-safe).
+      - id: data
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          if [ ! -f pipeline/pyproject.toml ]; then echo "data=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          base=""
+          case "$EVENT" in
+            pull_request) base="$PR_BASE" ;;
+            push) base="$PUSH_BEFORE" ;;
+          esac
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ] \
+             || ! git cat-file -e "$base^{commit}" 2>/dev/null; then
+            echo "data=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if git diff --name-only "$base" HEAD -- data config pipeline | grep -q .; then
+            echo "data=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "data=false" >> "$GITHUB_OUTPUT"
+          fi
 
   repo-checks:
     runs-on: ubuntu-latest
@@ -156,6 +182,38 @@ jobs:
       - run: uv run ruff format --check .
       - run: uv run pytest
 
+  # Data QA (T-057): seed / variant / taxonomy validators, then the blocking release QA
+  # (provenance completeness, licence gate) re-run on the COMMITTED release. Staging is
+  # git-ignored, so CI checks what is published rather than rebuilding it.
+  data-qa:
+    needs: detect
+    if: needs.detect.outputs.data == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: pipeline
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          working-directory: pipeline
+      - name: Install
+        run: uv sync --locked --all-extras --dev
+      - name: Validate seed models
+        run: uv run python -I ../data/seed/validate_seed.py ../data/seed/models.yaml
+      - name: Validate seed variants
+        run: uv run python -I ../data/seed/validate_variants.py
+      - name: Validate taxonomy, platforms, packs and variant links
+        run: uv run python -I ../data/taxonomy/validate_taxonomy.py
+      - name: Blocking QA on the committed release
+        run: |
+          if [ ! -e ../data/releases/latest ]; then echo "No committed release yet; skipped."; exit 0; fi
+          uv run python -m ev_pipeline.qa check-release ../data/releases/latest
+
   # Dependency audit (A-02): warns, never fails the build (continue-on-error), so a new
   # advisory shows up as a yellow job without blocking merges. Not part of ci-ok.
   audit:
@@ -192,7 +250,7 @@ jobs:
   # One stable check name to require on main, whatever jobs ran.
   ci-ok:
     if: always()
-    needs: [repo-checks, web, e2e, schema, pipeline]
+    needs: [repo-checks, web, e2e, schema, pipeline, data-qa]
     runs-on: ubuntu-latest
     permissions: {}
     steps:

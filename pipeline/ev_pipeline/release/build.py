@@ -59,6 +59,7 @@ from ev_pipeline.merge.corroborate import apply_corroboration
 from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
+from ev_pipeline.qa.pack_guard import fill_winning_values, guard_usable_vs_pack
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
 from ev_pipeline.release.charging_stats import build_charging_stats
@@ -314,14 +315,19 @@ def build_release(
     by_variant: dict[str, list[MatchedFact]] = {}
     for mf in spec_facts:
         by_variant.setdefault(mf.fact.subject_id.root, []).append(mf)
+    # T-057: usable kWh above the linked pack's gross never merges; it goes to conflicts.csv.
+    by_variant, pack_conflicts = guard_usable_vs_pack(
+        by_variant, links, {vid: info.generation_id for vid, info in result.variants.items()}
+    )
     merged = {vid: merge_variant_facts(fs, policies) for vid, fs in by_variant.items()}
+    fill_winning_values(pack_conflicts, merged)
     # Q-019 (a): generation averages may confirm a merged value, never set one (flag-gated).
     corro_facts, corro_dropped = check_fact_ranges(result.corroboration_facts)
     problems += corro_dropped
     corro_used, result.corroboration_log = apply_corroboration(
         merged, result.variants, corro_facts, policies
     )
-    conflicts = conflict_rows(merged)
+    conflicts = conflict_rows(merged) + pack_conflicts
     nl_counts = aggregate_counts(result.count_facts, seed, "rdw", "NL")
     registrations = registration_entries(result.count_facts, seed)
 

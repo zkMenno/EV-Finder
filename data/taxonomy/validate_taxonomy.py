@@ -827,7 +827,7 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
         if n > 1:
             err(f"variant_links.yaml: variant {vid} linked {n} times")
     for gid in sorted(generations - gens_with_variants - linked_gens):
-        err(f"variant_links.yaml: generation {gid} has no variants and no generation-level default")
+        warn(f"variant_links.yaml: generation {gid} has no variants and no generation-level default (T-060)")
     for pk in sorted(set(packs) - used_packs):
         warn(f"battery_packs.yaml: pack {pk} is not used by any link")
     for pid in sorted(set(platforms) - used_platforms):
