@@ -12,6 +12,7 @@ Menno opens a workstream by pasting one line into a new chat: **"Read workstream
 | WS3 | Catalogue curation: seed, taxonomies, maker-doc facts, glossary, /learn texts, country config | Claude Code or project chat | [WS3/START.md](WS3/START.md) |
 | WS4 | Infra: AppInfra add-an-app, deploy, backups, monitoring, routing box | chat with AppInfra rights | [WS4/START.md](WS4/START.md) |
 | WS5 | Partnerships and growth: permissions, marketplaces, name, SEO, launch | claude.ai project chat | [WS5/START.md](WS5/START.md) |
+| UX | Brand and design system, mockups, range-as-route | its own claude.ai project chat | [UX/START.md](UX/START.md) |
 
 ## Files per workstream
 
@@ -46,6 +47,7 @@ One owner per path. Others write to the owner's INBOX. Builders also append hand
 | `apps/web/` (except `apps/web/Dockerfile`) | WS2 | |
 | `data/seed/`, `data/manual/`, `data/taxonomy/`, `content/`, `config/` | WS3 | Affiliate tags in `config/` come from WS5 via WS3's INBOX; secrets never (Decision 004) |
 | `infra/`, `pipeline/Dockerfile`, `apps/web/Dockerfile`, `.github/workflows/image*.yml` | WS4 | |
+| `docs/design/` | UX | Design system mirror; brand decisions in the project doc `claude/brand-design-decisions.md` |
 | `docs/outreach/`, `docs/growth/`, `docs/brand/` | WS5 | Anything sent in Menno's name is a draft until he approves |
 | `workstreams/<ws>/STATUS.md`, `HANDOFF.md` | that workstream | |
 | `workstreams/<ws>/INBOX.md` | append-only, everyone | |
