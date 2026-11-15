@@ -12,3 +12,13 @@ Drafts only. Nothing has been sent. Each file in `drafts/` has front matter (`st
 | [EV Database](drafts/ev-database.md) | Courtesy note; ask about cooperation or data licence | English | draft | info@ev-database.org (ev-database.org/contact) |
 | [ABRP](drafts/abrp.md) | Permission to deep link with the car model pre-selected | English | draft | abetterrouteplanner.com/contact or abrp.featurebase.app; no email published |
 | [Marketplace groups](drafts/marketplace-groups.md) | Affiliate tag or listings/price feed under contract (template plus Autonex, Adevinta, Vend, OLX variants) | English | draft | Press routes only: AutoScout24 press page, adevinta.com/press-room/, vend.com/press and vend.com/contact, olxgroup.com/about-us/newsroom/ |
+
+### Local-language versions (overnight 2, 2026-11-15)
+
+| File | Language | Replaces |
+|---|---|---|
+| [fastned.nl.md](drafts/fastned.nl.md) | Dutch | `fastned.md` (send one) |
+| [ev-database.nl.md](drafts/ev-database.nl.md) | Dutch | `ev-database.md` (send one) |
+| [marketplace-local.md](drafts/marketplace-local.md) | German, Dutch, French | National-team versions of variants A and B in `marketplace-groups.md` |
+
+Spritmonitor is already German. NAF, Euro NCAP, ABRP, Bjørn Nyland and the group-level marketplace emails stay English.
