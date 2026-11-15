@@ -224,6 +224,8 @@ jobs:
       - name: Blocking QA on the committed release
         run: |
           if [ ! -e ../data/releases/latest ]; then echo "No committed release yet; skipped."; exit 0; fi
+          # T-064: release files outside git are downloaded and sha256-checked by manifest.
+          uv run ev release fetch latest --only catalogue.json,facts.parquet,charging_stats.json
           uv run python -m ev_pipeline.qa check-release ../data/releases/latest
 
   # Dependency audit (A-02): warns, never fails the build (continue-on-error), so a new

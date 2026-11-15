@@ -487,6 +487,15 @@ def build_release(
     prev_nums = [x for x in existing_releases(data_dir / "releases") if x < n]
     if prev_nums:
         prev_path = data_dir / "releases" / str(prev_nums[-1]) / "catalogue.json"
+        if not prev_path.exists() and (prev_path.parent / "manifest.json").exists():
+            # T-064: the previous release lives outside git; fetch it by manifest so the diff
+            # (and the >15 % / drop review rules) compare against real data, never nothing.
+            from ev_pipeline.release.publish import PublishError, ensure_local
+
+            try:
+                ensure_local(data_dir, prev_nums[-1], only=frozenset({"catalogue.json"}))
+            except PublishError as e:
+                raise ReleaseError(f"previous release {prev_nums[-1]} unavailable: {e}") from e
         if prev_path.exists():
             prev = json.loads(prev_path.read_text(encoding="utf-8"))
     diff = compute_diff(prev, catalogue)
@@ -900,6 +909,14 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
     from ev_pipeline.qa.release_step import finish_release
 
     finish_release(res.catalogue, res.facts, tmp, data_dir)
+    # T-064: per-generation split + manifest.json (sizes, sha256) before the folder goes live.
+    from ev_pipeline.release.publish import PublishError, load_config, package
+
+    try:
+        package(tmp, load_config(data_dir))
+    except PublishError as e:
+        shutil.rmtree(tmp)
+        raise ReleaseError(f"packaging failed: {e}") from e
     tmp.rename(final)
     write_latest(releases, res.release)
     review = data_dir / "review"

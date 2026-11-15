@@ -689,8 +689,13 @@ def top40_section(catalogue: dict[str, Any], data_dir: Path) -> dict[str, Any]:
 
 
 def _latest_catalogue(data_dir: Path) -> dict[str, Any]:
+    from ev_pipeline.release.publish import local_catalogue
+
     latest = (data_dir / "releases" / "latest").read_text(encoding="utf-8").strip()
-    return json.loads((data_dir / "releases" / latest / "catalogue.json").read_text("utf-8"))
+    path = local_catalogue(data_dir, int(latest))  # T-064: fetched by manifest if needed
+    if path is None:
+        raise FileNotFoundError(f"release {latest} has no catalogue.json or manifest.json")
+    return json.loads(path.read_text("utf-8"))
 
 
 def main(argv: list[str] | None = None) -> int:
