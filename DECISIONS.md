@@ -619,4 +619,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** About 4 routine PRs a month instead of ~5 a week, so far fewer notifications for Menno. Updates arrive in bigger batches, so a failing batch may need a little more untangling.
 
+## Decision 059: Heat pump fitment as cited manual facts; heater and temperature labels as taxonomy rows
+
+**Status:** Accepted (WS3, T-031)
+**Date:** 2026-11-15
+
+**Context:** The consumption model (T-033) needs per-variant heat pump fitment and readable labels for its temperature columns and heater types. R-21 found fitment for about 40 generations, often only for some model years or one market.
+
+**Decision:** Fitment goes in `data/manual/heat-pump/*.yaml` as one cited `heat_pump` fact per generation, only where the source covers the whole generation; `not-disclosed` is never entered (it is the default). Rows that change inside a generation wait for a year span on manual facts (asked WS1) or a seed variant split. `data/taxonomy/temperature_bands.yaml` and `heater_types.yaml` carry six-language labels and tooltips; their numbers mirror the model defaults in `consumption_params.yaml` and change there and here together.
+
+**Consequences:** Fitment stays internal until Q-008 (source `manual` is blocked). The model's numbers are unchanged; only labels are added.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
