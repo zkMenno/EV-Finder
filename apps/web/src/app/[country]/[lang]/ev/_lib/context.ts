@@ -60,7 +60,15 @@ export function servedRoute(p: { country: string; lang: string }): { country: Co
   return isCountrySlug(p.country) && isServed(p.country, p.lang) ? { country: p.country, lang: p.lang } : null;
 }
 
-/** Page metadata with canonical + hreflang for every served pair (Decision 015). `rest` = path after /{country}/{lang}. */
-export function pageMeta(route: { country: CountrySlug; lang: Lang }, rest: string, meta: Metadata = {}): Metadata {
-  return { ...meta, alternates: alternates(route.country, route.lang, rest) };
+/**
+ * Page metadata with canonical + hreflang for every served pair (Decision 015). `rest` = path after
+ * /{country}/{lang}. `only`: the countries where this page exists (pages that vary per country).
+ */
+export function pageMeta(
+  route: { country: CountrySlug; lang: Lang },
+  rest: string,
+  meta: Metadata = {},
+  only?: (country: CountrySlug) => boolean,
+): Metadata {
+  return { ...meta, alternates: alternates(route.country, route.lang, rest, only) };
 }

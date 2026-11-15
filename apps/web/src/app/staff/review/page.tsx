@@ -1,12 +1,12 @@
 // Staff-only, read-only view of the pipeline's review queue (data/review/unmatched.csv and
-// conflicts.csv). 404 unless STAFF_PAGES=1; never indexed; not linked from public pages.
+// conflicts.csv). 404 unless STAFF_PAGES=1 and the staff credentials are sent; never indexed; not linked from public pages.
 // Plain links and a GET form: works without JS, no client component.
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { getT } from "@/i18n";
 import { formatNumber } from "@/lib/format";
-import { isReviewFile, loadReview, REVIEW_FILES, REVIEW_PAGE_SIZE, reviewPage, staffPagesEnabled, type ReviewFile } from "@/lib/review";
+import { isReviewFile, loadReview, REVIEW_FILES, REVIEW_PAGE_SIZE, reviewPage, type ReviewFile } from "@/lib/review";
+import { requireStaff } from "@/lib/staff-guard";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +24,8 @@ function href(file: ReviewFile, source?: string, page?: number): string {
 }
 
 export default async function StaffReviewPage({ searchParams }: Props) {
-  if (!staffPagesEnabled()) notFound();
+  // 404 unless STAFF_PAGES=1 and the Basic credentials match, checked here too (A-05 F2).
+  await requireStaff();
   const t = getT("en");
   const sp = await searchParams;
   const rawFile = one(sp.file);

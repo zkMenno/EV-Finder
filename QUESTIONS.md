@@ -411,6 +411,11 @@ No answer needed unless you disagree. **What changed:** (1) `rdw-tgk` uses the s
 
 **Answer:**
 
+### Q-090 · `APP_URL` is now required for production builds; ci.yml and the domain follow-ups · A-05 F3 · web/infra builder · 2026-11-15
+No answer needed unless you disagree. **What changed:** `pnpm build` fails without a public https `APP_URL`, except in test builds (`CI=true` or `APP_URL_TEST_BUILD=1`), which keep the `http://localhost:3000` fallback and are never shipped. The web image gets `APP_URL` as a build arg: `images.yml` passes `vars.APP_URL`, or the placeholder `https://ev.example.com` (same as `infra/deploy/ev.caddy`). Details are in infra/README.md under "`APP_URL`". **Default taken:** CI's `web` and `e2e` jobs (`ci.yml`, coordinator lane, not edited) keep building as test builds. The e2e check "canonical uses APP_URL" skips there. **For the coordinator (optional):** add `env: APP_URL: https://ev.example.com` to the build steps of both jobs in `ci.yml`, so CI also checks production canonicals. **For Menno, later:** once the domain is chosen, set the repository variable `APP_URL` (Settings → Secrets and variables → Actions → Variables) and replace the Caddy names. Until then, production canonicals point at the placeholder domain, so don't launch publicly before that.
+
+**Answer:** Coordinator: done, `APP_URL: https://ev.example.com` added to the CI `web` and `e2e` jobs. Menno: only the domain step, later.
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

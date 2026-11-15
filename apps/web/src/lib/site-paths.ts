@@ -6,6 +6,7 @@ import {
   type CountrySlug,
   type Lang,
 } from "@/config/countries";
+import { resolveAppUrl } from "../../scripts/app-url.mjs";
 
 /** Path prefix for a country × language: "/be/fr". Every internal link starts with it. */
 export function siteBase(country: CountrySlug, lang: Lang): string {
@@ -18,9 +19,13 @@ export function siteBase(country: CountrySlug, lang: Lang): string {
  */
 export const X_DEFAULT: { country: CountrySlug; lang: Lang } = { country: "nl", lang: "en" };
 
-/** Canonical origin for absolute URLs (hreflang, sitemap): APP_URL (.env.example); no trailing slash. */
+/**
+ * Canonical origin for absolute URLs (hreflang, sitemap): APP_URL (.env.example); no trailing slash.
+ * Throws in a production build without a public https APP_URL (A-05 F3, scripts/app-url.mjs), so
+ * static pages never bake in a localhost canonical.
+ */
 export function siteUrl(env: Record<string, string | undefined> = process.env): string {
-  return (env.APP_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+  return resolveAppUrl(env);
 }
 
 /** Normalises the page path after the base: "" or "/ev/x/y" (leading slash, no trailing one). */
@@ -29,23 +34,30 @@ function restPath(rest: string): string {
   return `/${rest.replace(/^\/+|\/+$/g, "")}`;
 }
 
-/** hreflang map for one page: every served country × language pair + x-default (relative URLs). */
-export function hreflangs(rest: string): Record<string, string> {
+/**
+ * hreflang map for one page: every served country × language pair + x-default (relative URLs).
+ * `only` limits it to countries where the page exists (A-05 L4: used-price lists exist per
+ * country). x-default is X_DEFAULT when that country qualifies, else the first qualifying
+ * country's English page, else left out.
+ */
+export function hreflangs(rest: string, only?: (country: CountrySlug) => boolean): Record<string, string> {
   const r = restPath(rest);
   const out: Record<string, string> = {};
-  for (const { country, lang } of servedPairs())
-    out[hreflangTag(country, lang)] = `${siteBase(country, lang)}${r}`;
-  out["x-default"] = `${siteBase(X_DEFAULT.country, X_DEFAULT.lang)}${r}`;
+  const pairs = servedPairs().filter(({ country }) => !only || only(country));
+  for (const { country, lang } of pairs) out[hreflangTag(country, lang)] = `${siteBase(country, lang)}${r}`;
+  const xd = !only || only(X_DEFAULT.country) ? X_DEFAULT : pairs.find((p) => p.lang === "en");
+  if (xd) out["x-default"] = `${siteBase(xd.country, xd.lang)}${r}`;
   return out;
 }
 
-/** Next.js `metadata.alternates` for a page: canonical = this pair, languages = hreflangs(rest). */
+/** Next.js `metadata.alternates` for a page: canonical = this pair, languages = hreflangs(rest, only). */
 export function alternates(
   country: CountrySlug,
   lang: Lang,
   rest: string,
+  only?: (country: CountrySlug) => boolean,
 ): { canonical: string; languages: Record<string, string> } {
-  return { canonical: `${siteBase(country, lang)}${restPath(rest)}`, languages: hreflangs(rest) };
+  return { canonical: `${siteBase(country, lang)}${restPath(rest)}`, languages: hreflangs(rest, only) };
 }
 
 /** Same page in another language of the same country (query kept). */

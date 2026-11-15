@@ -3,34 +3,20 @@
 //    from the URL, so layouts never read request headers and pages can be static.
 // 2. Content-Security-Policy without 'unsafe-inline' for scripts, see src/lib/csp.ts: hashes for
 //    static pages (manifest from scripts/csp-hashes.mjs), a per-request nonce for the rest.
-// 3. Staff pages: HTTP Basic guard when STAFF_PAGES=1 (src/lib/staff-auth.ts).
-import { readFileSync } from "node:fs";
-import path from "node:path";
+// 3. Staff pages: HTTP Basic challenge when STAFF_PAGES=1 (src/lib/staff-auth.ts). Not the only
+//    lock: the staff layout and pages check the credentials again (src/lib/staff-guard.ts, A-05 F2).
 import { NextResponse, type NextRequest } from "next/server";
-import { buildCsp, cspFor, makeNonce, type CspHashManifest } from "@/lib/csp";
+import { cspFor, makeNonce } from "@/lib/csp";
+import { cspManifest } from "@/lib/csp-manifest";
 import { LANG_COOKIE, routeLang } from "@/lib/lang";
 import { checkStaff } from "@/lib/staff-auth";
 
 const DEV = process.env.NODE_ENV === "development";
 
-let manifest: CspHashManifest | null | undefined;
-/** Read once per process; null (logged) when the build step didn't run. */
-function hashManifest(): CspHashManifest | null {
-  if (manifest !== undefined) return manifest;
-  try {
-    manifest = JSON.parse(readFileSync(path.join(process.cwd(), ".next/server/csp-hashes.json"), "utf8")) as CspHashManifest;
-  } catch {
-    if (!DEV) console.error("csp: .next/server/csp-hashes.json missing (run `pnpm build`); falling back to a policy with 'unsafe-inline'");
-    manifest = null;
-  }
-  return manifest;
-}
-
 function withCsp(req: NextRequest, extra?: (res: NextResponse) => void): NextResponse {
-  const m = hashManifest();
-  // Without the manifest static pages carry no nonce or hash, so a nonce policy would break them:
-  // keep the old (weaker) policy and say so in the log, rather than a broken site.
-  const { csp } = m || DEV ? cspFor(req.nextUrl.pathname, m, { nonce: makeNonce(), dev: DEV }) : { csp: buildCsp({}).replace("script-src 'self'", "script-src 'self' 'unsafe-inline'") };
+  // Fail closed (A-05 F10): without the hash manifest cspFor() gives the strict nonce-only policy
+  // (no 'unsafe-inline', ever); /health then answers 503 (src/lib/csp-manifest.ts).
+  const { csp } = cspFor(req.nextUrl.pathname, cspManifest(), { nonce: makeNonce(), dev: DEV });
   const headers = new Headers(req.headers);
   // Next.js reads the nonce from the request's CSP header while rendering dynamic pages.
   headers.set("Content-Security-Policy", csp);
@@ -66,15 +52,10 @@ export function proxy(req: NextRequest) {
   return withCsp(req);
 }
 
+// Runs on every page request, prefetches included (A-05 F2). No `missing:` header conditions: a
+// client-supplied header such as `Purpose: prefetch` or `Next-Router-Prefetch` must never skip the
+// CSP, the language redirects or the staff challenge. The cost is one cached manifest lookup and
+// a nonce per prefetch.
 export const config = {
-  matcher: [
-    {
-      source: "/((?!_next/static|_next/image|favicon.ico).*)",
-      // Prefetches return RSC payloads, not HTML: no CSP needed, keep them cheap.
-      missing: [
-        { type: "header", key: "next-router-prefetch" },
-        { type: "header", key: "purpose", value: "prefetch" },
-      ],
-    },
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

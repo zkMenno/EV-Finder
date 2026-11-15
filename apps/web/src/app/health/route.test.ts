@@ -1,7 +1,8 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { resetCspManifestCache } from "@/lib/csp-manifest";
 import { GET } from "./route";
 
 let dir: string;
@@ -43,6 +44,30 @@ describe("GET /health", () => {
   it("reports release null while the dev fixture is in use", async () => {
     const body = await GET().json();
     expect(body).toMatchObject({ status: "ok", release: null });
+  });
+
+  it("A-05 F10: answers 503 in production when the CSP hash manifest is missing", async () => {
+    publish(4);
+    const cwd = process.cwd();
+    vi.stubEnv("NODE_ENV", "production");
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    process.chdir(dir); // no .next/server/csp-hashes.json here
+    resetCspManifestCache();
+    try {
+      const res = GET();
+      expect(res.status).toBe(503);
+      expect((await res.json()).status).toBe("unhealthy");
+      // With the manifest in place it is healthy again.
+      mkdirSync(path.join(dir, ".next/server"), { recursive: true });
+      writeFileSync(path.join(dir, ".next/server/csp-hashes.json"), JSON.stringify({ notFound: [], pages: {} }));
+      resetCspManifestCache();
+      expect(GET().status).toBe(200);
+    } finally {
+      process.chdir(cwd);
+      vi.unstubAllEnvs();
+      vi.restoreAllMocks();
+      resetCspManifestCache();
+    }
   });
 
   it("exposes only status, release and time; no paths or env", async () => {

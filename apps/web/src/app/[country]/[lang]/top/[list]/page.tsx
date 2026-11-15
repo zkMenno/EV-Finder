@@ -6,7 +6,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Num } from "@/components/Num";
 import { RankingTable } from "@/components/RankingTable";
 import { TermInfo } from "@/components/Term";
-import { COUNTRIES, isCountrySlug, isServed } from "@/config/countries";
+import { COUNTRIES, isCountrySlug, isServed, type CountrySlug } from "@/config/countries";
 import { formatMoney, formatYears, localeFor } from "@/lib/format";
 import { isRankingId, PRICE_THRESHOLD, ranking, RANKING_IDS, type RankEntry, type RankingId } from "@/lib/rankings";
 import { getCatalogue } from "@/lib/catalogue";
@@ -34,9 +34,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { list } = p;
   if (route && isUsedRankingId(list)) {
     const cfg = COUNTRIES[route.country];
-    return pageMeta(route, `top/${list}`, {
-      title: getT(route.lang)("top.used.title", { price: formatMoney(USED_CAP[list][cfg.currency], cfg.currency, localeFor(route.lang)) }),
-    });
+    // hreflang only for countries where this list exists (A-05 L4; same rule as sitemap.ts).
+    return pageMeta(
+      route,
+      `top/${list}`,
+      { title: getT(route.lang)("top.used.title", { price: formatMoney(USED_CAP[list][cfg.currency], cfg.currency, localeFor(route.lang)) }) },
+      (c) => usedListExists(list, c),
+    );
   }
   if (!route || !isRankingId(list)) return {};
   const { lang } = route;
@@ -44,6 +48,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMeta(route, `top/${list}`, {
     title: getT(lang)(`top.${list}.title`, { price: formatMoney(PRICE_THRESHOLD[cfg.currency], cfg.currency, localeFor(lang)) }),
   });
+}
+
+/** The used-price list exists for this country (enough sourced prices). */
+function usedListExists(list: UsedRankingId, country: CountrySlug): boolean {
+  const cat = getCatalogue();
+  const c = COUNTRIES[country];
+  return visibleUsedRankings(cat.rows(), cat.usedPrices(), c.code, c.currency).includes(list);
 }
 
 const METRIC_TERM: Record<RankingId, string> = {
@@ -213,9 +224,8 @@ function UsedRankingPage({ ctx, list }: { ctx: PageCtx; list: UsedRankingId }) {
             {r.variant_name} · <span className="tabular-nums">{formatYears(r.year_start, r.year_end, t("years.now"))}</span>
           </span>
         </span>,
-        <span key="v" className="tabular-nums">
-          {e.value.toLocaleString(ctx.locale)}
-        </span>,
+        // Derived ratio: through <Num> with its own provenance and the estimate badge (A-05 L3).
+        <Num key="v" value={e.value} digits={1} provenance={e.valueProvenance} sources={sourcesFor(ctx, e.valueProvenance)} locale={ctx.locale} labels={ctx.labels} asOf={e.band.period} />,
         <Num key="r" value={e.rangeKm} unit="km" digits={0} provenance={rangeProv} sources={sourcesFor(ctx, rangeProv)} locale={ctx.locale} labels={ctx.labels} asOf={ctx.asOf} />,
         <Num
           key="p"

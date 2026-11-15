@@ -5,6 +5,10 @@
 # Built in CI (.github/workflows/images.yml) for linux/arm64; never on the shared server.
 
 ARG NODE_VERSION=22
+# Public origin for canonical, hreflang and sitemap URLs (A-05 F3). Static pages bake it in at
+# build time, so it must be a build arg; `pnpm build` fails without a public https origin.
+# Placeholder until the domain exists (infra/README.md "APP_URL"): https://ev.example.com.
+ARG APP_URL
 
 # ---- base: Node + pnpm (version from "packageManager" in package.json, via corepack) ----
 FROM node:${NODE_VERSION}-slim AS base
@@ -50,11 +54,26 @@ COPY apps/web apps/web
 # Model / generation / variant / learn pages are static (Decision 015, Q-033/Q-034): they are
 # built from the release that ships in this image, so a new release means a new image.
 COPY --from=catalogue /out data/releases
+ARG APP_URL
+ENV APP_URL=${APP_URL}
 RUN pnpm --filter @ev/web build
+# Image checks (A-05 F3 + F10): the CSP hash manifest made it into the standalone output, and no
+# prerendered page carries a localhost URL (canonical, hreflang, sitemap).
+RUN set -eu; \
+    test -s apps/web/.next/standalone/apps/web/.next/server/csp-hashes.json \
+      || { echo "csp-hashes.json missing from the standalone output" >&2; exit 1; }; \
+    if grep -rlE 'https?://(localhost|127\.0\.0\.1)' apps/web/.next/server/app --include='*.html' --include='*.body' | head -1 | grep -q .; then \
+      echo "a prerendered page contains a localhost URL; check APP_URL" >&2; exit 1; fi; \
+    grep -rqF "${APP_URL}/" apps/web/.next/server/app --include='*.html' \
+      || { echo "no prerendered page links to APP_URL=${APP_URL}" >&2; exit 1; }
 
 # ---- runtime: standalone server, non-root, read-only friendly ----
 FROM node:${NODE_VERSION}-slim AS runtime
-ENV NODE_ENV=production \
+ARG APP_URL
+# Same origin at run time (robots.txt, sitemap and dynamic pages read it per request). web.env may
+# repeat it but must not change it: static pages keep the build-time value.
+ENV APP_URL=${APP_URL} \
+    NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000 \
     HOSTNAME=0.0.0.0 \

@@ -85,6 +85,28 @@ export function bandProvenance(band: UsedPriceBand): FieldProvenance {
   };
 }
 
+const CONFIDENCE_ORDER: readonly FieldProvenance["confidence"][] = ["low", "medium", "high"];
+
+/**
+ * Provenance of the ranking value (km of real range per 1,000 at the typical used price, A-05 L3):
+ * derived by us from the range and the price band, so it lists both sources, takes the lower of
+ * the two confidences and is always an estimate (a ratio, built on a median price).
+ */
+export function valueProvenance(range: FieldProvenance | undefined, band: UsedPriceBand): FieldProvenance {
+  const price = bandProvenance(band);
+  const ids = [...new Set([...(range?.source_ids ?? []), ...price.source_ids])] as FieldProvenance["source_ids"];
+  const rank = (c: FieldProvenance["confidence"] | undefined) => (c ? CONFIDENCE_ORDER.indexOf(c) : 0);
+  const confidence = CONFIDENCE_ORDER[Math.min(rank(range?.confidence), rank(price.confidence))]!;
+  return {
+    source_ids: ids,
+    confidence,
+    derived: true,
+    estimate: true,
+    note: `real range ÷ typical used price × 1,000 · ${price.note}`,
+    ...(range?.fact_ids || band.fact_ids?.length ? { fact_ids: [...(range?.fact_ids ?? []), ...(band.fact_ids ?? [])] } : {}),
+  };
+}
+
 export interface UsedRankEntry {
   rank: number;
   /** Representative variant: the median real range of the generation (lower median). */
@@ -96,6 +118,8 @@ export interface UsedRankEntry {
   estimate: boolean;
   /** Provenance of the price band, for <Num>. */
   priceProvenance: FieldProvenance;
+  /** Provenance of `value` (derived estimate from range + price), for <Num>. */
+  valueProvenance: FieldProvenance;
 }
 
 function representative(rows: PublishedVariant[]): PublishedVariant | null {
@@ -128,6 +152,7 @@ export function usedRanking(
       value: Math.round((rangeKm / (band.median / 1000)) * 10) / 10,
       estimate: !!row.provenance.real_range_km?.estimate,
       priceProvenance: bandProvenance(band),
+      valueProvenance: valueProvenance(row.provenance.real_range_km, band),
     });
   }
   // De-duplicate: one band per generation (the first in release order wins).

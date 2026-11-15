@@ -135,7 +135,9 @@ test("Explore rows link to variant pages; header links to Rankings and Compare",
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
-test("Staff pages are off by default (404 without STAFF_PAGES=1)", async ({ request }) => {
+// Off by default (404 without STAFF_PAGES=1) is unit-tested (src/lib/staff-guard.test.ts); the e2e
+// server turns staff pages on with test credentials (playwright.config.ts).
+test("Staff pages need the staff credentials (401 without)", async ({ request }) => {
   const res = await request.get("/staff/review");
-  expect(res.status()).toBe(404);
+  expect(res.status()).toBe(401);
 });
