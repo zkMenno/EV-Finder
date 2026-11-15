@@ -284,7 +284,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Consequences:** Not final: no domain bought, no trademark filed, no logo finalised. Outreach still waits for the final name unless Menno says otherwise. Supersedes the "EV Finder" working name in AGENTS.md.
 ---
 
-## Decision 019: Schema conventions for bidi, charging stats and Trip fit (T-018, T-023, T-030)
+## Decision 019: Variant finder: grouped variants, differences only, clues in one data table
+
+**Status:** Accepted (Menno, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** One card per variant is right, but buyers can't see what differs between variants or match a used ad to the right one (EV Database pain). Silent mid-cycle changes (battery, charger, heat pump) are the costly traps.
+
+**Decision:** Keep one card per variant. Add a "differences only" toggle and a variant change timeline (Core, no new data), a "spot it in an ad" clue box (Core for the 40 hand-checked models, Next for the rest), a "which one is it?" finder and NL plate lookup (Next), and listing-link paste (Later, marketplace terms). Clues are a new config-typed data table (Variant clue + Look-alike group) that also feeds listing matching (§8). Spec tab: docs/spec/variant-finder.md.
+
+**Consequences:** Schema gains two entities (coordinator). WS3 writes clues for the top 40; WS1 owns clue data, look-alike detection and the RDW check; WS2 builds the toggle, timeline, box and later the finder; UX designs a colour-blind-safe diff highlight. No scraping of marketplaces.
+
+## Decision 020: Schema conventions for bidi, charging stats and Trip fit (T-018, T-023, T-030)
 
 **Status:** Proposed (provisional, overnight prototype 1)
 **Date:** 2026-11-15

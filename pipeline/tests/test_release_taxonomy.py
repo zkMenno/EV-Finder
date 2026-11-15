@@ -140,7 +140,7 @@ def test_cross_reference_errors() -> None:
     assert any("unknown replaced_by 'b'" in e for e in errs)
 
 
-# --- allowed values for enum-valued facts (Decision 019) -------------------------------------
+# --- allowed values for enum-valued facts (Decision 020) -------------------------------------
 
 
 @pytest.mark.parametrize(

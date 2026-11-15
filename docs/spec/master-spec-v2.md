@@ -175,6 +175,10 @@ The generation page is the heart of the used-car experience: it answers "is this
 - Every number has a tooltip: source, date, confidence. A "Report a data issue" link on every spec sheet sends corrections to the staff review queue.
 - One price at a time, in the visitor's country and currency, labelled; other countries one click away.
 
+### Variant finder (added 15 Nov 2026)
+
+Tell variants apart and spot the right one in a used ad: a "differences only" toggle on generation pages and Compare, a variant change timeline, a "spot it in an ad" clue box per variant, and later a "which one is it?" finder and NL plate lookup. Clues live in one data table that also feeds listing matching (§8). Full tab: [variant-finder.md](variant-finder.md) (Decision 019).
+
 ## 6. Compare (Core)
 
 Compare is where shortlists get decided, so it must never forget what you picked. The selection lives in three places at once: the URL (shareable), the device (survives refresh) and, once signed in, the account (survives devices).
@@ -365,6 +369,7 @@ One canonical vehicle database, fed by many sources, published as versioned rele
 | Variant | One battery + motor + trim, global technical specs | Market-independent: physics doesn't change at the border |
 | Market variant | Country-specific name, price, availability, test-cycle rating (WLTP, EPA), drive side | This is what makes US, UK, AU and later markets plug in cleanly |
 | Fact | One value for one field from one source, with date and confidence | Every number on the site traces back to facts |
+| Variant clue, look-alike group | How to tell a variant from its look-alikes in an ad or on papers; also feeds listing matching | See variant-finder.md (Decision 019) |
 | Published variant | One wide, fast row per variant per release | What the website reads; rebuilt on every release |
 | Listing, price band (Next) | See section 8 | Partitioned by country |
 | User data | Accounts, favourites, shortlists, comparisons | Separate schema; never mixed with catalogue data |

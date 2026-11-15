@@ -93,6 +93,10 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 - User data lives in its own schema, never mixed with catalogue data. GDPR export and delete must keep working.
 - Privacy-friendly analytics only; nothing that needs a cookie banner.
 
+## Web access
+
+Pre-approved by Menno (2026-11-15): read, search and fetch any public website, documentation, registry, open-data portal, API or download your task needs, without asking. Still ask first (QUESTIONS.md): logging in or creating accounts, submitting forms, paying, posting or sending anything in his name. Respect robots.txt and site terms; never scrape marketplaces (Decision 004). Tests still never call the network.
+
 ## Agent boundaries
 
 ### Do

@@ -1,0 +1,4 @@
+<!-- @dsCard group="Navigation" height=96 -->
+<div class="evs" style="padding:16px"><div class="evs-switch" role="group" aria-label="Detail level">
+<button aria-pressed="true">Simple</button><button aria-pressed="false">Detailed</button><button aria-pressed="false">Nerd</button></div></div>
+<script>document.querySelectorAll('.evs-switch button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.evs-switch button').forEach(x=>x.setAttribute('aria-pressed',x===b));}));</script>

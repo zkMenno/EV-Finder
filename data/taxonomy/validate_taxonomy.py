@@ -84,7 +84,7 @@ LABELLED_NEW = (
 )
 NO_LABEL = {"bidi_equipment", "finance_profiles"}  # rows have no localized label
 # Ids the spec requires (docs/spec/bidirectional-and-connectors.md §2.2/§3.1,
-# docs/spec/charging-buildout.md "Data model"), hyphenated per Decision 019.
+# docs/spec/charging-buildout.md "Data model"), hyphenated per Decision 020.
 REQUIRED_IDS = {
     "bidi_modes": {"v2l", "v2h", "v2g", "v2b"},
     "bidi_routes": {"ac-onboard", "dc-offboard", "chademo-dc", "proprietary"},

@@ -1,7 +1,7 @@
 """Validation for releases (T-006): range checks, schema checks, provenance and licence guards.
 
 Enum-valued facts (iso15118_20_support, heat_pump) and drag_coefficient are checked against
-their allowed values the same way (Decision 019): a bad value is dropped and listed.
+their allowed values the same way (Decision 020): a bad value is dropped and listed.
 Range checks run twice: on every matched fact before merging (so one bad value cannot win a
 field) and on every derived value in a row. Anything out of range is dropped and listed in
 data/review/validation.csv.
@@ -95,7 +95,7 @@ def range_reason(field: str, value: object) -> str:
     return f"out of range {lo:g}-{hi:g}: {value}"
 
 
-# Enum-valued facts checked at release time, not in the schema (Decision 019): the allowed
+# Enum-valued facts checked at release time, not in the schema (Decision 020): the allowed
 # values come from these schema $defs, so a new value is a schema change, not a code change.
 ENUM_FACTS: dict[str, str] = {
     "iso15118_20_support": "Iso15118Support",

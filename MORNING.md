@@ -65,7 +65,7 @@ _(at the end of the run)_
 | Item | Status | Notes |
 |---|---|---|
 | A4.0 sync with main, R-02 rename, Q-030 closed | done | merged main twice; my schema decision renumbered to 019 |
-| A4 T-018 bidi + ports schema | done | Decision 019 |
+| A4 T-018 bidi + ports schema | done | Decision 020 |
 | A4 T-023 charging stats schema | done | |
 | A4 T-030 Trip fit schema | done | |
 | A4 T-024 charging taxonomies + country links | done | 3–4 links per country, URLs only from the spec; DE link may be a start page, not the map (Q-057) |

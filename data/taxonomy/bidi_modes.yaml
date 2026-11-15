@@ -1,5 +1,5 @@
 # Bidirectional charging modes (Decision 011, T-019). Rows = schema $defs/BidiMode.
-# Spec: docs/spec/bidirectional-and-connectors.md §3.1. Ids use hyphens (Decision 019).
+# Spec: docs/spec/bidirectional-and-connectors.md §3.1. Ids use hyphens (Decision 020).
 # EN + NL; other languages still to do.
 # Validate: python3 -I data/taxonomy/validate_taxonomy.py
 bidi_modes:

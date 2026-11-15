@@ -1,5 +1,5 @@
 # What a charging statistic can count (Decision 012, T-024). Rows = schema $defs/ChargingMetric.
-# Spec: docs/spec/charging-buildout.md, "Data model". Ids use hyphens (Decision 019).
+# Spec: docs/spec/charging-buildout.md, "Data model". Ids use hyphens (Decision 020).
 # EN + NL written tonight; de/fr/es/it still to do (no `review` field in the schema, so the
 # missing languages are simply absent and fall back to EN).
 # Validate: python3 -I data/taxonomy/validate_taxonomy.py
