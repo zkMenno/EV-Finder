@@ -34,7 +34,7 @@ Checks: `pnpm --filter @ev/web test`, `pnpm --filter @ev/web e2e`, `cd pipeline 
 | `/staff/review` | Review queue (only with `STAFF_PAGES=1`) |
 
 ## 3. Data
-Release 1: **195 variants** across 55 generations of the 40 seed models.
+Release 1: **199 variants** across 55 generations of the 40 seed models.
 
 | Source | Ran | Licence | Used for |
 |---|---|---|---|
@@ -86,7 +86,7 @@ _(at the end of the run)_
 | 5 | Seed coverage gaps | done | `data/review/coverage-gaps.md`: seed covers 62% of NL/UK fleet, 39% of DE 2025; top-20 missing models listed |
 | 8 | Test depth (pipeline) | done | derive/release/qa/opendata/backtest 100% line coverage; 673 tests |
 | 1 | Glossary sweep | running | |
-| 6 | Source-scoped aliases | running | |
-| 7 | EEA as corroboration | running | |
+| 6 | Source-scoped aliases | done (on) | +80 matched records; EEA VW make alias places +62,301 registrations; no record moved to a wrong model; MG4 trim duplicates (Q-062) |
+| 7 | EEA as corroboration | done (off) | with the flag on, sourced rows 2 → 6, but EEA averages blend variants, so it stays off (Q-019) |
 | — | RDW WLTP + catalogue price (from item 5) | running | |
 
