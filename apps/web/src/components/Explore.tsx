@@ -3,6 +3,8 @@
 // hydrates them, then fetches the compact catalogue JSON from our own origin and filters
 // and sorts the full list in the browser. All state lives in the URL (see lib/state.ts).
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
+import { loadClientCatalogue } from "@/lib/client-catalogue";
+import { onFilters, publishFilters } from "@/lib/filter-bus";
 import type { Country, Currency, FieldProvenance } from "@ev/schema";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
@@ -207,24 +209,30 @@ export function Explore(props: ExploreProps) {
     if (state.filters.tripFit) update({ ...state, filters: { ...state.filters, tripFit: false } });
   };
 
-  // Full list, fetched from our own origin after first paint.
+  // Full list, fetched from our own origin after first paint (shared with the hero, T-080).
   useEffect(() => {
     let live = true;
-    fetch(props.dataUrl)
-      .then((r) => (r.ok ? (r.json() as Promise<ClientCatalogue>) : null))
-      .then((c) => {
-        if (live && c) {
-          setAll(c.rows);
-          setSources(c.sources);
-        }
-      })
-      .catch(() => {
-        /* keep the server-rendered rows */
-      });
+    void loadClientCatalogue(props.dataUrl).then((c) => {
+      if (live && c) {
+        setAll(c.rows);
+        setSources(c.sources);
+      }
+    });
     return () => {
       live = false;
     };
   }, [props.dataUrl]);
+
+  // The hero's refine filters are Explore's filters (same URL params, T-080).
+  useEffect(
+    () =>
+      onFilters("explore", (filters) => {
+        setDirty(true);
+        setLimit(PAGE);
+        setState((s) => ({ ...s, filters: { ...filters, tripFit: s.filters.tripFit } }));
+      }),
+    [],
+  );
 
   // Remembered table/cards and level preferences, unless the URL says otherwise.
   useEffect(() => {
@@ -264,6 +272,7 @@ export function Explore(props: ExploreProps) {
     setDirty(true);
     setLimit(PAGE);
     setState(next);
+    if (next.filters !== state.filters) publishFilters({ filters: next.filters, from: "explore" });
   };
   const setFilter = (patch: Partial<ExploreFilters>) => update({ ...state, filters: { ...state.filters, ...patch } });
   const setView = (view: View) => {
@@ -431,6 +440,11 @@ function groupLabel(g: FilterGroup, f: ExploreFilters, c: Ctx): string {
     case "bootMin": return t("filters.boot");
     case "lengthMax": return t("filters.length");
     case "towingMin": return t("filters.towing");
+    case "seatsMin": return t("filters.seats");
+    case "acMin": return t("filters.ac");
+    case "yearMin": return t("filters.years");
+    case "makes": return list(t("filters.makes"), f.makes);
+    case "excludeMakes": return list(t("filters.excludeMakes"), f.excludeMakes);
     case "voltageClasses": return list(t("filters.voltage"), f.voltageClasses.map((v) => named(c.names.voltage, v, c)));
     case "voltageMin": return t("filters.vrange");
     case "fast400": return t("filters.fast400");
