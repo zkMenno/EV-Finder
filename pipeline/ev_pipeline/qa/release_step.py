@@ -84,6 +84,12 @@ def finish_release(
         registry.releasable,
         _previous_qa_section(data_dir, int(catalogue["release"]), "backtest_epa"),
     )
+    # T-081: used price back-test against manual samples; report only, never blocks.
+    up_path = out_dir / "used_prices.json"
+    if up_path.exists():
+        doc["backtest_used_prices"] = json.loads(up_path.read_text(encoding="utf-8")).get(
+            "backtest"
+        )
     if doc["status"] == "fail":
         review = data_dir / "review"
         review.mkdir(parents=True, exist_ok=True)

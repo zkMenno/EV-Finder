@@ -591,4 +591,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Trip fit routes, charging pages, bidi filters, variant clue box/finder, lease figures, accounts, alerts and rankings pages wait. Supersedes the phase tags in earlier decisions where they conflict (e.g. Decision 017: only the loan estimate ships; Decision 019: only differences-only ships).
 
+## Decision 043: Used price bands start as a labelled model, manual samples replace it
+
+**Status:** Accepted (WS1 engineering default, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** The hero's budget step needs a used price per variant, build year and country at launch (Decision 051). No marketplace feed exists, layer 3 stays off (Decision 004), the free price indices carry no licence and give only country trends (research/R-40), and no manual samples exist yet.
+
+**Decision:** (1) Each release ships `used_prices.json`. A model band = list price at registration × share of value kept at that age (one EU curve from DAT, ING and Allianz anchors, research/R-40), P25/P75 = median × (1 ∓ 0.12), `samples: 0`, `estimate: true`. (2) List price: that year's `price_new` fact in that country; else the nearest year within 2; else (DE, FR, BE) the Dutch price moved to local VAT, low confidence. UK only from UK prices. No list price → no band. (3) Manual sample aggregates (count, P25, median, P75 per build year; URL and date; data/manual/prices, WS3) with ≥ 5 cars and ≤ 120 days old replace the model band for that variant; generation-level aggregates ship as generation bands. Every sample row is back-tested against the model in qa.json (not a gate). (4) Price indices stay internal sanity checks until a licence or permission exists.
+
+**Consequences:** About 99 of 226 variants get a band from release 1's prices; coverage grows with cited list prices. Refit the curve when DAT's 3-year BEV figure moves by more than 3 points or samples disagree by more than 15 % median.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
