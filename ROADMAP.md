@@ -39,9 +39,11 @@ Non-code (Menno):
 
 Explore table, generation pages, compare tray, rankings, "See listings" links, light accounts. See spec §2–9.
 
+Also Core: charging buildout (link-outs, /learn "Charging in 2026", country pages) and bidirectional charging + plugs (phase 1: schema, EU plug data, "buying a wallbox from 2027" learn section; phase 2: V2H/V2G filters, caveat badges, model-page "Power out" block). See docs/spec/bidirectional-and-connectors.md, Decision 011.
+
 ## Phases 3–5 — Next `status: idea`
 
-Listing feeds, price bands, Gem Score, alerts, battery-health context, PHEVs with 80 km+ electric range, US and Australia, then the rest of Europe.
+Listing feeds, price bands, Gem Score, alerts, battery-health context, PHEVs with 80 km+ electric range, US and Australia (incl. CCS1/NACS ports per model year and the Supercharger filter, T-022), then the rest of Europe.
 
 ## Parking lot `status: parked`
 
