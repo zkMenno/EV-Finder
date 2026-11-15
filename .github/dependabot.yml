@@ -1,14 +1,14 @@
-# Dependency updates (A-02 #4). Weekly, one grouped PR per ecosystem so a solo maintainer
-# isn't flooded; security updates still open on their own as soon as an advisory lands.
+# Dependency updates (A-02 #4). Monthly, one grouped PR per ecosystem so a solo maintainer
+# isn't flooded (Decision 054); security updates still open on their own as soon as an advisory lands.
 # Patch/minor PRs merge themselves once every check is green; majors get the `dependabot-major`
 # label for the coordinator chat (Decision 039, .github/workflows/dependabot-automerge.yml).
-# Mondays 09:00 Paris, so merges land in the daytime.
+# Monthly runs land on the 1st at 09:00 Paris (`day` only applies to weekly), so merges land in the daytime.
 version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris
@@ -20,7 +20,7 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris
@@ -28,19 +28,21 @@ updates:
     # Keep equal to minimumReleaseAge in pnpm-workspace.yaml (3 days), or update jobs fail (Decision 052).
     cooldown:
       default-days: 3
+    # @types/node follows the Node runtime in .nvmrc and the Dockerfile (22), not the newest Node.
+    # Bump it by hand together with the runtime (Decision 053).
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
-      npm-dev:
-        dependency-type: development
-        update-types: [minor, patch]
-      npm-prod:
-        dependency-type: production
+      npm:
+        patterns: ["*"]
         update-types: [minor, patch]
 
   # Python pipeline (pyproject.toml + uv.lock).
   - package-ecosystem: uv
     directory: /pipeline
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris
@@ -53,7 +55,7 @@ updates:
   - package-ecosystem: docker
     directories: [/apps/web, /pipeline]
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris

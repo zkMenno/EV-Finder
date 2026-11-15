@@ -2,7 +2,7 @@
 
 Compare EVs. Make your shortlist.
 
-The design system for EV Shortlist (working title), a site for comparing used and new electric cars and keeping the ones that fit. It looks like an illustrated holiday map with a hand-kept list taped to it: friendly and fun on the outside, calm and exact wherever someone is deciding how to spend €15,000.
+The design system for EV Shortlist (working title), a site for comparing used and new electric cars and keeping the ones that fit. It looks like a **solarpunk travel map** (Menno, 2026-11-15): a printed road-trip map of a sunny, clean, electric countryside and city, with a hand-kept list taped to it: friendly and fun on the outside, calm and exact wherever someone is deciding how to spend €15,000.
 
 **Design board** (mockups, logo sheet, elements, icons, textures): https://claude.ai/artifact/7oaYaK26i6xQBogFuuctMp. The board shows the system in use and installs this system's tokens; this system is the source of truth for values and rules. When one changes, update the other.
 
@@ -80,6 +80,7 @@ The palette is Ink and sky: deep ink for text and linework, a calm sky blue for 
 | Action | `action` + `on-action` | The one primary button per view |
 | Chosen | `sunflower`, `sunflower-tint`, `on-sunflower` | The disc: logo dot, shortlist badge, charge stops, selected states, money chips |
 | Land and sea | `meadow`, `sea` | Illustration and map only. Meadow is never text |
+| Solarpunk scenes | `hill-1`–`hill-3`, `hill-rich-1`–`hill-rich-3`, `leaf`, `forest`, `solar-gold`, `solar-panel` | Illustrations only, never text or states. Soft hills on pages, rich hills on the home hero only. Night drive turns every hill deep green |
 | Status | `success`, `warning`, `danger` (+ tints) | Always with an icon or a word. Danger is berry, so errors never look like the brand or a button |
 | Links and focus | `link`, `focus` | Underlined links; a 3px focus outline on everything |
 
@@ -107,7 +108,30 @@ All three are OFL-licensed and self-hosted in `fonts/` (tokens.css declares them
 
 ## Texture
 
-The map is not flat. Faint surface textures give heroes, empty states, Learn headers and illustrations a printed, holiday-map feel: paper grain, contour lines, a map grid, land hatching, a halftone sun and map folds, plus a dotted route divider between big sections. They sit behind content at 5–14% ink and never go behind tables, forms, prices or body copy. Classes: `evs-tex evs-tex--paper` (etc.); see the Texture component.
+The map is not flat. Faint surface textures give heroes, empty states, Learn headers and illustrations a printed, holiday-map feel: paper grain, contour lines, a map grid, land hatching, a halftone sun and map folds, plus a dotted route divider between big sections. They sit behind content at 5–14% ink and never go behind tables, forms, prices or body copy. **No plain coloured background stays flat (Menno, 2026-11-15): every tinted band, callout, empty state and the footer gets the travel-map texture** (`evs-tex evs-tex--map`, or `--map-frame` for centred content): paper grain all over, contour lines at the edges, a strip of solarpunk hills with a dotted sky route along the bottom, and a little sun in the top-right corner (`evs-tex--no-sun` when the block already has an illustration). It is map print and landscape in one, and nothing runs behind text, so WCAG AA holds. Classes: `evs-tex evs-tex--paper` (etc.); see the Texture component.
+
+## Illustrations: solarpunk, within reach
+
+The mood: **used EVs got good.** Good electric cars are within reach, charging is nothing to worry about, and the cleaner future is already being built: you can be part of it. The illustrations carry that optimism so the copy doesn't have to shout. They are for people who don't care about tech or sustainability as much as for those who do: friendly, sensible, a bit playful, never preachy.
+
+**Style (Menno's pick, 2026-11-15: "B + C").** Layered paper hills with a soft shadow under each layer, a road that winds and narrows into the distance (the same move as the tick in the logo), drawn in a 2px ink line with round joins and flat fills, like a picture-book map. Kids' road play mats and road trips through quiet countryside are the references.
+
+| Use | Scene | Colours |
+|---|---|---|
+| Home hero | `scene-village-hero-day` or `scene-city-hero-day` | Rich: `hill-rich-*`, `forest`, `solar-gold` roofs |
+| Pages, empty states, /learn headers, share images | `scene-village-day`, `scene-city-day`, single elements | Soft: `hill-1`–`hill-3`, `leaf`, cream roofs |
+| Night drive (dark theme) | `*-night` versions | Deep green hills, moon and stars, lit windows, headlights |
+
+**City, town or countryside.** The profile picker asks where people live (Decision 050). Show the village scene by default and the city scene to people who chose "city", or on pages about kerbside charging. The city has apartments with roof gardens and solar, row houses, a tram, bikes and a lamp-post charger; the village has a house with solar roof and wallbox, turbines, a solar field and the winding road.
+
+**Kit (asset group Illustrations, day and night versions):** house with solar roof (soft and rich), home wallbox, public charger, lamp-post charger, wind turbine, solar field, trees (soft and rich), street tree, EV, EV van, tram, bike, apartments (soft and rich), row houses, road bend, straight road, winding road, sun / moon and stars.
+
+Rules:
+- Illustrations live in the margins (principle 1): heroes, empty states, /learn, share images. Never behind tables, prices or forms, and no text on top of an illustration (breathing room).
+- Every scene has a light and a dark version; swap them with the `evs-scene--day` / `evs-scene--night` classes. Decorative scenes get `alt=""`.
+- One car per scene, always charging or on the road, never a petrol pump, smoke or a "bad" car. No people's faces, no leaves on everything, no lightning bolts outside chargers.
+- No numbers in illustrations. Any price or range shown next to one comes from our data, with its source.
+- Rich colour only in the home hero; a page never shows two rich scenes.
 
 ## Map vocabulary (iconography)
 
@@ -149,7 +173,7 @@ Motion answers what people do and is quiet otherwise.
 
 ## Accessibility checklist
 
-- Text at 4.5:1, and large text, icons, control borders and focus rings at 3:1, in both themes.
+- **Hard rule (Menno, 2026-11-15): every piece of text meets WCAG 2.2 level AA, always.** Text at 4.5:1 or more; only large text (24px+, or 19px+ bold) may drop to 3:1. Icons, control borders and focus rings at 3:1. Both themes, every state (hover, disabled labels included), and on every ground it can sit on, illustrations and tints too. No text ever sits directly on an illustration. Every token pair is checked with `workstreams/UX/tools/contrast.py` before a release of the system; a failing pair blocks it. Current status: all text pairs pass AA, most pass AAA.
 - Targets of 48px or more (`tap-target`). Visible focus everywhere.
 - Every chart and map has a text equivalent (the legend under the range map, a table behind every chart).
 - Meaning never depends on colour alone. Quality tiers, cautions and faults carry an icon and a word.

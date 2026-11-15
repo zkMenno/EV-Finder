@@ -4,7 +4,9 @@ name: Dependabot auto-merge
 # - every update in the PR is a patch or minor, and every check on its head commit is green
 #   → squash-merge it, pinned to that commit;
 # - any major update (or a PR whose update types can't be read) → label `dependabot-major` and
-#   leave it for the coordinator chat to review. Menno only hears about it from that chat.
+#   leave it for the coordinator chat to review, whether its checks pass or fail (Decision 053).
+# - a patch/minor PR with a failing check → label `dependabot-failing` for the coordinator chat.
+#   Menno only hears about either from that chat.
 # Runs after CI or Images finishes, so whichever finishes last makes the call. It never checks
 # out or runs PR code: it only reads the PR through the API, so `workflow_run` stays safe here.
 # Note: a merge made with GITHUB_TOKEN doesn't start new runs on main; the next push does.
@@ -23,7 +25,7 @@ jobs:
   decide:
     if: >-
       github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion == 'success' &&
+      (github.event.workflow_run.conclusion == 'success' || github.event.workflow_run.conclusion == 'failure') &&
       startsWith(github.event.workflow_run.head_branch, 'dependabot/')
     runs-on: ubuntu-latest
     permissions:
@@ -47,16 +49,6 @@ jobs:
           [ "$author" = "dependabot[bot]" ] || { echo "Not a Dependabot PR"; exit 0; }
           [ "$head" = "$SHA" ] || { echo "PR moved on since this run; a later run decides"; exit 0; }
 
-          # All checks on this commit must be done and green. `audit` is advisory (continue-on-error,
-          # not part of ci-ok), and this workflow's own run is still in progress, so both are ignored.
-          checks=$(gh api --paginate "repos/$REPO/commits/$SHA/check-runs?per_page=100" \
-            --jq '.check_runs[] | select(.name != "audit" and .name != "decide") | "\(.status) \(.conclusion) \(.name)"')
-          echo "$checks"
-          if echo "$checks" | grep -qv '^completed '; then echo "Checks still running; a later run decides"; exit 0; fi
-          if echo "$checks" | grep -Ev '^completed (success|skipped|neutral) ' | grep -q .; then
-            echo "A check failed: leaving it for review"; exit 0
-          fi
-
           # Dependabot writes one `update-type: version-update:semver-…` line per dependency into
           # its commit message. Grouped PRs carry several.
           types=$(gh api "repos/$REPO/pulls/$pr/commits" --jq '.[].commit.message' \
@@ -66,8 +58,24 @@ jobs:
             labels=$(gh api "repos/$REPO/issues/$pr/labels" --jq '.[].name')
             if ! echo "$labels" | grep -qx dependabot-major; then
               gh api -X POST "repos/$REPO/issues/$pr/labels" -f 'labels[]=dependabot-major' >/dev/null
-              gh api -X POST "repos/$REPO/issues/$pr/comments" -f body="Contains a major update (or update types I couldn't read): not auto-merged. The coordinator chat reviews the breaking changes and merges (Decision 039)." >/dev/null
+              gh api -X POST "repos/$REPO/issues/$pr/comments" -f body="Contains a major update (or update types I couldn't read): not auto-merged. The coordinator chat reviews the breaking changes, fixes what breaks and merges (Decision 039, 053)." >/dev/null
             fi
             exit 0
           fi
+          # All checks on this commit must be done and green. `audit` is advisory (continue-on-error,
+          # not part of ci-ok), and this workflow's own run is still in progress, so both are ignored.
+          checks=$(gh api --paginate "repos/$REPO/commits/$SHA/check-runs?per_page=100" \
+            --jq '.check_runs[] | select(.name != "audit" and .name != "decide") | "\(.status) \(.conclusion) \(.name)"')
+          echo "$checks"
+          if echo "$checks" | grep -qv '^completed '; then echo "Checks still running; a later run decides"; exit 0; fi
+          if echo "$checks" | grep -Ev '^completed (success|skipped|neutral) ' | grep -q .; then
+            echo "A check failed: flagging it for the coordinator"
+            labels=$(gh api "repos/$REPO/issues/$pr/labels" --jq '.[].name')
+            if ! echo "$labels" | grep -qx dependabot-failing; then
+              gh api -X POST "repos/$REPO/issues/$pr/labels" -f 'labels[]=dependabot-failing' >/dev/null
+              gh api -X POST "repos/$REPO/issues/$pr/comments" -f body="A check failed on this patch/minor update: not auto-merged. The coordinator chat fixes it (Decision 053)." >/dev/null
+            fi
+            exit 0
+          fi
+
           gh api -X PUT "repos/$REPO/pulls/$pr/merge" -f merge_method=squash -f sha="$SHA" --jq .message

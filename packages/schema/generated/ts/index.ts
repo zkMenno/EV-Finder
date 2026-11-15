@@ -931,12 +931,21 @@ export interface Chemistry {
     [k: string]: string;
   };
   status: TaxonomyStatus;
+  /**
+   * Items: One pro. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
   pros?: {
     [k: string]: string;
   }[];
+  /**
+   * Items: One con. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
   cons?: {
     [k: string]: string;
   }[];
+  /**
+   * Items: One tip. Keyed by language (en, nl, de, fr, es, it); en required.
+   */
   care_tips?: {
     [k: string]: string;
   }[];
