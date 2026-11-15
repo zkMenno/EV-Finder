@@ -20,7 +20,7 @@ docs/spec/launch-scope.md, Decisions 038, 050, 051, T-067, T-069, T-081, docs/de
 Accounts, alerts, Trip fit routes, lease figures.
 
 ## Handoff notes
-- 2026-11-15 WS2: Done on branch `t-080-hero-shortlist`. Decision 053 (hero above Explore at `/{country}/{lang}/`, presets lenient on missing data, rule units).
+- 2026-11-15 WS2: Done on branch `t-080-hero-shortlist`. Decision 054 (hero above Explore at `/{country}/{lang}/`, presets lenient on missing data, rule units).
 - Code: `src/lib/shortlist.ts` (picker → profile, scoring, presets, prices, top 10), `src/lib/hero-state.ts` (URL), `src/components/Hero.tsx`, `scripts/shortlist-rules.mjs` → `src/config/shortlist-rules.generated.json` (`--check` + unit test keep it in step with the YAML). Explore filters gain `seats`, `ac`, `ymin`/`ymax`, `make`/`xmake`.
 - Scores match `data/editorial/backtest_rules.py` on a fixture (road-tripper). Unknown factors = 0.5 and listed as "not known yet" at Detailed; Nerd shows the factor table.
 - Data gaps (release 1): no `used_prices` → most cars show "Price not known yet" (a notice says so); no winter range field → card shows "In winter: not known yet". Both light up from the release, no code change: used bands via `catalogue.usedPrices()` with `age_band_years` → build years; winter field needs adding to `rankHero`/card once named.

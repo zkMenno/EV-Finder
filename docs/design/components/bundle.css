@@ -175,6 +175,17 @@
 .evs-hero__art .road { fill: none; stroke: var(--surface); stroke-width: 10; stroke-linecap: round; }
 .evs-hero__art .route { fill: none; stroke: var(--sky); stroke-width: 3; stroke-dasharray: 2 8; stroke-linecap: round; }
 .evs-hero__art .note { font: 400 20px/1 var(--font-hand); fill: var(--ink); }
+/* Solarpunk scenes (assets/Illustrations). Light and dark versions swap with the theme. */
+.evs-scene { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); }
+.evs-scene--night { display: none; }
+[data-theme="dark"] .evs-scene--day { display: none; }
+[data-theme="dark"] .evs-scene--night { display: block; }
+.evs-hero__scene { position: relative; justify-self: center; width: 100%; max-width: 420px; }
+.evs-hero__scene .evs-note { position: absolute; left: -32px; bottom: -24px; width: 240px; }
+.evs-hero__step { font: 700 14px/20px var(--font-text); color: var(--ink-2); margin: 0 0 var(--space-2); letter-spacing: .3px; text-transform: uppercase; }
+@media (max-width: 760px) {
+  .evs-hero__scene .evs-note { left: 12px; bottom: -20px; }
+}
 @media (max-width: 760px) {
   .evs-hero { grid-template-columns: 1fr; padding: var(--space-7) var(--space-4); }
   .evs-hero h1 { font-size: 38px; line-height: 42px; }

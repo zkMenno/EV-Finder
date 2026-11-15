@@ -28,6 +28,11 @@ updates:
     # Keep equal to minimumReleaseAge in pnpm-workspace.yaml (3 days), or update jobs fail (Decision 052).
     cooldown:
       default-days: 3
+    # @types/node follows the Node runtime in .nvmrc and the Dockerfile (22), not the newest Node.
+    # Bump it by hand together with the runtime (Decision 053).
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       npm-dev:
         dependency-type: development

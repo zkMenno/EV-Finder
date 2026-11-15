@@ -602,7 +602,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Agents can no longer lock a version fresher than Dependabot accepts, so this failure can't come back. Urgent security fixes that are under 3 days old go in `minimumReleaseAgeExclude` with a comment.
 
-## Decision 053: Hero on top of the landing page; profile filters never drop a car for missing data
+## Decision 053: Dependabot majors handled; red PRs always reach the coordinator
+
+**Status:** Accepted (coordinator fix, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** After Decision 052, Dependabot opened five majors (#16–#20). The auto-merge workflow only ran on green CI, so a red major (js-yaml 5, #19) never got the `dependabot-major` label and nobody was told. @types/node jumped to 26 while we run Node 22.
+
+**Decision:** (1) Majors taken in one PR: eslint 10 + @eslint/js 10, typescript 6, json-schema-to-typescript 16 (regenerated types: comments only), js-yaml 5 (scripts use `import * as yaml`, since v5 has no default export). (2) dependabot-automerge.yml runs on green and red CI: majors get `dependabot-major` either way; red patch/minor PRs get `dependabot-failing`. Both are coordinator work. (3) Dependabot ignores @types/node majors; it moves by hand with the Node runtime in .nvmrc and the Dockerfile.
+
+**Consequences:** Dependabot closes #17–#20 itself once main has those versions; #16 closes because of the ignore rule.
+## Decision 054: Hero on top of the landing page; profile filters never drop a car for missing data
 
 **Status:** Accepted (WS2, 2026-11-15; T-080)
 **Date:** 2026-11-15
