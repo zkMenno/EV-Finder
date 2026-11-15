@@ -159,12 +159,13 @@ highest existing `data/releases/<n>/` + 1. `data/releases/latest` holds the curr
 
 | File | What |
 |---|---|
-| `catalogue.json` | schema `Catalogue`, one wide row per variant (compact, numbers to 1 decimal). The web app reads this. |
+| `catalogue.json` | schema `Catalogue`, one wide row per variant (compact, numbers to 1 decimal). The web app reads this. Optional sections (T-059): `known_issues` (RDW APK defects per generation × first-registration year), `generations[].years_corroboration` (Wikidata years, ±1), row field `epa_range_km`. |
 | `catalogue.parquet`, `facts.parquet` | the same rows flat; every merged fact with its provenance |
 | `diff.json` | added / removed / changed vs the previous release |
 | `coverage.md` | how many rows have each field, and from which source |
 | `qa.json`, `qa.md` | release QA (R-05 §1): blocking checks plus review items, and the `backtest` section (scores the real-range ladder on `data/backtest/*.jsonl`; `skipped` when there are none) |
 | `README.md`, `run_log.json` | counts, licences, attribution; inputs, outputs, outcome |
+| `charging_stats.json` | schema `ChargingStatsRelease` (T-059, Decision 012): aggregate charging statistics from gate-passed sources (BNetzA, DfT; EAFO stays out while blocked). Stat `source_id` is the taxonomy id; `source_aliases` maps it to the `data/sources.yaml` id (`aliases` there). |
 | `sources.json` | health per source: status, last success, last change, "as of" date, records vs previous, schema fingerprint (staff page, Nerd mode) |
 | `refresh.json` | only in releases made by `ev refresh`: per-source status and time, peak memory |
 | `open/` | CC BY 4.0 open-data bundle (Decision 016): `variants.csv`, `variants.json`, `ATTRIBUTION.md`, `LICENSE`, `README.md`. Only gate-passed, non-ODbL sources; `<field>_sources` / `<field>_confidence` per value. Brand from `EV_BRAND_NAME`. |

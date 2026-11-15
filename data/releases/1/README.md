@@ -1,6 +1,6 @@
 # EV Finder catalogue release 1
 
-Generated 2026-11-15T02:11:57+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
+Generated 2026-11-15T02:19:09+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
 
 ## Counts
 
@@ -24,7 +24,9 @@ Generated 2026-11-15T02:11:57+00:00 by `ev release`. Data licence: CC BY 4.0 (se
 | model-estimate (EV Finder estimate models) | CC-BY-4.0 | EV Finder estimate models |
 | openev (Open EV Data) | CDLA-Permissive-2.0 | Contains data from OpenEV Data (open-ev-data-dataset), CDLA-Permissive-2.0. |
 | rdw (RDW Open Data) | CC0-1.0 | Bron: RDW Open Data (opendata.rdw.nl), CC0. |
+| rdw-defects (RDW Open Data: Geconstateerde Gebreken (APK defects)) | CC0-1.0 | Bron: RDW Open Data (opendata.rdw.nl), CC0. |
 | seed-manual (EV Finder seed (hand-entered, unchecked)) | CC-BY-4.0 | EV Finder contributors |
+| wikidata (Wikidata) | CC0-1.0 | Wikidata (wikidata.org), CC0. |
 
 ## Attribution
 
@@ -37,7 +39,9 @@ Generated 2026-11-15T02:11:57+00:00 by `ev release`. Data licence: CC BY 4.0 (se
 - Contains data from EV Finder estimate models, licensed CC-BY-4.0.
 - Contains data from Open EV Data (https://github.com/open-ev-data/open-ev-data-dataset), licensed CDLA-Permissive-2.0. Contains data from OpenEV Data (open-ev-data-dataset), CDLA-Permissive-2.0.
 - Contains data from RDW Open Data (https://opendata.rdw.nl/d/8ys7-d773), licensed CC0-1.0. Bron: RDW Open Data (opendata.rdw.nl), CC0.
+- Contains data from RDW Open Data: Geconstateerde Gebreken (APK defects) (https://opendata.rdw.nl/d/a34c-vvps), licensed CC0-1.0. Bron: RDW Open Data (opendata.rdw.nl), CC0.
 - Contains data from EV Finder seed (hand-entered, unchecked), licensed CC-BY-4.0. EV Finder contributors
+- Contains data from Wikidata (https://www.wikidata.org/), licensed CC0-1.0. Wikidata (wikidata.org), CC0.
 
 ## Caveats
 

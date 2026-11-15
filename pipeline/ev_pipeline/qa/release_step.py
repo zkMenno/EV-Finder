@@ -55,7 +55,9 @@ def finish_release(
     registry = load_registry(data_dir / "sources.yaml")
     policies = load_policies(data_dir / "field_sources.yaml")
     prev, prev_bt = _previous(data_dir, int(catalogue["release"]))
-    checks = run_qa(catalogue, facts, registry, policies, prev)
+    cs_path = out_dir / "charging_stats.json"  # T-059, written by write_release
+    charging = json.loads(cs_path.read_text(encoding="utf-8")) if cs_path.exists() else None
+    checks = run_qa(catalogue, facts, registry, policies, prev, charging)
     backtest = release_backtest(data_dir, registry.releasable, prev_bt)
     doc = qa_document(catalogue, checks, backtest)
     doc["top40"] = top40_section(catalogue, data_dir)  # report only (ADDENDUM-6 P5)

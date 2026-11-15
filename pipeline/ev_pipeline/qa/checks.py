@@ -22,6 +22,9 @@ Checks (blocking ones fail the release):
   negative number -> flag.
 - top40_coverage (report): share of the top-40 used models with 2+ agreeing sources per
   headline field (target 80 % before launch).
+- sections (report, T-059): EPA range rows and their second EPA source, generation years
+  checked against Wikidata (disagreements -> flag), known issues cohorts and the
+  charging_stats.json rows per source. The licence gate also covers these sections.
 
 Thresholds are module constants (PROVISIONAL, from R-05) so they can move to config later.
 """
@@ -185,8 +188,32 @@ def _gate_reason(registry: Registry, sid: str, licence: str | None = None) -> st
     return None
 
 
+def section_gate_problems(
+    catalogue: dict[str, Any], charging: dict[str, Any] | None, registry: Registry
+) -> list[str]:
+    """T-059 sections: known_issues, generation year checks, charging_stats.json."""
+    errors: list[str] = []
+    ki = catalogue.get("known_issues")
+    if ki is not None and (why := _gate_reason(registry, str(ki.get("source_id")))):
+        errors.append(f"known_issues: {ki.get('source_id')}: {why}")
+    for g in catalogue.get("generations", []):
+        for c in (g.get("years_corroboration") or {}).get("checks", []):
+            if why := _gate_reason(registry, str(c.get("source_id"))):
+                errors.append(f"{g.get('id')}: years_corroboration {c.get('source_id')}: {why}")
+    for s in (charging or {}).get("sources", []):
+        if why := _gate_reason(registry, str(s.get("id")), str(s.get("licence") or "")):
+            errors.append(f"charging_stats source {s.get('id')}: {why}")
+    for sid in sorted({str(st.get("source_id")) for st in (charging or {}).get("stats", [])}):
+        if why := _gate_reason(registry, sid):
+            errors.append(f"charging_stats rows from {sid}: {why}")
+    return errors
+
+
 def check_licence_gate(
-    catalogue: dict[str, Any], facts: list[dict[str, Any]], registry: Registry
+    catalogue: dict[str, Any],
+    facts: list[dict[str, Any]],
+    registry: Registry,
+    charging: dict[str, Any] | None = None,
 ) -> Check:
     errors: list[str] = []
     for s in catalogue.get("sources", []):
@@ -216,6 +243,7 @@ def check_licence_gate(
         why = _gate_reason(registry, str(src.get("id")), str(src.get("licence") or ""))
         if why:
             errors.append(f"fact {f.get('id')}: {why}")
+    errors += section_gate_problems(catalogue, charging, registry)
     return Check(
         "licence_gate",
         "Licence gate re-check",
@@ -554,3 +582,53 @@ def check_top40_coverage(cur: dict[str, Any]) -> Check:
             "models": per_model,
         },
     )
+
+
+# --- T-059 sections (report) --------------------------------------------------------------
+
+
+def check_sections(catalogue: dict[str, Any], charging: dict[str, Any] | None = None) -> Check:
+    rows = catalogue.get("rows", [])
+    epa = Counter()
+    for r in rows:
+        p = (r.get("provenance") or {}).get("epa_range_km")
+        if r.get("epa_range_km") is None or p is None:
+            continue
+        epa["rows"] += 1
+        if p.get("agreeing_sources", 1) >= 2:
+            epa["two_plus_agreeing"] += 1
+            epa["second_source_via_fueleconomy"] += "fueleconomy" in (p.get("source_ids") or [])
+    gens = [g for g in catalogue.get("generations", []) if g.get("years_corroboration")]
+    disagree = [
+        f"{g['id']}: {c['boundary']} {c['year']} ({c.get('label') or c['source_id']}) vs seed "
+        f"{g.get('year_start') if c['boundary'] == 'start' else g.get('year_end')}"
+        for g in gens
+        for c in g["years_corroboration"]["checks"]
+        if not c["agrees"]
+    ]
+    ki = catalogue.get("known_issues") or {}
+    cohorts = [c for cs in (ki.get("by_generation") or {}).values() for c in cs]
+    stats = (charging or {}).get("stats", [])
+    details = {
+        "epa_range_km": dict(sorted(epa.items())),
+        "generation_years": {
+            "generations_checked": len(gens),
+            "corroborated": sum(1 for g in gens if g["years_corroboration"]["corroborated"]),
+            "disagreements": _capped(disagree),
+        },
+        "known_issues": {
+            "generations": len(ki.get("by_generation") or {}),
+            "cohorts": len(cohorts),
+            "cohorts_few_reports": sum(1 for c in cohorts if c.get("few_reports")),
+            "codes": len(ki.get("codes") or []),
+        },
+        "charging_stats": dict(sorted(Counter(str(s.get("source_id")) for s in stats).items())),
+    }
+    summary = (
+        f"EPA {epa['rows']} rows ({epa['second_source_via_fueleconomy']} with a 2nd EPA source"
+        f" via fueleconomy); years {details['generation_years']['corroborated']}/{len(gens)}"
+        f" generations corroborated; known issues {len(cohorts)} cohorts; charging stats"
+        f" {len(stats)} rows"
+    )
+    return Check("sections", "New sections (T-059)", False, "flag" if disagree else "info",
+                 summary, details)  # fmt: skip

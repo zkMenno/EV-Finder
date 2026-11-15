@@ -32,6 +32,7 @@ from typing import Any
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+from ev_pipeline.derive.known_issues import build_known_issues, read_defects
 from ev_pipeline.derive.links import (
     catalogue_parts,
     finish_voltage,
@@ -55,9 +56,12 @@ from ev_pipeline.match.matcher import (
 from ev_pipeline.match.review import unmatched_rows, write_unmatched
 from ev_pipeline.match.seed import ManualVariant, Seed, load_manual_variants, load_seed
 from ev_pipeline.merge.corroborate import apply_corroboration
+from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.records import SourceRecord
+from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
+from ev_pipeline.release.charging_stats import build_charging_stats
 from ev_pipeline.release.gate import MISSING_REGISTRY, load_registry
 from ev_pipeline.release.taxonomy import load_optional_taxonomy, optional_taxonomy_errors
 from ev_pipeline.release.validate import (
@@ -101,6 +105,9 @@ class ReleaseResult:
     catalogue_gzip_bytes: int = 0
     taxonomy_tables: dict[str, int] = field(default_factory=dict)
     taxonomy_held_back: dict[str, dict[str, str]] = field(default_factory=dict)
+    # T-059: charging_stats.json (None = not shipped) and the run-log lines of the sections.
+    charging_stats: dict[str, Any] | None = None
+    sections: dict[str, Any] = field(default_factory=dict)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -360,14 +367,34 @@ def build_release(
             "licence": "CC-BY-4.0",
         }
         sources.setdefault(ESTIMATE_SOURCE, est)
+    # T-059: Wikidata years corroborate generations; RDW APK defects -> known_issues.
+    years = corroborate_years(result.year_records, seed)
+    generations = _generation_dicts(seed)
+    for g in generations:
+        if g["id"] in years.by_generation:
+            g["years_corroboration"] = years.by_generation[g["id"]]
+    for sid, src in years.sources.items():
+        sources.setdefault(sid, src)
+    defects = read_defects(data_dir / "staging")
+    if defects:
+        inputs.append({"path": str(data_dir / "staging" / "rdw-defects.defects.jsonl"),
+                       "records": len(defects)})  # fmt: skip
+    known = build_known_issues(
+        defects, seed, {r["generation_id"] for r in rows}, registry.releasable,
+        result.scoped_aliases,
+    )  # fmt: skip
+    if known.source is not None:
+        sources.setdefault(known.source["id"], known.source)
     catalogue = {
         "release": n,
         "generated_at": now.isoformat(timespec="seconds"),
         "sources": [sources[k] for k in sorted(sources)],
-        "generations": _generation_dicts(seed),
+        "generations": generations,
         "rows": rows,
         **catalogue_parts(links),
     }
+    if known.section is not None:
+        catalogue["known_issues"] = known.section
     # Optional taxonomy tables (T-024, T-019): only next to the base four, which Taxonomy requires.
     optional = load_optional_taxonomy(data_dir, registry.reason_blocked)
     taxonomy_errs: list[str] = []
@@ -383,6 +410,10 @@ def build_release(
     if links.packs and links.retrieved_at:
         sources.setdefault(links.source["id"], links.source)
         catalogue["sources"] = [sources[k] for k in sorted(sources)]
+    charging = build_charging_stats(
+        data_dir / "staging", registry, catalogue.get("taxonomy"), n, catalogue["generated_at"]
+    )
+    inputs += charging.inputs
     facts = [_fact_dict(mf) for mf in all_facts]
     pfacts = pack_facts(links)
     facts += pfacts
@@ -398,6 +429,7 @@ def build_release(
         + id_errors(links, catalogue)
         + taxonomy_errs
         + enum_fact_errors(facts)
+        + section_gate_errors(catalogue, charging.document, registry.releasable)
     )
     if errors:
         raise ReleaseError("release failed validation:\n  " + "\n  ".join(errors[:50]))
@@ -425,11 +457,60 @@ def build_release(
         gated=gated,
         taxonomy_tables=optional.counts(),
         taxonomy_held_back=optional.held_back,
+        charging_stats=charging.document,
+        sections={
+            "epa_range_km": epa_summary(rows),
+            "generation_years": years.log,
+            "known_issues": known.log,
+            "charging_stats": charging.log,
+        },
     )
     raw = catalogue_bytes(catalogue)
     res.catalogue_bytes = len(raw)
     res.catalogue_gzip_bytes = len(gzip.compress(raw, mtime=0))
     return res
+
+
+def section_gate_errors(
+    catalogue: dict[str, Any], charging: dict[str, Any] | None, releasable: Any
+) -> list[str]:
+    """T-059 last guard: the known_issues source, generation year checks and every charging
+    stat come from a releasable source (aliases resolve through data/sources.yaml)."""
+    errors: list[str] = []
+    ki = catalogue.get("known_issues")
+    if ki is not None and not releasable(ki["source_id"]):
+        errors.append(f"known_issues uses blocked source {ki['source_id']}")
+    for g in catalogue.get("generations", []):
+        for c in (g.get("years_corroboration") or {}).get("checks", []):
+            if not releasable(c["source_id"]):
+                errors.append(f"{g['id']}: years_corroboration uses blocked {c['source_id']}")
+    for s in (charging or {}).get("sources", []):
+        if not releasable(s["id"]):
+            errors.append(f"charging_stats lists blocked source {s['id']}")
+    bad = Counter(
+        st["source_id"]
+        for st in (charging or {}).get("stats", [])
+        if not releasable(st["source_id"])
+    )
+    errors += [f"charging_stats: {k} rows from blocked {s}" for s, k in sorted(bad.items())]
+    return errors
+
+
+def epa_summary(rows: list[dict[str, Any]]) -> dict[str, int]:
+    """EPA range rows (T-059): how many, and how many have a second agreeing EPA source."""
+    out = Counter()
+    for r in rows:
+        p = (r.get("provenance") or {}).get("epa_range_km")
+        if r.get("epa_range_km") is None or p is None:
+            continue
+        src = set(p.get("source_ids") or [])
+        out["rows"] += 1
+        out["with_fueleconomy"] += "fueleconomy" in src
+        out["fueleconomy_only"] += src == {"fueleconomy"}
+        if p.get("agreeing_sources", 1) >= 2:
+            out["two_plus_agreeing"] += 1
+            out["second_source_via_fueleconomy"] += "fueleconomy" in src
+    return dict(sorted(out.items()))
 
 
 CONFLICT_COLUMNS = [
@@ -510,7 +591,42 @@ def coverage_md(res: ReleaseResult) -> str:
     for f, c in coverage(rows).items():
         cells = [f"{100 * c[b] / n:.0f}% ({c[b]})" for b in COVERAGE_BUCKETS]
         lines.append(f"| {f} | " + " | ".join(cells) + " |")
+    lines += sections_md(res.sections)
     return "\n".join(lines) + "\n"
+
+
+def sections_md(sections: dict[str, Any]) -> list[str]:
+    """coverage.md lines for the T-059 sections (EPA, generation years, known issues, charging)."""
+    if not sections:
+        return []
+    epa = sections.get("epa_range_km") or {}
+    gy = sections.get("generation_years") or {}
+    ki = sections.get("known_issues") or {}
+    cs = sections.get("charging_stats") or {}
+    lines = [
+        "",
+        "## Other sections",
+        "",
+        f"- **EPA range** (`epa_range_km`, compared with EPA figures only): {epa.get('rows', 0)}"
+        f" variants; {epa.get('two_plus_agreeing', 0)} with 2+ agreeing sources, of which"
+        f" {epa.get('second_source_via_fueleconomy', 0)} through fueleconomy.gov.",
+        f"- **Generation years vs Wikidata** (corroboration only, +/-1 year):"
+        f" {gy.get('generations_checked', 0)} generations checked,"
+        f" {gy.get('generations_corroborated', 0)} corroborated; {gy.get('agree', 0)} of"
+        f" {gy.get('checks', 0)} years agree.",
+    ]
+    if ki.get("status") == "shipped":
+        lines.append(
+            f"- **Known issues** (RDW APK defects, NL): {ki['generations']} generations,"
+            f" {ki['cohorts']} first-registration-year cohorts ({ki['cohorts_few_reports']}"
+            f" marked few reports), {ki['codes']} defect codes."
+        )
+    else:
+        lines.append(f"- **Known issues**: not shipped ({ki.get('status', 'no input')}).")
+    for name, f in sorted((cs.get("files") or {}).items()):
+        state = f"gated: {f['gated']}" if f.get("gated") else f"{f['shipped']} rows shipped"
+        lines.append(f"- **Charging stats** `{name}`: {f['rows_in']} rows in, {state}.")
+    return lines
 
 
 # --- writing -----------------------------------------------------------------------------
@@ -670,6 +786,11 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
     (tmp / "run_log.json").write_text(
         json.dumps(run_log(res, "published"), indent=1) + "\n", encoding="utf-8"
     )
+    if res.charging_stats is not None:  # T-059, Decision 012: aggregates only
+        (tmp / CHARGING_STATS_FILE).write_text(
+            json.dumps(res.charging_stats, separators=(",", ":"), ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
     for name, doc in (_default_extras(res, data_dir) if extras is None else extras).items():
         if "/" in name or name.startswith("."):
             raise ReleaseError(f"bad extra file name: {name!r}")
@@ -731,6 +852,7 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "quality_tiers": dict(Counter(r["quality_tier"] for r in rows)),
         "optional_taxonomy_rows": res.taxonomy_tables,
         "taxonomy_rows_held_back": res.taxonomy_held_back,
+        "sections": res.sections,
         "catalogue_json_bytes": res.catalogue_bytes,
         "catalogue_json_gzip_bytes": res.catalogue_gzip_bytes,
         "diff": res.diff["counts"],

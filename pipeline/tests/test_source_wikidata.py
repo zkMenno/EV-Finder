@@ -172,5 +172,7 @@ def test_matcher_never_turns_wikidata_into_facts() -> None:
     records = adapter.normalise(FIXTURE, DAY)
     result = match_records(records, load_seed(REAL_SEED), eea_corroboration=True)
     assert result.corroboration_facts == []
-    assert result.corroboration_skipped["wikidata: not a corroboration source"] == len(records)
+    # T-059: wikidata years go to `year_records` (generation-years check), never to facts.
+    assert len(result.year_records) == len(records)
+    assert result.spec_facts == [] and result.count_facts == []
     assert not result.variants

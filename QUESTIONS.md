@@ -357,6 +357,11 @@ One settings switch for you, no cost. `.github/workflows/data-refresh.yml` runs 
 
 **Answer:**
 
+### Q-080 · T-059 new sources in the release: judgement calls · T-059 · pipeline builder · 2026-11-15
+No answer needed unless you disagree; coordinator/WS2 notes. **Defaults taken:** (1) **EPA range is now a row field** (`epa_range_km`, additive schema change): merged only with other EPA figures (fueleconomy primary, OpenEV fallback, 2 % tolerance), never with WLTP. 84 variants have one; 12 gain a 2nd agreeing EPA source through fueleconomy. fueleconomy attaches several US trims and model years to one variant, so 280 EPA values land in `conflicts.csv` (never averaged; the earliest model year of the primary wins). (2) **Wikidata years** go on `generations[].years_corroboration` (corroborated = every Wikidata year within ±1 of the nearest seed boundary of that kind); years never change. 9 checks on 8 generations: 7 agree, 2 disagree (Enyaq 2017 = concept year; ID.3 2024 = the China-only "Chuzhong" item), both flagged in qa.json `sections`. (3) **Known issues** ship as `catalogue.known_issues.by_generation` (cohort = generation × first-registration year, rates per 100 *sampled* cars, top 5 codes, each with the same-year baseline over all sampled BEVs; `few_reports` = year with < 10 % of cars reported or < 10 cars with a report: hide by default). A year shared by two generations is placed only when exactly one has catalogue rows, else skipped. Source id `rdw-defects` (the adapter's `SOURCE` says `rdw`; the release renames it so it doesn't clash with the registrations source, adapter owner may align it). Labels are RDW's Dutch text only (hx2c-gt7k has no English column). (4) **Charging stats** ship as `data/releases/<n>/charging_stats.json` (new schema def `ChargingStatsRelease`); stat `source_id` keeps the taxonomy id and resolves through the new `aliases` support in the licence gate; `source_aliases` in the file maps it back. EAFO stays out (status blocked). **For WS2:** the web app can read `known_issues`, `years_corroboration`, `epa_range_km` and `charging_stats.json` now; RDW naming clause (Q-037) applies to the known-issues view.
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

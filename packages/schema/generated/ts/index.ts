@@ -273,6 +273,49 @@ export interface Generation {
    */
   uncertain?: boolean;
   change_markers?: ChangeMarker[];
+  years_corroboration?: GenerationYearsCorroboration;
+}
+/**
+ * Outside sources checking a generation's hand-entered years. Corroboration only: the years themselves never change (T-059).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "GenerationYearsCorroboration".
+ */
+export interface GenerationYearsCorroboration {
+  /**
+   * true when every check agrees.
+   */
+  corroborated: boolean;
+  tolerance_years: number;
+  /**
+   * @minItems 1
+   */
+  source_ids: [Id, ...Id[]];
+  /**
+   * @minItems 1
+   */
+  checks: [GenerationYearCheck, ...GenerationYearCheck[]];
+}
+/**
+ * One outside production year compared with a generation boundary (T-059).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "GenerationYearCheck".
+ */
+export interface GenerationYearCheck {
+  boundary: "start" | "end";
+  year: number;
+  /**
+   * Within tolerance_years of the generation's year_start (start) or year_end (end).
+   */
+  agrees: boolean;
+  source_id: Id;
+  source_record?: string;
+  /**
+   * The source's own label for the item (e.g. the Wikidata item label).
+   */
+  label?: string;
+  retrieved_at: string;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -453,6 +496,10 @@ export interface PublishedVariant {
   drivetrain?: Drivetrain;
   battery_kwh_net?: number | null;
   wltp_range_km?: number | null;
+  /**
+   * EPA (US 5-cycle) range in km, from fueleconomy.gov / OpenEV. Its own field: agreement is only ever counted against other EPA figures, never against WLTP (T-059).
+   */
+  epa_range_km?: number | null;
   consumption_kwh_100km?: number | null;
   ac_kw?: number | null;
   dc_peak_kw?: number | null;
@@ -795,6 +842,7 @@ export interface Catalogue {
   battery_packs?: BatteryPack[];
   variant_clues?: VariantClue[];
   lookalike_groups?: LookalikeGroup[];
+  known_issues?: KnownIssues;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -2027,6 +2075,103 @@ export interface LocalizedText54 {
   [k: string]: string;
 }
 /**
+ * Optional 'Known issues' section from RDW APK defect data (T-059): aggregates per generation x first-registration year, never per car.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "KnownIssues".
+ */
+export interface KnownIssues {
+  country: Country;
+  source_id: Id;
+  retrieved_at: string;
+  confidence: Confidence;
+  inspection?: string;
+  reported_from?: string;
+  reported_to?: string;
+  sample_rule?: string;
+  /**
+   * What the per-100 rates are per (plain sentence).
+   */
+  rate_basis: string;
+  min_sample_cars?: number;
+  min_cars_per_code?: number;
+  top_n?: number;
+  codes: KnownIssueCode[];
+  /**
+   * Generation id -> cohorts, oldest first-registration year first.
+   */
+  by_generation: {
+    /**
+     * @minItems 1
+     */
+    [k: string]: [KnownIssueCohort, ...KnownIssueCohort[]];
+  };
+}
+/**
+ * An RDW APK defect code with RDW's own Dutch label (dataset hx2c-gt7k). RDW publishes no English label.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "KnownIssueCode".
+ */
+export interface KnownIssueCode {
+  code: string;
+  label_nl: string;
+  /**
+   * RDW article number (gebrek_artikel_nummer).
+   */
+  article?: string;
+}
+/**
+ * APK defects for one generation and one first-registration year. Compare only with cohorts of the same first-registration year (Q-078).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "KnownIssueCohort".
+ */
+export interface KnownIssueCohort {
+  first_registration_year: number;
+  /**
+   * Fetch year minus first-registration year.
+   */
+  age_years: number;
+  age_band: string;
+  sample_cars: number;
+  cars_with_any_defect: number;
+  any_defect_per_100: number;
+  /**
+   * Too few defect reports to read anything into (young cohort or small counts): hide by default.
+   */
+  few_reports: boolean;
+  cohort: {
+    /**
+     * Generations in the catalogue with a cohort this year.
+     */
+    generations: number;
+    /**
+     * All sampled BEVs of this first-registration year (every make).
+     */
+    sample_cars: number;
+    any_defect_per_100: number;
+  };
+  defects: KnownIssueDefect[];
+  source_records?: string[];
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "KnownIssueDefect".
+ */
+export interface KnownIssueDefect {
+  code: string;
+  cars_with_defect: number;
+  /**
+   * Sampled cars with this defect per 100 sampled cars of this generation and first-registration year.
+   */
+  per_100: number;
+  /**
+   * The same rate over all sampled BEVs of the same first-registration year (the comparison baseline).
+   */
+  cohort_per_100: number;
+}
+/**
  * Text keyed by language (en, nl, de, fr, es, it); en required.
  *
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -2319,4 +2464,22 @@ export interface ClueRange1 {
    * Upper bound (inclusive); null = open (e.g. still built).
    */
   max: number | string | null;
+}
+/**
+ * data/releases/<n>/charging_stats.json: aggregate charging statistics shipped next to the catalogue (Decision 012, T-059).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ChargingStatsRelease".
+ */
+export interface ChargingStatsRelease {
+  release: number;
+  generated_at: string;
+  sources: Source[];
+  /**
+   * Stat source_id (taxonomy id) -> data/sources.yaml id (Q-075).
+   */
+  source_aliases?: {
+    [k: string]: Id;
+  };
+  stats: ChargingStat[];
 }

@@ -11,6 +11,7 @@ from ev_pipeline.qa.checks import (
     check_licence_gate,
     check_outliers,
     check_provenance,
+    check_sections,
     check_top40_coverage,
 )
 from ev_pipeline.release.gate import Registry
@@ -22,13 +23,15 @@ def run_qa(
     registry: Registry,
     policies: Policies,
     previous: dict[str, Any] | None = None,
+    charging: dict[str, Any] | None = None,
 ) -> list[Check]:
     return [
         check_provenance(catalogue, facts),
-        check_licence_gate(catalogue, facts, registry),
+        check_licence_gate(catalogue, facts, registry, charging),
         check_diff(previous, catalogue, policies),
         check_outliers(catalogue, previous, facts),
         check_top40_coverage(catalogue),
+        check_sections(catalogue, charging),
     ]
 
 

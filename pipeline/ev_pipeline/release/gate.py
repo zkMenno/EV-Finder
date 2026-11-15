@@ -9,6 +9,9 @@ Fails closed (T-006 review):
   named licence. That matches data/sources.yaml: "(to confirm)" licences stay blocked until
   checked. `permission: written` is the only override; no source sets it tonight.
 - `nyland` is always excluded (matcher.EXCLUDED_SOURCES), whatever the registry says.
+- `aliases` (Q-075): a source may list other ids it is known by (e.g. `bnetza` carries
+  `bnetza-ladesaeulenregister`, the id the charging taxonomies use). An alias is gated exactly
+  like its registry entry; an alias that clashes with another entry or alias is ignored.
 """
 
 from __future__ import annotations
@@ -52,6 +55,11 @@ def licence_problem(licence: str) -> str | None:
 class Registry:
     sources: dict[str, SourceEntry] = field(default_factory=dict)
     loaded: bool = False
+    aliases: dict[str, str] = field(default_factory=dict)  # alias id -> registry id
+
+    def canonical(self, source_id: str) -> str:
+        """The registry id for `source_id` (itself unless it is a known alias)."""
+        return source_id if source_id in self.sources else self.aliases.get(source_id, source_id)
 
     def reason_blocked(self, source_id: str) -> str | None:
         """None when releasable, else why not."""
@@ -59,6 +67,9 @@ class Registry:
             return "permission pending (hard exclusion)"
         if not self.loaded:
             return MISSING_REGISTRY
+        source_id = self.canonical(source_id)
+        if source_id in EXCLUDED_SOURCES:
+            return "permission pending (hard exclusion)"
         entry = self.sources.get(source_id)
         if entry is None:
             return "not in data/sources.yaml"
@@ -72,7 +83,7 @@ class Registry:
         return self.reason_blocked(source_id) is None
 
     def source_object(self, source_id: str) -> dict[str, Any] | None:
-        e = self.sources.get(source_id)
+        e = self.sources.get(self.canonical(source_id))
         if e is None:
             return None
         return {"id": e.id, "name": e.name, "licence": e.licence.split("(")[0].strip()}
@@ -80,7 +91,10 @@ class Registry:
 
 def parse_registry(data: dict[str, Any]) -> Registry:
     out: dict[str, SourceEntry] = {}
+    alias_of: dict[str, set[str]] = {}
     for s in data.get("sources") or []:
+        for a in s.get("aliases") or []:
+            alias_of.setdefault(str(a), set()).add(s["id"])
         out[s["id"]] = SourceEntry(
             id=s["id"],
             name=str(s.get("name", s["id"])),
@@ -90,7 +104,8 @@ def parse_registry(data: dict[str, Any]) -> Registry:
             terms=str(s.get("terms") or ""),
             permission=str(s.get("permission") or "").strip().lower(),
         )
-    return Registry(out, loaded=True)
+    aliases = {a: next(iter(ids)) for a, ids in alias_of.items() if len(ids) == 1 and a not in out}
+    return Registry(out, loaded=True, aliases=aliases)
 
 
 def load_registry(path: Path) -> Registry:

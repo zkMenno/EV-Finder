@@ -141,7 +141,11 @@ _DFT_PERIOD_RE = re.compile(r"(\d{4}) Q([1-4])")
 COUNT_ONLY_SOURCES = frozenset({"eea"})
 
 # Q-019 option (a): sources whose `corroboration` records may confirm (never set) a value.
-CORROBORATION_SOURCES = frozenset({"eea"})
+# T-059: wikidata corroborates generation *years* only (no specs); its records are collected
+# in `MatchResult.year_records` whatever the EEA flag says, because they never touch a value
+# (merge/generation_years.py).
+YEAR_CORROBORATION_SOURCES = frozenset({"wikidata"})
+CORROBORATION_SOURCES = frozenset({"eea"}) | YEAR_CORROBORATION_SOURCES
 EEA_CORROBORATION_ENV = "EV_EEA_CORROBORATION"
 EEA_CORROBORATION_DEFAULT = False  # Q-019 is open: off until Menno picks option (a)
 
@@ -293,6 +297,8 @@ class MatchResult:
     corroboration_facts: list[MatchedFact] = field(default_factory=list)
     corroboration_skipped: Counter[str] = field(default_factory=Counter)  # reason -> records
     corroboration_log: dict[str, object] = field(default_factory=dict)  # set by the release step
+    # T-059: production-year records (wikidata) for merge/generation_years.py.
+    year_records: list[SourceRecord] = field(default_factory=list)
 
 
 def priority_of(source_id: str) -> int:
@@ -664,7 +670,9 @@ def match_records(
             result.excluded[sid] += 1
             continue
         if rec.kind == "corroboration":
-            if not corroborate:
+            if sid in YEAR_CORROBORATION_SOURCES:
+                result.year_records.append(rec)
+            elif not corroborate:
                 result.corroboration_skipped["flag off"] += 1
             elif sid not in CORROBORATION_SOURCES:
                 result.corroboration_skipped[f"{sid}: not a corroboration source"] += 1

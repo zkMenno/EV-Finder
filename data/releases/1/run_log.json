@@ -1,6 +1,6 @@
 {
  "step": "release",
- "at": "2026-11-15T02:11:57+00:00",
+ "at": "2026-11-15T02:19:09+00:00",
  "inputs": [
   {
    "path": "data/seed/models.yaml",
@@ -78,6 +78,10 @@
    "path": "data/seed/variant_links.yaml"
   },
   {
+   "path": "data/staging/rdw-defects.defects.jsonl",
+   "records": 1775
+  },
+  {
    "path": "data/taxonomy/bidi_modes.yaml"
   },
   {
@@ -106,6 +110,18 @@
   },
   {
    "path": "data/taxonomy/power_bands.yaml"
+  },
+  {
+   "path": "data/staging/bnetza.charging_stats.jsonl",
+   "records": 2720
+  },
+  {
+   "path": "data/staging/dft-charging.charging_stats.jsonl",
+   "records": 141
+  },
+  {
+   "path": "data/staging/eafo.charging_stats.jsonl",
+   "records": 898
   }
  ],
  "outputs": {
@@ -123,7 +139,9 @@
    "model-estimate",
    "openev",
    "rdw",
-   "seed-manual"
+   "rdw-defects",
+   "seed-manual",
+   "wikidata"
   ],
   "matched_records": 3576,
   "excluded_records": {},
@@ -134,7 +152,7 @@
   },
   "corroboration": {
    "skipped": {
-    "flag off": 1379
+    "flag off": 1366
    },
    "facts_offered": 0,
    "facts_used": 0,
@@ -322,8 +340,87 @@
     "dcbel-ara": "ev-finder-r01: not in data/sources.yaml"
    }
   },
-  "catalogue_json_bytes": 3407792,
-  "catalogue_json_gzip_bytes": 179178,
+  "sections": {
+   "epa_range_km": {
+    "fueleconomy_only": 45,
+    "rows": 84,
+    "second_source_via_fueleconomy": 12,
+    "two_plus_agreeing": 12,
+    "with_fueleconomy": 65
+   },
+   "generation_years": {
+    "records": 13,
+    "checks": 9,
+    "agree": 7,
+    "disagree": 2,
+    "generations_checked": 8,
+    "generations_corroborated": 6,
+    "skipped": {
+     "model not in seed": 4
+    },
+    "disagreements": [
+     {
+      "generation_id": "skoda-enyaq-gen1",
+      "boundary": "start",
+      "source_year": 2017,
+      "seed_year": 2020,
+      "source_record": "wikidata:skoda-enyaq/Q30753091#production_start:P571"
+     },
+     {
+      "generation_id": "volkswagen-id3-gen1",
+      "boundary": "start",
+      "source_year": 2024,
+      "seed_year": 2020,
+      "source_record": "wikidata:volkswagen-id3/Q125739580#production_start:P5204"
+     }
+    ]
+   },
+   "known_issues": {
+    "status": "shipped",
+    "groups_in": 306,
+    "groups_placed": 211,
+    "skipped_groups": {
+     "model not in seed": 89,
+     "shared year, generation unknown": 5,
+     "year outside every generation": 1
+    },
+    "generations": 47,
+    "cohorts": 152,
+    "cohorts_few_reports": 35,
+    "cohorts_below_min_sample": 0,
+    "codes": 22
+   },
+   "charging_stats": {
+    "status": "shipped",
+    "files": {
+     "bnetza": {
+      "source": "bnetza",
+      "rows_in": 2720,
+      "shipped": 2720,
+      "dropped": {}
+     },
+     "dft-charging": {
+      "source": "dft-charging",
+      "rows_in": 141,
+      "shipped": 141,
+      "dropped": {}
+     },
+     "eafo": {
+      "source": "eafo",
+      "rows_in": 898,
+      "shipped": 0,
+      "gated": "status blocked"
+     }
+    },
+    "stats": 2861,
+    "by_source": {
+     "bnetza-ladesaeulenregister": 2720,
+     "dft-ev-charging-infrastructure": 141
+    }
+   }
+  },
+  "catalogue_json_bytes": 3541190,
+  "catalogue_json_gzip_bytes": 192113,
   "diff": {
    "rows_previous": 0,
    "rows": 197,

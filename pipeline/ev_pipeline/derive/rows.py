@@ -45,6 +45,7 @@ ESTIMATE_SOURCE = "model-estimate"
 DIRECT_FIELDS = (
     "battery_kwh_net",
     "wltp_range_km",
+    "epa_range_km",  # T-059: its own field; merged only with other EPA figures
     "consumption_kwh_100km",
     "consumption_motorway_kwh_100km",
     "ac_kw",
@@ -567,7 +568,7 @@ def _finish_row(
         row["dc_curve_status"] = w.extra["dc_curve_status"]
     if "dc_peak_kw_is_claim" in w.extra and row.get("dc_peak_kw") is not None:
         row["dc_peak_kw_is_claim"] = bool(w.extra["dc_peak_kw_is_claim"])
-    for f in ("voltage_nominal_v", "voltage_max_v", "charger_400v_kw"):
+    for f in ("epa_range_km", "voltage_nominal_v", "voltage_max_v", "charger_400v_kw"):
         if values.get(f) is not None:
             row[f] = values[f]
     for f in ID_FIELDS:

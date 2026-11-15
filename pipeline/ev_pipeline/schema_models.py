@@ -147,24 +147,6 @@ class Model(BaseModel):
     aliases: list[str] | None = None
 
 
-class Generation(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    id: Id
-    model_id: Id
-    name: str
-    slug: Id
-    year_start: int = Field(..., ge=2008, le=2035)
-    year_end: int | None = Field(
-        None, description='null = still on sale.', ge=2008, le=2035
-    )
-    uncertain: bool | None = Field(
-        False, description='Year boundaries not hand-checked yet.'
-    )
-    change_markers: list[ChangeMarker] | None = None
-
-
 class DriveSide(Enum):
     lhd = 'lhd'
     rhd = 'rhd'
@@ -1786,6 +1768,163 @@ class LookalikeGroup(BaseModel):
     notes: str | None = Field(None, description='Internal note; never shown.')
 
 
+class Boundary(Enum):
+    start = 'start'
+    end = 'end'
+
+
+class GenerationYearCheck(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    boundary: Boundary
+    year: int
+    agrees: bool = Field(
+        ...,
+        description="Within tolerance_years of the generation's year_start (start) or year_end (end).",
+    )
+    source_id: Id
+    source_record: str | None = None
+    label: str | None = Field(
+        None,
+        description="The source's own label for the item (e.g. the Wikidata item label).",
+    )
+    retrieved_at: date
+
+
+class GenerationYearsCorroboration(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    corroborated: bool = Field(..., description='true when every check agrees.')
+    tolerance_years: int = Field(..., ge=0)
+    source_ids: list[Id] = Field(..., min_length=1)
+    checks: list[GenerationYearCheck] = Field(..., min_length=1)
+
+
+class KnownIssueCode(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    code: str
+    label_nl: str
+    article: str | None = Field(
+        None, description='RDW article number (gebrek_artikel_nummer).'
+    )
+
+
+class KnownIssueDefect(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    code: str
+    cars_with_defect: int = Field(..., ge=0)
+    per_100: float = Field(
+        ...,
+        description='Sampled cars with this defect per 100 sampled cars of this generation and first-registration year.',
+        ge=0.0,
+    )
+    cohort_per_100: float = Field(
+        ...,
+        description='The same rate over all sampled BEVs of the same first-registration year (the comparison baseline).',
+        ge=0.0,
+    )
+
+
+class Cohort(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    generations: int = Field(
+        ..., description='Generations in the catalogue with a cohort this year.', ge=1
+    )
+    sample_cars: int = Field(
+        ...,
+        description='All sampled BEVs of this first-registration year (every make).',
+        ge=1,
+    )
+    any_defect_per_100: float = Field(..., ge=0.0)
+
+
+class KnownIssueCohort(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    first_registration_year: int
+    age_years: int = Field(
+        ..., description='Fetch year minus first-registration year.', ge=0
+    )
+    age_band: str
+    sample_cars: int = Field(..., ge=1)
+    cars_with_any_defect: int = Field(..., ge=0)
+    any_defect_per_100: float = Field(..., ge=0.0)
+    few_reports: bool = Field(
+        ...,
+        description='Too few defect reports to read anything into (young cohort or small counts): hide by default.',
+    )
+    cohort: Cohort
+    defects: list[KnownIssueDefect]
+    source_records: list[str] | None = None
+
+
+class KnownIssues(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    country: Country
+    source_id: Id
+    retrieved_at: date
+    confidence: Confidence
+    inspection: str | None = None
+    reported_from: date | None = None
+    reported_to: date | None = None
+    sample_rule: str | None = None
+    rate_basis: str = Field(
+        ..., description='What the per-100 rates are per (plain sentence).'
+    )
+    min_sample_cars: int | None = Field(None, ge=1)
+    min_cars_per_code: int | None = Field(None, ge=1)
+    top_n: int | None = Field(None, ge=1)
+    codes: list[KnownIssueCode]
+    by_generation: dict[str, list[KnownIssueCohort]] = Field(
+        ...,
+        description='Generation id -> cohorts, oldest first-registration year first.',
+    )
+
+
+class ChargingStatsRelease(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    release: int = Field(..., ge=1)
+    generated_at: str
+    sources: list[Source]
+    source_aliases: dict[str, Id] | None = Field(
+        None,
+        description='Stat source_id (taxonomy id) -> data/sources.yaml id (Q-075).',
+    )
+    stats: list[ChargingStat]
+
+
+class Generation(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    model_id: Id
+    name: str
+    slug: Id
+    year_start: int = Field(..., ge=2008, le=2035)
+    year_end: int | None = Field(
+        None, description='null = still on sale.', ge=2008, le=2035
+    )
+    uncertain: bool | None = Field(
+        False, description='Year boundaries not hand-checked yet.'
+    )
+    change_markers: list[ChangeMarker] | None = None
+    years_corroboration: GenerationYearsCorroboration | None = None
+
+
 class Variant(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -1859,6 +1998,10 @@ class PublishedVariant(BaseModel):
     drivetrain: Drivetrain | None = None
     battery_kwh_net: float | None = None
     wltp_range_km: float | None = None
+    epa_range_km: float | None = Field(
+        None,
+        description='EPA (US 5-cycle) range in km, from fueleconomy.gov / OpenEV. Its own field: agreement is only ever counted against other EPA figures, never against WLTP (T-059).',
+    )
     consumption_kwh_100km: float | None = None
     ac_kw: float | None = None
     dc_peak_kw: float | None = None
@@ -2008,3 +2151,4 @@ class Catalogue(BaseModel):
     battery_packs: list[BatteryPack] | None = None
     variant_clues: list[VariantClue] | None = None
     lookalike_groups: list[LookalikeGroup] | None = None
+    known_issues: KnownIssues | None = None

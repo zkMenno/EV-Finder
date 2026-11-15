@@ -1,7 +1,7 @@
 {
  "schema": "release-sources/v1",
  "release": 1,
- "generated_at": "2026-11-15T02:11:57+00:00",
+ "generated_at": "2026-11-15T02:19:09+00:00",
  "sources": {
   "ademe": {
    "id": "ademe",
@@ -93,6 +93,16 @@
    "registry_status": "active",
    "in_catalogue": true
   },
+  "rdw-defects": {
+   "id": "rdw-defects",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "RDW Open Data: APK defects (Geconstateerde Gebreken)",
+   "licence": "CC0-1.0",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
   "seed-manual": {
    "id": "seed-manual",
    "status": "not_refreshed",
@@ -100,6 +110,16 @@
    "name": "EV Finder seed (hand-entered, unchecked)",
    "licence": "CC-BY-4.0",
    "cadence": "ad hoc",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "wikidata": {
+   "id": "wikidata",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "Wikidata",
+   "licence": "CC0-1.0",
+   "cadence": "monthly",
    "registry_status": "active",
    "in_catalogue": true
   }

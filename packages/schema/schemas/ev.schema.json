@@ -265,6 +265,9 @@
           "items": {
             "$ref": "#/$defs/ChangeMarker"
           }
+        },
+        "years_corroboration": {
+          "$ref": "#/$defs/GenerationYearsCorroboration"
         }
       }
     },
@@ -629,6 +632,13 @@
             "number",
             "null"
           ]
+        },
+        "epa_range_km": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "EPA (US 5-cycle) range in km, from fueleconomy.gov / OpenEV. Its own field: agreement is only ever counted against other EPA figures, never against WLTP (T-059)."
         },
         "consumption_kwh_100km": {
           "type": [
@@ -1066,6 +1076,9 @@
           "items": {
             "$ref": "#/$defs/LookalikeGroup"
           }
+        },
+        "known_issues": {
+          "$ref": "#/$defs/KnownIssues"
         }
       }
     },
@@ -4473,6 +4486,333 @@
         "notes": {
           "type": "string",
           "description": "Internal note; never shown."
+        }
+      }
+    },
+    "GenerationYearCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boundary",
+        "year",
+        "agrees",
+        "source_id",
+        "retrieved_at"
+      ],
+      "description": "One outside production year compared with a generation boundary (T-059).",
+      "properties": {
+        "boundary": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end"
+          ]
+        },
+        "year": {
+          "type": "integer"
+        },
+        "agrees": {
+          "type": "boolean",
+          "description": "Within tolerance_years of the generation's year_start (start) or year_end (end)."
+        },
+        "source_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "source_record": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string",
+          "description": "The source's own label for the item (e.g. the Wikidata item label)."
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "GenerationYearsCorroboration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "corroborated",
+        "tolerance_years",
+        "source_ids",
+        "checks"
+      ],
+      "description": "Outside sources checking a generation's hand-entered years. Corroboration only: the years themselves never change (T-059).",
+      "properties": {
+        "corroborated": {
+          "type": "boolean",
+          "description": "true when every check agrees."
+        },
+        "tolerance_years": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "minItems": 1
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GenerationYearCheck"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "KnownIssueCode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "label_nl"
+      ],
+      "description": "An RDW APK defect code with RDW's own Dutch label (dataset hx2c-gt7k). RDW publishes no English label.",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "label_nl": {
+          "type": "string"
+        },
+        "article": {
+          "type": "string",
+          "description": "RDW article number (gebrek_artikel_nummer)."
+        }
+      }
+    },
+    "KnownIssueDefect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "cars_with_defect",
+        "per_100",
+        "cohort_per_100"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "cars_with_defect": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "per_100": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Sampled cars with this defect per 100 sampled cars of this generation and first-registration year."
+        },
+        "cohort_per_100": {
+          "type": "number",
+          "minimum": 0,
+          "description": "The same rate over all sampled BEVs of the same first-registration year (the comparison baseline)."
+        }
+      }
+    },
+    "KnownIssueCohort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "first_registration_year",
+        "age_years",
+        "age_band",
+        "sample_cars",
+        "cars_with_any_defect",
+        "any_defect_per_100",
+        "few_reports",
+        "cohort",
+        "defects"
+      ],
+      "description": "APK defects for one generation and one first-registration year. Compare only with cohorts of the same first-registration year (Q-078).",
+      "properties": {
+        "first_registration_year": {
+          "type": "integer"
+        },
+        "age_years": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Fetch year minus first-registration year."
+        },
+        "age_band": {
+          "type": "string"
+        },
+        "sample_cars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "cars_with_any_defect": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "any_defect_per_100": {
+          "type": "number",
+          "minimum": 0
+        },
+        "few_reports": {
+          "type": "boolean",
+          "description": "Too few defect reports to read anything into (young cohort or small counts): hide by default."
+        },
+        "cohort": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "generations",
+            "sample_cars",
+            "any_defect_per_100"
+          ],
+          "properties": {
+            "generations": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Generations in the catalogue with a cohort this year."
+            },
+            "sample_cars": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "All sampled BEVs of this first-registration year (every make)."
+            },
+            "any_defect_per_100": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "defects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KnownIssueDefect"
+          }
+        },
+        "source_records": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "KnownIssues": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "country",
+        "source_id",
+        "retrieved_at",
+        "confidence",
+        "rate_basis",
+        "codes",
+        "by_generation"
+      ],
+      "description": "Optional 'Known issues' section from RDW APK defect data (T-059): aggregates per generation x first-registration year, never per car.",
+      "properties": {
+        "country": {
+          "$ref": "#/$defs/Country"
+        },
+        "source_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "inspection": {
+          "type": "string"
+        },
+        "reported_from": {
+          "type": "string",
+          "format": "date"
+        },
+        "reported_to": {
+          "type": "string",
+          "format": "date"
+        },
+        "sample_rule": {
+          "type": "string"
+        },
+        "rate_basis": {
+          "type": "string",
+          "description": "What the per-100 rates are per (plain sentence)."
+        },
+        "min_sample_cars": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "min_cars_per_code": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "top_n": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "codes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KnownIssueCode"
+          }
+        },
+        "by_generation": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/Id"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/KnownIssueCohort"
+            },
+            "minItems": 1
+          },
+          "description": "Generation id -> cohorts, oldest first-registration year first."
+        }
+      }
+    },
+    "ChargingStatsRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "release",
+        "generated_at",
+        "sources",
+        "stats"
+      ],
+      "description": "data/releases/<n>/charging_stats.json: aggregate charging statistics shipped next to the catalogue (Decision 012, T-059).",
+      "properties": {
+        "release": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Source"
+          }
+        },
+        "source_aliases": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Id"
+          },
+          "description": "Stat source_id (taxonomy id) -> data/sources.yaml id (Q-075)."
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ChargingStat"
+          }
         }
       }
     }

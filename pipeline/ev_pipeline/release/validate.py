@@ -39,6 +39,7 @@ RANGES: dict[str, tuple[float, float]] = {
 ROW_NUMBER_FIELDS = (
     "battery_kwh_net",
     "wltp_range_km",
+    "epa_range_km",
     "consumption_kwh_100km",
     "ac_kw",
     "dc_peak_kw",

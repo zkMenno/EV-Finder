@@ -6,6 +6,7 @@
 |---|---|---|---|---|
 | battery_kwh_net | 16% (32) | 81% (160) | 3% (5) | 0% (0) |
 | wltp_range_km | 10% (19) | 48% (94) | 0% (0) | 43% (84) |
+| epa_range_km | 6% (12) | 37% (72) | 0% (0) | 57% (113) |
 | consumption_kwh_100km | 0% (0) | 27% (54) | 44% (86) | 29% (57) |
 | ac_kw | 21% (41) | 78% (154) | 0% (0) | 1% (2) |
 | dc_peak_kw | 13% (26) | 84% (166) | 0% (0) | 3% (5) |
@@ -28,3 +29,12 @@
 | voltage_nominal_v | 0% (0) | 12% (24) | 0% (0) | 88% (173) |
 | voltage_max_v | 0% (0) | 0% (0) | 0% (0) | 100% (197) |
 | charger_400v_kw | 0% (0) | 6% (12) | 0% (0) | 94% (185) |
+
+## Other sections
+
+- **EPA range** (`epa_range_km`, compared with EPA figures only): 84 variants; 12 with 2+ agreeing sources, of which 12 through fueleconomy.gov.
+- **Generation years vs Wikidata** (corroboration only, +/-1 year): 8 generations checked, 6 corroborated; 7 of 9 years agree.
+- **Known issues** (RDW APK defects, NL): 47 generations, 152 first-registration-year cohorts (35 marked few reports), 22 defect codes.
+- **Charging stats** `bnetza`: 2720 rows in, 2720 rows shipped.
+- **Charging stats** `dft-charging`: 141 rows in, 141 rows shipped.
+- **Charging stats** `eafo`: 898 rows in, gated: status blocked.

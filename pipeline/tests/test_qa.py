@@ -312,6 +312,7 @@ def test_qa_document_and_markdown(cat, facts) -> None:
         "diff",
         "outliers",
         "top40_coverage",
+        "sections",
     }
     md = qa_md(doc)
     assert "Release QA, release 1" in md and "Back-test" in md

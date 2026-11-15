@@ -1,0 +1,6 @@
+{
+  "release": 2,
+  "generated_at": "2026-11-15T03:00:00+00:00",
+  "sources": [],
+  "stats": [{"id": "x", "country": "DE", "period_end": "2026-07-01", "metric_id": "public-points", "value": -1, "unit": "count", "source_id": "bnetza", "definition_id": "de-bnetza-ladepunkt", "confidence": "high", "entered_by": "pipeline", "retrieved_at": "2026-11-15"}]
+}
