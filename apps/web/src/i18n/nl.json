@@ -699,5 +699,10 @@
   "hero.explore": "Of bekijk alle {n} auto's",
   "hero.card.newTab": "(opent in een nieuw tabblad)",
   "hero.card.estimate": "Schatting: nieuwprijs × waarde die op die leeftijd overblijft, geen getelde advertenties.",
-  "hero.card.estimateLow": "Ruwe schatting: op basis van een nieuwprijs uit een naburig jaar of ander land."
+  "hero.card.estimateLow": "Ruwe schatting: op basis van een nieuwprijs uit een naburig jaar of ander land.",
+  "usedYear.range": "{low} tot {high}",
+  "usedYear.about": "ongeveer {amount}",
+  "usedYear.samples": "{n} advertenties",
+  "usedYear.estimate": "Per bouwjaar, gebruikelijke vraagprijs (P25–P75). Schatting uit de nieuwprijs en de waarde die EV's op die leeftijd houden, geen getelde advertenties.",
+  "usedYear.low": "Op basis van een nieuwprijs uit een naburig jaar of ander land."
 }
