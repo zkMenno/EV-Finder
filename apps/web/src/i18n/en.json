@@ -726,5 +726,7 @@
   "owner.verdict.consider": "worth considering",
   "owner.verdict.fallback": "a fallback",
   "owner.favourite": "a favourite",
-  "owner.label": "One owner's picks for an only car with regular long trips, Dutch and French market, November 2026. Opinion, not a test; it doesn't change our numbers."
+  "owner.label": "One owner's picks for an only car with regular long trips, Dutch and French market, November 2026. Opinion, not a test; it doesn't change our numbers.",
+  "hero.card.estimate": "Estimate: list price × value kept at that age, not counted listings.",
+  "hero.card.estimateLow": "Rough estimate: based on a list price from a nearby year or another country."
 }

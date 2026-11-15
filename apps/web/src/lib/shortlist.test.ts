@@ -190,6 +190,44 @@ describe("rankHero", () => {
   });
 });
 
+describe("per-variant used bands by build year (T-081)", async () => {
+  const { variantFit } = await import("./shortlist");
+  const { parseVariantUsedPrices } = await import("./variant-prices");
+  const { compactBands } = await import("./explore-data");
+  const doc = {
+    variants: [
+      {
+        variant_id: "v",
+        bands: {
+          NL: [
+            { build_year: 2021, p25: 17000, median: 19000, p75: 21000, currency: "EUR", samples: 0, method: "model", estimate: true, confidence: "medium" },
+            { build_year: 2023, p25: 24000, median: 26000, p75: 28000, currency: "EUR", samples: 0, method: "model", estimate: true, confidence: "low" },
+            { build_year: 2022, p25: 20000, median: 22000, p75: 24000, currency: "EUR", samples: 0, method: "model", estimate: true, confidence: "medium" },
+            { build_year: "x", median: 1 },
+          ],
+          xx: [{ build_year: 2022, median: 5 }],
+        },
+      },
+    ],
+  };
+  const r = row("v", { year_start: 2021, year_end: 2023, used_bands: compactBands(parseVariantUsedPrices(doc).get("v")) });
+  it("parses, sorts by year and drops bad rows and keys", () => {
+    expect(r.used_bands).toEqual({ NL: [[2021, 17000, 19000, 21000, 1], [2022, 20000, 22000, 24000, 1], [2023, 24000, 26000, 28000, 3]] });
+  });
+  it("the newest build year within budget sets the price; the years that fit are listed", () => {
+    expect(variantFit(r, "NL", 23000)).toMatchObject({ amount: 22000, low: 20000, high: 24000, yearFrom: 2021, yearTo: 2022, estimate: true, lowConfidence: false });
+    expect(variantFit(r, "NL", null)).toMatchObject({ amount: 26000, yearFrom: 2023, yearTo: 2023, lowConfidence: true });
+    expect(variantFit(r, "NL", 10000)).toBeNull();
+    expect(variantFit(r, "DE", 30000)).toBeNull();
+    // The visitor's build-year filter narrows the years a price may come from.
+    expect(variantFit(r, "NL", 30000, { from: 2021, to: 2021 })).toMatchObject({ amount: 19000, yearFrom: 2021, yearTo: 2021 });
+  });
+  it("priceFit: over budget when the car has bands but none fit", () => {
+    expect(priceFit(r, { country: "NL", cond: "used", budget: 10000, nowYear: 2026 })).toEqual({ fit: null, over: true });
+    expect(priceFit(r, { country: "NL", cond: "used", budget: 23000, nowYear: 2026 }).fit?.amount).toBe(22000);
+  });
+});
+
 describe("Explore 'Suggested' sort (T-067)", async () => {
   const { sortRows } = await import("./filters");
   const { topFactors } = await import("@/components/SuggestedSort");

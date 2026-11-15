@@ -43,7 +43,8 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   const t = getT(lang);
 
   const cat = getCatalogue();
-  const all = cat.rows().map(toExploreRow);
+  const used = cat.variantUsedPrices();
+  const all = cat.rows().map((r) => toExploreRow(r, used));
   const state = fromSearchParams(sp);
   const tripFit = tripFitEnabled();
   // Flag off: the trip filter flag in a shared URL is dropped, so no hidden filter counts as active.
