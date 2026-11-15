@@ -623,5 +623,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** (1) Scores ship as `shortlist_scores.json` in each release (labelled editorial + estimate, CC BY 4.0), 18 combinations per variant: road-tripper / daily-driver / runabout × home or kerbside charging × town / city / countryside, with 0..1 factor values so the app can re-weight add-ons. (2) A per-field `basis_scale` in `pipeline/ev_pipeline/derive/shortlist_params.yaml` maps our values onto the rules' basis before thresholds apply; Menno's thresholds stay as written and the sheet values stay internal. (3) Winter factors and the road-tripper winter gate read the matrix's −10 °C mixed figure; unknown values score 0.5 and are listed; over half the weight unknown → `not-enough-data`. (4) The back-test against the owner's picks is reported in the release README, not a gate.
 
 **Consequences:** Refit the scales when the consumption or DC curve model changes. When T-066 lands, the field and unit mapping in the params file moves into the rules rows and the file becomes typed.
+## Decision 052: Packages must be 3 days old before we lock them (matches Dependabot)
+
+**Status:** Accepted (coordinator fix, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Every Dependabot npm job failed (and emailed Menno): Dependabot waits 3 days before trusting a new version and runs pnpm with that rule, but an agent had locked @playwright/test 1.65.1 (and a few transitive packages) when they were under 2 days old, so pnpm refused to install the project at all.
+
+**Decision:** `minimumReleaseAge: 4320` (3 days) in pnpm-workspace.yaml, and an explicit `cooldown: default-days: 3` for npm in .github/dependabot.yml. The two values stay equal. Lockfile regenerated under the rule; @playwright/test pinned to 1.65.0.
+
+**Consequences:** Agents can no longer lock a version fresher than Dependabot accepts, so this failure can't come back. Urgent security fixes that are under 3 days old go in `minimumReleaseAgeExclude` with a comment.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
