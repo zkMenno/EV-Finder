@@ -309,6 +309,11 @@ No answer needed from Menno; this is for the coordinator / match builder. `ev no
 
 **Answer:**
 
+### Q-069 · Manual facts and review-queue ids: judgement calls · addendum 6 P7 · pipeline builder · 2026-11-15
+No answer needed unless you disagree. Hand-entered facts now go in `data/manual/<topic>/*.yaml` (one cited fact each: URL, retrieved date, quote or page, entered_by, confidence) and `ev manual check` validates them. **Defaults taken:** (1) **Internal only:** the new source `manual` is `blocked` in `data/sources.yaml`, so the release drops these facts. It follows your answer to Q-008: if cited single facts from maker documents may ship, set `manual` to `active` with a licence line. (2) **Strict units:** a manual fact must use the field's canonical unit (km, not mi), so nothing is converted by hand. (3) **Rank:** once released, a manual fact ranks above the unchecked seed and below EEA/OpenEV, unless `field_sources.yaml` says otherwise. (4) **Review queue:** every row of `data/review/*.csv` now starts with `review_id` + `status` (open / done / wont-fix). Decisions are kept in `data/review/status.yaml`, so rebuilds never lose them. **For the web builder (WS2):** the staff page (Q-035) shows the two new columns as plain text; filtering on `status` would help. It stays read-only, so staff still set a status by editing status.yaml or a CSV.
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15

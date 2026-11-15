@@ -1,0 +1,45 @@
+# Test fixture: every fact here breaks one rule.
+schema: manual-facts/v1
+facts:
+  - variant_id: tesla-model-3-gen1-lr     # no URL, no entered_by
+    field: ac_kw
+    value: 11
+    unit: kW
+    retrieved: 2026-11-01
+    locator: "p. 2"
+    confidence: low
+  - variant_id: tesla-model-3-gen1-lr     # wrong unit
+    field: wltp_range_km
+    value: 300
+    unit: mi
+    source_url: https://example.org/a
+    retrieved: 2026-11-01
+    locator: "p. 2"
+    entered_by: test
+    confidence: low
+  - variant_id: tesla-model-3-gen1-lr     # no retrieved date, no quote/locator
+    field: boot_l
+    value: 425
+    unit: l
+    source_url: https://example.org/a
+    entered_by: test
+    confidence: low
+  - variant_id: tesla-model-3-gen1-lr     # both ids, unknown field
+    generation_id: tesla-model-3-gen1
+    field: colour
+    value: red
+    unit: id
+    source_url: https://example.org/a
+    retrieved: 2026-11-01
+    locator: "p. 2"
+    entered_by: test
+    confidence: low
+  - variant_id: tesla-model-3-gen1-lr     # price without country, out of range
+    field: price_new
+    value: 100
+    unit: EUR
+    source_url: ftp://example.org/a
+    retrieved: 2099-01-01
+    locator: "p. 2"
+    entered_by: test
+    confidence: sure

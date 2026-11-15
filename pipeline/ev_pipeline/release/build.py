@@ -41,6 +41,7 @@ from ev_pipeline.derive.links import (
     pack_facts,
 )
 from ev_pipeline.derive.rows import ESTIMATE_SOURCE, build_rows
+from ev_pipeline.manual.facts import attach_manual_facts, issue_problems, load_manual_dir
 from ev_pipeline.match.matcher import (
     EXCLUDED_SOURCES,
     MatchedFact,
@@ -70,6 +71,7 @@ from ev_pipeline.release.validate import (
     schema_errors,
     write_validation,
 )
+from ev_pipeline.review_queue import annotate_review_dir, snapshot_statuses
 from ev_pipeline.sources._common import rel
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -287,10 +289,18 @@ def build_release(
 
     records = [r for r in records if gate(r.source.id.root)]
     manual = [mv for mv in manual if gate(mv.record.source.id.root)]
+    # P7: hand-entered facts (data/manual/), source `manual`; blocked until Q-008.
+    hand = load_manual_dir(data_dir, today, registry)
+    problems += issue_problems(hand.issues)
+    inputs += [{"path": str(data_dir / Path(p).relative_to("data"))} for p in hand.files]
+    hand_facts = [mf for mf in hand.facts if gate(mf.fact.source.id.root)]
 
     links = load_links(data_dir)
     result = match_records(records, seed, manual, generation_pack_kwh(links, manual))
     problems += result.problems
+    hand_matched, hand_problems = attach_manual_facts(hand_facts, result, seed)
+    result.spec_facts += hand_matched
+    problems += hand_problems
     spec_facts, dropped = check_fact_ranges(result.spec_facts)
     problems += dropped
 
@@ -619,7 +629,27 @@ def release_readme(res: ReleaseResult) -> str:
     return "\n".join(lines)
 
 
-def write_release(res: ReleaseResult, data_dir: Path) -> Path:
+def write_latest(releases: Path, n: int) -> None:
+    """Point `latest` at release n atomically: write a temp file, then rename over it, so a
+    reader sees the old number or the new one, never an empty file (addendum 6 P2)."""
+    tmp = releases / f".latest.tmp-{os.getpid()}"
+    tmp.write_text(f"{n}\n", encoding="utf-8")
+    os.replace(tmp, releases / "latest")
+
+
+def _default_extras(res: ReleaseResult, data_dir: Path) -> dict[str, Any]:
+    """sources.json (source health, addendum 6 P3) for releases made by plain `ev release`."""
+    from ev_pipeline.health.state import release_sources_doc
+    from ev_pipeline.refresh.plan import registry_entries
+
+    return {
+        "sources.json": release_sources_doc(data_dir, res.catalogue, registry_entries(data_dir))
+    }
+
+
+def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | None = None) -> Path:
+    """`extras`: more JSON files for the release folder (name -> document), written before QA
+    so they move into place with everything else. Default: sources.json."""
     releases = data_dir / "releases"
     releases.mkdir(parents=True, exist_ok=True)
     final = releases / str(res.release)
@@ -640,17 +670,27 @@ def write_release(res: ReleaseResult, data_dir: Path) -> Path:
     (tmp / "run_log.json").write_text(
         json.dumps(run_log(res, "published"), indent=1) + "\n", encoding="utf-8"
     )
+    for name, doc in (_default_extras(res, data_dir) if extras is None else extras).items():
+        if "/" in name or name.startswith("."):
+            raise ReleaseError(f"bad extra file name: {name!r}")
+        (tmp / name).write_text(
+            json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
     # Release QA + back-test (qa.json, qa.md) and open data bundle (open/); a blocking QA
     # failure raises ReleaseError and removes tmp (R-05 §1, T-035, Decision 016).
     from ev_pipeline.qa.release_step import finish_release
 
     finish_release(res.catalogue, res.facts, tmp, data_dir)
     tmp.rename(final)
-    (releases / "latest").write_text(f"{res.release}\n", encoding="utf-8")
+    write_latest(releases, res.release)
     review = data_dir / "review"
+    previous_status = snapshot_statuses(review)  # P7: keep staff decisions
     write_unmatched(review / "unmatched.csv", res.unmatched_rows)
     write_validation(review / "validation.csv", res.problems)
     write_conflicts(review / "conflicts.csv", res.conflicts)
+    annotate_review_dir(
+        review, previous_status, date.fromisoformat(res.catalogue["generated_at"][:10])
+    )
     res.out_dir = final
     return final
 

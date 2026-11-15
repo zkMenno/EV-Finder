@@ -1,0 +1,21 @@
+# EXAMPLE / FIXTURE ONLY: copy this layout into data/manual/<topic>/<name>.yaml.
+# The ids below belong to the synthetic "Testmake Testcar Alpha" that exists only in
+# pipeline/tests/fixtures/release/models.yaml; the URL and values are placeholders, not data.
+# Folders starting with "_" and files with `fixture: true` are checked by `ev manual check`
+# but never loaded by `ev release`. Format reference: pipeline/README.md, "Manual facts and
+# the review queue".
+schema: manual-facts/v1
+fixture: true
+entered_by: example
+facts:
+  - generation_id: testmake-testcar-alpha-gen1
+    field: warranty_years
+    value: 8
+    unit: years
+    source_url: https://example.org/testmake/warranty.pdf
+    source_name: "Testmake warranty booklet (placeholder)"
+    retrieved: 2026-11-15
+    locator: "p. 1 (placeholder)"
+    quote: "placeholder quote"
+    confidence: low
+    notes: "Example only."

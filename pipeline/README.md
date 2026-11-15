@@ -190,3 +190,48 @@ uv run --with pytest-cov pytest --cov=ev_pipeline --cov-report=term-missing -q
 
 pytest-cov is pulled in for the run only; it is not a project dependency. On 2026-11-15: 680
 tests, 96 % overall (the gaps are mostly adapters' network paths and `match/`).
+
+## Manual facts and the review queue
+
+**Manual facts** are single values a person looked up by hand (a warranty booklet, a maker
+spec sheet), one cited fact each, in `data/manual/<topic>/<name>.yaml`. Copy the layout from
+`data/manual/_example/example.yaml` (a fixture: its ids exist only in the test fixtures).
+
+```yaml
+schema: manual-facts/v1
+entered_by: menno                 # default for the file; a fact can override it
+facts:
+  - variant_id: some-variant-id   # or generation_id: applies to every variant of it
+    field: warranty_years         # a schema FactField
+    value: 8
+    unit: years                   # must be the field's canonical unit (km, kWh, kW, ...)
+    country: NL                   # optional; required for price_new (unit EUR or GBP)
+    source_url: https://...       # required
+    source_name: "Warranty booklet 2024"   # optional
+    retrieved: 2026-11-15         # required, not in the future
+    locator: "p. 4, table 2"      # a locator and/or a quote is required
+    quote: "8 jaar of 160.000 km"
+    confidence: medium            # high | medium | low
+    claim: true                   # default true (maker documents are claims)
+    notes: "..."                  # optional
+```
+
+- `uv run ev manual check` validates every file: the schema `Fact` def plus the rules above,
+  plausible ranges and enum values (same checks as the release), and no duplicate
+  (subject, field, country). Unknown variant/generation ids are warnings. Exit 1 on errors.
+- `ev release` loads them as source `manual`. **Internal only until Q-008 is answered:**
+  `manual` is `blocked` in `data/sources.yaml`, so the licence gate drops them (listed under
+  `gated_sources` in the run log). Bad entries go to `validation.csv` with stage `manual`.
+  Folders starting with `_` and files with `fixture: true` are never loaded by a release.
+- Once releasable, add `manual` to `data/field_sources.yaml` where it should win; without
+  that it ranks above `seed-manual` and below EEA/OpenEV (`MANUAL_PRIORITY`).
+
+**Review queue.** Every row of `data/review/*.csv` starts with `review_id` and `status`
+(`open | done | wont-fix`). The id is a short hash of source, record key and reason
+(`um-` unmatched, `va-` validation, `cf-` conflicts); counts such as "(4x)" are left out, so
+the same problem keeps its id across rebuilds. Staff decisions live in
+`data/review/status.yaml`, keyed by `review_id`; set them there (optional `note`) or in a
+CSV's `status` column, and the next `ev release` copies CSV edits into status.yaml before it
+rewrites the CSVs. Entries are never dropped, so a problem that comes back keeps its status.
+Code: `ev_pipeline/manual/facts.py`, `ev_pipeline/commands/manual.py`,
+`ev_pipeline/review_queue.py`.
