@@ -6,7 +6,7 @@ Read this file in full at the start of every session. Then read your task file. 
 
 ## Project identity
 
-- **Name:** EV Finder (working name; the real brand is still open, so don't hard-code the name in code; use config)
+- **Name:** EV Shortlist (working title since 2026-11-15, Decision 018; repo and code ids stay `ev-finder`; the final brand is still open, so never hard-code the name in code: use config)
 - **Owner:** Menno (solo maintainer). Agents do most of the building.
 - **Stack:** Next.js + TypeScript (`apps/web`), its own database in the shared Postgres 17 + PostGIS server, Python jobs scheduled through pg-boss (`pipeline`), JSON Schema as the single source of types (`packages/schema`). Hosted on Menno's shared AppInfra server (Hetzner Arm, next to GardenLayer and Dungeon Tracker): Caddy, CI → Arm image → SSH deploy (`infra`). See DECISIONS.md 006.
 - **Source of truth for product scope:** the Master spec v2 (link in DECISIONS.md). This repo holds the engineering rules; the spec holds what to build.

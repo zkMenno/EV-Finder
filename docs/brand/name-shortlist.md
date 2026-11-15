@@ -1,5 +1,7 @@
 # Brand name shortlist (research, 15 Nov 2026)
 
+> **Status 15 Nov 2026 (Menno):** working title **EV Shortlist**. **EV Field Guide** kept in the back pocket. Still open to other names and domains: nothing registered yet; the final pick goes through a proper trademark check first (Decision 018).
+
 **Recommendation: EV Almanac** (evalmanac.com and evalmanac.nl both unregistered on 15 Nov 2026; .eu not checked). Backups: **EV Roadbook** and **EV Field Guide**.
 
 This is a quick screen, not legal clearance. Nothing was registered or bought. Before any public step, run a proper EUIPO / BOIP / UKIPO / INPI / DPMA search (or ask a trademark attorney) and register the domains the same day.

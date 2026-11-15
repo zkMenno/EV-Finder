@@ -272,4 +272,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** One small taxonomy (WS3), a price-mode control and calculator (WS2), a lawyer question in R-03. Lease figures stay Next until partner feeds exist.
 
+## Decision 018: Working title "EV Shortlist"
+
+**Status:** Accepted (Menno, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Name research in docs/brand/name-shortlist.md (rounds 1–2). evshortlist.com and evshortlist.nl were unregistered on 15 Nov 2026; .eu unchecked.
+
+**Decision:** "EV Shortlist" is the working title in copy, drafts and the site's brand config. EV Field Guide stays the backup; other names and domains remain open. Repo name, package names and code ids stay `ev-finder` (no churn). The name lives only in config (`brand.name`), never hard-coded.
+
+**Consequences:** Not final: no domain bought, no trademark filed, no logo finalised. Outreach still waits for the final name unless Menno says otherwise. Supersedes the "EV Finder" working name in AGENTS.md.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
