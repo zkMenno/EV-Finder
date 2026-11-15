@@ -1,0 +1,164 @@
+# Links each seed variant (data/seed/variants.yaml) to a platform, a battery pack, its voltage
+# and its behaviour on 400 V DC chargers (Decision 010). Generations without seed variants get a
+# generation-level default keyed `generation_id` (with `battery_pack_options` when packs differ).
+# UNCHECKED, LOW-CONFIDENCE data written from model knowledge, no sources fetched. To be replaced by sourced data.
+# voltage = schema $defs/VariantVoltage; charger_400v = schema $defs/Charger400vBehaviour.
+# 400 V cars are mode `native` (also cars without DC charging: there is nothing to limit; the UI
+# should rely on dc_peak_kw being absent). class_id is normally derived from nominal_v via
+# data/taxonomy/voltage_classes.yaml; `class_override_note` allows a stated class that differs.
+# Entries with `uncertain: true` must be hand-checked before relying on them.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+source: {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", licence: CC-BY-4.0, attribution: "EV Finder contributors"}
+confidence: low
+
+# YAML anchors only; ignored by the validator and loaders.
+x-anchors:
+  v400: &v400 {nominal_v: not-disclosed, max_v: not-disclosed, marketing_label: not-disclosed, class_id: 400v, switchable: false}
+  vnd: &vnd {nominal_v: not-disclosed, max_v: not-disclosed, marketing_label: not-disclosed, class_id: not-disclosed, switchable: false}
+  native: &native {mode: native}
+  egmp_booster: &egmp_booster {mode: booster, kw: 50}
+
+links:
+  # --- Tesla ---
+  - {variant_id: tesla-model-3-gen1-sr-plus, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3-sr-nca, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-3-gen1-sr-plus-lfp, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lfp-60, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-3-gen1-long-range, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-3-gen1-performance, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-y-gen1-rwd, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lfp-60, voltage: *v400, charger_400v: *native, uncertain: true, notes: "Berlin-built RWD cars reportedly used a BYD Blade LFP pack in some periods; same pack id kept."}
+  - {variant_id: tesla-model-y-gen1-long-range, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-y-gen1-performance, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
+  - {generation_id: tesla-model-3-highland, platform_id: tesla-model-3-y, battery_pack_options: [tesla-m3y-lfp-60, tesla-m3y-lr-75], voltage: *v400, charger_400v: *native, uncertain: true, notes: "Generation default. RWD (LFP) and Long Range packs; LR capacity for Highland not split from the gen1 pack yet."}
+  - {generation_id: tesla-model-y-juniper, platform_id: tesla-model-3-y, battery_pack_options: [tesla-m3y-lfp-60, tesla-m3y-lr-75], voltage: *v400, charger_400v: *native, uncertain: true, notes: "Generation default. Juniper pack details not verified."}
+  - {variant_id: tesla-model-s-gen1-60, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-60, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-s-gen1-85, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-85, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-s-gen1-85d-90d, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-90, voltage: *v400, charger_400v: *native, uncertain: true, notes: "Variant covers both 85 kWh and 90 kWh packs; linked to the 90 kWh pack (the seed gross figure). 85D cars use tesla-s-85."}
+  - {variant_id: tesla-model-s-facelift-75d, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-75, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-s-facelift-100d, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-100, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-s-facelift-p100d, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-100, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-s-facelift-raven-long-range, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-100, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-s-palladium-long-range, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-palladium, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-s-palladium-plaid, platform_id: tesla-model-s-x, battery_pack_id: tesla-s-palladium, voltage: *v400, charger_400v: *native}
+  # --- Renault / Dacia / Nissan ---
+  - {variant_id: renault-zoe-ph1-q210, platform_id: renault-zoe, battery_pack_id: renault-zoe-22, voltage: *v400, charger_400v: *native, notes: "No DC charging."}
+  - {variant_id: renault-zoe-ph1-r240, platform_id: renault-zoe, battery_pack_id: renault-zoe-22, voltage: *v400, charger_400v: *native, notes: "No DC charging."}
+  - {variant_id: renault-zoe-ph1-q90, platform_id: renault-zoe, battery_pack_id: renault-zoe-41, voltage: *v400, charger_400v: *native, notes: "No DC charging."}
+  - {variant_id: renault-zoe-ph1-r90, platform_id: renault-zoe, battery_pack_id: renault-zoe-41, voltage: *v400, charger_400v: *native, notes: "No DC charging."}
+  - {variant_id: renault-zoe-ph1-r110, platform_id: renault-zoe, battery_pack_id: renault-zoe-41, voltage: *v400, charger_400v: *native, notes: "No DC charging."}
+  - {variant_id: renault-zoe-ph2-r110, platform_id: renault-zoe, battery_pack_id: renault-zoe-52, voltage: *v400, charger_400v: *native, notes: "DC (CCS, 50 kW) only if the optional socket is fitted."}
+  - {variant_id: renault-zoe-ph2-r135, platform_id: renault-zoe, battery_pack_id: renault-zoe-52, voltage: *v400, charger_400v: *native, notes: "DC (CCS, 50 kW) only if the optional socket is fitted."}
+  - {variant_id: renault-megane-e-tech-gen1-ev40, platform_id: renault-cmf-ev, battery_pack_id: renault-megane-40, voltage: *v400, charger_400v: *native}
+  - {variant_id: renault-megane-e-tech-gen1-ev60, platform_id: renault-cmf-ev, battery_pack_id: renault-megane-60, voltage: *v400, charger_400v: *native}
+  - {variant_id: dacia-spring-gen1-electric-45, platform_id: dacia-cmf-a, battery_pack_id: dacia-spring-27, voltage: *vnd, charger_400v: *native, uncertain: true, notes: "Pack voltage not known; may sit below the 400v class range. Optional 30 kW DC."}
+  - {variant_id: dacia-spring-gen1-extreme-65, platform_id: dacia-cmf-a, battery_pack_id: dacia-spring-27, voltage: *vnd, charger_400v: *native, uncertain: true, notes: "See dacia-spring-gen1-electric-45."}
+  - {variant_id: dacia-spring-gen1-facelift-65, platform_id: dacia-cmf-a, battery_pack_id: dacia-spring-27, voltage: *vnd, charger_400v: *native, uncertain: true, notes: "Facelift assumed to keep the same pack; verify."}
+  - {variant_id: nissan-leaf-ze0-24kwh, platform_id: nissan-leaf-ev, battery_pack_id: nissan-leaf-24, voltage: {nominal_v: 360, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native, notes: "CHAdeMO DC, not CCS."}
+  - {variant_id: nissan-leaf-ze0-30kwh, platform_id: nissan-leaf-ev, battery_pack_id: nissan-leaf-30, voltage: *v400, charger_400v: *native, notes: "CHAdeMO DC, not CCS."}
+  - {variant_id: nissan-leaf-ze1-40kwh, platform_id: nissan-leaf-ev, battery_pack_id: nissan-leaf-40, voltage: {nominal_v: 350, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native, notes: "CHAdeMO DC, not CCS."}
+  - {variant_id: nissan-leaf-ze1-e-plus-62kwh, platform_id: nissan-leaf-ev, battery_pack_id: nissan-leaf-62, voltage: *v400, charger_400v: *native, notes: "CHAdeMO DC, not CCS."}
+  - {generation_id: nissan-leaf-gen3, platform_id: renault-cmf-ev, battery_pack_options: [nissan-leaf3-52, nissan-leaf3-75], voltage: *v400, charger_400v: *native, uncertain: true, notes: "Generation default. Platform (CMF-EV) and pack sizes from launch reports; verify. Reported to switch to CCS."}
+  # --- Volkswagen Group ---
+  - {variant_id: volkswagen-e-golf-mk7-24kwh, platform_id: vw-mqb-e-golf, battery_pack_id: vw-e-golf-24, voltage: *v400, charger_400v: *native}
+  - {variant_id: volkswagen-e-golf-mk75-36kwh, platform_id: vw-mqb-e-golf, battery_pack_id: vw-e-golf-36, voltage: *v400, charger_400v: *native}
+  - {variant_id: volkswagen-id3-gen1-pure, platform_id: vw-meb, battery_pack_id: meb-45, voltage: *v400, charger_400v: *native}
+  - {variant_id: volkswagen-id3-gen1-pro, platform_id: vw-meb, battery_pack_id: meb-58, voltage: *v400, charger_400v: *native}
+  - {variant_id: volkswagen-id3-gen1-pro-s, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native, notes: "79 kWh pack (meb-79) from 2024."}
+  - {variant_id: volkswagen-id4-gen1-pure, platform_id: vw-meb, battery_pack_id: meb-52, voltage: *v400, charger_400v: *native}
+  - {variant_id: volkswagen-id4-gen1-pro, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: volkswagen-id4-gen1-gtx, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: skoda-enyaq-gen1-60, platform_id: vw-meb, battery_pack_id: meb-58, voltage: *v400, charger_400v: *native}
+  - {variant_id: skoda-enyaq-gen1-80, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: skoda-enyaq-gen1-80x-rs, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: skoda-enyaq-gen1-85, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: cupra-born-gen1-45kwh, platform_id: vw-meb, battery_pack_id: meb-45, voltage: *v400, charger_400v: *native}
+  - {variant_id: cupra-born-gen1-58kwh, platform_id: vw-meb, battery_pack_id: meb-58, voltage: *v400, charger_400v: *native}
+  - {variant_id: cupra-born-gen1-77kwh, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native, notes: "79 kWh pack (meb-79) from 2024."}
+  - {variant_id: audi-q4-e-tron-gen1-35, platform_id: vw-meb, battery_pack_id: meb-52, voltage: *v400, charger_400v: *native}
+  - {variant_id: audi-q4-e-tron-gen1-40, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: audi-q4-e-tron-gen1-50-quattro, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: audi-e-tron-ge-50, platform_id: audi-mlb-evo, battery_pack_id: audi-etron-71, voltage: *v400, charger_400v: *native}
+  - {variant_id: audi-e-tron-ge-55, platform_id: audi-mlb-evo, battery_pack_id: audi-etron-95, voltage: *v400, charger_400v: *native}
+  - {variant_id: audi-e-tron-ge-s, platform_id: audi-mlb-evo, battery_pack_id: audi-etron-95, voltage: *v400, charger_400v: *native}
+  - {generation_id: audi-e-tron-q8, platform_id: audi-mlb-evo, battery_pack_options: [audi-q8-etron-95, audi-q8-etron-114], voltage: *v400, charger_400v: *native, notes: "Generation default."}
+  # --- Hyundai / Kia, 400 V ---
+  - {variant_id: hyundai-ioniq-electric-gen1-28kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-ioniq-28, voltage: *v400, charger_400v: *native}
+  - {variant_id: hyundai-ioniq-electric-gen1-38kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-ioniq-38, voltage: *v400, charger_400v: *native}
+  - {variant_id: hyundai-kona-electric-os-39kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-39, voltage: {nominal_v: 327, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native}
+  - {variant_id: hyundai-kona-electric-os-64kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-64, voltage: {nominal_v: 356, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native}
+  - {generation_id: hyundai-kona-electric-sx2, platform_id: hyundai-kia-k3, battery_pack_options: [hk-kona-sx2-48, hk-kona-sx2-65], voltage: *v400, charger_400v: *native, uncertain: true, notes: "Generation default. Platform assignment (K3) unverified."}
+  - {variant_id: kia-soul-ev-ps-27kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: kia-soul-27, voltage: *v400, charger_400v: *native, notes: "CHAdeMO DC, not CCS."}
+  - {variant_id: kia-soul-ev-ps-30kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: kia-soul-30, voltage: *v400, charger_400v: *native, uncertain: true, notes: "European availability of this version unverified. CHAdeMO DC."}
+  - {variant_id: kia-soul-ev-sk3-39kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-39, voltage: {nominal_v: 327, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native}
+  - {variant_id: kia-soul-ev-sk3-64kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-64, voltage: {nominal_v: 356, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native}
+  - {variant_id: kia-niro-ev-de-39kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-39, voltage: {nominal_v: 327, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native}
+  - {variant_id: kia-niro-ev-de-64kwh, platform_id: hyundai-kia-fwd-gen1, battery_pack_id: hk-64, voltage: {nominal_v: 356, max_v: not-disclosed, marketing_label: not-disclosed, switchable: false}, charger_400v: *native}
+  - {variant_id: kia-niro-ev-sg2-65kwh, platform_id: hyundai-kia-k3, battery_pack_id: kia-niro-sg2-65, voltage: *v400, charger_400v: *native}
+  # --- Hyundai / Kia E-GMP, 800 V ---
+  # 400 V charger behaviour: the motor/inverter booster is widely reported at roughly 50 kW on
+  # 400 V-only chargers on early cars, varying by charger and software; later software and the
+  # 2024 facelift are reported to do better. Every E-GMP link is therefore uncertain.
+  - {variant_id: hyundai-ioniq-5-gen1-58kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-58, voltage: {nominal_v: 522.7, max_v: not-disclosed, marketing_label: "800V", class_id: 800v, switchable: false}, charger_400v: *egmp_booster, uncertain: true, class_override_note: "Marketed as 800 V; 522.7 V nominal falls below the 550 V class boundary.", notes: "63 kWh pack (egmp-63) from the 2024 facelift."}
+  - {variant_id: hyundai-ioniq-5-gen1-73kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-72-6, voltage: {nominal_v: 653.4, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
+  - {variant_id: hyundai-ioniq-5-gen1-73kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-72-6, voltage: {nominal_v: 653.4, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
+  - {variant_id: hyundai-ioniq-5-gen1-77kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "84 kWh pack (egmp-84) from the 2024 facelift; facelift 400 V charging reported faster."}
+  - {variant_id: hyundai-ioniq-5-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "84 kWh pack (egmp-84) from the 2024 facelift."}
+  - {variant_id: hyundai-ioniq-6-gen1-53kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-53, voltage: {nominal_v: not-disclosed, max_v: not-disclosed, marketing_label: "800V", class_id: 800v, switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "Nominal voltage of the 53 kWh pack not known to us; may also sit near or below 550 V."}
+  - {variant_id: hyundai-ioniq-6-gen1-77kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
+  - {variant_id: hyundai-ioniq-6-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
+  - {variant_id: kia-ev6-gen1-58kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-58, voltage: {nominal_v: 522.7, max_v: not-disclosed, marketing_label: "800V", class_id: 800v, switchable: false}, charger_400v: *egmp_booster, uncertain: true, class_override_note: "Marketed as 800 V; 522.7 V nominal falls below the 550 V class boundary.", notes: "63 kWh after the facelift."}
+  - {variant_id: kia-ev6-gen1-77kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "84 kWh after the facelift."}
+  - {variant_id: kia-ev6-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
+  - {variant_id: kia-ev6-gen1-gt, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
+  # --- BMW / Mini ---
+  - {variant_id: bmw-i3-i01-60ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-60ah, voltage: *v400, charger_400v: *native}
+  - {variant_id: bmw-i3-i01-94ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-94ah, voltage: *v400, charger_400v: *native}
+  - {variant_id: bmw-i3-i01-120ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native}
+  - {variant_id: bmw-i3-i01-i3s, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native, uncertain: true, notes: "i3s had the 94 Ah pack until 2018 and the 120 Ah pack after; linked to 120 Ah."}
+  - {variant_id: bmw-i4-g26-edrive35, platform_id: bmw-clar, battery_pack_id: bmw-gen5-67, voltage: *v400, charger_400v: *native}
+  - {variant_id: bmw-i4-g26-edrive40, platform_id: bmw-clar, battery_pack_id: bmw-gen5-81, voltage: *v400, charger_400v: *native}
+  - {variant_id: bmw-i4-g26-m50, platform_id: bmw-clar, battery_pack_id: bmw-gen5-81, voltage: *v400, charger_400v: *native}
+  - {variant_id: mini-cooper-se-f56-cooper-se, platform_id: mini-ukl, battery_pack_id: mini-se-32-6, voltage: *v400, charger_400v: *native}
+  - {generation_id: mini-cooper-se-j01, platform_id: mini-spotlight-ev, battery_pack_options: [mini-j01-40-7, mini-j01-54-2], voltage: *v400, charger_400v: *native, uncertain: true, notes: "Generation default. Platform name and pack voltage unverified."}
+  # --- Stellantis ---
+  - {variant_id: peugeot-e-208-p21-50kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-50, voltage: *v400, charger_400v: *native}
+  - {variant_id: peugeot-e-208-p21-51kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-54, voltage: *v400, charger_400v: *native, uncertain: true, notes: "Seed variant says 51 kWh gross; treated as the 54 kWh gross / 51 usable pack."}
+  - {variant_id: peugeot-e-2008-p24-50kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-50, voltage: *v400, charger_400v: *native}
+  - {variant_id: peugeot-e-2008-p24-54kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-54, voltage: *v400, charger_400v: *native}
+  - {variant_id: opel-corsa-e-f-50kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-50, voltage: *v400, charger_400v: *native}
+  - {variant_id: opel-corsa-e-f-51kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-54, voltage: *v400, charger_400v: *native, uncertain: true, notes: "Seed variant says 51 kWh gross; treated as the 54 kWh gross / 51 usable pack."}
+  - {variant_id: citroen-e-c4-c41-50kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-50, voltage: *v400, charger_400v: *native}
+  - {variant_id: citroen-e-c4-c41-54kwh, platform_id: stellantis-e-cmp, battery_pack_id: stellantis-ecmp-54, voltage: *v400, charger_400v: *native}
+  - {variant_id: fiat-500e-312-24kwh, platform_id: fiat-500e-312, battery_pack_id: fiat-500e-312-24, voltage: *v400, charger_400v: *native, notes: "No DC charging (US-market car)."}
+  - {variant_id: fiat-500e-332-24kwh, platform_id: fiat-500e-332, battery_pack_id: fiat-500e-332-24, voltage: *v400, charger_400v: *native}
+  - {variant_id: fiat-500e-332-42kwh, platform_id: fiat-500e-332, battery_pack_id: fiat-500e-332-42, voltage: *v400, charger_400v: *native}
+  - {variant_id: fiat-500e-332-abarth, platform_id: fiat-500e-332, battery_pack_id: fiat-500e-332-42, voltage: *v400, charger_400v: *native}
+  # --- MG ---
+  - {variant_id: mg-mg4-gen1-standard, platform_id: mg-msp, battery_pack_id: mg4-51-lfp, voltage: *v400, charger_400v: *native}
+  - {variant_id: mg-mg4-gen1-long-range, platform_id: mg-msp, battery_pack_id: mg4-64, voltage: *v400, charger_400v: *native}
+  - {variant_id: mg-mg4-gen1-extended-range, platform_id: mg-msp, battery_pack_id: mg4-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: mg-mg4-gen1-xpower, platform_id: mg-msp, battery_pack_id: mg4-64, voltage: *v400, charger_400v: *native}
+  - {variant_id: mg-zs-ev-gen1-44kwh, platform_id: mg-zs-ev, battery_pack_id: mg-zs-44-5, voltage: *v400, charger_400v: *native}
+  - {variant_id: mg-zs-ev-gen1-standard-range, platform_id: mg-zs-ev, battery_pack_id: mg-zs-51-lfp, voltage: *v400, charger_400v: *native}
+  - {variant_id: mg-zs-ev-gen1-long-range, platform_id: mg-zs-ev, battery_pack_id: mg-zs-72-6, voltage: *v400, charger_400v: *native}
+  # --- Geely (Polestar / Volvo) ---
+  - {variant_id: polestar-2-gen1-lr-dual-2020, platform_id: volvo-cma, battery_pack_id: cma-78, voltage: *v400, charger_400v: *native}
+  - {variant_id: polestar-2-gen1-sr-single-fwd, platform_id: volvo-cma, battery_pack_id: cma-69, voltage: *v400, charger_400v: *native}
+  - {variant_id: polestar-2-gen1-lr-single-fwd, platform_id: volvo-cma, battery_pack_id: cma-78, voltage: *v400, charger_400v: *native}
+  - {variant_id: polestar-2-gen1-lr-single-rwd-my24, platform_id: volvo-cma, battery_pack_id: cma-82, voltage: *v400, charger_400v: *native}
+  - {variant_id: volvo-xc40-recharge-gen1-p8-twin, platform_id: volvo-cma, battery_pack_id: cma-78, voltage: *v400, charger_400v: *native}
+  - {variant_id: volvo-xc40-recharge-gen1-p6-single-fwd, platform_id: volvo-cma, battery_pack_id: cma-69, voltage: *v400, charger_400v: *native}
+  - {variant_id: volvo-xc40-recharge-gen1-single-rwd-my24, platform_id: volvo-cma, battery_pack_id: cma-69, voltage: *v400, charger_400v: *native, uncertain: true, notes: "MY24 RWD came with about 69 kWh or 82 kWh (Extended Range); linked to 69 kWh. Seed variant has no capacity."}
+  - {generation_id: volvo-xc40-recharge-ex40, platform_id: volvo-cma, battery_pack_options: [cma-69, cma-82], voltage: *v400, charger_400v: *native, notes: "Generation default (rename of XC40 Recharge)."}
+  # --- Mercedes / Jaguar / Ford / BYD / small cars ---
+  - {variant_id: mercedes-eqa-h243-250, platform_id: mercedes-mfa2, battery_pack_id: mercedes-eqa-66-5, voltage: *v400, charger_400v: *native}
+  - {variant_id: mercedes-eqa-h243-300-350-4matic, platform_id: mercedes-mfa2, battery_pack_id: mercedes-eqa-66-5, voltage: *v400, charger_400v: *native}
+  - {variant_id: mercedes-eqc-n293-400, platform_id: mercedes-mra-eqc, battery_pack_id: mercedes-eqc-80, voltage: *v400, charger_400v: *native}
+  - {variant_id: jaguar-i-pace-x590-ev400, platform_id: jaguar-i-pace, battery_pack_id: jaguar-ipace-90, voltage: *v400, charger_400v: *native}
+  - {variant_id: ford-mustang-mach-e-gen1-sr-rwd, platform_id: ford-ge1, battery_pack_id: ford-mach-e-75, voltage: *v400, charger_400v: *native}
+  - {variant_id: ford-mustang-mach-e-gen1-er-rwd, platform_id: ford-ge1, battery_pack_id: ford-mach-e-98, voltage: *v400, charger_400v: *native}
+  - {variant_id: ford-mustang-mach-e-gen1-er-awd, platform_id: ford-ge1, battery_pack_id: ford-mach-e-98, voltage: *v400, charger_400v: *native}
+  - {variant_id: ford-mustang-mach-e-gen1-gt, platform_id: ford-ge1, battery_pack_id: ford-mach-e-98, voltage: *v400, charger_400v: *native}
+  - {variant_id: byd-atto-3-gen1-60kwh, platform_id: byd-e-platform-3, battery_pack_id: byd-blade-60, voltage: *v400, charger_400v: *native}
+  - {variant_id: smart-eq-fortwo-451-ed, platform_id: smart-451, battery_pack_id: smart-451-17-6, voltage: *vnd, charger_400v: *native, notes: "No DC charging. Pack voltage not known to us."}
+  - {variant_id: smart-eq-fortwo-453-eq, platform_id: smart-453, battery_pack_id: smart-453-17-6, voltage: *vnd, charger_400v: *native, notes: "No DC charging. Pack voltage not known to us."}
+  - {variant_id: honda-e-gen1-e, platform_id: honda-e, battery_pack_id: honda-e-35-5, voltage: *v400, charger_400v: *native}
+  - {variant_id: honda-e-gen1-advance, platform_id: honda-e, battery_pack_id: honda-e-35-5, voltage: *v400, charger_400v: *native}

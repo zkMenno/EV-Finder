@@ -1,0 +1,219 @@
+# Battery cell chemistries (Decision 010). Rows = schema $defs/Chemistry.
+# Written from general knowledge, no sources fetched: plain-language guidance, not lab data.
+# first_year is null everywhere on purpose: "first series passenger EV" claims are easy to get
+# wrong (fleet-only, China-only or PHEV cases), so we only fill it from a checked source.
+# charge_100_daily: true = makers typically allow daily 100 %; false = makers typically advise
+# a lower daily limit (often 80-90 %); null = too few cars or no consistent guidance yet.
+# The car's own manual always wins over this table.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+chemistries:
+  - id: nmc
+    family: nickel-layered-oxide
+    label: {en: "NMC (nickel manganese cobalt)", nl: "NMC (nikkel-mangaan-kobalt)"}
+    status: mainstream
+    charge_100_daily: false
+    first_year: null
+    pros:
+      - {en: "High energy density: more range per kilo and per litre of battery."}
+      - {en: "Good performance in the cold compared with LFP."}
+      - {en: "Widely used, so long-term ageing behaviour is well understood."}
+    cons:
+      - {en: "Ages faster if kept at a high charge level or high temperature for long periods."}
+      - {en: "Uses nickel and cobalt, which are costlier and have harder supply chains."}
+    care_tips:
+      - {en: "For daily use, charge to around 80-90 % unless the manual says otherwise; charge to 100 % before long trips."}
+      - {en: "Avoid leaving the car parked for days at 100 % or near 0 %."}
+    explainer:
+      en: >-
+        NMC is the most common battery type in European electric cars. It packs a lot of energy
+        into a small space, which helps range. The trade-off is that it prefers not to sit full:
+        most makers suggest a daily limit below 100 %. Numbers like NMC622 or NMC811 describe the
+        mix of nickel, manganese and cobalt; more nickel usually means more energy and less cobalt.
+      nl: >-
+        NMC is de meest gebruikte accusoort in Europese elektrische auto's: veel energie in weinig
+        ruimte, maar hij staat liever niet lang volgeladen.
+
+  - id: nca
+    family: nickel-layered-oxide
+    label: {en: "NCA (nickel cobalt aluminium)", nl: "NCA (nikkel-kobalt-aluminium)"}
+    status: mainstream
+    charge_100_daily: false
+    first_year: null
+    pros:
+      - {en: "High energy density, similar to or above NMC."}
+      - {en: "Proven over many years in high-mileage cars."}
+    cons:
+      - {en: "Like NMC, ages faster when kept full or hot."}
+      - {en: "Uses nickel and cobalt."}
+    care_tips:
+      - {en: "For daily use, charge to around 80-90 % unless the manual says otherwise."}
+      - {en: "Charge to 100 % only shortly before a long trip."}
+    explainer:
+      en: >-
+        NCA is a close relative of NMC, best known from Tesla cars with Panasonic cells. It behaves
+        much like NMC for owners: lots of energy, and it is happiest kept between roughly 20 % and
+        80-90 % in daily use.
+      nl: >-
+        NCA is familie van NMC, vooral bekend van Tesla's met Panasonic-cellen. Voor de eigenaar
+        gedraagt hij zich vrijwel hetzelfde als NMC.
+
+  - id: lfp
+    family: phosphate
+    label: {en: "LFP (lithium iron phosphate)", nl: "LFP (lithium-ijzerfosfaat)"}
+    status: mainstream
+    charge_100_daily: true
+    first_year: null
+    pros:
+      - {en: "Makers usually allow charging to 100 % every day."}
+      - {en: "Long cycle life and a good safety record."}
+      - {en: "No nickel or cobalt, so cheaper to make."}
+    cons:
+      - {en: "Lower energy density: a heavier or bigger pack for the same range."}
+      - {en: "More range and charging-speed loss in cold weather."}
+      - {en: "The car's charge-level estimate can drift; it needs a full charge now and then to recalibrate."}
+    care_tips:
+      - {en: "Charge to 100 % regularly (many makers suggest at least weekly) so the car can recalibrate its range estimate."}
+      - {en: "In winter, precondition the battery before fast charging."}
+    explainer:
+      en: >-
+        LFP batteries hold less energy per kilo than NMC, but they are robust and cheaper. For
+        owners, the big plus is simple: most makers say you can charge to 100 % every day without
+        worrying. The downside is cold weather, where both range and fast-charging speed drop more
+        than with nickel-based batteries.
+      nl: >-
+        LFP-accu's bevatten minder energie per kilo, maar zijn robuust en goedkoper. Meestal mag je
+        ze elke dag tot 100 % laden; in de kou zakken bereik en laadsnelheid meer.
+
+  - id: lmfp
+    family: phosphate
+    label: {en: "LMFP (lithium manganese iron phosphate)", nl: "LMFP (lithium-mangaan-ijzerfosfaat)"}
+    status: emerging
+    charge_100_daily: null
+    first_year: null
+    pros:
+      - {en: "Aims for more energy than LFP while keeping most of its low cost and robustness."}
+    cons:
+      - {en: "Few cars use it yet, so there is little real-world ageing data."}
+      - {en: "Often blended with other chemistries, which makes its behaviour harder to predict."}
+    care_tips:
+      - {en: "Follow the manual's charging advice; general LFP rules may not apply."}
+    explainer:
+      en: >-
+        LMFP adds manganese to LFP to raise its voltage and energy content. It is new in cars, and
+        sometimes mixed with NMC, so we do not yet know how it ages over many years. Whether daily
+        100 % charging is fine depends on the maker; we leave that open until guidance is clear.
+      nl: >-
+        LMFP voegt mangaan toe aan LFP voor meer energie. Het is nieuw in auto's; hoe het op
+        lange termijn veroudert, weten we nog niet goed.
+
+  - id: lmo-nmc
+    family: manganese-blend
+    label: {en: "LMO/NMC blend (manganese blend)", nl: "LMO/NMC-mengsel (mangaanmengsel)"}
+    status: legacy
+    charge_100_daily: false
+    first_year: null
+    pros:
+      - {en: "Cheap and simple; used in many early electric cars."}
+    cons:
+      - {en: "Ages relatively quickly, especially in hot climates and without active cooling."}
+      - {en: "Lower energy density than modern NMC."}
+    care_tips:
+      - {en: "Check the state of health (SoH) before buying; capacity loss varies a lot between cars."}
+      - {en: "Avoid repeated fast charges on hot days, as heat speeds up ageing."}
+    explainer:
+      en: >-
+        Several early electric cars used a blend of lithium manganese oxide (LMO) with some
+        nickel-based material. These packs were cheap but tend to lose capacity faster, especially
+        in heat. For a used car with this chemistry, the battery's state of health matters more
+        than the age or mileage alone. Exactly which early cars used which blend is not always
+        clearly documented.
+      nl: >-
+        Een aantal vroege elektrische auto's gebruikte een mengsel op basis van mangaanoxide. Die
+        accu's verouderen sneller, vooral bij warmte; check de accugezondheid (SoH).
+
+  - id: sodium-ion
+    family: sodium
+    label: {en: "Sodium-ion", nl: "Natrium-ion"}
+    status: emerging
+    charge_100_daily: null
+    first_year: null
+    pros:
+      - {en: "Uses sodium instead of lithium: cheap, abundant materials."}
+      - {en: "Expected to cope better with cold than LFP."}
+    cons:
+      - {en: "Low energy density so far, so mainly suited to small city cars."}
+      - {en: "Very few cars on sale; long-term data is missing."}
+    care_tips:
+      - {en: "Follow the manual's charging advice; there are no established rules of thumb yet."}
+    explainer:
+      en: >-
+        Sodium-ion batteries work like lithium-ion but use sodium, which is cheap and plentiful.
+        They store less energy, so the first cars using them are small and short-range, mostly in
+        China. It is too early to say how they age or what charging habits suit them best.
+      nl: >-
+        Natrium-ion werkt als lithium-ion maar met goedkoop natrium. De eerste auto's zijn klein en
+        hebben weinig bereik; over veroudering is nog weinig bekend.
+
+  - id: semi-solid
+    family: solid-state
+    label: {en: "Semi-solid-state", nl: "Semi-vaste-stof"}
+    status: niche
+    charge_100_daily: null
+    first_year: null
+    pros:
+      - {en: "Less liquid electrolyte, aiming for higher energy density and better safety."}
+    cons:
+      - {en: "Only a handful of mostly Chinese cars use it, often as an expensive option."}
+      - {en: "The term is used loosely in marketing; designs differ a lot."}
+    care_tips:
+      - {en: "Follow the manual's charging advice."}
+    explainer:
+      en: >-
+        "Semi-solid" batteries replace part of the liquid inside the cell with a gel or solid
+        material. They are a step towards full solid-state batteries. The name is used loosely, and
+        very few cars have them, so treat range and ageing claims as unproven.
+      nl: >-
+        "Semi-vaste" accu's vervangen een deel van de vloeistof in de cel door gel of vaste stof.
+        Nog maar weinig auto's hebben ze; claims zijn onbewezen.
+
+  - id: all-solid-state
+    family: solid-state
+    label: {en: "All-solid-state", nl: "Volledig vaste-stof"}
+    status: experimental
+    charge_100_daily: null
+    first_year: null
+    pros:
+      - {en: "Promises higher energy density, faster charging and better safety than today's cells."}
+    cons:
+      - {en: "As far as we know, not yet in a series-production passenger car; timelines keep moving."}
+    care_tips:
+      - {en: "Not applicable yet."}
+    explainer:
+      en: >-
+        All-solid-state batteries use no liquid electrolyte at all. Many makers have announced them,
+        but to our knowledge none is in a regular production car yet. Until there is one, treat
+        announced figures as targets, not facts.
+      nl: >-
+        Volledig vaste-stofaccu's hebben helemaal geen vloeibaar elektrolyt. Ze zijn veel
+        aangekondigd, maar voor zover wij weten nog niet in een seriemodel te koop.
+
+  - id: lmr
+    family: manganese-rich
+    label: {en: "LMR (lithium manganese-rich)", nl: "LMR (lithium mangaanrijk)"}
+    status: experimental
+    charge_100_daily: null
+    first_year: null
+    pros:
+      - {en: "Aims for NMC-like energy with much less cobalt and nickel, using cheaper manganese."}
+    cons:
+      - {en: "Not yet in series cars as far as we know; historically struggled with voltage fade over time."}
+    care_tips:
+      - {en: "Not applicable yet."}
+    explainer:
+      en: >-
+        Lithium manganese-rich (LMR) cells are a research and pre-production chemistry that some
+        large carmakers have said they plan to use later this decade. Earlier versions lost voltage
+        as they aged; whether that is solved will only be clear once cars are on the road.
+      nl: >-
+        LMR is een mangaanrijke accusoort die enkele grote merken later dit decennium willen
+        gebruiken. Of oudere problemen met veroudering zijn opgelost, moet nog blijken.

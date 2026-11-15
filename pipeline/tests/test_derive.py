@@ -410,19 +410,34 @@ def test_variant_link_beats_generation_link() -> None:
 @pytest.mark.parametrize(
     ("row", "cls", "fast"),
     [
-        ({"voltage_nominal_v": 350.0}, "400v", True),
+        ({"voltage_nominal_v": 350.0, "dc_peak_kw": 50.0}, "400v", True),
+        ({"voltage_nominal_v": 350.0}, "400v", None),  # no DC figure: never claim fast DC
         ({"voltage_nominal_v": 800.0}, "800v", None),
         (
-            {"voltage_nominal_v": 800.0, "charger_400v_mode": "booster", "charger_400v_kw": 50.0},
+            {
+                "voltage_nominal_v": 800.0,
+                "charger_400v_mode": "booster",
+                "charger_400v_kw": 50.0,
+                "dc_peak_kw": 230.0,
+            },
             "800v",
             True,
         ),
         (
-            {"voltage_nominal_v": 800.0, "charger_400v_mode": "limited", "charger_400v_kw": 40.0},
+            {
+                "voltage_nominal_v": 800.0,
+                "charger_400v_mode": "limited",
+                "charger_400v_kw": 40.0,
+                "dc_peak_kw": 230.0,
+            },
             "800v",
             False,
         ),
-        ({"voltage_nominal_v": 800.0, "charger_400v_mode": "native"}, "800v", True),
+        (
+            {"voltage_nominal_v": 800.0, "charger_400v_mode": "native", "dc_peak_kw": 230.0},
+            "800v",
+            True,
+        ),
         ({"voltage_label": "not-disclosed"}, "not-disclosed", None),
         ({}, None, None),
     ],

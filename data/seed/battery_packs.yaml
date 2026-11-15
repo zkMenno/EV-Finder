@@ -1,0 +1,164 @@
+# Battery packs used by the seed variants and common 2023+ generations (Decision 010). Rows = schema $defs/BatteryPack.
+# UNCHECKED, LOW-CONFIDENCE data written from model knowledge, no sources fetched. To be replaced by sourced data.
+# Optional string fields (supplier, cathode_detail) are left out when not known with fair confidence.
+# chemistry_id is left out (not `not-disclosed`) where the chemistry is known but varies by factory/year.
+# `not-disclosed` = we have no reliable value. cell_to_pack: false only for clearly module-based packs.
+# Per-pack caveats live in `notes` (keyed by pack id) because the schema row allows no notes field.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+source: {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", licence: CC-BY-4.0, attribution: "EV Finder contributors"}
+confidence: low
+packs:
+  # --- Tesla ---
+  - {id: tesla-m3-sr-nca, name: "Tesla Model 3 Standard Range Plus (NCA)", supplier: Panasonic, chemistry_id: nca, cell_format: cylindrical, gross_kwh: not-disclosed, usable_kwh: 50, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-m3y-lfp-60, name: "Tesla Model 3 / Y LFP (about 60 kWh)", chemistry_id: lfp, cell_format: prismatic, gross_kwh: 60, usable_kwh: 57.5, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-m3y-lr-75, name: "Tesla Model 3 / Y Long Range (about 75 kWh usable)", cell_format: cylindrical, gross_kwh: not-disclosed, usable_kwh: 75, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-s-60, name: "Tesla Model S 60 kWh (18650)", supplier: Panasonic, chemistry_id: nca, cell_format: cylindrical, cell_to_pack: false, gross_kwh: 60, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-s-85, name: "Tesla Model S 85 kWh (18650)", supplier: Panasonic, chemistry_id: nca, cell_format: cylindrical, cell_to_pack: false, gross_kwh: 85, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-s-90, name: "Tesla Model S 90 kWh (18650)", supplier: Panasonic, chemistry_id: nca, cell_format: cylindrical, cell_to_pack: false, gross_kwh: 90, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-s-75, name: "Tesla Model S 75 kWh (18650)", supplier: Panasonic, chemistry_id: nca, cell_format: cylindrical, cell_to_pack: false, gross_kwh: 75, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-s-100, name: "Tesla Model S 100 kWh (18650)", supplier: Panasonic, chemistry_id: nca, cell_format: cylindrical, cell_to_pack: false, gross_kwh: 100, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: tesla-s-palladium, name: "Tesla Model S Palladium (about 95 kWh usable)", supplier: Panasonic, chemistry_id: nca, cell_format: cylindrical, gross_kwh: not-disclosed, usable_kwh: 95, nominal_v: not-disclosed, cooling_id: liquid}
+  # --- Renault / Dacia / Nissan ---
+  - {id: renault-zoe-22, name: "Renault Zoe 22 kWh", supplier: LG Chem, cell_format: pouch, cell_to_pack: false, gross_kwh: not-disclosed, usable_kwh: 22, nominal_v: not-disclosed, cooling_id: air}
+  - {id: renault-zoe-41, name: "Renault Zoe Z.E. 40 (41 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: not-disclosed, usable_kwh: 41, nominal_v: not-disclosed, cooling_id: air}
+  - {id: renault-zoe-52, name: "Renault Zoe Z.E. 50 (52 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: not-disclosed, usable_kwh: 52, nominal_v: not-disclosed, cooling_id: air}
+  - {id: renault-megane-40, name: "Renault Megane E-Tech 40 kWh", supplier: LG Energy Solution, chemistry_id: nmc, cell_format: pouch, gross_kwh: not-disclosed, usable_kwh: 40, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: renault-megane-60, name: "Renault Megane E-Tech 60 kWh", supplier: LG Energy Solution, chemistry_id: nmc, cell_format: pouch, gross_kwh: not-disclosed, usable_kwh: 60, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: dacia-spring-27, name: "Dacia Spring 26.8 kWh", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: not-disclosed, usable_kwh: 26.8, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: nissan-leaf-24, name: "Nissan Leaf 24 kWh", supplier: AESC, chemistry_id: lmo-nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 24, usable_kwh: 21, nominal_v: 360, cooling_id: passive}
+  - {id: nissan-leaf-30, name: "Nissan Leaf 30 kWh", supplier: AESC, cell_format: pouch, cell_to_pack: false, gross_kwh: 30, usable_kwh: 27, nominal_v: not-disclosed, cooling_id: passive}
+  - {id: nissan-leaf-40, name: "Nissan Leaf 40 kWh", supplier: AESC, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 40, usable_kwh: 39, nominal_v: 350, cooling_id: passive}
+  - {id: nissan-leaf-62, name: "Nissan Leaf e+ 62 kWh", chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 62, usable_kwh: 59, nominal_v: not-disclosed, cooling_id: passive}
+  - {id: nissan-leaf3-52, name: "Nissan Leaf (3rd gen) 52 kWh", chemistry_id: nmc, cell_format: not-disclosed, gross_kwh: not-disclosed, usable_kwh: 52, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: nissan-leaf3-75, name: "Nissan Leaf (3rd gen) 75 kWh", chemistry_id: nmc, cell_format: not-disclosed, gross_kwh: not-disclosed, usable_kwh: 75, nominal_v: not-disclosed, cooling_id: liquid}
+  # --- Volkswagen Group ---
+  - {id: vw-e-golf-24, name: "Volkswagen e-Golf 24.2 kWh", supplier: Panasonic, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 24.2, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: passive}
+  - {id: vw-e-golf-36, name: "Volkswagen e-Golf 35.8 kWh", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 35.8, usable_kwh: 32, nominal_v: not-disclosed, cooling_id: passive}
+  - {id: meb-45, name: "MEB 45 kWh (Pure)", chemistry_id: nmc, cell_to_pack: false, gross_kwh: 48, usable_kwh: 45, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: meb-52, name: "MEB 52 kWh", chemistry_id: nmc, cell_to_pack: false, gross_kwh: 55, usable_kwh: 52, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: meb-58, name: "MEB 58 kWh (Pro)", chemistry_id: nmc, cell_to_pack: false, gross_kwh: 62, usable_kwh: 58, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: meb-77, name: "MEB 77 kWh", chemistry_id: nmc, cell_to_pack: false, gross_kwh: 82, usable_kwh: 77, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: meb-79, name: "MEB 79 kWh (2024+)", chemistry_id: nmc, gross_kwh: 86, usable_kwh: 79, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: audi-etron-71, name: "Audi e-tron 50 (71 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 71, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: audi-etron-95, name: "Audi e-tron 55 / S (95 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 95, usable_kwh: 86, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: audi-q8-etron-95, name: "Audi Q8 e-tron 50 (95 kWh)", chemistry_id: nmc, gross_kwh: 95, usable_kwh: 89, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: audi-q8-etron-114, name: "Audi Q8 e-tron 55 / SQ8 (114 kWh)", chemistry_id: nmc, cell_format: prismatic, gross_kwh: 114, usable_kwh: 106, nominal_v: not-disclosed, cooling_id: liquid}
+  # --- Hyundai / Kia ---
+  - {id: hk-ioniq-28, name: "Hyundai Ioniq Electric 28 kWh", supplier: LG Chem, cell_format: pouch, cell_to_pack: false, gross_kwh: 28, usable_kwh: not-disclosed, nominal_v: not-disclosed}
+  - {id: hk-ioniq-38, name: "Hyundai Ioniq Electric 38.3 kWh", cell_format: pouch, cell_to_pack: false, gross_kwh: 38.3, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: hk-39, name: "Hyundai/Kia 39.2 kWh (Kona, Niro, Soul)", chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: not-disclosed, usable_kwh: 39.2, nominal_v: 327, cooling_id: liquid}
+  - {id: hk-64, name: "Hyundai/Kia 64 kWh (Kona, Niro, Soul)", chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: not-disclosed, usable_kwh: 64, nominal_v: 356, cooling_id: liquid}
+  - {id: kia-soul-27, name: "Kia Soul EV 27 kWh", supplier: SK Innovation, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 27, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: air}
+  - {id: kia-soul-30, name: "Kia Soul EV 30 kWh", cell_format: pouch, cell_to_pack: false, gross_kwh: 30, usable_kwh: not-disclosed, nominal_v: not-disclosed}
+  - {id: kia-niro-sg2-65, name: "Kia Niro EV (SG2) 64.8 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 64.8, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: hk-kona-sx2-48, name: "Hyundai Kona Electric (SX2) 48.4 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 48.4, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: hk-kona-sx2-65, name: "Hyundai Kona Electric (SX2) 65.4 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 65.4, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: egmp-53, name: "E-GMP 53 kWh (Ioniq 6 Standard)", chemistry_id: nmc, gross_kwh: 53, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: egmp-58, name: "E-GMP 58 kWh", supplier: SK On, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 58, usable_kwh: not-disclosed, nominal_v: 522.7, cooling_id: liquid}
+  - {id: egmp-72-6, name: "E-GMP 72.6 kWh", supplier: SK On, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 72.6, usable_kwh: not-disclosed, nominal_v: 653.4, cooling_id: liquid}
+  - {id: egmp-77-4, name: "E-GMP 77.4 kWh", supplier: SK On, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 77.4, usable_kwh: not-disclosed, nominal_v: 697, cooling_id: liquid}
+  - {id: egmp-63, name: "E-GMP 63 kWh (2024+ facelift)", chemistry_id: nmc, cell_format: pouch, gross_kwh: 63, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: egmp-84, name: "E-GMP 84 kWh (2024+ facelift)", chemistry_id: nmc, cell_format: pouch, gross_kwh: 84, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  # --- BMW / Mini ---
+  - {id: bmw-i3-60ah, name: "BMW i3 60 Ah (22 kWh)", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 22.6, usable_kwh: 18.8, nominal_v: not-disclosed, cooling_id: refrigerant}
+  - {id: bmw-i3-94ah, name: "BMW i3 94 Ah (33 kWh)", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 33, usable_kwh: 27.2, nominal_v: not-disclosed, cooling_id: refrigerant}
+  - {id: bmw-i3-120ah, name: "BMW i3 120 Ah (42 kWh)", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 42.2, usable_kwh: 37.9, nominal_v: not-disclosed, cooling_id: refrigerant}
+  - {id: bmw-gen5-67, name: "BMW Gen5 eDrive 67 kWh (i4 eDrive35)", chemistry_id: nmc, cell_format: prismatic, gross_kwh: not-disclosed, usable_kwh: 67, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: bmw-gen5-81, name: "BMW Gen5 eDrive 80.7 kWh (i4 eDrive40 / M50)", chemistry_id: nmc, cell_format: prismatic, gross_kwh: 83.9, usable_kwh: 80.7, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: mini-se-32-6, name: "Mini Cooper SE (F56) 32.6 kWh", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 32.6, usable_kwh: 28.9, nominal_v: not-disclosed}
+  - {id: mini-j01-40-7, name: "Mini Cooper E (J01) 40.7 kWh", chemistry_id: not-disclosed, gross_kwh: 40.7, usable_kwh: 36.6, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: mini-j01-54-2, name: "Mini Cooper SE (J01) 54.2 kWh", chemistry_id: not-disclosed, gross_kwh: 54.2, usable_kwh: 49.2, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  # --- Stellantis ---
+  - {id: stellantis-ecmp-50, name: "e-CMP 50 kWh", supplier: CATL, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 50, usable_kwh: 46, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: stellantis-ecmp-54, name: "e-CMP 54 kWh (2023+ update, about 51 usable)", chemistry_id: nmc, gross_kwh: 54, usable_kwh: 51, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: fiat-500e-312-24, name: "Fiat 500e (2013) 24 kWh", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, gross_kwh: 24, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: fiat-500e-332-24, name: "Fiat 500e (2020) 24 kWh", chemistry_id: nmc, gross_kwh: 24, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: fiat-500e-332-42, name: "Fiat 500e (2020) 42 kWh", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, gross_kwh: 42, usable_kwh: 37.3, nominal_v: not-disclosed, cooling_id: liquid}
+  # --- MG / SAIC ---
+  - {id: mg4-51-lfp, name: "MG4 51 kWh LFP", chemistry_id: lfp, cell_format: prismatic, gross_kwh: not-disclosed, usable_kwh: 51, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: mg4-64, name: "MG4 64 kWh NMC", supplier: CATL, chemistry_id: nmc, cell_format: prismatic, gross_kwh: 64, usable_kwh: 61.7, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: mg4-77, name: "MG4 77 kWh NMC", chemistry_id: nmc, cell_format: prismatic, gross_kwh: not-disclosed, usable_kwh: 77, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: mg-zs-44-5, name: "MG ZS EV 44.5 kWh", chemistry_id: nmc, gross_kwh: 44.5, usable_kwh: not-disclosed, nominal_v: not-disclosed}
+  - {id: mg-zs-51-lfp, name: "MG ZS EV 51 kWh LFP", chemistry_id: lfp, gross_kwh: 51, usable_kwh: not-disclosed, nominal_v: not-disclosed}
+  - {id: mg-zs-72-6, name: "MG ZS EV 72.6 kWh", chemistry_id: nmc, gross_kwh: 72.6, usable_kwh: not-disclosed, nominal_v: not-disclosed}
+  # --- Geely (Polestar / Volvo) ---
+  - {id: cma-69, name: "CMA 69 kWh (Polestar 2 / XC40 single motor)", supplier: CATL, chemistry_id: nmc, cell_format: prismatic, gross_kwh: 69, usable_kwh: 67, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: cma-78, name: "CMA 78 kWh (Polestar 2 / XC40 long range)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 78, usable_kwh: 75, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: cma-82, name: "CMA 82 kWh (2023+ long range)", chemistry_id: nmc, gross_kwh: 82, usable_kwh: 79, nominal_v: not-disclosed, cooling_id: liquid}
+  # --- Mercedes / Jaguar / Ford / BYD / small cars ---
+  - {id: mercedes-eqa-66-5, name: "Mercedes EQA 66.5 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 66.5, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: mercedes-eqc-80, name: "Mercedes EQC 80 kWh", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: not-disclosed, usable_kwh: 80, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: jaguar-ipace-90, name: "Jaguar I-Pace 90 kWh", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 90, usable_kwh: 84.7, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: ford-mach-e-75, name: "Ford Mustang Mach-E Standard Range (about 75 kWh)", supplier: LG Energy Solution, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 75, usable_kwh: 70, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: ford-mach-e-98, name: "Ford Mustang Mach-E Extended Range (about 98 kWh)", supplier: LG Energy Solution, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 98, usable_kwh: 88, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: byd-blade-60, name: "BYD Blade 60.5 kWh (Atto 3)", supplier: BYD (FinDreams), chemistry_id: lfp, cell_format: blade, cell_to_pack: true, gross_kwh: 60.5, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: refrigerant}
+  - {id: smart-451-17-6, name: "smart fortwo electric drive (451) 17.6 kWh", chemistry_id: not-disclosed, gross_kwh: 17.6, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: smart-453-17-6, name: "smart EQ fortwo / forfour (453) 17.6 kWh", supplier: LG Chem, chemistry_id: not-disclosed, gross_kwh: 17.6, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: honda-e-35-5, name: "Honda e 35.5 kWh", chemistry_id: not-disclosed, gross_kwh: 35.5, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+
+notes:
+  tesla-m3-sr-nca: "Fremont-built early SR+; Panasonic 2170 cells. Gross capacity not known to us."
+  tesla-m3y-lfp-60: "CATL prismatic LFP for Shanghai-built cars. Some Berlin-built Model Y RWD reportedly used BYD Blade LFP instead: supplier deliberately left out. Also used by Highland / Juniper RWD (about 57.5-60 kWh)."
+  tesla-m3y-lr-75: "Chemistry varies: NCA (Panasonic, US-built) or NMC/NCMA (LG Energy Solution, China-built) reported. Capacity drifted between about 75 and 79 kWh over the years; not split yet."
+  tesla-s-60: "Some later '60' cars were software-limited 75 kWh packs (seed variant note)."
+  tesla-s-palladium: "Usable capacity from the seed variant; gross not known to us."
+  renault-zoe-22: "Chemistry often described as an LMO/NMC blend for the first Zoe; not confirmed, so chemistry left out. Air-cooled/heated via the HVAC system."
+  renault-zoe-41: "Air cooling via HVAC air, as on the 22 kWh pack (reported)."
+  renault-zoe-52: "Air cooling via HVAC air (reported). Gross about 54-55 kWh reported; left out."
+  dacia-spring-27: "Widely reported to have no liquid cooling, but the exact thermal setup is not known to us. Pack voltage may be below the 400v class range."
+  nissan-leaf-24: "LMO-based cells with a nickel component (AESC). Nominal 360 V reported. Strong heat-related ageing on early (2011-2012) cars."
+  nissan-leaf-30: "Chemistry changed from the 24 kWh pack (reported to have more nickel); not classified."
+  nissan-leaf-40: "Nominal about 350 V. No active cooling: rapidgate on long trips."
+  nissan-leaf-62: "Cell supplier not known to us."
+  nissan-leaf3-52: "Third-generation Leaf capacities and liquid cooling are from launch reports; verify against Nissan specs."
+  nissan-leaf3-75: "See nissan-leaf3-52."
+  vw-e-golf-24: "No liquid cooling (reported air/passive); classified passive. Usable capacity not known to us."
+  vw-e-golf-36: "Usable about 32 kWh reported. Classified passive as for the 24 kWh pack; verify."
+  meb-45: "Cell supplier and format vary by factory (LG pouch, CATL prismatic, others reported); left out. Early MEB cells reported as NMC712."
+  meb-52: "Used by ID.4 Pure and Audi Q4 35. Seed Q4 35 note says 55 gross / 52 usable."
+  meb-58: "See meb-45 on suppliers."
+  meb-77: "See meb-45 on suppliers. Replaced by meb-79 from about 2024 on several models."
+  meb-79: "2024+ update; capacities from launch reports."
+  audi-etron-71: "Usable about 64-65 kWh reported; left out."
+  audi-etron-95: "Usable rose from about 83.6 to about 86 kWh with a 2020 software change (reported); 86 used."
+  audi-q8-etron-95: "Cell format and supplier not known to us."
+  audi-q8-etron-114: "Samsung SDI prismatic cells reported; supplier left out."
+  hk-ioniq-28: "Cooling type not known to us (reported air or liquid); left out."
+  hk-ioniq-38: "Cell supplier not known to us."
+  hk-39: "Cells by LG Chem on 2018-2020 Kona (subject to a 2021 recall) and SK Innovation on other cars/years; supplier left out. Nominal 327 V from Hyundai specs as remembered."
+  hk-64: "LG Chem (early Kona, recalled 2021) or SK Innovation (Niro, Soul, later Kona); supplier left out. Nominal 356 V from Hyundai specs as remembered."
+  kia-soul-27: "Air-cooled pack (reported)."
+  kia-soul-30: "Whether this pack was sold in Europe is uncertain (seed variant note)."
+  kia-niro-sg2-65: "CATL cells reported; left out."
+  hk-kona-sx2-48: "Capacities from launch data; cooling assumed liquid as on predecessors; verify."
+  hk-kona-sx2-65: "See hk-kona-sx2-48."
+  egmp-53: "Ioniq 6 Standard Range only. Supplier and nominal voltage not known to us."
+  egmp-58: "Nominal 522.7 V (Hyundai spec, as remembered): below the 550 V class boundary although sold as 800 V."
+  egmp-72-6: "Early Ioniq 5 / EV6 Long Range."
+  egmp-77-4: "Ioniq 5 / 6 and EV6 Long Range from about 2022."
+  egmp-63: "Facelift replacement for egmp-58; supplier and voltage not verified."
+  egmp-84: "Facelift replacement for egmp-77-4; supplier and voltage not verified."
+  bmw-i3-60ah: "Direct refrigerant cooling from the AC circuit."
+  bmw-gen5-67: "Gen5 cells from CATL and Samsung SDI reported; supplier left out."
+  bmw-gen5-81: "See bmw-gen5-67."
+  mini-se-32-6: "Same Samsung SDI cell family as the i3 94 Ah (reported). Cooling type not known to us."
+  mini-j01-40-7: "China-built Mini; supplier and chemistry not known to us."
+  mini-j01-54-2: "See mini-j01-40-7."
+  stellantis-ecmp-50: "CATL NMC cells widely reported. Seed variants give 50 kWh gross; 46 usable is the commonly quoted figure."
+  stellantis-ecmp-54: "Seed variants list the e-208/Corsa update as '51 kWh' (gross) and e-2008/e-C4 as '54 kWh' (gross). Commonly this is one pack, 54 gross / about 51 usable; flagged for data-lane review."
+  fiat-500e-312-24: "Cells from SB LiMotive / Samsung SDI (reported)."
+  fiat-500e-332-24: "Entry pack; supplier not known to us."
+  mg4-51-lfp: "LFP cell supplier not known to us."
+  mg4-64: "CATL NMC (reported). Also used by the XPOWER."
+  mg-zs-44-5: "Cooling type not known to us."
+  mg-zs-72-6: "Usable about 68 kWh reported; left out."
+  cma-69: "CATL prismatic (reported)."
+  cma-78: "LG Chem cells (reported)."
+  cma-82: "Cell supplier not verified (CATL reported for some cars)."
+  mercedes-eqa-66-5: "Cell supplier not verified (Farasis reported)."
+  mercedes-eqc-80: "Gross about 85 kWh reported; left out."
+  ford-mach-e-75: "Usable rose from about 68 to about 70-72 kWh in later years (reported)."
+  ford-mach-e-98: "Usable rose from about 88 to about 91 kWh in later years (reported)."
+  byd-blade-60: "Cooling: e-Platform 3.0 is reported to use direct refrigerant cooling of the pack; verify."
+  smart-453-17-6: "LG Chem cells assembled by Deutsche ACCUmotive (reported)."
+  honda-e-35-5: "Liquid-cooled (reported)."

@@ -1,0 +1,213 @@
+# Vehicle platforms behind the seed models (Decision 010). Rows = schema $defs/Platform.
+# UNCHECKED, LOW-CONFIDENCE data written from model knowledge, no sources fetched. To be replaced by sourced data.
+# nominal_v is `not-disclosed` unless one voltage applies to the whole platform; packs carry their own voltage.
+# voltage_class_id is the class of the platform's packs as generally described, not derived from a measured value.
+# Rows marked "not used by seed models yet" exist for common 2023+ cars and are not referenced by variant_links.yaml.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+source: {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", licence: CC-BY-4.0, attribution: "EV Finder contributors"}
+confidence: low
+platforms:
+  - id: tesla-model-s-x
+    name: "Tesla Model S / X platform"
+    owner: Tesla
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Original Tesla large-car platform (Model S from 2012, Model X). Pack voltage roughly 350-400 V depending on pack; not split per pack yet."
+  - id: tesla-model-3-y
+    name: "Tesla Model 3 / Y platform"
+    owner: Tesla
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Shared by Model 3 and Model Y across refreshes (Highland, Juniper). Packs differ by factory and year."
+  - id: renault-zoe
+    name: "Renault Zoe platform"
+    owner: Renault Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Dedicated Zoe platform, reported to be derived from Renault-Nissan B-segment parts. Project code not verified, so not used as the name."
+  - id: renault-cmf-ev
+    name: "CMF-EV (AmpR Medium)"
+    owner: Renault-Nissan-Mitsubishi Alliance
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Alliance medium EV platform: Renault Megane E-Tech, Nissan Ariya; the third-generation Nissan Leaf is reported to use it too (verify). Renault renamed it AmpR Medium."
+  - id: renault-cmf-bev
+    name: "CMF-BEV (AmpR Small)"
+    owner: Renault Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Small EV platform (Renault 5 E-Tech, Renault 4 E-Tech). Not used by seed models yet."
+  - id: dacia-cmf-a
+    name: "CMF-A (Dacia Spring)"
+    owner: Renault Group
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "Low-cost Alliance A-segment platform, China-built for the Spring (shared with Renault Kwid / City K-ZE). Pack voltage not known to us; may be below the 400v class range."
+  - id: nissan-leaf-ev
+    name: "Nissan Leaf EV platform (ZE0 / ZE1)"
+    owner: Nissan
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Platform of the first two Leaf generations. No active battery cooling on any pack."
+  - id: vw-mqb-e-golf
+    name: "MQB (e-Golf conversion)"
+    owner: Volkswagen Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Battery-electric Golf built on the combustion-car MQB platform."
+  - id: vw-meb
+    name: "MEB"
+    owner: Volkswagen Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Volkswagen ID.3, ID.4, Skoda Enyaq, Cupra Born, Audi Q4 e-tron and others. Cell suppliers vary by factory and year (LG Energy Solution, SK On, CATL, Samsung SDI reported)."
+  - id: hyundai-kia-fwd-gen1
+    name: "Hyundai-Kia front-drive multi-energy platforms (pre-E-GMP)"
+    owner: Hyundai Motor Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Umbrella row for the electric versions of front-drive Hyundai/Kia models: Ioniq Electric, Kona Electric (OS), Kia Niro EV (DE), Kia Soul EV (PS, SK3). These share drivetrain parts, but the platform codes differ per model and are not reliably documented; split into separate rows once sourced."
+  - id: hyundai-kia-k3
+    name: "Hyundai-Kia K3 platform (electric versions)"
+    owner: Hyundai Motor Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Third-generation front-drive platform: Kia Niro EV (SG2). That the Kona Electric (SX2) uses the same platform is uncertain; verify."
+  - id: hyundai-e-gmp
+    name: "E-GMP"
+    owner: Hyundai Motor Group
+    nominal_v: not-disclosed
+    voltage_class_id: 800v
+    notes: "Hyundai Ioniq 5 / 6, Kia EV6 and others. Marketed as 800 V. Pack nominal voltage depends on cell count: the 58 kWh pack is about 522 V nominal (below the 550 V class boundary), the 72.6 / 77.4 kWh packs about 653 / 697 V. Charges on 400 V chargers via the motor/inverter booster."
+  - id: bmw-i3-lifedrive
+    name: "LifeDrive (BMW i3)"
+    owner: BMW Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Carbon-fibre passenger cell on an aluminium drive module; i3 only."
+  - id: bmw-clar
+    name: "CLAR (with 5th-gen eDrive)"
+    owner: BMW Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Multi-energy rear-drive platform used for the i4 (G26) and iX3/i5/i7. Not the dedicated Neue Klasse platform."
+  - id: mini-ukl
+    name: "UKL1 (Mini Cooper SE F56)"
+    owner: BMW Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Combustion-car platform converted for the 2020-2023 Mini Cooper SE; drivetrain parts shared with the BMW i3."
+  - id: mini-spotlight-ev
+    name: "Spotlight EV architecture (Mini J01)"
+    owner: Spotlight Automotive (BMW / Great Wall joint venture)
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "China-built dedicated EV platform for the 2024+ Mini Cooper E / SE. Platform name and voltage not verified."
+  - id: stellantis-e-cmp
+    name: "e-CMP"
+    owner: Stellantis
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Peugeot e-208 / e-2008, Opel Corsa-e, Citroen e-C4 and more. The 2023 update (54 kWh gross / about 51 usable, 115 kW motor) is sometimes called e-CMP2 or 'e-CMP evolution'; naming is not consistent, so kept as one platform."
+  - id: stellantis-stla-medium
+    name: "STLA Medium"
+    owner: Stellantis
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Peugeot e-3008 / e-5008 and others from 2024. Not used by seed models yet."
+  - id: fiat-500e-312
+    name: "Fiat 500e (2013, combustion-car conversion)"
+    owner: Stellantis (then FCA)
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "US-market electric version of the Fiat 500 (312)."
+  - id: fiat-500e-332
+    name: "Fiat 500e (2020, dedicated EV platform)"
+    owner: Stellantis
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Dedicated platform for the 2020+ Fiat 500e / Abarth 500e; not e-CMP."
+  - id: mg-msp
+    name: "MSP (Modular Scalable Platform, 'Nebula')"
+    owner: SAIC Motor
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Dedicated EV platform under the MG4. SAIC also markets it as Nebula; the relationship of the two names is not verified."
+  - id: mg-zs-ev
+    name: "MG ZS (combustion-car conversion)"
+    owner: SAIC Motor
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Electric version of the combustion MG ZS."
+  - id: volvo-cma
+    name: "CMA"
+    owner: Geely Holding
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Compact Modular Architecture: Polestar 2, Volvo XC40 Recharge / EX40, C40 / EC40."
+  - id: volvo-sea
+    name: "SEA (Sustainable Experience Architecture)"
+    owner: Geely Holding
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "Volvo EX30, Polestar 4, Zeekr, smart #1 and others. Voltage varies by brand and model (400 V and 800 V versions exist). Not used by seed models yet."
+  - id: mercedes-mfa2
+    name: "MFA2 (EQA / EQB)"
+    owner: Mercedes-Benz Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Combustion-car compact platform with electric versions."
+  - id: mercedes-mra-eqc
+    name: "MRA (GLC-based, EQC)"
+    owner: Mercedes-Benz Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "EQC built on the GLC's rear-drive platform; not the dedicated EVA2."
+  - id: mercedes-eva2
+    name: "EVA2"
+    owner: Mercedes-Benz Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Dedicated large EV platform: EQS, EQE and SUVs. Not used by seed models yet."
+  - id: jaguar-i-pace
+    name: "Jaguar I-Pace platform"
+    owner: Jaguar Land Rover
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Dedicated aluminium EV platform used only by the I-Pace."
+  - id: ford-ge1
+    name: "GE1 (Mustang Mach-E)"
+    owner: Ford Motor Company
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Reported to be a heavily modified version of Ford's C2 combustion platform."
+  - id: byd-e-platform-3
+    name: "e-Platform 3.0"
+    owner: BYD
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "BYD Atto 3, Dolphin, Seal and more, with Blade LFP batteries. BYD markets some e-Platform 3.0 cars as 800 V capable via a boost function; the Atto 3 is treated as a 400 V car."
+  - id: audi-mlb-evo
+    name: "MLB evo (e-tron / Q8 e-tron)"
+    owner: Volkswagen Group
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Combustion-car platform adapted for the Audi e-tron (2019-2022) and Q8 e-tron (2023-2025)."
+  - id: smart-451
+    name: "smart fortwo 451 electric drive"
+    owner: Daimler (then)
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "Electric version of the second-generation fortwo."
+  - id: smart-453
+    name: "smart fortwo / forfour 453 (shared with Renault Twingo III)"
+    owner: Daimler / Renault (joint)
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "Rear-engine platform shared with the Renault Twingo III (whose Electric version uses a similar drivetrain)."
+  - id: honda-e
+    name: "Honda e platform"
+    owner: Honda
+    nominal_v: not-disclosed
+    voltage_class_id: 400v
+    notes: "Dedicated rear-drive small EV platform, Honda e only."

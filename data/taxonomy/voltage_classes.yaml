@@ -1,0 +1,56 @@
+# Voltage classes (Decision 010). Rows = schema $defs/VoltageClass.
+# Ranges are on the pack's NOMINAL voltage, in volts: min_v inclusive, max_v exclusive.
+# Classes must be contiguous and non-overlapping (checked by validate_taxonomy.py).
+# Boundaries are approximate industry groupings, not a standard. Note: some cars sold as "800 V"
+# with small packs (e.g. Hyundai/Kia E-GMP 58 kWh, ~522 V nominal) fall below 550 V nominal;
+# variant_links.yaml records those with an explicit class and a class_override_note.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+voltage_classes:
+  - id: 400v
+    label: {en: "400 V system", nl: "400V-systeem"}
+    min_v: 300
+    max_v: 550
+    status: mainstream
+    explainer:
+      en: >-
+        Most electric cars so far use a battery of roughly 300 to 550 volts, usually called "400 V".
+        These cars charge at full speed on almost every DC fast charger, old or new, because the
+        charging network was built around them. Their peak charging power is usually limited to
+        roughly 100 to 250 kW by the current the cables and cells can take.
+      nl: >-
+        De meeste elektrische auto's tot nu toe hebben een accu van ongeveer 300 tot 550 volt,
+        meestal "400V" genoemd. Ze laden op vrijwel elke DC-snellader op volle snelheid, oud of nieuw.
+
+  - id: 800v
+    label: {en: "800 V system", nl: "800V-systeem"}
+    min_v: 550
+    max_v: 850
+    status: mainstream
+    explainer:
+      en: >-
+        An "800 V" car has a battery of roughly 550 to 850 volts. Higher voltage means less current
+        for the same power, so these cars can usually charge faster and hold high power for longer
+        on modern 800 V-capable chargers. The catch for used buyers: on older 400 V-only chargers
+        the car has to convert the voltage up (a "booster") or charges at reduced power, which can
+        be much slower than the headline figure. Check the "400 V charger behaviour" for the car
+        you are looking at.
+      nl: >-
+        Een "800V"-auto heeft een accu van ongeveer 550 tot 850 volt en laadt op moderne 800V-laders
+        meestal sneller. Op oudere 400V-laders moet de auto de spanning omhoog omzetten of laadt hij
+        met minder vermogen, soms veel trager dan het opgegeven maximum.
+
+  - id: 900v-plus
+    label: {en: "900 V and higher", nl: "900V en hoger"}
+    min_v: 850
+    max_v: 1100
+    status: emerging
+    explainer:
+      en: >-
+        A small but growing group of cars uses batteries of roughly 850 volts and up, sometimes
+        marketed as "900 V" or "1000 V". The goal is even higher charging power on the newest
+        chargers. Most existing chargers top out around 920 to 1000 volts, so how these cars behave
+        on older or lower-voltage chargers depends heavily on the car's own converter; treat claims
+        with care until real-world tests exist.
+      nl: >-
+        Een kleine maar groeiende groep auto's gebruikt accu's van ongeveer 850 volt en hoger. Hoe
+        ze zich gedragen op oudere laders hangt sterk af van de omvormer in de auto.

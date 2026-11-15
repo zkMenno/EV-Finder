@@ -301,6 +301,9 @@ def finish_voltage(links: Links, row: dict[str, Any], platform_id: str | None) -
         fast = True
     elif mode in ("booster", "limited") and kw is not None:
         fast = kw >= FAST_ON_400V_MIN_KW
+    if row.get("dc_peak_kw") is None:
+        # No DC figure (e.g. Zoe phase 1, smart, early 500e): never claim fast DC charging.
+        fast = None
     if fast is not None:
         row["fast_on_400v"] = fast
     chem = links.chemistry(row.get("chemistry_id"))

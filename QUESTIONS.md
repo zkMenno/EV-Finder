@@ -130,6 +130,11 @@ The web app reads `data/releases/<latest>/catalogue.json` and accepts `CATALOGUE
 
 **Answer:**
 
+### Q-029 · Voltage class from nominal voltage misfiles some 800 V cars · Decision 010 · coordinator · 2026-11-15
+Hyundai/Kia E-GMP 58 kWh packs are sold as 800 V but sit around 523 V nominal, which falls in the 400 V band (~300–550). **Default:** an explicit `class_id` on the variant link wins, with a required note; `fast_on_400v` stays unknown (not false) when a car has no DC figure at all. Should the class be derived from max voltage or the maker's architecture label instead of nominal voltage?
+
+**Answer:**
+
 ## Closed
 
 ### Q-022 · EEA licence marked "(to confirm)" but status `active` · coordinator · builder · 2026-11-15

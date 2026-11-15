@@ -1,0 +1,48 @@
+# Battery cooling / thermal management types (Decision 010). Rows = schema $defs/CoolingType.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+cooling_types:
+  - id: liquid
+    label: {en: "Liquid cooling", nl: "Vloeistofkoeling"}
+    explainer:
+      en: >-
+        A coolant loop runs through or under the battery, usually linked to a radiator, a heater
+        and often the heat pump. This is the most common setup today. It keeps the battery at a
+        good temperature while fast charging and driving hard, so charging speeds hold up better
+        and the battery ages more gently.
+      nl: >-
+        Een koelvloeistofcircuit loopt langs de accu. Dat houdt de temperatuur goed bij snelladen,
+        zodat de laadsnelheid beter op peil blijft.
+
+  - id: refrigerant
+    label: {en: "Refrigerant cooling", nl: "Koudemiddelkoeling"}
+    explainer:
+      en: >-
+        The battery is cooled directly by the car's air-conditioning refrigerant instead of a
+        separate coolant loop. It can cool well, but how well it heats the battery in winter
+        depends on the design. Used by a few makers, for example in the BMW i3.
+      nl: >-
+        De accu wordt direct gekoeld met het koudemiddel van de airco, zonder apart
+        koelvloeistofcircuit. Bijvoorbeeld gebruikt in de BMW i3.
+
+  - id: air
+    label: {en: "Air cooling", nl: "Luchtkoeling"}
+    explainer:
+      en: >-
+        Fans blow air (sometimes cabin air) over the battery. This is cheaper and lighter than
+        liquid cooling but removes heat less effectively, so repeated fast charges or hot weather
+        can slow charging down. Mostly seen in older or smaller cars.
+      nl: >-
+        Ventilatoren blazen lucht langs de accu. Goedkoper, maar minder effectief: bij herhaald
+        snelladen of warm weer kan het laden vertragen.
+
+  - id: passive
+    label: {en: "No active cooling", nl: "Geen actieve koeling"}
+    explainer:
+      en: >-
+        The battery has no fans or coolant loop and simply sheds heat through its casing. After one
+        or two fast charges on a long trip the battery gets hot and the car limits charging power,
+        sometimes sharply (owners of the early Nissan Leaf call this "rapidgate"). Fine for daily
+        commuting, less so for long road trips.
+      nl: >-
+        De accu heeft geen ventilator of koelcircuit. Na een of twee snellaadbeurten wordt hij warm
+        en laadt de auto trager ("rapidgate").
