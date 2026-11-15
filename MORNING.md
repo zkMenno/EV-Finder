@@ -68,8 +68,8 @@ _(at the end of the run)_
 | A4 T-018 bidi + ports schema | done | Decision 019 |
 | A4 T-023 charging stats schema | done | |
 | A4 T-030 Trip fit schema | done | |
-| A4 T-024 charging taxonomies + country links | running | |
-| A4 T-019 bidi taxonomies (coordinator half) | running | |
+| A4 T-024 charging taxonomies + country links | done | 3–4 links per country, URLs only from the spec; DE link may be a start page, not the map (Q-057) |
+| A4 T-019 bidi taxonomies (coordinator half) | done (partial) | 7 tables; 12 wallbox rows held back until their sources are releasable (Q-008); per-car rows are WS3 |
 | A4 T-026 charging link-out block | done | Explore, learn and model pages; plain ABRP link; UTM tag (Q-056) |
 | A4 T-036 Trip fit quick check (flag, fixture matrix) | done | behind `TRIP_FIT=1`; fixture matrix + 20 towns typed from memory, labelled PROVISIONAL; keep off in production (Q-055) |
 | A5.1 country + language URLs | running | |
