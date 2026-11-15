@@ -1,0 +1,201 @@
+# Approved bidirectional boxes (Decision 011, T-019 coordinator half). Rows = schema
+# $defs/BidiEquipment. New boxes are new rows.
+#
+# CONFIDENCE: LOW for every row. Written from research/R-01 (§3, §4, §6) only, without opening
+# the maker pages. The schema row has no confidence field, so it is stated here and in `notes`.
+# - max_kw and price_band are filled only where R-01 states them for the box itself; otherwise
+#   "not-disclosed". Prices in other currencies are not converted (no rate in the sources): they
+#   stay in `notes` and price_band is "not-disclosed".
+# - markets are filled only where R-01 names them for that box; otherwise left out.
+# - source_ids point to data/taxonomy/taxonomy_sources.yaml. None of them is releasable in
+#   data/sources.yaml yet (maker documents are blocked, Q-008), so the pipeline holds this whole
+#   table back from releases until they are (pipeline/ev_pipeline/release/taxonomy.py).
+# - retrieved_at = the R-01 research date, not a fresh check.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+bidi_equipment:
+  - id: mobilize-powerbox-verso
+    name: Mobilize PowerBox Verso
+    maker: Mobilize (Renault group)
+    route_id: ac-onboard
+    current: ac
+    max_kw: not-disclosed
+    mode_ids: [v2g]
+    price_band: not-disclosed
+    markets: [FR]
+    compatible_platform_ids: [renault-cmf-bev]
+    url: https://www.mobilize.com/en/smart-charging/v2g/
+    source_ids: [mobilize-v2g, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. With a Mobilize Power contract. Renault 5 / 4 and Alpine A290 (11 kW AC route
+      per R-01). V2G live in FR; DE, NL and UK planned for 2026. Top two motor versions only per
+      electrive (check trims). Platform link to renault-cmf-bev is our assumption (AmpR Small).
+
+  - id: bmw-wallbox-professional
+    name: BMW Wallbox Professional
+    maker: BMW
+    route_id: ac-onboard
+    current: ac
+    max_kw: not-disclosed
+    mode_ids: [v2g, v2h]
+    price_band: {min: 2095, max: 2095, note: "Price as given in R-01 §3; list vs offer not stated."}
+    markets: [DE]
+    source_ids: [bmw-press-ix3-v2g-2026-02-09, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. BMW iX3 Neue Klasse (Gen6 eDrive, 11 kW AC route per R-01). V2G in DE with an
+      E.ON tariff; V2H for DE / AT / NL announced for late 2026. Neue Klasse platform not in
+      data/seed/platforms.yaml yet, so no platform link.
+
+  - id: hager-e3dc-s10-e-compact
+    name: Hager / E3/DC S10 E Compact
+    maker: Hager Group (E3/DC)
+    route_id: dc-offboard
+    current: dc
+    max_kw: not-disclosed
+    mode_ids: [v2h, v2g]
+    price_band: not-disclosed
+    compatible_platform_ids: [vw-meb]
+    source_ids: [vw-bidirektionales-laden, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. VW-approved DC box for MEB cars with a net 77 kWh+ battery and ID. Software
+      3.5 or newer (discharge capped between 3.5 and 6). Modes per VW's V2H/V2G statement; markets
+      not stated in R-01.
+
+  - id: elli-chargeline-bidi
+    name: Elli ChargeLine BiDi
+    maker: Elli (Volkswagen group) with The Mobility House
+    route_id: dc-offboard
+    current: dc
+    max_kw: not-disclosed
+    mode_ids: [v2g, v2h]
+    price_band: {min: 1990, max: 2990, note: "€2,990 list, €1,990 introductory (R-01 §3)."}
+    markets: [DE]
+    compatible_platform_ids: [vw-meb]
+    source_ids: [electrive-vw-elli-v2g-2026-06-23, vw-bidirektionales-laden, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. From Q4 2026, Germany first. Same MEB conditions as above (77 kWh+, software
+      3.5+). T-019 calls it "Elli/TMH ChargeLine BiDi".
+
+  - id: sun2wheel-two-way-20
+    name: Sun2Wheel Two-Way-20
+    maker: Sun2Wheel
+    route_id: dc-offboard
+    current: dc
+    max_kw: not-disclosed
+    price_band: not-disclosed
+    compatible_platform_ids: [vw-meb]
+    source_ids: [vw-bidirektionales-laden, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. VW-approved DC box for MEB (same conditions). Power not stated in R-01; the
+      "20" in the name is not taken as a kW figure until checked. Markets not stated.
+
+  - id: wallbox-quasar-1
+    name: Wallbox Quasar (first generation)
+    maker: Wallbox
+    route_id: chademo-dc
+    current: dc
+    max_kw: not-disclosed
+    mode_ids: [v2g]
+    protocol_ids: [chademo]
+    price_band: not-disclosed
+    compatible_platform_ids: [nissan-leaf-ev]
+    source_ids: [bestchargers-uk-v2g, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. CHAdeMO legacy box for Nissan Leaf gen 1–2 and e-NV200; R-01 says these boxes
+      are scarce. Used with Octopus's V2G tariff in the UK (R-01 §2); markets not stated for the box.
+
+  - id: wallbox-quasar-2
+    name: Wallbox Quasar 2
+    maker: Wallbox
+    route_id: dc-offboard
+    current: dc
+    max_kw: not-disclosed
+    mode_ids: [v2h]
+    price_band: not-disclosed
+    markets: [US]
+    source_ids: [cali-energy-us-v2h, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. Kia EV9 V2H in the US. R-01 §3 gives about £6,100 (GBP, not converted). R-01
+      also lists "Quasar v1/v2" under the CHAdeMO route; the plug of Quasar 2 needs checking
+      (🔴). No US platform in data/seed/platforms.yaml.
+
+  - id: e3dc-edison-v2h
+    name: E3/DC Edison V2H
+    maker: E3/DC (Hager Group)
+    route_id: dc-offboard
+    current: dc
+    max_kw: not-disclosed
+    mode_ids: [v2h]
+    price_band: not-disclosed
+    compatible_platform_ids: [vw-meb]
+    source_ids: [ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. Ford Explorer / Capri (built on MEB) V2H in the EU; V2G for these cars is not
+      confirmed (🔴 R-01 §4). Only source is R-01; a maker page is still needed.
+
+  - id: ford-charge-station-pro
+    name: Ford Charge Station Pro
+    maker: Ford
+    route_id: dc-offboard
+    current: dc
+    max_kw: not-disclosed
+    mode_ids: [v2h]
+    price_band: not-disclosed
+    markets: [US]
+    source_ids: [cali-energy-us-v2h, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. F-150 Lightning V2H with the Home Integration System. R-01 §5 says Ford's
+      bidirectional route uses CCS on this box. Route dc-offboard is our reading; verify.
+
+  - id: gm-energy-powershift-v2h-kit
+    name: GM Energy PowerShift charger + V2H Enablement Kit
+    maker: GM Energy
+    route_id: proprietary
+    max_kw: not-disclosed
+    mode_ids: [v2h]
+    price_band: not-disclosed
+    markets: [US]
+    source_ids: [cali-energy-us-v2h, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. GM Ultium (Silverado / Blazer / Equinox / Sierra EV 2024–26, Lyriq / Optiq /
+      Vistiq / Escalade IQ / Hummer 2026, Bolt 2027); some 2024s need an update. Route not stated in
+      R-01, so `proprietary` and no `current` until checked.
+
+  - id: tesla-powerwall-3
+    name: Tesla Powerwall 3 (Powershare)
+    maker: Tesla
+    route_id: proprietary
+    max_kw: not-disclosed
+    mode_ids: [v2h]
+    price_band: not-disclosed
+    markets: [US]
+    compatible_platform_ids: [tesla-model-3-y]
+    source_ids: [tesla-powershare-oct-2026, ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. US only: Model 3 / Y built in the US from 2026-10-01 (Powerwall 3 only) and
+      Cybertruck. No V2H/V2G for Tesla in Europe. Route not stated in R-01. Older 3 / Y: no.
+
+  - id: dcbel-ara
+    name: dcbel Ara
+    maker: dcbel
+    route_id: dc-offboard
+    current: dc
+    max_kw: not-disclosed
+    mode_ids: [v2h]
+    price_band: not-disclosed
+    markets: [US]
+    source_ids: [ev-finder-r01]
+    retrieved_at: "2026-11-15"
+    notes: >-
+      Confidence low. Volvo EX90 and Polestar 3 (400 V, 2024–25 only) V2H in the US. R-01 §3 gives
+      US$9,999 (USD, not converted). Only source is R-01; a maker page is still needed.

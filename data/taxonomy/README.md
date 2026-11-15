@@ -8,6 +8,13 @@ Taxonomy tables from Decision 010. They are data, not enums: filters, tooltips a
 | `chemistries.yaml` | `Chemistry` | NMC, NCA, LFP, LMFP, LMO/NMC, sodium-ion, semi-solid, all-solid-state, LMR, with pros, cons, care tips and daily-100 % guidance |
 | `cooling_types.yaml` | `CoolingType` | liquid, refrigerant, air, passive |
 | `glossary_terms.yaml` | `GlossaryTerm` | UI terms: plain label, technical name, tooltip `short` (max 20 words), `long`, `nerd_note`, `related` |
+| `bidi_modes.yaml`, `bidi_routes.yaml`, `bidi_protocols.yaml`, `bidi_caveats.yaml`, `bidi_status.yaml` | `BidiMode` … `BidiStatus` | Bidirectional charging terms (Decision 011, T-019): V2L/V2H/V2G/V2B, AC vs DC route, protocols, caveat badges with `{param}`, status per country |
+| `connector_types.yaml` | `ConnectorType` | Plugs: Type 2, CCS2, CHAdeMO, early Tesla EU, J1772, CCS1, NACS/J3400, GB/T |
+| `bidi_equipment.yaml` | `BidiEquipment` | Approved bidirectional boxes. Low confidence, from R-01 only; held back from releases until its sources are releasable |
+| `charging_metrics.yaml`, `charging_definitions.yaml`, `power_bands.yaml` | `ChargingMetric`, `ChargingDefinition`, `PowerBand` | Charging statistics (Decision 012, T-024): what is counted, how each source counts (incl. public vs semi-public), our five bands + source bands with `maps_to` |
+| `taxonomy_sources.yaml` | `Source` | Sources cited by the rows above (not the licence registry; that is `data/sources.yaml`) |
+
+The per-country link-out block lives in `config/countries/<cc>.yaml` under `charging_links` (T-024) and is checked here too: every URL must appear in `docs/spec/charging-buildout.md`.
 
 Strings are per-language maps (`en`, `nl`, `de`, `fr`, `es`, `it`). `en` is required everywhere. `nl` is required for every `label` and for glossary `short`. Glossary EN must be complete: `technical`, a `long` of 2–4 sentences, `nerd_note` and `related`. `related` can point to other glossary ids or to chemistry, cooling or voltage-class ids. Glossary ids must not reuse those ids.
 

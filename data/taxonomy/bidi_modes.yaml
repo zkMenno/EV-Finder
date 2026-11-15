@@ -1,0 +1,59 @@
+# Bidirectional charging modes (Decision 011, T-019). Rows = schema $defs/BidiMode.
+# Spec: docs/spec/bidirectional-and-connectors.md §3.1. Ids use hyphens (Decision 019).
+# EN + NL; other languages still to do.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+bidi_modes:
+  - id: v2l
+    label: {en: "Powers appliances", nl: "Voedt apparaten"}
+    technical: {en: "Vehicle-to-load (V2L)", nl: "Vehicle-to-load (V2L)"}
+    short:
+      en: "Run a kettle, tools or a camping fridge from the car through a socket or adapter."
+      nl: "Gebruik een waterkoker, gereedschap of koelbox via een stopcontact of adapter in de auto."
+    explainer:
+      en: >-
+        The car gives out household power through a socket or a plug-in adapter, usually about 2 to
+        3.6 kW. It is common on newer cars. V2L is not the same as powering your home: that needs
+        V2H and a special installation.
+      nl: >-
+        De auto levert stroom via een stopcontact of adapter, meestal 2 tot 3,6 kW. V2L is niet
+        hetzelfde als je huis van stroom voorzien; daarvoor is V2H nodig.
+    order: 1
+
+  - id: v2h
+    label: {en: "Can power your home", nl: "Kan je huis van stroom voorzien"}
+    technical: {en: "Vehicle-to-home (V2H)", nl: "Vehicle-to-home (V2H)"}
+    short:
+      en: "The car's battery runs your home, for example in the evening or during a power cut."
+      nl: "De accu van de auto voedt je huis, bijvoorbeeld 's avonds of bij een stroomstoring."
+    explainer:
+      en: >-
+        With an approved wallbox the car can supply your home. Whether it works depends on the car,
+        its software version and battery size, the wallbox and your country.
+      nl: >-
+        Met een goedgekeurde wallbox kan de auto je huis voeden. Of het werkt hangt af van de auto,
+        de softwareversie, de accugrootte, de wallbox en je land.
+    order: 2
+
+  - id: v2g
+    label: {en: "Can earn by feeding the grid", nl: "Kan verdienen door terug te leveren"}
+    technical: {en: "Vehicle-to-grid (V2G)", nl: "Vehicle-to-grid (V2G)"}
+    short:
+      en: "The car sells power back to the grid at busy times. Needs a matching box and energy contract."
+      nl: "De auto levert stroom terug aan het net op drukke momenten. Vraagt een passende box en contract."
+    explainer:
+      en: >-
+        The car charges when power is cheap and feeds some back when it is in demand, and an energy
+        company pays or credits you for it. In 2026 this is live in a few countries only, for
+        specific cars, wallboxes and contracts.
+      nl: >-
+        De auto laadt als stroom goedkoop is en levert terug als er vraag is; een energiebedrijf
+        vergoedt dat. In 2026 kan dit pas in een paar landen, met specifieke auto's, boxen en contracten.
+    order: 3
+
+  - id: v2b
+    label: {en: "Can power a building", nl: "Kan een gebouw van stroom voorzien"}
+    technical: {en: "Vehicle-to-building (V2B)", nl: "Vehicle-to-building (V2B)"}
+    short:
+      en: "Like powering a home, but for an office or other building, often with several cars."
+      nl: "Zoals een huis voeden, maar dan voor een kantoor of ander gebouw, vaak met meerdere auto's."
+    order: 4

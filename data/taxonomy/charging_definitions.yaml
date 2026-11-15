@@ -1,0 +1,168 @@
+# How each source counts charging infrastructure (Decision 012, T-024). Rows = schema
+# $defs/ChargingDefinition. One row per source definition. A chart draws exactly one definition;
+# a definition change starts a new series with a marked break (replaced_by).
+# Spec: docs/spec/charging-buildout.md, "Data sources per country" and "Definition rules".
+# source_id points to data/taxonomy/taxonomy_sources.yaml (or data/sources.yaml).
+# Rows written from the spec text only; definition details not stated there are left out
+# (no valid_from where the spec gives no date). EN + NL; other languages still to do.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+charging_definitions:
+  - id: afir-recharging-point
+    label: {en: "EU standard count (AFIR, via EAFO)", nl: "EU-standaardtelling (AFIR, via EAFO)"}
+    technical: {en: "AFIR publicly accessible recharging point, EAFO series", nl: "AFIR openbaar toegankelijk laadpunt, EAFO-reeks"}
+    short:
+      en: "Same rules for every European country, so this is the one to compare countries with."
+      nl: "Dezelfde regels voor elk Europees land; gebruik deze om landen te vergelijken."
+    explainer:
+      en: >-
+        The EU's charging rules (AFIR) define a recharging point as a place where one car at a time
+        can charge. The European Alternative Fuels Observatory publishes counts on that definition
+        for every EU country plus the UK, Norway, Switzerland, Iceland, Liechtenstein and Turkey.
+        Supermarket and car-park chargers count as public under AFIR; workplace and dealership
+        chargers usually don't.
+      nl: >-
+        De EU-regels (AFIR) tellen een laadpunt als een plek waar één auto tegelijk kan laden. EAFO
+        publiceert die telling voor alle EU-landen en een paar buurlanden. Laders bij supermarkten
+        en parkeergarages tellen mee als openbaar.
+    counts: point
+    country: EUROPE
+    source_id: eafo
+    includes_semi_public: true
+    comparable_across_countries: true
+
+  - id: iea-public-charger
+    label: {en: "World count (IEA)", nl: "Wereldtelling (IEA)"}
+    technical: {en: "IEA publicly accessible chargers, Global EV Data Explorer", nl: "IEA openbaar toegankelijke laders, Global EV Data Explorer"}
+    short:
+      en: "The International Energy Agency's count, used to compare countries worldwide."
+      nl: "De telling van het Internationaal Energieagentschap, om landen wereldwijd te vergelijken."
+    counts: point
+    country: WORLD
+    source_id: iea-gev-data-explorer
+    comparable_across_countries: true
+
+  - id: nl-rvo-public
+    label: {en: "Netherlands: fully public points (RVO)", nl: "Nederland: volledig openbare laadpunten (RVO)"}
+    technical: {en: "RVO publiek laadpunt", nl: "RVO publiek laadpunt"}
+    short:
+      en: "Dutch points on public streets, open to anyone at all times. Excludes semi-public car parks."
+      nl: "Laadpunten op de openbare weg, altijd voor iedereen. Zonder semipublieke parkeerplaatsen."
+    counts: point
+    country: NL
+    source_id: rvo-ev-cijfers
+    includes_semi_public: false
+    comparable_across_countries: false
+
+  - id: nl-rvo-public-semipublic
+    label: {en: "Netherlands: public + semi-public points (RVO)", nl: "Nederland: publieke + semipublieke laadpunten (RVO)"}
+    technical: {en: "RVO publiek + semipubliek (+ snel) laadpunt", nl: "RVO publiek + semipubliek (+ snel) laadpunt"}
+    short:
+      en: "Dutch street points plus points in car parks and at shops that the public can use."
+      nl: "Laadpunten op straat plus punten in parkeergarages en bij winkels die iedereen mag gebruiken."
+    explainer:
+      en: >-
+        The Dutch agency RVO counts public, semi-public, fast and home points separately. This
+        series adds public, semi-public and fast points: about 210,000 in 2025 against about
+        63,000 in 2020. Semi-public points sit on private ground, such as a supermarket car park,
+        but anyone may use them during opening hours.
+      nl: >-
+        RVO telt publieke, semipublieke, snel- en thuislaadpunten apart. Deze reeks telt publiek,
+        semipubliek en snel samen. Semipublieke punten staan op eigen terrein, zoals een
+        supermarktparkeerplaats, maar iedereen mag ze gebruiken.
+    counts: point
+    country: NL
+    source_id: rvo-ev-cijfers
+    includes_semi_public: true
+    comparable_across_countries: false
+
+  - id: de-bnetza-ladepunkt
+    label: {en: "Germany: registered public points (Bundesnetzagentur)", nl: "Duitsland: geregistreerde openbare laadpunten (Bundesnetzagentur)"}
+    technical: {en: "Öffentlich zugänglicher Ladepunkt, Ladesäulenregister", nl: "Öffentlich zugänglicher Ladepunkt, Ladesäulenregister"}
+    short:
+      en: "Germany's official register. Here 'fast' means above 22 kW, a lower bar than elsewhere."
+      nl: "Het officiële Duitse register. 'Snel' betekent hier boven 22 kW, lager dan elders."
+    counts: point
+    country: DE
+    source_id: bnetza-ladesaeulenregister
+    fast_label: {en: "Schnellladepunkt (>22 kW)", nl: "Schnellladepunkt (>22 kW)"}
+    comparable_across_countries: false
+
+  - id: fr-avere-public-point
+    label: {en: "France: points open to the public (Avere-France)", nl: "Frankrijk: openbaar toegankelijke laadpunten (Avere-France)"}
+    technical: {en: "Points de recharge ouverts au public (baromètre Avere-France, data Gireve)", nl: "Points de recharge ouverts au public (baromètre Avere-France, data Gireve)"}
+    short:
+      en: "France's monthly count of public points, with a share of points that are working."
+      nl: "De maandelijkse Franse telling van openbare laadpunten, met het aandeel dat werkt."
+    counts: point
+    country: FR
+    source_id: avere-france-barometre
+    comparable_across_countries: false
+
+  - id: be-evbelgium-public-semipublic
+    label: {en: "Belgium: public + semi-public points (EV Belgium)", nl: "België: publieke + semipublieke laadpunten (EV Belgium)"}
+    technical: {en: "EV Belgium count, public and semi-public", nl: "Telling EV Belgium, publiek en semipubliek"}
+    short:
+      en: "Belgian count including car parks and shops. Fully public 24/7 points are far fewer."
+      nl: "Belgische telling inclusief parkeergarages en winkels. Volledig publieke 24/7-punten zijn veel minder."
+    explainer:
+      en: >-
+        Belgium shows why definitions matter: about 22,000 fully public 24/7 points versus about
+        126,000 public plus semi-public points in the same period. This series is the wider one.
+        For Belgium the main series is the EU count (EAFO); EV Belgium figures are the fallback.
+      nl: >-
+        België laat zien waarom definities ertoe doen: ongeveer 22.000 volledig publieke punten
+        tegenover ongeveer 126.000 publieke plus semipublieke punten in dezelfde periode.
+    counts: point
+    country: BE
+    source_id: ev-belgium
+    includes_semi_public: true
+    comparable_across_countries: false
+
+  - id: uk-dft-device-pre2026
+    label: {en: "UK: public charging devices (DfT, until 2025)", nl: "VK: openbare laadpalen (DfT, tot 2025)"}
+    technical: {en: "DfT public charging devices", nl: "DfT openbare laadpalen (devices)"}
+    short:
+      en: "The UK counted devices until 2025. One device can serve several cars, so the series breaks."
+      nl: "Het VK telde tot 2025 laadpalen. Eén paal kan meerdere auto's laden, dus de reeks breekt."
+    counts: device
+    country: UK
+    source_id: dft-ev-charging-infrastructure
+    valid_to: "2025-12-31"
+    replaced_by: uk-dft-evse-2026
+    comparable_across_countries: false
+
+  - id: uk-dft-evse-2026
+    label: {en: "UK: public EV chargers (DfT, from 2026)", nl: "VK: openbare laadpunten (DfT, vanaf 2026)"}
+    technical: {en: "DfT public EV chargers (EVSE)", nl: "DfT openbare laadpunten (EVSE)"}
+    short:
+      en: "Since 2026 the UK counts chargers the way the EU counts points. Not comparable with older years."
+      nl: "Sinds 2026 telt het VK laadpunten zoals de EU. Niet vergelijkbaar met eerdere jaren."
+    counts: point
+    country: UK
+    source_id: dft-ev-charging-infrastructure
+    valid_from: "2026-01-01"
+    fast_label: {en: "Rapid (50–149 kW) / ultra-rapid (150 kW+)", nl: "Rapid (50–149 kW) / ultra-rapid (150 kW+)"}
+    comparable_across_countries: false
+
+  - id: us-afdc-port
+    label: {en: "US: public charging ports (AFDC)", nl: "VS: openbare laadpoorten (AFDC)"}
+    technical: {en: "AFDC public EVSE ports", nl: "AFDC openbare EVSE-poorten"}
+    short:
+      en: "US government count of public charging ports. Phase 4 market."
+      nl: "Telling van openbare laadpoorten door de Amerikaanse overheid. Markt voor fase 4."
+    counts: port
+    country: US
+    source_id: afdc-station-counts
+    fast_label: {en: "DC fast", nl: "DC fast"}
+    comparable_across_countries: false
+
+  - id: au-evc-connector
+    label: {en: "Australia: public connectors (EV Council)", nl: "Australië: openbare stekkers (EV Council)"}
+    technical: {en: "EV Council public connectors", nl: "EV Council openbare connectoren"}
+    short:
+      en: "Australia's yearly count of plugs, not points, so the number runs higher. Phase 4 market."
+      nl: "Australische jaartelling van stekkers, niet laadpunten, dus het getal valt hoger uit. Fase 4."
+    counts: connector
+    country: AU
+    source_id: ev-council-state-of-evs
+    comparable_across_countries: false

@@ -1,5 +1,7 @@
 """Validation for releases (T-006): range checks, schema checks, provenance and licence guards.
 
+Enum-valued facts (iso15118_20_support, heat_pump) and drag_coefficient are checked against
+their allowed values the same way (Decision 019): a bad value is dropped and listed.
 Range checks run twice: on every matched fact before merging (so one bad value cannot win a
 field) and on every derived value in a row. Anything out of range is dropped and listed in
 data/review/validation.csv.
@@ -93,12 +95,68 @@ def range_reason(field: str, value: object) -> str:
     return f"out of range {lo:g}-{hi:g}: {value}"
 
 
+# Enum-valued facts checked at release time, not in the schema (Decision 019): the allowed
+# values come from these schema $defs, so a new value is a schema change, not a code change.
+ENUM_FACTS: dict[str, str] = {
+    "iso15118_20_support": "Iso15118Support",
+    "heat_pump": "HeatPumpFitment",
+}
+NOT_DISCLOSED = "not-disclosed"
+DRAG_COEFFICIENT = "drag_coefficient"  # Cd, a number strictly between 0 and 1
+
+
+def allowed_values(field: str) -> tuple[str, ...] | None:
+    def_name = ENUM_FACTS.get(field)
+    if def_name is None:
+        return None
+    return tuple(_schema()["$defs"][def_name]["enum"])
+
+
+def value_reason(field: str, value: object) -> str | None:
+    """None when an enum / Cd fact holds an allowed value (or the field is not checked)."""
+    allowed = allowed_values(field)
+    if allowed is not None:
+        if isinstance(value, str) and value in allowed:
+            return None
+        return f"not an allowed value ({', '.join(allowed)}): {value!r}"
+    if field == DRAG_COEFFICIENT:
+        if value == NOT_DISCLOSED:
+            return None
+        if isinstance(value, bool) or not isinstance(value, int | float) or not 0 < value < 1:
+            return f"drag coefficient must be a number between 0 and 1: {value!r}"
+    return None
+
+
+def enum_fact_errors(facts: list[dict[str, Any]]) -> list[str]:
+    """Last guard on the published facts list (pack and derived facts included)."""
+    out = []
+    for fd in facts:
+        why = value_reason(str(fd.get("field")), fd.get("value"))
+        if why is not None:
+            out.append(f"fact {fd.get('id')}: {fd.get('field')} {why}")
+    return out
+
+
 def check_fact_ranges(facts: list[MatchedFact]) -> tuple[list[MatchedFact], list[Problem]]:
     keep: list[MatchedFact] = []
     dropped: list[Problem] = []
     for mf in facts:
         f = mf.fact
-        if in_range(f.field.value, f.value):
+        why = value_reason(f.field.value, f.value)
+        if why is not None:
+            dropped.append(
+                Problem(
+                    "fact",
+                    mf.source_id,
+                    f.source_record or "",
+                    f.subject_id.root if hasattr(f.subject_id, "root") else str(f.subject_id),
+                    f.field.value,
+                    str(f.value),
+                    f.unit,
+                    why,
+                )
+            )
+        elif in_range(f.field.value, f.value):
             keep.append(mf)
         else:
             dropped.append(

@@ -1,0 +1,58 @@
+# Bidirectional status per country (Decision 011, T-019). Rows = schema $defs/BidiStatus.
+# filter_group: live matches the default filter ("live in your country"); pilot-or-announced
+# only with "Include pilots and announced". EN + NL; other languages still to do.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+bidi_status:
+  - id: live
+    label: {en: "Available", nl: "Beschikbaar"}
+    technical: {en: "Live (commercially offered)", nl: "Live (commercieel aangeboden)"}
+    short:
+      en: "You can buy the box and, if needed, the contract in this country today."
+      nl: "Je kunt de box en zo nodig het contract vandaag in dit land kopen."
+    filter_group: live
+    order: 1
+
+  - id: pilot
+    label: {en: "Pilot", nl: "Proef"}
+    technical: {en: "Pilot / field test", nl: "Pilot / praktijkproef"}
+    short:
+      en: "Only in a trial with selected households. Not on general sale."
+      nl: "Alleen in een proef met geselecteerde huishoudens. Niet vrij te koop."
+    filter_group: pilot-or-announced
+    order: 2
+
+  - id: announced
+    label: {en: "Announced", nl: "Aangekondigd"}
+    technical: {en: "Announced by the maker", nl: "Aangekondigd door het merk"}
+    short:
+      en: "The maker says it is coming. Not available yet."
+      nl: "Het merk zegt dat het eraan komt. Nog niet beschikbaar."
+    filter_group: pilot-or-announced
+    order: 3
+
+  - id: hardware-ready-not-enabled
+    label: {en: "Hardware ready, not switched on", nl: "Hardware klaar, niet ingeschakeld"}
+    technical: {en: "Hardware-capable, not enabled", nl: "Hardwarematig mogelijk, niet ingeschakeld"}
+    short:
+      en: "The car has the parts, but the maker hasn't enabled it. It may never be."
+      nl: "De auto heeft de onderdelen, maar het merk heeft het niet aangezet. Misschien nooit."
+    filter_group: not-available
+    order: 4
+
+  - id: not-offered
+    label: {en: "Not offered", nl: "Niet aangeboden"}
+    technical: {en: "Not offered in this market", nl: "Niet aangeboden in deze markt"}
+    short:
+      en: "The maker doesn't offer this for this car in this country."
+      nl: "Het merk biedt dit voor deze auto in dit land niet aan."
+    filter_group: not-available
+    order: 5
+
+  - id: not-disclosed
+    label: {en: "Not disclosed", nl: "Niet bekendgemaakt"}
+    technical: {en: "No public information", nl: "Geen openbare informatie"}
+    short:
+      en: "We found no clear statement from the maker. Treat it as not available."
+      nl: "We vonden geen duidelijke uitspraak van het merk. Ga uit van niet beschikbaar."
+    filter_group: not-available
+    order: 6

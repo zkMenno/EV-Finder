@@ -23,3 +23,15 @@ listings:
       electric: { fuel-type: Electric }
     priority: 1
     verified: false
+
+# "Find a charger / plan a trip" link-out block (T-024; spec docs/spec/charging-buildout.md,
+# "Where we link out"). Read by apps/web/scripts/charging-links.mjs (keys: job, label, url, order,
+# tool, official, utm, deep_link_template, note). At most five links, in spec order. URLs are
+# copied from the spec only. Not yet opened by hand: the web loader has no `verified` key, so
+# that is recorded here and in tasks/T-024 (unverified). job values = schema
+# CountryChargingLink.job (official-map | local-app | map | route-planner | price-compare).
+# UK: spec lists Zapmap, ABRP, PlugShare only (no Chargeprice row for the UK).
+charging_links:
+  - {order: 1, job: local-app, tool: zapmap, label: Zapmap, url: "https://www.zapmap.com/"}
+  - {order: 2, job: route-planner, tool: abrp, label: "A Better Routeplanner (ABRP)", url: "https://abetterrouteplanner.com/"}
+  - {order: 3, job: map, tool: plugshare, label: PlugShare, url: "https://www.plugshare.com/"}

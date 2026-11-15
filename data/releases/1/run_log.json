@@ -1,6 +1,6 @@
 {
  "step": "release",
- "at": "2026-11-15T01:01:17+00:00",
+ "at": "2026-11-15T01:20:18+00:00",
  "inputs": [
   {
    "path": "data/seed/models.yaml",
@@ -66,6 +66,36 @@
   },
   {
    "path": "data/seed/variant_links.yaml"
+  },
+  {
+   "path": "data/taxonomy/bidi_modes.yaml"
+  },
+  {
+   "path": "data/taxonomy/bidi_routes.yaml"
+  },
+  {
+   "path": "data/taxonomy/bidi_protocols.yaml"
+  },
+  {
+   "path": "data/taxonomy/bidi_caveats.yaml"
+  },
+  {
+   "path": "data/taxonomy/bidi_status.yaml"
+  },
+  {
+   "path": "data/taxonomy/connector_types.yaml"
+  },
+  {
+   "path": "data/taxonomy/bidi_equipment.yaml"
+  },
+  {
+   "path": "data/taxonomy/charging_metrics.yaml"
+  },
+  {
+   "path": "data/taxonomy/charging_definitions.yaml"
+  },
+  {
+   "path": "data/taxonomy/power_bands.yaml"
   }
  ],
  "outputs": {
@@ -221,8 +251,36 @@
    "single-source": 193,
    "sourced": 2
   },
-  "catalogue_json_bytes": 3104953,
-  "catalogue_json_gzip_bytes": 143395,
+  "optional_taxonomy_rows": {
+   "bidi_modes": 4,
+   "bidi_routes": 4,
+   "bidi_protocols": 5,
+   "bidi_caveats": 12,
+   "bidi_status": 6,
+   "connector_types": 9,
+   "bidi_equipment": 0,
+   "charging_metrics": 10,
+   "charging_definitions": 11,
+   "power_bands": 13
+  },
+  "taxonomy_rows_held_back": {
+   "bidi_equipment": {
+    "mobilize-powerbox-verso": "ev-finder-r01: not in data/sources.yaml; mobilize-v2g: not in data/sources.yaml",
+    "bmw-wallbox-professional": "bmw-press-ix3-v2g-2026-02-09: not in data/sources.yaml; ev-finder-r01: not in data/sources.yaml",
+    "hager-e3dc-s10-e-compact": "ev-finder-r01: not in data/sources.yaml; vw-bidirektionales-laden: not in data/sources.yaml",
+    "elli-chargeline-bidi": "electrive-vw-elli-v2g-2026-06-23: not in data/sources.yaml; ev-finder-r01: not in data/sources.yaml; vw-bidirektionales-laden: not in data/sources.yaml",
+    "sun2wheel-two-way-20": "ev-finder-r01: not in data/sources.yaml; vw-bidirektionales-laden: not in data/sources.yaml",
+    "wallbox-quasar-1": "bestchargers-uk-v2g: not in data/sources.yaml; ev-finder-r01: not in data/sources.yaml",
+    "wallbox-quasar-2": "cali-energy-us-v2h: not in data/sources.yaml; ev-finder-r01: not in data/sources.yaml",
+    "e3dc-edison-v2h": "ev-finder-r01: not in data/sources.yaml",
+    "ford-charge-station-pro": "cali-energy-us-v2h: not in data/sources.yaml; ev-finder-r01: not in data/sources.yaml",
+    "gm-energy-powershift-v2h-kit": "cali-energy-us-v2h: not in data/sources.yaml; ev-finder-r01: not in data/sources.yaml",
+    "tesla-powerwall-3": "ev-finder-r01: not in data/sources.yaml; tesla-powershare-oct-2026: not in data/sources.yaml",
+    "dcbel-ara": "ev-finder-r01: not in data/sources.yaml"
+   }
+  },
+  "catalogue_json_bytes": 3140264,
+  "catalogue_json_gzip_bytes": 153314,
   "diff": {
    "rows_previous": 0,
    "rows": 195,

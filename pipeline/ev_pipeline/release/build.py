@@ -57,10 +57,12 @@ from ev_pipeline.merge.merge import Merged, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.release.gate import MISSING_REGISTRY, load_registry
+from ev_pipeline.release.taxonomy import load_optional_taxonomy, optional_taxonomy_errors
 from ev_pipeline.release.validate import (
     ROW_NUMBER_FIELDS,
     ReleaseError,
     check_fact_ranges,
+    enum_fact_errors,
     excluded_source_errors,
     licence_errors,
     provenance_errors,
@@ -94,6 +96,8 @@ class ReleaseResult:
     out_dir: Path | None = None
     catalogue_bytes: int = 0
     catalogue_gzip_bytes: int = 0
+    taxonomy_tables: dict[str, int] = field(default_factory=dict)
+    taxonomy_held_back: dict[str, dict[str, str]] = field(default_factory=dict)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -347,6 +351,18 @@ def build_release(
         "rows": rows,
         **catalogue_parts(links),
     }
+    # Optional taxonomy tables (T-024, T-019): only next to the base four, which Taxonomy requires.
+    optional = load_optional_taxonomy(data_dir, registry.reason_blocked)
+    taxonomy_errs: list[str] = []
+    if "taxonomy" in catalogue and optional.tables:
+        catalogue["taxonomy"] = {**catalogue["taxonomy"], **optional.tables}
+        inputs += [{"path": p} for p in optional.inputs]
+        taxonomy_errs = optional_taxonomy_errors(optional.tables, set(links.platforms))
+    elif optional.tables:
+        optional.held_back["(all)"] = {
+            t: "base taxonomy files missing, so no Taxonomy object ships" for t in optional.tables
+        }
+        optional.tables = {}
     if links.packs and links.retrieved_at:
         sources.setdefault(links.source["id"], links.source)
         catalogue["sources"] = [sources[k] for k in sorted(sources)]
@@ -363,6 +379,8 @@ def build_release(
         + excluded_source_errors(catalogue, facts, registry.releasable)
         + licence_errors(catalogue["sources"])
         + id_errors(links, catalogue)
+        + taxonomy_errs
+        + enum_fact_errors(facts)
     )
     if errors:
         raise ReleaseError("release failed validation:\n  " + "\n  ".join(errors[:50]))
@@ -388,6 +406,8 @@ def build_release(
         unmatched_rows=unmatched,
         conflicts=conflicts,
         gated=gated,
+        taxonomy_tables=optional.counts(),
+        taxonomy_held_back=optional.held_back,
     )
     raw = catalogue_bytes(catalogue)
     res.catalogue_bytes = len(raw)
@@ -613,6 +633,11 @@ def write_release(res: ReleaseResult, data_dir: Path) -> Path:
     (tmp / "run_log.json").write_text(
         json.dumps(run_log(res, "published"), indent=1) + "\n", encoding="utf-8"
     )
+    # Release QA + back-test (qa.json, qa.md) and open data bundle (open/); a blocking QA
+    # failure raises ReleaseError and removes tmp (R-05 §1, T-035, Decision 016).
+    from ev_pipeline.qa.release_step import finish_release
+
+    finish_release(res.catalogue, res.facts, tmp, data_dir)
     tmp.rename(final)
     (releases / "latest").write_text(f"{res.release}\n", encoding="utf-8")
     review = data_dir / "review"
@@ -649,6 +674,8 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "gated_sources": res.gated,
         "real_range_rungs": dict(Counter(r.get("real_range_rung") or "none" for r in rows)),
         "quality_tiers": dict(Counter(r["quality_tier"] for r in rows)),
+        "optional_taxonomy_rows": res.taxonomy_tables,
+        "taxonomy_rows_held_back": res.taxonomy_held_back,
         "catalogue_json_bytes": res.catalogue_bytes,
         "catalogue_json_gzip_bytes": res.catalogue_gzip_bytes,
         "diff": res.diff["counts"],

@@ -245,6 +245,16 @@ T-024 put `charging_links` in `config/countries/<cc>.yaml` (job ids from `Countr
 
 **Answer:**
 
+### Q-057 · Charging links and charging/bidi taxonomies: judgement calls · T-024 / T-019 · builder · 2026-11-15
+No answer needed unless you disagree. **Defaults taken:** (1) **Links per country follow the spec's per-country table**, not the generic five-slot order, so none gets Open Charge Map and the counts are NL 4, DE 4, FR 4, BE 4, UK 3 (UK has no Chargeprice in that table). Add Open Charge Map as a fifth link? (2) **Germany:** the spec's URL for the Bundesnetzagentur Ladesäulenkarte is the E-Mobilität start page, not the map itself; kept as given (no invented URLs). A direct map URL needs a spec update first. (3) **`verified: false` is not written** on links: the web loader (`apps/web/scripts/charging-links.mjs`) rejects unknown keys, so "not opened by hand" is a comment in each country file. (4) **Label shape differs:** schema `CountryChargingLink.label` is a LocalizedText, the web loader wants a plain string and also needs `tool`; the YAML follows the web loader and `validate_taxonomy.py` maps it to the schema shape when it checks. Coordinator/WS2: align one or the other. (5) **`bidi_equipment` is held back from releases** (0 of 12 rows ship) because its sources are maker pages and press that are not releasable in `data/sources.yaml` (maker documents are blocked, Q-008). A row ships automatically once all its `source_ids` are active there. (6) Box prices in pounds or dollars (Wallbox Quasar 2 ~£6,100, dcbel Ara US$9,999) are **not converted**: `price_band` stays `not-disclosed` and the original price sits in `notes`, since no rate is sourced. (7) Our five power bands have **no DC under 50 kW band**, so German "fast (>22 kW)" maps only to our DC bands; add a `dc-under-50` band? (8) Cited sources live in a new `data/taxonomy/taxonomy_sources.yaml` until WS1 moves them into `data/sources.yaml` with a checked licence.
+
+**Answer:**
+
+### Q-058 · Fetch allowlist: Nyland host and proxies · addendum 5 item 6 (A-02) · builder · 2026-11-15
+No answer needed unless you disagree. Every HTTP fetcher now goes through `pipeline/ev_pipeline/net.py`, which only talks to the hosts listed under `hosts:` in `data/sources.yaml`. **Defaults taken:** (1) The Nyland sheet URL lives only in your env, so I guessed its hosts: `docs.google.com` + `*.googleusercontent.com` (a Google Sheets CSV export). If it lives elsewhere, the fetch fails with "FetchBlocked" and the fix is adding that host to the `nyland` entry. (2) The fetcher ignores `HTTPS_PROXY`/`HTTP_PROXY` (a proxy would defeat the private-address check). If the AppInfra server ever needs an egress proxy, WS4 should say so and it gets added on purpose. (3) Size caps: 32 MB per response by default, 256 MB for DfT (its file is about 65 MB today).
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15
