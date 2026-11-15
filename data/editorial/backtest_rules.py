@@ -2,7 +2,7 @@
 
 Usage: python3 -I data/editorial/backtest_rules.py [--markdown]
 
-Scores every rated row of `primary_car_picks` with the `only-car-long-trips` profile, using the
+Scores every rated row of `primary_car_picks` with the `road-tripper` profile (the only one calibrated on real picks), using the
 sheet's own values (internal calibration only), and reports how often the rule band matches his
 colour (shortlist / consider / fallback). Unrated rows are scored and listed but not counted.
 Exit code 1 if exact agreement falls below MIN_AGREEMENT, so CI notices when a rule edit breaks it.
@@ -98,10 +98,54 @@ def score(e: dict, prof: dict, newest: set, older: set) -> tuple[float | None, s
 max_year: dict[tuple[str, str], int] = {}
 
 
+SCHEMA = HERE.parent.parent / "packages" / "schema" / "schemas" / "ev.schema.json"
+
+
+def check_structure(rules: dict) -> list[str]:
+    """Every field a rule reads exists in PublishedVariant (or is marked a gap); steps name real factors."""
+    import json
+
+    known = set(json.loads(SCHEMA.read_text())["$defs"]["PublishedVariant"]["properties"])
+    errs: list[str] = []
+    factor_ids: set[str] = set()
+
+    def fields(row: dict) -> list[str]:
+        f = row.get("field")
+        return [] if f is None else ([f] if isinstance(f, str) else list(f))
+
+    groups = [("profile", p) for p in rules["profiles"]] + [("modifier", m) for m in rules.get("modifiers", [])]
+    groups += [("addon", a) for a in rules.get("addons", [])]
+    for kind, g in groups:
+        rows = g.get("gates", []) + g.get("factors", []) + g.get("extra_factors", []) + g.get("penalties", [])
+        rows += g.get("bonuses", []) + g.get("filter_presets", [])
+        for r in rows:
+            if "id" in r and r in g.get("factors", []) + g.get("extra_factors", []):
+                factor_ids.add(r["id"])
+            if r.get("status") == "gap":
+                continue
+            for f in fields(r):
+                if f not in known:
+                    errs.append(f"{kind} {g['id']}: field '{f}' not in PublishedVariant (mark status: gap?)")
+    for kind, g in groups:
+        for step in g.get("weight_steps") or {}:
+            if step not in factor_ids:
+                errs.append(f"{kind} {g['id']}: weight step '{step}' names no factor")
+    answers = {q["id"]: set(q["answers"]) for q in rules.get("picker", [])}
+    for kind, g in groups:
+        for q, vals in (g.get("picker") or {}).items():
+            bad = set(vals) - answers.get(q, set())
+            if bad:
+                errs.append(f"{kind} {g['id']}: picker {q} has unknown answers {sorted(bad)}")
+    return errs
+
+
 def main() -> int:
     picks = yaml.safe_load((HERE / "menno-picks.yaml").read_text())["primary_car_picks"]
     rules = yaml.safe_load((HERE / "shortlist_rules.yaml").read_text())
-    prof = next(p for p in rules["profiles"] if p["id"] == "only-car-long-trips")
+    errs = check_structure(rules)
+    for e in errs:
+        print("STRUCTURE:", e)
+    prof = next(p for p in rules["profiles"] if p["id"] == "road-tripper")
     years = defaultdict(set)
     for e in picks:
         if e["model_year"]:
@@ -133,7 +177,7 @@ def main() -> int:
     print(
         f"\nRated rows: {n} · exact band match: {hit} ({agree:.0%}) · within one band: {near} ({near / n:.0%})"
     )
-    return 0 if agree >= MIN_AGREEMENT else 1
+    return 0 if agree >= MIN_AGREEMENT and not errs else 1
 
 
 if __name__ == "__main__":

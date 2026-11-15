@@ -9,6 +9,7 @@ Give `data/editorial/` a schema so rules and picks are validated and typed (Deci
 - [ ] `ShortlistProfile` (gates, factors with field / poor / great / weight, bonuses, penalties, bands per voltage class) and `EditorialPick` (seed ids, verdict enum shortlist|consider|fallback|ruled_out|unrated, favourite, flags, tier, notes; `sheet_values` marked internal and stripped from any published type)
 - [ ] New variant fields the rules need, all optional, `not-disclosed` allowed: `frunk_l`, `one_pedal` (yes / via setting / no), `regen_paddles`, `width_mm`, `ota_updates`
 - [ ] Move `data/editorial/shortlist_rules.yaml` to `data/taxonomy/shortlist_rules.yaml`, wire into `validate_taxonomy.py`; update `backtest_rules.py` path
+- [ ] Profiles, modifiers, add-ons, picker and `filter_presets` (Decision 039); merge with `UsageProfile` so trip-fit and shortlist share one `usage_profiles` table (new rows: main-car-no-road-trips; ids road-tripper / daily-driver / runabout / kerbside-charger)
 - [ ] Fixtures valid + invalid
 
 ## Inputs

@@ -559,4 +559,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** First recommendation profile ("only or main car, long trips") with 80% band agreement on his 30 rated cars and 85% pairwise agreement on the untuned July 2025 used tab (research/R-32). Risk: one person's taste, 30 rows 🟡; the UI must say so. Follow-ups T-066 (schema), T-067 (web), T-068 (seed), T-069 (scoring in the release).
 
+## Decision 039: Four usage profiles + where-you-live modifier preselect filters
+
+**Status:** Accepted (WS0, 2026-11-15; Menno asked for it, non-road-trip thresholds await calibration)
+**Date:** 2026-11-15
+
+**Context:** Menno's picks (Decision 038) describe one use: a main car that also does road trips. He named two more (a main car with holidays by another mode, and a second car for short trips) and said urban vs rural living matters too.
+
+**Decision:** `data/editorial/shortlist_rules.yaml` holds four base profiles: `road-tripper` (renamed from `only-car-long-trips`), `daily-driver`, `runabout`, and `kerbside-charger` (no home charger, which stacks on the other three). It also holds modifiers `urban` / `suburban` / `rural` (shift range gates and weights) and add-ons (high mileage, full car, tow, snow/mountain, keep 8+ years, used on a budget). Each profile carries `filter_presets` that Explore preselects as removable chips. A four-tap picker (car role, long trips, where you charge, where you live) chooses them; it reuses the trip-fit §4 answers and adds `home_area`. Weight steps are ×1.5 per step, then renormalised. `backtest_rules.py` now also checks that every rule field exists in PublishedVariant (or is marked a gap) and that steps and picker answers resolve.
+
+**Consequences:** One template drives both Explore presets and the "Suggested" sort. Only road-tripper is back-tested; the other profiles use research thresholds (research/R-33) until the normie test (R-30) calibrates them 🟡. These profiles become `usage_profiles` rows once T-066 lands, so Trip fit and shortlist share one table.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
