@@ -145,6 +145,11 @@ def build_known_issues(
     if blocked:
         out.log = {"status": "gated", "blocked_sources": blocked, "rows": len(rows)}
         return out
+    if row_sources != {SOURCE_ID}:
+        # The adapter writes SOURCE id "rdw-defects" itself; an older staging file (id "rdw")
+        # is refused rather than renamed: re-run `ev normalise rdw-defects`.
+        out.log = {"status": "wrong source id", "source_ids": sorted(row_sources)}
+        return out
 
     # Per-year baseline over every sampled BEV group (all makes).
     year_base: dict[int, _Cohort] = defaultdict(_Cohort)
@@ -230,7 +235,6 @@ def build_known_issues(
         return out
     first = groups[0]
     src = dict(first.get("source") or {})
-    src["id"] = SOURCE_ID
     out.source = {
         k: v for k, v in src.items() if k in ("id", "name", "url", "licence", "attribution")
     }

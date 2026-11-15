@@ -213,6 +213,52 @@ def _view_meta(client: httpx.Client, dataset: str) -> dict[str, Any]:
     }
 
 
+# Queries whose output the raw folder holds: if one changed since the last fetch, the raw data
+# no longer matches the code even when RDW's tables did not change.
+_FETCH_QUERIES = {
+    "query": QUERY,
+    "price_query": PRICE_QUERY,
+    "sample_main_query": SAMPLE_MAIN_QUERY,
+    "sample_fuel_query": SAMPLE_FUEL_QUERY,
+}
+
+
+def probe_unchanged(client: httpx.Client, previous_fetch_meta: dict[str, Any]) -> bool | None:
+    """`ev refresh` hook: did RDW change since the last fetch? Two metadata calls instead of
+    the ~4.5-minute paged refetch.
+
+    True (unchanged) only when both datasets' `rowsUpdatedAt` (Socrata view metadata) and
+    licence metadata equal what the last fetch recorded and our queries are the same. False
+    when any of those moved. None (unknown, so the runner fetches) when the previous fetch
+    did not record them or the metadata call fails.
+    """
+    prev_fuel = previous_fetch_meta.get("fuel_dataset") or {}
+    before = {
+        DATASET: previous_fetch_meta.get("dataset_rows_updated_at"),
+        FUEL_DATASET: prev_fuel.get("dataset_rows_updated_at"),
+    }
+    if any(v in (None, "") for v in before.values()):
+        return None
+    if any(previous_fetch_meta.get(k) != q for k, q in _FETCH_QUERIES.items()):
+        return False
+    licences = {
+        DATASET: previous_fetch_meta.get("licence_metadata"),
+        FUEL_DATASET: prev_fuel.get("licence_metadata"),
+    }
+    try:
+        for dataset in (DATASET, FUEL_DATASET):
+            now = _view_meta(client, dataset)
+            if now["dataset_rows_updated_at"] in (None, ""):
+                return None
+            if str(now["dataset_rows_updated_at"]) != str(before[dataset]):
+                return False
+            if licences[dataset] is not None and now["licence_metadata"] != licences[dataset]:
+                return False
+    except (httpx.HTTPError, ValueError):
+        return None
+    return True
+
+
 def fetch(client: httpx.Client, target: Path, sleep_s: float = PAGE_SLEEP_S) -> int:
     """Fetch licence metadata, counts, price stats and the WLTP plate sample into `target`.
 

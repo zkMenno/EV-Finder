@@ -226,3 +226,104 @@ def test_normalise_cmd_from_fixtures(tmp_path: Path, monkeypatch: pytest.MonkeyP
         "consumption_kwh_100km",
         "price_new",
     }
+
+
+# --- probe_unchanged (ev refresh hook) ------------------------------------------------------
+
+LICENCE_VIEW = {
+    "license": {"name": "Public Domain"},
+    "licenseId": "PUBLIC_DOMAIN",
+    "metadata": {"custom_fields": {"Licentie": {"Licentie": "Creative Commons 0 (CC0)"}}},
+}
+LICENCE_META = {
+    "license": {"name": "Public Domain"},
+    "licenseId": "PUBLIC_DOMAIN",
+    "custom_fields.Licentie": "Creative Commons 0 (CC0)",
+}
+
+
+def _prev_meta(main: object = 1794641309, fuel: object = 1794641147) -> dict[str, object]:
+    """What fetch() records in _fetch.json (only the keys the probe reads)."""
+    return {
+        "query": adapter.QUERY,
+        "price_query": adapter.PRICE_QUERY,
+        "sample_main_query": adapter.SAMPLE_MAIN_QUERY,
+        "sample_fuel_query": adapter.SAMPLE_FUEL_QUERY,
+        "dataset_rows_updated_at": main,
+        "licence_metadata": LICENCE_META,
+        "fuel_dataset": {"dataset_rows_updated_at": fuel, "licence_metadata": LICENCE_META},
+    }
+
+
+def _views(updated: dict[str, object], licence: dict | None = None, status: int = 200):
+    calls: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.url.path.startswith("/api/views/"), "the probe never queries rows"
+        dataset = request.url.path.rsplit("/", 1)[-1].removesuffix(".json")
+        calls.append(dataset)
+        if status != 200:
+            return httpx.Response(status, json={})
+        return httpx.Response(
+            200,
+            json={"name": dataset, "rowsUpdatedAt": updated[dataset], **(licence or LICENCE_VIEW)},
+        )
+
+    return handler, calls
+
+
+def _probe(meta: dict[str, object], **kw: object) -> tuple[bool | None, list[str]]:
+    updated = kw.pop("updated", {adapter.DATASET: 1794641309, adapter.FUEL_DATASET: 1794641147})
+    handler, calls = _views(updated, **kw)  # type: ignore[arg-type]
+    with httpx.Client(transport=httpx.MockTransport(handler), base_url=adapter.BASE_URL) as c:
+        return adapter.probe_unchanged(c, meta), calls
+
+
+def test_probe_unchanged_when_both_datasets_kept_their_rows_updated_at() -> None:
+    verdict, calls = _probe(_prev_meta())
+    assert verdict is True
+    assert calls == [adapter.DATASET, adapter.FUEL_DATASET]  # two metadata calls, no rows
+
+
+def test_probe_changed_when_either_dataset_moved() -> None:
+    moved_main = {adapter.DATASET: 1794700000, adapter.FUEL_DATASET: 1794641147}
+    assert _probe(_prev_meta(), updated=moved_main)[0] is False
+    moved_fuel = {adapter.DATASET: 1794641309, adapter.FUEL_DATASET: 1794700000}
+    assert _probe(_prev_meta(), updated=moved_fuel)[0] is False
+
+
+def test_probe_changed_when_licence_metadata_moved() -> None:
+    other = {**LICENCE_VIEW, "licenseId": "CC_BY_4"}
+    assert _probe(_prev_meta(), licence=other)[0] is False
+
+
+def test_probe_changed_when_our_queries_changed_without_calling_rdw() -> None:
+    meta = {**_prev_meta(), "price_query": {"$select": "an older query"}}
+    verdict, calls = _probe(meta)
+    assert verdict is False and calls == []
+
+
+def test_probe_unknown_without_recorded_timestamps_or_on_errors() -> None:
+    assert _probe({**_prev_meta(), "dataset_rows_updated_at": None})[0] is None
+    assert _probe({**_prev_meta(), "fuel_dataset": {}})[0] is None
+    assert _probe(_prev_meta(), status=503)[0] is None
+    gone = {adapter.DATASET: None, adapter.FUEL_DATASET: 1794641147}
+    assert _probe(_prev_meta(), updated=gone)[0] is None
+
+
+def test_probe_matches_what_fetch_records(tmp_path: Path) -> None:
+    """Round trip: the meta written by fetch() is what the probe compares against."""
+    stamps = {adapter.DATASET: 111, adapter.FUEL_DATASET: 222}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path.startswith("/api/views/"):
+            ds = request.url.path.rsplit("/", 1)[-1].removesuffix(".json")
+            return httpx.Response(200, json={"rowsUpdatedAt": stamps[ds], **LICENCE_VIEW})
+        return httpx.Response(200, json=[])
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        adapter.fetch(client, tmp_path, sleep_s=0)
+        meta = json.loads((tmp_path / "_fetch.json").read_text())
+        assert adapter.probe_unchanged(client, meta) is True
+        stamps[adapter.FUEL_DATASET] = 333
+        assert adapter.probe_unchanged(client, meta) is False

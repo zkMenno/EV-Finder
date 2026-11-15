@@ -367,6 +367,11 @@ No answer needed unless you disagree. The 8 missing top-40 models are now in `da
 
 **Answer:**
 
+### Q-082 · T-053 registration history: KBA 2018 has no licence line; two smaller calls · T-053 · pipeline builder · 2026-11-15
+No answer needed unless you disagree. KBA FZ10 now goes back to 2019 and EEA to 2018 (final data per year), one registrations entry per year. **Defaults taken:** (1) **KBA 2018 is skipped.** The December 2018 file names no licence at all (only "© Kraftfahrt-Bundesamt, Flensburg"); from 2019 on the files say "Datenlizenz Deutschland – Namensnennung 2.0". Germany 2018 is still covered by EEA (34,398 BEVs counted). Option: accept 2018 under the same licence as the rest of the FZ10 series (🟡 likely, not stated in the file) by asking KBA, or leave it out (recommended, nothing lost but one DE source for one year). (2) **KBA "/", "." and "X" cells** (not reliable / secret / not comparable; 13–25 small rows a year in 2021–2024, 64–383 cars) are treated as *no count*, never as 0. (3) **EEA final years are confidence high**, the 2025 provisional table stays medium. Per-year counts are in `data/SOURCES.md`.
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

@@ -77,6 +77,7 @@ def test_normalise_rows_and_drop_rules() -> None:
     assert drops["code_few_cars"] > 0
     for r in rows:
         assert r["source"]["licence"] == "CC0-1.0"
+        assert r["source"]["id"] == "rdw-defects"  # not the registrations source `rdw`
         assert r["country"] == "NL"
         assert r["confidence"] == "medium"
         assert r["retrieved_at"] == "2026-11-15"

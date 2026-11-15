@@ -5,9 +5,12 @@ the top-40 used models in `data/seed/top40.yaml` (ADDENDUM-6 P5).
 production start/end year becomes a `kind="corroboration"` SourceRecord with *no specs*:
 the year sits in `year`; our model id, the item, the boundary and the property in
 `record_key` (`wikidata:volkswagen-id3/Q63636478#production_start:P571`). The matcher
-skips corroboration records of sources outside `CORROBORATION_SOURCES` (counted, never
-merged), so nothing here reaches a release value; `qa/top40.py` compares the years with
-the seed generation boundaries.
+routes them to the generation-years check (`YEAR_CORROBORATION_SOURCES` in
+`match/matcher.py`, whatever the EEA corroboration flag says): `merge/generation_years.py`
+compares each year with the nearest seed generation boundary of the same kind (±1 year) and
+the release attaches the result as `generations[].years_corroboration` (T-059). Years are
+never changed or set from here and no spec fact is made, so nothing here becomes a release
+value; `qa/top40.py` also compares the years with the seed boundaries.
 
 Two SPARQL queries on query.wikidata.org (WDQS), one at a time, SLEEP_S apart, with a
 descriptive User-Agent that names the repo (WDQS User-Agent policy):

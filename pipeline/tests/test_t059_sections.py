@@ -152,7 +152,7 @@ def test_matcher_routes_wikidata_years_whatever_the_eea_flag() -> None:
 # --- RDW known issues ----------------------------------------------------------------------
 
 SRC = {
-    "id": "rdw",
+    "id": "rdw-defects",
     "name": "RDW Open Data: Geconstateerde Gebreken",
     "licence": "CC0-1.0",
     "url": "https://opendata.rdw.nl/d/a34c-vvps",
@@ -212,6 +212,15 @@ DEFECTS = [
 
 def _known(rows=DEFECTS, gens_with_rows=frozenset(), releasable=lambda s: True):
     return build_known_issues(list(rows), SEED, set(gens_with_rows), releasable)
+
+
+def test_known_issues_refuses_rows_with_another_source_id() -> None:
+    """The adapter now writes id rdw-defects itself; old staging rows (id rdw) are refused,
+    not renamed."""
+    old = [{**r, "source": {**SRC, "id": "rdw"}} for r in DEFECTS]
+    res = _known(rows=old)
+    assert res.section is None and res.source is None
+    assert res.log == {"status": "wrong source id", "source_ids": ["rdw"]}
 
 
 def test_known_issues_sums_groups_and_rates_per_100_within_the_year() -> None:

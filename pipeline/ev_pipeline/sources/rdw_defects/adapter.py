@@ -87,7 +87,7 @@ PLATE_RE = re.compile(r"^[A-Z0-9]{1,8}$")
 
 LICENCE = "CC0-1.0"
 SOURCE = {
-    "id": "rdw",
+    "id": NAME,  # its own data/sources.yaml id, apart from the `rdw` registrations source
     "name": "RDW Open Data: Geconstateerde Gebreken (APK defects)",
     "url": f"{BASE_URL}/d/{DEFECTS}",
     "licence": LICENCE,

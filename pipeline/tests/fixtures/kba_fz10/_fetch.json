@@ -5,8 +5,19 @@
     {
       "file": "fz10_2026_10.xlsx",
       "url": "https://www.kba.de/SharedDocs/Downloads/DE/Statistik/Fahrzeuge/FZ10/fz10_2026_10.xlsx?__blob=publicationFile",
+      "year": 2026,
+      "month": 10,
+      "licence_line": "Datenlizenz Deutschland - Namensnennung - Version 2.0"
+    },
+    {
+      "file": "fz10_2019_12.xlsx",
+      "url": "https://www.kba.de/SharedDocs/Downloads/DE/Statistik/Fahrzeuge/FZ10/fz10_2019_12_xlsx.xlsx?__blob=publicationFile",
+      "year": 2019,
+      "month": 12,
       "licence_line": "Datenlizenz Deutschland - Namensnennung - Version 2.0"
     }
   ],
-  "note": "Recorded sample: sheets Deckblatt, Impressum and FZ 10.1 with makes ALFA ROMEO, BYD, TESLA, VW, XPENG, ZEEKR, the SONSTIGE ZUSAMMEN subtotal and the grand-total row, cells unchanged. © Kraftfahrt-Bundesamt, Flensburg, dl-de/by-2-0."
+  "note": "Recorded sample: sheets Deckblatt, Impressum and FZ 10.1 with makes ALFA ROMEO, BYD, TESLA, VW, XPENG, ZEEKR, the SONSTIGE ZUSAMMEN subtotal and the grand-total row, cells unchanged. © Kraftfahrt-Bundesamt, Flensburg, dl-de/by-2-0. T-053: fz10_2019_12.xlsx is the real December 2019 file (old layout: 'mit Elektroantrieb', licence line in 'Inhaltsverzeichnis', bare 'SONSTIGE' make row), rebuilt values-only (sheets Inhaltsverzeichnis and FZ 10.1, no formatting) with NISSAN, RENAULT (CAPTUR + ZOE), TESLA, SONSTIGE and the grand total, cell values unchanged.",
+  "history_from": 2018,
+  "skipped": []
 }

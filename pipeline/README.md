@@ -114,8 +114,8 @@ a key are skipped. Later, on the server, the same command runs as a pg-boss job 
 
 **For adapter builders:** nothing to change for `ev refresh`. Optional one-liners: call
 `snapshot.recording.record_client(client, recorder)` if you build clients outside
-`net.safe_client`; add `probe_unchanged` when a cheaper change check exists (RDW: compare the
-dataset's `rowsUpdatedAt` from the view metadata instead of re-running 40 paged queries).
+`net.safe_client`; add `probe_unchanged` when a cheaper change check exists. RDW already has one: it compares the
+datasets' `rowsUpdatedAt` and skips the ~265 s refetch when nothing changed.
 
 ## Steps
 
