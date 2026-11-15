@@ -1,5 +1,5 @@
 """T-051: the 8 top-40 models (part 1) and the 15 next-biggest models (part 2) added to the real
-seed place the source names they were built from.  # noqa: E501
+seed place the source names they were built from.
 
 Records are built in memory from the names seen in staging (RDW, EEA, KBA, DfT, KilowattApp);
 no network, no staging files. Generations are picked by year, as in the release.
