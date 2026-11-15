@@ -1,0 +1,9 @@
+{
+  "id": "nissan-leaf",
+  "make_id": "nissan",
+  "name": "Leaf",
+  "slug": "leaf",
+  "segment": "C",
+  "body": "hatchback",
+  "aliases": ["LEAF"]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "nissan-leaf-ze1-40kwh",
+  "generation_id": "nissan-leaf-ze1",
+  "name": "40 kWh",
+  "slug": "40kwh",
+  "year_start": 2018,
+  "year_end": 2024,
+  "drivetrain": "fwd",
+  "platform_id": "nissan-leaf",
+  "battery_pack_id": "nissan-40",
+  "voltage": {
+    "nominal_v": 350,
+    "marketing_label": "not-disclosed",
+    "class_id": "400v",
+    "switchable": false
+  },
+  "charger_400v": { "mode": "native", "kw": null }
+}

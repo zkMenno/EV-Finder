@@ -1,0 +1,10 @@
+{
+  "id": "nissan-leaf-ze1-40kwh-nl",
+  "variant_id": "nissan-leaf-ze1-40kwh",
+  "country": "NL",
+  "local_name": "Leaf 40 kWh",
+  "price_new": { "amount": 34990, "currency": "EUR" },
+  "wltp_km": 270,
+  "drive_side": "lhd",
+  "on_sale_new": false
+}

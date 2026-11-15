@@ -1,0 +1,10 @@
+{
+  "id": "nissan-leaf-ze1",
+  "model_id": "nissan-leaf",
+  "name": "ZE1",
+  "slug": "ze1",
+  "year_start": 2018,
+  "year_end": 2024,
+  "uncertain": false,
+  "change_markers": [{ "year": 2019, "text": "62 kWh e+ added" }]
+}
