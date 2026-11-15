@@ -15,6 +15,7 @@ Merge in this order (all CI-green apart from main's own failures, which WS0 fixe
 | [#10](https://github.com/zkMenno/EV-Finder/pull/10) | `t-033-consumption-model` | T-032/T-033: EPA consumption tests + `consumption_matrix.json` |
 | [#11](https://github.com/zkMenno/EV-Finder/pull/11) | `t-035-backtest-epa` | T-035: proxy back-test on EPA (`qa.json backtest_epa`, audits/A-30), consumption calibration |
 | [#12](https://github.com/zkMenno/EV-Finder/pull/12) | `t-062-retired-ids` | T-062 pipeline part: `retired_ids.json` (+ A-30 follow-up note) |
+| [#13](https://github.com/zkMenno/EV-Finder/pull/13) | `fix/epa-range-class` | EPA Long/Standard Range rows only attach to that pack class |
 
 If WS0 squashes/rebases #4 first, rebase the next branch with `git rebase --onto origin/main <old-tip-of-previous-branch>`.
 
@@ -26,7 +27,7 @@ If WS0 squashes/rebases #4 first, rebase the next branch with `git rebase --onto
 - **Menno (via QUESTIONS):** Q-047 (KilowattApp provenance) blocks rows for Kia EV3 / Hyundai Inster (KilowattApp-only records); Q-059 (NAF/Nyland permission) blocks the real launch gate.
 
 ## Open work for WS1 (next, in order)
-1. **EPA matching fix** (found by A-30): US "Long Range" EPA rows sit on EU 58 kWh Ioniq 5 / EV6; US 2024 Cooper SE (F56) on Mini J01; US Kona SR on an EU SX2 row. A power gate was tried and rejected (see A-30 follow-up). Try a range-token / battery-class rule + US model-year lag per generation. Test on staging like this: copy `openev`, `kilowatt-openev`, `fueleconomy` staging into a scratch data dir with the repo seed/taxonomy and diff the fueleconomy facts per variant.
+1. **EPA matching, rest** (A-30): the range-class rule is in PR #13. Still open: US model-year lag (US 2024 "Cooper SE" is the old F56 but lands on Mini J01) and the Kona SX2 row whose 36.5 kWh battery looks wrong in the release itself. Test on staging like this: copy `openev`, `kilowatt-openev`, `fueleconomy` staging into a scratch data dir with the repo seed/taxonomy and diff the fueleconomy facts per variant.
 2. **ERA5-Land loader** once `CDSAPI_KEY` is in the server env (Q-093): request in `sources/era5_land/adapter.py`.
 3. T-064 part 2, T-063 after the schema lands.
 4. R-21/R-22 follow-ups only if WS3 asks in the INBOX (START §3 item 8).
