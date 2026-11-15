@@ -34,4 +34,6 @@ Anything not named above.
 - Placed share, same staging (incl. T-053 history), before → after: NL RDW used 2018-24 86.5 → 88.4 %, NL fleet all ages 71.8 → 82.1 %, UK DfT 71.8 → 81.1 %, DE KBA 2025 49.2 → 80.8 %, DE KBA 2026 YTD 41.5 → 68.8 %, EEA 2025 DE 49.2 → 80.7, FR 44.6 → 71.7, BE 52.7 → 77.2, NL 46.4 → 77.9 %.
 - Open: `test_real_release.py::test_registrations_are_never_summed_across_sources_or_periods` fails since the T-053 EEA history staging (57 models, not seed-related); ruff E501 in `tests/test_pack_guard.py` (not this lane). See Q-083.
 
+WS1, 2026-11-15: part 2 (ID.7, Elroq, Q6, …) was already done by the overnight builder (above). Left: Kia EV3 and Hyundai Inster have only KilowattApp records (live check today: EV3 Long Range, Inster Standard/Long Range, 2024), and KilowattApp doesn't create rows; making it row-creating waits for Q-047 (provenance of KilowattApp values). EQE waits for Q-083. Nothing else for WS1 here.
+
 ## Review
