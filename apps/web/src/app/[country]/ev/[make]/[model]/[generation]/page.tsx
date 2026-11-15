@@ -1,0 +1,175 @@
+// Generation page (T-009): change markers, spec diff across variants, See listings, RDW count,
+// used-price band, voltage class / chemistry / 400 V behaviour.
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Num } from "@/components/Num";
+import { PriceBand } from "@/components/PriceBand";
+import { SeeListings } from "@/components/SeeListings";
+import { SpecDiff } from "@/components/SpecDiff";
+import { isCountrySlug } from "@/config/countries";
+import { getCatalogue } from "@/lib/catalogue";
+import { formatYears } from "@/lib/format";
+import { seeListings } from "@/lib/listings";
+import { DIFF_KEYS, fieldsFor, specDiff, SPEC_FIELDS, type SpecField } from "@/lib/spec-diff";
+import { FieldLabel, SpecValue, textValue } from "../../../_components/SpecValue";
+import { pageCtx, sourcesFor, type PageCtx } from "../../../_lib/context";
+import { firstWith, generationTitle, generationView, withCountries } from "../../../_lib/data";
+import { generationParams, generationRows, modelHref, variantHref } from "../../../_lib/routes";
+
+type Props = { params: Promise<{ country: string; make: string; model: string; generation: string }> };
+
+export function generateStaticParams() {
+  return withCountries(generationParams(getCatalogue().rows()));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { make, model, generation } = await params;
+  const r = generationRows(getCatalogue().rows(), make, model, generation)[0];
+  return r ? { title: generationTitle(r) } : {};
+}
+
+/** One value for the whole generation, or "differs by variant". */
+function Summary({ ctx, field, rows }: { ctx: PageCtx; field: Extract<SpecField, { kind: "text" }>; rows: Parameters<typeof textValue>[1][] }) {
+  const values = [...new Set(rows.map((r) => textValue(ctx, r, field.key)))];
+  return <>{values.length === 1 ? values[0] : `${ctx.pt("gen.mixed")}: ${values.join(", ")}`}</>;
+}
+
+export default async function GenerationPage({ params }: Props) {
+  const { country, make, model, generation } = await params;
+  if (!isCountrySlug(country)) notFound();
+  const ctx = await pageCtx(country);
+  const rows = generationRows(ctx.cat.rows(), make, model, generation);
+  if (!rows.length) notFound();
+  const { t, pt, cfg } = ctx;
+  const g = generationView(ctx.cat, rows);
+  const first = g.rows[0]!;
+  const modelName = `${first.make_name} ${first.model_name}`;
+  const fullName = generationTitle({ ...first, generation_name: g.name });
+  const diff = specDiff(g.rows, fieldsFor(DIFF_KEYS), cfg.code);
+  const rdw = firstWith(g.rows, "registered_count_nl");
+  const textField = (key: string) => SPEC_FIELDS.find((f) => f.key === key) as Extract<SpecField, { kind: "text" }>;
+  const keyFacts = ["voltage_class_id", "chemistry_id", "charger_400v_mode", "cooling_id"].map(textField);
+
+  return (
+    <>
+      <Breadcrumbs
+        label={t("nav.main")}
+        items={[{ label: pt("crumb.home"), href: `/${country}` }, { label: modelName, href: modelHref(country, first) }, { label: g.name }]}
+      />
+      <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{fullName}</h1>
+      <p className="mt-2 flex flex-wrap items-center gap-2 text-slate-800">
+        <span className="sr-only">{pt("years.label")}: </span>
+        <span className="tabular-nums">{formatYears(g.yearStart, g.yearEnd, t("years.now"))}</span>
+        {g.uncertain ? (
+          <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">
+            {pt("years.unchecked")}
+            <span className="sr-only">. {pt("years.unchecked.help")}</span>
+          </span>
+        ) : null}
+        {first.segment ? <span>· {t(`segment.${first.segment}`)}</span> : first.body ? <span>· {t(`body.${first.body}`)}</span> : null}
+      </p>
+
+      <section aria-labelledby="key-facts" className="mt-6">
+        <h2 id="key-facts" className="text-xl font-semibold">
+          {pt("gen.keyFacts")}
+        </h2>
+        <dl className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
+          {keyFacts.map((f) => (
+            <div key={f.key}>
+              <dt className="text-sm text-slate-700">
+                <FieldLabel ctx={ctx} field={f} />
+              </dt>
+              <dd className="font-medium">
+                <Summary ctx={ctx} field={f} rows={g.rows} />
+              </dd>
+            </div>
+          ))}
+          <div>
+            <dt className="text-sm text-slate-700">
+              {pt("gen.rdw")}
+            </dt>
+            <dd className="font-medium" data-testid="rdw-count">
+              <Num
+                value={rdw?.registered_count_nl}
+                digits={0}
+                provenance={rdw?.provenance.registered_count_nl}
+                sources={sourcesFor(ctx, rdw?.provenance.registered_count_nl)}
+                locale={ctx.locale}
+                labels={ctx.labels}
+                asOf={ctx.asOf}
+              />
+              <span className="sr-only">. {pt("gen.rdw.help")}</span>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm text-slate-700">{pt("gen.usedPrice", { country: cfg.name })}</dt>
+            <dd>
+              <PriceBand currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <div className="mt-6">
+        <SeeListings
+          links={seeListings(country, first)}
+          text={{
+            title: pt("listings.title"),
+            intro: pt("listings.intro", { name: modelName, country: cfg.name }),
+            newTab: pt("listings.newTab"),
+            unverified: pt("listings.unverified"),
+            none: pt("listings.none"),
+          }}
+        />
+      </div>
+
+      <section aria-labelledby="timeline" className="mt-8">
+        <h2 id="timeline" className="text-xl font-semibold">
+          {pt("gen.timeline")}
+        </h2>
+        {g.changeMarkers.length ? (
+          <ol className="mt-3 border-l-2 border-slate-300 pl-4">
+            {g.changeMarkers.map((m, i) => (
+              <li key={`${m.year}-${i}`} className="relative mb-3">
+                <span aria-hidden="true" className="absolute -left-[1.4rem] top-1.5 h-2.5 w-2.5 rounded-full bg-blue-800" />
+                <span className="font-semibold tabular-nums">{m.year}</span>: {m.text}
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="mt-2 text-slate-800">{pt("gen.timeline.empty")}</p>
+        )}
+      </section>
+
+      <section aria-labelledby="spec-diff" className="mt-8">
+        <h2 id="spec-diff" className="text-xl font-semibold">
+          {pt("gen.diff")}
+        </h2>
+        <p className="mb-2 mt-1 text-sm text-slate-700">{pt("gen.diff.legend")}</p>
+        <SpecDiff
+          caption={pt("gen.diff.caption", { name: fullName })}
+          fieldHeader={pt("gen.diff.fieldHeader")}
+          changedLabel={pt("gen.diff.changed")}
+          columns={diff.columns.map((r) => ({
+            key: r.variant_id,
+            header: (
+              <span className="flex flex-col">
+                <Link href={variantHref(country, r)} className="text-blue-800 underline underline-offset-2 hover:text-blue-950">
+                  {r.variant_name}
+                </Link>
+                <span className="text-xs font-normal tabular-nums text-slate-700">{formatYears(r.year_start, r.year_end, t("years.now"))}</span>
+              </span>
+            ),
+          }))}
+          rows={diff.rows.map((dr) => ({
+            key: dr.field.key,
+            label: <FieldLabel ctx={ctx} field={dr.field} />,
+            cells: dr.cells.map((c, i) => ({ changed: c.changed, content: <SpecValue ctx={ctx} row={diff.columns[i]!} field={dr.field} /> })),
+          }))}
+        />
+      </section>
+    </>
+  );
+}

@@ -130,7 +130,22 @@ Hyundai/Kia E-GMP 58 kWh packs are sold as 800 V but sit around 523 V nominal, w
 
 **Answer:**
 
+### Q-032 · UK threshold for "under €30k" · T-011 · builder · 2026-11-15
+**Default:** £26,000 for the UK (about €30,000 at late-2025 rates, rounded down to a common UK price point). It is set in `PRICE_THRESHOLD` (`apps/web/src/lib/rankings.ts`) and explained in the list's method note. Tonight only 7 variants have a price at all (DE, OpenEV), and all of them are over €30k, so the list shows "No priced models yet" in every country. OK, or should the threshold track an exchange rate?
+
+**Answer:**
+
+### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15
+The ev, top and learn pages have `generateStaticParams` for all 5 countries (1,552 paths), but `app/[country]/layout.tsx` calls `requestLang()` → `headers()`, so Next renders every route on demand (ƒ). This works and is fast (catalogue is cached in memory), but it is not static. **Default:** left as is; the pages turn static by themselves once language stops depending on the request (e.g. a `/[country]/[lang]` segment or language = country default plus a client switch). Is static output needed for launch?
+
+**Answer:**
+
 ## Closed
+
+### Q-031 · DC ranking: km in 10 or 20 minutes? · T-011 · builder · 2026-11-15
+The T-011 acceptance criterion says "Fastest DC km/10 min", but Decision 009 and the overnight brief say the DC ranking uses km added in **20** minutes. **Default:** `/[country]/top/fastest-dc` ranks by `dc_km_per_20min` (Decision 009). The 10-minute figure is still shown on variant pages and in compare. Please fix the acceptance line, or say if you want 10 min.
+
+**Answer:** Decision 009 (Menno's addendum) supersedes the original brief: the DC ranking uses km in 20 minutes. T-011 updated. Closed.
 
 ### Q-027 · `CATALOGUE_DIR` in `.env.example` · T-008 · builder · 2026-11-15
 The web app reads `data/releases/<latest>/catalogue.json` and accepts `CATALOGUE_DIR` to point elsewhere (e.g. in the Docker image). `.env.example` is outside the web lane. **Default:** documented in `apps/web/README.md` only. Coordinator: please add `CATALOGUE_DIR=` to `.env.example`.
