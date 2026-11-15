@@ -548,4 +548,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Small, reversible licence risk 🟡 (aggregates, credited, removable). Belgium charging can use EAFO now.
 
+## Decision 038: Dependabot patch and minor updates merge themselves; majors go to the coordinator
+
+**Status:** Accepted (Menno, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Dependabot opens weekly grouped PRs. Menno doesn't want them reaching him. The first one (PR #3, the `actions` group: setup-uv 7.6.0→10.3.3, setup-buildx 3.12.0→4.4.1, metadata 5.10.0→6.2.0, build-push 6.19.2→7.4.0, login 3.7.0→4.8.0) was all majors. Their breaking changes: the docker actions moved to Node 24 (GitHub-hosted runners have it; Node 20 left the runners on 16 Sept 2026), build-push v7 adds a build summary, setup-uv v8 dropped moving major tags and changed the `manifest-file` format (not used here) and v9 stopped pruning the cache by default. None of our inputs changed. The PR's CI ran the new versions green apart from the 5 MB check, which predates Decision 035's release exemption; a Dependabot rebase cleared it.
+
+**Decision:** `.github/workflows/dependabot-automerge.yml` runs after CI or Images. If the PR is from Dependabot, every check on its head commit is green (advisory `audit` aside) and every `update-type` in its commits is patch or minor, it squash-merges pinned to that commit. Otherwise it labels the PR `dependabot-major` and comments; the coordinator chat reviews the breaking changes, fixes inputs, merges and logs it here. Dependabot runs Mondays 09:00 Paris.
+
+**Consequences:** No Dependabot PR needs Menno. Merging doesn't deploy (deploy is a manual SSH step), and merges made with GITHUB_TOKEN don't start CI on main; the next push does. The repo is public, so these runs cost no Actions minutes 🟡. Undo: delete the workflow file.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

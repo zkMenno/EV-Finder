@@ -1,0 +1,73 @@
+name: Dependabot auto-merge
+
+# Standing rule for Dependabot PRs (Decision 038, Menno 2026-11-15):
+# - every update in the PR is a patch or minor, and every check on its head commit is green
+#   → squash-merge it, pinned to that commit;
+# - any major update (or a PR whose update types can't be read) → label `dependabot-major` and
+#   leave it for the coordinator chat to review. Menno only hears about it from that chat.
+# Runs after CI or Images finishes, so whichever finishes last makes the call. It never checks
+# out or runs PR code: it only reads the PR through the API, so `workflow_run` stays safe here.
+# Note: a merge made with GITHUB_TOKEN doesn't start new runs on main; the next push does.
+on:
+  workflow_run:
+    workflows: [CI, Images]
+    types: [completed]
+
+permissions: {}
+
+concurrency:
+  group: dependabot-automerge-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  decide:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      startsWith(github.event.workflow_run.head_branch, 'dependabot/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      SHA: ${{ github.event.workflow_run.head_sha }}
+      BRANCH: ${{ github.event.workflow_run.head_branch }}
+    steps:
+      - name: Merge patch/minor, flag majors
+        run: |
+          set -euo pipefail
+          owner="${REPO%%/*}"
+          pr=$(gh api "repos/$REPO/pulls?state=open&head=$owner:$BRANCH" --jq '.[0].number // empty')
+          [ -n "$pr" ] || { echo "No open PR for $BRANCH"; exit 0; }
+          author=$(gh api "repos/$REPO/pulls/$pr" --jq .user.login)
+          head=$(gh api "repos/$REPO/pulls/$pr" --jq .head.sha)
+          [ "$author" = "dependabot[bot]" ] || { echo "Not a Dependabot PR"; exit 0; }
+          [ "$head" = "$SHA" ] || { echo "PR moved on since this run; a later run decides"; exit 0; }
+
+          # All checks on this commit must be done and green. `audit` is advisory (continue-on-error,
+          # not part of ci-ok), and this workflow's own run is still in progress, so both are ignored.
+          checks=$(gh api --paginate "repos/$REPO/commits/$SHA/check-runs?per_page=100" \
+            --jq '.check_runs[] | select(.name != "audit" and .name != "decide") | "\(.status) \(.conclusion) \(.name)"')
+          echo "$checks"
+          if echo "$checks" | grep -qv '^completed '; then echo "Checks still running; a later run decides"; exit 0; fi
+          if echo "$checks" | grep -Ev '^completed (success|skipped|neutral) ' | grep -q .; then
+            echo "A check failed: leaving it for review"; exit 0
+          fi
+
+          # Dependabot writes one `update-type: version-update:semver-…` line per dependency into
+          # its commit message. Grouped PRs carry several.
+          types=$(gh api "repos/$REPO/pulls/$pr/commits" --jq '.[].commit.message' \
+            | grep -oE 'update-type: version-update:semver-[a-z]+' | sed 's/.*semver-//' | sort -u || true)
+          echo "Update types: ${types:-none found}"
+          if [ -z "$types" ] || echo "$types" | grep -qvE '^(patch|minor)$'; then
+            labels=$(gh api "repos/$REPO/issues/$pr/labels" --jq '.[].name')
+            if ! echo "$labels" | grep -qx dependabot-major; then
+              gh api -X POST "repos/$REPO/issues/$pr/labels" -f 'labels[]=dependabot-major' >/dev/null
+              gh api -X POST "repos/$REPO/issues/$pr/comments" -f body="Contains a major update (or update types I couldn't read): not auto-merged. The coordinator chat reviews the breaking changes and merges (Decision 038)." >/dev/null
+            fi
+            exit 0
+          fi
+          gh api -X PUT "repos/$REPO/pulls/$pr/merge" -f merge_method=squash -f sha="$SHA" --jq .message
