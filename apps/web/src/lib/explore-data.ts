@@ -1,7 +1,7 @@
 // Compact rows shipped to the browser for Explore. Same field names as PublishedVariant,
 // only the columns Explore needs, nulls dropped. Pure: safe on server and client.
 import type { FieldProvenance, PublishedVariant, Source } from "@ev/schema";
-import { compactBands, type CompactBands, type VariantUsedPrices } from "./variant-prices";
+import type { CompactBands, VariantBand, VariantUsedPrices } from "./variant-prices";
 
 export const EXPLORE_FIELDS = [
   "variant_id",
@@ -112,4 +112,14 @@ export function sourceNames(sources: Source[]): Record<string, string> {
 
 export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[], used?: VariantUsedPrices): ClientCatalogue {
   return { release, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used)) };
+}
+
+/** Compact per-row bands for the client catalogue (T-092). */
+export function compactBands(per: Record<string, VariantBand[]> | undefined): CompactBands | undefined {
+  if (!per) return undefined;
+  const out: CompactBands = {};
+  for (const [cc, list] of Object.entries(per)) {
+    out[cc] = list.map((b) => [b.build_year, b.p25, b.median, b.p75, (b.estimate ? 1 : 0) | (b.confidence === "low" ? 2 : 0)]);
+  }
+  return out;
 }

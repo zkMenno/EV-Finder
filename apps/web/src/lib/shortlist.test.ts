@@ -192,7 +192,8 @@ describe("rankHero", () => {
 
 describe("per-variant used bands by build year (T-081)", async () => {
   const { variantFit } = await import("./shortlist");
-  const { parseVariantUsedPrices, compactBands } = await import("./variant-prices");
+  const { parseVariantUsedPrices } = await import("./variant-prices");
+  const { compactBands } = await import("./explore-data");
   const doc = {
     variants: [
       {

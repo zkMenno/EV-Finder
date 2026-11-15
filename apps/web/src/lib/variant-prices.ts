@@ -62,11 +62,5 @@ export function parseVariantUsedPrices(doc: unknown): VariantUsedPrices {
   return out;
 }
 
-export function compactBands(per: Record<string, VariantBand[]> | undefined): CompactBands | undefined {
-  if (!per) return undefined;
-  const out: CompactBands = {};
-  for (const [cc, list] of Object.entries(per)) {
-    out[cc] = list.map((b) => [b.build_year, b.p25, b.median, b.p75, (b.estimate ? 1 : 0) | (b.confidence === "low" ? 2 : 0)]);
-  }
-  return out;
-}
+// compactBands lives in explore-data.ts (scripts/budget.mjs loads that file in plain Node, which
+// needs it to have no runtime imports).
