@@ -2,7 +2,7 @@
 # isn't flooded (Decision 054); security updates still open on their own as soon as an advisory lands.
 # Patch/minor PRs merge themselves once every check is green; majors get the `dependabot-major`
 # label for the coordinator chat (Decision 039, .github/workflows/dependabot-automerge.yml).
-# First Monday of the month, 09:00 Paris, so merges land in the daytime.
+# Monthly runs land on the 1st at 09:00 Paris (`day` only applies to weekly), so merges land in the daytime.
 version: 2
 updates:
   - package-ecosystem: github-actions
