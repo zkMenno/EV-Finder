@@ -66,7 +66,7 @@ Research (all on the branch): R-02 launch countries, R-06 future markets, R-07 E
 - **Two-source agreement is low:** 0–25% of top-40 headline fields have 2+ agreeing sources (target 80%). Most fields rest on one source or the hand-entered seed.
 - **Pre-2020 specs:** no open licensed source yet (Q-007, T-052).
 - **Per-car bidirectional data, clue table, lookalike groups:** schemas are in; data is WS3 work (T-019, T-046, T-047).
-- **Deploy:** files written, nothing applied (WS4). arm64 images are built in CI only.
+- **Deploy:** files written, nothing applied (WS4). 🟢 arm64 images build in CI (Images workflow green on the PR).
 - **EAFO and maker documents:** blocked on licences (Q-077, Q-008).
 
 ## 5. Questions for Menno (most important first, max 7)
