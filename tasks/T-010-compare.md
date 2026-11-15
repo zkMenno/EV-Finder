@@ -29,3 +29,14 @@ Anything outside the lane above. No auth, no pg-boss, no Postgres tonight.
 Checks: `pnpm --filter @ev/web lint`, `typecheck`, `test` (15 files, 110 tests) and `build` all pass; `pnpm e2e` smoke (2 tests) passes. Pages checked by hand against release 1 with `next start` (200s for known ids; 404 for an unknown country, model, generation, variant or list).
 
 ## Review
+
+**Reviewer, 2026-11-15 (fresh agent). Verdict: changes needed (shared DC bug from T-009), otherwise pass.**
+
+- [x] `?ids=` drives the page; the tray's `compareHref()` output round-trips (unit) and the tray → compare link works from another country (`/de/compare?ids=a,b`, new e2e). Reload of the compare page keeps the tray.
+- [x] Differences highlighted with amber + ◆ + sr-only "differs" (not colour alone); slate-900 on amber-50 = 17:1.
+- [x] Print stylesheet hides chrome; `noindex`.
+- [x] Every number through `Num` (`CompareTable` → `SpecValue`). Malformed ids (`?ids=<script>`) render a normal page, nothing reflected unescaped.
+- [x] No foreign requests (new e2e).
+
+Changes needed:
+1. Same as T-009 #1: for a car without DC data the compare table shows "On 400 V chargers: native/booster" and "Power on 400 V chargers: 50 kW" (checked on release 1 with `hyundai-ioniq-6-gen1-53kwh-rwd`; fixture: `renault-zoe-x10-r240`). It also makes such a car "differ" in that row. Fix in the shared helper; the `test.fail()` e2e covers the compare page.

@@ -28,3 +28,13 @@ Anything outside the lane above. No auth, no pg-boss, no Postgres tonight.
 Checks: `pnpm --filter @ev/web lint`, `typecheck`, `test` (15 files, 110 tests) and `build` all pass; `pnpm e2e` smoke (2 tests) passes. Pages checked by hand against release 1 with `next start` (200s for known ids; 404 for an unknown country, model, generation, variant or list).
 
 ## Review
+
+**Reviewer, 2026-11-15 (fresh agent). Verdict: pass.**
+
+- [x] Three lists with method notes, honest "N of M values are estimates" lines computed from provenance; values through `Num` (`top/[list]/page.tsx:44,99`); rank is a position, not a Fact.
+- [x] Fastest DC uses `dc_km_per_20min` (Decision 009) and only rows with a positive value (`lib/rankings.ts:57`), so cars without DC data are never ranked. All 99 release-1 values are estimates and the page says so.
+- [x] Under-€30k list leaves unpriced rows out and shows "No priced models yet" on release 1 rather than guessing.
+- [x] Table semantics: caption, `scope`, car as row header; scroll region is focusable with a label.
+- [x] No foreign requests on `/nl/top` and `/nl/top/fastest-dc` (new e2e).
+
+Note (no change needed now): Q-031 (km/10 min in the acceptance line vs km/20 min built) is still open.

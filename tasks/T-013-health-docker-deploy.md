@@ -1,6 +1,6 @@
 # T-013 Health docker deploy
 Role: builder   Lane: apps/web/Dockerfile, infra/   Wave: 3
-Status: todo
+Status: review
 
 ## Goal
 /health, arm64 Dockerfile, compose and Caddy files (not applied).
@@ -60,3 +60,23 @@ Findings
 4. `COPY --from=ghcr.io/astral-sh/uv:latest` (`pipeline/Dockerfile:11`) is unpinned, so builds aren't reproducible. Pin a version tag.
 5. The second `uv sync` (`pipeline/Dockerfile:35-37`) doesn't mount the optional `extra_ca` secret, unlike the first. A local build behind the proxy failed at that step (`hatchling` fetch) while the first step passed. No effect in CI, but the two should match.
 6. The jobs container mounts only `/srv/ev/data`, so seed, taxonomy, sources.yaml and field_sources.yaml have to be on the server already. That's undocumented in `infra/README.md`. Either bake them into the image or add a sync step.
+
+## Fixes after review
+
+**Builder (pipeline lane), 2026-11-15.**
+1. Status set to `review`. The arm64 box stays unticked until the first `Images` run on a native Arm runner.
+2. `images.yml` also runs on `pull_request` touching apps/web, pipeline, packages, any Dockerfile,
+   .dockerignore, root package/lock files or the workflow. PR builds have no registry login,
+   `push: false`, no provenance/SBOM, and read but never write the gha cache.
+3. `.dockerignore` excludes `pipeline/tests` (fixtures stay out of the jobs image). Also added
+   `!config/countries/` for the web build (coordinator request).
+4. `pipeline/Dockerfile`: uv pinned via `ARG UV_VERSION=0.11.32` (`FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv`;
+   matches local `uv --version`, tag checked: amd64 + arm64). The second `uv sync` now gets the same optional `extra_ca`
+   secret mount as the first.
+5. Verified locally (amd64): the jobs image builds with the proxy CA secret, `ev version` runs with a read-only rootfs,
+   `/app/pipeline/tests` is absent, and uv in the image is 0.11.32.
+- Not done: the coordinator asked for `COPY config/countries config/countries` in the `apps/web/Dockerfile`
+  build stage. That file is in the apps/web lane, which this run was told not to touch, so the edit was not
+  made. Until someone adds it, the web image build keeps using the committed `listings.generated.json`
+  (the current Dockerfile comment says so).
+- Finding 6 (jobs container needs seed/taxonomy/sources on the server) is infra and still open.

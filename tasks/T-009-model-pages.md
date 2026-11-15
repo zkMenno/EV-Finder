@@ -37,3 +37,14 @@ For the Explore/i18n owner (I did not edit these files):
 Open: Q-033 (pages render on demand because the layout reads headers()).
 
 ## Review
+
+**Reviewer, 2026-11-15 (fresh agent). Verdict: changes needed (one honesty bug), otherwise pass.**
+
+- [x] Source + confidence on every number: all numeric spec fields go through `SpecValue` → `Num` (`app/[country]/ev/_components/SpecValue.tsx:59-92`); RDW count via `Num` on model and generation pages. Model years are raw text (no provenance exists for years in release 1, see T-008 review).
+- [x] See listings per country: links come from `config/countries/*.yaml`, render `rel="nofollow noopener" target="_blank"` (checked on `/nl/ev/tesla/model-3/gen1`), nothing is fetched, "unverified" note shown.
+- [x] RDW count for NL with the `registrations-nl` ⓘ.
+- [x] `not-disclosed` renders "not disclosed" (`SpecValue.tsx:35`).
+- [x] Unknown country/model/generation/variant → 404; no foreign requests from model, generation or variant pages (new e2e `T-017: every page talks only to our own origin`).
+
+Changes needed:
+1. **No DC data, but the spec sheet still describes DC behaviour.** Explore hides "On 400 V chargers" when `dc_peak_kw` is missing (coordinator rule, `Explore.tsx:592`), but `SpecValue` has no such rule: `textValue()` (`SpecValue.tsx:43`) prints the `charger_400v_mode` and the numeric path (`SpecValue.tsx:75`) prints `charger_400v_kw`. On release 1, 22 cars without any DC figure show "On 400 V chargers: native", and `hyundai-ioniq-6-gen1-53kwh-rwd` shows "booster" + "50 kW" with no DC peak. The generation key facts (`[generation]/page.tsx:55`) and the spec diff (`DIFF_KEYS` includes `charger_400v_mode`) inherit it. Fix: one shared helper (e.g. `hasDcData(row)` in `lib/spec-diff.ts`) used by Explore, `SpecValue`, `cellValue()` and the key facts, so `charger_400v_mode`/`charger_400v_kw`/`fast_on_400v` read as missing when there is no DC data. The e2e `T-009/T-010: spec sheets show no 400 V charger behaviour…` in `e2e/review.spec.ts` is marked `test.fail()` and documents this; remove the marker once fixed.

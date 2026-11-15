@@ -79,3 +79,24 @@ For the coordinator:
 - Any edit to `config/countries/*.yaml` must be followed by `pnpm --filter @ev/web listings` and committing the JSON, or the unit test fails.
 
 ## Review
+
+**Reviewer, 2026-11-15 (fresh agent, proto/overnight-1). Verdict: pass, with minor follow-ups.**
+
+Checked against the acceptance criteria and the brief's quality bar, on the fixture (e2e) and on release 1 (`next start`).
+
+- [x] First 25 rows server-rendered; client filtering from `/data/catalogue-1.json` (same origin, immutable, 34.7 KB gz).
+- [x] Compare tray survives reload, navigation **and a country switch** (`/nl` → `/de`; store is not keyed by country, the tray link uses the new country). New e2e: `e2e/review.spec.ts` "compare tray survives a country switch".
+- [x] URL state round-trips: `/nl?range=200&sort=-range&view=cards&level=nerd` survives hydration and reload (new e2e). `state.test.ts` round-trips URL and JSON.
+- [x] Every number goes through `Num` (`num()` / `priceCell()` in `src/components/Explore.tsx:541-585`). Years (`formatYears`) are rendered raw, but release 1 carries no provenance for `year_start`/`year_end` at all (210/161 rows), so that is a pipeline/schema gap, not a UI bypass.
+- [x] No DC shown for cars without DC data: `charger400()` (`Explore.tsx:590-592`) returns "—" when `dc_peak_kw` is missing; release 1 has 0 rows with a derived DC figure but no peak. New e2e checks the Zoe R240 row (DC and "On older chargers" both "—").
+- [x] Keyboard: skip link is the first Tab stop and gets the 3 px outline; sort buttons work with Enter and `aria-sort` follows; compare toggle works with Space; tray "×" works with Enter (new e2e).
+- [x] Contrast (Tailwind 4 oklch → sRGB, WCAG 2.x): body/secondary text slate-700 on white 10.3:1, notes slate-600 7.6:1, missing "—" slate-500 4.8:1 (4.55:1 on the hovered slate-50 row — passes AA, barely), links blue-800 8.8:1, quality badges 8.3 / 8.5 / 13.5:1, white on blue-800 8.8:1. All AA.
+- [x] No `<img>`; icons (heart SVG, ✓/+, ↕) are `aria-hidden` with text labels.
+
+Changes requested (minor, none block):
+1. `Explore.tsx:623`: at Nerd level the chemistry cell appends the raw `cell_format`, so release 1 shows "· not-disclosed" for 3 rows. Run it through `named()` / `t("notDisclosed")`.
+2. `Explore.tsx:229-236`: the "show more" button's accessible name is just "+ 13". Add a label ("Show 13 more").
+3. `Num.tsx:65`: the missing-value "—" has no text for screen readers (read as "dash" or skipped). Add sr-only "no data".
+4. `Explore.tsx:800`: when the tray is full the compare toggle is `disabled`, so keyboard users can't reach it to hear why. Prefer `aria-disabled` + the existing "full" label.
+5. Keyboard cost: every number is a `<button>` (popover), so a 25-row Detailed table has about 200 Tab stops before the "show more" button. Acceptable for the prototype; consider a "skip table" link or one Tab stop per row later.
+6. `PriceBand.tsx:44`: once samples exist, the price band will print money outside `Num` (no provenance). It always says "Not enough data" today; route it through `Num` before price sampling lands.
