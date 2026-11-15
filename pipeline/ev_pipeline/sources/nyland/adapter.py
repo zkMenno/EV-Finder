@@ -86,6 +86,13 @@ def normalise(raw_dir: Path, retrieved_at: date) -> list[SourceRecord]:
     return records
 
 
+def scrub_error(exc: httpx.HTTPError) -> str:
+    """A log-safe description of a fetch error: no URL, no host, no query string."""
+    if isinstance(exc, httpx.HTTPStatusError):
+        return f"HTTP {exc.response.status_code}"
+    return type(exc).__name__
+
+
 def fetch_cmd(client: httpx.Client | None = None) -> int:
     url = os.environ.get(ENV_URL, "").strip()
     if not url:
@@ -101,7 +108,9 @@ def fetch_cmd(client: httpx.Client | None = None) -> int:
         resp = client.get(url)
         resp.raise_for_status()
     except httpx.HTTPError as exc:
-        print(f"fetch {NAME}: failed: {exc}")
+        # Never print the exception text: httpx puts the full URL in it, and the URL is
+        # private (T-004 review). Status code or error class only.
+        print(f"fetch {NAME}: failed: {scrub_error(exc)}")
         return 1
     finally:
         if own:

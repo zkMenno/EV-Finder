@@ -86,9 +86,13 @@ def test_two_agreeing_is_not_a_majority() -> None:
     assert m.value == 60 and m.rule == "priority"
 
 
-def test_recency_breaks_ties_within_a_source() -> None:
-    newer_year = merge_facts([mf("openev", 602, "a", year=2022), mf("openev", 629, "b", year=2023)])
-    assert newer_year.value == 629
+def test_earliest_model_year_then_recency_break_ties_within_a_source() -> None:
+    # T-005 review: a variant spanning years shows its first model year's specs, not the newest.
+    earliest = merge_facts([mf("openev", 629, "b", year=2023), mf("openev", 602, "a", year=2022)])
+    assert earliest.value == 602
+    assert [c.fact.value for c in earliest.conflicts] == [629]  # the change is listed, not lost
+    no_year = merge_facts([mf("openev", 55, "n", year=None), mf("openev", 50, "y", year=2024)])
+    assert no_year.value == 50  # a fact without a model year ranks last
     newer_fetch = merge_facts(
         [
             mf("openev", 602, "a", year=2023, retrieved=date(2026, 11, 15)),

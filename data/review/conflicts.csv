@@ -1,490 +1,80 @@
 variant_id,field,source_id,value,unit,winning_value,tolerance,fact_id
-audi-e-tron-q8-base,consumption_kwh_100km,eea,29.0,kWh/100km,18.54,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|AUDI|Q8 E-TRON DAKAR|2025#type_approval_avg:consumption_kwh_100km
-audi-e-tron-q8-base,consumption_kwh_100km,eea,23.55,kWh/100km,18.54,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|AUDI|E-TRON SPORTBACK 55|2025#type_approval_avg:consumption_kwh_100km
-audi-e-tron-q8-base,consumption_kwh_100km,eea,23.3,kWh/100km,18.54,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|Q8 E-TRON DAKAR|2025#type_approval_avg:consumption_kwh_100km
-audi-e-tron-q8-base,consumption_kwh_100km,eea,28.0,kWh/100km,18.54,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON S|2025#type_approval_avg:consumption_kwh_100km
-audi-e-tron-q8-base,consumption_kwh_100km,eea,23.9,kWh/100km,18.54,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON SPORTBACK 55|2025#type_approval_avg:consumption_kwh_100km
-audi-e-tron-q8-base,consumption_kwh_100km,eea,19.12,kWh/100km,18.54,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON GT|2025#type_approval_avg:consumption_kwh_100km
-audi-e-tron-q8-base,consumption_kwh_100km,eea,19.68,kWh/100km,18.54,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|E-TRON GT|2025#type_approval_avg:consumption_kwh_100km
-audi-e-tron-q8-base,weight_kg,eea,2354.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|AUDI|E-TRON GT|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2595.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|AUDI|E-TRON SPORTBACK 55|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2354.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|AUDI|E-TRON GT|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2585.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|Q8 E-TRON|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2712.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON S|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2595.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON SPORTBACK 55|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2353.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON GT|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2585.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI Q8 E-TRON|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,weight_kg,eea,2352.0,kg,2665.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|E-TRON GT|2025#type_approval_avg:weight_kg
-audi-e-tron-q8-base,wltp_range_km,eea,233.0,km,588.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|AUDI|Q8 E-TRON DAKAR|2025#type_approval_avg:wltp_range_km
-audi-e-tron-q8-base,wltp_range_km,eea,414.0,km,588.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|AUDI|E-TRON SPORTBACK 55|2025#type_approval_avg:wltp_range_km
-audi-e-tron-q8-base,wltp_range_km,eea,381.0,km,588.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|Q8 E-TRON DAKAR|2025#type_approval_avg:wltp_range_km
-audi-e-tron-q8-base,wltp_range_km,eea,349.0,km,588.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON S|2025#type_approval_avg:wltp_range_km
-audi-e-tron-q8-base,wltp_range_km,eea,408.0,km,588.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON SPORTBACK 55|2025#type_approval_avg:wltp_range_km
-audi-e-tron-q8-base,wltp_range_km,eea,563.0,km,588.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E-TRON GT|2025#type_approval_avg:wltp_range_km
-audi-e-tron-q8-base,wltp_range_km,eea,533.0,km,588.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|E-TRON GT|2025#type_approval_avg:wltp_range_km
-audi-e-tron-q8-quattro,accel_0_100_s,openev,4.1,s,5.7,±0.2 s,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:accel_0_100_s
-audi-e-tron-q8-quattro,accel_0_100_s,openev,4.1,s,5.7,±0.2 s,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:accel_0_100_s
-audi-e-tron-q8-quattro,accel_0_100_s,openev,4.1,s,5.7,±0.2 s,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:accel_0_100_s
-audi-e-tron-q8-quattro,battery_kwh_gross,openev,93.4,kWh,106.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:battery_kwh_gross
-audi-e-tron-q8-quattro,battery_kwh_gross,openev,93.4,kWh,106.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:battery_kwh_gross
-audi-e-tron-q8-quattro,battery_kwh_gross,openev,93.4,kWh,106.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:battery_kwh_gross
-audi-e-tron-q8-quattro,battery_kwh_net,openev,85.0,kWh,100.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:battery_kwh_net
-audi-e-tron-q8-quattro,battery_kwh_net,openev,85.0,kWh,100.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:battery_kwh_net
-audi-e-tron-q8-quattro,battery_kwh_net,openev,85.0,kWh,100.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:battery_kwh_net
-audi-e-tron-q8-quattro,dc_peak_kw,openev,270.0,kW,150.0,±5%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:dc_peak_kw
-audi-e-tron-q8-quattro,dc_peak_kw,openev,270.0,kW,150.0,±5%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:dc_peak_kw
-audi-e-tron-q8-quattro,dc_peak_kw,openev,270.0,kW,150.0,±5%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:dc_peak_kw
-audi-e-tron-q8-quattro,epa_range_km,openev,383.0,km,446.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:epa_range_km
-audi-e-tron-q8-quattro,epa_range_km,openev,383.0,km,446.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:epa_range_km
-audi-e-tron-q8-quattro,epa_range_km,openev,383.0,km,446.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:epa_range_km
-audi-e-tron-q8-quattro,height_mm,openev,1410.0,mm,1616.0,±3%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:height_mm
-audi-e-tron-q8-quattro,height_mm,openev,1410.0,mm,1616.0,±3%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:height_mm
-audi-e-tron-q8-quattro,height_mm,openev,1410.0,mm,1616.0,±3%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:height_mm
-audi-e-tron-q8-quattro,length_mm,openev,4990.0,mm,4915.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:length_mm
-audi-e-tron-q8-quattro,length_mm,openev,4990.0,mm,4915.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:length_mm
-audi-e-tron-q8-quattro,length_mm,openev,4990.0,mm,4915.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:length_mm
-audi-e-tron-q8-quattro,power_kw,openev,390.0,kW,300.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:power_kw
-audi-e-tron-q8-quattro,power_kw,openev,390.0,kW,300.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:power_kw
-audi-e-tron-q8-quattro,power_kw,openev,390.0,kW,300.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:power_kw
-audi-e-tron-q8-quattro,top_speed_kmh,openev,245.0,km/h,200.0,±3%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:top_speed_kmh
-audi-e-tron-q8-quattro,top_speed_kmh,openev,245.0,km/h,200.0,±3%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:top_speed_kmh
-audi-e-tron-q8-quattro,top_speed_kmh,openev,245.0,km/h,200.0,±3%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:top_speed_kmh
-audi-e-tron-q8-quattro,weight_kg,openev,2347.0,kg,2620.0,±1%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:weight_kg
-audi-e-tron-q8-quattro,weight_kg,openev,2347.0,kg,2620.0,±1%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:weight_kg
-audi-e-tron-q8-quattro,weight_kg,openev,2347.0,kg,2620.0,±1%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:weight_kg
-audi-e-tron-q8-quattro,wheelbase_mm,openev,2900.0,mm,2928.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:wheelbase_mm
-audi-e-tron-q8-quattro,wheelbase_mm,openev,2900.0,mm,2928.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:wheelbase_mm
-audi-e-tron-q8-quattro,wheelbase_mm,openev,2900.0,mm,2928.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:wheelbase_mm
-audi-e-tron-q8-quattro,width_mm,openev,1960.0,mm,1937.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:width_mm
-audi-e-tron-q8-quattro,width_mm,openev,1960.0,mm,1937.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:width_mm
-audi-e-tron-q8-quattro,width_mm,openev,1960.0,mm,1937.0,±10 mm,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:width_mm
-audi-e-tron-q8-quattro,wltp_range_km,openev,488.0,km,582.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2025/e_tron_gt.json:wltp_range_km
-audi-e-tron-q8-quattro,wltp_range_km,openev,488.0,km,582.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2024/e_tron_gt.json:wltp_range_km
-audi-e-tron-q8-quattro,wltp_range_km,openev,488.0,km,582.0,±2%,openev:src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json:wltp_range_km
 audi-q4-e-tron-gen1-40,battery_kwh_net,seed-manual,77.0,kWh,48.0,±2%,seed-manual:audi-q4-e-tron-gen1-40:battery_kwh_net
 audi-q4-e-tron-gen1-40,power_kw,seed-manual,150.0,kW,125.0,±2%,seed-manual:audi-q4-e-tron-gen1-40:power_kw
-bmw-i4-g26-base,consumption_kwh_100km,eea,19.06,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 M50|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,18.53,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 M50 XDRIVE|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,16.21,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 EDRIVE40|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,15.83,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 EDRIVE35|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,18.78,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M60 XDRIVE|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,19.6,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M50|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,19.2,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M50 XDRIVE|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,15.83,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 EDRIVE40|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,15.53,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 EDRIVE35|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,19.75,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 M50|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,19.09,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 M50 XDRIVE|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,16.07,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 EDRIVE 40|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,15.64,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 EDRIVE 35|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,19.7,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 M50|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,19.2,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 M50 XDRIVE|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,16.03,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 EDRIVE40|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,consumption_kwh_100km,eea,15.59,kWh/100km,17.82,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 EDRIVE35|2025#type_approval_avg:consumption_kwh_100km
-bmw-i4-g26-base,weight_kg,eea,2285.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 M60 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 M50|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 M50 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2123.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 EDRIVE40|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2073.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 EDRIVE35|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2285.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M60 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M50|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M50 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2122.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 EDRIVE40|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2072.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 EDRIVE35|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2285.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 M60 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 M50|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 M50 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2123.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 EDRIVE 40|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2073.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 EDRIVE 35|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2285.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 M60 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 M50|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2290.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 M50 XDRIVE|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2124.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 EDRIVE40|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,weight_kg,eea,2073.0,kg,2260.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 EDRIVE35|2025#type_approval_avg:weight_kg
-bmw-i4-g26-base,wltp_range_km,eea,496.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 M50|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,497.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 M50 XDRIVE|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,570.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 EDRIVE40|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,480.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BMW|I4 EDRIVE35|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,492.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M60 XDRIVE|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,484.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M50|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,481.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 M50 XDRIVE|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,583.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 EDRIVE40|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,488.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BMW|I4 EDRIVE35|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,480.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 M50|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,484.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 M50 XDRIVE|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,574.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 EDRIVE 40|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,485.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I4 EDRIVE 35|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,481.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 M50|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,481.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 M50 XDRIVE|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,576.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 EDRIVE40|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-base,wltp_range_km,eea,486.0,km,515.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I4 EDRIVE35|2025#type_approval_avg:wltp_range_km
-bmw-i4-g26-edrive35,battery_kwh_gross,openev,68.7,kWh,70.3,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json+src/bmw/i4/2023/i4_edrive35.json:battery_kwh_gross
-bmw-i4-g26-edrive40,epa_range_km,openev,486.0,km,512.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json:epa_range_km
-bmw-i4-g26-edrive40,epa_range_km,openev,486.0,km,512.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_edrive40.json:epa_range_km
-bmw-i4-g26-edrive40,epa_range_km,openev,483.0,km,512.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json:epa_range_km
-bmw-i4-g26-edrive40,epa_range_km,openev,483.0,km,512.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json+src/bmw/i4/2023/i4_edrive40.json:epa_range_km
-bmw-i4-g26-m50,epa_range_km,openev,394.0,km,429.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json+src/bmw/i4/2023/i4_m50.json:epa_range_km
-bmw-i4-g26-m50,wltp_range_km,openev,510.0,km,521.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json+src/bmw/i4/2023/i4_m50.json:wltp_range_km
-byd-atto-3-gen1-standard-range,weight_kg,openev,1750.0,kg,1690.0,±1%,openev:src/byd/yuan_plus/base.json+src/byd/yuan_plus/2024/yuan_plus.json:weight_kg
-byd-atto-3-gen1-standard-range,weight_kg,openev,1750.0,kg,1690.0,±1%,openev:src/byd/yuan_plus/base.json+src/byd/yuan_plus/2023/yuan_plus.json:weight_kg
-byd-atto-3-gen1-standard-range,wltp_range_km,openev,320.0,km,345.0,±2%,openev:src/byd/yuan_plus/base.json+src/byd/yuan_plus/2024/yuan_plus.json:wltp_range_km
-byd-atto-3-gen1-standard-range,wltp_range_km,openev,320.0,km,345.0,±2%,openev:src/byd/yuan_plus/base.json+src/byd/yuan_plus/2023/yuan_plus.json:wltp_range_km
-citroen-e-c4-c41-base,boot_l,openev,380.0,l,510.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:boot_l
-citroen-e-c4-c41-base,boot_l,openev,380.0,l,510.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:boot_l
+bmw-i4-g26-edrive35,battery_kwh_gross,openev,70.3,kWh,68.7,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_edrive35.json:battery_kwh_gross
+bmw-i4-g26-edrive35,battery_kwh_gross,openev,70.3,kWh,68.7,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_edrive35.json:battery_kwh_gross
+bmw-i4-g26-edrive35,epa_range_km,openev,406.0,km,418.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_edrive35.json:epa_range_km
+bmw-i4-g26-edrive40,epa_range_km,openev,512.0,km,483.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json:epa_range_km
+bmw-i4-g26-edrive40,epa_range_km,openev,512.0,km,483.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_edrive40.json:epa_range_km
+bmw-i4-g26-m50,epa_range_km,openev,435.0,km,394.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_m50.json:epa_range_km
+bmw-i4-g26-m50,epa_range_km,openev,429.0,km,394.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_m50.json:epa_range_km
+bmw-i4-g26-m50,wltp_range_km,openev,521.0,km,510.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_m50.json:wltp_range_km
 citroen-e-c4-c41-base,boot_l,openev,380.0,l,510.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2023/e_c4.json:boot_l
-citroen-e-c4-c41-base,length_mm,openev,4360.0,mm,4600.0,±10 mm,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:length_mm
-citroen-e-c4-c41-base,length_mm,openev,4360.0,mm,4600.0,±10 mm,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:length_mm
+citroen-e-c4-c41-base,boot_l,openev,380.0,l,510.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:boot_l
+citroen-e-c4-c41-base,boot_l,openev,380.0,l,510.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:boot_l
 citroen-e-c4-c41-base,length_mm,openev,4360.0,mm,4600.0,±10 mm,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2023/e_c4.json:length_mm
-citroen-e-c4-c41-base,weight_kg,openev,1580.0,kg,1646.0,±1%,openev:src/citroen/e_c4_x/base.json+src/citroen/e_c4_x/2025/e_c4_x.json:weight_kg
-citroen-e-c4-c41-base,weight_kg,openev,1550.0,kg,1646.0,±1%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:weight_kg
-citroen-e-c4-c41-base,weight_kg,openev,1580.0,kg,1646.0,±1%,openev:src/citroen/e_c4_x/base.json+src/citroen/e_c4_x/2024/e_c4_x.json:weight_kg
-citroen-e-c4-c41-base,weight_kg,openev,1550.0,kg,1646.0,±1%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:weight_kg
-citroen-e-c4-c41-base,weight_kg,openev,1580.0,kg,1646.0,±1%,openev:src/citroen/e_c4_x/base.json+src/citroen/e_c4_x/2023/e_c4_x.json:weight_kg
-citroen-e-c4-c41-base,weight_kg,openev,1550.0,kg,1646.0,±1%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2023/e_c4.json:weight_kg
-citroen-e-c4-c41-base,wltp_range_km,eea,424.0,km,413.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CITROEN|E-C4 X|2025#type_approval_avg:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,eea,392.0,km,413.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CITROEN|E-C4|2025#type_approval_avg:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,eea,401.0,km,413.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CITROEN|E-C4 X|2025#type_approval_avg:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,eea,390.0,km,413.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-C4|2025#type_approval_avg:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,eea,424.0,km,413.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-C4 X|2025#type_approval_avg:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,openev,360.0,km,413.0,±2%,openev:src/citroen/e_c4_x/base.json+src/citroen/e_c4_x/2025/e_c4_x.json:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,openev,350.0,km,413.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,openev,360.0,km,413.0,±2%,openev:src/citroen/e_c4_x/base.json+src/citroen/e_c4_x/2024/e_c4_x.json:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,openev,350.0,km,413.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,openev,360.0,km,413.0,±2%,openev:src/citroen/e_c4_x/base.json+src/citroen/e_c4_x/2023/e_c4_x.json:wltp_range_km
-citroen-e-c4-c41-base,wltp_range_km,openev,350.0,km,413.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2023/e_c4.json:wltp_range_km
-cupra-born-gen1-77kwh,dc_peak_kw,seed-manual,135.0,kW,170.0,±5%,seed-manual:cupra-born-gen1-77kwh:dc_peak_kw
-cupra-born-gen1-77kwh,seats,seed-manual,4.0,count,5.0,±0,seed-manual:cupra-born-gen1-77kwh:seats
-cupra-born-gen1-base,consumption_kwh_100km,eea,17.1,kWh/100km,15.53,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:consumption_kwh_100km
-cupra-born-gen1-base,consumption_kwh_100km,eea,16.07,kWh/100km,15.53,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:consumption_kwh_100km
-cupra-born-gen1-base,consumption_kwh_100km,eea,16.21,kWh/100km,15.53,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:consumption_kwh_100km
-cupra-born-gen1-base,consumption_kwh_100km,eea,16.18,kWh/100km,15.53,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:consumption_kwh_100km
-cupra-born-gen1-base,consumption_kwh_100km,eea,16.12,kWh/100km,15.53,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:consumption_kwh_100km
-cupra-born-gen1-base,consumption_kwh_100km,eea,16.06,kWh/100km,15.53,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:consumption_kwh_100km
-cupra-born-gen1-base,weight_kg,eea,1977.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1969.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1841.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1840.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1842.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1975.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1968.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1841.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1840.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1842.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1827.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 150 KW 58 62 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,2033.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 245 KW 79 84 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1923.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1975.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1966.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1841.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1839.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1842.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1827.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 150 KW 58 62 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1953.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 140 KW|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1969.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 170KW 77 82KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1976.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1969.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1841.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1842.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,eea,1828.0,kg,1999.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 150 KW 58 62 KWH|2025#type_approval_avg:weight_kg
-cupra-born-gen1-base,weight_kg,openev,1830.0,kg,1999.0,±1%,openev:src/cupra/born/base.json+src/cupra/born/2025/born.json:weight_kg
-cupra-born-gen1-base,weight_kg,openev,1830.0,kg,1999.0,±1%,openev:src/cupra/born/base.json+src/cupra/born/2024/born.json:weight_kg
-cupra-born-gen1-base,weight_kg,openev,1830.0,kg,1999.0,±1%,openev:src/cupra/born/base.json+src/cupra/born/2023/born.json:weight_kg
-cupra-born-gen1-base,wltp_range_km,eea,557.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,549.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,425.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,382.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,427.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,583.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 240 KW 79 84 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,552.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,547.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,424.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,421.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,427.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,423.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|CUPRA|BORN 150 KW 58 62 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,549.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,541.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,414.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,407.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 170 KW 58 62 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,418.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,418.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|BORN 150 KW 58 62 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,554.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 170 KW 79 84 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,547.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 170 KW 77 82 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,424.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 170 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,424.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 150 KW 60 63 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,eea,424.0,km,571.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|BORN 150 KW 58 62 KWH|2025#type_approval_avg:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,openev,430.0,km,571.0,±2%,openev:src/cupra/born/base.json+src/cupra/born/2025/born.json:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,openev,425.0,km,571.0,±2%,openev:src/cupra/born/base.json+src/cupra/born/2024/born.json:wltp_range_km
-cupra-born-gen1-base,wltp_range_km,openev,420.0,km,571.0,±2%,openev:src/cupra/born/base.json+src/cupra/born/2023/born.json:wltp_range_km
-dacia-spring-gen1-essential,accel_0_100_s,openev,19.1,s,14.0,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json:accel_0_100_s
-dacia-spring-gen1-essential,accel_0_100_s,openev,19.1,s,14.0,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json:accel_0_100_s
-dacia-spring-gen1-essential,battery_kwh_gross,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json:battery_kwh_gross
-dacia-spring-gen1-essential,battery_kwh_gross,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json:battery_kwh_gross
-dacia-spring-gen1-essential,battery_kwh_net,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json:battery_kwh_net
-dacia-spring-gen1-essential,battery_kwh_net,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json:battery_kwh_net
-dacia-spring-gen1-essential,power_kw,openev,33.0,kW,51.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json:power_kw
-dacia-spring-gen1-essential,power_kw,openev,33.0,kW,51.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json:power_kw
-dacia-spring-gen1-essential,wltp_range_km,openev,230.0,km,220.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json:wltp_range_km
-dacia-spring-gen1-essential,wltp_range_km,openev,230.0,km,220.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json:wltp_range_km
-dacia-spring-gen1-essential-comfort,accel_0_100_s,openev,19.1,s,14.0,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_comfort.json:accel_0_100_s
-dacia-spring-gen1-essential-comfort,accel_0_100_s,openev,19.1,s,14.0,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_comfort.json:accel_0_100_s
-dacia-spring-gen1-essential-comfort,battery_kwh_gross,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_comfort.json:battery_kwh_gross
-dacia-spring-gen1-essential-comfort,battery_kwh_gross,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_comfort.json:battery_kwh_gross
-dacia-spring-gen1-essential-comfort,battery_kwh_net,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_comfort.json:battery_kwh_net
-dacia-spring-gen1-essential-comfort,battery_kwh_net,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_comfort.json:battery_kwh_net
-dacia-spring-gen1-essential-comfort,power_kw,openev,33.0,kW,51.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_comfort.json:power_kw
-dacia-spring-gen1-essential-comfort,power_kw,openev,33.0,kW,51.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_comfort.json:power_kw
-dacia-spring-gen1-essential-comfort,wltp_range_km,openev,230.0,km,220.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_comfort.json:wltp_range_km
-dacia-spring-gen1-essential-comfort,wltp_range_km,openev,230.0,km,220.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_comfort.json:wltp_range_km
-dacia-spring-gen1-essential-extreme,accel_0_100_s,openev,13.7,s,11.0,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_extreme.json:accel_0_100_s
-dacia-spring-gen1-essential-extreme,accel_0_100_s,openev,13.7,s,11.0,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_extreme.json:accel_0_100_s
-dacia-spring-gen1-essential-extreme,battery_kwh_gross,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_extreme.json:battery_kwh_gross
-dacia-spring-gen1-essential-extreme,battery_kwh_gross,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_extreme.json:battery_kwh_gross
-dacia-spring-gen1-essential-extreme,battery_kwh_net,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_extreme.json:battery_kwh_net
-dacia-spring-gen1-essential-extreme,battery_kwh_net,openev,26.8,kWh,24.3,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_extreme.json:battery_kwh_net
-dacia-spring-gen1-essential-extreme,power_kw,openev,48.0,kW,74.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_extreme.json:power_kw
-dacia-spring-gen1-essential-extreme,power_kw,openev,48.0,kW,74.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_extreme.json:power_kw
-dacia-spring-gen1-essential-extreme,wltp_range_km,openev,230.0,km,220.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2024/spring.json+src/dacia/spring/2024/spring_extreme.json:wltp_range_km
-dacia-spring-gen1-essential-extreme,wltp_range_km,openev,230.0,km,220.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2023/spring.json+src/dacia/spring/2023/spring_extreme.json:wltp_range_km
-ford-mustang-mach-e-gen1-base,consumption_kwh_100km,eea,18.56,kWh/100km,17.92,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|MUSTANG MACH-E|2025#type_approval_avg:consumption_kwh_100km
-ford-mustang-mach-e-gen1-base,weight_kg,eea,2196.0,kg,2174.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|FORD|MUSTANG MACH-E|2025#type_approval_avg:weight_kg
-ford-mustang-mach-e-gen1-base,weight_kg,eea,2210.0,kg,2174.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|MUSTANG MACH-E|2025#type_approval_avg:weight_kg
-ford-mustang-mach-e-gen1-base,wltp_range_km,eea,570.0,km,540.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|MUSTANG MACH-E|2025#type_approval_avg:wltp_range_km
+citroen-e-c4-c41-base,length_mm,openev,4360.0,mm,4600.0,±10 mm,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:length_mm
+citroen-e-c4-c41-base,length_mm,openev,4360.0,mm,4600.0,±10 mm,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:length_mm
+citroen-e-c4-c41-base,weight_kg,openev,1550.0,kg,1580.0,±1%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2023/e_c4.json:weight_kg
+citroen-e-c4-c41-base,weight_kg,openev,1550.0,kg,1580.0,±1%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:weight_kg
+citroen-e-c4-c41-base,weight_kg,openev,1550.0,kg,1580.0,±1%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:weight_kg
+citroen-e-c4-c41-base,wltp_range_km,openev,350.0,km,360.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2023/e_c4.json:wltp_range_km
+citroen-e-c4-c41-base,wltp_range_km,openev,350.0,km,360.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2024/e_c4.json:wltp_range_km
+citroen-e-c4-c41-base,wltp_range_km,openev,350.0,km,360.0,±2%,openev:src/citroen/e_c4/base.json+src/citroen/e_c4/2025/e_c4.json:wltp_range_km
+cupra-born-gen1-base,wltp_range_km,openev,430.0,km,420.0,±2%,openev:src/cupra/born/base.json+src/cupra/born/2025/born.json:wltp_range_km
+dacia-spring-gen1-essential,accel_0_100_s,openev,14.0,s,19.1,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json:accel_0_100_s
+dacia-spring-gen1-essential,battery_kwh_gross,openev,24.3,kWh,26.8,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json:battery_kwh_gross
+dacia-spring-gen1-essential,battery_kwh_net,openev,24.3,kWh,26.8,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json:battery_kwh_net
+dacia-spring-gen1-essential,power_kw,openev,51.0,kW,33.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json:power_kw
+dacia-spring-gen1-essential,wltp_range_km,openev,220.0,km,230.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json:wltp_range_km
+dacia-spring-gen1-essential-comfort,accel_0_100_s,openev,14.0,s,19.1,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_comfort.json:accel_0_100_s
+dacia-spring-gen1-essential-comfort,battery_kwh_gross,openev,24.3,kWh,26.8,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_comfort.json:battery_kwh_gross
+dacia-spring-gen1-essential-comfort,battery_kwh_net,openev,24.3,kWh,26.8,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_comfort.json:battery_kwh_net
+dacia-spring-gen1-essential-comfort,power_kw,openev,51.0,kW,33.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_comfort.json:power_kw
+dacia-spring-gen1-essential-comfort,wltp_range_km,openev,220.0,km,230.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_comfort.json:wltp_range_km
+dacia-spring-gen1-essential-extreme,accel_0_100_s,openev,11.0,s,13.7,±0.2 s,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_extreme.json:accel_0_100_s
+dacia-spring-gen1-essential-extreme,battery_kwh_gross,openev,24.3,kWh,26.8,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_extreme.json:battery_kwh_gross
+dacia-spring-gen1-essential-extreme,battery_kwh_net,openev,24.3,kWh,26.8,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_extreme.json:battery_kwh_net
+dacia-spring-gen1-essential-extreme,power_kw,openev,74.0,kW,48.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_extreme.json:power_kw
+dacia-spring-gen1-essential-extreme,wltp_range_km,openev,220.0,km,230.0,±2%,openev:src/dacia/spring/base.json+src/dacia/spring/2025/spring.json+src/dacia/spring/2025/spring_extreme.json:wltp_range_km
 ford-mustang-mach-e-gen1-gt,battery_kwh_gross,seed-manual,98.0,kWh,88.0,±2%,seed-manual:ford-mustang-mach-e-gen1-gt:battery_kwh_gross
 ford-mustang-mach-e-gen1-gt,length_mm,seed-manual,4713.0,mm,4743.0,±10 mm,seed-manual:ford-mustang-mach-e-gen1-gt:length_mm
-hyundai-ioniq-5-gen1-base,consumption_kwh_100km,eea,21.2,kWh/100km,16.58,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|HYUNDAI|IONIQ5 N|2025#type_approval_avg:consumption_kwh_100km
-hyundai-ioniq-5-gen1-base,consumption_kwh_100km,eea,21.2,kWh/100km,16.58,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HYUNDAI|IONIQ5 N|2025#type_approval_avg:consumption_kwh_100km
-hyundai-ioniq-5-gen1-base,consumption_kwh_100km,eea,21.2,kWh/100km,16.58,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|IONIQ5 N|2025#type_approval_avg:consumption_kwh_100km
-hyundai-ioniq-5-gen1-base,consumption_kwh_100km,eea,21.2,kWh/100km,16.58,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIQ5 N|2025#type_approval_avg:consumption_kwh_100km
-hyundai-ioniq-5-gen1-base,weight_kg,eea,2275.0,kg,2045.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|HYUNDAI|IONIQ5 N|2025#type_approval_avg:weight_kg
-hyundai-ioniq-5-gen1-base,weight_kg,eea,2275.0,kg,2045.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HYUNDAI|IONIQ5 N|2025#type_approval_avg:weight_kg
-hyundai-ioniq-5-gen1-base,weight_kg,eea,2073.0,kg,2045.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|IONIQ5|2025#type_approval_avg:weight_kg
-hyundai-ioniq-5-gen1-base,weight_kg,eea,2275.0,kg,2045.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|IONIQ5 N|2025#type_approval_avg:weight_kg
-hyundai-ioniq-5-gen1-base,weight_kg,eea,2275.0,kg,2045.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIQ5 N|2025#type_approval_avg:weight_kg
-hyundai-ioniq-5-gen1-base,weight_kg,openev,1950.0,kg,2045.0,±1%,openev:src/hyundai/ioniq_5/base.json+src/hyundai/ioniq_5/2025/ioniq_5.json:weight_kg
-hyundai-ioniq-5-gen1-base,weight_kg,openev,1950.0,kg,2045.0,±1%,openev:src/hyundai/ioniq_5/base.json+src/hyundai/ioniq_5/2024/ioniq_5.json:weight_kg
-hyundai-ioniq-5-gen1-base,weight_kg,openev,1950.0,kg,2045.0,±1%,openev:src/hyundai/ioniq_5/base.json+src/hyundai/ioniq_5/2023/ioniq_5.json:weight_kg
-hyundai-ioniq-5-gen1-base,wltp_range_km,eea,448.0,km,522.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|HYUNDAI|IONIQ5 N|2025#type_approval_avg:wltp_range_km
-hyundai-ioniq-5-gen1-base,wltp_range_km,eea,544.0,km,522.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HYUNDAI|IONIQ5|2025#type_approval_avg:wltp_range_km
-hyundai-ioniq-5-gen1-base,wltp_range_km,eea,448.0,km,522.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HYUNDAI|IONIQ5 N|2025#type_approval_avg:wltp_range_km
-hyundai-ioniq-5-gen1-base,wltp_range_km,eea,448.0,km,522.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|IONIQ5 N|2025#type_approval_avg:wltp_range_km
-hyundai-ioniq-5-gen1-base,wltp_range_km,eea,448.0,km,522.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIQ5 N|2025#type_approval_avg:wltp_range_km
-hyundai-ioniq-5-gen1-base,wltp_range_km,openev,507.0,km,522.0,±2%,openev:src/hyundai/ioniq_5/base.json+src/hyundai/ioniq_5/2025/ioniq_5.json:wltp_range_km
-hyundai-ioniq-5-gen1-base,wltp_range_km,openev,507.0,km,522.0,±2%,openev:src/hyundai/ioniq_5/base.json+src/hyundai/ioniq_5/2024/ioniq_5.json:wltp_range_km
-hyundai-ioniq-5-gen1-base,wltp_range_km,openev,507.0,km,522.0,±2%,openev:src/hyundai/ioniq_5/base.json+src/hyundai/ioniq_5/2023/ioniq_5.json:wltp_range_km
-hyundai-ioniq-6-gen1-base,consumption_kwh_100km,eea,14.71,kWh/100km,15.43,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HYUNDAI|IONIQ6|2025#type_approval_avg:consumption_kwh_100km
-hyundai-ioniq-6-gen1-base,consumption_kwh_100km,eea,14.84,kWh/100km,15.43,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIQ6|2025#type_approval_avg:consumption_kwh_100km
-hyundai-ioniq-6-gen1-base,weight_kg,eea,2034.0,kg,1995.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|IONIQ6|2025#type_approval_avg:weight_kg
-hyundai-ioniq-6-gen1-base,wltp_range_km,eea,599.0,km,558.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HYUNDAI|IONIQ6|2025#type_approval_avg:wltp_range_km
-hyundai-ioniq-6-gen1-base,wltp_range_km,eea,581.0,km,558.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIQ6|2025#type_approval_avg:wltp_range_km
-kia-ev6-gen1-base,consumption_kwh_100km,eea,20.9,kWh/100km,16.79,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|KIA|EV6 GT|2025#type_approval_avg:consumption_kwh_100km
-kia-ev6-gen1-base,consumption_kwh_100km,eea,20.9,kWh/100km,16.79,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|EV6 GT|2025#type_approval_avg:consumption_kwh_100km
-kia-ev6-gen1-base,weight_kg,eea,2009.0,kg,2048.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|KIA|EV6|2025#type_approval_avg:weight_kg
-kia-ev6-gen1-base,weight_kg,eea,2220.0,kg,2048.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|KIA|EV6 GT|2025#type_approval_avg:weight_kg
-kia-ev6-gen1-base,weight_kg,eea,2098.0,kg,2048.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|EV6|2025#type_approval_avg:weight_kg
-kia-ev6-gen1-base,weight_kg,eea,2220.0,kg,2048.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|EV6 GT|2025#type_approval_avg:weight_kg
-kia-ev6-gen1-base,weight_kg,eea,2220.0,kg,2048.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV 6 GT|2025#type_approval_avg:weight_kg
-kia-ev6-gen1-base,wltp_range_km,eea,450.0,km,533.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|KIA|EV6 GT|2025#type_approval_avg:wltp_range_km
-kia-ev6-gen1-base,wltp_range_km,eea,450.0,km,533.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|EV6 GT|2025#type_approval_avg:wltp_range_km
-kia-ev6-gen1-base,wltp_range_km,eea,549.0,km,533.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV6|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,15.48,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,17.69,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|EQA 300 4MATIC|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,14.92,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,17.6,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 350 4MATIC|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,17.29,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 300 4MATIC|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,14.8,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 250|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,14.79,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,15.49,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQA 250|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,consumption_kwh_100km,eea,15.27,kWh/100km,18.3,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:consumption_kwh_100km
-mercedes-eqa-h243-base,weight_kg,eea,2050.0,kg,2115.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:weight_kg
-mercedes-eqa-h243-base,weight_kg,eea,2051.0,kg,2115.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:weight_kg
-mercedes-eqa-h243-base,weight_kg,eea,2045.0,kg,2115.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 250|2025#type_approval_avg:weight_kg
-mercedes-eqa-h243-base,weight_kg,eea,2050.0,kg,2115.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:weight_kg
-mercedes-eqa-h243-base,weight_kg,eea,2042.0,kg,2115.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQA 250|2025#type_approval_avg:weight_kg
-mercedes-eqa-h243-base,weight_kg,eea,2050.0,kg,2115.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:weight_kg
-mercedes-eqa-h243-base,weight_kg,openev,2040.0,kg,2115.0,±1%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2025/eqa.json:weight_kg
-mercedes-eqa-h243-base,weight_kg,openev,2040.0,kg,2115.0,±1%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2024/eqa.json:weight_kg
-mercedes-eqa-h243-base,weight_kg,openev,2040.0,kg,2115.0,±1%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2023/eqa.json:weight_kg
-mercedes-eqa-h243-base,wltp_range_km,eea,426.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|MERCEDES-BENZ|EQA 300 4MATIC|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,526.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,457.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|EQA 300 4MATIC|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,544.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,459.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 350 4MATIC|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,461.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 300 4MATIC|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,516.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 250|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,547.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,428.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQA 300 4MATIC|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,496.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQA 250|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,eea,532.0,km,444.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQA 250+|2025#type_approval_avg:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,openev,426.0,km,444.0,±2%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2025/eqa.json:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,openev,426.0,km,444.0,±2%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2024/eqa.json:wltp_range_km
-mercedes-eqa-h243-base,wltp_range_km,openev,426.0,km,444.0,±2%,openev:src/mercedes_benz/eqa/base.json+src/mercedes_benz/eqa/2023/eqa.json:wltp_range_km
-mg-mg4-gen1-base,weight_kg,eea,1728.0,kg,1754.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MG4 ELECTRIC|2025#type_approval_avg:weight_kg
-mg-mg4-gen1-base,weight_kg,eea,1721.0,kg,1754.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG4 ELECTRIC|2025#type_approval_avg:weight_kg
-mg-mg4-gen1-base,wltp_range_km,eea,394.0,km,411.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG4 ELECTRIC|2025#type_approval_avg:wltp_range_km
-mg-zs-ev-gen1-base,wltp_range_km,eea,438.0,km,334.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MG|MG ZS EV|2025#type_approval_avg:wltp_range_km
-mg-zs-ev-gen1-base,wltp_range_km,eea,408.0,km,334.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MG ZS EV|2025#type_approval_avg:wltp_range_km
-mini-cooper-se-j01-base,weight_kg,eea,1615.0,kg,1680.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|MINI|COOPER E|2025#type_approval_avg:weight_kg
-mini-cooper-se-j01-base,weight_kg,eea,1615.0,kg,1680.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MINI|COOPER E|2025#type_approval_avg:weight_kg
-mini-cooper-se-j01-base,weight_kg,eea,1615.0,kg,1680.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MINI|COOPER E|2025#type_approval_avg:weight_kg
-mini-cooper-se-j01-base,weight_kg,eea,1615.0,kg,1680.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COOPER E|2025#type_approval_avg:weight_kg
-mini-cooper-se-j01-base,wltp_range_km,eea,295.0,km,391.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|MINI|COOPER E|2025#type_approval_avg:wltp_range_km
-mini-cooper-se-j01-base,wltp_range_km,eea,294.0,km,391.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MINI|COOPER E|2025#type_approval_avg:wltp_range_km
-mini-cooper-se-j01-base,wltp_range_km,eea,296.0,km,391.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MINI|COOPER E|2025#type_approval_avg:wltp_range_km
-mini-cooper-se-j01-base,wltp_range_km,eea,294.0,km,391.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COOPER E|2025#type_approval_avg:wltp_range_km
-nissan-leaf-gen3-base,consumption_kwh_100km,eea,17.8,kWh/100km,16.8,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|NISSAN|NISSAN LEAF 62KWH|2025#type_approval_avg:consumption_kwh_100km
-nissan-leaf-gen3-base,consumption_kwh_100km,eea,17.8,kWh/100km,16.8,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|NISSAN LEAF 62 KWH|2025#type_approval_avg:consumption_kwh_100km
-nissan-leaf-gen3-base,consumption_kwh_100km,eea,15.85,kWh/100km,16.8,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|NISSAN LEAF 40 KWH|2025#type_approval_avg:consumption_kwh_100km
-nissan-leaf-gen3-base,consumption_kwh_100km,eea,17.8,kWh/100km,16.8,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN LEAF 62KWH|2025#type_approval_avg:consumption_kwh_100km
-nissan-leaf-gen3-base,weight_kg,eea,1756.0,kg,1580.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|NISSAN|NISSAN LEAF 62KWH|2025#type_approval_avg:weight_kg
-nissan-leaf-gen3-base,weight_kg,eea,1956.0,kg,1580.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|NISSAN LEAF|2025#type_approval_avg:weight_kg
-nissan-leaf-gen3-base,weight_kg,eea,1756.0,kg,1580.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|NISSAN LEAF 62 KWH|2025#type_approval_avg:weight_kg
-nissan-leaf-gen3-base,weight_kg,eea,1732.0,kg,1580.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|NISSAN LEAF 40 KWH|2025#type_approval_avg:weight_kg
-nissan-leaf-gen3-base,weight_kg,eea,1756.0,kg,1580.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN LEAF 62KWH|2025#type_approval_avg:weight_kg
-nissan-leaf-gen3-base,wltp_range_km,eea,394.0,km,278.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|NISSAN|NISSAN LEAF 62KWH|2025#type_approval_avg:wltp_range_km
-nissan-leaf-gen3-base,wltp_range_km,eea,396.0,km,278.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|NISSAN LEAF 62 KWH|2025#type_approval_avg:wltp_range_km
-nissan-leaf-gen3-base,wltp_range_km,eea,396.0,km,278.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN LEAF 62KWH|2025#type_approval_avg:wltp_range_km
-peugeot-e-2008-p24-base,battery_kwh_gross,openev,50.0,kWh,54.0,±2%,openev:src/peugeot/e_2008/base.json+src/peugeot/e_2008/2023/e_2008.json:battery_kwh_gross
-peugeot-e-2008-p24-base,battery_kwh_net,openev,46.0,kWh,50.0,±2%,openev:src/peugeot/e_2008/base.json+src/peugeot/e_2008/2023/e_2008.json:battery_kwh_net
-peugeot-e-2008-p24-base,power_kw,openev,100.0,kW,115.0,±2%,openev:src/peugeot/e_2008/base.json+src/peugeot/e_2008/2023/e_2008.json:power_kw
-peugeot-e-2008-p24-base,wltp_range_km,openev,345.0,km,406.0,±2%,openev:src/peugeot/e_2008/base.json+src/peugeot/e_2008/2023/e_2008.json:wltp_range_km
-peugeot-e-208-p21-base,battery_kwh_gross,openev,50.0,kWh,54.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2023/e_208.json:battery_kwh_gross
-peugeot-e-208-p21-base,battery_kwh_net,openev,46.0,kWh,50.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2023/e_208.json:battery_kwh_net
-peugeot-e-208-p21-base,power_kw,openev,100.0,kW,115.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2023/e_208.json:power_kw
-peugeot-e-208-p21-base,wltp_range_km,openev,400.0,km,410.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2024/e_208.json:wltp_range_km
-peugeot-e-208-p21-base,wltp_range_km,openev,362.0,km,410.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2023/e_208.json:wltp_range_km
-polestar-2-gen1-base,consumption_kwh_100km,eea,15.75,kWh/100km,15.26,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|POLESTAR|POLESTAR 2|2025#type_approval_avg:consumption_kwh_100km
-polestar-2-gen1-base,weight_kg,eea,2112.0,kg,2068.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|POLESTAR|POLESTAR 2|2025#type_approval_avg:weight_kg
-polestar-2-gen1-base,weight_kg,eea,2122.0,kg,2068.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|POLESTAR|POLESTAR 2|2025#type_approval_avg:weight_kg
-polestar-2-gen1-base,wltp_range_km,eea,614.0,km,601.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|POLESTAR|POLESTAR 2|2025#type_approval_avg:wltp_range_km
-polestar-2-gen1-base,wltp_range_km,eea,618.0,km,601.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|POLESTAR|POLESTAR 2|2025#type_approval_avg:wltp_range_km
-polestar-2-gen1-long-range-single-motor,power_kw,openev,170.0,kW,200.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2023/polestar_2.json+src/polestar/polestar_2/2023/polestar_2_long_range_single_motor.json:power_kw
-polestar-2-gen1-standard-range-single-motor,power_kw,openev,170.0,kW,200.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2023/polestar_2.json+src/polestar/polestar_2/2023/polestar_2_standard_range_single_motor.json:power_kw
-renault-megane-e-tech-gen1-base,weight_kg,openev,1642.0,kg,1719.0,±1%,openev:src/renault/megane_e_tech/base.json+src/renault/megane_e_tech/2025/megane_e_tech.json:weight_kg
-renault-megane-e-tech-gen1-base,weight_kg,openev,1642.0,kg,1719.0,±1%,openev:src/renault/megane_e_tech/base.json+src/renault/megane_e_tech/2024/megane_e_tech.json:weight_kg
-renault-megane-e-tech-gen1-base,weight_kg,openev,1642.0,kg,1719.0,±1%,openev:src/renault/megane_e_tech/base.json+src/renault/megane_e_tech/2023/megane_e_tech.json:weight_kg
-renault-megane-e-tech-gen1-base,wltp_range_km,eea,449.0,km,462.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|RENAULT|MEGANE E-TECH ELECTRIC|2025#type_approval_avg:wltp_range_km
-renault-megane-e-tech-gen1-base,wltp_range_km,eea,446.0,km,462.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|RENAULT|MEGANE E-TECH ELECTRIC|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-60,dc_peak_kw,openev,125.0,kW,135.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json+src/skoda/enyaq_iv/2023/enyaq_iv_60.json:dc_peak_kw
-skoda-enyaq-gen1-60,dc_peak_kw,seed-manual,120.0,kW,135.0,±5%,seed-manual:skoda-enyaq-gen1-60:dc_peak_kw
+peugeot-e-208-p21-base-2024,wltp_range_km,openev,410.0,km,400.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2025/e_208.json:wltp_range_km
+polestar-2-gen1-long-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2024/polestar_2.json+src/polestar/polestar_2/2024/polestar_2_long_range_single_motor.json:power_kw
+polestar-2-gen1-long-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2025/polestar_2.json+src/polestar/polestar_2/2025/polestar_2_long_range_single_motor.json:power_kw
+polestar-2-gen1-standard-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2024/polestar_2.json+src/polestar/polestar_2/2024/polestar_2_standard_range_single_motor.json:power_kw
+polestar-2-gen1-standard-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2025/polestar_2.json+src/polestar/polestar_2/2025/polestar_2_standard_range_single_motor.json:power_kw
 skoda-enyaq-gen1-60,power_kw,seed-manual,132.0,kW,150.0,±2%,seed-manual:skoda-enyaq-gen1-60:power_kw
-skoda-enyaq-gen1-60,wltp_range_km,openev,400.0,km,410.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json+src/skoda/enyaq_iv/2023/enyaq_iv_60.json:wltp_range_km
-skoda-enyaq-gen1-80,dc_peak_kw,openev,125.0,kW,135.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json:dc_peak_kw
-skoda-enyaq-gen1-80,dc_peak_kw,openev,125.0,kW,135.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv.json:dc_peak_kw
-skoda-enyaq-gen1-80,dc_peak_kw,seed-manual,125.0,kW,135.0,±5%,seed-manual:skoda-enyaq-gen1-80:dc_peak_kw
-skoda-enyaq-gen1-80,wltp_range_km,openev,570.0,km,550.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json:wltp_range_km
-skoda-enyaq-gen1-80,wltp_range_km,openev,570.0,km,550.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json:wltp_range_km
-skoda-enyaq-gen1-80,wltp_range_km,openev,520.0,km,550.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json:wltp_range_km
-skoda-enyaq-gen1-80x,dc_peak_kw,openev,125.0,kW,135.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json+src/skoda/enyaq_iv/2023/enyaq_iv_80x.json:dc_peak_kw
-skoda-enyaq-gen1-80x,dc_peak_kw,openev,125.0,kW,135.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv_80x.json:dc_peak_kw
-skoda-enyaq-gen1-80x,wltp_range_km,openev,540.0,km,520.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv_80x.json:wltp_range_km
-skoda-enyaq-gen1-80x,wltp_range_km,openev,540.0,km,520.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv_80x.json:wltp_range_km
-skoda-enyaq-gen1-80x,wltp_range_km,openev,490.0,km,520.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json+src/skoda/enyaq_iv/2023/enyaq_iv_80x.json:wltp_range_km
-skoda-enyaq-gen1-base,consumption_kwh_100km,eea,15.33,kWh/100km,16.15,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ENYAQ 85|2025#type_approval_avg:consumption_kwh_100km
-skoda-enyaq-gen1-base,consumption_kwh_100km,eea,15.22,kWh/100km,16.15,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 85|2025#type_approval_avg:consumption_kwh_100km
-skoda-enyaq-gen1-base,consumption_kwh_100km,eea,17.3,kWh/100km,16.15,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 80X|2025#type_approval_avg:consumption_kwh_100km
-skoda-enyaq-gen1-base,consumption_kwh_100km,eea,15.53,kWh/100km,16.15,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 85|2025#type_approval_avg:consumption_kwh_100km
-skoda-enyaq-gen1-base,consumption_kwh_100km,eea,17.32,kWh/100km,16.15,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 80X|2025#type_approval_avg:consumption_kwh_100km
-skoda-enyaq-gen1-base,consumption_kwh_100km,eea,15.34,kWh/100km,16.15,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 85|2025#type_approval_avg:consumption_kwh_100km
-skoda-enyaq-gen1-base,weight_kg,eea,2142.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ENYAQ 85|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2001.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ENYAQ 60|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,1976.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ENYAQ 50|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2140.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 85|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2121.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 80|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2205.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 80X|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,1995.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 60|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2207.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2139.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 85|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2140.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 80|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2205.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 80X|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2001.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 60|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,1941.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 50|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2141.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2140.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 85|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,2120.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 80|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,weight_kg,eea,1998.0,kg,2238.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 60|2025#type_approval_avg:weight_kg
-skoda-enyaq-gen1-base,wltp_range_km,eea,570.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ENYAQ 85|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,428.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ENYAQ 60|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,372.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ENYAQ 50|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,575.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 85|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,532.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 85X|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,538.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 80|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,503.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 80X|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,400.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|SKODA|ENYAQ 60|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,536.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ RS|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,565.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 85|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,525.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 85X|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,525.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 80|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,503.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 80X|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,423.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 60|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,367.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|ENYAQ 50|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,571.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 85|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,530.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 85X|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,537.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 80|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-base,wltp_range_km,eea,416.0,km,549.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAQ 60|2025#type_approval_avg:wltp_range_km
-skoda-enyaq-gen1-rs,dc_peak_kw,openev,125.0,kW,135.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json+src/skoda/enyaq_iv/2023/enyaq_iv_rs.json:dc_peak_kw
-skoda-enyaq-gen1-rs,dc_peak_kw,openev,125.0,kW,135.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv_rs.json:dc_peak_kw
-skoda-enyaq-gen1-rs,wltp_range_km,openev,530.0,km,510.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv_rs.json:wltp_range_km
-skoda-enyaq-gen1-rs,wltp_range_km,openev,530.0,km,510.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv_rs.json:wltp_range_km
-skoda-enyaq-gen1-rs,wltp_range_km,openev,480.0,km,510.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2023/enyaq_iv.json+src/skoda/enyaq_iv/2023/enyaq_iv_rs.json:wltp_range_km
-tesla-model-3-highland-base,consumption_kwh_100km,eea,13.95,kWh/100km,13.52,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|TESLA|MODEL 3|2025#type_approval_avg:consumption_kwh_100km
-tesla-model-3-highland-base,weight_kg,eea,1860.0,kg,1841.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|TESLA|MODEL 3|2025#type_approval_avg:weight_kg
-tesla-model-3-highland-base,wltp_range_km,eea,609.0,km,583.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|TESLA|MODEL 3|2025#type_approval_avg:wltp_range_km
-tesla-model-3-highland-base,wltp_range_km,eea,597.0,km,583.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|TESLA|MODEL 3|2025#type_approval_avg:wltp_range_km
+skoda-enyaq-gen1-80,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2024/enyaq_iv.json:dc_peak_kw
+skoda-enyaq-gen1-80,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json:dc_peak_kw
+skoda-enyaq-gen1-80,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2025/enyaq_iv.json:dc_peak_kw
+skoda-enyaq-gen1-80,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json:dc_peak_kw
+skoda-enyaq-gen1-80,wltp_range_km,openev,545.0,km,520.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv.json:wltp_range_km
+skoda-enyaq-gen1-80,wltp_range_km,openev,550.0,km,520.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2024/enyaq_iv.json:wltp_range_km
+skoda-enyaq-gen1-80,wltp_range_km,openev,570.0,km,520.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json:wltp_range_km
+skoda-enyaq-gen1-80,wltp_range_km,openev,550.0,km,520.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2025/enyaq_iv.json:wltp_range_km
+skoda-enyaq-gen1-80,wltp_range_km,openev,570.0,km,520.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json:wltp_range_km
+skoda-enyaq-gen1-80x,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2024/enyaq_iv.json+src/skoda/enyaq_iv/2024/enyaq_iv_80x.json:dc_peak_kw
+skoda-enyaq-gen1-80x,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv_80x.json:dc_peak_kw
+skoda-enyaq-gen1-80x,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2025/enyaq_iv.json+src/skoda/enyaq_iv/2025/enyaq_iv_80x.json:dc_peak_kw
+skoda-enyaq-gen1-80x,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv_80x.json:dc_peak_kw
+skoda-enyaq-gen1-80x,wltp_range_km,openev,515.0,km,490.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv_80x.json:wltp_range_km
+skoda-enyaq-gen1-80x,wltp_range_km,openev,520.0,km,490.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2024/enyaq_iv.json+src/skoda/enyaq_iv/2024/enyaq_iv_80x.json:wltp_range_km
+skoda-enyaq-gen1-80x,wltp_range_km,openev,540.0,km,490.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv_80x.json:wltp_range_km
+skoda-enyaq-gen1-80x,wltp_range_km,openev,520.0,km,490.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2025/enyaq_iv.json+src/skoda/enyaq_iv/2025/enyaq_iv_80x.json:wltp_range_km
+skoda-enyaq-gen1-80x,wltp_range_km,openev,540.0,km,490.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv_80x.json:wltp_range_km
+skoda-enyaq-gen1-rs,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2024/enyaq_iv.json+src/skoda/enyaq_iv/2024/enyaq_iv_rs.json:dc_peak_kw
+skoda-enyaq-gen1-rs,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv_rs.json:dc_peak_kw
+skoda-enyaq-gen1-rs,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2025/enyaq_iv.json+src/skoda/enyaq_iv/2025/enyaq_iv_rs.json:dc_peak_kw
+skoda-enyaq-gen1-rs,dc_peak_kw,openev,135.0,kW,125.0,±5%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv_rs.json:dc_peak_kw
+skoda-enyaq-gen1-rs,wltp_range_km,openev,505.0,km,480.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2023/enyaq_coupe_iv_rs.json:wltp_range_km
+skoda-enyaq-gen1-rs,wltp_range_km,openev,510.0,km,480.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2024/enyaq_iv.json+src/skoda/enyaq_iv/2024/enyaq_iv_rs.json:wltp_range_km
+skoda-enyaq-gen1-rs,wltp_range_km,openev,530.0,km,480.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2024/enyaq_coupe_iv_rs.json:wltp_range_km
+skoda-enyaq-gen1-rs,wltp_range_km,openev,510.0,km,480.0,±2%,openev:src/skoda/enyaq_iv/base.json+src/skoda/enyaq_iv/2025/enyaq_iv.json+src/skoda/enyaq_iv/2025/enyaq_iv_rs.json:wltp_range_km
+skoda-enyaq-gen1-rs,wltp_range_km,openev,530.0,km,480.0,±2%,openev:src/skoda/enyaq_coupe_iv/base.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv.json+src/skoda/enyaq_coupe_iv/2025/enyaq_coupe_iv_rs.json:wltp_range_km
 tesla-model-y-gen1-long-range,battery_kwh_net,seed-manual,75.0,kWh,79.0,±2%,seed-manual:tesla-model-y-gen1-long-range:battery_kwh_net
 tesla-model-y-gen1-performance,battery_kwh_net,seed-manual,75.0,kWh,79.0,±2%,seed-manual:tesla-model-y-gen1-performance:battery_kwh_net
-tesla-model-y-juniper-base,consumption_kwh_100km,eea,15.24,kWh/100km,14.64,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|TESLA|MODEL Y|2025#type_approval_avg:consumption_kwh_100km
-tesla-model-y-juniper-base,weight_kg,eea,1995.0,kg,2017.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|TESLA|MODEL Y|2025#type_approval_avg:weight_kg
-tesla-model-y-juniper-base,wltp_range_km,eea,592.0,km,568.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|TESLA|MODEL Y|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-base,consumption_kwh_100km,eea,14.71,kWh/100km,15.4,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 GTX 210 KW|2025#type_approval_avg:consumption_kwh_100km
-volkswagen-id3-gen1-base,weight_kg,eea,1958.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.3 PRO S 150 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,weight_kg,eea,1818.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.3 PRO 150 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,weight_kg,eea,1994.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.3 GTX PERF. 240 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,weight_kg,eea,1958.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 PRO S 150 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,weight_kg,eea,1816.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 PRO 150 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,weight_kg,eea,1995.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 GTX PERF. 240 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,weight_kg,eea,1983.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 GTX 210 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,weight_kg,eea,1822.0,kg,1787.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.3 PRO 150 KW|2025#type_approval_avg:weight_kg
-volkswagen-id3-gen1-base,wltp_range_km,eea,559.0,km,384.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.3 PRO S 150 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-base,wltp_range_km,eea,429.0,km,384.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.3 PRO 150 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-base,wltp_range_km,eea,589.0,km,384.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.3 GTX PERF. 240 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-base,wltp_range_km,eea,557.0,km,384.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 PRO S 150 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-base,wltp_range_km,eea,430.0,km,384.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 PRO 150 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-base,wltp_range_km,eea,571.0,km,384.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 GTX PERF. 240 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-base,wltp_range_km,eea,599.0,km,384.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.3 GTX 210 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id3-gen1-pro,dc_peak_kw,seed-manual,100.0,kW,135.0,±5%,seed-manual:volkswagen-id3-gen1-pro:dc_peak_kw
 volkswagen-id3-gen1-pro-s,dc_peak_kw,seed-manual,125.0,kW,135.0,±5%,seed-manual:volkswagen-id3-gen1-pro-s:dc_peak_kw
 volkswagen-id3-gen1-pro-s,seats,seed-manual,4.0,count,5.0,±0,seed-manual:volkswagen-id3-gen1-pro-s:seats
-volkswagen-id4-gen1-base,consumption_kwh_100km,eea,16.2,kWh/100km,16.9,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 PURE 109 KW|2025#type_approval_avg:consumption_kwh_100km
-volkswagen-id4-gen1-base,consumption_kwh_100km,eea,16.2,kWh/100km,16.9,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 PRO 210KW|2025#type_approval_avg:consumption_kwh_100km
-volkswagen-id4-gen1-base,consumption_kwh_100km,eea,16.19,kWh/100km,16.9,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 210KW|2025#type_approval_avg:consumption_kwh_100km
-volkswagen-id4-gen1-base,consumption_kwh_100km,eea,17.6,kWh/100km,16.9,±3%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 GTX 220 KW|2025#type_approval_avg:consumption_kwh_100km
-volkswagen-id4-gen1-base,weight_kg,eea,2233.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 PRO 4MOTION 210KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2142.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 PRO 210KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2250.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 GTX 250KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2234.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 4MOTION 210KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2145.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 210KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2139.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 210 KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2120.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 150 KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2123.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 128 KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2261.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 GTX 250KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2236.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 GTX 220 KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2139.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID4 PRO|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2149.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.4 PRO 210KW|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,weight_kg,eea,2142.0,kg,1976.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID 4 PRO|2025#type_approval_avg:weight_kg
-volkswagen-id4-gen1-base,wltp_range_km,eea,517.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 PRO 4MOTION 210KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,551.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 PRO 210KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,515.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.4 GTX 250KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,519.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 4MOTION 210KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,552.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 210KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,538.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 210 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,522.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 150 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,522.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 PRO 128 KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,512.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 GTX 250KW|2025#type_approval_avg:wltp_range_km
-volkswagen-id4-gen1-base,wltp_range_km,eea,500.0,km,356.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.4 GTX 220 KW|2025#type_approval_avg:wltp_range_km
 volkswagen-id4-gen1-gtx,dc_peak_kw,seed-manual,125.0,kW,135.0,±5%,seed-manual:volkswagen-id4-gen1-gtx:dc_peak_kw
 volkswagen-id4-gen1-pro,dc_peak_kw,seed-manual,125.0,kW,135.0,±5%,seed-manual:volkswagen-id4-gen1-pro:dc_peak_kw
-volvo-xc40-recharge-ex40-base,weight_kg,eea,2105.0,kg,2074.0,±1%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:DE|VOLVO|EX40|2025#type_approval_avg:weight_kg
-volvo-xc40-recharge-ex40-base,weight_kg,openev,2118.0,kg,2074.0,±1%,openev:src/volvo/ex40/base.json+src/volvo/ex40/2025/ex40.json:weight_kg
-volvo-xc40-recharge-ex40-base,weight_kg,openev,2118.0,kg,2074.0,±1%,openev:src/volvo/ex40/base.json+src/volvo/ex40/2024/ex40.json:weight_kg
-volvo-xc40-recharge-ex40-base,wltp_range_km,eea,555.0,km,539.0,±2%,eea:[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLVO|EX40|2025#type_approval_avg:wltp_range_km
-volvo-xc40-recharge-ex40-base,wltp_range_km,openev,425.0,km,539.0,±2%,openev:src/volvo/ex40/base.json+src/volvo/ex40/2025/ex40.json:wltp_range_km
-volvo-xc40-recharge-ex40-base,wltp_range_km,openev,425.0,km,539.0,±2%,openev:src/volvo/ex40/base.json+src/volvo/ex40/2024/ex40.json:wltp_range_km

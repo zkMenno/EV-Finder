@@ -138,7 +138,9 @@ def test_release_end_to_end(data_dir: Path) -> None:
         "tesla-model-3-gen1-performance",
     }
     lr = rows["tesla-model-3-gen1-lr"]
-    assert lr["battery_kwh_net"] == 75.0 and lr["wltp_range_km"] == 629.0
+    # WLTP: the earliest model year wins within one source (2022: 602, not 2023: 629; T-005
+    # review) and the 4% difference stays one variant (below the 5% year-band split).
+    assert lr["battery_kwh_net"] == 75.0 and lr["wltp_range_km"] == 602.0
     assert lr["quality_tier"] == "sourced"
     assert lr["registered_count_nl"] == 3000
     assert lr["price_new"] == {"NL": {"amount": 56990.0, "currency": "EUR"}}
@@ -160,7 +162,14 @@ def test_release_end_to_end(data_dir: Path) -> None:
     t = pq.read_table(out / "catalogue.parquet")
     assert t.num_rows == 7 and "price_new_nl" in t.column_names
     f = pq.read_table(out / "facts.parquet").to_pylist()
-    assert {x["source_id"] for x in f} >= {"openev", "eea", "rdw", "seed-manual"}
+    assert {x["source_id"] for x in f} >= {"openev", "eea", "rdw", "seed-manual", "wikidata"}
+    # EEA is count-only (Q-039): its spec records in staging never become facts.
+    assert {x["field"] for x in f if x["source_id"] == "eea"} == {"registered_count"}
+    run_log = json.loads((out / "run_log.json").read_text())
+    assert run_log["outputs"]["count_only_spec_records_skipped"] == {"eea": 2}
+    # No absolute host paths in the run log (T-006 review): data/... relative paths only.
+    assert str(data_dir) not in (out / "run_log.json").read_text()
+    assert all(i["path"].startswith("data/") for i in run_log["inputs"]), run_log["inputs"]
     assert any(x["subject_type"] == "battery_pack" for x in f)
 
     # Review files.
@@ -169,8 +178,8 @@ def test_release_end_to_end(data_dir: Path) -> None:
     assert any(v["field"] == "ac_kw" and v["value"] == "250.0" for v in val)
     conf = list(csv.DictReader((review / "conflicts.csv").open()))
     assert {(c["variant_id"], c["field"], c["source_id"]) for c in conf} >= {
-        ("citroen-e-c4-c41-50-kwh", "battery_kwh_net", "eea"),
-        ("tesla-model-3-gen1-lr", "wltp_range_km", "openev"),
+        ("citroen-e-c4-c41-50-kwh", "battery_kwh_net", "wikidata"),
+        ("tesla-model-3-gen1-lr", "wltp_range_km", "openev"),  # 2023's 629 vs 2022's 602
     }
     assert all(c["winning_value"] != c["value"] for c in conf)
     um = list(csv.DictReader((review / "unmatched.csv").open()))
@@ -247,23 +256,66 @@ def _all_text(d: Path, n: int = 1) -> str:
     return text
 
 
+TESTCAR_OPENEV = (
+    '{"source": {"id": "openev", "name": "OpenEV Data", "licence": "CDLA-Permissive-2.0"}, '
+    '"record_key": "synthetic/testcar-alpha/2024-lr", "kind": "spec", "make": "Testmake", '
+    '"model": "Testcar Alpha", "variant_name": "Long Range", "year": 2024, "country": null, '
+    '"drivetrain": null, "specs": {"battery_kwh_net": {"value": 70.0, "unit": "kWh"}}, '
+    '"retrieved_at": "2026-11-14", "confidence": "medium"}\n'
+)
+TESTCAR_VID = "testmake-testcar-alpha-gen1-long-range"
+
+
+def test_nyland_fixture_is_synthetic() -> None:
+    # Hard rule: nyland fixtures hold invented "Testcar" rows only, never a real car.
+    for line in (FIX / "staging" / "nyland.records.jsonl").read_text().splitlines():
+        rec = json.loads(line)
+        assert rec["source"]["id"] == "nyland"
+        assert rec["make"] == "Testmake" and rec["model"].startswith("Testcar")
+
+
 def test_nyland_never_reaches_a_release(data_dir: Path) -> None:
-    # The fixture has a nyland file; also smuggle a nyland record into the openev file.
+    # The nyland record WOULD match: the fixture seed has Testcar Alpha, and an openev record
+    # for the same variant makes the row exist. Also smuggle the nyland record into openev's file.
     nyl = (data_dir / "staging" / "nyland.records.jsonl").read_text()
     with (data_dir / "staging" / "openev.records.jsonl").open("a") as fh:
+        fh.write(TESTCAR_OPENEV)
         fh.write(nyl)
     assert release_cmd(False, data_dir=data_dir, now=NOW) == 0
     text = _all_text(data_dir)
     assert "nyland" not in text.lower()
-    assert "480" not in json.dumps(_rows(_catalogue(data_dir, 1))["tesla-model-3-gen1-lr"])
+    row = _rows(_catalogue(data_dir, 1))[TESTCAR_VID]
+    assert row["battery_kwh_net"] == 70.0  # openev, not nyland's 72.1
+    assert row["real_range_km"] != 412  # nyland's measured value never lands
+    assert row.get("real_range_rung") != "measured"
+    assert all("nyland" not in p["source_ids"] for p in row["provenance"].values())
+    assert "72.1" not in json.dumps(row) and "testcar-alpha-lr-2024" not in text
 
 
-def test_nyland_excluded_even_without_registry(data_dir: Path) -> None:
+def test_nyland_record_would_match_without_the_exclusion(data_dir: Path) -> None:
+    # Control for the test above: the same record under an allowed source id does match.
+    from ev_pipeline.match.matcher import match_records
+    from ev_pipeline.match.seed import load_seed
+    from ev_pipeline.records import SourceRecord
+
+    rec = json.loads((data_dir / "staging" / "nyland.records.jsonl").read_text())
+    rec["source"] = {"id": "openev", "name": "o", "licence": "CDLA-Permissive-2.0"}
+    res = match_records([SourceRecord.model_validate(rec)], load_seed(FIX / "models.yaml"))
+    assert TESTCAR_VID in res.variants
+
+
+def test_missing_registry_fails_the_release(data_dir: Path) -> None:
+    # Fail closed (T-006 review): no data/sources.yaml means no release at all.
     (data_dir / "sources.yaml").unlink()
     with (data_dir / "staging" / "openev.records.jsonl").open("a") as fh:
         fh.write((data_dir / "staging" / "nyland.records.jsonl").read_text())
-    assert release_cmd(False, data_dir=data_dir, now=NOW) == 0
-    assert "nyland" not in _all_text(data_dir).lower()
+    with pytest.raises(ReleaseError, match="no data/sources.yaml"):
+        build_release(data_dir, now=NOW)
+    assert release_cmd(False, data_dir=data_dir, now=NOW) == 1
+    assert not (data_dir / "releases").exists()
+    reg = parse_registry({"sources": []})
+    reg.loaded = False
+    assert not reg.releasable("openev") and not reg.releasable("nyland")
 
 
 def test_guard_rejects_injected_excluded_source() -> None:
@@ -289,30 +341,55 @@ def test_registry_gate_rules() -> None:
                 {"id": "fastned", "licence": "none", "status": "waiting_permission"},
                 {"id": "kba", "licence": "unknown (to confirm)", "status": "blocked"},
                 {"id": "nolicence", "licence": "none", "status": "active"},
-                {"id": "nyland", "licence": "CC0-1.0", "status": "active"},
+                {"id": "unknownlic", "licence": "unknown", "status": "active"},
+                {"id": "permitted", "licence": "none", "status": "active", "permission": "written"},
+                {
+                    "id": "pending",
+                    "licence": "none",
+                    "status": "waiting_permission",
+                    "permission": "written",
+                },
+                {"id": "nyland", "licence": "CC0-1.0", "status": "active", "permission": "written"},
             ]
         }
     )
-    assert reg.releasable("openev") and reg.releasable("eea")
+    assert reg.releasable("openev")
+    # "(to confirm)" no longer passes on an active source (matches data/sources.yaml's rule).
+    assert reg.reason_blocked("eea").startswith("licence not confirmed")
     assert reg.reason_blocked("fastned") == "status waiting_permission"
     assert reg.reason_blocked("kba") == "status blocked"
     assert reg.reason_blocked("nolicence").startswith("no named licence")
+    assert reg.reason_blocked("unknownlic").startswith("no named licence")
+    assert reg.releasable("permitted")  # explicit written permission is the only override
+    assert reg.reason_blocked("pending") == "status waiting_permission"  # status still applies
     assert reg.reason_blocked("unlisted") == "not in data/sources.yaml"
     assert not reg.releasable("nyland")  # hard exclusion beats the registry
+
+
+def test_real_registry_has_no_written_permission_tonight() -> None:
+    real = yaml.safe_load((FIX.parents[2].parent / "data" / "sources.yaml").read_text())
+    assert all(s.get("permission") is None for s in real["sources"])
+    reg = parse_registry(real)
+    for s in real["sources"]:
+        lic = str(s.get("licence", "")).lower()
+        if "to confirm" in lic or lic.startswith(("none", "unknown")):
+            assert not reg.releasable(s["id"]), s["id"]
 
 
 def test_non_active_source_is_gated(data_dir: Path) -> None:
     reg = yaml.safe_load((data_dir / "sources.yaml").read_text())
     for s in reg["sources"]:
-        if s["id"] == "eea":
+        if s["id"] in ("eea", "wikidata"):
             s["status"] = "waiting_permission"
     (data_dir / "sources.yaml").write_text(yaml.safe_dump(reg))
     res = build_release(data_dir, now=NOW)
     assert res.gated["eea"]["reason"] == "status waiting_permission"
     assert res.gated["eea"]["records"] == 3
-    assert "eea" not in json.dumps(res.catalogue)
-    assert all(f["source"]["id"] != "eea" for f in res.facts)
-    # Without EEA nothing confirms the Model 3 battery: tier falls back.
+    assert res.gated["wikidata"]["records"] == 2
+    for sid in ("eea", "wikidata"):
+        assert sid not in json.dumps(res.catalogue)
+        assert all(f["source"]["id"] != sid for f in res.facts)
+    # Without wikidata nothing confirms the Model 3 battery: tier falls back.
     rows = _rows(res.catalogue)
     assert rows["tesla-model-3-gen1-lr"]["quality_tier"] == "single-source"
 

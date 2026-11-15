@@ -6,9 +6,13 @@
 
 ARG PYTHON_VERSION=3.12
 
+# uv binary from the official image, pinned to the version the lockfile was made with
+# (uv 0.11.32 locally, 2026-11-15) so builds are reproducible. Bump together with uv.lock.
+ARG UV_VERSION=0.11.32
+FROM ghcr.io/astral-sh/uv:${UV_VERSION} AS uv
+
 FROM python:${PYTHON_VERSION}-slim AS runtime
-# uv binary from the official image (pin a version tag/digest when Dependabot covers Docker).
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+COPY --from=uv /uv /usr/local/bin/uv
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -32,9 +36,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 COPY packages/schema/schemas /app/packages/schema/schemas
 COPY pipeline/ ./
+# Same optional `extra_ca` secret as above: this step fetches the build backend (hatchling).
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev \
- && rm -rf tests/__pycache__
+    --mount=type=secret,id=extra_ca,required=false \
+    if [ -f /run/secrets/extra_ca ]; then export SSL_CERT_FILE=/run/secrets/extra_ca; fi; \
+    uv sync --frozen --no-dev
 
 # Non-root user; code stays root-owned and read-only, /data is the only writable path.
 RUN useradd --system --uid 10001 --home-dir /nonexistent --shell /usr/sbin/nologin ev \

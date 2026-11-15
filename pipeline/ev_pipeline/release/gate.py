@@ -1,12 +1,14 @@
 """Licence gate (Decision 009): which sources may reach a public release.
 
-A source is releasable only when data/sources.yaml lists it with `status: active` AND a named
-licence (not empty, "none" or "unknown"). Anything else, including sources missing from the
-registry, is dropped before matching and guarded again before writing. `nyland` is always
-excluded (matcher.EXCLUDED_SOURCES), registry or not.
-
-Licences marked "(to confirm)" on an active source (EEA tonight) pass the gate: the status is
-the explicit switch; see QUESTIONS.md Q-022.
+Fails closed (T-006 review):
+- No data/sources.yaml -> the release FAILS (`ReleaseError` in build_release); nothing is
+  released on the strength of a missing registry.
+- A source is releasable only when the registry lists it with `status: active` AND either a
+  named, confirmed licence or `permission: written` (explicit written permission, logged).
+- A licence that is empty, "none", "unknown", "n/a" or still marked "(to confirm)" is not a
+  named licence. That matches data/sources.yaml: "(to confirm)" licences stay blocked until
+  checked. `permission: written` is the only override; no source sets it tonight.
+- `nyland` is always excluded (matcher.EXCLUDED_SOURCES), whatever the registry says.
 """
 
 from __future__ import annotations
@@ -20,6 +22,8 @@ import yaml
 from ev_pipeline.match.matcher import EXCLUDED_SOURCES
 
 _NO_LICENCE = {"", "none", "unknown", "n/a"}
+WRITTEN_PERMISSION = "written"
+MISSING_REGISTRY = "no data/sources.yaml (licence registry missing; release blocked)"
 
 
 @dataclass
@@ -30,6 +34,18 @@ class SourceEntry:
     status: str
     owner: str = ""
     terms: str = ""
+    permission: str = ""  # "written" = explicit written permission from the owner
+
+
+def licence_problem(licence: str) -> str | None:
+    """None when `licence` names a confirmed licence, else why not."""
+    text = licence.strip().lower()
+    base = text.split("(")[0].strip()
+    if base in _NO_LICENCE or base.startswith(("unknown", "none")):
+        return f"no named licence ({licence})"
+    if "to confirm" in text or "unconfirmed" in text:
+        return f"licence not confirmed ({licence})"
+    return None
 
 
 @dataclass
@@ -42,16 +58,15 @@ class Registry:
         if source_id in EXCLUDED_SOURCES:
             return "permission pending (hard exclusion)"
         if not self.loaded:
-            return None  # no registry file: only the hard floor applies
+            return MISSING_REGISTRY
         entry = self.sources.get(source_id)
         if entry is None:
             return "not in data/sources.yaml"
         if entry.status != "active":
             return f"status {entry.status}"
-        lic = entry.licence.split("(")[0].strip().lower()
-        if lic in _NO_LICENCE or lic.startswith("unknown") or lic.startswith("none"):
-            return f"no named licence ({entry.licence})"
-        return None
+        if entry.permission == WRITTEN_PERMISSION:
+            return None
+        return licence_problem(entry.licence)
 
     def releasable(self, source_id: str) -> bool:
         return self.reason_blocked(source_id) is None
@@ -73,6 +88,7 @@ def parse_registry(data: dict[str, Any]) -> Registry:
             status=str(s.get("status") or ""),
             owner=str(s.get("owner") or ""),
             terms=str(s.get("terms") or ""),
+            permission=str(s.get("permission") or "").strip().lower(),
         )
     return Registry(out, loaded=True)
 

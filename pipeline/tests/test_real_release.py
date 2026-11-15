@@ -223,3 +223,29 @@ def test_merged_values_are_never_averages(
             if cited and not any(abs(round(c, 1) - v) < 0.051 for c in cited):
                 bad.append((r["variant_id"], k, v, cited))
     assert bad == [], bad[:10]
+
+
+# --- added by the T-004/005/006 fixes after review, 2026-11-15 ------------------------------
+
+
+def test_run_log_has_no_host_paths(release_dir: Path) -> None:
+    log = json.loads((release_dir / "run_log.json").read_text(encoding="utf-8"))
+    for inp in log["inputs"]:
+        assert not Path(inp["path"]).is_absolute(), inp["path"]
+        assert inp["path"].startswith("data/"), inp["path"]
+    text = (release_dir / "run_log.json").read_text(encoding="utf-8")
+    for needle in ("/home/", "/root/", "/tmp/", "/Users/", "C:\\\\"):
+        assert needle not in text
+
+
+def test_no_eea_spec_facts(facts: dict[str, dict[str, Any]]) -> None:
+    # EEA type-approval averages blend different cars (and M includes a 75 kg driver): counts only.
+    eea = {f["field"] for f in facts.values() if f["source_id"] == "eea"}
+    assert eea <= {"registered_count"}
+
+
+def test_no_e_tron_gt_counted_as_e_tron(release_dir: Path) -> None:
+    facts_tbl = pq.read_table(release_dir / "facts.parquet").to_pylist()
+    for f in facts_tbl:
+        if f["subject_id"].startswith("audi-e-tron"):
+            assert " GT" not in (f["source_record"] or "").upper(), f["source_record"]

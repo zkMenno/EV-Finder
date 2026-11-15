@@ -180,6 +180,26 @@ With EEA count-only, the release fixture needed another independent spec source 
 
 **Answer:**
 
+### Q-043 · ADEME WLTP: best case only · sources (ademe) · builder · 2026-11-15
+ADEME gives WLTP consumption and range as Min/Max per version (the low and high test vehicles of one homologation: options, wheels). **Default:** we emit only the best case (lowest kWh/100km, highest km), the figure makers quote, and never average. The worst case is dropped because the schema has no field for it. Add `wltp_range_km_worst` / a min–max pair to the schema, or keep best only?
+
+**Answer:**
+
+### Q-044 · What mass is `weight_kg`? · schema / sources (ademe) · builder · 2026-11-15
+The schema doesn't say whether `weight_kg` includes the 75 kg driver. ADEME "Poids à vide" = "Masse en ordre de marche" − 75 kg on every electric row, so it excludes the driver; EEA type-approval mass includes it. **Default:** ADEME emits "Poids à vide" (no driver). Please fix the definition (EU kerb mass with driver, or without) so adapters can convert.
+
+**Answer:**
+
+### Q-045 · ADEME power not emitted · sources (ademe) · builder · 2026-11-15
+For BEVs ADEME fills only "Puissance nominale électrique", the rated 30-minute power (57 kW on a Corsa-e whose peak is 100 kW); "Puissance maximale" is empty. **Default:** no `power_kw` from ADEME. Peak power sometimes appears in the description ("(204ch)"), but parsing it is fragile. OK to leave it out?
+
+**Answer:**
+
+### Q-046 · KBA period and DfT year semantics · sources (kba-fz10, dft-veh) · builder · 2026-11-15
+**KBA:** the brief asked for the latest month plus the same month a year earlier. **Default:** we take the latest file's year-to-date (Jan–Oct 2026) plus last year's **December** file (full year 2025), so every year is complete or YTD and years never overlap. **DfT:** VEH0120 is fleet stock at quarter end (2026 Q2), not registrations in a year, so `year` is empty and the count sits on the model. For counts per year of first registration we would need VEH0124 (stock × year of first use) or VEH0160 (first registrations per quarter). OK as a first cut?
+
+**Answer:**
+
 ## Closed
 
 ### Q-038 · Two different "Open EV Data" datasets · coordinator · 2026-11-15

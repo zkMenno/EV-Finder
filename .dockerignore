@@ -12,9 +12,13 @@
 # Web app and the schema package it imports
 !apps/web/
 !packages/schema/
+# Per-country "See listings" config the web build reads (scripts/listings.mjs)
+!config/countries/
 
-# Pipeline (needs packages/schema/schemas at runtime too)
+# Pipeline (needs packages/schema/schemas at runtime too). Tests and fixtures stay out of the
+# jobs image (T-013 review): the image ships code, not sample data.
 !pipeline/
+pipeline/tests
 
 # Published catalogue releases only (the web Dockerfile copies just the latest one)
 !data/releases/

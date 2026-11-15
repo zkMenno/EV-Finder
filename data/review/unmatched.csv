@@ -1,439 +1,416 @@
 source_id,record_key,make,model,variant_name,year,reason
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|A2 ETRON|2025,AUDI,A2 ETRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON|2025,AUDI,A6 AV E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON PERFORMANCE|2025,AUDI,A6 AV E-TRON PERFORMANCE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON QUATTRO|2025,AUDI,A6 AV E-TRON QUATTRO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|A6 E-TRON|2025,AUDI,A6 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 SB E-TRON|2025,AUDI,A6 SB E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 SB E-TRON PERFORMANCE|2025,AUDI,A6 SB E-TRON PERFORMANCE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 SB E-TRON QUATTRO|2025,AUDI,A6 SB E-TRON QUATTRO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI A2 E-TRON|2025,AUDI,AUDI A2 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI Q6|2025,AUDI,AUDI Q6,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI S6 AV E-TRON|2025,AUDI,AUDI S6 AV E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI S6 E- TRON|2025,AUDI,AUDI S6 E- TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI SQ6 E-TRON|2025,AUDI,AUDI SQ6 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI SQ8 E-TRON|2025,AUDI,AUDI SQ8 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E3 CUV|2025,AUDI,E3 CUV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 35 E-TRON|2025,AUDI,Q4 35 E-TRON,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 40 E-TRON|2025,AUDI,Q4 40 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 45 E-TRON|2025,AUDI,Q4 45 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|Q4 50 E-TRON|2025,AUDI,Q4 50 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 55 E-TRON|2025,AUDI,Q4 55 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 SPORTBACK  45 E-TRON|2025,AUDI,Q4 SPORTBACK  45 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|Q4 SPORTBACK 35 E-TRON|2025,AUDI,Q4 SPORTBACK 35 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 SPORTBACK 40 E-TRON|2025,AUDI,Q4 SPORTBACK 40 E-TRON,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 SPORTBACK 45 E-TRON|2025,AUDI,Q4 SPORTBACK 45 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 SPORTBACK 50 E-TRON|2025,AUDI,Q4 SPORTBACK 50 E-TRON,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q4 SPORTBACK 55 E-TRON|2025,AUDI,Q4 SPORTBACK 55 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 E-TRON|2025,AUDI,Q6 E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SB E-TRON|2025,AUDI,Q6 SB E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SB E-TRON PERFORMANCE|2025,AUDI,Q6 SB E-TRON PERFORMANCE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SB E-TRON QUATTRO|2025,AUDI,Q6 SB E-TRON QUATTRO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SUV E-TRON|2025,AUDI,Q6 SUV E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SUV E-TRON PERFORMANCE|2025,AUDI,Q6 SUV E-TRON PERFORMANCE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SUV E-TRON QUATTRO|2025,AUDI,Q6 SUV E-TRON QUATTRO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|AUDI|Q6 SUV ETRON QUATTRO|2025,AUDI,Q6 SUV ETRON QUATTRO,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q8 50 E-TRON|2025,AUDI,Q8 50 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q8 55 E-TRON|2025,AUDI,Q8 55 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q8 SPORTBACK 50 E-TRON|2025,AUDI,Q8 SPORTBACK 50 E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q8 SPORTBACK 55 E-TRON|2025,AUDI,Q8 SPORTBACK 55 E-TRON,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|RS E-TRON GT|2025,AUDI,RS E-TRON GT,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|RS E-TRON GT PERFORMANCE|2025,AUDI,RS E-TRON GT PERFORMANCE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S E-TRON GT|2025,AUDI,S E-TRON GT,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S6 AV E TRON|2025,AUDI,S6 AV E TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S6 AV E-TRON|2025,AUDI,S6 AV E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S6 SB E-TRON|2025,AUDI,S6 SB E-TRON,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|S6 SPORTBACK E-TRON|2025,AUDI,S6 SPORTBACK E-TRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|SQ6 SB E-TRON|2025,AUDI,SQ6 SB E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|SQ6 SUV E-TRON|2025,AUDI,SQ6 SUV E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|AUDI|SQ6 SUV ETRON|2025,AUDI,SQ6 SUV ETRON,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|SQ8 E-TRON|2025,AUDI,SQ8 E-TRON,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|SQ8 SPORTBACK E-TRON|2025,AUDI,SQ8 SPORTBACK E-TRON,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|ACEMAN SE|2025,BMW,ACEMAN SE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|BMW VDX|2025,BMW,BMW VDX,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|COOPER E|2025,BMW,COOPER E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|COOPER SE|2025,BMW,COOPER SE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|COUNTRYMAN SE ALL4|2025,BMW,COUNTRYMAN SE ALL4,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|E|2025,BMW,E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I3 40 XDRIVE|2025,BMW,I3 40 XDRIVE,,,year 2025 outside every generation of bmw-i3 (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I3 40L|2025,BMW,I3 40L,,,year 2025 outside every generation of bmw-i3 (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I3 50 XDRIVE|2025,BMW,I3 50 XDRIVE,,,year 2025 outside every generation of bmw-i3 (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 40|2025,BMW,I5 40,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 40 XDRIVE|2025,BMW,I5 40 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 EDRIVE 40|2025,BMW,I5 EDRIVE 40,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I5 EDRIVE40|2025,BMW,I5 EDRIVE40,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I5 M60 XDRIVE|2025,BMW,I5 M60 XDRIVE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 XDRIVE 40|2025,BMW,I5 XDRIVE 40,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I5 XDRIVE40|2025,BMW,I5 XDRIVE40,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I7 50 XDRIVE|2025,BMW,I7 50 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I7 EDRIVE 50|2025,BMW,I7 EDRIVE 50,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I7 EDRIVE50|2025,BMW,I7 EDRIVE50,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I7 M70 XDRIVE|2025,BMW,I7 M70 XDRIVE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I7 XDRIVE 60|2025,BMW,I7 XDRIVE 60,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I7 XDRIVE60|2025,BMW,I7 XDRIVE60,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I745|2025,BMW,I745,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX M60|2025,BMW,IX M60,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX M70 XDRIVE|2025,BMW,IX M70 XDRIVE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 40|2025,BMW,IX XDRIVE 40,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 45|2025,BMW,IX XDRIVE 45,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 50|2025,BMW,IX XDRIVE 50,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 60|2025,BMW,IX XDRIVE 60,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE40|2025,BMW,IX XDRIVE40,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE45|2025,BMW,IX XDRIVE45,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE50|2025,BMW,IX XDRIVE50,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE60|2025,BMW,IX XDRIVE60,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 30|2025,BMW,IX1 30,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 30 XDRIVE|2025,BMW,IX1 30 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 40 XDRIVE|2025,BMW,IX1 40 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 EDRIVE 20|2025,BMW,IX1 EDRIVE 20,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX1 EDRIVE20|2025,BMW,IX1 EDRIVE20,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 M50 XDRIVE|2025,BMW,IX1 M50 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 XDRIVE 30|2025,BMW,IX1 XDRIVE 30,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX1 XDRIVE30|2025,BMW,IX1 XDRIVE30,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX2 EDRIVE 20|2025,BMW,IX2 EDRIVE 20,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX2 EDRIVE20|2025,BMW,IX2 EDRIVE20,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX2 XDRIVE 20|2025,BMW,IX2 XDRIVE 20,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX2 XDRIVE 30|2025,BMW,IX2 XDRIVE 30,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX2 XDRIVE30|2025,BMW,IX2 XDRIVE30,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX3|2025,BMW,IX3,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 30L|2025,BMW,IX3 30L,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 40|2025,BMW,IX3 40,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 40 XDRIVE|2025,BMW,IX3 40 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 40L|2025,BMW,IX3 40L,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX3 50 XDRIVE|2025,BMW,IX3 50 XDRIVE,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 50L XDRIVE|2025,BMW,IX3 50L XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 M60XDRIVE|2025,BMW,IX3 M60XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX4 40 XDRIVE|2025,BMW,IX4 40 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX4 50 XDRIVE|2025,BMW,IX4 50 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 60H XDRIVE|2025,BMW,IX5 60H XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 M50 XDRIVE|2025,BMW,IX5 M50 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 M70 XDRIVE|2025,BMW,IX5 M70 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 XDRIVE|2025,BMW,IX5 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 XDRIVE45|2025,BMW,IX5 XDRIVE45,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 50 XDRIVE|2025,BMW,IX7 50 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 60 XDRIVE|2025,BMW,IX7 60 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 ALPINA 100 XDRIVE|2025,BMW,IX7 ALPINA 100 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 M50 XDRIVE|2025,BMW,IX7 M50 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 M70 XDRIVE|2025,BMW,IX7 M70 XDRIVE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|JCW ACEMAN E|2025,BMW,JCW ACEMAN E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|JCW E|2025,BMW,JCW E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|M3|2025,BMW,M3,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|SE ALL4|2025,BMW,SE ALL4,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|X1 XDRIVE 30E|2025,BMW,X1 XDRIVE 30E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|X3 M|2025,BMW,X3 M,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD ATTO 2|2025,BYD,BYD ATTO 2,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD DOLPHIN|2025,BYD,BYD DOLPHIN,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD DOLPHIN SURF|2025,BYD,BYD DOLPHIN SURF,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD DOLPHINA SURF|2025,BYD,BYD DOLPHINA SURF,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BYD|BYD DOLPHINSURF|2025,BYD,BYD DOLPHINSURF,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD SEAL|2025,BYD,BYD SEAL,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD SEAL U|2025,BYD,BYD SEAL U,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD SEALION 7|2025,BYD,BYD SEALION 7,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|DOLPHIN|2025,BYD,DOLPHIN,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|HAN|2025,BYD,HAN,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|SEAL|2025,BYD,SEAL,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BYD|SEAL U|2025,BYD,SEAL U,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|SEALION 7|2025,BYD,SEALION 7,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|TANG EV|2025,BYD,TANG EV,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CITROEN|C3 AIRCROSS|2025,CITROEN,C3 AIRCROSS,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|C5 AIRCROSS|2025,CITROEN,C5 AIRCROSS,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-BERLINGO|2025,CITROEN,E-BERLINGO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-C3|2025,CITROEN,E-C3,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-C3 AIRCROSS|2025,CITROEN,E-C3 AIRCROSS,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|JUMPY|2025,CITROEN,JUMPY,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CITROEN|JUMPY SPACETOURER|2025,CITROEN,JUMPY SPACETOURER,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|SPACETOURER|2025,CITROEN,SPACETOURER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|RAVAL|2025,CUPRA,RAVAL,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|RAVAL 166 KW|2025,CUPRA,RAVAL 166 KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|TAVASCAN|2025,CUPRA,TAVASCAN,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|500|2025,FIAT,500,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|600|2025,FIAT,600,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|FIAT|E SCUDO|2025,FIAT,E SCUDO,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|E-DOBLO|2025,FIAT,E-DOBLO,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FIAT|FIAT PANDA|2025,FIAT,FIAT PANDA,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|PANDA|2025,FIAT,PANDA,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|SCUDO|2025,FIAT,SCUDO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|ULYSSE|2025,FIAT,ULYSSE,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|CAPRI|2025,FORD,CAPRI,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|CX740|2025,FORD,CX740,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|CX740L|2025,FORD,CX740L,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|CX740S|2025,FORD,CX740S,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|EXPLORER|2025,FORD,EXPLORER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|PUMA|2025,FORD,PUMA,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|TOURNEO COURIER|2025,FORD,TOURNEO COURIER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|TOURNEO CUSTOM|2025,FORD,TOURNEO CUSTOM,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|TRANSIT CUSTOM|2025,FORD,TRANSIT CUSTOM,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HONDA|E:NY1|2025,HONDA,E:NY1,,,year 2025 outside every generation of honda-e (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HONDA|HONDA E|2025,HONDA,HONDA E,,,year 2025 outside every generation of honda-e (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|BJ|2025,HYUNDAI,BJ,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|BJ1|2025,HYUNDAI,BJ1,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|CE|2025,HYUNDAI,CE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|CE N|2025,HYUNDAI,CE N,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|INSTER|2025,HYUNDAI,INSTER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIC6|2025,HYUNDAI,IONIC6,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIQ 9|2025,HYUNDAI,IONIQ 9,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|IONIQ9|2025,HYUNDAI,IONIQ9,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|JG|2025,HYUNDAI,JG,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|JW|2025,HYUNDAI,JW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HYUNDAI|KONA|2025,HYUNDAI,KONA,,,model not in seed (4x)
-eea,"[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|KONA, KAUAI|2025",HYUNDAI,"KONA, KAUAI",,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|ME|2025,HYUNDAI,ME,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|NE|2025,HYUNDAI,NE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|NE-N|2025,HYUNDAI,NE-N,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|SZ1|2025,HYUNDAI,SZ1,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|US4|2025,HYUNDAI,US4,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|JAGUAR|JAGUAR I-PACE|2025,JAGUAR,JAGUAR I-PACE,,,year 2025 outside every generation of jaguar-i-pace (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|CT|2025,KIA,CT,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|CV|2025,KIA,CV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|EV2|2025,KIA,EV2,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV3|2025,KIA,EV3,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV4|2025,KIA,EV4,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV5|2025,KIA,EV5,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV9|2025,KIA,EV9,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV9 GT|2025,KIA,EV9 GT,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|NIRO|2025,KIA,NIRO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|NQ5E|2025,KIA,NQ5E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|OV|2025,KIA,OV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|OV1|2025,KIA,OV1,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|PV5|2025,KIA,PV5,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|QV|2025,KIA,QV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|SOUL|2025,KIA,SOUL,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SV|2025,KIA,SV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SV1|2025,KIA,SV1,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SW|2025,KIA,SW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SW1|2025,KIA,SW1,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SZ|2025,KIA,SZ,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SZ1|2025,KIA,SZ1,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SZ1E|2025,KIA,SZ1E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG C590 BEV MID|2025,MERCEDES-BENZ,AMG C590 BEV MID,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG CLA 45 E PERFORMANCE|2025,MERCEDES-BENZ,AMG CLA 45 E PERFORMANCE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG CLA PERFORMANCE EQ 4MATIC|2025,MERCEDES-BENZ,AMG CLA PERFORMANCE EQ 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG EA SUV HIGH 63|2025,MERCEDES-BENZ,AMG EA SUV HIGH 63,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG EA SUV MID 55|2025,MERCEDES-BENZ,AMG EA SUV MID 55,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG EQ E 43 4MATIC|2025,MERCEDES-BENZ,AMG EQ E 43 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|AMG EQE 43 4MATIC|2025,MERCEDES-BENZ,AMG EQE 43 4MATIC,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|AMG EQE 53 4MATIC+|2025,MERCEDES-BENZ,AMG EQE 53 4MATIC+,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|AMG EQS 53 4MATIC+|2025,MERCEDES-BENZ,AMG EQS 53 4MATIC+,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLA 45 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GLA 45 E PERFORMANCE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 43 E|2025,MERCEDES-BENZ,AMG GLC 43 E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 43 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GLC 43 E PERFORMANCE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 63 E|2025,MERCEDES-BENZ,AMG GLC 63 E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 63 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GLC 63 E PERFORMANCE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 43E COUPE|2025,MERCEDES-BENZ,AMG GT 43E COUPE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 55E COUPE|2025,MERCEDES-BENZ,AMG GT 55E COUPE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 63 PRO|2025,MERCEDES-BENZ,AMG GT 63 PRO,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 63E|2025,MERCEDES-BENZ,AMG GT 63E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 63E COUPE|2025,MERCEDES-BENZ,AMG GT 63E COUPE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT BEV|2025,MERCEDES-BENZ,AMG GT BEV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT BEV HIGH|2025,MERCEDES-BENZ,AMG GT BEV HIGH,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT PRO|2025,MERCEDES-BENZ,AMG GT PRO,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 43 E|2025,MERCEDES-BENZ,AMG GT SUV 43 E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 43 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GT SUV 43 E PERFORMANCE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 43E|2025,MERCEDES-BENZ,AMG GT SUV 43E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 63 E|2025,MERCEDES-BENZ,AMG GT SUV 63 E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG SUV BEV MID 55|2025,MERCEDES-BENZ,AMG SUV BEV MID 55,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 200|2025,MERCEDES-BENZ,C 200,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,C 200 WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 250 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,C 250 WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300|2025,MERCEDES-BENZ,C 300,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300 4MATIC|2025,MERCEDES-BENZ,C 300 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300 4MATIC WITH EQ T.|2025,MERCEDES-BENZ,C 300 4MATIC WITH EQ T.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,C 300 WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 400 4MATIC|2025,MERCEDES-BENZ,C 400 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 400 4MATIC WITH EQ T.|2025,MERCEDES-BENZ,C 400 4MATIC WITH EQ T.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|CLA 200|2025,MERCEDES-BENZ,CLA 200,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,CLA 200 WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 220|2025,MERCEDES-BENZ,CLA 220,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 250|2025,MERCEDES-BENZ,CLA 250,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|CLA 250+|2025,MERCEDES-BENZ,CLA 250+,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 250+ WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,CLA 250+ WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 300 4MATIC|2025,MERCEDES-BENZ,CLA 300 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 300+ 4MATIC|2025,MERCEDES-BENZ,CLA 300+ 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|CLA 350 4MATIC|2025,MERCEDES-BENZ,CLA 350 4MATIC,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 350 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,CLA 350 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 350+ 4MATIC|2025,MERCEDES-BENZ,CLA 350+ 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA TOP MR EQ 4MATIC|2025,MERCEDES-BENZ,CLA TOP MR EQ 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQA|2025,MERCEDES-BENZ,CLASSE EQA,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQB|2025,MERCEDES-BENZ,CLASSE EQB,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQE|2025,MERCEDES-BENZ,CLASSE EQE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQS|2025,MERCEDES-BENZ,CLASSE EQS,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQV|2025,MERCEDES-BENZ,CLASSE EQV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE G|2025,MERCEDES-BENZ,CLASSE G,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|E 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,E 200 WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|E450 4MATIC WITH EQ TECHN|2025,MERCEDES-BENZ,E450 4MATIC WITH EQ TECHN,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|ECITAN TOURER|2025,MERCEDES-BENZ,ECITAN TOURER,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|ECITAN TOURIER|2025,MERCEDES-BENZ,ECITAN TOURIER,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 250|2025,MERCEDES-BENZ,EQB 250,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 250+|2025,MERCEDES-BENZ,EQB 250+,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 250+ BUSINESS SOLUTION AMG|2025,MERCEDES-BENZ,EQB 250+ BUSINESS SOLUTION AMG,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 300 4MATIC|2025,MERCEDES-BENZ,EQB 300 4MATIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 350 4MATIC|2025,MERCEDES-BENZ,EQB 350 4MATIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQC 400 4MATIC|2025,MERCEDES-BENZ,EQC 400 4MATIC,,,year 2025 outside every generation of mercedes-eqc (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 300|2025,MERCEDES-BENZ,EQE 300,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 350|2025,MERCEDES-BENZ,EQE 350,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 350 4MATIC|2025,MERCEDES-BENZ,EQE 350 4MATIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 350+|2025,MERCEDES-BENZ,EQE 350+,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 500 4MATIC|2025,MERCEDES-BENZ,EQE 500 4MATIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 350|2025,MERCEDES-BENZ,EQS 350,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQS 400|2025,MERCEDES-BENZ,EQS 400,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 450 4MATIC|2025,MERCEDES-BENZ,EQS 450 4MATIC,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 450+|2025,MERCEDES-BENZ,EQS 450+,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 500 4MATIC|2025,MERCEDES-BENZ,EQS 500 4MATIC,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 580 4MATIC|2025,MERCEDES-BENZ,EQS 580 4MATIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQS E2EQSW|2025,MERCEDES-BENZ,EQS E2EQSW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQT|2025,MERCEDES-BENZ,EQT,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQT-KLASSE|2025,MERCEDES-BENZ,EQT-KLASSE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQV|2025,MERCEDES-BENZ,EQV,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQV-KLASSE|2025,MERCEDES-BENZ,EQV-KLASSE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EVITO TOURER|2025,MERCEDES-BENZ,EVITO TOURER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 300 4MATIC|2025,MERCEDES-BENZ,G 300 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 300 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,G 300 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400 4MATIC|2025,MERCEDES-BENZ,G 400 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,G 400 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400+ 4MATIC|2025,MERCEDES-BENZ,G 400+ 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400+ 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,G 400+ 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|G 580|2025,MERCEDES-BENZ,G 580,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|G580|2025,MERCEDES-BENZ,G580,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 200|2025,MERCEDES-BENZ,GLA 200,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 200 WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250|2025,MERCEDES-BENZ,GLA 250,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 250 WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250+|2025,MERCEDES-BENZ,GLA 250+,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250+ WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 250+ WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 350 4MATIC|2025,MERCEDES-BENZ,GLA 350 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 350 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 350 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 200 WITH EQ T.|2025,MERCEDES-BENZ,GLB 200 WITH EQ T.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 250 WITH EQ T.|2025,MERCEDES-BENZ,GLB 250 WITH EQ T.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 250+|2025,MERCEDES-BENZ,GLB 250+,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 250+ WITH EQ T.|2025,MERCEDES-BENZ,GLB 250+ WITH EQ T.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 350 4MATIC|2025,MERCEDES-BENZ,GLB 350 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 350 4MATIC WITH EQ T.|2025,MERCEDES-BENZ,GLB 350 4MATIC WITH EQ T.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 200 EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 200 EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 200 WITH EQ TECHN.|2025,MERCEDES-BENZ,GLC 200 WITH EQ TECHN.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 250 EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 250 EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 250 WITH EQ TECHN.|2025,MERCEDES-BENZ,GLC 250 WITH EQ TECHN.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 300 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 300 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 300 EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 300 EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 300 WITH EQ T.|2025,MERCEDES-BENZ,GLC 300 WITH EQ T.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 400 4MATIC|2025,MERCEDES-BENZ,GLC 400 4MATIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 400 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 400 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 63 E AMG PERFORMANCE|2025,MERCEDES-BENZ,GLC 63 E AMG PERFORMANCE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|MAYBACH EQS 680|2025,MERCEDES-BENZ,MAYBACH EQS 680,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C 43E|2025,MERCEDES-BENZ,MERCEDES-AMG C 43E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C 63E|2025,MERCEDES-BENZ,MERCEDES-AMG C 63E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C43E PERFORM|2025,MERCEDES-BENZ,MERCEDES-AMG C43E PERFORM,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C63E PERFORM|2025,MERCEDES-BENZ,MERCEDES-AMG C63E PERFORM,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG CLA 45 E P.|2025,MERCEDES-BENZ,MERCEDES-AMG CLA 45 E P.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG E53E|2025,MERCEDES-BENZ,MERCEDES-AMG E53E,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG GLA 45 E P.|2025,MERCEDES-BENZ,MERCEDES-AMG GLA 45 E P.,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|VAN-EA|2025,MERCEDES-BENZ,VAN-EA,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|VAN.EA|2025,MERCEDES-BENZ,VAN.EA,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|VAN.EA 4X4|2025,MERCEDES-BENZ,VAN.EA 4X4,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MG|CYBERSTER|2025,MG,CYBERSTER,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG CYBERSTER|2025,MG,MG CYBERSTER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG MARVEL R ELECTRIC|2025,MG,MG MARVEL R ELECTRIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG S5 EV|2025,MG,MG S5 EV,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MG S6 EV|2025,MG,MG S6 EV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG5 ELECTRIC|2025,MG,MG5 ELECTRIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MGS5 EV|2025,MG,MGS5 EV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|ACEMAN E|2025,MINI,ACEMAN E,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|ACEMAN SE|2025,MINI,ACEMAN SE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COUNTRYMAN E|2025,MINI,COUNTRYMAN E,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COUNTRYMAN SE ALL4|2025,MINI,COUNTRYMAN SE ALL4,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|JCW ACEMAN E|2025,MINI,JCW ACEMAN E,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|JCW E|2025,MINI,JCW E,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN ARIYA|2025,NISSAN,NISSAN ARIYA,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN MICRA|2025,NISSAN,NISSAN MICRA,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|SAKURA|2025,NISSAN,SAKURA,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|TOWNSTAR|2025,NISSAN,TOWNSTAR,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|ASTRA|2025,OPEL,ASTRA,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|ASTRA SPORTS TOURER|2025,OPEL,ASTRA SPORTS TOURER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|OPEL|C3 AIRCROSS|2025,OPEL,C3 AIRCROSS,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|COMBO-E LIFE|2025,OPEL,COMBO-E LIFE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|CORSA|2025,OPEL,CORSA,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|E-COMBO LIFE|2025,OPEL,E-COMBO LIFE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|FRONTERA|2025,OPEL,FRONTERA,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|GRANDLAND|2025,OPEL,GRANDLAND,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|MOKKA|2025,OPEL,MOKKA,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|VIVARO|2025,OPEL,VIVARO,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|OPEL|VIVARO LIFE|2025,OPEL,VIVARO LIFE,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|ZAFIRA LIFE|2025,OPEL,ZAFIRA LIFE,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|2008|2025,PEUGEOT,2008,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|208|2025,PEUGEOT,208,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|3008|2025,PEUGEOT,3008,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|308|2025,PEUGEOT,308,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|408|2025,PEUGEOT,408,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|5008|2025,PEUGEOT,5008,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|E-RIFTER|2025,PEUGEOT,E-RIFTER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|EXPERT|2025,PEUGEOT,EXPERT,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|TRAVELLER|2025,PEUGEOT,TRAVELLER,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|POLESTAR|POLESTAR 3|2025,POLESTAR,POLESTAR 3,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|POLESTAR|POLESTAR 4|2025,POLESTAR,POLESTAR 4,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|KANGOO E-TECH ELECTRIC|2025,RENAULT,KANGOO E-TECH ELECTRIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|RENAULT 4 E-TECH ELECTRIC|2025,RENAULT,RENAULT 4 E-TECH ELECTRIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|RENAULT 5 E-TECH ELECTRIC|2025,RENAULT,RENAULT 5 E-TECH ELECTRIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|RENAULT RENAULT 5 E-TECH ELECTRIC|2025,RENAULT,RENAULT RENAULT 5 E-TECH ELECTRIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|SCENIC E-TECH ELECTRIC|2025,RENAULT,SCENIC E-TECH ELECTRIC,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|RENAULT|TWINGO|2025,RENAULT,TWINGO,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|RENAULT|TWINGO E-TECH ELECTRIC|2025,RENAULT,TWINGO E-TECH ELECTRIC,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|ZOE|2025,RENAULT,ZOE,,,year 2025 outside every generation of renault-zoe (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ELROC 50|2025,SKODA,ELROC 50,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ|2025,SKODA,ELROQ,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 50|2025,SKODA,ELROQ 50,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 60|2025,SKODA,ELROQ 60,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 85|2025,SKODA,ELROQ 85,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 85X|2025,SKODA,ELROQ 85X,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ RS|2025,SKODA,ELROQ RS,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAK 85|2025,SKODA,ENYAK 85,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|EPIQ|2025,SKODA,EPIQ,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|SKODA ELROQ 85|2025,SKODA,SKODA ELROQ 85,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|SPACE BEV|2025,SKODA,SPACE BEV,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|#1|2025,SMART,#1,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|#3|2025,SMART,#3,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|#5|2025,SMART,#5,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|5|2025,SMART,5,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|EQ FORFOUR|2025,SMART,EQ FORFOUR,,,year 2025 outside every generation of smart-eq-fortwo (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|EQ FORTWO CABRIO|2025,SMART,EQ FORTWO CABRIO,,,year 2025 outside every generation of smart-eq-fortwo (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|EQ FORTWO COUPE|2025,SMART,EQ FORTWO COUPE,,,year 2025 outside every generation of smart-eq-fortwo (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|HX11|2025,SMART,HX11,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|TESLA|MODEL X|2025,TESLA,MODEL X,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|VAUXHALL|FRONTERA|2025,VAUXHALL,FRONTERA,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|VAUXHALL|VIVARO|2025,VAUXHALL,VIVARO,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|CARAVELLE|2025,VOLKSWAGEN,CARAVELLE,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID BUZZ PRO LR 210 KW|2025,VOLKSWAGEN,ID BUZZ PRO LR 210 KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID PRO|2025,VOLKSWAGEN,ID PRO,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. 7 TOURER PRO S|2025,VOLKSWAGEN,ID. 7 TOURER PRO S,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ GTX KR 250 KW|2025,VOLKSWAGEN,ID. BUZZ GTX KR 250 KW,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ GTX LR 250 KW|2025,VOLKSWAGEN,ID. BUZZ GTX LR 250 KW,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ PRO 150 KW|2025,VOLKSWAGEN,ID. BUZZ PRO 150 KW,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID. BUZZ PRO KR 210 KW|2025,VOLKSWAGEN,ID. BUZZ PRO KR 210 KW,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ PRO LR 210 KW|2025,VOLKSWAGEN,ID. BUZZ PRO LR 210 KW,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID. BUZZ PURE KR 125 KW|2025,VOLKSWAGEN,ID. BUZZ PURE KR 125 KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 GTX 220 KW|2025,VOLKSWAGEN,ID.5 GTX 220 KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 GTX 250KW|2025,VOLKSWAGEN,ID.5 GTX 250KW,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 128 KW|2025,VOLKSWAGEN,ID.5 PRO 128 KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 150 KW|2025,VOLKSWAGEN,ID.5 PRO 150 KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 210 KW|2025,VOLKSWAGEN,ID.5 PRO 210 KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 210KW|2025,VOLKSWAGEN,ID.5 PRO 210KW,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.5 PURE 125KW|2025,VOLKSWAGEN,ID.5 PURE 125KW,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.7 GTX|2025,VOLKSWAGEN,ID.7 GTX,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.7 PRO|2025,VOLKSWAGEN,ID.7 PRO,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.7 PRO 210KW|2025,VOLKSWAGEN,ID.7 PRO 210KW,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.7 PRO S|2025,VOLKSWAGEN,ID.7 PRO S,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.7 TOURER GTX|2025,VOLKSWAGEN,ID.7 TOURER GTX,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.7 TOURER PRO|2025,VOLKSWAGEN,ID.7 TOURER PRO,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.7 TOURER PRO S|2025,VOLKSWAGEN,ID.7 TOURER PRO S,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|TRANSPORTER|2025,VOLKSWAGEN,TRANSPORTER,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|TRANSPORTER CARAVELLE|2025,VOLKSWAGEN,TRANSPORTER CARAVELLE,,,model not in seed (6x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|UP!|2025,VOLKSWAGEN,UP!,,,model not in seed (2x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|C40|2025,VOLVO,C40,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EC40|2025,VOLVO,EC40,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|ES90|2025,VOLVO,ES90,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30|2025,VOLVO,EX30,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30 CROSS COUNTRY|2025,VOLVO,EX30 CROSS COUNTRY,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX90|2025,VOLVO,EX90,,,model not in seed (8x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|XC40|2025,VOLVO,XC40,,,model not in seed (8x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|A2 ETRON|2025,AUDI,A2 ETRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON|2025,AUDI,A6 AV E-TRON,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON PERFORMANCE|2025,AUDI,A6 AV E-TRON PERFORMANCE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON QUATTRO|2025,AUDI,A6 AV E-TRON QUATTRO,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|A6 E-TRON|2025,AUDI,A6 E-TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 SB E-TRON|2025,AUDI,A6 SB E-TRON,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 SB E-TRON PERFORMANCE|2025,AUDI,A6 SB E-TRON PERFORMANCE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 SB E-TRON QUATTRO|2025,AUDI,A6 SB E-TRON QUATTRO,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI A2 E-TRON|2025,AUDI,AUDI A2 E-TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI Q6|2025,AUDI,AUDI Q6,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI S6 AV E-TRON|2025,AUDI,AUDI S6 AV E-TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI S6 E- TRON|2025,AUDI,AUDI S6 E- TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|AUDI SQ6 E-TRON|2025,AUDI,AUDI SQ6 E-TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|E-TRON GT|2025,AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|E3 CUV|2025,AUDI,E3 CUV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 E-TRON|2025,AUDI,Q6 E-TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SB E-TRON|2025,AUDI,Q6 SB E-TRON,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SB E-TRON PERFORMANCE|2025,AUDI,Q6 SB E-TRON PERFORMANCE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SB E-TRON QUATTRO|2025,AUDI,Q6 SB E-TRON QUATTRO,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SUV E-TRON|2025,AUDI,Q6 SUV E-TRON,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SUV E-TRON PERFORMANCE|2025,AUDI,Q6 SUV E-TRON PERFORMANCE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|Q6 SUV E-TRON QUATTRO|2025,AUDI,Q6 SUV E-TRON QUATTRO,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|AUDI|Q6 SUV ETRON QUATTRO|2025,AUDI,Q6 SUV ETRON QUATTRO,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|RS E-TRON GT|2025,AUDI,RS E-TRON GT,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|RS E-TRON GT PERFORMANCE|2025,AUDI,RS E-TRON GT PERFORMANCE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S E-TRON GT|2025,AUDI,S E-TRON GT,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S6 AV E TRON|2025,AUDI,S6 AV E TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S6 AV E-TRON|2025,AUDI,S6 AV E-TRON,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|S6 SB E-TRON|2025,AUDI,S6 SB E-TRON,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|S6 SPORTBACK E-TRON|2025,AUDI,S6 SPORTBACK E-TRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|SQ6 SB E-TRON|2025,AUDI,SQ6 SB E-TRON,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|SQ6 SUV E-TRON|2025,AUDI,SQ6 SUV E-TRON,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|AUDI|SQ6 SUV ETRON|2025,AUDI,SQ6 SUV ETRON,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|ACEMAN SE|2025,BMW,ACEMAN SE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|BMW VDX|2025,BMW,BMW VDX,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|COOPER E|2025,BMW,COOPER E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|COOPER SE|2025,BMW,COOPER SE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|COUNTRYMAN SE ALL4|2025,BMW,COUNTRYMAN SE ALL4,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|E|2025,BMW,E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I3 40 XDRIVE|2025,BMW,I3 40 XDRIVE,,,year 2025 outside every generation of bmw-i3 (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I3 40L|2025,BMW,I3 40L,,,year 2025 outside every generation of bmw-i3 (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I3 50 XDRIVE|2025,BMW,I3 50 XDRIVE,,,year 2025 outside every generation of bmw-i3 (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 40|2025,BMW,I5 40,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 40 XDRIVE|2025,BMW,I5 40 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 EDRIVE 40|2025,BMW,I5 EDRIVE 40,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I5 EDRIVE40|2025,BMW,I5 EDRIVE40,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I5 M60 XDRIVE|2025,BMW,I5 M60 XDRIVE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I5 XDRIVE 40|2025,BMW,I5 XDRIVE 40,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I5 XDRIVE40|2025,BMW,I5 XDRIVE40,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I7 50 XDRIVE|2025,BMW,I7 50 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I7 EDRIVE 50|2025,BMW,I7 EDRIVE 50,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I7 EDRIVE50|2025,BMW,I7 EDRIVE50,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I7 M70 XDRIVE|2025,BMW,I7 M70 XDRIVE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I7 XDRIVE 60|2025,BMW,I7 XDRIVE 60,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|I7 XDRIVE60|2025,BMW,I7 XDRIVE60,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|I745|2025,BMW,I745,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX M60|2025,BMW,IX M60,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX M70 XDRIVE|2025,BMW,IX M70 XDRIVE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 40|2025,BMW,IX XDRIVE 40,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 45|2025,BMW,IX XDRIVE 45,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 50|2025,BMW,IX XDRIVE 50,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX XDRIVE 60|2025,BMW,IX XDRIVE 60,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE40|2025,BMW,IX XDRIVE40,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE45|2025,BMW,IX XDRIVE45,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE50|2025,BMW,IX XDRIVE50,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX XDRIVE60|2025,BMW,IX XDRIVE60,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 30|2025,BMW,IX1 30,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 30 XDRIVE|2025,BMW,IX1 30 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 40 XDRIVE|2025,BMW,IX1 40 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 EDRIVE 20|2025,BMW,IX1 EDRIVE 20,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX1 EDRIVE20|2025,BMW,IX1 EDRIVE20,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 M50 XDRIVE|2025,BMW,IX1 M50 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX1 XDRIVE 30|2025,BMW,IX1 XDRIVE 30,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX1 XDRIVE30|2025,BMW,IX1 XDRIVE30,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX2 EDRIVE 20|2025,BMW,IX2 EDRIVE 20,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX2 EDRIVE20|2025,BMW,IX2 EDRIVE20,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX2 XDRIVE 20|2025,BMW,IX2 XDRIVE 20,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX2 XDRIVE 30|2025,BMW,IX2 XDRIVE 30,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX2 XDRIVE30|2025,BMW,IX2 XDRIVE30,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX3|2025,BMW,IX3,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 30L|2025,BMW,IX3 30L,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 40|2025,BMW,IX3 40,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 40 XDRIVE|2025,BMW,IX3 40 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 40L|2025,BMW,IX3 40L,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BMW|IX3 50 XDRIVE|2025,BMW,IX3 50 XDRIVE,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 50L XDRIVE|2025,BMW,IX3 50L XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX3 M60XDRIVE|2025,BMW,IX3 M60XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX4 40 XDRIVE|2025,BMW,IX4 40 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX4 50 XDRIVE|2025,BMW,IX4 50 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 60H XDRIVE|2025,BMW,IX5 60H XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 M50 XDRIVE|2025,BMW,IX5 M50 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 M70 XDRIVE|2025,BMW,IX5 M70 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 XDRIVE|2025,BMW,IX5 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX5 XDRIVE45|2025,BMW,IX5 XDRIVE45,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 50 XDRIVE|2025,BMW,IX7 50 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 60 XDRIVE|2025,BMW,IX7 60 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 ALPINA 100 XDRIVE|2025,BMW,IX7 ALPINA 100 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 M50 XDRIVE|2025,BMW,IX7 M50 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|IX7 M70 XDRIVE|2025,BMW,IX7 M70 XDRIVE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|JCW ACEMAN E|2025,BMW,JCW ACEMAN E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|JCW E|2025,BMW,JCW E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|M3|2025,BMW,M3,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|SE ALL4|2025,BMW,SE ALL4,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|X1 XDRIVE 30E|2025,BMW,X1 XDRIVE 30E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|BMW|X3 M|2025,BMW,X3 M,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD ATTO 2|2025,BYD,BYD ATTO 2,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD DOLPHIN|2025,BYD,BYD DOLPHIN,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD DOLPHIN SURF|2025,BYD,BYD DOLPHIN SURF,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD DOLPHINA SURF|2025,BYD,BYD DOLPHINA SURF,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|BYD|BYD DOLPHINSURF|2025,BYD,BYD DOLPHINSURF,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD SEAL|2025,BYD,BYD SEAL,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD SEAL U|2025,BYD,BYD SEAL U,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|BYD SEALION 7|2025,BYD,BYD SEALION 7,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|DOLPHIN|2025,BYD,DOLPHIN,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|HAN|2025,BYD,HAN,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|SEAL|2025,BYD,SEAL,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|BYD|SEAL U|2025,BYD,SEAL U,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|SEALION 7|2025,BYD,SEALION 7,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|BYD|TANG EV|2025,BYD,TANG EV,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CITROEN|C3 AIRCROSS|2025,CITROEN,C3 AIRCROSS,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|C5 AIRCROSS|2025,CITROEN,C5 AIRCROSS,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-BERLINGO|2025,CITROEN,E-BERLINGO,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-C3|2025,CITROEN,E-C3,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|E-C3 AIRCROSS|2025,CITROEN,E-C3 AIRCROSS,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|JUMPY|2025,CITROEN,JUMPY,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|CITROEN|JUMPY SPACETOURER|2025,CITROEN,JUMPY SPACETOURER,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CITROEN|SPACETOURER|2025,CITROEN,SPACETOURER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|RAVAL|2025,CUPRA,RAVAL,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|CUPRA|RAVAL 166 KW|2025,CUPRA,RAVAL 166 KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|CUPRA|TAVASCAN|2025,CUPRA,TAVASCAN,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|600|2025,FIAT,600,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|FIAT|E SCUDO|2025,FIAT,E SCUDO,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|E-DOBLO|2025,FIAT,E-DOBLO,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FIAT|FIAT PANDA|2025,FIAT,FIAT PANDA,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|PANDA|2025,FIAT,PANDA,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|SCUDO|2025,FIAT,SCUDO,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FIAT|ULYSSE|2025,FIAT,ULYSSE,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|CAPRI|2025,FORD,CAPRI,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|CX740|2025,FORD,CX740,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|CX740L|2025,FORD,CX740L,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|FORD|CX740S|2025,FORD,CX740S,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|EXPLORER|2025,FORD,EXPLORER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|PUMA|2025,FORD,PUMA,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|TOURNEO COURIER|2025,FORD,TOURNEO COURIER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|TOURNEO CUSTOM|2025,FORD,TOURNEO CUSTOM,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|FORD|TRANSIT CUSTOM|2025,FORD,TRANSIT CUSTOM,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HONDA|E:NY1|2025,HONDA,E:NY1,,,model not in seed (name excluded from honda-e) (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|HONDA|HONDA E|2025,HONDA,HONDA E,,,year 2025 outside every generation of honda-e (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|BJ|2025,HYUNDAI,BJ,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|BJ1|2025,HYUNDAI,BJ1,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|CE|2025,HYUNDAI,CE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|CE N|2025,HYUNDAI,CE N,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|INSTER|2025,HYUNDAI,INSTER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIC6|2025,HYUNDAI,IONIC6,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|HYUNDAI|IONIQ 9|2025,HYUNDAI,IONIQ 9,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|IONIQ9|2025,HYUNDAI,IONIQ9,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|JG|2025,HYUNDAI,JG,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|JW|2025,HYUNDAI,JW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|ME|2025,HYUNDAI,ME,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|NE|2025,HYUNDAI,NE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|NE-N|2025,HYUNDAI,NE-N,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|SZ1|2025,HYUNDAI,SZ1,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|HYUNDAI|US4|2025,HYUNDAI,US4,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|JAGUAR|JAGUAR I-PACE|2025,JAGUAR,JAGUAR I-PACE,,,year 2025 outside every generation of jaguar-i-pace (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|CT|2025,KIA,CT,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|CV|2025,KIA,CV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|EV2|2025,KIA,EV2,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV3|2025,KIA,EV3,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV4|2025,KIA,EV4,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV5|2025,KIA,EV5,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV9|2025,KIA,EV9,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|EV9 GT|2025,KIA,EV9 GT,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|NQ5E|2025,KIA,NQ5E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|OV|2025,KIA,OV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|OV1|2025,KIA,OV1,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|PV5|2025,KIA,PV5,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|QV|2025,KIA,QV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|KIA|SOUL|2025,KIA,SOUL,,,year 2025 outside every generation of kia-soul-ev (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SV|2025,KIA,SV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SV1|2025,KIA,SV1,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SW|2025,KIA,SW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SW1|2025,KIA,SW1,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SZ|2025,KIA,SZ,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SZ1|2025,KIA,SZ1,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|KIA|SZ1E|2025,KIA,SZ1E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG C590 BEV MID|2025,MERCEDES-BENZ,AMG C590 BEV MID,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG CLA 45 E PERFORMANCE|2025,MERCEDES-BENZ,AMG CLA 45 E PERFORMANCE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG CLA PERFORMANCE EQ 4MATIC|2025,MERCEDES-BENZ,AMG CLA PERFORMANCE EQ 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG EA SUV HIGH 63|2025,MERCEDES-BENZ,AMG EA SUV HIGH 63,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG EA SUV MID 55|2025,MERCEDES-BENZ,AMG EA SUV MID 55,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG EQ E 43 4MATIC|2025,MERCEDES-BENZ,AMG EQ E 43 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|AMG EQE 43 4MATIC|2025,MERCEDES-BENZ,AMG EQE 43 4MATIC,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|AMG EQE 53 4MATIC+|2025,MERCEDES-BENZ,AMG EQE 53 4MATIC+,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|AMG EQS 53 4MATIC+|2025,MERCEDES-BENZ,AMG EQS 53 4MATIC+,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLA 45 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GLA 45 E PERFORMANCE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 43 E|2025,MERCEDES-BENZ,AMG GLC 43 E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 43 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GLC 43 E PERFORMANCE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 63 E|2025,MERCEDES-BENZ,AMG GLC 63 E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GLC 63 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GLC 63 E PERFORMANCE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 43E COUPE|2025,MERCEDES-BENZ,AMG GT 43E COUPE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 55E COUPE|2025,MERCEDES-BENZ,AMG GT 55E COUPE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 63 PRO|2025,MERCEDES-BENZ,AMG GT 63 PRO,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 63E|2025,MERCEDES-BENZ,AMG GT 63E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT 63E COUPE|2025,MERCEDES-BENZ,AMG GT 63E COUPE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT BEV|2025,MERCEDES-BENZ,AMG GT BEV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT BEV HIGH|2025,MERCEDES-BENZ,AMG GT BEV HIGH,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT PRO|2025,MERCEDES-BENZ,AMG GT PRO,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 43 E|2025,MERCEDES-BENZ,AMG GT SUV 43 E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 43 E PERFORMANCE|2025,MERCEDES-BENZ,AMG GT SUV 43 E PERFORMANCE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 43E|2025,MERCEDES-BENZ,AMG GT SUV 43E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG GT SUV 63 E|2025,MERCEDES-BENZ,AMG GT SUV 63 E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|AMG SUV BEV MID 55|2025,MERCEDES-BENZ,AMG SUV BEV MID 55,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 200|2025,MERCEDES-BENZ,C 200,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,C 200 WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 250 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,C 250 WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300|2025,MERCEDES-BENZ,C 300,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300 4MATIC|2025,MERCEDES-BENZ,C 300 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300 4MATIC WITH EQ T.|2025,MERCEDES-BENZ,C 300 4MATIC WITH EQ T.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 300 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,C 300 WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 400 4MATIC|2025,MERCEDES-BENZ,C 400 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|C 400 4MATIC WITH EQ T.|2025,MERCEDES-BENZ,C 400 4MATIC WITH EQ T.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|CLA 200|2025,MERCEDES-BENZ,CLA 200,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,CLA 200 WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 220|2025,MERCEDES-BENZ,CLA 220,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 250|2025,MERCEDES-BENZ,CLA 250,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|CLA 250+|2025,MERCEDES-BENZ,CLA 250+,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 250+ WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,CLA 250+ WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 300 4MATIC|2025,MERCEDES-BENZ,CLA 300 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 300+ 4MATIC|2025,MERCEDES-BENZ,CLA 300+ 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|CLA 350 4MATIC|2025,MERCEDES-BENZ,CLA 350 4MATIC,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 350 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,CLA 350 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA 350+ 4MATIC|2025,MERCEDES-BENZ,CLA 350+ 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|CLA TOP MR EQ 4MATIC|2025,MERCEDES-BENZ,CLA TOP MR EQ 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQA|2025,MERCEDES-BENZ,CLASSE EQA,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQB|2025,MERCEDES-BENZ,CLASSE EQB,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQE|2025,MERCEDES-BENZ,CLASSE EQE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQS|2025,MERCEDES-BENZ,CLASSE EQS,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE EQV|2025,MERCEDES-BENZ,CLASSE EQV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MERCEDES-BENZ|CLASSE G|2025,MERCEDES-BENZ,CLASSE G,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|E 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,E 200 WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|E450 4MATIC WITH EQ TECHN|2025,MERCEDES-BENZ,E450 4MATIC WITH EQ TECHN,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|ECITAN TOURER|2025,MERCEDES-BENZ,ECITAN TOURER,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|ECITAN TOURIER|2025,MERCEDES-BENZ,ECITAN TOURIER,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 250|2025,MERCEDES-BENZ,EQB 250,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 250+|2025,MERCEDES-BENZ,EQB 250+,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 250+ BUSINESS SOLUTION AMG|2025,MERCEDES-BENZ,EQB 250+ BUSINESS SOLUTION AMG,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 300 4MATIC|2025,MERCEDES-BENZ,EQB 300 4MATIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQB 350 4MATIC|2025,MERCEDES-BENZ,EQB 350 4MATIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQC 400 4MATIC|2025,MERCEDES-BENZ,EQC 400 4MATIC,,,year 2025 outside every generation of mercedes-eqc (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 300|2025,MERCEDES-BENZ,EQE 300,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 350|2025,MERCEDES-BENZ,EQE 350,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 350 4MATIC|2025,MERCEDES-BENZ,EQE 350 4MATIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 350+|2025,MERCEDES-BENZ,EQE 350+,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQE 500 4MATIC|2025,MERCEDES-BENZ,EQE 500 4MATIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 350|2025,MERCEDES-BENZ,EQS 350,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQS 400|2025,MERCEDES-BENZ,EQS 400,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 450 4MATIC|2025,MERCEDES-BENZ,EQS 450 4MATIC,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 450+|2025,MERCEDES-BENZ,EQS 450+,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 500 4MATIC|2025,MERCEDES-BENZ,EQS 500 4MATIC,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQS 580 4MATIC|2025,MERCEDES-BENZ,EQS 580 4MATIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQS E2EQSW|2025,MERCEDES-BENZ,EQS E2EQSW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQT|2025,MERCEDES-BENZ,EQT,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQT-KLASSE|2025,MERCEDES-BENZ,EQT-KLASSE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EQV|2025,MERCEDES-BENZ,EQV,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|EQV-KLASSE|2025,MERCEDES-BENZ,EQV-KLASSE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|EVITO TOURER|2025,MERCEDES-BENZ,EVITO TOURER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 300 4MATIC|2025,MERCEDES-BENZ,G 300 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 300 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,G 300 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400 4MATIC|2025,MERCEDES-BENZ,G 400 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,G 400 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400+ 4MATIC|2025,MERCEDES-BENZ,G 400+ 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|G 400+ 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,G 400+ 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|G 580|2025,MERCEDES-BENZ,G 580,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|G580|2025,MERCEDES-BENZ,G580,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 200|2025,MERCEDES-BENZ,GLA 200,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 200 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 200 WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250|2025,MERCEDES-BENZ,GLA 250,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250 WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 250 WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250+|2025,MERCEDES-BENZ,GLA 250+,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 250+ WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 250+ WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 350 4MATIC|2025,MERCEDES-BENZ,GLA 350 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLA 350 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLA 350 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 200 WITH EQ T.|2025,MERCEDES-BENZ,GLB 200 WITH EQ T.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 250 WITH EQ T.|2025,MERCEDES-BENZ,GLB 250 WITH EQ T.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 250+|2025,MERCEDES-BENZ,GLB 250+,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 250+ WITH EQ T.|2025,MERCEDES-BENZ,GLB 250+ WITH EQ T.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 350 4MATIC|2025,MERCEDES-BENZ,GLB 350 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLB 350 4MATIC WITH EQ T.|2025,MERCEDES-BENZ,GLB 350 4MATIC WITH EQ T.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 200 EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 200 EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 200 WITH EQ TECHN.|2025,MERCEDES-BENZ,GLC 200 WITH EQ TECHN.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 250 EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 250 EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 250 WITH EQ TECHN.|2025,MERCEDES-BENZ,GLC 250 WITH EQ TECHN.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 300 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 300 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 300 EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 300 EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 300 WITH EQ T.|2025,MERCEDES-BENZ,GLC 300 WITH EQ T.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 400 4MATIC|2025,MERCEDES-BENZ,GLC 400 4MATIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 400 4MATIC WITH EQ TECHNOLOGY|2025,MERCEDES-BENZ,GLC 400 4MATIC WITH EQ TECHNOLOGY,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|GLC 63 E AMG PERFORMANCE|2025,MERCEDES-BENZ,GLC 63 E AMG PERFORMANCE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MERCEDES-BENZ|MAYBACH EQS 680|2025,MERCEDES-BENZ,MAYBACH EQS 680,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C 43E|2025,MERCEDES-BENZ,MERCEDES-AMG C 43E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C 63E|2025,MERCEDES-BENZ,MERCEDES-AMG C 63E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C43E PERFORM|2025,MERCEDES-BENZ,MERCEDES-AMG C43E PERFORM,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG C63E PERFORM|2025,MERCEDES-BENZ,MERCEDES-AMG C63E PERFORM,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG CLA 45 E P.|2025,MERCEDES-BENZ,MERCEDES-AMG CLA 45 E P.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG E53E|2025,MERCEDES-BENZ,MERCEDES-AMG E53E,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|MERCEDES-AMG GLA 45 E P.|2025,MERCEDES-BENZ,MERCEDES-AMG GLA 45 E P.,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|VAN-EA|2025,MERCEDES-BENZ,VAN-EA,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|VAN.EA|2025,MERCEDES-BENZ,VAN.EA,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MERCEDES-BENZ|VAN.EA 4X4|2025,MERCEDES-BENZ,VAN.EA 4X4,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|MG|CYBERSTER|2025,MG,CYBERSTER,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG CYBERSTER|2025,MG,MG CYBERSTER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG MARVEL R ELECTRIC|2025,MG,MG MARVEL R ELECTRIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG S5 EV|2025,MG,MG S5 EV,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MG S6 EV|2025,MG,MG S6 EV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG5 ELECTRIC|2025,MG,MG5 ELECTRIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MGS5 EV|2025,MG,MGS5 EV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|ACEMAN E|2025,MINI,ACEMAN E,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|ACEMAN SE|2025,MINI,ACEMAN SE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COUNTRYMAN E|2025,MINI,COUNTRYMAN E,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COUNTRYMAN SE ALL4|2025,MINI,COUNTRYMAN SE ALL4,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|JCW ACEMAN E|2025,MINI,JCW ACEMAN E,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|JCW E|2025,MINI,JCW E,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN ARIYA|2025,NISSAN,NISSAN ARIYA,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN MICRA|2025,NISSAN,NISSAN MICRA,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|SAKURA|2025,NISSAN,SAKURA,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|TOWNSTAR|2025,NISSAN,TOWNSTAR,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|ASTRA|2025,OPEL,ASTRA,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|ASTRA SPORTS TOURER|2025,OPEL,ASTRA SPORTS TOURER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|OPEL|C3 AIRCROSS|2025,OPEL,C3 AIRCROSS,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|COMBO-E LIFE|2025,OPEL,COMBO-E LIFE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|E-COMBO LIFE|2025,OPEL,E-COMBO LIFE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|FRONTERA|2025,OPEL,FRONTERA,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|GRANDLAND|2025,OPEL,GRANDLAND,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|MOKKA|2025,OPEL,MOKKA,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|VIVARO|2025,OPEL,VIVARO,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|OPEL|VIVARO LIFE|2025,OPEL,VIVARO LIFE,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|OPEL|ZAFIRA LIFE|2025,OPEL,ZAFIRA LIFE,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|3008|2025,PEUGEOT,3008,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|308|2025,PEUGEOT,308,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|408|2025,PEUGEOT,408,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|5008|2025,PEUGEOT,5008,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|E-RIFTER|2025,PEUGEOT,E-RIFTER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|EXPERT|2025,PEUGEOT,EXPERT,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|PEUGEOT|TRAVELLER|2025,PEUGEOT,TRAVELLER,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|POLESTAR|POLESTAR 3|2025,POLESTAR,POLESTAR 3,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|POLESTAR|POLESTAR 4|2025,POLESTAR,POLESTAR 4,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|KANGOO E-TECH ELECTRIC|2025,RENAULT,KANGOO E-TECH ELECTRIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|RENAULT 4 E-TECH ELECTRIC|2025,RENAULT,RENAULT 4 E-TECH ELECTRIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|RENAULT 5 E-TECH ELECTRIC|2025,RENAULT,RENAULT 5 E-TECH ELECTRIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|RENAULT RENAULT 5 E-TECH ELECTRIC|2025,RENAULT,RENAULT RENAULT 5 E-TECH ELECTRIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|SCENIC E-TECH ELECTRIC|2025,RENAULT,SCENIC E-TECH ELECTRIC,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|RENAULT|TWINGO|2025,RENAULT,TWINGO,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|RENAULT|TWINGO E-TECH ELECTRIC|2025,RENAULT,TWINGO E-TECH ELECTRIC,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|RENAULT|ZOE|2025,RENAULT,ZOE,,,year 2025 outside every generation of renault-zoe (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|SKODA|ELROC 50|2025,SKODA,ELROC 50,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ|2025,SKODA,ELROQ,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 50|2025,SKODA,ELROQ 50,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 60|2025,SKODA,ELROQ 60,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 85|2025,SKODA,ELROQ 85,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ 85X|2025,SKODA,ELROQ 85X,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ELROQ RS|2025,SKODA,ELROQ RS,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|ENYAK 85|2025,SKODA,ENYAK 85,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|EPIQ|2025,SKODA,EPIQ,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SKODA|SKODA ELROQ 85|2025,SKODA,SKODA ELROQ 85,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SKODA|SPACE BEV|2025,SKODA,SPACE BEV,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|#1|2025,SMART,#1,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|#3|2025,SMART,#3,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|#5|2025,SMART,#5,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|5|2025,SMART,5,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|EQ FORFOUR|2025,SMART,EQ FORFOUR,,,year 2025 outside every generation of smart-eq-fortwo (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|EQ FORTWO CABRIO|2025,SMART,EQ FORTWO CABRIO,,,year 2025 outside every generation of smart-eq-fortwo (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|SMART|EQ FORTWO COUPE|2025,SMART,EQ FORTWO COUPE,,,year 2025 outside every generation of smart-eq-fortwo (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|SMART|HX11|2025,SMART,HX11,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|TESLA|MODEL X|2025,TESLA,MODEL X,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|VAUXHALL|FRONTERA|2025,VAUXHALL,FRONTERA,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|VAUXHALL|VIVARO|2025,VAUXHALL,VIVARO,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|CARAVELLE|2025,VOLKSWAGEN,CARAVELLE,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID BUZZ PRO LR 210 KW|2025,VOLKSWAGEN,ID BUZZ PRO LR 210 KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID PRO|2025,VOLKSWAGEN,ID PRO,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. 7 TOURER PRO S|2025,VOLKSWAGEN,ID. 7 TOURER PRO S,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ GTX KR 250 KW|2025,VOLKSWAGEN,ID. BUZZ GTX KR 250 KW,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ GTX LR 250 KW|2025,VOLKSWAGEN,ID. BUZZ GTX LR 250 KW,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ PRO 150 KW|2025,VOLKSWAGEN,ID. BUZZ PRO 150 KW,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID. BUZZ PRO KR 210 KW|2025,VOLKSWAGEN,ID. BUZZ PRO KR 210 KW,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID. BUZZ PRO LR 210 KW|2025,VOLKSWAGEN,ID. BUZZ PRO LR 210 KW,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID. BUZZ PURE KR 125 KW|2025,VOLKSWAGEN,ID. BUZZ PURE KR 125 KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 GTX 220 KW|2025,VOLKSWAGEN,ID.5 GTX 220 KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 GTX 250KW|2025,VOLKSWAGEN,ID.5 GTX 250KW,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 128 KW|2025,VOLKSWAGEN,ID.5 PRO 128 KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 150 KW|2025,VOLKSWAGEN,ID.5 PRO 150 KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 210 KW|2025,VOLKSWAGEN,ID.5 PRO 210 KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.5 PRO 210KW|2025,VOLKSWAGEN,ID.5 PRO 210KW,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.5 PURE 125KW|2025,VOLKSWAGEN,ID.5 PURE 125KW,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|ID.7 GTX|2025,VOLKSWAGEN,ID.7 GTX,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.7 PRO|2025,VOLKSWAGEN,ID.7 PRO,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.7 PRO 210KW|2025,VOLKSWAGEN,ID.7 PRO 210KW,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.7 PRO S|2025,VOLKSWAGEN,ID.7 PRO S,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|ID.7 TOURER GTX|2025,VOLKSWAGEN,ID.7 TOURER GTX,,,model not in seed (2x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.7 TOURER PRO|2025,VOLKSWAGEN,ID.7 TOURER PRO,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|ID.7 TOURER PRO S|2025,VOLKSWAGEN,ID.7 TOURER PRO S,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:NL|VOLKSWAGEN|TRANSPORTER|2025,VOLKSWAGEN,TRANSPORTER,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLKSWAGEN|TRANSPORTER CARAVELLE|2025,VOLKSWAGEN,TRANSPORTER CARAVELLE,,,model not in seed (3x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:FR|VOLKSWAGEN|UP!|2025,VOLKSWAGEN,UP!,,,model not in seed (1x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|C40|2025,VOLVO,C40,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EC40|2025,VOLVO,EC40,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|ES90|2025,VOLVO,ES90,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30|2025,VOLVO,EX30,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30 CROSS COUNTRY|2025,VOLVO,EX30 CROSS COUNTRY,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX90|2025,VOLVO,EX90,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|XC40|2025,VOLVO,XC40,,,model not in seed (4x)
 openev,src/audi/a6_e_tron/base.json+src/audi/a6_e_tron/2024/a6_e_tron.json,Audi,A6 e-tron,,,model not in seed (4x)
+openev,src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json,Audi,e-tron GT,,,model not in seed (name excluded from audi-e-tron) (6x)
 openev,src/audi/q6_e_tron/base.json+src/audi/q6_e_tron/2024/q6_e_tron.json,Audi,Q6 e-tron,,,model not in seed (5x)
 openev,src/bmw/i5/base.json+src/bmw/i5/2024/i5.json,BMW,i5,,,model not in seed (4x)
 openev,src/bmw/i7/base.json+src/bmw/i7/2023/i7.json,BMW,i7,,,model not in seed (6x)
@@ -464,8 +441,8 @@ openev,src/ford/e_transit_courier/base.json+src/ford/e_transit_courier/2025/e_tr
 openev,src/ford/explorer_ev/base.json+src/ford/explorer_ev/2024/explorer_ev.json,Ford,Explorer EV,,,model not in seed (2x)
 openev,src/ford/f_150_lightning/base.json+src/ford/f_150_lightning/2023/f_150_lightning.json,Ford,F-150 Lightning,,,model not in seed (15x)
 openev,src/ford/puma_gen_e/base.json+src/ford/puma_gen_e/2024/puma_gen_e.json,Ford,Puma Gen-E,,,model not in seed (2x)
-openev,src/honda/e_np2/base.json+src/honda/e_np2/2025/e_np2.json,Honda,e:NP2,,,year 2025 outside every generation of honda-e (1x)
-openev,src/honda/e_ns2/base.json+src/honda/e_ns2/2025/e_ns2.json,Honda,e:NS2,,,year 2025 outside every generation of honda-e (1x)
+openev,src/honda/e_np2/base.json+src/honda/e_np2/2024/e_np2.json,Honda,e:NP2,,,model not in seed (name excluded from honda-e) (2x)
+openev,src/honda/e_ns2/base.json+src/honda/e_ns2/2024/e_ns2.json,Honda,e:NS2,,,model not in seed (name excluded from honda-e) (2x)
 openev,src/honda/prologue/base.json+src/honda/prologue/2024/prologue.json,Honda,Prologue,,,model not in seed (4x)
 openev,src/hyundai/ioniq_9/base.json+src/hyundai/ioniq_9/2025/ioniq_9.json,Hyundai,IONIQ 9,,,model not in seed (1x)
 openev,src/mercedes_benz/cla_ev/base.json+src/mercedes_benz/cla_ev/2025/cla_ev.json,Mercedes-Benz,CLA EV,,,model not in seed (1x)
@@ -522,32 +499,17 @@ rdw,m9d7-ebf2:AUDI|A6 SB E-TRON QUATTRO|2025,AUDI,A6 SB E-TRON QUATTRO,,,model n
 rdw,m9d7-ebf2:AUDI|AUDI A3|2011,AUDI,AUDI A3,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|AUDI A4|2012,AUDI,AUDI A4,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|AUDI E-TRON|2018,AUDI,AUDI E-TRON,,,year 2018 outside every generation of audi-e-tron (1x)
-rdw,m9d7-ebf2:AUDI|AUDI Q4 45 E-TRON QU|2022,AUDI,AUDI Q4 45 E-TRON QU,,,model not in seed (1x)
+rdw,m9d7-ebf2:AUDI|AUDI E-TRON GT|2021,AUDI,AUDI E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (1x)
 rdw,m9d7-ebf2:AUDI|AUDI Q4 50 E-TR0N QU|2021,AUDI,AUDI Q4 50 E-TR0N QU,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|AUDI Q4 50 E-TRON|2023,AUDI,AUDI Q4 50 E-TRON,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|AUDI Q6 E-TRON|2024,AUDI,AUDI Q6 E-TRON,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|AUDI RS E-TRON GT QU|2021,AUDI,AUDI RS E-TRON GT QU,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|AUDI SQ6 E-TRON|2024,AUDI,AUDI SQ6 E-TRON,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|AUDI SQ8 ETRON|2023,AUDI,AUDI SQ8 ETRON,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|E-TRON|2018,AUDI,E-TRON,,,year 2018 outside every generation of audi-e-tron (1x)
-rdw,m9d7-ebf2:AUDI|E-TRON GT|2026,AUDI,E-TRON GT,,,year 2026 outside every generation of audi-e-tron (1x)
+rdw,m9d7-ebf2:AUDI|E-TRON GT|2021,AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (9x)
+rdw,m9d7-ebf2:AUDI|E-TRON GT QUATTRO|2021,AUDI,E-TRON GT QUATTRO,,,model not in seed (name excluded from audi-e-tron) (1x)
 rdw,m9d7-ebf2:AUDI|Q 5|2011,AUDI,Q 5,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q3|2013,AUDI,Q3,,,model not in seed (2x)
-rdw,m9d7-ebf2:AUDI|Q4 35 E-TRON|2021,AUDI,Q4 35 E-TRON,,,model not in seed (9x)
 rdw,m9d7-ebf2:AUDI|Q4 4 E-TRON|2021,AUDI,Q4 4 E-TRON,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|Q4 40 E-TRON|2021,AUDI,Q4 40 E-TRON,,,model not in seed (10x)
-rdw,m9d7-ebf2:AUDI|Q4 45 E TRON|2026,AUDI,Q4 45 E TRON,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|Q4 45 E-TRON|2021,AUDI,Q4 45 E-TRON,,,model not in seed (9x)
-rdw,m9d7-ebf2:AUDI|Q4 50 E-TRON|2021,AUDI,Q4 50 E-TRON,,,model not in seed (8x)
-rdw,m9d7-ebf2:AUDI|Q4 55 E-TRON|2023,AUDI,Q4 55 E-TRON,,,model not in seed (4x)
-rdw,m9d7-ebf2:AUDI|Q4 SB E-TRON|2026,AUDI,Q4 SB E-TRON,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|Q4 SB E-TRON PERFORMANCE|2026,AUDI,Q4 SB E-TRON PERFORMANCE,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|Q4 SB E-TRON QUATTRO PERF|2026,AUDI,Q4 SB E-TRON QUATTRO PERF,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|Q4 SPORTBACK 35 E-TRON|2021,AUDI,Q4 SPORTBACK 35 E-TRON,,,model not in seed (7x)
-rdw,m9d7-ebf2:AUDI|Q4 SPORTBACK 40 E-TRON|2021,AUDI,Q4 SPORTBACK 40 E-TRON,,,model not in seed (9x)
-rdw,m9d7-ebf2:AUDI|Q4 SPORTBACK 45 E-TRON|2022,AUDI,Q4 SPORTBACK 45 E-TRON,,,model not in seed (8x)
-rdw,m9d7-ebf2:AUDI|Q4 SPORTBACK 50 E-TRON|2021,AUDI,Q4 SPORTBACK 50 E-TRON,,,model not in seed (7x)
-rdw,m9d7-ebf2:AUDI|Q4 SPORTBACK 55 E-TRON|2024,AUDI,Q4 SPORTBACK 55 E-TRON,,,model not in seed (4x)
 rdw,m9d7-ebf2:AUDI|Q5|2010,AUDI,Q5,,,model not in seed (3x)
 rdw,m9d7-ebf2:AUDI|Q5 3.2 FSI|2013,AUDI,Q5 3.2 FSI,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q5 S LINE|2013,AUDI,Q5 S LINE,,,model not in seed (1x)
@@ -562,10 +524,6 @@ rdw,m9d7-ebf2:AUDI|Q6 SUV ETRON|2026,AUDI,Q6 SUV ETRON,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q6 SUV ETRON QUATTRO|2025,AUDI,Q6 SUV ETRON QUATTRO,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|Q7|2017,AUDI,Q7,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|Q8|2023,AUDI,Q8,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|Q8 50 E-TRON|2023,AUDI,Q8 50 E-TRON,,,model not in seed (5x)
-rdw,m9d7-ebf2:AUDI|Q8 55 e-tron|2022,AUDI,Q8 55 e-tron,,,model not in seed (6x)
-rdw,m9d7-ebf2:AUDI|Q8 SPORTBACK 50 E-TRON|2023,AUDI,Q8 SPORTBACK 50 E-TRON,,,model not in seed (5x)
-rdw,m9d7-ebf2:AUDI|Q8 SPORTBACK 55 E-TRON|2022,AUDI,Q8 SPORTBACK 55 E-TRON,,,model not in seed (8x)
 rdw,m9d7-ebf2:AUDI|Q8E|2024,AUDI,Q8E,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|RS E-TRON GT|2021,AUDI,RS E-TRON GT,,,model not in seed (9x)
 rdw,m9d7-ebf2:AUDI|RS E-TRON GT PERFORMANCE|2025,AUDI,RS E-TRON GT PERFORMANCE,,,model not in seed (2x)
@@ -576,8 +534,7 @@ rdw,m9d7-ebf2:AUDI|S6 SB E-TRON|2025,AUDI,S6 SB E-TRON,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|SQ6 SB E-TRON|2025,AUDI,SQ6 SB E-TRON,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|SQ6 SUV E-TRON|2024,AUDI,SQ6 SUV E-TRON,,,model not in seed (4x)
 rdw,m9d7-ebf2:AUDI|SQ6 SUV ETRON|2025,AUDI,SQ6 SUV ETRON,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|SQ8 E-TRON|2023,AUDI,SQ8 E-TRON,,,model not in seed (5x)
-rdw,m9d7-ebf2:AUDI|SQ8 SPORTBACK E-TRON|2023,AUDI,SQ8 SPORTBACK E-TRON,,,model not in seed (5x)
+rdw,m9d7-ebf2:AUDI|SQ8 SPORTBACK E-TRON|2026,AUDI,SQ8 SPORTBACK E-TRON,,,year 2026 outside every generation of audi-e-tron (1x)
 rdw,m9d7-ebf2:BMW|1-serie|2011,BMW,1-serie,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|114I|2013,BMW,114I,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|120d Xdrive|2014,BMW,120d Xdrive,,,model not in seed (1x)
@@ -698,7 +655,7 @@ rdw,m9d7-ebf2:DACIA|Lodgy|2013,DACIA,Lodgy,,,model not in seed (1x)
 rdw,m9d7-ebf2:DACIA|Sandero|2019,DACIA,Sandero,,,model not in seed (1x)
 rdw,m9d7-ebf2:DACIA|SPRING|2020,DACIA,SPRING,,,year 2020 outside every generation of dacia-spring (1x)
 rdw,m9d7-ebf2:FIAT|124 SPIDER|2017,FIAT,124 SPIDER,,,model not in seed (1x)
-rdw,m9d7-ebf2:FIAT|500|2011,FIAT,500,,,model not in seed (12x)
+rdw,m9d7-ebf2:FIAT|500|2011,FIAT,500,,,year 2011 outside every generation of fiat-500e (1x)
 rdw,m9d7-ebf2:FIAT|500X|2017,FIAT,500X,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|600|2023,FIAT,600,,,model not in seed (4x)
 rdw,m9d7-ebf2:FIAT|600E|2025,FIAT,600E,,,model not in seed (1x)
@@ -708,7 +665,8 @@ rdw,m9d7-ebf2:FIAT|E SCUDO|2025,FIAT,E SCUDO,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|E-DOBLO|2023,FIAT,E-DOBLO,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|FAIT 500E|2015,FIAT,FAIT 500E,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|FCA (MEX)|2014,FIAT,FCA (MEX),,,model not in seed (1x)
-rdw,m9d7-ebf2:FIAT|FIAT 500|2010,FIAT,FIAT 500,,,model not in seed (4x)
+rdw,m9d7-ebf2:FIAT|FIAT 500|2010,FIAT,FIAT 500,,,year 2010 outside every generation of fiat-500e (1x)
+rdw,m9d7-ebf2:FIAT|FIAT 500|2012,FIAT,FIAT 500,,,year 2012 outside every generation of fiat-500e (1x)
 rdw,m9d7-ebf2:FIAT|FIAT 500 1.4 16V|2010,FIAT,FIAT 500 1.4 16V,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|FIAT DUCATO|2021,FIAT,FIAT DUCATO,,,model not in seed (6x)
 rdw,m9d7-ebf2:FIAT|FIAT PANDA|2010,FIAT,FIAT PANDA,,,model not in seed (1x)
@@ -749,8 +707,7 @@ rdw,m9d7-ebf2:FORD|TRANSIT/TOURNEO|2011,FORD,TRANSIT/TOURNEO,,,model not in seed
 rdw,m9d7-ebf2:HONDA|CIVIC|2015,HONDA,CIVIC,,,model not in seed (2x)
 rdw,m9d7-ebf2:HONDA|CR-V|2020,HONDA,CR-V,,,model not in seed (2x)
 rdw,m9d7-ebf2:HONDA|CRV|2019,HONDA,CRV,,,model not in seed (1x)
-rdw,m9d7-ebf2:HONDA|E:NY1|2025,HONDA,E:NY1,,,year 2025 outside every generation of honda-e (1x)
-rdw,m9d7-ebf2:HONDA|E:NY1|2026,HONDA,E:NY1,,,year 2026 outside every generation of honda-e (1x)
+rdw,m9d7-ebf2:HONDA|E:NY1|2023,HONDA,E:NY1,,,model not in seed (name excluded from honda-e) (5x)
 rdw,m9d7-ebf2:HONDA|HR-V 1.5 e-HEV|2022,HONDA,HR-V 1.5 e-HEV,,,model not in seed (1x)
 rdw,m9d7-ebf2:HONDA|JAZZ|2015,HONDA,JAZZ,,,model not in seed (2x)
 rdw,m9d7-ebf2:HONDA|ODYSSEY|2010,HONDA,ODYSSEY,,,model not in seed (5x)
@@ -762,14 +719,12 @@ rdw,m9d7-ebf2:HYUNDAI|I10|2017,HYUNDAI,I10,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|I20|2013,HYUNDAI,I20,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|I30|2010,HYUNDAI,I30,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|INSTER|2024,HYUNDAI,INSTER,,,model not in seed (3x)
-rdw,m9d7-ebf2:HYUNDAI|IONIQ|2016,HYUNDAI,IONIQ,,,model not in seed (7x)
 rdw,m9d7-ebf2:HYUNDAI|IONIQ 3|2026,HYUNDAI,IONIQ 3,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|IONIQ 9|2025,HYUNDAI,IONIQ 9,,,model not in seed (2x)
 rdw,m9d7-ebf2:HYUNDAI|IX35|2014,HYUNDAI,IX35,,,model not in seed (4x)
 rdw,m9d7-ebf2:HYUNDAI|IX35 FCEV|2016,HYUNDAI,IX35 FCEV,,,model not in seed (1x)
-rdw,m9d7-ebf2:HYUNDAI|KAUAI|2020,HYUNDAI,KAUAI,,,model not in seed (2x)
-rdw,m9d7-ebf2:HYUNDAI|KONA|2018,HYUNDAI,KONA,,,model not in seed (9x)
-rdw,"m9d7-ebf2:HYUNDAI|KONA, KAUAI|2019",HYUNDAI,"KONA, KAUAI",,,model not in seed (12x)
+rdw,m9d7-ebf2:HYUNDAI|KONA|2023,HYUNDAI,KONA,,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (1x)"
+rdw,"m9d7-ebf2:HYUNDAI|KONA, KAUAI|2023",HYUNDAI,"KONA, KAUAI",,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (2x)"
 rdw,m9d7-ebf2:HYUNDAI|NEXO|2018,HYUNDAI,NEXO,,,model not in seed (7x)
 rdw,m9d7-ebf2:HYUNDAI|SANTA FE|2012,HYUNDAI,SANTA FE,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|SANTA FE SPORT|2014,HYUNDAI,SANTA FE SPORT,,,model not in seed (1x)
@@ -790,13 +745,16 @@ rdw,m9d7-ebf2:KIA|EV5|2025,KIA,EV5,,,model not in seed (2x)
 rdw,m9d7-ebf2:KIA|EV5 PLUS|2026,KIA,EV5 PLUS,,,model not in seed (1x)
 rdw,m9d7-ebf2:KIA|EV9|2023,KIA,EV9,,,model not in seed (4x)
 rdw,m9d7-ebf2:KIA|K5|2021,KIA,K5,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|KIA SOUL|2018,KIA,KIA SOUL,,,model not in seed (1x)
 rdw,m9d7-ebf2:KIA|NERO|2020,KIA,NERO,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|Niro|2017,KIA,Niro,,,model not in seed (10x)
+rdw,m9d7-ebf2:KIA|NIRO|2022,KIA,NIRO,,,"ambiguous-generation: 2022 is shared by kia-niro-ev-de, kia-niro-ev-sg2; no name/battery evidence (1x)"
+rdw,m9d7-ebf2:KIA|Niro|2017,KIA,Niro,,,year 2017 outside every generation of kia-niro-ev (1x)
 rdw,m9d7-ebf2:KIA|OPTIMA|2015,KIA,OPTIMA,,,model not in seed (1x)
 rdw,m9d7-ebf2:KIA|PV5|2025,KIA,PV5,,,model not in seed (2x)
 rdw,m9d7-ebf2:KIA|SORENTO|2015,KIA,SORENTO,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|SOUL|2014,KIA,SOUL,,,model not in seed (12x)
+rdw,m9d7-ebf2:KIA|SOUL|2019,KIA,SOUL,,,"ambiguous-generation: 2019 is shared by kia-soul-ev-ps, kia-soul-ev-sk3; no name/battery evidence (1x)"
+rdw,m9d7-ebf2:KIA|SOUL|2023,KIA,SOUL,,,year 2023 outside every generation of kia-soul-ev (1x)
+rdw,m9d7-ebf2:KIA|SOUL|2024,KIA,SOUL,,,year 2024 outside every generation of kia-soul-ev (1x)
+rdw,m9d7-ebf2:KIA|SOUL|2025,KIA,SOUL,,,year 2025 outside every generation of kia-soul-ev (1x)
 rdw,m9d7-ebf2:KIA|SPORTAGE|2011,KIA,SPORTAGE,,,model not in seed (3x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|A 160|2010,MERCEDES-BENZ,A 160,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|A180|2013,MERCEDES-BENZ,A180,,,model not in seed (1x)
@@ -922,9 +880,9 @@ rdw,m9d7-ebf2:OPEL|ASTRA|2010,OPEL,ASTRA,,,model not in seed (7x)
 rdw,m9d7-ebf2:OPEL|Astra Sports Tourer|2018,OPEL,Astra Sports Tourer,,,model not in seed (4x)
 rdw,m9d7-ebf2:OPEL|Astra+|2020,OPEL,Astra+,,,model not in seed (1x)
 rdw,m9d7-ebf2:OPEL|COMBO-E LIFE|2021,OPEL,COMBO-E LIFE,,,model not in seed (9x)
-rdw,m9d7-ebf2:OPEL|CORSA|2011,OPEL,CORSA,,,model not in seed (9x)
+rdw,m9d7-ebf2:OPEL|CORSA|2011,OPEL,CORSA,,,year 2011 outside every generation of opel-corsa-e (1x)
+rdw,m9d7-ebf2:OPEL|CORSA|2013,OPEL,CORSA,,,year 2013 outside every generation of opel-corsa-e (1x)
 rdw,m9d7-ebf2:OPEL|E-COMBO LIFE|2025,OPEL,E-COMBO LIFE,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|E-Corsa|2020,OPEL,E-Corsa,,,model not in seed (1x)
 rdw,m9d7-ebf2:OPEL|E-FIXXTER XXL|2021,OPEL,E-FIXXTER XXL,,,model not in seed (3x)
 rdw,m9d7-ebf2:OPEL|E-VIVARO|2026,OPEL,E-VIVARO,,,model not in seed (1x)
 rdw,m9d7-ebf2:OPEL|FRONTERA|2024,OPEL,FRONTERA,,,model not in seed (3x)
@@ -941,8 +899,12 @@ rdw,m9d7-ebf2:OPEL|VIVARO / ZAFIRA LIFE|2020,OPEL,VIVARO / ZAFIRA LIFE,,,model n
 rdw,m9d7-ebf2:OPEL|VIVARO LIFE|2020,OPEL,VIVARO LIFE,,,model not in seed (6x)
 rdw,m9d7-ebf2:OPEL|ZAFIRA LIFE|2020,OPEL,ZAFIRA LIFE,,,model not in seed (7x)
 rdw,m9d7-ebf2:OPEL|ZAFIRA TOURER|2012,OPEL,ZAFIRA TOURER,,,model not in seed (1x)
-rdw,m9d7-ebf2:PEUGEOT|2008|2016,PEUGEOT,2008,,,model not in seed (9x)
-rdw,m9d7-ebf2:PEUGEOT|208|2012,PEUGEOT,208,,,model not in seed (12x)
+rdw,m9d7-ebf2:PEUGEOT|2008|2016,PEUGEOT,2008,,,year 2016 outside every generation of peugeot-e-2008 (1x)
+rdw,m9d7-ebf2:PEUGEOT|2008|2019,PEUGEOT,2008,,,year 2019 outside every generation of peugeot-e-2008 (1x)
+rdw,m9d7-ebf2:PEUGEOT|208|2012,PEUGEOT,208,,,year 2012 outside every generation of peugeot-e-208 (1x)
+rdw,m9d7-ebf2:PEUGEOT|208|2014,PEUGEOT,208,,,year 2014 outside every generation of peugeot-e-208 (1x)
+rdw,m9d7-ebf2:PEUGEOT|208|2015,PEUGEOT,208,,,year 2015 outside every generation of peugeot-e-208 (1x)
+rdw,m9d7-ebf2:PEUGEOT|208|2017,PEUGEOT,208,,,year 2017 outside every generation of peugeot-e-208 (1x)
 rdw,m9d7-ebf2:PEUGEOT|208 E|2021,PEUGEOT,208 E,,,model not in seed (1x)
 rdw,m9d7-ebf2:PEUGEOT|208 E-TENSE|2019,PEUGEOT,208 E-TENSE,,,model not in seed (1x)
 rdw,m9d7-ebf2:PEUGEOT|3008|2017,PEUGEOT,3008,,,model not in seed (5x)
@@ -989,6 +951,7 @@ rdw,m9d7-ebf2:RENAULT|TWINGO|2020,RENAULT,TWINGO,,,model not in seed (5x)
 rdw,m9d7-ebf2:RENAULT|TWINGO E-TECH ELECTRIC|2026,RENAULT,TWINGO E-TECH ELECTRIC,,,model not in seed (1x)
 rdw,m9d7-ebf2:RENAULT|TWINGO ELECTRIC|2021,RENAULT,TWINGO ELECTRIC,,,model not in seed (1x)
 rdw,m9d7-ebf2:RENAULT|YWINGO E-TECH ELECTRIC|2026,RENAULT,YWINGO E-TECH ELECTRIC,,,model not in seed (1x)
+rdw,m9d7-ebf2:RENAULT|ZOE|2019,RENAULT,ZOE,,,"ambiguous-generation: 2019 is shared by renault-zoe-ph1, renault-zoe-ph2; no name/battery evidence (1x)"
 rdw,m9d7-ebf2:RENAULT|ZOE|2012,RENAULT,ZOE,,,year 2012 outside every generation of renault-zoe (1x)
 rdw,m9d7-ebf2:RENAULT|ZOE|2025,RENAULT,ZOE,,,year 2025 outside every generation of renault-zoe (1x)
 rdw,m9d7-ebf2:SKODA|CITIGO|2019,SKODA,CITIGO,,,model not in seed (4x)
@@ -1024,6 +987,8 @@ rdw,m9d7-ebf2:SMART|SMART FORTWO|2017,SMART,SMART FORTWO,,,model not in seed (4x
 rdw,m9d7-ebf2:TESLA|003|2022,TESLA,003,,,model not in seed (1x)
 rdw,m9d7-ebf2:TESLA|MODEL 3|2017,TESLA,MODEL 3,,,year 2017 outside every generation of tesla-model-3 (1x)
 rdw,m9d7-ebf2:TESLA|MODEL 3|2018,TESLA,MODEL 3,,,year 2018 outside every generation of tesla-model-3 (1x)
+rdw,m9d7-ebf2:TESLA|MODEL S|2016,TESLA,MODEL S,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+rdw,m9d7-ebf2:TESLA|MODEL S 70|2016,TESLA,MODEL S 70,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
 rdw,m9d7-ebf2:TESLA|MODEL S 85|2012,TESLA,MODEL S 85,,,year 2012 outside every generation of tesla-model-s (1x)
 rdw,m9d7-ebf2:TESLA|MODEL S PERFORMANCE+|2012,TESLA,MODEL S PERFORMANCE+,,,year 2012 outside every generation of tesla-model-s (1x)
 rdw,m9d7-ebf2:TESLA|MODEL X|2017,TESLA,MODEL X,,,model not in seed (14x)
@@ -1041,6 +1006,8 @@ rdw,m9d7-ebf2:TESLA|VIO EUROPE MODEL 3|2020,TESLA,VIO EUROPE MODEL 3,,,model not
 rdw,m9d7-ebf2:TESLA|Y|2022,TESLA,Y,,,model not in seed (3x)
 rdw,m9d7-ebf2:TESLA MOTORS|90X|2016,TESLA MOTORS,90X,,,model not in seed (1x)
 rdw,m9d7-ebf2:TESLA MOTORS|MODEL 3|2018,TESLA MOTORS,MODEL 3,,,year 2018 outside every generation of tesla-model-3 (1x)
+rdw,m9d7-ebf2:TESLA MOTORS|MODEL S|2016,TESLA MOTORS,MODEL S,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+rdw,m9d7-ebf2:TESLA MOTORS|MODEL S 90 D|2016,TESLA MOTORS,MODEL S 90 D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
 rdw,m9d7-ebf2:TESLA MOTORS|MODEL X|2016,TESLA MOTORS,MODEL X,,,model not in seed (6x)
 rdw,m9d7-ebf2:TESLA MOTORS|MODEL X PLAID|2022,TESLA MOTORS,MODEL X PLAID,,,model not in seed (1x)
 rdw,m9d7-ebf2:TESLA MOTORS|MODEL Y|2020,TESLA MOTORS,MODEL Y,,,year 2020 outside every generation of tesla-model-y (1x)
@@ -1060,9 +1027,14 @@ rdw,m9d7-ebf2:VOLKSWAGEN|California 6.1|2021,VOLKSWAGEN,California 6.1,,,model n
 rdw,m9d7-ebf2:VOLKSWAGEN|CARAVELLE|2025,VOLKSWAGEN,CARAVELLE,,,model not in seed (2x)
 rdw,m9d7-ebf2:VOLKSWAGEN|CRAFTER|2010,VOLKSWAGEN,CRAFTER,,,model not in seed (8x)
 rdw,m9d7-ebf2:VOLKSWAGEN|E BORA|2019,VOLKSWAGEN,E BORA,,,model not in seed (1x)
+rdw,m9d7-ebf2:VOLKSWAGEN|E-GOLF|2017,VOLKSWAGEN,E-GOLF,,,"ambiguous-generation: 2017 is shared by volkswagen-e-golf-mk7, volkswagen-e-golf-mk75; no name/battery evidence (1x)"
 rdw,m9d7-ebf2:VOLKSWAGEN|E-VENTJE|2025,VOLKSWAGEN,E-VENTJE,,,model not in seed (2x)
 rdw,m9d7-ebf2:VOLKSWAGEN|EVENTJE|2024,VOLKSWAGEN,EVENTJE,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2010,VOLKSWAGEN,GOLF,,,model not in seed (11x)
+rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2017,VOLKSWAGEN,GOLF,,,"ambiguous-generation: 2017 is shared by volkswagen-e-golf-mk7, volkswagen-e-golf-mk75; no name/battery evidence (1x)"
+rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2010,VOLKSWAGEN,GOLF,,,year 2010 outside every generation of volkswagen-e-golf (1x)
+rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2011,VOLKSWAGEN,GOLF,,,year 2011 outside every generation of volkswagen-e-golf (1x)
+rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2012,VOLKSWAGEN,GOLF,,,year 2012 outside every generation of volkswagen-e-golf (1x)
+rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2021,VOLKSWAGEN,GOLF,,,year 2021 outside every generation of volkswagen-e-golf (1x)
 rdw,m9d7-ebf2:VOLKSWAGEN|Golf 1.6|2014,VOLKSWAGEN,Golf 1.6,,,model not in seed (1x)
 rdw,m9d7-ebf2:VOLKSWAGEN|GOLF E|2016,VOLKSWAGEN,GOLF E,,,model not in seed (1x)
 rdw,m9d7-ebf2:VOLKSWAGEN|GOLF GTI|2017,VOLKSWAGEN,GOLF GTI,,,model not in seed (1x)
@@ -1172,113 +1144,96 @@ rdw,"m9d7-ebf2:VOLVO|XC70, D5 AWD|2011",VOLVO,"XC70, D5 AWD",,,model not in seed
 rdw,m9d7-ebf2:VOLVO|XC90|2010,VOLVO,XC90,,,model not in seed (7x)
 rdw,m9d7-ebf2:VOLVO|XC90 T6|2015,VOLVO,XC90 T6,,,model not in seed (1x)
 rdw,m9d7-ebf2:VW|ABT E-TRANSPORTER|2020,VW,ABT E-TRANSPORTER,,,model not in seed (1x)
-rdw,m9d7-ebf2:VW|GOLF|2016,VW,GOLF,,,model not in seed (5x)
+rdw,m9d7-ebf2:VW|GOLF|2017,VW,GOLF,,,"ambiguous-generation: 2017 is shared by volkswagen-e-golf-mk7, volkswagen-e-golf-mk75; no name/battery evidence (1x)"
 rdw,m9d7-ebf2:VW|ID. BUZZ PRO 150 KW|2022,VW,ID. BUZZ PRO 150 KW,,,model not in seed (3x)
 rdw,m9d7-ebf2:VW|ID.4 PRO 150 KW|2020,VW,ID.4 PRO 150 KW,,,year 2020 outside every generation of volkswagen-id4 (1x)
 rdw,m9d7-ebf2:VW|ID.5 PRO 128 KW|2022,VW,ID.5 PRO 128 KW,,,model not in seed (1x)
 rdw,m9d7-ebf2:VW|ID.5 PRO 150 KW|2022,VW,ID.5 PRO 150 KW,,,model not in seed (1x)
 rdw,m9d7-ebf2:VW|ID.7 TOURER GTX|2025,VW,ID.7 TOURER GTX,,,model not in seed (1x)
 rdw,m9d7-ebf2:VW|UP!|2017,VW,UP!,,,model not in seed (5x)
-eea,(summary),"VOLKSWAGEN, VW",,,,make not in seed: 230 records
-eea,(summary),PORSCHE,,,,make not in seed: 134 records
+eea,(summary),"VOLKSWAGEN, VW",,,,make not in seed: 115 records
 rdw,(summary),PORSCHE,,,,make not in seed: 92 records
 rdw,(summary),TOYOTA,,,,make not in seed: 74 records
+eea,(summary),PORSCHE,,,,make not in seed: 67 records
 openev,(summary),NIO,,,,make not in seed: 65 records
-eea,(summary),TOYOTA,,,,make not in seed: 40 records
-eea,(summary),AUDI AG,,,,make not in seed: 38 records
-eea,(summary),NIO,,,,make not in seed: 38 records
 openev,(summary),CHEVROLET,,,,make not in seed: 38 records
-eea,(summary),XPENG,,,,make not in seed: 34 records
 openev,(summary),VINFAST,,,,make not in seed: 34 records
-eea,(summary),LEXUS,,,,make not in seed: 32 records
 openev,(summary),ZEEKR,,,,make not in seed: 32 records
 openev,(summary),GAC AION,,,,make not in seed: 31 records
 openev,(summary),XPENG,,,,make not in seed: 31 records
-eea,(summary),MASERATI,,,,make not in seed: 28 records
 rdw,(summary),XPENG,,,,make not in seed: 27 records
-eea,(summary),DS,,,,make not in seed: 26 records
-eea,(summary),DS AUTOMOBILES,,,,make not in seed: 26 records
-eea,(summary),LEAPMOTOR,,,,make not in seed: 26 records
 rdw,(summary),NIO,,,,make not in seed: 26 records
 openev,(summary),LAND ROVER,,,,make not in seed: 24 records
 openev,(summary),RIVIAN,,,,make not in seed: 24 records
 openev,(summary),LEAPMOTOR,,,,make not in seed: 23 records
-eea,(summary),LUCID MOTORS,,,,make not in seed: 22 records
 openev,(summary),CHERY,,,,make not in seed: 22 records
-eea,(summary),"HYUNDAI, GENESIS",,,,make not in seed: 20 records
+eea,(summary),TOYOTA,,,,make not in seed: 20 records
 openev,(summary),PORSCHE,,,,make not in seed: 20 records
 rdw,(summary),LEXUS,,,,make not in seed: 20 records
+eea,(summary),AUDI AG,,,,make not in seed: 19 records
+eea,(summary),NIO,,,,make not in seed: 19 records
 openev,(summary),GEELY,,,,make not in seed: 19 records
 rdw,(summary),CHEVROLET,,,,make not in seed: 19 records
 rdw,(summary),GENESIS,,,,make not in seed: 19 records
-eea,(summary),LOTUS,,,,make not in seed: 18 records
-eea,(summary),MAZDA,,,,make not in seed: 18 records
-eea,(summary),ROLLS-ROYCE,,,,make not in seed: 18 records
 openev,(summary),CHANGAN,,,,make not in seed: 18 records
 openev,(summary),TATA MOTORS,,,,make not in seed: 18 records
 openev,(summary),TOYOTA,,,,make not in seed: 18 records
 rdw,(summary),DS,,,,make not in seed: 18 records
+eea,(summary),XPENG,,,,make not in seed: 17 records
 openev,(summary),MG MOTOR,,,,make not in seed: 17 records
 rdw,(summary),JEEP,,,,make not in seed: 17 records
 rdw,(summary),MAXUS,,,,make not in seed: 17 records
-eea,(summary),ABARTH,,,,make not in seed: 16 records
-eea,(summary),JEEP,,,,make not in seed: 16 records
-eea,(summary),MAXUS,,,,make not in seed: 16 records
+eea,(summary),LEXUS,,,,make not in seed: 16 records
 rdw,(summary),MAZDA,,,,make not in seed: 16 records
 rdw,(summary),SERES,,,,make not in seed: 15 records
-eea,(summary),ALPINE,,,,make not in seed: 14 records
-eea,(summary),FAW,,,,make not in seed: 14 records
-eea,(summary),GEELY,,,,make not in seed: 14 records
-eea,(summary),XIAOMI,,,,make not in seed: 14 records
-eea,(summary),ZEEKR,,,,make not in seed: 14 records
+eea,(summary),MASERATI,,,,make not in seed: 14 records
 openev,(summary),GENESIS,,,,make not in seed: 14 records
 openev,(summary),LEXUS,,,,make not in seed: 14 records
 rdw,(summary),MITSUBISHI,,,,make not in seed: 14 records
+eea,(summary),DS,,,,make not in seed: 13 records
+eea,(summary),DS AUTOMOBILES,,,,make not in seed: 13 records
+eea,(summary),LEAPMOTOR,,,,make not in seed: 13 records
 openev,(summary),GWM,,,,make not in seed: 13 records
 openev,(summary),LUCID,,,,make not in seed: 13 records
 rdw,(summary),LUCID MOTORS,,,,make not in seed: 13 records
-eea,(summary),CADILLAC,,,,make not in seed: 12 records
-eea,(summary),VINFAST,,,,make not in seed: 12 records
 openev,(summary),CADILLAC,,,,make not in seed: 12 records
 openev,(summary),NAMMI,,,,make not in seed: 12 records
 openev,(summary),VOYAH,,,,make not in seed: 12 records
 rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 12 records
 rdw,(summary),SEAT,,,,make not in seed: 12 records
+eea,(summary),LUCID MOTORS,,,,make not in seed: 11 records
 openev,(summary),LOTUS,,,,make not in seed: 11 records
 rdw,(summary),FAW,,,,make not in seed: 11 records
 rdw,(summary),LEAPMOTOR,,,,make not in seed: 11 records
 rdw,(summary),MASERATI,,,,make not in seed: 11 records
 rdw,(summary),ZEEKR,,,,make not in seed: 11 records
-eea,(summary),OMODA,,,,make not in seed: 10 records
-eea,(summary),SSANGYONG,,,,make not in seed: 10 records
-eea,(summary),SUBARU,,,,make not in seed: 10 records
-eea,(summary),VOYAH,,,,make not in seed: 10 records
+eea,(summary),"HYUNDAI, GENESIS",,,,make not in seed: 10 records
+eea,(summary),LOTUS,,,,make not in seed: 9 records
+eea,(summary),MAZDA,,,,make not in seed: 9 records
+eea,(summary),ROLLS-ROYCE,,,,make not in seed: 9 records
 openev,(summary),FERRARI,,,,make not in seed: 9 records
 openev,(summary),IM MOTORS,,,,make not in seed: 9 records
 openev,(summary),RISING AUTO,,,,make not in seed: 9 records
 rdw,(summary),LOTUS,,,,make not in seed: 9 records
 rdw,(summary),SUBARU,,,,make not in seed: 9 records
 rdw,(summary),VOYAH,,,,make not in seed: 9 records
-eea,(summary),ALFA ROMEO,,,,make not in seed: 8 records
-eea,(summary),DONGFENG,,,,make not in seed: 8 records
-eea,(summary),GREAT WALL MOTOR CO. LTD.,,,,make not in seed: 8 records
-eea,(summary),KG MOBILITY,,,,make not in seed: 8 records
-eea,(summary),LANCIA,,,,make not in seed: 8 records
-eea,(summary),SERES,,,,make not in seed: 8 records
-eea,(summary),SUZUKI,,,,make not in seed: 8 records
+eea,(summary),ABARTH,,,,make not in seed: 8 records
+eea,(summary),JEEP,,,,make not in seed: 8 records
+eea,(summary),MAXUS,,,,make not in seed: 8 records
 rdw,(summary),SSANGYONG,,,,make not in seed: 8 records
+eea,(summary),ALPINE,,,,make not in seed: 7 records
+eea,(summary),FAW,,,,make not in seed: 7 records
+eea,(summary),GEELY,,,,make not in seed: 7 records
+eea,(summary),XIAOMI,,,,make not in seed: 7 records
+eea,(summary),ZEEKR,,,,make not in seed: 7 records
 openev,(summary),ROEWE,,,,make not in seed: 7 records
 openev,(summary),YANGWANG,,,,make not in seed: 7 records
 rdw,(summary),DFSK,,,,make not in seed: 7 records
 rdw,(summary),FORD-CNG-TECHNIK,,,,make not in seed: 7 records
 rdw,(summary),THINK,,,,make not in seed: 7 records
 rdw,(summary),YUEDA-HUMAN HORIZONS,,,,make not in seed: 7 records
-eea,(summary),AIWAYS,,,,make not in seed: 6 records
-eea,(summary),DFSK,,,,make not in seed: 6 records
-eea,(summary),"DFSK, SERES, SOKON",,,,make not in seed: 6 records
-eea,(summary),FISKER,,,,make not in seed: 6 records
-eea,(summary),LYNK&CO,,,,make not in seed: 6 records
-eea,(summary),MITSUBISHI,,,,make not in seed: 6 records
+eea,(summary),CADILLAC,,,,make not in seed: 6 records
+eea,(summary),VINFAST,,,,make not in seed: 6 records
 openev,(summary),DONGFENG,,,,make not in seed: 6 records
 openev,(summary),DS AUTOMOBILES,,,,make not in seed: 6 records
 openev,(summary),HIPHI,,,,make not in seed: 6 records
@@ -1289,6 +1244,10 @@ rdw,(summary),AIWAYS,,,,make not in seed: 6 records
 rdw,(summary),CADILLAC,,,,make not in seed: 6 records
 rdw,(summary),FISKER,,,,make not in seed: 6 records
 rdw,(summary),M.A.N.,,,,make not in seed: 6 records
+eea,(summary),OMODA,,,,make not in seed: 5 records
+eea,(summary),SSANGYONG,,,,make not in seed: 5 records
+eea,(summary),SUBARU,,,,make not in seed: 5 records
+eea,(summary),VOYAH,,,,make not in seed: 5 records
 openev,(summary),FANGCHENGBAO,,,,make not in seed: 5 records
 rdw,(summary),CHRYSLER,,,,make not in seed: 5 records
 rdw,(summary),GEELY,,,,make not in seed: 5 records
@@ -1299,22 +1258,13 @@ rdw,(summary),MAN,,,,make not in seed: 5 records
 rdw,(summary),RIVIAN,,,,make not in seed: 5 records
 rdw,(summary),ROLLS ROYCE,,,,make not in seed: 5 records
 rdw,(summary),VINFAST,,,,make not in seed: 5 records
-eea,(summary),CHANGAN MAZDA,,,,make not in seed: 4 records
-eea,(summary),DEEPAL,,,,make not in seed: 4 records
-eea,(summary),EXLANTIX,,,,make not in seed: 4 records
-eea,(summary),FORTHING,,,,make not in seed: 4 records
-eea,(summary),GENESIS,,,,make not in seed: 4 records
-eea,(summary),JAC,,,,make not in seed: 4 records
-eea,(summary),JAECOO,,,,make not in seed: 4 records
-eea,(summary),LUCI MOTORS (USA),,,,make not in seed: 4 records
-eea,(summary),"MG, ROEWE",,,,make not in seed: 4 records
-eea,(summary),MOKE,,,,make not in seed: 4 records
-eea,(summary),RIMAC,,,,make not in seed: 4 records
-eea,(summary),ROLLS ROYCE,,,,make not in seed: 4 records
-eea,(summary),SKYWELL,,,,make not in seed: 4 records
-eea,(summary),SKYWORTH,,,,make not in seed: 4 records
-eea,(summary),SWM,,,,make not in seed: 4 records
-eea,(summary),TOGG,,,,make not in seed: 4 records
+eea,(summary),ALFA ROMEO,,,,make not in seed: 4 records
+eea,(summary),DONGFENG,,,,make not in seed: 4 records
+eea,(summary),GREAT WALL MOTOR CO. LTD.,,,,make not in seed: 4 records
+eea,(summary),KG MOBILITY,,,,make not in seed: 4 records
+eea,(summary),LANCIA,,,,make not in seed: 4 records
+eea,(summary),SERES,,,,make not in seed: 4 records
+eea,(summary),SUZUKI,,,,make not in seed: 4 records
 openev,(summary),MASERATI,,,,make not in seed: 4 records
 openev,(summary),MITSUBISHI,,,,make not in seed: 4 records
 openev,(summary),RIMAC,,,,make not in seed: 4 records
@@ -1326,6 +1276,12 @@ rdw,(summary),HYMER,,,,make not in seed: 4 records
 rdw,(summary),LAND ROVER,,,,make not in seed: 4 records
 rdw,(summary),MIA,,,,make not in seed: 4 records
 rdw,(summary),SUZUKI,,,,make not in seed: 4 records
+eea,(summary),AIWAYS,,,,make not in seed: 3 records
+eea,(summary),DFSK,,,,make not in seed: 3 records
+eea,(summary),"DFSK, SERES, SOKON",,,,make not in seed: 3 records
+eea,(summary),FISKER,,,,make not in seed: 3 records
+eea,(summary),LYNK&CO,,,,make not in seed: 3 records
+eea,(summary),MITSUBISHI,,,,make not in seed: 3 records
 openev,(summary),AUTOMOBILI PININFARINA,,,,make not in seed: 3 records
 openev,(summary),FARADAY FUTURE,,,,make not in seed: 3 records
 openev,(summary),M-HERO,,,,make not in seed: 3 records
@@ -1340,27 +1296,22 @@ rdw,(summary),LANCIA,,,,make not in seed: 3 records
 rdw,(summary),MICRO-VETT,,,,make not in seed: 3 records
 rdw,(summary),ROLLS-ROYCE,,,,make not in seed: 3 records
 rdw,(summary),ZELFBOUW,,,,make not in seed: 3 records
-eea,(summary),AION,,,,make not in seed: 2 records
-eea,(summary),AUDI SPORT,,,,make not in seed: 2 records
-eea,(summary),BAYER.MOT.WERKE-BMW,,,,make not in seed: 2 records
-eea,(summary),BMW AG,,,,make not in seed: 2 records
-eea,(summary),CASELANI,,,,make not in seed: 2 records
-eea,(summary),CHERY,,,,make not in seed: 2 records
-eea,(summary),"CHERY, JAECOO",,,,make not in seed: 2 records
-eea,(summary),CHINA FIRST (RC),,,,make not in seed: 2 records
-eea,(summary),DAYUN,,,,make not in seed: 2 records
-eea,(summary),DFSK MOTOR CO. LTD,,,,make not in seed: 2 records
-eea,(summary),DODGE,,,,make not in seed: 2 records
-eea,(summary),E.GO,,,,make not in seed: 2 records
-eea,(summary),FIREFLY,,,,make not in seed: 2 records
-eea,(summary),GMC,,,,make not in seed: 2 records
-eea,(summary),LYNK & CO,,,,make not in seed: 2 records
-eea,(summary),MOKE INTERNATIONAL LIMITED,,,,make not in seed: 2 records
-eea,(summary),ONVO,,,,make not in seed: 2 records
-eea,(summary),"SERES, DFSK, SOKON, AITO",,,,make not in seed: 2 records
-eea,(summary),YANGWANG,,,,make not in seed: 2 records
-eea,(summary),YUEDA-HUMAN HORIZONS,,,,make not in seed: 2 records
-eea,(summary),"ZHIDOU, ZD, ELARIS",,,,make not in seed: 2 records
+eea,(summary),CHANGAN MAZDA,,,,make not in seed: 2 records
+eea,(summary),DEEPAL,,,,make not in seed: 2 records
+eea,(summary),EXLANTIX,,,,make not in seed: 2 records
+eea,(summary),FORTHING,,,,make not in seed: 2 records
+eea,(summary),GENESIS,,,,make not in seed: 2 records
+eea,(summary),JAC,,,,make not in seed: 2 records
+eea,(summary),JAECOO,,,,make not in seed: 2 records
+eea,(summary),LUCI MOTORS (USA),,,,make not in seed: 2 records
+eea,(summary),"MG, ROEWE",,,,make not in seed: 2 records
+eea,(summary),MOKE,,,,make not in seed: 2 records
+eea,(summary),RIMAC,,,,make not in seed: 2 records
+eea,(summary),ROLLS ROYCE,,,,make not in seed: 2 records
+eea,(summary),SKYWELL,,,,make not in seed: 2 records
+eea,(summary),SKYWORTH,,,,make not in seed: 2 records
+eea,(summary),SWM,,,,make not in seed: 2 records
+eea,(summary),TOGG,,,,make not in seed: 2 records
 rdw,(summary),DETROIT ELECTRIC,,,,make not in seed: 2 records
 rdw,(summary),E GO,,,,make not in seed: 2 records
 rdw,(summary),FAW-VOLKSWAGEN,,,,make not in seed: 2 records
@@ -1378,6 +1329,27 @@ rdw,(summary),STELLA,,,,make not in seed: 2 records
 rdw,(summary),THE LONDON TAXI COMPANY,,,,make not in seed: 2 records
 rdw,(summary),TOGG,,,,make not in seed: 2 records
 rdw,(summary),XIAOMI,,,,make not in seed: 2 records
+eea,(summary),AION,,,,make not in seed: 1 records
+eea,(summary),AUDI SPORT,,,,make not in seed: 1 records
+eea,(summary),BAYER.MOT.WERKE-BMW,,,,make not in seed: 1 records
+eea,(summary),BMW AG,,,,make not in seed: 1 records
+eea,(summary),CASELANI,,,,make not in seed: 1 records
+eea,(summary),CHERY,,,,make not in seed: 1 records
+eea,(summary),"CHERY, JAECOO",,,,make not in seed: 1 records
+eea,(summary),CHINA FIRST (RC),,,,make not in seed: 1 records
+eea,(summary),DAYUN,,,,make not in seed: 1 records
+eea,(summary),DFSK MOTOR CO. LTD,,,,make not in seed: 1 records
+eea,(summary),DODGE,,,,make not in seed: 1 records
+eea,(summary),E.GO,,,,make not in seed: 1 records
+eea,(summary),FIREFLY,,,,make not in seed: 1 records
+eea,(summary),GMC,,,,make not in seed: 1 records
+eea,(summary),LYNK & CO,,,,make not in seed: 1 records
+eea,(summary),MOKE INTERNATIONAL LIMITED,,,,make not in seed: 1 records
+eea,(summary),ONVO,,,,make not in seed: 1 records
+eea,(summary),"SERES, DFSK, SOKON, AITO",,,,make not in seed: 1 records
+eea,(summary),YANGWANG,,,,make not in seed: 1 records
+eea,(summary),YUEDA-HUMAN HORIZONS,,,,make not in seed: 1 records
+eea,(summary),"ZHIDOU, ZD, ELARIS",,,,make not in seed: 1 records
 rdw,(summary),ABT E-LINE GMBH,,,,make not in seed: 1 records
 rdw,(summary),ADRIA,,,,make not in seed: 1 records
 rdw,(summary),AIXAM,,,,make not in seed: 1 records

@@ -26,6 +26,14 @@ sources:
   status: active
   terms: Licence confirmed in EEA SDI metadata (copyright holder DG CLIMA), 2026-11-15.
     2025 data is provisional.
+- id: wikidata
+  name: Wikidata
+  owner: Wikimedia Foundation
+  licence: CC0-1.0
+  access: api
+  cadence: monthly
+  status: active
+  terms: Fixture stand-in for a second independent spec source (EEA is count-only, Q-039).
 - id: seed-manual
   name: EV Finder seed (hand-entered, unchecked)
   owner: EV Finder

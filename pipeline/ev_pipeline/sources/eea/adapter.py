@@ -2,9 +2,15 @@
 
 Pulls new battery-electric registrations (Ft = 'electric') per country x make x commercial
 name for NL/DE/FR/BE (the UK is not in the EU data), aggregated server-side through the
-Discodata SQL endpoint. Alongside each count we keep registration-weighted averages of the
-type-approval mass (M, kg), electric consumption (Z, Wh/km) and electric range (Zr, km)
-as low-confidence spec facts.
+Discodata SQL endpoint.
+
+**Counts only (T-004 review).** The grouped query also returns registration-weighted averages
+of mass (M), consumption (Z) and range (Zr) over *every* type approval under one commercial
+name: all battery sizes, wheels and trims blended into a number that may match no real car.
+Decision 009 says conflicts are never averaged, so these are NOT emitted as spec facts. `M`
+is also mass in running order (curb weight + 75 kg driver), which must never merge with curb
+weight. The averages stay in the raw pages only; per-type-approval (TAN/Va/Ve) spec rows are an
+open question (QUESTIONS.md Q-039).
 
 Discodata sits behind an Azure WAF that rejects many GET queries (e.g. `... AND ...` with
 quoted literals) with HTTP 403; POSTing the same query as a form body works.
@@ -122,12 +128,6 @@ def fetch(client: httpx.Client, target: Path) -> int:
     return rows
 
 
-def _round(value: float | None, digits: int) -> float | None:
-    if value is None or value <= 0:
-        return None
-    return round(float(value), digits)
-
-
 def normalise(raw_dir: Path, retrieved_at: date) -> list[SourceRecord]:
     records: list[SourceRecord] = []
     for page in sorted(raw_dir.glob("page-*.json")):
@@ -156,26 +156,7 @@ def normalise(raw_dir: Path, retrieved_at: date) -> list[SourceRecord]:
                     **common,
                 )
             )
-            specs: dict[FactField, SpecValue] = {}
-            if (mass := _round(row.get("mass_kg"), 0)) is not None:
-                specs[FactField.weight_kg] = SpecValue(value=mass, unit="kg")
-            if (wh_km := _round(row.get("z_wh_km"), 1)) is not None:
-                specs[FactField.consumption_kwh_100km] = SpecValue(
-                    value=round(wh_km / 10, 2), unit="kWh/100km"
-                )
-            if (rng := _round(row.get("zr_km"), 0)) is not None:
-                specs[FactField.wltp_range_km] = SpecValue(value=rng, unit="km")
-            if specs:
-                # Registration-weighted type-approval averages across all versions sold.
-                records.append(
-                    SourceRecord(
-                        record_key=key + "#type_approval_avg",
-                        kind="spec",
-                        specs=specs,
-                        confidence=Confidence.low,
-                        **common,
-                    )
-                )
+            # No spec record: see the module docstring (averages across different cars).
     return records
 
 

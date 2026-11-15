@@ -5,7 +5,12 @@ tolerance and mode. Fields without a policy use the overnight defaults:
 1. **Majority**: if 3 or more facts agree within 3% of each other, the largest such group
    wins, whatever the sources' priority. Ties go to the group holding the higher-ranked fact.
 2. **Priority** otherwise: openev > eea > seed-manual (see matcher.SOURCE_PRIORITY).
-3. **Recency** breaks ties: latest `retrieved_at`, then latest record year, then fact id.
+3. **Earliest model year** breaks ties within one priority (T-005 review): a used-car row
+   should show what the first cars of the variant had, not the newest model year's specs.
+   Big year-to-year changes are split into year-banded variants by the matcher
+   (`split_year_bands`); smaller ones stay, and the later values show up as conflicts.
+   Then latest `retrieved_at`, then fact id. Facts without a model year rank last.
+   (The `newest` mode, used for prices and counts, still prefers the latest year.)
 
 Values are never averaged: the merged value is always one real fact's value.
 
@@ -76,7 +81,10 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         raise ValueError("merge_facts needs at least one fact")
 
     def rank(mf: MatchedFact) -> tuple:
-        return (policy.priority(mf.source_id), mf.fact.retrieved_at, mf.year or 0, mf.fact.id)
+        # Higher is better: priority, then EARLIEST model year (no year ranks last), then the
+        # latest retrieval, then fact id for a stable order.
+        year_pref = -mf.year if mf.year is not None else -10_000
+        return (policy.priority(mf.source_id), year_pref, mf.fact.retrieved_at, mf.fact.id)
 
     by_rank = sorted(facts, key=rank, reverse=True)
     rule = "single" if len(facts) == 1 else policy.mode

@@ -51,6 +51,12 @@ class SeedModel:
     body: str | None
     aliases: list[str]
     generations: list[SeedGeneration]
+    # Names that start like this model but are a different car ("e-tron GT" vs "e-tron").
+    # A record whose name contains one of these (as whole tokens) never matches this model.
+    name_excludes: list[str] = field(default_factory=list)
+    # Bare trade names ("KONA", "208") that mean this electric model only in sources that hold
+    # nothing but BEVs (matcher.BEV_FILTERED_SOURCES). Exact whole-name match, never a prefix.
+    bev_only_aliases: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -105,6 +111,8 @@ def parse_seed(data: dict[str, Any]) -> Seed:
                 body=md.get("body"),
                 aliases=list(md.get("name_aliases") or []),
                 generations=sorted(mgens, key=lambda g: g.year_start),
+                name_excludes=list(md.get("name_excludes") or []),
+                bev_only_aliases=list(md.get("bev_only_aliases") or []),
             )
             make_models.append(sm)
             models[sm.id] = sm
@@ -249,11 +257,10 @@ def load_manual_variants(path: Path) -> tuple[list[ManualVariant], list[str]]:
     return parse_manual_variants(yaml.safe_load(path.read_text(encoding="utf-8")) or {}, mtime)
 
 
-def model_alias_keys(model: SeedModel) -> set[str]:
-    """Normalised keys a source may use for this model, with and without the make name."""
+def _with_and_without_make(model: SeedModel, names: list[str]) -> set[str]:
     make_toks = tokens(model.make_id)
     out: set[str] = set()
-    for name in [model.name, *model.aliases]:
+    for name in names:
         toks = tokens(name)
         if not toks:
             continue
@@ -261,3 +268,18 @@ def model_alias_keys(model: SeedModel) -> set[str]:
         if toks[: len(make_toks)] == make_toks and len(toks) > len(make_toks):
             out.add("".join(toks[len(make_toks) :]))
     return out
+
+
+def model_bev_only_keys(model: SeedModel) -> set[str]:
+    """Normalised whole-name keys of `bev_only_aliases` (with and without the make name)."""
+    return _with_and_without_make(model, model.bev_only_aliases)
+
+
+def model_exclude_tokens(model: SeedModel) -> list[list[str]]:
+    """Token lists of `name_excludes`; matched as a contiguous run anywhere in a name."""
+    return [t for t in (tokens(n) for n in model.name_excludes) if t]
+
+
+def model_alias_keys(model: SeedModel) -> set[str]:
+    """Normalised keys a source may use for this model, with and without the make name."""
+    return _with_and_without_make(model, [model.name, *model.aliases])

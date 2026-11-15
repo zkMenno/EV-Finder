@@ -168,6 +168,8 @@ makes:
         segment: C
         body: hatchback
         name_aliases: [e Golf, eGolf, Golf electric]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: [GOLF]
         generations:
           - id: volkswagen-e-golf-mk7
             name: Mk7
@@ -223,6 +225,8 @@ makes:
         segment: C
         body: hatchback
         name_aliases: [IONIQ Electric, Ioniq EV, Ioniq (electric)]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: [IONIQ]
         generations:
           - id: hyundai-ioniq-electric-gen1
             name: Ioniq Electric
@@ -238,6 +242,8 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [Kona EV, KONA Electric, Kauai Electric]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: [KONA, "KONA, KAUAI", KAUAI]
         generations:
           - id: hyundai-kona-electric-os
             name: Gen 1 (OS)
@@ -295,6 +301,8 @@ makes:
         segment: J-small
         body: crossover
         name_aliases: [e-Soul, Soul Electric, Soul EV]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: [SOUL]
         generations:
           - id: kia-soul-ev-ps
             name: Gen 1 (PS)
@@ -317,6 +325,8 @@ makes:
         segment: J-small
         body: crossover
         name_aliases: [e-Niro, Niro EV, Niro Electric, e Niro]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: [NIRO]
         generations:
           - id: kia-niro-ev-de
             name: e-Niro (Gen 1, DE)
@@ -392,6 +402,8 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [e208, E-208, 208 Electric]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: ["208"]
         generations:
           - id: peugeot-e-208-p21
             name: e-208 (P21)
@@ -408,6 +420,8 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [e2008, E-2008, 2008 Electric]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: ["2008"]
         generations:
           - id: peugeot-e-2008-p24
             name: e-2008 (P24)
@@ -425,7 +439,9 @@ makes:
         name: Corsa-e
         segment: B
         body: hatchback
-        name_aliases: [Corsa Electric, Corsa-e, Corsa e, Vauxhall Corsa-e, Vauxhall Corsa Electric]
+        name_aliases: [Corsa Electric, Corsa-e, Corsa e, e-Corsa, Vauxhall Corsa-e, Vauxhall Corsa Electric]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: [CORSA]
         notes: "Sold as Vauxhall in the UK."
         generations:
           - id: opel-corsa-e-f
@@ -445,6 +461,8 @@ makes:
         segment: A
         body: hatchback
         name_aliases: [500 Electric, New 500, 500 elettrica, Nuova 500, 500 La Prima, Abarth 500e]
+        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        bev_only_aliases: ["500"]
         generations:
           - id: fiat-500e-312
             name: 500e (US-only)
@@ -545,7 +563,10 @@ makes:
         name: e-tron
         segment: J-large
         body: suv
-        name_aliases: [e-tron, etron, e-tron Sportback, Q8 e-tron, Q8 Sportback e-tron, e-tron quattro]
+        name_aliases: [e-tron, etron, e-tron Sportback, Q8 e-tron, Q8 Sportback e-tron, e-tron quattro,
+                       Q8 50 e-tron, Q8 55 e-tron, Q8 Sportback 50 e-tron, Q8 Sportback 55 e-tron, SQ8 e-tron, SQ8 Sportback e-tron]
+        # A different car that starts with the same words: never match these names to this model.
+        name_excludes: [e-tron GT, RS e-tron GT, S e-tron GT]
         notes: "Do not confuse with e-tron GT, a different model."
         generations:
           - id: audi-e-tron-ge
@@ -568,7 +589,9 @@ makes:
         name: Q4 e-tron
         segment: J-medium
         body: suv
-        name_aliases: [Q4 e-tron, Q4 Sportback e-tron, Q4 etron]
+        name_aliases: [Q4 e-tron, Q4 Sportback e-tron, Q4 etron, Q4 SB e-tron,
+                       Q4 35 e-tron, Q4 40 e-tron, Q4 45 e-tron, Q4 50 e-tron, Q4 55 e-tron,
+                       Q4 Sportback 35 e-tron, Q4 Sportback 40 e-tron, Q4 Sportback 45 e-tron, Q4 Sportback 50 e-tron, Q4 Sportback 55 e-tron]
         generations:
           - id: audi-q4-e-tron-gen1
             name: Q4 e-tron
@@ -683,6 +706,8 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [Honda e, Honda-e, e Advance]
+        # Honda's e:N series are different cars whose names start with "e".
+        name_excludes: ["e:Ny1", "e:NS1", "e:NS2", "e:NP1", "e:NP2"]
         generations:
           - id: honda-e-gen1
             name: Honda e

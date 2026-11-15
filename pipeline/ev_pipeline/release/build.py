@@ -55,7 +55,7 @@ from ev_pipeline.match.seed import ManualVariant, Seed, load_manual_variants, lo
 from ev_pipeline.merge.merge import Merged, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.records import SourceRecord
-from ev_pipeline.release.gate import load_registry
+from ev_pipeline.release.gate import MISSING_REGISTRY, load_registry
 from ev_pipeline.release.validate import (
     ROW_NUMBER_FIELDS,
     ReleaseError,
@@ -66,6 +66,7 @@ from ev_pipeline.release.validate import (
     schema_errors,
     write_validation,
 )
+from ev_pipeline.sources._common import rel
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DIFF_IGNORE = {"release", "provenance"}
@@ -126,6 +127,44 @@ def load_staging(staging: Path) -> tuple[list[SourceRecord], list[dict[str, Any]
                 n += 1
         inputs.append({"path": str(path), "records": n, "modified": _mtime(path)})
     return records, inputs, problems
+
+
+def log_path(path: Path | str, data_dir: Path) -> str:
+    """A machine-independent path for the run log: repo-relative (sources._common.rel), else
+    relative to the data folder as `data/...`, else just the file name. Never an absolute
+    host path (T-006 review)."""
+    p = Path(path)
+    r = rel(p)
+    if not Path(r).is_absolute():
+        return r
+    try:
+        return str(Path("data") / p.resolve().relative_to(data_dir.resolve()))
+    except ValueError:
+        return p.name
+
+
+def generation_pack_kwh(links: Any, manual: list[ManualVariant]) -> dict[str, set[float]]:
+    """Battery sizes per generation from battery_packs.yaml via variant_links.yaml (generation
+    links, and variant links of seed-manual variants). Evidence for shared-year matching."""
+    gen_of = {mv.id: mv.generation_id for mv in manual}
+    out: dict[str, set[float]] = {}
+
+    def add(gid: str | None, link: dict[str, Any]) -> None:
+        if not gid:
+            return
+        ids = [link.get("battery_pack_id"), *(link.get("battery_pack_options") or [])]
+        for pid in ids:
+            pack = links.packs.get(pid) if pid else None
+            for k in ("gross_kwh", "usable_kwh"):
+                v = (pack or {}).get(k)
+                if isinstance(v, int | float) and not isinstance(v, bool):
+                    out.setdefault(gid, set()).add(float(v))
+
+    for gid, link in links.by_generation.items():
+        add(gid, link)
+    for vid, link in links.by_variant.items():
+        add(gen_of.get(vid), link)
+    return out
 
 
 def _mtime(path: Path) -> str:
@@ -226,6 +265,9 @@ def build_release(
     inputs.insert(0, {"path": str(seed_path), "modified": _mtime(seed_path)})
 
     registry = load_registry(data_dir / "sources.yaml")
+    if not registry.loaded:
+        # Fail closed (T-006 review): without the registry nothing proves a licence.
+        raise ReleaseError(MISSING_REGISTRY)
     policies = load_policies(data_dir / "field_sources.yaml")
     gated: dict[str, dict[str, Any]] = {}
 
@@ -240,7 +282,8 @@ def build_release(
     records = [r for r in records if gate(r.source.id.root)]
     manual = [mv for mv in manual if gate(mv.record.source.id.root)]
 
-    result = match_records(records, seed, manual)
+    links = load_links(data_dir)
+    result = match_records(records, seed, manual, generation_pack_kwh(links, manual))
     problems += result.problems
     spec_facts, dropped = check_fact_ranges(result.spec_facts)
     problems += dropped
@@ -253,7 +296,6 @@ def build_release(
     nl_counts = aggregate_counts(result.count_facts, seed, "rdw", "NL")
 
     n = release or next_release_number(data_dir / "releases")
-    links = load_links(data_dir)
     inputs += [{"path": p} for p in links.inputs]
     inherited = {
         vid: inherited_for(
@@ -301,6 +343,9 @@ def build_release(
     facts = [_fact_dict(mf) for mf in all_facts]
     pfacts = pack_facts(links)
     facts += pfacts
+
+    for inp in inputs:
+        inp["path"] = log_path(inp["path"], data_dir)
 
     errors = (
         schema_errors(catalogue, facts)
@@ -571,6 +616,8 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "sources": [s["id"] for s in res.catalogue["sources"]],
         "matched_records": res.match.matched_records,
         "excluded_records": dict(res.match.excluded),
+        "count_only_spec_records_skipped": dict(res.match.count_only_skipped),
+        "year_bands": res.match.year_bands,
         "unmatched_records": res.unmatched_count,
         "unmatched_seed_makes": len(res.match.unmatched),
         "validation_problems": len(res.problems),
@@ -617,5 +664,5 @@ def release_cmd(
     except ReleaseError as exc:
         print(f"release failed: {exc}", file=sys.stderr)
         return 1
-    print(json.dumps(run_log(res, f"published {out}"), indent=1))
+    print(json.dumps(run_log(res, f"published {log_path(out, data_dir)}"), indent=1))
     return 0

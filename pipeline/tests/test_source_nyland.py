@@ -47,3 +47,25 @@ def test_fetch_needs_env_and_saves_locally(tmp_path: Path, monkeypatch: pytest.M
     assert "example.invalid" not in (local / "_fetch.json").read_text()
     assert "example.invalid" not in (local / "runlog.jsonl").read_text()
     assert not (tmp_path / "staging").exists()
+
+
+@pytest.mark.parametrize(
+    "handler",
+    [
+        lambda req: httpx.Response(403, text="forbidden"),
+        lambda req: (_ for _ in ()).throw(httpx.ConnectError("boom", request=req)),
+    ],
+    ids=["status-error", "connect-error"],
+)
+def test_fetch_error_never_prints_url(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str], handler
+) -> None:
+    monkeypatch.setenv("EV_DATA_DIR", str(tmp_path))
+    monkeypatch.setenv(adapter.ENV_URL, "https://secret-sheet.example.invalid/d/abc123?key=xyz")
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        assert adapter.fetch_cmd(client) == 1
+    out = capsys.readouterr()
+    text = out.out + out.err
+    assert "failed" in text
+    for leak in ("secret-sheet", "example.invalid", "abc123", "key=xyz", "https://"):
+        assert leak not in text

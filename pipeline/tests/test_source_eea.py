@@ -13,32 +13,22 @@ from ev_pipeline.sources.eea import adapter
 FIXTURE = Path(__file__).parent / "fixtures" / "eea"
 
 
-def test_counts_and_type_approval_specs() -> None:
+def test_counts_only_no_averaged_specs() -> None:
     records = adapter.normalise(FIXTURE, date(2026, 11, 15))
+    assert records
     for rec in records:
         assert rec.source.licence == "CC-BY-4.0"
         assert "DG CLIMA" in (rec.source.attribution or "")
         assert rec.country in {Country.NL, Country.DE, Country.FR, Country.BE}
-        for spec in rec.specs.values():
-            assert spec.unit in {"count", "kg", "kWh/100km", "km"}
+        # Registration-weighted averages across type approvals are not spec facts, and EEA
+        # mass in running order (incl. 75 kg driver) must never become weight_kg.
+        assert rec.kind == "registration_count"
+        assert set(rec.specs) == {FactField.registered_count}
+        assert not rec.record_key.endswith("#type_approval_avg")
     key = "[CO2Emission].[latest].[co2cars_2025Pv31]:NL|TESLA|MODEL 3|2025"
     [count] = [r for r in records if r.record_key == key]
-    assert count.kind == "registration_count"
     assert count.confidence == Confidence.medium
     assert count.specs[FactField.registered_count].value == 5828
-    [spec] = [r for r in records if r.record_key == key + "#type_approval_avg"]
-    assert spec.kind == "spec"
-    assert spec.confidence == Confidence.low
-    assert spec.specs[FactField.weight_kg].value == 1841
-    assert spec.specs[FactField.consumption_kwh_100km].value == pytest.approx(13.52)  # Wh/km / 10
-    assert spec.specs[FactField.wltp_range_km].value == 583
-
-
-def test_missing_averages_give_no_spec_record() -> None:
-    records = adapter.normalise(FIXTURE, date(2026, 11, 15))
-    be = [r for r in records if "BE|TESLA|MODEL 3|" in r.record_key]
-    spec = next(r for r in be if r.kind == "spec")
-    assert set(spec.specs) == {FactField.weight_kg}  # BE has no Z / Zr for this model
 
 
 def test_fetch_posts_query_and_checks_licence(tmp_path: Path) -> None:

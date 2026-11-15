@@ -63,3 +63,25 @@ Findings
 3. **"(to confirm)" licences pass the gate.** `gate.py:51` strips the parenthesis. That contradicts `data/sources.yaml:4` ("they stay blocked until checked"). No active source carries "(to confirm)" today, so there is no impact yet, but the two rules should agree. Prefer blocking.
 4. `data/releases/1/run_log.json` holds absolute host paths (`/home/claude/zkmenno/ev-finder/...`, lines 6-48). `release/build.py:109,127,224,226,257` use `str(path)` where `sources/_common.py::rel()` exists. That leaks the build machine layout into a public repo and makes runs machine-dependent. Low.
 5. Range checks don't cover `power_kw`, `weight_kg`, `real_range_km`, `seats`, `dc_minutes_10_80` or the derived `dc_km_*`. The box is met for kWh/km/kW/price, but these should be added. Low.
+
+## Fixes after review
+
+**Builder, 2026-11-15 (proto/overnight-1).**
+1. Nyland fixture (finding 1): `tests/fixtures/release/staging/nyland.records.jsonl` is now one synthetic
+   **Testmake "Testcar Alpha"** row (same invented car as `fixtures/nyland/synthetic.csv`). The fixture seed has a
+   synthetic Testmake/Testcar Alpha model, so the record *would* match: `test_nyland_record_would_match_without_the_exclusion`
+   is the control. `test_nyland_never_reaches_a_release` adds an openev Testcar row so the variant exists and
+   asserts that nyland's value, rung and source never reach it. `test_nyland_fixture_is_synthetic` guards the rule.
+   A repo-wide grep finds no other nyland data: only docs/config, and git-ignored `data/local/` holds synthetic fixture output only.
+2. Gate fails open (finding 2): a missing `data/sources.yaml` raises `ReleaseError` and nothing is written.
+   Test: `test_missing_registry_fails_the_release` (replaces the old "excluded even without registry" test).
+3. "(to confirm)" passes (finding 3): `gate.licence_problem` blocks empty/none/unknown/n/a and anything
+   still "(to confirm)". The only override is an optional `permission: written` on the source; no source
+   sets it tonight. Tests: `test_registry_gate_rules`, `test_real_registry_has_no_written_permission_tonight`.
+4. Host paths in run_log.json (finding 4): `release/build.py::log_path` uses `sources._common.rel()`, else
+   `data/…` relative to the data dir, else the file name. The printed "published" line too. Tests: `test_release_end_to_end`,
+   `test_real_release.py::test_run_log_has_no_host_paths`.
+5. Finding 5 (range checks for power/weight/real range/seats/dc minutes) was not in tonight's list and is still open.
+- Fixture note: with EEA count-only, a synthetic `wikidata` staging file is the second independent spec source (Q-042).
+
+Release 1 rebuilt (`rm -rf data/releases && uv run ev release`) from openev 1229, rdw 3124 and eea 1715 (counts only) records + seed: **195 rows** (was 210), 55 generations with rows, 6063 facts, conflicts.csv 79 (was 489), unmatched.csv 1383 rows (2726 seed-make records + 1920 other-make records unmatched), validation.csv 0, tiers single-source 195, real-range rungs body-ratio 105 / none 90, catalogue.json 1,925,423 B raw / 91,755 B gzipped. Checks green on my files: `ruff check`, `ruff format --check`, `pytest` (251 incl. test_real_release.py).
