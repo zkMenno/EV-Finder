@@ -601,5 +601,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** (1) Each release ships `used_prices.json`. A model band = list price at registration × share of value kept at that age (one EU curve from DAT, ING and Allianz anchors, research/R-40), P25/P75 = median × (1 ∓ 0.12), `samples: 0`, `estimate: true`. (2) List price: that year's `price_new` fact in that country; else the nearest year within 2; else (DE, FR, BE) the Dutch price moved to local VAT, low confidence. UK only from UK prices. No list price → no band. (3) Manual sample aggregates (count, P25, median, P75 per build year; URL and date; data/manual/prices, WS3) with ≥ 5 cars and ≤ 120 days old replace the model band for that variant; generation-level aggregates ship as generation bands. Every sample row is back-tested against the model in qa.json (not a gate). (4) Price indices stay internal sanity checks until a licence or permission exists.
 
 **Consequences:** About 99 of 226 variants get a band from release 1's prices; coverage grows with cited list prices. Refit the curve when DAT's 3-year BEV figure moves by more than 3 points or samples disagree by more than 15 % median.
+## Decision 052: Packages must be 3 days old before we lock them (matches Dependabot)
+
+**Status:** Accepted (coordinator fix, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Every Dependabot npm job failed (and emailed Menno): Dependabot waits 3 days before trusting a new version and runs pnpm with that rule, but an agent had locked @playwright/test 1.65.1 (and a few transitive packages) when they were under 2 days old, so pnpm refused to install the project at all.
+
+**Decision:** `minimumReleaseAge: 4320` (3 days) in pnpm-workspace.yaml, and an explicit `cooldown: default-days: 3` for npm in .github/dependabot.yml. The two values stay equal. Lockfile regenerated under the rule; @playwright/test pinned to 1.65.0.
+
+**Consequences:** Agents can no longer lock a version fresher than Dependabot accepts, so this failure can't come back. Urgent security fixes that are under 3 days old go in `minimumReleaseAgeExclude` with a comment.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
