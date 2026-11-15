@@ -4,6 +4,8 @@ Compare EVs. Make your shortlist.
 
 The design system for EV Shortlist (working title), a site for comparing used and new electric cars and keeping the ones that fit. It looks like an illustrated holiday map with a hand-kept list taped to it: friendly and fun on the outside, calm and exact wherever someone is deciding how to spend €15,000.
 
+**Design board** (mockups, logo sheet, elements, icons, textures): https://claude.ai/artifact/7oaYaK26i6xQBogFuuctMp. The board shows the system in use and installs this system's tokens; this system is the source of truth for values and rules. When one changes, update the other.
+
 Builders: read this page first, then `patterns.md`, then the component guidelines. Use tokens through CSS custom properties (`var(--ink)`) and the `evs-` classes in `components/bundle.css`. Never paste hex values into app code. Fonts are self-hosted in `fonts/` (OFL), latin subset; add latin-ext before launching in Türkiye or Central Europe.
 
 ## The idea in one line
@@ -103,9 +105,13 @@ All three are OFL-licensed and self-hosted in `fonts/` (tokens.css declares them
 - Radius signals hierarchy: chips and inputs are small (6px), buttons and tooltips medium (10px), cards and the map large (18px), pins and the switch thumb round.
 - Elevation is a sticker: a short, solid 2px ink shadow (`shadow-sticker`). Only one floating layer at a time (`shadow-lift`: tooltip, menu, shortlist tray or the taped note).
 
+## Texture
+
+The map is not flat. Faint surface textures give heroes, empty states, Learn headers and illustrations a printed, holiday-map feel: paper grain, contour lines, a map grid, land hatching, a halftone sun and map folds, plus a dotted route divider between big sections. They sit behind content at 5–14% ink and never go behind tables, forms, prices or body copy. Classes: `evs-tex evs-tex--paper` (etc.); see the Texture component.
+
 ## Map vocabulary (iconography)
 
-The icons are map symbols, drawn with a 2px ink line and round caps on a 24px grid, with one flat colour fill at most. See the Map symbols asset group.
+The icons are map symbols, drawn with a 2px ink line and round caps on a 24px grid, with one flat colour fill at most. The full set of 35 is in the Symbols asset group and on the design board.
 
 | Symbol | Means |
 |---|---|

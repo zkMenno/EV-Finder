@@ -1,5 +1,7 @@
 # Where this comes from
 
+Design board with mockups, logo sheet, elements, icons and textures: https://claude.ai/artifact/7oaYaK26i6xQBogFuuctMp (visual reference; this folder stays the source of truth for values and rules).
+
 This folder mirrors the EV Shortlist design system: https://claude.ai/artifact/EiqvMW5NcFgxFq6c5YHuPP
 
 - Owner: UX workstream (`workstreams/UX/`). Other lanes: don't edit here; write to `workstreams/UX/INBOX.md`.
@@ -9,4 +11,4 @@ This folder mirrors the EV Shortlist design system: https://claude.ai/artifact/E
 - `fonts/` holds the self-hosted OFL fonts (latin subset). `assets/Logo/` and `assets/Symbols/` hold the SVGs.
 - The brand name comes from config (`brand.name`, Decision 018). The logo SVGs say "EV Shortlist"; swap them if the name changes.
 
-Last synced: 2026-11-15 (design system v4: Ink and sky palette, Bitter headings, working logo).
+Last synced: 2026-11-15 (design system v5: texture, 35-icon set).
