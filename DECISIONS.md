@@ -619,4 +619,26 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** About 4 routine PRs a month instead of ~5 a week, so far fewer notifications for Menno. Updates arrive in bigger batches, so a failing batch may need a little more untangling.
 
+## Decision 057: A facelift with new battery packs is its own generation
+
+**Status:** Accepted (WS3, T-068)
+**Date:** 2026-11-15
+
+**Context:** Menno's picks rank the Kia EV6 and Hyundai Ioniq 5 2024 facelifts (84 kWh) and the XPENG G6 2025 update (5C LFP) as different cars from the earlier versions. In one generation, the shortlist, price bands by build year and pack links (T-057 pack guard) could not tell them apart.
+
+**Decision:** When a mid-cycle update changes the battery packs together with a visible facelift, it becomes a new generation (`<model>-facelift`), with the earlier generation ending in the overlap year (one shared year, as the validator allows). Applied to kia-ev6, hyundai-ioniq-5 and xpeng-g6. Existing generation ids stay; their variants are capped at the split year. A battery change alone (e.g. ID.3 77 → 79 kWh) stays a change marker.
+
+**Consequences:** RDW names both versions the same, so the shared year goes to model level (MODEL_LEVEL_FALLBACK) instead of a guessed generation. Facelift generations get rows from OpenEV by model year; WS1 checks placement on staging.
+
+## Decision 058: Picks importer maps a sheet year one year off to the nearest generation
+
+**Status:** Accepted (WS3, T-068)
+**Date:** 2026-11-15
+
+**Context:** Menno's sheet uses reveal or order years (Elroq 2024, Scenic 2023); the seed uses registration years (2025, 2024). Those rows had no generation, so the shortlist rules could not score them.
+
+**Decision:** `import_menno_sheet.py` maps a year at most one year outside every generation of the model to the nearest one and writes `generation_match: nearest`. Further away stays unmapped. A `--remap` mode refreshes only the seed ids from the existing picks file, so the sheet is not needed after seed changes.
+
+**Consequences:** Seed years stay evidence-based; the picks file shows which rows were matched by proximity.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
