@@ -39,8 +39,7 @@ test("T-017: every page talks only to our own origin", async ({ page, baseURL })
     modelHref,
     "/nl/nl/compare?ids=nissan-leaf-ze1-40kwh,renault-zoe-ph2-r135",
     "/nl/nl/learn/real-range",
-    "/nl/nl/top",
-    "/nl/nl/top/fastest-dc",
+    ...(process.env.E2E_PARKED === "1" ? ["/nl/nl/top", "/nl/nl/top/fastest-dc"] : ["/nl/nl/learn"]),
     "/uk/en",
   ]) {
     const res = await page.goto(path);

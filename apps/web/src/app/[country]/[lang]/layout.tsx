@@ -3,6 +3,7 @@
 // <html lang> is right per route. Only served pairs exist (a country's own languages + EN).
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
+import { parkedEnabled } from "@/config/features";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { CompareTray } from "@/components/CompareTray";
@@ -73,9 +74,11 @@ export default async function SiteLayout({ children, params }: Props) {
               <Link href={base} className="font-medium hover:underline">
                 {t("nav.explore")}
               </Link>
-              <Link href={`${base}/top`} className="font-medium hover:underline">
-                {t("nav.rankings")}
-              </Link>
+              {parkedEnabled("rankings") ? (
+                <Link href={`${base}/top`} className="font-medium hover:underline">
+                  {t("nav.rankings")}
+                </Link>
+              ) : null}
               <Link href={`${base}/compare`} className="font-medium hover:underline">
                 {t("nav.compare")}
               </Link>

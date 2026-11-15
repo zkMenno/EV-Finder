@@ -2,6 +2,7 @@
 // pair (a country's own languages + EN), from the current release's model / generation /
 // variant ids. Compare and staff pages are noindex and left out.
 import { COUNTRIES, servedPairs } from "@/config/countries";
+import { parkedEnabled } from "@/config/features";
 import {
   generationParams,
   modelParams,
@@ -18,10 +19,10 @@ export function pagePaths(cat: Catalogue): string[] {
   const rows = cat.rows();
   return [
     "",
-    "/top",
-    ...RANKING_IDS.map((l) => `/top/${l}`),
+    // Parked features (Decision 051) are only listed when switched on.
+    ...(parkedEnabled("rankings") ? ["/top", ...RANKING_IDS.map((l) => `/top/${l}`)] : []),
     "/about",
-    "/charging",
+    ...(parkedEnabled("chargingPages") ? ["/charging"] : []),
     "/learn",
     ...articles().map((a) => `/learn/${a.slug}`),
     ...cat.taxonomy().glossary_terms.filter((g) => !articles().some((a) => a.slug === g.id)).map((g) => `/learn/${g.id}`),
@@ -37,7 +38,7 @@ export function sitemapUrls(cat: Catalogue, origin: string): string[] {
   return servedPairs().flatMap(({ country, lang }) => {
     const cfg = COUNTRIES[country];
     // Used-price lists vary per country and exist only with enough sourced prices.
-    const used = visibleUsedRankings(cat.rows(), cat.usedPrices(), cfg.code, cfg.currency).map((l) => `/top/${l}`);
+    const used = !parkedEnabled("rankings") ? [] : visibleUsedRankings(cat.rows(), cat.usedPrices(), cfg.code, cfg.currency).map((l) => `/top/${l}`);
     return [...paths, ...used].map((p) => `${origin}${siteBase(country, lang)}${p}`);
   });
 }
