@@ -532,5 +532,22 @@
   "charging.stats.period": "{from} to {to}",
   "charging.stats.retrieved": "retrieved {date}",
   "charging.stats.nerd.ids": "definition {definition} · metric {metric} · unit {unit}",
-  "charging.stats.col.labels": "Source's own label"
+  "charging.stats.col.labels": "Source's own label",
+  "opendata.title": "Open data: download the catalogue",
+  "opendata.intro": "Everything {app} knows about each EV variant, with our own real-range and charging figures, is free to download, reuse and build on under CC BY 4.0. Each data release gets its own numbered bundle.",
+  "opendata.files": "Data release {n} ({date})",
+  "opendata.file.variants.csv": "One row per variant, every published field with its sources and confidence. Opens in any spreadsheet.",
+  "opendata.file.variants.json": "The same rows as JSON, with the field list.",
+  "opendata.file.README.md": "Field list, units and how to read estimates.",
+  "opendata.file.ATTRIBUTION.md": "Credits for the sources behind the numbers. Keep them when you share the data.",
+  "opendata.file.LICENSE": "The licence text.",
+  "opendata.hosted": "Files are stored as assets of the data release on GitHub; the sha256 lets you check a download.",
+  "opendata.none": "No published data release yet. The download appears here with the first one.",
+  "opendata.licence.title": "Licence and credit",
+  "opendata.licence.body": "You may copy, change and use the data for anything, commercial use included, as long as you credit us and keep the source credits in ATTRIBUTION.md. Licence:",
+  "opendata.cite.title": "How to cite",
+  "opendata.citeLine": "Source: {app} (data release {n}, {date}), CC BY 4.0",
+  "opendata.caveats": "Read the README before you rely on a number: values marked estimate are our own model, not a measurement, and some real-range figures use a provisional generic ratio.",
+  "opendata.about": "How the numbers are made",
+  "footer.data": "Open data (CC BY 4.0)"
 }

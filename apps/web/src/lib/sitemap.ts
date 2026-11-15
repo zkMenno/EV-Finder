@@ -21,6 +21,7 @@ export function pagePaths(cat: Catalogue): string[] {
     "/top",
     ...RANKING_IDS.map((l) => `/top/${l}`),
     "/about",
+    "/data",
     "/charging",
     "/learn",
     ...articles().map((a) => `/learn/${a.slug}`),

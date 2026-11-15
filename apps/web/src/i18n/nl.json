@@ -520,5 +520,22 @@
   "charging.stats.period": "{from} tot {to}",
   "charging.stats.retrieved": "opgehaald {date}",
   "charging.stats.nerd.ids": "definitie {definition} · maat {metric} · eenheid {unit}",
-  "charging.stats.col.labels": "Eigen label van de bron"
+  "charging.stats.col.labels": "Eigen label van de bron",
+  "opendata.title": "Open data: download de catalogus",
+  "opendata.intro": "Alles wat {app} weet over elke EV-uitvoering, met onze eigen cijfers voor echt bereik en laden, is gratis te downloaden en te hergebruiken onder CC BY 4.0. Elke datarelease krijgt een eigen genummerde bundel.",
+  "opendata.files": "Datarelease {n} ({date})",
+  "opendata.file.variants.csv": "Eén rij per uitvoering, elk gepubliceerd veld met bronnen en betrouwbaarheid. Opent in elk spreadsheetprogramma.",
+  "opendata.file.variants.json": "Dezelfde rijen als JSON, met de veldenlijst.",
+  "opendata.file.README.md": "Veldenlijst, eenheden en hoe je schattingen leest.",
+  "opendata.file.ATTRIBUTION.md": "Vermelding van de bronnen achter de cijfers. Houd die erbij als je de data deelt.",
+  "opendata.file.LICENSE": "De licentietekst.",
+  "opendata.hosted": "De bestanden staan als bijlagen bij de datarelease op GitHub; met de sha256 controleer je een download.",
+  "opendata.none": "Nog geen gepubliceerde datarelease. De download verschijnt hier bij de eerste.",
+  "opendata.licence.title": "Licentie en bronvermelding",
+  "opendata.licence.body": "Je mag de data kopiëren, aanpassen en voor alles gebruiken, ook commercieel, zolang je ons vermeldt en de bronvermeldingen in ATTRIBUTION.md behoudt. Licentie:",
+  "opendata.cite.title": "Zo vermeld je ons",
+  "opendata.citeLine": "Bron: {app} (datarelease {n}, {date}), CC BY 4.0",
+  "opendata.caveats": "Lees de README voordat je op een getal vertrouwt: waarden met 'schatting' komen uit ons eigen model, niet uit een meting, en sommige bereikcijfers gebruiken een voorlopige algemene verhouding.",
+  "opendata.about": "Zo maken we de cijfers",
+  "footer.data": "Open data (CC BY 4.0)"
 }
