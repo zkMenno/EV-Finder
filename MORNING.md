@@ -89,7 +89,8 @@ _(at the end of the run)_
 | 6 | Source-scoped aliases | done (on) | +80 matched records; EEA VW make alias places +62,301 registrations; no record moved to a wrong model; MG4 trim duplicates (Q-062) |
 | 7 | EEA as corroboration | done (off) | with the flag on, sourced rows 2 → 6, but EEA averages blend variants, so it stays off (Q-019) |
 | 9 | Docs for new builders | done | root, pipeline, infra READMEs; every command run; web README queued |
-| — | RDW WLTP + catalogue price (from item 5) | running | |
+| — | Seed quality (MG4 dupes, year evidence, shared years) | done | MG4 8 → 6 rows; ID.4 starts 2020 and Soul SK3 ends 2024 (RDW counts in notes); 10,413 NL cars in shared years now counted at model level instead of dropped; new BMW i3 in RDW/EEA not invented (Q-065) |
+| — | RDW WLTP + catalogue price (from item 5) | running | being made attach-only so it can't create junk variants |
 
 ## Addenda 6 + 7 (WS0, picked up 03:10)
 | Item | Status | Notes |
