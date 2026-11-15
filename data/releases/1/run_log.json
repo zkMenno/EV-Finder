@@ -1,6 +1,6 @@
 {
  "step": "release",
- "at": "2026-11-15T04:46:34+00:00",
+ "at": "2026-11-15T04:55:30+00:00",
  "inputs": [
   {
    "path": "data/seed/models.yaml",
@@ -59,7 +59,7 @@
   {
    "path": "data/seed/variants.yaml",
    "records": 123,
-   "modified": "2026-11-15T04:35:45+00:00"
+   "modified": "2026-11-15T04:54:58+00:00"
   },
   {
    "path": "data/taxonomy/voltage_classes.yaml"
@@ -133,7 +133,7 @@
   "release": 1,
   "rows": 244,
   "generations_with_rows": 75,
-  "facts": 40104,
+  "facts": 40116,
   "sources": [
    "ademe",
    "dft-veh",
@@ -149,7 +149,7 @@
    "seed-manual",
    "wikidata"
   ],
-  "matched_records": 10244,
+  "matched_records": 10248,
   "excluded_records": {},
   "count_only_spec_records_skipped": {},
   "match_flags": {
@@ -168,13 +168,13 @@
   "attach_only_records_attached": {
    "ademe": 43,
    "fueleconomy": 487,
-   "kilowatt-openev": 386,
+   "kilowatt-openev": 390,
    "rdw": 934,
    "rdw-tgk": 2546
   },
   "ignored_fields": {
    "fueleconomy:consumption_kwh_100km": 448,
-   "kilowatt-openev:consumption_kwh_100km": 317
+   "kilowatt-openev:consumption_kwh_100km": 321
   },
   "registrations_coverage": {
    "BE": {
@@ -306,10 +306,10 @@
     ]
    }
   ],
-  "unmatched_records": 17935,
-  "unmatched_seed_makes": 13623,
+  "unmatched_records": 17931,
+  "unmatched_seed_makes": 13619,
   "validation_problems": 3,
-  "conflicts": 4163,
+  "conflicts": 4167,
   "gated_sources": {},
   "real_range_rungs": {
    "body-ratio": 215,
@@ -424,8 +424,8 @@
     }
    }
   },
-  "catalogue_json_bytes": 7822775,
-  "catalogue_json_gzip_bytes": 470145,
+  "catalogue_json_bytes": 7825663,
+  "catalogue_json_gzip_bytes": 470518,
   "diff": {
    "rows_previous": 0,
    "rows": 244,

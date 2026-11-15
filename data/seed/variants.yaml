@@ -263,13 +263,21 @@ variants:
     years: [2017, 2019]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 41
       ac_kw: 43
       power_kw: 65
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      battery_kwh_net:
+        value: 41
+        source_url: https://www.press.renault.co.uk/assets/documents/original/10706-RenaultZOEPressKitJuly2017.pdf
+        source_name: "Renault UK Press, Renault ZOE Press Information, July 2017"
+        retrieved: 2026-11-15
+        quote: "The ZOE's new Z.E. 40 battery boasts 41kWh of useful energy"
+        locator: "Z.E. 40 battery section; technical specifications table, On-board power (kWh) 41"
+        confidence: medium
     notes: "41 kWh with Q motor: 43 kW AC, no DC. Not offered in every market."
     confidence: low
   - generation_id: renault-zoe-ph1
@@ -278,14 +286,22 @@ variants:
     years: [2017, 2019]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 41
       ac_kw: 22
       power_kw: 68
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
-    notes: "41 kWh, 22 kW AC, no DC. NEDC 400 km; Renault later quoted roughly 300 km WLTP."
+    cited:
+      battery_kwh_net:
+        value: 41
+        source_url: https://www.press.renault.co.uk/assets/documents/original/10706-RenaultZOEPressKitJuly2017.pdf
+        source_name: "Renault UK Press, Renault ZOE Press Information, July 2017"
+        retrieved: 2026-11-15
+        quote: "The ZOE's new Z.E. 40 battery boasts 41kWh of useful energy"
+        locator: "Z.E. 40 battery section; technical specifications table, On-board power (kWh) 41"
+        confidence: medium
+    notes: "41 kWh, 22 kW AC, no DC. NEDC 400 km; Renault later quoted roughly 300 km WLTP. ac_kw 22 stays unchecked (2026-11-15): no Renault page found that states the R90's AC limit plainly; the July 2017 UK press kit lists 3-43 kW charge points and charge times only, and media.group.renault.com disallows robots."
     confidence: low
   - generation_id: renault-zoe-ph1
     id: renault-zoe-ph1-r110
@@ -1684,14 +1700,29 @@ variants:
     years: [2021, null]
     drivetrain: rwd
     specs:
-      battery_kwh_gross: 75
       ac_kw: 11
       dc_peak_kw: 115
       boot_l: 402
       frunk_l: 100
       length_mm: 4713
       seats: 5
-    notes: "75 kWh gross (about 70 usable). WLTP roughly 440 km."
+    cited:
+      battery_kwh_net:
+        value: 68
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+        notes: "First cars (MY 2021-23 in Europe). Ford quotes 72/91 kWh usable (SR/ER) for MY 2024 (US 2024 tech specs); not split into its own row yet."
+      battery_kwh_gross:
+        value: 75.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+    notes: "Battery: Ford EU tech specs (cited), 75.7 kWh gross / 68 usable for the first cars. WLTP roughly 440 km."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
     id: ford-mustang-mach-e-gen1-er-rwd
@@ -1699,14 +1730,29 @@ variants:
     years: [2021, null]
     drivetrain: rwd
     specs:
-      battery_kwh_gross: 98
       ac_kw: 11
       dc_peak_kw: 150
       boot_l: 402
       frunk_l: 100
       length_mm: 4713
       seats: 5
-    notes: "98 kWh gross (about 88, later 91 usable). WLTP roughly 600 km."
+    cited:
+      battery_kwh_net:
+        value: 88
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+        notes: "First cars (MY 2021-23 in Europe). Ford quotes 72/91 kWh usable (SR/ER) for MY 2024 (US 2024 tech specs); not split into its own row yet."
+      battery_kwh_gross:
+        value: 98.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+    notes: "Battery: Ford EU tech specs (cited), 98.7 kWh gross / 88 usable for the first cars (91 usable from MY 2024). WLTP roughly 600 km."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
     id: ford-mustang-mach-e-gen1-er-awd
@@ -1714,13 +1760,28 @@ variants:
     years: [2021, null]
     drivetrain: awd
     specs:
-      battery_kwh_gross: 98
       ac_kw: 11
       dc_peak_kw: 150
       boot_l: 402
       length_mm: 4713
       seats: 5
-    notes: "Dual motor. WLTP roughly 540 km."
+    cited:
+      battery_kwh_net:
+        value: 88
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+        notes: "First cars (MY 2021-23 in Europe). Ford quotes 72/91 kWh usable (SR/ER) for MY 2024 (US 2024 tech specs); not split into its own row yet."
+      battery_kwh_gross:
+        value: 98.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+    notes: "Dual motor. Battery: Ford EU tech specs (cited), 98.7 kWh gross / 88 usable for the first cars. WLTP roughly 540 km."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
     id: ford-mustang-mach-e-gen1-gt
@@ -1728,12 +1789,27 @@ variants:
     years: [2022, null]
     drivetrain: awd
     specs:
-      battery_kwh_gross: 98
       ac_kw: 11
       dc_peak_kw: 150
       length_mm: 4713
       seats: 5
-    notes: "Dual motor, about 358 kW. WLTP roughly 500 km."
+    cited:
+      battery_kwh_net:
+        value: 88
+        source_url: https://media.ford.com/content/fordmedia/feu/en/news/2021/07/09/exhilarating-electric-performance--online-ordering-for-ford-must.html
+        source_name: "Ford of Europe Media Center, Mustang Mach-E GT online ordering starts, 9 Jul 2021"
+        retrieved: 2026-11-15
+        quote: "88 kWh (useable) extended range battery"
+        confidence: medium
+        notes: "Same figure in the GT launch release of 24 Sep 2020 (fordpers.be). OpenEV gives 82 net / 88 gross for MY 2023-25, matching no Ford figure; Ford US 2024 tech specs give GT ER 91 kWh usable for MY 2024."
+      battery_kwh_gross:
+        value: 98.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh (the GT uses the Extended Range pack, Ford GT release 24 Sep 2020)"
+        confidence: medium
+    notes: "Dual motor, about 358 kW. Extended Range pack: 88 kWh usable / 98.7 gross (Ford, cited); 91 usable from MY 2024. WLTP up to 500 km (Ford target)."
     confidence: low
   - generation_id: byd-atto-3-gen1
     id: byd-atto-3-gen1-60kwh

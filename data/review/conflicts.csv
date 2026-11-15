@@ -1459,11 +1459,14 @@ cf-82cd283216,open,ford-mustang-mach-e-gen1-er-awd,epa_range_km,fueleconomy,482.
 cf-9f765b6b79,open,ford-mustang-mach-e-gen1-er-awd,epa_range_km,fueleconomy,386.2,km,434.5,±2%,fueleconomy:vehicles.csv:id=50200;market=us:epa_range_km
 cf-cffad7f92e,open,ford-mustang-mach-e-gen1-extended-range,width_mm,rdw-tgk,1881.0,mm,1930.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*2387*03|EHL72YX|5AAAZNALWAB|0:width_mm
 cf-2fd17088fa,open,ford-mustang-mach-e-gen1-extended-range,width_mm,rdw-tgk,1881.0,mm,1930.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*2387*14|EHL72YX|5ACAZNBM5BB|0:width_mm
-cf-f60c5c4f39,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,seed-manual,98.0,kWh,88.0,±2%,seed-manual:ford-mustang-mach-e-gen1-gt:battery_kwh_gross
-cf-fa457ca862,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,88.0,kWh,82.0,±2%,kilowatt-openev:data/v2/models/ford.json#0dea0d5c-e3f8-452a-82bf-040192377e48:battery_kwh_net
-cf-ce0ec916d0,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,91.0,kWh,82.0,±2%,kilowatt-openev:data/v2/models/ford.json#9cbae0bd-03f9-43d4-890a-9ebaa181b5f6:battery_kwh_net
-cf-884a81abc7,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,88.0,kWh,82.0,±2%,kilowatt-openev:data/v2/models/ford.json#2a41f004-7fe8-4dfe-8e6c-57691c9b6283:battery_kwh_net
-cf-3a0761edf8,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,91.0,kWh,82.0,±2%,kilowatt-openev:data/v2/models/ford.json#a5a98ff7-7ab6-40e7-a1e5-4271127d63c3:battery_kwh_net
+cf-5bbf9691d0,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,98.7,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2023/mustang_mach_e.json+src/ford/mustang_mach_e/2023/mustang_mach_e_gt.json:battery_kwh_gross
+cf-d5f54aa1a1,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,98.7,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2024/mustang_mach_e.json+src/ford/mustang_mach_e/2024/mustang_mach_e_gt.json:battery_kwh_gross
+cf-3d091831a5,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,98.7,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2025/mustang_mach_e.json+src/ford/mustang_mach_e/2025/mustang_mach_e_gt.json:battery_kwh_gross
+cf-5981bcd2c5,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2023/mustang_mach_e.json+src/ford/mustang_mach_e/2023/mustang_mach_e_gt.json:battery_kwh_net
+cf-bb3b94e6e4,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2024/mustang_mach_e.json+src/ford/mustang_mach_e/2024/mustang_mach_e_gt.json:battery_kwh_net
+cf-f983a975b1,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2025/mustang_mach_e.json+src/ford/mustang_mach_e/2025/mustang_mach_e_gt.json:battery_kwh_net
+cf-ce0ec916d0,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,91.0,kWh,88.0,±2%,kilowatt-openev:data/v2/models/ford.json#9cbae0bd-03f9-43d4-890a-9ebaa181b5f6:battery_kwh_net
+cf-3a0761edf8,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,91.0,kWh,88.0,±2%,kilowatt-openev:data/v2/models/ford.json#a5a98ff7-7ab6-40e7-a1e5-4271127d63c3:battery_kwh_net
 cf-085b33d97d,open,ford-mustang-mach-e-gen1-gt,epa_range_km,fueleconomy,434.5,km,418.4,±2%,fueleconomy:vehicles.csv:id=44797;market=us:epa_range_km
 cf-d86e71225d,open,ford-mustang-mach-e-gen1-gt,epa_range_km,fueleconomy,434.5,km,418.4,±2%,fueleconomy:vehicles.csv:id=45142;market=us:epa_range_km
 cf-2d416f20f7,open,ford-mustang-mach-e-gen1-gt,epa_range_km,fueleconomy,434.5,km,418.4,±2%,fueleconomy:vehicles.csv:id=46515;market=us:epa_range_km
@@ -1478,6 +1481,7 @@ cf-f500c2ca5f,open,ford-mustang-mach-e-gen1-gt,width_mm,rdw-tgk,1881.0,mm,1930.0
 cf-31ab67fe1c,open,ford-mustang-mach-e-gen1-gt,width_mm,rdw-tgk,1881.0,mm,1930.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*2387*08|ELLX4YX|5AAAZNBDNCE|0:width_mm
 cf-e49f4b7675,open,ford-mustang-mach-e-gen1-gt,width_mm,rdw-tgk,1881.0,mm,1930.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*2387*07|ELLX4YX|5AAAZNBDNCE|0:width_mm
 cf-ea5152b1ea,open,ford-mustang-mach-e-gen1-gt,width_mm,rdw-tgk,1881.0,mm,1930.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00365*00|ELLX4YZ|5AAAZNBDNCE|0:width_mm
+cf-a5e8b1d983,open,ford-mustang-mach-e-gen1-sr-rwd,battery_kwh_net,kilowatt-openev,70.0,kWh,68.0,±2%,kilowatt-openev:data/v2/models/ford.json#f44095b1-b4b0-430b-a88f-257a164d9dfd:battery_kwh_net
 cf-c164a5f33a,open,ford-puma-gen-e-gen1-base,consumption_kwh_100km,rdw-tgk,12.73,kWh/100km,13.9,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e9*2007/46*3165*20|C0JA12X|5AZANNBNDAX|0:consumption_kwh_100km
 cf-227847fd8b,open,ford-puma-gen-e-gen1-base,top_speed_kmh,openev,150.0,km/h,160.0,±2%,openev:src/ford/puma_gen_e/base.json+src/ford/puma_gen_e/2025/puma_gen_e.json:top_speed_kmh
 cf-63fa8e55dd,open,ford-puma-gen-e-gen1-base,wltp_range_km,rdw-tgk,423.0,km,363.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e9*2007/46*3165*20|C0JA12X|5AZANNBNDAX|0:wltp_range_km

@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T04:46:34+00:00",
+ "generated_at": "2026-11-15T04:55:30+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -14,7 +14,7 @@
     "values_checked": 5708,
     "dated_by_fact": 5677,
     "dated_by_source": 31,
-    "facts_checked": 40104,
+    "facts_checked": 40116,
     "errors": [],
     "error_count": 0
    }
@@ -24,7 +24,7 @@
    "title": "Licence gate re-check",
    "blocking": true,
    "status": "pass",
-   "summary": "13 sources, 40104 facts; 0 problem(s)",
+   "summary": "13 sources, 40116 facts; 0 problem(s)",
    "details": {
     "sources": [
      "ademe",
@@ -47,12 +47,12 @@
      "eea": 944,
      "fueleconomy": 171,
      "kba-fz10": 233,
-     "kilowatt-openev": 1111,
+     "kilowatt-openev": 1112,
      "model-estimate": 1655,
-     "openev": 2486,
+     "openev": 2481,
      "rdw": 1230,
      "rdw-tgk": 1059,
-     "seed-manual": 1814
+     "seed-manual": 1834
     },
     "errors": [],
     "error_count": 0
@@ -3277,8 +3277,8 @@
    "ATTRIBUTION.md": 4407,
    "LICENSE": 715,
    "README.md": 14164,
-   "variants.csv": 1091136,
-   "variants.json": 2095149
+   "variants.csv": 1091706,
+   "variants.json": 2095719
   }
  }
 }

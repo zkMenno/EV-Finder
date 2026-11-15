@@ -5,6 +5,8 @@
 # agreement_wins (default true, A-05 F1 c): in priority mode 2+ agreeing independent origins
 #   outvote the priority winner (one blended RDW year group no longer beats OpenEV + TGK).
 # needs_backing: [ids] (A-05 F9): a value whose only agreeing sources are these goes to review.
+# cited_wins (default true): a cited value (seed `cited:` / manual fact, medium+ confidence) beats
+#   a value only ONE independent origin backs; 2+ agreeing origins still beat it (it goes to review).
 schema: field-sources/v1
 fields:
   names_years:       {primary: [eea, rdw], fallbacks: [openev, wikidata, maker-docs], merge: priority}

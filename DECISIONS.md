@@ -412,4 +412,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Zoe R90 23.3 → 41 kWh, Q4 40 e-tron 48 → 77 kWh (and 150 kW), Mach-E ER AWD 68 → 88 kWh. About 10 more records wait in review.
 
+## Decision 028: A cited value beats a lone source
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** OpenEV gave the Mach-E GT 82 kWh net; Ford's own spec sheet says 88. One source with no backing beat a value with an official citation.
+
+**Decision:**
+- A cited fact (seed `cited:` or manual, medium or high confidence) wins when the merged winner disagrees with every citation and only one independent source backs it. The losing value goes to conflicts.csv.
+- Two or more agreeing independent sources still beat a citation; disagreeing citations win nothing; `newest` fields are exempt; a citation never counts as independent confirmation. Opt out per field with `cited_wins: false`.
+- Not decided tonight: withholding KilowattApp `ac_kw` for Zoe Phase 1 (it publishes 11 kW, even 23.3, where Renault's charger does 22 or 43 kW). Needs a cited Renault Phase 1 spec sheet first.
+
+**Consequences:** Mach-E GT 82 → 88 kWh net, 98.7 gross; Mach-E SR 70 → 68 net. No cited value loses anywhere in the release.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

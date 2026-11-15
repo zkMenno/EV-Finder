@@ -9,7 +9,8 @@ Each field lists `primary` and `fallbacks` source ids (that order is the priorit
 
 Optional keys: `agreement_wins: false` turns off "agreement beats priority" (merge.py);
 `needs_backing: [source ids]`: a value whose agreeing sources are only these is withheld and
-sent to review (qa/value_guard.py, A-05 F9).
+sent to review (qa/value_guard.py, A-05 F9); `cited_wins: false` turns off "a cited value
+beats a lone source" (merge.py).
 
 Sources not listed for a field rank below every listed one, in the default order
 (matcher.SOURCE_PRIORITY). Fields not in the file keep the overnight defaults: majority of 3+
@@ -42,6 +43,8 @@ class FieldPolicy:
     agreement_wins: bool = True
     # A-05 F9: sources whose value is withheld (review) unless another source agrees.
     needs_backing: tuple[str, ...] = ()
+    # A cited value (seed `cited:` or a manual fact) outvotes a value only one origin backs.
+    cited_wins: bool = True
 
     def priority(self, source_id: str) -> int:
         if source_id in self.order:
@@ -98,6 +101,7 @@ def parse_policies(data: dict[str, Any]) -> Policies:
             tol_unit=tol.get("unit"),
             agreement_wins=bool(spec.get("agreement_wins", True)),
             needs_backing=tuple(spec.get("needs_backing") or ()),
+            cited_wins=bool(spec.get("cited_wins", True)),
         )
     return Policies(out)
 

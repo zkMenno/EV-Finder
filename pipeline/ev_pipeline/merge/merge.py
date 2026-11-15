@@ -20,6 +20,16 @@ themselves on another value and outnumber the priority winner's origins, their b
 fact wins instead (rule `agreement`); the priority value becomes a conflict. Origins: sources
 mapped through SAME_ORIGIN, seed-manual and model-estimate excluded.
 
+**A cited value beats a lone source** (`cited_wins`, on unless field_sources.yaml says
+`cited_wins: false`; not in `newest` mode): a *cited* fact is one read from a public page it
+names (a seed-manual `cited:` value, or a `manual` fact), with confidence medium or high. When
+the winner disagrees with every cited fact and only ONE independent origin backs the winner,
+the best cited fact wins instead (rule `cited`) and the old value becomes a conflict
+(data/review/conflicts.csv). Two or more independent origins that agree still beat a citation;
+the cited fact is then a conflict for review. Cited facts that disagree among themselves win
+nothing. Cases: OpenEV's Mach-E GT 82 kWh vs Ford's 88 kWh usable; one KilowattApp `ac_kw`
+against a maker's figure. A cited fact still never counts as an independent confirmation.
+
 Confidence: `high` when 2+ *independent* sources agree within the field tolerance; otherwise
 the winning fact's own confidence. `seed-manual` is hand-entered from memory and unchecked, so
 it never counts as an independent confirmation (QUESTIONS.md Q-015). `agreeing_sources` is the
@@ -48,6 +58,11 @@ SAME_ORIGIN: dict[str, str] = {"rdw-tgk": "rdw"}
 # from that fact are listed as `spread` ("same-source versions differ"), never as conflicts.
 SPREAD_SOURCES = frozenset({"rdw-tgk"})
 SPREAD_NOTE = "same-source versions differ"
+# Cited facts (rule `cited`): seed-manual `cited:` records (record key `<vid>#cited:<field>`)
+# and hand-entered manual facts, each carrying its own public source URL.
+CITED_SOURCES = frozenset({"manual"})
+CITED_RECORD_MARK = "#cited:"
+CITED_MIN_CONFIDENCE = ("medium", "high")
 
 _CONF_RANK = {"low": 0, "medium": 1, "high": 2}
 
@@ -61,6 +76,15 @@ def _conf(mf: MatchedFact) -> str:
     return c.value if hasattr(c, "value") else str(c)
 
 
+def is_cited(mf: MatchedFact) -> bool:
+    """A fact read from a public page it names, at confidence medium or high."""
+    if _conf(mf) not in CITED_MIN_CONFIDENCE:
+        return False
+    if mf.source_id in CITED_SOURCES:
+        return True
+    return mf.source_id == "seed-manual" and CITED_RECORD_MARK in (mf.fact.source_record or "")
+
+
 @dataclass
 class Merged:
     value: object
@@ -69,7 +93,7 @@ class Merged:
     source_ids: list[str]
     fact_ids: list[str]
     winner: MatchedFact
-    rule: str  # "majority", "priority", "agreement", "median", "newest", "single"
+    rule: str  # "majority", "priority", "agreement", "cited", "median", "newest", "single"
     overruled: int
     independent_agreeing: int  # distinct independent sources agreeing with the value
     conflicts: list[MatchedFact] = field(default_factory=list)
@@ -94,6 +118,8 @@ class Merged:
             parts.append(f"{self.rule} rule")
         elif self.rule == "agreement":
             parts.append("agreeing sources outvote the priority source")
+        elif self.rule == "cited":
+            parts.append("cited source outvotes a single uncorroborated source")
         if self.overruled:
             parts.append(f"{self.overruled} conflicting value(s) not used")
         for c in self.corroborations:
@@ -167,6 +193,10 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         alt = _outvoted_by(winner, by_rank, policy)
         if alt is not None:
             winner, rule = alt, "agreement"
+    if policy.cited_wins and policy.mode != "newest" and len(facts) > 1:
+        cited = _cited_over(winner, by_rank, policy)
+        if cited is not None:
+            winner, rule = cited, "cited"
     agreeing = [f for f in by_rank if policy.agree(winner.fact.value, f.fact.value)]
     if winner in agreeing:  # winner first
         agreeing.remove(winner)
@@ -238,6 +268,22 @@ def _outvoted_by(
     if all(policy.agree(leaders[0].fact.value, x.fact.value) for x in leaders):
         return leaders[0]
     return None
+
+
+def _cited_over(
+    winner: MatchedFact, by_rank: list[MatchedFact], policy: FieldPolicy
+) -> MatchedFact | None:
+    """Rule `cited`: the best-ranked cited fact, when the winner is not cited, disagrees with
+    every cited fact, and only one independent origin backs it; else None."""
+    cited = [f for f in by_rank if is_cited(f)]
+    if not cited or any(policy.agree(winner.fact.value, f.fact.value) for f in cited):
+        return None
+    if not all(policy.agree(cited[0].fact.value, f.fact.value) for f in cited):
+        return None  # citations disagree among themselves: nothing clear to prefer
+    backing = [f for f in by_rank if policy.agree(winner.fact.value, f.fact.value)]
+    if len(_origins(backing)) >= 2:
+        return None
+    return cited[0]
 
 
 def _one_vote_per_version_source(
