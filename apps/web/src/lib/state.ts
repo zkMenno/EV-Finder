@@ -1,0 +1,286 @@
+// One state shape for Explore, shared by the URL, localStorage and (later) accounts.
+import type { Body, Era, Segment } from "@ev/schema";
+
+export const ERAS: readonly Era[] = ["pre-2018", "2018-20", "2021-22", "2023-24", "2025+"];
+export const SEGMENTS: readonly Segment[] = ["A", "B", "C", "D", "E", "F", "J-small", "J-medium", "J-large"];
+export const BODIES: readonly Body[] = ["hatchback", "sedan", "estate", "suv", "crossover", "coupe", "mpv", "cabrio"];
+
+export const SORT_KEYS = [
+  "name",
+  "years",
+  "era",
+  "range",
+  "battery",
+  "dc",
+  "ac",
+  "price",
+  "rdw",
+  "quality",
+] as const;
+export type SortKey = (typeof SORT_KEYS)[number];
+export type SortDir = "asc" | "desc";
+export type View = "table" | "cards";
+/** Display level (Decision 010). */
+export type Level = "simple" | "detailed" | "nerd";
+export const LEVELS: readonly Level[] = ["simple", "detailed", "nerd"];
+
+export interface ExploreFilters {
+  priceMax: number | null;
+  eras: Era[];
+  segments: Segment[];
+  bodies: Body[];
+  rangeMin: number | null;
+  batteryMin: number | null;
+  dcMin: number | null;
+  bootMin: number | null;
+  lengthMax: number | null;
+  towingMin: number | null;
+  /** Taxonomy ids (data, not enums): validated as ids only. */
+  voltageClasses: string[];
+  voltageMin: number | null;
+  voltageMax: number | null;
+  fast400: boolean;
+  chemistries: string[];
+  coolings: string[];
+  charge100: boolean;
+}
+
+export interface ExploreState {
+  /** Shape version, so stored/account copies can be migrated later. */
+  v: 1;
+  filters: ExploreFilters;
+  sort: SortKey | null;
+  dir: SortDir;
+  view: View;
+  level: Level;
+}
+
+export const NUMERIC_FILTERS = [
+  "priceMax",
+  "rangeMin",
+  "batteryMin",
+  "dcMin",
+  "bootMin",
+  "lengthMax",
+  "towingMin",
+  "voltageMin",
+  "voltageMax",
+] as const satisfies readonly (keyof ExploreFilters)[];
+export type NumericFilter = (typeof NUMERIC_FILTERS)[number];
+
+/** URL parameter names (short, stable: links get shared). */
+const NUM_PARAM: Record<NumericFilter, string> = {
+  priceMax: "price",
+  rangeMin: "range",
+  batteryMin: "kwh",
+  dcMin: "dc",
+  bootMin: "boot",
+  lengthMax: "len",
+  towingMin: "tow",
+  voltageMin: "vmin",
+  voltageMax: "vmax",
+};
+
+const ID_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const LIST_PARAM = { voltageClasses: "volt", chemistries: "chem", coolings: "cool" } as const;
+const FLAG_PARAM = { fast400: "fast400", charge100: "c100" } as const;
+type ListFilter = keyof typeof LIST_PARAM;
+type FlagFilter = keyof typeof FLAG_PARAM;
+
+function ids(v: unknown): string[] {
+  const parts: unknown[] = Array.isArray(v) ? v : typeof v === "string" ? v.split(",") : [];
+  const out = new Set<string>();
+  for (const p of parts) if (typeof p === "string" && ID_RE.test(p)) out.add(p);
+  return [...out].sort();
+}
+
+export function defaultFilters(): ExploreFilters {
+  return {
+    priceMax: null,
+    eras: [],
+    segments: [],
+    bodies: [],
+    rangeMin: null,
+    batteryMin: null,
+    dcMin: null,
+    bootMin: null,
+    lengthMax: null,
+    towingMin: null,
+    voltageClasses: [],
+    voltageMin: null,
+    voltageMax: null,
+    fast400: false,
+    chemistries: [],
+    coolings: [],
+    charge100: false,
+  };
+}
+
+export function defaultState(): ExploreState {
+  return { v: 1, filters: defaultFilters(), sort: null, dir: "asc", view: "table", level: "detailed" };
+}
+
+function num(v: unknown): number | null {
+  if (typeof v === "number") return Number.isFinite(v) && v >= 0 ? v : null;
+  if (typeof v !== "string" || v.trim() === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function pick<T extends string>(allowed: readonly T[], v: unknown): T[] {
+  const parts: unknown[] = Array.isArray(v) ? v : typeof v === "string" ? v.split(",") : [];
+  const out: T[] = [];
+  for (const p of parts) {
+    if (typeof p === "string" && (allowed as readonly string[]).includes(p) && !out.includes(p as T)) {
+      out.push(p as T);
+    }
+  }
+  // Keep canonical order so equal states serialise to equal URLs.
+  return out.sort((a, b) => allowed.indexOf(a) - allowed.indexOf(b));
+}
+
+type ParamSource = URLSearchParams | Record<string, string | string[] | undefined>;
+
+function getParam(src: ParamSource, key: string): string | undefined {
+  if (src instanceof URLSearchParams) return src.get(key) ?? undefined;
+  const v = src[key];
+  return Array.isArray(v) ? v[0] : v;
+}
+
+/** Parse URL search params. Unknown or invalid values are ignored, never thrown. */
+export function fromSearchParams(src: ParamSource): ExploreState {
+  const s = defaultState();
+  for (const k of NUMERIC_FILTERS) s.filters[k] = num(getParam(src, NUM_PARAM[k]));
+  s.filters.eras = pick(ERAS, getParam(src, "era"));
+  s.filters.segments = pick(SEGMENTS, getParam(src, "seg"));
+  s.filters.bodies = pick(BODIES, getParam(src, "body"));
+  const sort = getParam(src, "sort");
+  if (sort) {
+    const desc = sort.startsWith("-");
+    const key = desc ? sort.slice(1) : sort;
+    if ((SORT_KEYS as readonly string[]).includes(key)) {
+      s.sort = key as SortKey;
+      s.dir = desc ? "desc" : "asc";
+    }
+  }
+  if (getParam(src, "view") === "cards") s.view = "cards";
+  for (const k of Object.keys(LIST_PARAM) as ListFilter[]) s.filters[k] = ids(getParam(src, LIST_PARAM[k]));
+  for (const k of Object.keys(FLAG_PARAM) as FlagFilter[]) s.filters[k] = getParam(src, FLAG_PARAM[k]) === "1";
+  const level = getParam(src, "level");
+  if ((LEVELS as readonly string[]).includes(level ?? "")) s.level = level as Level;
+  return s;
+}
+
+/** Whether the URL explicitly sets the display level (else the stored preference wins). */
+export function hasLevelParam(src: ParamSource): boolean {
+  return (LEVELS as readonly string[]).includes(getParam(src, "level") ?? "");
+}
+
+/** Whether the URL explicitly sets the view (else the stored preference wins). */
+export function hasViewParam(src: ParamSource): boolean {
+  const v = getParam(src, "view");
+  return v === "cards" || v === "table";
+}
+
+/** Serialise to URL params; defaults are omitted so the plain page URL stays clean. */
+export function toSearchParams(state: ExploreState): URLSearchParams {
+  const p = new URLSearchParams();
+  const f = state.filters;
+  for (const k of NUMERIC_FILTERS) {
+    const v = f[k];
+    if (v !== null) p.set(NUM_PARAM[k], String(v));
+  }
+  if (f.eras.length) p.set("era", pick(ERAS, f.eras).join(","));
+  if (f.segments.length) p.set("seg", pick(SEGMENTS, f.segments).join(","));
+  if (f.bodies.length) p.set("body", pick(BODIES, f.bodies).join(","));
+  if (state.sort) p.set("sort", (state.dir === "desc" ? "-" : "") + state.sort);
+  for (const k of Object.keys(LIST_PARAM) as ListFilter[]) if (f[k].length) p.set(LIST_PARAM[k], ids(f[k]).join(","));
+  for (const k of Object.keys(FLAG_PARAM) as FlagFilter[]) if (f[k]) p.set(FLAG_PARAM[k], "1");
+  if (state.view === "cards") p.set("view", "cards");
+  if (state.level !== "detailed") p.set("level", state.level);
+  return p;
+}
+
+/** For localStorage / account storage. */
+export function serializeState(state: ExploreState): string {
+  return JSON.stringify(normalizeState(state));
+}
+
+/** Accepts anything (corrupt storage included) and returns a valid state. */
+export function deserializeState(raw: string | null | undefined): ExploreState {
+  if (!raw) return defaultState();
+  try {
+    return normalizeState(JSON.parse(raw) as unknown);
+  } catch {
+    return defaultState();
+  }
+}
+
+export function normalizeState(input: unknown): ExploreState {
+  const s = defaultState();
+  if (!input || typeof input !== "object") return s;
+  const o = input as Record<string, unknown>;
+  const f = (o.filters && typeof o.filters === "object" ? o.filters : {}) as Record<string, unknown>;
+  for (const k of NUMERIC_FILTERS) s.filters[k] = num(f[k]);
+  s.filters.eras = pick(ERAS, f.eras);
+  s.filters.segments = pick(SEGMENTS, f.segments);
+  s.filters.bodies = pick(BODIES, f.bodies);
+  if (typeof o.sort === "string" && (SORT_KEYS as readonly string[]).includes(o.sort)) s.sort = o.sort as SortKey;
+  if (o.dir === "desc") s.dir = "desc";
+  if (o.view === "cards") s.view = "cards";
+  for (const k of Object.keys(LIST_PARAM) as ListFilter[]) s.filters[k] = ids(f[k]);
+  for (const k of Object.keys(FLAG_PARAM) as FlagFilter[]) s.filters[k] = f[k] === true;
+  if (typeof o.level === "string" && (LEVELS as readonly string[]).includes(o.level)) s.level = o.level as Level;
+  return s;
+}
+
+export function activeFilterCount(f: ExploreFilters): number {
+  return (
+    NUMERIC_FILTERS.filter((k) => f[k] !== null).length +
+    (f.eras.length ? 1 : 0) +
+    (f.segments.length ? 1 : 0) +
+    (f.bodies.length ? 1 : 0) +
+    (f.voltageClasses.length ? 1 : 0) +
+    (f.chemistries.length ? 1 : 0) +
+    (f.coolings.length ? 1 : 0) +
+    (f.fast400 ? 1 : 0) +
+    (f.charge100 ? 1 : 0)
+  );
+}
+
+/** Every URL key Explore owns; other params (e.g. ?lang=) are left alone. */
+export const EXPLORE_PARAM_KEYS: readonly string[] = [
+  ...Object.values(NUM_PARAM),
+  ...Object.values(LIST_PARAM),
+  ...Object.values(FLAG_PARAM),
+  "era",
+  "seg",
+  "body",
+  "sort",
+  "view",
+  "level",
+];
+
+/** Numeric columns sort high→low first; text-like columns low→high. */
+const FIRST_DIR: Record<SortKey, SortDir> = {
+  name: "asc",
+  years: "desc",
+  era: "desc",
+  range: "desc",
+  battery: "desc",
+  dc: "desc",
+  ac: "desc",
+  price: "asc",
+  rdw: "desc",
+  quality: "desc",
+};
+
+/** Header click cycle: first direction → other direction → unsorted. */
+export function nextSort(state: ExploreState, key: SortKey): ExploreState {
+  if (state.sort !== key) return { ...state, sort: key, dir: FIRST_DIR[key] };
+  if (state.dir === FIRST_DIR[key]) return { ...state, dir: FIRST_DIR[key] === "asc" ? "desc" : "asc" };
+  return { ...state, sort: null, dir: "asc" };
+}
+
+export const VIEW_KEY = "ev-finder:view:v1";
+export const LEVEL_KEY = "ev-finder:level:v1";

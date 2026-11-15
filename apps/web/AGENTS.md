@@ -1,0 +1,34 @@
+# AGENTS.md — apps/web
+
+Lane rules for the Next.js app. Read the root `AGENTS.md` first; this file only adds to it.
+
+## Stack
+
+Next.js 16 (App Router, Turbopack) · React 19 · TypeScript strict · Tailwind 4 · Vitest · Playwright. pnpm workspace package `@ev/web`; types come from `@ev/schema` (generated, never hand-written; type-only imports).
+
+## Rules
+
+1. **Server components by default.** Add `"use client"` only where interaction needs it (Explore, Num, Term, CompareTray, switchers). Pages, layouts and learn pages stay server components.
+2. **Every number goes through `<Num>`** (`src/components/Num.tsx`): value + unit + `provenance` from the row. It shows source and confidence on hover, focus and tap, the Decision 009 text badges ("N sources agree", "1 source", "estimate", "claim"), and inline sources at Nerd level. From a server component, pass `labels={numLabels(t)}` (functions can't cross the client boundary). Missing values render "—", never 0.
+3. **No third-party browser calls.** No external fonts, CDNs, analytics, images or iframes. The browser talks only to our own origin. A CSP in `next.config.ts` enforces this, and the e2e smoke test fails on any foreign request.
+4. **JS budget: Explore first load < 200 KB gzip.** Next 16 no longer prints sizes, so measure: start the production server, sum the gzipped `<script src>` chunks on `/nl` (skip `noModule`). Last measured: ~154 KB gzip for modern browsers (193 KB counting the noModule polyfills). No table, state or UI libraries; ask in `QUESTIONS.md` before adding any runtime dependency.
+5. **Data access only through `src/lib/catalogue.ts`** (Decision 008): `getCatalogue()` reads `data/releases/<latest>/catalogue.json` (or `CATALOGUE_DIR`) and falls back to the dev fixture. Never read the pipeline's other files directly.
+6. **Taxonomy is data** (Decision 010): voltage classes, chemistries, cooling types and glossary terms come from `catalogue.taxonomy()`. Adding a row must need no code change. Ids are free strings; `not-disclosed` is valid and never matches a filter choice.
+7. **One state shape** (`src/lib/state.ts`, `ExploreState`) for URL, localStorage and later accounts. Add a field there with a URL key, (de)serialisers and a test, or not at all.
+8. **localStorage only via `src/lib/storage.ts`** (try/catch, works when storage is missing or throws).
+9. **i18n:** strings live in `src/i18n/*.json`. EN is complete, NL covers the main UI, other languages fall back to EN key by key. Use `t()`; no hard-coded UI text. The brand name comes from `APP_NAME` (`src/config/site.ts`).
+10. **Metric units always**; format with `src/lib/format.ts` (Intl, language locale, country currency).
+11. **Accessibility:** visible focus, labels on every control, `aria-sort` on sortable headers, text (not colour alone) for status.
+
+## Shared components other builders reuse
+
+- `Num`, `num-labels`: numbers with provenance.
+- `Term` / `TermLabel` / `TermInfo` / `InfoTip`: glossary ⓘ.
+- `PriceBand`: used-price band ("Not enough data" below 5 samples).
+- `CompareTray` + `src/lib/compare-store.ts`: the compare tray (max 4, persisted). It lives in `app/[country]/layout.tsx`. The compare page itself belongs to T-010; read `?ids=a,b`.
+- `src/config/countries.ts`: countries, currency, default language, `listingLinks()` (unverified URL patterns).
+
+## Tests
+
+- `pnpm test`: Vitest units next to the code (`*.test.ts`). Fixtures only, no network.
+- `pnpm e2e`: Playwright smoke test on a production build (`pnpm build` first).
