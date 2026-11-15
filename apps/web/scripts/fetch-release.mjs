@@ -18,6 +18,7 @@
 //                              reads today). Add "catalogue/" when pages use the split files.
 //   FETCH_RELEASE_ALLOW_HTTP_LOCAL=1  allow an http://127.0.0.1 download_url (local manual tests only)
 
+/* global process, console, Buffer, fetch, setTimeout */
 import { createHash } from "node:crypto";
 import { createReadStream, existsSync, mkdirSync, readFileSync, renameSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
