@@ -265,6 +265,11 @@ No answer needed unless you disagree. `data/taxonomy/finance_profiles.yaml` has 
 
 **Answer:**
 
+### Q-061 · /learn drafts: spec figures that sources contradict, and missing glossary ids · addendum 5 item 4 (T-021 / T-027 / T-039) · content builder · 2026-11-15
+No answer needed unless you disagree. EN + NL drafts are in `content/learn/` (`review: needed`). While checking sources I found spec text that the sources don't support. **Defaults taken:** the drafts follow the source, not the spec. (1) **NIO semi-solid:** the Battery & voltage guide says "NIO already sells a 150 kWh semi-solid pack". electrive (17 Nov 2025) says NIO stopped making it after a few hundred units and it won't come to Europe. The draft says "offered from 2023, stopped in 2025". Please fix the spec tab and `chemistries.yaml` if needed. (2) **El Prix winter 2025:** trip-fit §2 says "most cars 15–30 % below WLTP". The cited InsideEVs article says 18 of 24 cars were 11–23 % short. The draft uses 11–23 %. (3) **VW bidirectional:** VW's own page now names a different approved DC box from the ones in R-01, and says Software 6 works with every battery size. The ChargeLine BiDi price in R-01 (€2,990 / €1,990) isn't in electrive's 23 Jun 2026 article ("price not disclosed"), and Elli said on 3 Nov 2026 that it is leaving the hardware business. The drafts don't name a box or a price. R-01 should be refreshed before T-019 seeds equipment rows. (4) **Missing glossary ids:** the drafts mark only ids that already exist. These terms appear in the text without an ⓘ and should be added to `glossary_terms.yaml` (EN + NL): `v2l`, `v2h`, `v2g`, `bidirectional-charging`, `iso15118-20`, `type-2`, `ccs2`, `chademo`, `afir`, `ad-hoc-payment`, `roaming`, `idle-fee`. T-021 already lists most of the bidi ones. Once they exist, WS3 adds the `[[id|…]]` marks.
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15
