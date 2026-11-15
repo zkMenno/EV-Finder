@@ -120,6 +120,9 @@ def test_release_end_to_end(data_dir: Path) -> None:
         "coverage.md",
         "diff.json",
         "facts.parquet",
+        "open",  # open data bundle (Decision 016)
+        "qa.json",  # release QA (R-05 §1)
+        "qa.md",
         "run_log.json",
     ]
     assert (data_dir / "releases" / "latest").read_text().strip() == "1"

@@ -255,6 +255,16 @@ No answer needed unless you disagree. Every HTTP fetcher now goes through `pipel
 
 **Answer:**
 
+### Q-059 · Release QA and open data bundle: judgement calls · R-05 §1 / T-035 / Decision 016 · pipeline builder · 2026-11-15
+No answer needed unless you disagree. **Defaults taken:** (1) **"Top-40 used models"** has no list yet, so QA ranks the seed models in the release by RDW NL fleet (one count per generation), then the DfT UK fleet. This is a stand-in for "most bought used". A curated list would replace it. (2) **The brand in the open bundle** (LICENSE, README "how to cite", ATTRIBUTION) comes from the `EV_BRAND_NAME` env var, with the neutral fallback "the EV Finder project". Release 1 was built without it. Suggestion: a shared `config/brand.yaml` that the pipeline and the web app both read. (3) **The back-test in qa.json leaves out tests from sources that fail the licence gate**, because qa.json is published and the 10 worst list shows measured km. NAF, ADAC and Nyland tests can only be run locally (`python -m ev_pipeline.backtest file.jsonl`) until permission is logged. (4) **Licence check needed:** KilowattApp's licence is "MIT with attribution". The open bundle carries its copyright and permission notice in ATTRIBUTION.md, and that notice is part of LICENSE. Please confirm that it's OK to wrap MIT-licensed values in a CC BY 4.0 bundle this way. CDLA-Permissive-2.0 (OpenEV) is met by linking the licence text. (5) **RDW credit** in ATTRIBUTION.md uses the same interim wording as the web app until Q-037 is answered. (6) **Percentile outliers** use this release's own data when there is no previous release, and skip segments with fewer than 30 values. Measured against its own data, P1–P99 always flags about 2% of values, so release 1's 30 percentile flags are for review only.
+
+**Answer:**
+
+### Q-060 · Typical loan rates for the calculator · T-043 / Decision 017 · coordinator (schema delegate) · 2026-11-15
+No answer needed unless you disagree. `data/taxonomy/finance_profiles.yaml` has rates from central-bank statistics only. **Defaults taken:** (1) **DE 8.91 %, FR 6.11 %, BE 6.24 %** (Sept 2026) are the ECB's average APRC on new consumer loans (all purposes, not only cars, not split into new and used). DE and FR Sept figures are still provisional. **UK 7.11 %** (Oct 2026) is the Bank of England's quoted APR on a £10,000 personal loan, not dealer PCP/HP. (2) **NL is empty.** The ECB/DNB series for Dutch consumer credit stopped (2010 / 2017) and no current DNB table turned up, so the calculator asks the user for a rate. Alternatives: use the euro area figure (8.46 % provisional, Sept 2026) labelled "euro area average", or a non-central-bank source. (3) **Term and deposit are empty everywhere**, because no source states them. The calculator uses the spec default (48 months, no deposit) and labels it. (4) **Licences:** ESCB and Bank of England reuse terms are marked "(to confirm)". (5) **Warning text:** NL "Let op! Geld lenen kost geld" (AFM, art. 2:2 Nrgfo), EN "Caution! Borrowing money costs money" (CCD2 Art. 8(1)). DE/FR/ES/IT fall back to EN until each country's CCD2 wording is checked. The AFM warning symbol is not used until its licence is checked.
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15

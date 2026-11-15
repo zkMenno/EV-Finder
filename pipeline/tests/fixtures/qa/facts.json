@@ -1,0 +1,272 @@
+[
+ {
+  "id": "testsrc:testcar-alpha-gen1-50:battery_kwh_net",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-50",
+  "field": "battery_kwh_net",
+  "value": 50.0,
+  "unit": "kWh",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-alpha-gen1-50:wltp_range_km",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-50",
+  "field": "wltp_range_km",
+  "value": 400.0,
+  "unit": "km",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-alpha-gen1-50:ac_kw",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-50",
+  "field": "ac_kw",
+  "value": 11.0,
+  "unit": "kW",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-alpha-gen1-50:dc_peak_kw",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-50",
+  "field": "dc_peak_kw",
+  "value": 100.0,
+  "unit": "kW",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testreg:testcar-alpha-gen1-50:registered_count",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-50",
+  "field": "registered_count",
+  "value": 5000,
+  "unit": "vehicles",
+  "source": {
+   "id": "testreg",
+   "name": "testreg",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "seed-manual:testcar-alpha-gen1-50:boot_l",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-50",
+  "field": "boot_l",
+  "value": 350,
+  "unit": "l",
+  "source": {
+   "id": "seed-manual",
+   "name": "seed-manual",
+   "licence": "CC-BY-4.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-alpha-gen1-60:battery_kwh_net",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-60",
+  "field": "battery_kwh_net",
+  "value": 60.0,
+  "unit": "kWh",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-alpha-gen1-60:wltp_range_km",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-60",
+  "field": "wltp_range_km",
+  "value": 470.0,
+  "unit": "km",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-alpha-gen1-60:ac_kw",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-60",
+  "field": "ac_kw",
+  "value": 11.0,
+  "unit": "kW",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-alpha-gen1-60:dc_peak_kw",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-60",
+  "field": "dc_peak_kw",
+  "value": 120.0,
+  "unit": "kW",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testreg:testcar-alpha-gen1-60:registered_count",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-60",
+  "field": "registered_count",
+  "value": 5000,
+  "unit": "vehicles",
+  "source": {
+   "id": "testreg",
+   "name": "testreg",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "seed-manual:testcar-alpha-gen1-60:boot_l",
+  "subject_type": "variant",
+  "subject_id": "testcar-alpha-gen1-60",
+  "field": "boot_l",
+  "value": 350,
+  "unit": "l",
+  "source": {
+   "id": "seed-manual",
+   "name": "seed-manual",
+   "licence": "CC-BY-4.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-beta-gen1-40:battery_kwh_net",
+  "subject_type": "variant",
+  "subject_id": "testcar-beta-gen1-40",
+  "field": "battery_kwh_net",
+  "value": 40.0,
+  "unit": "kWh",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-beta-gen1-40:wltp_range_km",
+  "subject_type": "variant",
+  "subject_id": "testcar-beta-gen1-40",
+  "field": "wltp_range_km",
+  "value": 300.0,
+  "unit": "km",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-beta-gen1-40:ac_kw",
+  "subject_type": "variant",
+  "subject_id": "testcar-beta-gen1-40",
+  "field": "ac_kw",
+  "value": 7.4,
+  "unit": "kW",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testsrc:testcar-beta-gen1-40:dc_peak_kw",
+  "subject_type": "variant",
+  "subject_id": "testcar-beta-gen1-40",
+  "field": "dc_peak_kw",
+  "value": 50.0,
+  "unit": "kW",
+  "source": {
+   "id": "testsrc",
+   "name": "testsrc",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "testreg:testcar-beta-gen1-40:registered_count",
+  "subject_type": "variant",
+  "subject_id": "testcar-beta-gen1-40",
+  "field": "registered_count",
+  "value": 800,
+  "unit": "vehicles",
+  "source": {
+   "id": "testreg",
+   "name": "testreg",
+   "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ },
+ {
+  "id": "seed-manual:testcar-beta-gen1-40:boot_l",
+  "subject_type": "variant",
+  "subject_id": "testcar-beta-gen1-40",
+  "field": "boot_l",
+  "value": 350,
+  "unit": "l",
+  "source": {
+   "id": "seed-manual",
+   "name": "seed-manual",
+   "licence": "CC-BY-4.0"
+  },
+  "retrieved_at": "2026-11-14",
+  "confidence": "medium"
+ }
+]

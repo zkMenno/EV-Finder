@@ -144,7 +144,7 @@ def test_every_released_source_is_active_with_a_named_licence(
 
 
 def test_no_nyland_anywhere_in_the_release(release_dir: Path) -> None:
-    for path in sorted(release_dir.iterdir()):
+    for path in sorted(p for p in release_dir.rglob("*") if p.is_file()):  # incl. open/
         blob = path.read_bytes().lower()
         for needle in (b"nyland", b"bj\xc3\xb8rn", b"bjorn"):
             assert needle not in blob, f"{needle!r} found in {path.name}"

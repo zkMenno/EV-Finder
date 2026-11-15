@@ -64,12 +64,22 @@ class SeedModel:
     # `name_aliases`; an alias may start with a make the seed lacks ("SEAT BORN"). A `note`
     # travels with the matched counts into the release provenance.
     source_aliases: dict[str, list[SourceAlias]] = field(default_factory=dict)
+    # Q-021: one explicit, general list of names per source (`aliases_by_source`), used when
+    # scoped aliases are on (matcher.scoped_aliases_enabled). Replaces `bev_only_aliases` and
+    # `source_aliases` for a model that has it; a model without it keeps the legacy keys.
+    # Keys are source ids, or several joined by commas ("rdw,eea"). Entries: a bare string
+    # (whole-name match) or {name, match: exact|prefix, note}. `None` = key absent.
+    aliases_by_source: dict[str, list[SourceAlias]] | None = None
+
+
+ALIAS_MATCH_MODES = ("exact", "prefix")
 
 
 @dataclass(frozen=True)
 class SourceAlias:
     name: str
     note: str | None = None
+    match: str = "prefix"  # exact: whole name only; prefix: leading tokens (like name_aliases)
 
 
 @dataclass
@@ -127,6 +137,11 @@ def parse_seed(data: dict[str, Any]) -> Seed:
                 name_excludes=list(md.get("name_excludes") or []),
                 bev_only_aliases=list(md.get("bev_only_aliases") or []),
                 source_aliases=_parse_source_aliases(md.get("source_aliases")),
+                aliases_by_source=(
+                    _parse_aliases_by_source(md["aliases_by_source"], md["id"])
+                    if "aliases_by_source" in md
+                    else None
+                ),
             )
             make_models.append(sm)
             models[sm.id] = sm
@@ -146,6 +161,29 @@ def _parse_source_aliases(raw: Any) -> dict[str, list[SourceAlias]]:
                 out.setdefault(str(sid), []).append(SourceAlias(str(it["name"]), it.get("note")))
             else:
                 raise ValueError(f"bad source_aliases entry for {sid}: {it!r}")
+    return out
+
+
+def _parse_aliases_by_source(raw: Any, model_id: str) -> dict[str, list[SourceAlias]]:
+    """`aliases_by_source` (Q-021). A bare string is a whole-name (exact) alias, the safe
+    default for bare trade names like "KONA"; a dict may ask for `match: prefix`."""
+    out: dict[str, list[SourceAlias]] = {}
+    for keys, items in (raw or {}).items():
+        sids = [s.strip() for s in str(keys).split(",") if s.strip()]
+        if not sids:
+            raise ValueError(f"{model_id}: aliases_by_source has an empty source key")
+        for it in items or []:
+            if isinstance(it, str | int | float) and not isinstance(it, bool):
+                alias = SourceAlias(str(it), None, "exact")
+            elif isinstance(it, dict) and it.get("name") is not None:
+                mode = str(it.get("match", "exact"))
+                if mode not in ALIAS_MATCH_MODES:
+                    raise ValueError(f"{model_id}: aliases_by_source match {mode!r} unknown")
+                alias = SourceAlias(str(it["name"]), it.get("note"), mode)
+            else:
+                raise ValueError(f"{model_id}: bad aliases_by_source entry for {keys}: {it!r}")
+            for sid in sids:
+                out.setdefault(sid, []).append(alias)
     return out
 
 
@@ -314,6 +352,20 @@ def model_source_alias_keys(model: SeedModel, source_id: str) -> dict[str, Sourc
         for k in _with_and_without_make(model, [a.name]):
             out[k] = a
     return out
+
+
+def model_scoped_alias_keys(
+    model: SeedModel, source_id: str
+) -> tuple[dict[str, SourceAlias], dict[str, SourceAlias]]:
+    """(prefix keys, exact keys) of this model's `aliases_by_source` for one source, with and
+    without the make name. Empty when the model has no `aliases_by_source`."""
+    prefix: dict[str, SourceAlias] = {}
+    exact: dict[str, SourceAlias] = {}
+    for a in (model.aliases_by_source or {}).get(source_id, []):
+        target = exact if a.match == "exact" else prefix
+        for k in _with_and_without_make(model, [a.name]):
+            target[k] = a
+    return prefix, exact
 
 
 def model_alias_keys(model: SeedModel) -> set[str]:

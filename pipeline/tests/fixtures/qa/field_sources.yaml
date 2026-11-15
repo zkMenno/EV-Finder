@@ -1,0 +1,7 @@
+# SYNTHETIC QA FIXTURE: tolerances for the diff check.
+schema: field-sources/v1
+fields:
+  battery_kwh_net: {primary: [testsrc], tolerance: {pct: 2}, merge: median}
+  wltp_range_km:   {primary: [testsrc], tolerance: {pct: 2}, merge: priority}
+  boot_l:          {primary: [seed-manual], tolerance: {abs: 5, unit: l}, merge: priority}
+  registered_count: {primary: [testreg], fallbacks: [testsrc], merge: newest}

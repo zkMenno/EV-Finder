@@ -55,6 +55,15 @@ variants and never create rows; records they cannot place go to unmatched.csv wi
   `catalogue.parquet` (same rows, flat), `facts.parquet` (every fact merged in), `diff.json`
   (vs the previous release), `coverage.md`, `README.md` (counts, licences, attribution),
   `run_log.json` (inputs, outputs, outcome).
+- `qa.json` + `qa.md`: release QA (R-05 §1, `ev_pipeline/qa/`). Provenance and licence gate are
+  blocking (a failure publishes nothing and writes `data/review/qa.{json,md}`); diff vs the
+  previous release, outliers and impossible values, and top-40 coverage go to review. The
+  `backtest` section (`ev_pipeline/backtest/`, T-035) scores the real-range ladder
+  leave-one-out on `data/backtest/*.jsonl` (fixture rows and gated sources left out).
+- `open/`: the CC BY 4.0 open data bundle (Decision 016, `ev_pipeline/opendata/`):
+  `variants.csv`, `variants.json`, `ATTRIBUTION.md`, `LICENSE`, `README.md`. Only gate-passed,
+  non-ODbL sources; `<field>_sources` / `<field>_confidence` per value, `seed_manual_fields`
+  flags hand-entered values. Brand from `EV_BRAND_NAME`.
 - Each row's `registrations` holds official counts per country, one per source and period:
   `fleet` (RDW NL, DfT UK) or `new_registrations` (KBA DE, EEA NL/DE/FR/BE); `level: model`
   when the count is for the whole model (DfT has no year), repeated on every generation.

@@ -44,6 +44,10 @@
 7. Source-scoped aliases (`source_aliases` in models.yaml): names one source uses for a model
    (KBA "4ER" = the BEV column of the BMW 4 series = i4). They may start with a make the seed
    lacks ("SEAT BORN" -> Cupra Born). Their optional note goes into the count's provenance.
+   Scoped aliases (Q-021, flag `EV_SCOPED_ALIASES`, see `scoped_aliases_enabled`): a model's
+   `aliases_by_source` is then the one explicit list of extra names per source (exact or
+   prefix, each with an optional note) and replaces its `bev_only_aliases` and
+   `source_aliases`; a model without `aliases_by_source` keeps the legacy keys.
 8. MATCH_ON_VARIANT_NAME (DfT): the model column is coarse (GenModel "HYUNDAI IONIQ" holds
    the Ioniq 5, 6 and 9 too), so the variant column (DfT "Model") is matched instead.
 9. ATTACH_ONLY_SOURCES (ADEME, KilowattApp): their names never equal ours ("e-208 (57Kw)",
@@ -61,6 +65,7 @@ Nothing here decides values: that is merge's job.
 from __future__ import annotations
 
 import json
+import os
 import re
 from collections import Counter
 from dataclasses import dataclass, field
@@ -72,9 +77,11 @@ from ev_pipeline.match.seed import (
     Seed,
     SeedGeneration,
     SeedModel,
+    SourceAlias,
     model_alias_keys,
     model_bev_only_keys,
     model_exclude_tokens,
+    model_scoped_alias_keys,
     model_source_alias_keys,
 )
 from ev_pipeline.records import SourceRecord, SpecValue
@@ -120,6 +127,27 @@ _DFT_PERIOD_RE = re.compile(r"(\d{4}) Q([1-4])")
 COUNT_ONLY_SOURCES = frozenset({"eea"})
 
 AMBIGUOUS_GENERATION = "ambiguous-generation"
+
+# Q-021 source-scoped aliases. Env EV_SCOPED_ALIASES=1/0 overrides the default; the default
+# was set by measuring the 2026-11-15 staging data with the flag off and on (QUESTIONS Q-021).
+SCOPED_ALIASES_ENV = "EV_SCOPED_ALIASES"
+SCOPED_ALIASES_DEFAULT = True
+_ON = {"1", "true", "yes", "on"}
+_OFF = {"0", "false", "no", "off"}
+
+
+def scoped_aliases_enabled(value: bool | None = None) -> bool:
+    """The scoped-alias flag: an explicit value, else the env var, else the default."""
+    if value is not None:
+        return value
+    raw = os.environ.get(SCOPED_ALIASES_ENV, "").strip().lower()
+    if raw in _ON:
+        return True
+    if raw in _OFF:
+        return False
+    if raw:
+        raise ValueError(f"{SCOPED_ALIASES_ENV}={raw!r}: use 1 or 0")
+    return SCOPED_ALIASES_DEFAULT
 KWH_TOLERANCE = 1.0  # "40KWH" in a name vs 39 kWh net / 40 kWh gross
 # Year-band split thresholds (relative difference to the band's first year).
 BAND_THRESHOLDS: dict[str, float] = {"wltp_range_km": 0.05, "dc_peak_kw": 0.10}
@@ -216,6 +244,7 @@ class MatchResult:
     attached: Counter[str] = field(default_factory=Counter)  # attach-only records placed
     ignored_fields: Counter[str] = field(default_factory=Counter)  # "source:field" dropped
     matched_records: int = 0
+    scoped_aliases: bool = False  # Q-021 flag value used for this run
 
 
 def priority_of(source_id: str) -> int:
@@ -227,31 +256,47 @@ def _contains_run(toks: list[str], run: list[str]) -> bool:
     return any(toks[i : i + n] == run for i in range(len(toks) - n + 1))
 
 
-def find_model(seed: Seed, make_id: str, record: SourceRecord) -> tuple[SeedModel | None, str]:
-    model, why, _ = find_model_noted(seed, make_id, record)
+def find_model(
+    seed: Seed, make_id: str, record: SourceRecord, scoped: bool = False
+) -> tuple[SeedModel | None, str]:
+    model, why, _ = find_model_noted(seed, make_id, record, scoped)
     return model, why
 
 
+def _extra_alias_keys(
+    m: SeedModel, sid: str, scoped: bool
+) -> tuple[dict[str, SourceAlias], dict[str, SourceAlias | None]]:
+    """(prefix keys, exact keys) a source may use for `m` beyond its name and name_aliases."""
+    if scoped and m.aliases_by_source is not None:
+        prefix, exact = model_scoped_alias_keys(m, sid)
+        return prefix, dict(exact)
+    legacy_exact: dict[str, SourceAlias | None] = {}
+    if sid in BEV_FILTERED_SOURCES:
+        legacy_exact = dict.fromkeys(model_bev_only_keys(m))
+    return model_source_alias_keys(m, sid), legacy_exact
+
+
 def find_model_noted(
-    seed: Seed, make_id: str, record: SourceRecord
+    seed: Seed, make_id: str, record: SourceRecord, scoped: bool = False
 ) -> tuple[SeedModel | None, str, str | None]:
     """find_model plus the note of the source alias that matched (if any)."""
     make = seed.makes[make_id]
     sid = record.source.id.root
-    bev_only = sid in BEV_FILTERED_SOURCES
     alias_index: dict[str, set[str]] = {}
     exact_index: dict[str, set[str]] = {}
     notes: dict[tuple[str, str], str] = {}  # (model id, key) -> source alias note
     for m in make.models:
         for k in model_alias_keys(m):
             alias_index.setdefault(k, set()).add(m.id)
-        for k, a in model_source_alias_keys(m, sid).items():
+        prefix, exact = _extra_alias_keys(m, sid, scoped)
+        for k, a in prefix.items():
             alias_index.setdefault(k, set()).add(m.id)
             if a.note:
                 notes[(m.id, k)] = a.note
-        if bev_only:
-            for k in model_bev_only_keys(m):
-                exact_index.setdefault(k, set()).add(m.id)
+        for k, ea in exact.items():
+            exact_index.setdefault(k, set()).add(m.id)
+            if ea is not None and ea.note:
+                notes[(m.id, k)] = ea.note
     toks = tokens(record.model)
     variants_of_toks = [toks]
     for strip in (tokens(record.make), tokens(make.name), tokens(make_id)):
@@ -289,13 +334,22 @@ def find_model_noted(
     return seed.models[mid], "", notes.get((mid, cand_key[mid]))
 
 
-def find_by_source_alias(seed: Seed, record: SourceRecord) -> tuple[SeedModel | None, str | None]:
+def find_by_source_alias(
+    seed: Seed, record: SourceRecord, scoped: bool = False
+) -> tuple[SeedModel | None, str | None]:
     """For a make the seed lacks: a source alias written with its make ("SEAT BORN")."""
     sid = record.source.id.root
     toks = tokens(record.make) + tokens(record.model)
     pks = set(prefix_keys(toks))
+    full = "".join(toks)
     found: dict[str, str | None] = {}
     for m in seed.models.values():
+        if scoped and m.aliases_by_source is not None:
+            for a in m.aliases_by_source.get(sid, []):
+                k = key(a.name)
+                if (a.match == "exact" and k == full) or (a.match == "prefix" and k in pks):
+                    found[m.id] = a.note
+            continue
         for a in m.source_aliases.get(sid, []):
             if key(a.name) in pks:
                 found[m.id] = a.note
@@ -471,6 +525,7 @@ def build_evidence(
     seed: Seed,
     manual: list[ManualVariant],
     generation_kwh: dict[str, set[float]] | None = None,
+    scoped: bool = False,
 ) -> GenerationEvidence:
     """Pre-pass: variant names and battery sizes per generation from seed-manual variants and
     spec records whose year falls in exactly one generation (no circular guessing)."""
@@ -488,7 +543,7 @@ def build_evidence(
         make_id = seed.make_id_for(rec.make)
         if make_id is None or rec.year is None:
             continue
-        model, _ = find_model(seed, make_id, match_view(rec))
+        model, _ = find_model(seed, make_id, match_view(rec), scoped)
         if model is None:
             continue
         hits = [g for g in model.generations if g.covers(rec.year)]
@@ -502,12 +557,16 @@ def match_records(
     seed: Seed,
     manual: list[ManualVariant] | None = None,
     generation_kwh: dict[str, set[float]] | None = None,
+    scoped_aliases: bool | None = None,
 ) -> MatchResult:
     """`generation_kwh`: optional battery sizes per generation (e.g. from battery_packs.yaml
-    via variant_links.yaml), used as evidence for shared-year records."""
+    via variant_links.yaml), used as evidence for shared-year records. `scoped_aliases`:
+    None = env EV_SCOPED_ALIASES / default (see `scoped_aliases_enabled`)."""
     result = MatchResult()
+    scoped = scoped_aliases_enabled(scoped_aliases)
+    result.scoped_aliases = scoped
     manual = manual or []
-    evidence = build_evidence(records, seed, manual, generation_kwh)
+    evidence = build_evidence(records, seed, manual, generation_kwh, scoped)
     # (generation_id, variant name key) -> variant id
     variant_ids: dict[tuple[str, str], str] = {}
 
@@ -548,12 +607,12 @@ def match_records(
         make_id = seed.make_id_for(rec.make)
         note: str | None = None
         if make_id is None:
-            model, note = find_by_source_alias(seed, view)
+            model, note = find_by_source_alias(seed, view, scoped)
             if model is None:
                 result.other_makes[(sid, rec.make.strip().upper())] += 1
                 continue
         else:
-            model, why, note = find_model_noted(seed, make_id, view)
+            model, why, note = find_model_noted(seed, make_id, view, scoped)
             if model is None:
                 result.unmatched.append(_unmatched(rec, why))
                 continue
