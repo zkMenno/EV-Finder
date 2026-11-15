@@ -67,6 +67,8 @@ export interface HeroProps {
   /** This country's "See listings" sites, best first. */
   listingSites: ListingSite[];
   terms: Record<string, UiTerm | undefined>;
+  /** Launch /learn guides that exist (winter range, charging in 2026, batteries). */
+  learnLinks?: { slug: string; title: string; href: string }[];
 }
 
 const QUICK_BUDGETS: Record<Currency, number[]> = {
@@ -703,6 +705,20 @@ function Results(r: ResultsProps) {
             ))}
           </ol>
         </div>
+      ) : null}
+      {r.props.learnLinks?.length ? (
+        <nav aria-label={t("hero.learn.title")} className="mt-6 rounded-md bg-slate-50 p-3" data-testid="hero-learn">
+          <p className="text-sm font-semibold">{t("hero.learn.title")}</p>
+          <ul className="mt-1 grid gap-1 text-sm">
+            {r.props.learnLinks.map((l) => (
+              <li key={l.slug}>
+                <a href={l.href} className="text-blue-800 underline underline-offset-2">
+                  {l.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       ) : null}
       <p className="mt-6">
         <a href="#explore" className="font-semibold text-blue-800 underline underline-offset-2">

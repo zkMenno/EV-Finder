@@ -709,5 +709,6 @@
   "hero.caveat.research": "This profile's ranking uses thresholds from research and hasn't been checked against real buyers yet.",
   "hero.caveat.winter": "Winter range is still being worked out. Until then we show real range in mild weather.",
   "hero.explore": "Or browse all {n} cars",
-  "hero.card.newTab": "(opens in a new tab)"
+  "hero.card.newTab": "(opens in a new tab)",
+  "hero.learn.title": "Good to know before you buy"
 }

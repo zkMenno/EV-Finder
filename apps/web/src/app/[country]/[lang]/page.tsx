@@ -14,6 +14,7 @@ import { sourceNames, toExploreRow } from "@/lib/explore-data";
 import { applyFilters, sortRows } from "@/lib/filters";
 import { financeProfile } from "@/lib/finance-profiles";
 import { heroFromSearchParams } from "@/lib/hero-state";
+import { article, articleTitle } from "@/lib/learn";
 import { LISTING_SITES } from "@/lib/listings";
 import { rankHero, resolveProfile, type UsedBands } from "@/lib/shortlist";
 import { fromSearchParams, hasLevelParam, hasPayParam, hasViewParam } from "@/lib/state";
@@ -77,6 +78,12 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   const heroTerms = Object.fromEntries(
     ["real-range", "loan", "apr", "loan-term", "deposit", "total-cost-over-term", "used-price", "new-price"].map((id) => [id, tax.terms[id]]),
   );
+  // Launch /learn pages linked from the hero (Decision 051), only those that exist.
+  const learnLinks = ["winter-range", "charging-2026", "batteries", "battery-health", "chemistries"]
+    .map((slug) => article(slug))
+    .filter((a): a is NonNullable<typeof a> => !!a)
+    .slice(0, 3)
+    .map((a) => ({ slug: a.slug, title: articleTitle(a, lang), href: `${siteBase(country, lang)}/learn/${a.slug}` }));
   const dataUrl = `/data/catalogue-${clientCatalogueKey(cat)}.json`;
 
   return (
@@ -98,6 +105,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         makes={makes}
         listingSites={[...LISTING_SITES[country]].sort((a, b) => a.priority - b.priority)}
         terms={heroTerms}
+        learnLinks={learnLinks}
       />
       <section id="explore" aria-labelledby="explore-title" className="mt-12 scroll-mt-4">
         <h2 id="explore-title" className="text-2xl font-bold tracking-tight sm:text-3xl">
