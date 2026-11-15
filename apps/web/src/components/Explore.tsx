@@ -822,6 +822,10 @@ function FiltersPanel({
               <NumberFilter id="bootMin" termId="boot-volume" label={t("filters.boot")} value={f.bootMin} step={10} onChange={(v) => onChange({ bootMin: v })} ctx={ctx} />
               <NumberFilter id="lengthMax" termId="vehicle-length" label={t("filters.length")} value={f.lengthMax} step={50} onChange={(v) => onChange({ lengthMax: v })} ctx={ctx} />
               <NumberFilter id="towingMin" termId="towing-capacity" label={t("filters.towing")} value={f.towingMin} step={100} onChange={(v) => onChange({ towingMin: v })} ctx={ctx} />
+              <NumberFilter id="seatsMin" termId="seats" label={t("filters.seats")} value={f.seatsMin} onChange={(v) => onChange({ seatsMin: v })} ctx={ctx} />
+              <NumberFilter id="acMin" termId="ac-charging" label={t("filters.ac")} value={f.acMin} onChange={(v) => onChange({ acMin: v })} ctx={ctx} />
+              <NumberFilter id="yearMin" termId="model-years" label={`${t("filters.years")}: ${t("hero.refine.yearFrom")}`} value={f.yearMin} onChange={(v) => onChange({ yearMin: v })} ctx={ctx} />
+              <NumberFilter id="yearMax" termId="model-years" label={`${t("filters.years")}: ${t("hero.refine.yearTo")}`} value={f.yearMax} onChange={(v) => onChange({ yearMax: v })} ctx={ctx} />
             </div>
             <VoltageSlider f={f} onChange={onChange} ctx={ctx} />
           </>
