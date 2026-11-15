@@ -9,4 +9,4 @@ This folder mirrors the EV Shortlist design system: https://claude.ai/artifact/E
 - `fonts/` holds the self-hosted OFL fonts (latin subset). `assets/Logo/` and `assets/Symbols/` hold the SVGs.
 - The brand name comes from config (`brand.name`, Decision 018). The logo SVGs say "EV Shortlist"; swap them if the name changes.
 
-Last synced: 2026-11-15 (design system v3: road-sign plate logo).
+Last synced: 2026-11-15 (design system v4: Ink and sky palette, Bitter headings, working logo).

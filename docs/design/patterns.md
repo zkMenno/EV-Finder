@@ -60,7 +60,7 @@ How the main screens are put together. Components are linked by name; they are d
 
 ## Learn
 
-- Reading layout: body-lg, 68ch measure, headings in Overpass.
+- Reading layout: body-lg, 68ch measure, headings in Bitter.
 - This is where doodles live: a small illustration per article (a car on a road, a charge stop, a battery cutaway) in the map palette.
 
 ## Menus and popovers
@@ -84,7 +84,7 @@ How the main screens are put together. Components are linked by name; they are d
 | Hover | Background shifts one step (`paper-sea` on rows, `action-hover` on primary) |
 | Focus | 3px `focus` outline, 2px offset, on every control |
 | Pressed | 1px down, no colour flash |
-| Selected | `aria-pressed` or `aria-current`, a sunflower or tomato underline plus bold text |
+| Selected | `aria-pressed` or `aria-current`, a sunflower or sky underline plus bold text |
 | Loading | A skeleton in `surface-sunk` for tables; "Finding cars…" in text for long waits |
 | Error | `danger-tint` panel, icon, what happened, what to do |
 | Empty | An illustration, one sentence, one action |

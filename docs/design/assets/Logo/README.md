@@ -4,9 +4,9 @@ Fixed-colour copies of the EV Shortlist logo for places design tokens don't reac
 
 | File | Use |
 |---|---|
-| lockup-light.svg / lockup-dark.svg | EV plate + "Shortlist" with the road out of the t. 48px tall and up |
-| lockup-small-light.svg / lockup-small-dark.svg | No road dashes, no plate border. 20–47px tall (header, footer, email) |
-| icon-light.svg / icon-dark.svg | EV plate with the sunflower corner disc and inset border. 32px and up (app icon, avatar), exported at 512px |
-| icon-small-light.svg / icon-small-dark.svg | No border, larger letters. 16–31px (favicon, tabs) |
+| lockup-light.svg / lockup-dark.svg | EV (with the tick for a V) + "Shortlist". 40px tall and up |
+| lockup-small-light.svg / lockup-small-dark.svg | Thicker tick tip and bigger sun. 20–39px tall (header, footer, email) |
+| icon-light.svg / icon-dark.svg | EV + tick on an ink tile. 32px and up, exported at 512px |
+| icon-small-light.svg / icon-small-dark.svg | 16–31px (favicon, tabs) |
 
-Light: navy #22335A wordmark and road, tomato #E8573F plate with white letters. Dark: light ink #EEF2F7 wordmark and road, coral #FF8A6B plate with dark #141C30 letters. The disc is sunflower #F7C948 with an ink ring in both. Everything is outlined Overpass ExtraBold (OFL), so no font is needed.
+Light: sky #3B78AE EV, ink #16233A wordmark and sun ring. Dark: light sky #93C1EA EV, light ink #EEF3F9 wordmark and ring. The sun is sunflower #FFD166 in both. All outlined Bitter ExtraBold (OFL), so no font is needed. Working logo for the working title; iterate once the name is final.

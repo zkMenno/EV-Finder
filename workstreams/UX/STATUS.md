@@ -1,7 +1,7 @@
 # UX status
 
-- **State:** active (repo attached)
-- **Now:** design system v2 "EV Shortlist" published and mirrored to docs/design/
-- **Next:** variant finder designs (Decision 019: differences-only highlight, change timeline, ad clue box), then car page + Compare + Shortlist page mockups
-- **Blocked:** nothing; final logo waits for the final name
+- **State:** active
+- **Now:** design system v4 published (Ink and sky, Bitter, working logo) and mirrored to docs/design/
+- **Next:** variant finder designs (Decision 019), then car page / Compare / Shortlist page mockups; logo iteration once the name is final
+- **Blocked:** nothing
 - **Last updated:** 2026-11-15 by UX

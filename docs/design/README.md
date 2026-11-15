@@ -8,15 +8,16 @@ Builders: read this page first, then `patterns.md`, then the component guideline
 
 ## The idea in one line
 
-**Every car you pick becomes a stop on your trip.** The brand joins two things people already understand: ticking items off a shortlist, and planning a road trip on a map. In the logo, "EV" sits on a road-sign plate and the last letter of "Shortlist" turns into the road: the t's crossbar runs on, climbs, and ends at a sunflower disc. That disc means "chosen" everywhere: the end of the road, the icon's corner pin, the shortlist badge, charge stops, the selected detail level.
+**Every car you pick becomes a stop on your trip.** The brand joins two things people already understand: ticking items off a shortlist, and planning a road trip on a map. In the logo, the whole "EV" is one sky-blue shape whose V is a tick, winding and narrowing like a road towards a sunflower sun on the horizon. That sun means "chosen" everywhere: the end of the tick, the shortlist badge, charge stops, the selected detail level.
 
 | Brand device | Where it lives | What it says |
 |---|---|---|
-| Road-sign plate + the road out of the t | Logo, icon, share images | A route you take, and a road that leads somewhere you chose |
+| EV with a winding tick for a V | Logo, icon | Picked, and the road it opens up |
+| S-road (winding S with start pin and disc) | Illustrations, loading states, share image | The journey from all EVs to your shortlist |
 | Tick-road | ShortlistButton, tray, the taped note | "Picked": a tick drawn as a road |
-| Sunflower disc | End of the logo road, icon pin, count badge, charge stops, switch underline | Chosen, a place to stop |
+| Sunflower disc | End of the logo tick, icon, count badge, charge stops, switch underline | Chosen, a place to stop |
 | Taped note | Hero, shortlist page header, share images | Your own list, in your own words |
-| Tomato pen strike | Ruled-out cars on the note | Honest: we help you say no too |
+| Pen strike | Ruled-out cars on the note | Honest: we help you say no too |
 | Range route | Car pages | Range as a journey to real places |
 
 ## Who it is for
@@ -67,13 +68,13 @@ Never "favourites", "saved", "wishlist" or a heart. Translators: keep "shortlist
 
 ## Colour
 
-The palette comes from a holiday map: navy ink linework, tomato roads, sunflower charge stops, meadow land, sea water, all on white paper. Two themes: Day trip (light) and Night drive (dark). Every token has both.
+The palette is Ink and sky: deep ink for text and linework, a calm sky blue for the brand and routes, sunflower for anything chosen, with meadow and sea tints for the holiday-map illustrations, all on white paper. It deliberately avoids the electric blue, lime green and lightning bolts most EV brands use. Two themes: Day trip (light) and Night drive (dark). Every token has both.
 
 | Role | Token | Rule |
 |---|---|---|
 | Page | `paper`, `paper-sea` | White sheet; the sea tint for hero bands and alternate sections |
 | Text | `ink`, `ink-2`, `ink-3` | Primary, secondary (the technical term), captions and sources |
-| Brand | `tomato` | The road in the logo, route lines, pen strikes, large shapes. Not for small text in light (3.6:1) |
+| Brand | `sky` | The EV and tick in the logo, route lines, pen strikes, large shapes. White on it passes 4.7:1; buttons use the darker `action` |
 | Action | `action` + `on-action` | The one primary button per view |
 | Chosen | `sunflower`, `sunflower-tint`, `on-sunflower` | The disc: logo dot, shortlist badge, charge stops, selected states, money chips |
 | Land and sea | `meadow`, `sea` | Illustration and map only. Meadow is never text |
@@ -86,7 +87,7 @@ Charts use `chart-1` to `chart-4` (provisional), and never more than four series
 
 ## Type
 
-- **Overpass** (headings). It descends from Highway Gothic, the US road-sign face, so it reads as road trip without being a costume. Weights 700 and 800.
+- **Bitter** (logo and headings). A sturdy contemporary slab serif: it reads as dependable and honest, like a good guidebook, while its warm, rounded details keep it approachable. Weights 700 and 800.
 - **Atkinson Hyperlegible** (everything people read and compare). Designed by the Braille Institute for low-vision readers, with clearly different 1/l/I and 0/O shapes. That matters for prices, kWh and kW. Always use tabular numerals.
 - **Patrick Hand** (notes only). The shortlist note, labels on the range map, illustrations and empty states. Never for data, buttons, prices or anything someone must read to decide.
 
@@ -103,7 +104,7 @@ All three are OFL-licensed and self-hosted in `fonts/` (tokens.css declares them
 
 ## Map vocabulary (iconography)
 
-The icons are map symbols, drawn with a 2px navy line and round caps on a 24px grid, with one flat colour fill at most. See the Map symbols asset group.
+The icons are map symbols, drawn with a 2px ink line and round caps on a 24px grid, with one flat colour fill at most. See the Map symbols asset group.
 
 | Symbol | Means |
 |---|---|
@@ -121,7 +122,7 @@ The ⓘ legend is the glossary: it is styled as a map legend box, with the symbo
 
 ## Range route (signature)
 
-Every car page draws its real range as a route from the visitor's town to real places. A solid tomato line shows summer range, and a dotted ink line shows winter range. Sunflower squares mark estimated charge stops, and handwritten notes name the places: "Bordeaux, no stop needed".
+Every car page draws its real range as a route from the visitor's town to real places. A solid sky line shows summer range, and a dotted ink line shows winter range. Sunflower squares mark estimated charge stops, and handwritten notes name the places: "Bordeaux, no stop needed".
 
 - The start town comes from a typed place or the country's capital. Never use geolocation without asking.
 - Charge stops are estimates from real range and typical motorway charger spacing. We hold no charger map and no point-level charger data, so "Plan this trip properly" hands off to ABRP with the car pre-selected.

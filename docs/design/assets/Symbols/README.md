@@ -1,6 +1,6 @@
 # Symbols
 
-Map symbols for the interface, on a 24px grid with a 2px navy line (`ink` #22335A) and round caps. Each has at most one flat fill from the palette.
+Map symbols for the interface, on a 24px grid with a 2px ink line (`ink` #16233A in the files) and round caps. Each has at most one flat fill from the palette.
 
 | File | Means |
 |---|---|

@@ -1,32 +1,32 @@
 # Logo
 
-A road-sign plate that says EV, and a wordmark whose last letter turns into the road: the crossbar of the final t runs on, bends upward and ends at a sunflower destination disc.
+"EV" in one sky-blue shape, where the V is a tick that winds and narrows like a road heading towards a sunflower sun on the horizon. Next to it, "Shortlist" in Bitter ExtraBold, in ink. Status: working logo for the working title, to be iterated once the name is final.
 
 ## The idea
-- **The plate.** Overpass descends from Highway Gothic, the road-sign typeface, so "EV" sits on a tomato route plate with a white inset border, like a European road sign. It reads as a route you take, not a badge.
-- **The road out of the t.** "Shortlist" is set in Overpass ExtraBold. The crossbar of the last t keeps going: straight, then a gentle climb, with a dashed centre line, ending at the sunflower disc. The word becomes the road, and the road leads somewhere you chose.
-- **The disc** is the brand's "chosen" mark everywhere: the end of the road, the corner pin on the icon, the shortlist badge, charge stops.
+- **The tick is the V.** Picking cars is the whole product, so the V is drawn as a check mark, in the same colour as the E so "EV" still reads as one word.
+- **The tick is a road.** Its long stroke curves slightly and narrows towards its tip, like a road disappearing into the distance, and ends at the sun.
+- **The sun** is the brand's "chosen" mark everywhere: the end of the tick, the shortlist badge, charge stops.
+- **Bitter** gives the wordmark a dependable, guidebook voice that stays warm.
 
 ## Versions
 | Version | Use |
 |---|---|
-| Lockup (with dashes and plate border) | 48px tall and up: hero, about, print, share images |
-| Lockup small (no dashes, no plate border) | 20–47px tall: header (32px desktop, 28px phone), footer, email |
-| Icon (plate + corner disc, with border) | 32px and up: app icon, social avatar |
-| Icon small (no border, larger letters) | 16–31px: favicon, browser tab, bookmarks |
+| Lockup | 40px tall and up: hero, about, print, share images |
+| Lockup small (thicker tick tip, bigger sun) | 20–39px tall: header (32px desktop, 28px phone), footer, email |
+| Icon (EV + tick on an ink tile) | 32px and up: app icon, social avatar |
+| Icon small | 16–31px: favicon, browser tab |
 
-Never set "EV Shortlist" as live text in place of the logo. Never separate the plate from the wordmark in the lockup, and never drop the road. When the name changes, only the wordmark changes; the plate, the road and the disc stay.
+Never set the logo as live text, never colour the E and the V differently, and never straighten the tick into a plain V.
 
 ## Colour
-- In the product, use the inline SVG built from tokens (`var(--tomato)` plate, `var(--paper)` plate letters and road dashes, `var(--ink)` wordmark and road, `var(--sunflower)` disc), so it follows the theme. Day trip: navy wordmark, white plate letters. Night drive: light wordmark, coral plate with dark letters.
-- Fixed-colour SVGs live in the Logo asset group for social, email, press and app stores.
-- Don't put the logo on tomato or sunflower grounds, recolour the plate, or add shadows or outlines.
+- In the product, use the inline SVG built from tokens (`var(--sky)` EV and tick, `var(--ink)` wordmark and sun ring, `var(--sunflower)` sun), so it follows the theme. Day trip: sky EV, ink wordmark. Night drive: light-sky EV, light wordmark.
+- Fixed-colour SVGs live in the Logo asset group.
+- One-colour use (stamps, embroidery, partner pages): everything in ink or everything in white; the sun becomes a solid disc.
+- Don't put the logo on sky or sunflower grounds, recolour it, or add shadows or outlines.
 
 ## Spacing
-- Gap between plate and wordmark: 14 units at the 100-unit cap scale (about 0.2 × cap height). Keep it.
-- Clear space all round: the height of the plate's inner border inset × 3 (about one disc diameter).
+- Gap between EV and Shortlist: about 0.35 × cap height. Clear space all round: one sun diameter.
 
 ## Taglines
 - Primary: **Compare EVs. Make your shortlist.**
 - Explainer: "Real range, real running costs and real used prices for every electric car. Keep the ones that fit."
-- Short forms: "Every used EV, compared." / "Your EV shortlist."
