@@ -36,6 +36,14 @@ export interface ExploreFilters {
   bootMin: number | null;
   lengthMax: number | null;
   towingMin: number | null;
+  /** T-080 refine: seats, home charging (AC kW) and build years (a variant matches when its years overlap). */
+  seatsMin: number | null;
+  acMin: number | null;
+  yearMin: number | null;
+  yearMax: number | null;
+  /** T-080 refine: brands to include / exclude (make ids). */
+  makes: string[];
+  excludeMakes: string[];
   /** Taxonomy ids (data, not enums): validated as ids only. */
   voltageClasses: string[];
   voltageMin: number | null;
@@ -73,6 +81,10 @@ export const NUMERIC_FILTERS = [
   "towingMin",
   "voltageMin",
   "voltageMax",
+  "seatsMin",
+  "acMin",
+  "yearMin",
+  "yearMax",
 ] as const satisfies readonly (keyof ExploreFilters)[];
 export type NumericFilter = (typeof NUMERIC_FILTERS)[number];
 
@@ -87,10 +99,20 @@ const NUM_PARAM: Record<NumericFilter, string> = {
   towingMin: "tow",
   voltageMin: "vmin",
   voltageMax: "vmax",
+  seatsMin: "seats",
+  acMin: "ac",
+  yearMin: "ymin",
+  yearMax: "ymax",
 };
 
 const ID_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-const LIST_PARAM = { voltageClasses: "volt", chemistries: "chem", coolings: "cool" } as const;
+const LIST_PARAM = {
+  voltageClasses: "volt",
+  chemistries: "chem",
+  coolings: "cool",
+  makes: "make",
+  excludeMakes: "xmake",
+} as const;
 const FLAG_PARAM = { fast400: "fast400", charge100: "c100", tripFit: "trip" } as const;
 type ListFilter = keyof typeof LIST_PARAM;
 type FlagFilter = keyof typeof FLAG_PARAM;
@@ -114,6 +136,12 @@ export function defaultFilters(): ExploreFilters {
     bootMin: null,
     lengthMax: null,
     towingMin: null,
+    seatsMin: null,
+    acMin: null,
+    yearMin: null,
+    yearMax: null,
+    makes: [],
+    excludeMakes: [],
     voltageClasses: [],
     voltageMin: null,
     voltageMax: null,
@@ -261,6 +289,8 @@ export function activeFilterCount(f: ExploreFilters): number {
     (f.voltageClasses.length ? 1 : 0) +
     (f.chemistries.length ? 1 : 0) +
     (f.coolings.length ? 1 : 0) +
+    (f.makes.length ? 1 : 0) +
+    (f.excludeMakes.length ? 1 : 0) +
     (f.fast400 ? 1 : 0) +
     (f.charge100 ? 1 : 0) +
     (f.tripFit ? 1 : 0)

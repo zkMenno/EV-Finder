@@ -49,6 +49,13 @@ export const EXPLORE_FIELDS = [
   "charge_100_daily",
   "platform_name",
   "battery_pack_id",
+  // Hero shortlist scoring (T-080, shortlist rules): AC speed, heat pump, seats, mass, new or used.
+  "ac_kw",
+  "heat_pump",
+  "seats",
+  "kerb_mass_kg",
+  "mass_running_order_kg",
+  "on_sale_new",
 ] as const satisfies readonly (keyof PublishedVariant)[];
 
 /** Numeric fields that carry provenance in the client JSON. */
