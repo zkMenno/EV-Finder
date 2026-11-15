@@ -219,6 +219,8 @@ describe("per-variant used bands by build year (T-081)", async () => {
     expect(variantFit(r, "NL", null)).toMatchObject({ amount: 26000, yearFrom: 2023, yearTo: 2023, lowConfidence: true });
     expect(variantFit(r, "NL", 10000)).toBeNull();
     expect(variantFit(r, "DE", 30000)).toBeNull();
+    // The visitor's build-year filter narrows the years a price may come from.
+    expect(variantFit(r, "NL", 30000, { from: 2021, to: 2021 })).toMatchObject({ amount: 19000, yearFrom: 2021, yearTo: 2021 });
   });
   it("priceFit: over budget when the car has bands but none fit", () => {
     expect(priceFit(r, { country: "NL", cond: "used", budget: 10000, nowYear: 2026 })).toEqual({ fit: null, over: true });
