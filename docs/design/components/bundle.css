@@ -180,3 +180,4 @@
   .evs-hero h1 { font-size: 38px; line-height: 42px; }
   .evs-hero__art { min-height: 300px; }
 }
+.evs-icon { display: inline-block; width: 32px; height: 32px; flex: none; }

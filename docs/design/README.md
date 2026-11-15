@@ -8,12 +8,13 @@ Builders: read this page first, then `patterns.md`, then the component guideline
 
 ## The idea in one line
 
-**Every car you pick becomes a stop on your trip.** The brand joins two things people already understand: ticking items off a shortlist, and planning a road trip on a map. The logo is a tick drawn as a road. The sunflower disc at its end, and on the dot of the i, means "chosen" everywhere: the shortlist badge, charge stops, the selected detail level.
+**Every car you pick becomes a stop on your trip.** The brand joins two things people already understand: ticking items off a shortlist, and planning a road trip on a map. In the logo, "EV" sits on a road-sign plate and the last letter of "Shortlist" turns into the road: the t's crossbar runs on, climbs, and ends at a sunflower disc. That disc means "chosen" everywhere: the end of the road, the icon's corner pin, the shortlist badge, charge stops, the selected detail level.
 
 | Brand device | Where it lives | What it says |
 |---|---|---|
-| Tick-road mark | Logo, ShortlistButton, tray, favicon | "Picked" and "let's go" in one shape |
-| Sunflower disc | i-dot, count badge, charge stops, switch underline | Chosen, a place to stop |
+| Road-sign plate + the road out of the t | Logo, icon, share images | A route you take, and a road that leads somewhere you chose |
+| Tick-road | ShortlistButton, tray, the taped note | "Picked": a tick drawn as a road |
+| Sunflower disc | End of the logo road, icon pin, count badge, charge stops, switch underline | Chosen, a place to stop |
 | Taped note | Hero, shortlist page header, share images | Your own list, in your own words |
 | Tomato pen strike | Ruled-out cars on the note | Honest: we help you say no too |
 | Range route | Car pages | Range as a journey to real places |
@@ -89,7 +90,7 @@ Charts use `chart-1` to `chart-4` (provisional), and never more than four series
 - **Atkinson Hyperlegible** (everything people read and compare). Designed by the Braille Institute for low-vision readers, with clearly different 1/l/I and 0/O shapes. That matters for prices, kWh and kW. Always use tabular numerals.
 - **Patrick Hand** (notes only). The shortlist note, labels on the range map, illustrations and empty states. Never for data, buttons, prices or anything someone must read to decide.
 
-All three are OFL-licensed and self-hosted in `fonts/` (tokens.css declares them). The wordmark is outlined, so it never depends on a font loading. The scale runs from `caption` (14px) through `body` (17px) to `display` (48px); see Typography.
+All three are OFL-licensed and self-hosted in `fonts/` (tokens.css declares them). The logo is outlined, so it never depends on a font loading. The scale runs from `caption` (14px) through `body` (17px) to `display` (48px); see Typography.
 
 ## Layout
 

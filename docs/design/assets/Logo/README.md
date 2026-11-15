@@ -4,10 +4,9 @@ Fixed-colour copies of the EV Shortlist logo for places design tokens don't reac
 
 | File | Use |
 |---|---|
-| lockup-light.svg / lockup-dark.svg | Mark and wordmark, on light or dark grounds. 24px tall minimum |
-| wordmark-light.svg / wordmark-dark.svg | Wordmark alone, when the mark already appears nearby |
-| mark-light.svg / mark-dark.svg | The tick-road with its dashed centre line, 32px and up |
-| mark-small-light.svg / mark-small-dark.svg | No dashes, for 16–31px: favicon, tab icons |
-| app-icon-light.svg / app-icon-dark.svg | The mark on a sea tile, for app and home-screen icons (512px) |
+| lockup-light.svg / lockup-dark.svg | EV plate + "Shortlist" with the road out of the t. 48px tall and up |
+| lockup-small-light.svg / lockup-small-dark.svg | No road dashes, no plate border. 20–47px tall (header, footer, email) |
+| icon-light.svg / icon-dark.svg | EV plate with the sunflower corner disc and inset border. 32px and up (app icon, avatar), exported at 512px |
+| icon-small-light.svg / icon-small-dark.svg | No border, larger letters. 16–31px (favicon, tabs) |
 
-Inks: light uses navy #22335A; dark uses light ink #EEF2F7 as the edge, so the mark reads as a sticker. The road is tomato (#E8573F light, #FF8A6B dark), and the disc is sunflower #F7C948 in both. The wordmark is outlined Overpass ExtraBold (OFL), so no font is needed.
+Light: navy #22335A wordmark and road, tomato #E8573F plate with white letters. Dark: light ink #EEF2F7 wordmark and road, coral #FF8A6B plate with dark #141C30 letters. The disc is sunflower #F7C948 with an ink ring in both. Everything is outlined Overpass ExtraBold (OFL), so no font is needed.
