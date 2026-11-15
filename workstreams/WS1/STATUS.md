@@ -1,11 +1,11 @@
 # WS1 status
 
-- **State:** active (2nd session, https://claude.ai/code/session_01JuyZEVuT84JYBi2Cty9CzW)
-- **Now:** T-081 used price band per variant, build year and country
-- **Next:** T-056 free price indices (terms first), then T-063 once the schema lands
-- **In review:** T-069 shortlist scores (branch `t-069-shortlist-scores`)
-- **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
-- **Last updated:** 2026-11-15 11:55 UTC by WS1
+- **State:** active; queue items 1–6 done or in review, rest blocked on merges/schema
+- **Now:** idle on WS1 queue: everything left waits for merges, schema or keys (see HANDOFF.md)
+- **Next:** T-064 part 2 after #4 merges + Data publish; T-063 after schema; ERA5-Land once CDS key lands
+- **In review (merge in this order):** #4 → #5 → #7 → #9 → #10 → #11 → #12 → #13
+- **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (merge + Data publish), EV3/Inster rows (Q-047), launch gate (Q-059)
+- **Last updated:** 2026-11-15 10:30 UTC by WS1
 
 ## Log
 - 2026-11-15 09:35 UTC · WS1 chat opened (https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY), 1197 pipeline tests green on main. Claimed T-064.
@@ -14,9 +14,6 @@
 - 2026-11-15 10:25 UTC · PR #9 T-034 (7,654 towns, 7,203 with Jan mean + P10; ERA5-Land stub) and PR #10 T-032/T-033 (EPA tests, matrix 57 KB gzip). Schema requests + Decision 041 proposal to WS0; shapes to WS2; taxonomy defaults to WS3.
 - 2026-11-15 10:30 UTC · PR #11 T-035 (EPA proxy back-test, calibration, A-30) and PR #12 T-062 pipeline part. EPA power gate tried and rejected (A-30 follow-up). HANDOFF.md written. T-051 part 2 was done overnight; its leftovers are Q-047/Q-083.
 - 2026-11-15 10:40 UTC · PR #13 EPA range-class matching rule (fixes EV6/Ioniq 5 wrong attachments). Retro below.
-
-- 2026-11-15 11:30 UTC · 2nd session opened; #4–#13 merged by WS0. Claimed T-069.
-- 2026-11-15 11:55 UTC · T-069 PR: shortlist_scores.json, 18 combos, basis bridge (Decision 042), back-test 6/10 exact. Decisions 040–042 logged. 1,334 tests green.
 
 ## Retro 2026-11-15 (first WS1 run)
 - Went well: queue items 1–7 done in one run as a PR chain; live fetches checked every licence line and memory (< 400 MB peak).
