@@ -17,9 +17,9 @@ primary_car_picks:
   model: G6
   model_year: 2025
   variant: RWD Long Range (v1.3)
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-g6
+  seed_generation_id: xpeng-g6-facelift
+  in_seed: true
   evdb_car_id: 3275
   tier: 1.1
   verdict: shortlist
@@ -54,7 +54,7 @@ primary_car_picks:
   model_year: 2024
   variant: Long Range 2WD (V1.2)
   seed_model_id: kia-ev6
-  seed_generation_id: kia-ev6-gen1
+  seed_generation_id: kia-ev6-facelift
   in_seed: true
   evdb_car_id: 3028
   tier: 1.1
@@ -89,9 +89,9 @@ primary_car_picks:
   model: P7+
   model_year: 2026
   variant: RWD Long Range
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-p7-plus
+  seed_generation_id: xpeng-p7-plus-gen1
+  in_seed: true
   evdb_car_id: 3432
   tier: 1.1
   verdict: shortlist
@@ -125,9 +125,9 @@ primary_car_picks:
   model: EX60
   model_year: 2026
   variant: P10 AWD
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: volvo-ex60
+  seed_generation_id: volvo-ex60-gen1
+  in_seed: true
   evdb_car_id: 3442
   tier: 1.1
   verdict: shortlist
@@ -162,9 +162,9 @@ primary_car_picks:
   model: EX60
   model_year: 2026
   variant: P6 AWD
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: volvo-ex60
+  seed_generation_id: volvo-ex60-gen1
+  in_seed: true
   evdb_car_id: 3441
   tier: 1.1
   verdict: shortlist
@@ -198,9 +198,9 @@ primary_car_picks:
   model: EX50
   model_year: 2027
   variant: null
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: volvo-ex50
+  seed_generation_id: volvo-ex50-gen1
+  in_seed: true
   evdb_car_id: null
   tier: 1.1
   verdict: shortlist
@@ -234,7 +234,7 @@ primary_car_picks:
   model_year: 2024
   variant: 84 kWh RWD (V1.2)
   seed_model_id: hyundai-ioniq-5
-  seed_generation_id: hyundai-ioniq-5-gen1
+  seed_generation_id: hyundai-ioniq-5-facelift
   in_seed: true
   evdb_car_id: 2236
   tier: 1.2
@@ -269,9 +269,9 @@ primary_car_picks:
   model: 7GT
   model_year: 2026
   variant: Core RWD
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-7gt
+  seed_generation_id: zeekr-7gt-gen1
+  in_seed: true
   evdb_car_id: null
   tier: 1.1
   verdict: shortlist
@@ -305,9 +305,9 @@ primary_car_picks:
   model: 7GT
   model_year: 2026
   variant: Long Range RWD
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-7gt
+  seed_generation_id: zeekr-7gt-gen1
+  in_seed: true
   evdb_car_id: 3429
   tier: 1.2
   verdict: shortlist
@@ -341,9 +341,9 @@ primary_car_picks:
   model: 7X
   model_year: 2025
   variant: Core RWD
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-7x
+  seed_generation_id: zeekr-7x-gen1
+  in_seed: true
   evdb_car_id: 3081
   tier: 1.3
   verdict: consider
@@ -377,9 +377,9 @@ primary_car_picks:
   model: 7X
   model_year: 2025
   variant: Long Range RWD
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-7x
+  seed_generation_id: zeekr-7x-gen1
+  in_seed: true
   evdb_car_id: 3082
   tier: 1.3
   verdict: consider
@@ -413,9 +413,9 @@ primary_car_picks:
   model: IM6
   model_year: 2025
   variant: Long Range
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: mg-im6
+  seed_generation_id: mg-im6-gen1
+  in_seed: true
   evdb_car_id: 3247
   tier: 1.3
   verdict: consider
@@ -448,9 +448,9 @@ primary_car_picks:
   model: G6
   model_year: 2024
   variant: RWD Long Range (v1.1)
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-g6
+  seed_generation_id: xpeng-g6-gen1
+  in_seed: true
   evdb_car_id: 2182
   tier: 1.4
   verdict: fallback
@@ -553,9 +553,9 @@ primary_car_picks:
   model: L03
   model_year: 2026
   variant: RWD Long Range
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-l03
+  seed_generation_id: xpeng-l03-gen1
+  in_seed: true
   evdb_car_id: 3677
   tier: 1.1
   verdict: shortlist
@@ -588,9 +588,9 @@ primary_car_picks:
   model: EV4
   model_year: 2025
   variant: Hatchback 81.4 kWh
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: kia-ev4
+  seed_generation_id: kia-ev4-gen1
+  in_seed: true
   evdb_car_id: 3124
   tier: 1.2
   verdict: consider
@@ -763,9 +763,9 @@ primary_car_picks:
   model: IONIQ 3
   model_year: 2026
   variant: IONIQ 3 61 kWh
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: hyundai-ioniq-3
+  seed_generation_id: hyundai-ioniq-3-gen1
+  in_seed: true
   evdb_car_id: 3555
   tier: null
   verdict: fallback
@@ -976,7 +976,8 @@ primary_car_picks:
   model_year: 2024
   variant: Elroq 85
   seed_model_id: skoda-elroq
-  seed_generation_id: null
+  seed_generation_id: skoda-elroq-gen1
+  generation_match: nearest
   in_seed: true
   evdb_car_id: 3033
   tier: null
@@ -1011,7 +1012,8 @@ primary_car_picks:
   model_year: 2023
   variant: EV87 220hp
   seed_model_id: renault-scenic-e-tech
-  seed_generation_id: null
+  seed_generation_id: renault-scenic-e-tech-gen1
+  generation_match: nearest
   in_seed: true
   evdb_car_id: 2069
   tier: null
@@ -1080,9 +1082,9 @@ primary_car_picks:
   model: L05
   model_year: 2027
   variant: null
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-l05
+  seed_generation_id: xpeng-l05-gen1
+  in_seed: true
   evdb_car_id: null
   tier: null
   verdict: shortlist
@@ -1186,9 +1188,9 @@ primary_car_picks:
   model: '001'
   model_year: 2024
   variant: Long Range RWD
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-001
+  seed_generation_id: zeekr-001-gen1
+  in_seed: true
   evdb_car_id: 1933
   tier: 1.2
   verdict: shortlist
@@ -1221,9 +1223,9 @@ primary_car_picks:
   model: 4 SUV
   model_year: 2026
   variant: SUV Rear Motor
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: polestar-4
+  seed_generation_id: polestar-4-gen1
+  in_seed: true
   evdb_car_id: 3714
   tier: null
   verdict: shortlist
@@ -1326,9 +1328,9 @@ primary_car_picks:
   model: ID.5
   model_year: 2022
   variant: ID.5 Pro
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: volkswagen-id5
+  seed_generation_id: volkswagen-id5-gen1
+  in_seed: true
   evdb_car_id: 1556
   tier: null
   verdict: consider
@@ -1464,9 +1466,9 @@ eras:
   era: 2019-2021
   make: Opel
   model: Ampera-e
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: opel-ampera-e
+  seed_generation_id: opel-ampera-e-gen1
+  in_seed: true
   battery_options_kwh:
   - 60.0
   verdict: ruled_out
@@ -1503,9 +1505,9 @@ eras:
   era: 2019-2021
   make: MG
   model: MG5
-  seed_model_id: null
+  seed_model_id: mg-mg5
   seed_generation_id: null
-  in_seed: false
+  in_seed: true
   battery_options_kwh:
   - 60.0
   verdict: ruled_out
@@ -1568,9 +1570,9 @@ eras:
   era: 2019-2021
   make: DS
   model: DS3
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: ds-3-e-tense
+  seed_generation_id: ds-3-e-tense-crossback
+  in_seed: true
   battery_options_kwh:
   - 50.0
   verdict: unrated
@@ -1635,9 +1637,9 @@ eras:
   era: 2021-2022
   make: MG
   model: Marvel R
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: mg-marvel-r
+  seed_generation_id: mg-marvel-r-gen1
+  in_seed: true
   battery_options_kwh:
   - 70.0
   verdict: unrated
@@ -1730,9 +1732,9 @@ eras:
   era: 2021-2022
   make: Volkswagen
   model: ID.5 Pro
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: volkswagen-id5
+  seed_generation_id: volkswagen-id5-gen1
+  in_seed: true
   battery_options_kwh:
   - 80.0
   verdict: consider
@@ -1785,9 +1787,9 @@ eras:
   era: 2021-2022
   make: Genesis
   model: EV60
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: genesis-gv60
+  seed_generation_id: genesis-gv60-gen1
+  in_seed: true
   battery_options_kwh:
   - 80.0
   verdict: unrated
@@ -1798,9 +1800,9 @@ eras:
   era: 2022-2024
   make: Renault
   model: '4'
-  seed_model_id: null
+  seed_model_id: renault-4-e-tech
   seed_generation_id: null
-  in_seed: false
+  in_seed: true
   battery_options_kwh:
   - 50.0
   verdict: consider
@@ -1811,9 +1813,9 @@ eras:
   era: 2022-2024
   make: Fiat
   model: 600e
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: fiat-600e
+  seed_generation_id: fiat-600e-gen1
+  in_seed: true
   battery_options_kwh:
   - 50.0
   verdict: unrated
@@ -1824,9 +1826,10 @@ eras:
   era: 2022-2024
   make: Peugeot
   model: e-308
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: peugeot-e-308
+  seed_generation_id: peugeot-e-308-gen1
+  generation_match: nearest
+  in_seed: true
   battery_options_kwh:
   - 50.0
   verdict: unrated
@@ -1837,9 +1840,9 @@ eras:
   era: 2022-2024
   make: Opel
   model: Astra
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: opel-astra-electric
+  seed_generation_id: opel-astra-electric-gen1
+  in_seed: true
   battery_options_kwh:
   - 50.0
   verdict: unrated
@@ -1876,9 +1879,10 @@ eras:
   era: 2022-2024
   make: Peugeot
   model: e-308 SW
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: peugeot-e-308
+  seed_generation_id: peugeot-e-308-gen1
+  generation_match: nearest
+  in_seed: true
   battery_options_kwh:
   - 50.0
   verdict: consider
@@ -1889,9 +1893,9 @@ eras:
   era: 2022-2024
   make: Opel
   model: Astra Sports Tourer
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: opel-astra-electric
+  seed_generation_id: opel-astra-electric-gen1
+  in_seed: true
   battery_options_kwh:
   - 50.0
   verdict: consider
@@ -1954,9 +1958,10 @@ eras:
   era: 2022-2024
   make: Smart
   model: '#3'
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: smart-3
+  seed_generation_id: smart-3-gen1
+  generation_match: nearest
+  in_seed: true
   battery_options_kwh:
   - 60.0
   verdict: consider
@@ -1968,7 +1973,8 @@ eras:
   make: Renault
   model: Scenic
   seed_model_id: renault-scenic-e-tech
-  seed_generation_id: null
+  seed_generation_id: renault-scenic-e-tech-gen1
+  generation_match: nearest
   in_seed: true
   battery_options_kwh:
   - 60.0
@@ -1981,9 +1987,9 @@ eras:
   era: 2022-2024
   make: XPENG
   model: P7
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-p7
+  seed_generation_id: xpeng-p7-gen1
+  in_seed: true
   battery_options_kwh:
   - 80.0
   verdict: shortlist
@@ -2033,9 +2039,9 @@ eras:
   era: 2024-2026
   make: Zeekr
   model: '001'
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-001
+  seed_generation_id: zeekr-001-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2045,9 +2051,9 @@ eras:
   era: 2024-2026
   make: Zeekr
   model: X
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-x
+  seed_generation_id: zeekr-x-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2057,9 +2063,9 @@ eras:
   era: 2024-2026
   make: BYD
   model: SEALION 7
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: byd-sealion-7
+  seed_generation_id: byd-sealion-7-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2081,9 +2087,9 @@ eras:
   era: 2024-2026
   make: Ford
   model: Capri
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: ford-capri
+  seed_generation_id: ford-capri-gen1
+  in_seed: true
   battery_options_kwh:
   - 80.0
   verdict: unrated
@@ -2122,9 +2128,9 @@ eras:
   era: 2024-2026
   make: Volvo
   model: EC40
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: volvo-ec40
+  seed_generation_id: volvo-ec40-ec40
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2135,7 +2141,7 @@ eras:
   make: Kia
   model: EV6 refresh
   seed_model_id: kia-ev6
-  seed_generation_id: kia-ev6-gen1
+  seed_generation_id: kia-ev6-facelift
   in_seed: true
   battery_options_kwh: null
   verdict: unrated
@@ -2147,7 +2153,7 @@ eras:
   make: Hyundai
   model: IONIQ 5 refresh
   seed_model_id: hyundai-ioniq-5
-  seed_generation_id: hyundai-ioniq-5-gen1
+  seed_generation_id: hyundai-ioniq-5-facelift
   in_seed: true
   battery_options_kwh: null
   verdict: unrated
@@ -2158,9 +2164,9 @@ eras:
   era: 2024-2026
   make: XPENG
   model: G6 refresh
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-g6
+  seed_generation_id: xpeng-g6-facelift
+  in_seed: true
   battery_options_kwh: null
   verdict: shortlist
   favourite: true
@@ -2170,9 +2176,9 @@ eras:
   era: 2026-2028
   make: Audi
   model: A2
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: audi-a2-e-tron
+  seed_generation_id: audi-a2-e-tron-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2182,9 +2188,9 @@ eras:
   era: 2026-2028
   make: Hyundai
   model: Ioniq 3
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: hyundai-ioniq-3
+  seed_generation_id: hyundai-ioniq-3-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2194,9 +2200,9 @@ eras:
   era: 2026-2028
   make: Kia
   model: EV4
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: kia-ev4
+  seed_generation_id: kia-ev4-gen1
+  in_seed: true
   battery_options_kwh:
   - 60.0
   - 80.0
@@ -2208,9 +2214,9 @@ eras:
   era: 2026-2028
   make: Leapmotor
   model: B05
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: leapmotor-b05
+  seed_generation_id: leapmotor-b05-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: true
@@ -2233,9 +2239,9 @@ eras:
   era: 2026-2028
   make: Geely
   model: E5
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: geely-e5
+  seed_generation_id: geely-e5-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2245,9 +2251,9 @@ eras:
   era: 2026-2028
   make: Subaru
   model: Uncharted
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: subaru-uncharted
+  seed_generation_id: subaru-uncharted-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2257,9 +2263,9 @@ eras:
   era: 2026-2028
   make: Zeekr
   model: 7X
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-7x
+  seed_generation_id: zeekr-7x-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2269,9 +2275,9 @@ eras:
   era: 2026-2028
   make: Zeekr
   model: 7GT
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: zeekr-7gt
+  seed_generation_id: zeekr-7gt-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2281,9 +2287,9 @@ eras:
   era: 2026-2028
   make: MG
   model: IM6
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: mg-im6
+  seed_generation_id: mg-im6-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2293,9 +2299,9 @@ eras:
   era: 2026-2028
   make: XPENG
   model: P7+
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-p7-plus
+  seed_generation_id: xpeng-p7-plus-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: true
@@ -2305,9 +2311,9 @@ eras:
   era: 2026-2028
   make: XPENG
   model: L03
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: xpeng-l03
+  seed_generation_id: xpeng-l03-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2317,9 +2323,9 @@ eras:
   era: 2026-2028
   make: Volvo
   model: EX60
-  seed_model_id: null
-  seed_generation_id: null
-  in_seed: false
+  seed_model_id: volvo-ex60
+  seed_generation_id: volvo-ex60-gen1
+  in_seed: true
   battery_options_kwh: null
   verdict: unrated
   favourite: false
@@ -2594,9 +2600,9 @@ used_budget_bands_2025_07:
     tier: A4
     make: MG
     model: MG5
-    seed_model_id: null
+    seed_model_id: mg-mg5
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: null
     verdict: ruled_out
     favourite: false
@@ -3088,9 +3094,9 @@ used_budget_bands_2025_07:
     tier: A3
     make: Nissan
     model: Ariya
-    seed_model_id: null
+    seed_model_id: nissan-ariya
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 87.0
     verdict: ruled_out
     favourite: false
@@ -3166,9 +3172,9 @@ used_budget_bands_2025_07:
     tier: A4
     make: MG
     model: Marvel R
-    seed_model_id: null
+    seed_model_id: mg-marvel-r
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 70.0
     verdict: ruled_out
     favourite: false
@@ -3244,9 +3250,9 @@ used_budget_bands_2025_07:
     tier: A4
     make: Volvo
     model: C40
-    seed_model_id: null
+    seed_model_id: volvo-ec40
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 67.0
     verdict: ruled_out
     favourite: false
@@ -3270,9 +3276,9 @@ used_budget_bands_2025_07:
     tier: A1.1
     make: Kia
     model: EV4
-    seed_model_id: null
+    seed_model_id: kia-ev4
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 78.0
     verdict: consider
     favourite: false
@@ -3400,9 +3406,9 @@ used_budget_bands_2025_07:
     tier: A2.1
     make: XPENG
     model: G6
-    seed_model_id: null
+    seed_model_id: xpeng-g6
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 66.0
     verdict: unrated
     favourite: false
@@ -3478,9 +3484,9 @@ used_budget_bands_2025_07:
     tier: A2.3
     make: Kia
     model: EV4
-    seed_model_id: null
+    seed_model_id: kia-ev4
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 58.0
     verdict: unrated
     favourite: false
@@ -3504,9 +3510,9 @@ used_budget_bands_2025_07:
     tier: A2.3
     make: MG
     model: MGS5
-    seed_model_id: null
+    seed_model_id: mg-s5
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 64.0
     verdict: unrated
     favourite: false
@@ -3530,9 +3536,9 @@ used_budget_bands_2025_07:
     tier: A2.3
     make: Lynk&Co
     model: '2'
-    seed_model_id: null
+    seed_model_id: lynk-co-02
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 65.0
     verdict: unrated
     favourite: false
@@ -3608,9 +3614,9 @@ used_budget_bands_2025_07:
     tier: A1
     make: XPENG
     model: G6
-    seed_model_id: null
+    seed_model_id: xpeng-g6
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 87.5
     verdict: unrated
     favourite: false
@@ -3634,9 +3640,9 @@ used_budget_bands_2025_07:
     tier: A2
     make: BYD
     model: Sealion 7
-    seed_model_id: null
+    seed_model_id: byd-sealion-7
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 82.5
     verdict: unrated
     favourite: false
@@ -3660,9 +3666,9 @@ used_budget_bands_2025_07:
     tier: A2
     make: Zeekr
     model: 7X
-    seed_model_id: null
+    seed_model_id: zeekr-7x
     seed_generation_id: null
-    in_seed: false
+    in_seed: true
     battery_kwh: 94.0
     verdict: unrated
     favourite: false
