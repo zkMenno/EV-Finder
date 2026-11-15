@@ -8,7 +8,31 @@ import sys
 
 from ev_pipeline import __version__
 
-SOURCES = ["openev", "rdw", "eea", "nyland", "dft-veh", "kba-fz10", "ademe", "kilowatt-openev"]
+SOURCES = [
+    "openev",
+    "rdw",
+    "eea",
+    "nyland",
+    "dft-veh",
+    "kba-fz10",
+    "ademe",
+    "kilowatt-openev",
+    "wikidata",
+    "rdw-defects",
+    "fueleconomy",
+    "eafo",
+    "bnetza",
+    "dft-charging",
+]
+
+# Extra subcommands live in their own modules so builders never need to edit this file.
+# Each module exposes `register(subparsers)` and sets `func` on its parsers (argparse defaults).
+COMMAND_MODULES = [
+    "ev_pipeline.commands.refresh",
+    "ev_pipeline.commands.releases",
+    "ev_pipeline.commands.sources",
+    "ev_pipeline.commands.manual",
+]
 
 
 def _adapter(name: str):
@@ -31,11 +55,22 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_rel = sub.add_parser("release", help="match, merge, derive, validate, publish a release")
     p_rel.add_argument("--dry-run", action="store_true")
+
+    for mod in COMMAND_MODULES:
+        try:
+            module = importlib.import_module(mod)
+        except ModuleNotFoundError as exc:
+            if exc.name != mod:
+                raise
+            continue
+        module.register(sub)
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
+    if hasattr(args, "func"):
+        return int(args.func(args))
     if args.command == "version":
         print(__version__)
         return 0
