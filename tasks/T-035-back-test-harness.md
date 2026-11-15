@@ -40,5 +40,10 @@ Tuning the UI.
 - Criterion 1 (El Prix routes) stays open: NAF is waiting_permission (Q-059).
 - Worst range cases point at US/EU matching (Ioniq 5 58 kWh −35 %, Mini SE +38 %): worth a
   look by whoever owns matching (WS1 later / T-051).
+- Follow-up (WS1, 2026-11-15, START §3 item 6): qa.json now has `backtest_epa.consumption_oos`
+  (leave-one-model-out refit of the wltp-ratio multipliers) and a `profile_fields` section
+  (winter range, real range, DC km in 20 min, WLTP consumption: coverage, how made, proxy
+  error, catalogue vs calibrated matrix). Code: `pipeline/ev_pipeline/qa/profile_fields.py`,
+  definitions in `profile_fields.yaml`. Findings in audits/A-30 (last section); fix proposed as T-070.
 
 ## Review
