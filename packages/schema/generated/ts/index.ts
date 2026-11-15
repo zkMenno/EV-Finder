@@ -129,6 +129,34 @@ export type CountryCode = string;
  */
 export type HeatPumpFitment = "standard" | "option" | "none" | "not-disclosed";
 /**
+ * One-pedal driving (regen to a full stop): yes = default or one button; via-setting = a menu setting to turn on; no; not-disclosed.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "OnePedal".
+ */
+export type OnePedal = "yes" | "via-setting" | "no" | "not-disclosed";
+/**
+ * Generic yes / no / not-disclosed for a car feature. Default not-disclosed; never inferred.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "FeatureAvailability".
+ */
+export type FeatureAvailability = "yes" | "no" | "not-disclosed";
+/**
+ * Over-the-air updates: full = drive / battery / charging software too; infotainment-only = maps and media only.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "OtaUpdates".
+ */
+export type OtaUpdates = "full" | "infotainment-only" | "none" | "not-disclosed";
+/**
+ * Band of a scored variant (Decision 038). ruled-out = failed a gate; not-enough-data = more than half the weight unknown.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistBand".
+ */
+export type ShortlistBand = "shortlist" | "consider" | "fallback" | "ruled-out" | "not-enough-data";
+/**
  * This interface was referenced by `EvSchema`'s JSON-Schema
  * via the `definition` "TaxonomyStatus".
  */
@@ -152,6 +180,13 @@ export type RoadBand = "town" | "rural" | "motorway";
  * via the `definition` "WeightLevel".
  */
 export type WeightLevel = "off" | "low" | "medium" | "high" | "very-high";
+/**
+ * gap = field not in the data yet (factor scores 0.5, never a guess); calibrate = thresholds still to check; draft = not used for scoring yet.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistRuleStatus".
+ */
+export type ShortlistRuleStatus = "ok" | "gap" | "calibrate" | "draft";
 /**
  * Kind of finance a FinanceProfile row describes. pcp = personal contract purchase (balloon at the end; UK, similar to FR LOA).
  *
@@ -201,6 +236,25 @@ export type Iso15118Support = "yes" | "no" | "not-disclosed";
  * via the `definition` "ConsumptionRung".
  */
 export type ConsumptionRung = "measured" | "platform" | "physics" | "wltp-ratio";
+/**
+ * Profile combination key: <profile>[+<overlay>][.<modifier>], e.g. 'road-tripper', 'runabout+kerbside.rural'.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistComboKey".
+ */
+export type ShortlistComboKey = string;
+/**
+ * Owner's verdict from the sheet colour (data/editorial/README.md legend).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialVerdict".
+ */
+export type EditorialVerdict = "shortlist" | "consider" | "fallback" | "ruled_out" | "unrated";
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialFlag".
+ */
+export type EditorialFlag = "love" | "like" | "watching" | "expensive";
 
 /**
  * EV Finder catalogue schema v0. Single source of truth: TS and Python types are generated from this file. Stable ids never change; slugs may.
@@ -343,6 +397,14 @@ export interface Variant {
    * ABRP car model code for deep links (Decision 012); null = plain ABRP link.
    */
   abrp_typecode?: string | null;
+  /**
+   * ABRP lists abrp_typecode as deprecated (old codes still work in the planner, R-24).
+   */
+  abrp_deprecated?: boolean;
+  /**
+   * ABRP's replacement typecode when abrp_typecode is deprecated (R-24). An ABRP code, not a variant id: renamed or merged variants go in Catalogue.retired_ids.
+   */
+  abrp_replaced_by?: string | null;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -506,8 +568,28 @@ export interface PublishedVariant {
    * EPA (US 5-cycle) range in km, from fueleconomy.gov / OpenEV. Its own field: agreement is only ever counted against other EPA figures, never against WLTP (T-059).
    */
   epa_range_km?: number | null;
+  /**
+   * EPA city range, km (R-28).
+   */
+  epa_range_city_km?: number | null;
+  /**
+   * EPA highway range, km (R-28). The EPA highway cycle is not 120 km/h motorway driving.
+   */
+  epa_range_hwy_km?: number | null;
   consumption_kwh_100km?: number | null;
+  /**
+   * EPA label consumption (combined), kWh/100 km, wall basis. Separate from the WLTP consumption_kwh_100km (R-28).
+   */
+  consumption_epa_kwh_100km?: number | null;
   ac_kw?: number | null;
+  /**
+   * Optional bigger on-board charger, kW (Decision 034, T-063). ac_kw stays the standard one; null = no option or not known.
+   */
+  ac_kw_optional?: number | null;
+  /**
+   * EPA 240 V empty-to-full charge time, hours (R-28). Info only; never used to derive ac_kw.
+   */
+  ac_full_charge_h?: number | null;
   dc_peak_kw?: number | null;
   dc_avg_10_80_kw?: number | null;
   /**
@@ -523,7 +605,15 @@ export interface PublishedVariant {
   power_kw?: number | null;
   accel_0_100_s?: number | null;
   boot_l?: number | null;
+  /**
+   * Front boot, litres. 0 = no frunk; null = not known.
+   */
+  frunk_l?: number | null;
   length_mm?: number | null;
+  /**
+   * Width without mirrors, mm.
+   */
+  width_mm?: number | null;
   weight_kg?: number | null;
   towing_kg?: number | null;
   seats?: number | null;
@@ -605,6 +695,10 @@ export interface PublishedVariant {
    */
   abrp_typecode?: string | null;
   /**
+   * ABRP's replacement typecode when abrp_typecode is deprecated (R-24).
+   */
+  abrp_replaced_by?: string | null;
+  /**
    * Car-side ISO 15118-20. Default not-disclosed; never inferred.
    */
   iso15118_20_support?: "yes" | "no" | "not-disclosed";
@@ -620,6 +714,18 @@ export interface PublishedVariant {
    * Heat pump: standard / option / none / not-disclosed.
    */
   heat_pump?: HeatPumpFitment | null;
+  /**
+   * One-pedal driving (T-066). null = not in the data yet; not-disclosed = looked for, not stated.
+   */
+  one_pedal?: OnePedal | null;
+  /**
+   * Steering-wheel paddles to change regen strength (T-066).
+   */
+  regen_paddles?: FeatureAvailability | null;
+  /**
+   * Over-the-air software updates (T-066).
+   */
+  ota_updates?: OtaUpdates | null;
   /**
    * Cd, unitless.
    */
@@ -641,6 +747,30 @@ export interface PublishedVariant {
    * Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues.
    */
   clue_count?: number;
+  /**
+   * Profile combination → score 0..100 (T-069). Editorial opinion, not fact.
+   */
+  shortlist_score?: {
+    [k: string]: number;
+  };
+  /**
+   * Profile combination → band (T-069).
+   */
+  shortlist_band?: {
+    [k: string]: ShortlistBand;
+  };
+  /**
+   * Profile combination → reason codes (see ShortlistScore.reasons).
+   */
+  shortlist_reasons?: {
+    [k: string]: string[];
+  };
+  /**
+   * Profile combination → factors / gates without data.
+   */
+  shortlist_unknown_factors?: {
+    [k: string]: string[];
+  };
   /**
    * NEDC range (old EU cycle). Never used to fill WLTP.
    */
@@ -1721,13 +1851,17 @@ export interface LocalizedText45 {
   [k: string]: string;
 }
 /**
- * Row in data/taxonomy/usage_profiles.yaml: Fit-score weights per profile (trip-fit §6). A new row, not new code.
+ * Row in data/taxonomy/usage_profiles.yaml and in shortlist_rules.yaml profiles / addons: one profile type for Trip fit (weights, trip-fit §6) and the shortlist (gates, factors, bands, Decision 038). A new row, not new code. kind addon = ticked extra on top of a base profile.
  *
  * This interface was referenced by `EvSchema`'s JSON-Schema
  * via the `definition` "UsageProfile".
  */
 export interface UsageProfile {
   id: Id;
+  /**
+   * Older ids that still resolve to this row (URLs, saved profiles).
+   */
+  aliases?: Id[];
   label: LocalizedText46;
   short?: LocalizedText47;
   kind?: "base" | "addon";
@@ -1738,17 +1872,63 @@ export interface UsageProfile {
     [k: string]: string[];
   };
   /**
+   * shortlist_rules.yaml spelling of applies_when (same meaning). New rows: use applies_when.
+   */
+  picker?: {
+    [k: string]: string[];
+  };
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  matches_usage_profile?: string;
+  /**
+   * Overlay profile (e.g. kerbside-charger): applied on top of these base profiles.
+   */
+  combines_with?: Id[];
+  /**
    * Factor → weight (price, efficiency, dc_km_20min_winter, winter_1000km_time, ac_speed, battery_risk ...).
    */
   weights?: {
     [k: string]: WeightLevel;
   };
   /**
-   * Add-ons: factor → steps up (+) or down (-), e.g. battery_risk +1.
+   * Add-ons, modifiers and overlays: factor id → steps up (+) or down (-), e.g. battery-health-risk +1. One step = × weight_step_factor, then renormalised.
    */
   weight_steps?: {
     [k: string]: number;
   };
+  bands?: ShortlistBands;
+  gates?: ShortlistGate[];
+  factors?: ShortlistFactor[];
+  /**
+   * Overlays and add-ons: factors added to the base profile's.
+   */
+  extra_factors?: ShortlistFactor[];
+  bonuses?: ShortlistAdjustment[];
+  penalties?: ShortlistAdjustment[];
+  filter_presets?: FilterPreset[];
+  /**
+   * Soft preference: PublishedVariant field → preferred values (sorts up, never filters).
+   */
+  prefer?: {
+    [k: string]: (string | number | boolean)[];
+  };
+  /**
+   * Default Explore sort for this profile, e.g. price_used_asc.
+   */
+  sort_default?: string;
+  /**
+   * What the owner cares about but is deliberately not scored.
+   */
+  not_rules?: string[];
+  /**
+   * How the thresholds were checked (back-test, research).
+   */
+  calibration?: string;
+  origin?: string;
+  why_a_profile?: string;
+  notes?: string;
+  status?: ShortlistRuleStatus;
   order?: number;
   /**
    * Stable id: lowercase, hyphen-separated.
@@ -1766,6 +1946,134 @@ export interface LocalizedText46 {
  */
 export interface LocalizedText47 {
   [k: string]: string;
+}
+/**
+ * Voltage class id (voltage_classes) or 'default' → thresholds. 'default' is used when the car's class has no row.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistBands".
+ */
+export interface ShortlistBands {
+  [k: string]: ShortlistBandThresholds;
+}
+/**
+ * Score 0..100 at or above which a car is 'shortlist' / 'consider'; below = fallback.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistBandThresholds".
+ */
+export interface ShortlistBandThresholds {
+  shortlist: number;
+  consider: number;
+}
+/**
+ * Hard rule: a known value under the floor rules the car out with `reason`. Unknown values pass and are listed as unknown.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistGate".
+ */
+export interface ShortlistGate {
+  id: Id;
+  /**
+   * PublishedVariant field(s) the app reads.
+   */
+  field: string | [string, ...string[]];
+  /**
+   * Owner-sheet column used by the back-test only (internal).
+   */
+  sheet_field?: string | [string, ...string[]];
+  min?: number;
+  max?: number;
+  min_km?: number;
+  /**
+   * Floor used instead of min_km with the rural modifier.
+   */
+  rural_min_km?: number;
+  min_km_per_h?: number;
+  status?: ShortlistRuleStatus;
+  reason?: LocalizedText48;
+  /**
+   * Why the rule exists (owner picks, research).
+   */
+  evidence?: string;
+}
+/**
+ * Plain words shown to users when the gate fails.
+ */
+export interface LocalizedText48 {
+  [k: string]: string;
+}
+/**
+ * Scored factor: value mapped linearly onto 0..1 between `poor` and `great` (clamped; poor > great means lower is better), times weight. Categorical fields (one_pedal, bidi, heat_pump, cooling_id) map by the scoring job's table and have no poor/great.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistFactor".
+ */
+export interface ShortlistFactor {
+  id: Id;
+  label?: LocalizedText49;
+  /**
+   * PublishedVariant field(s) the app reads.
+   */
+  field: string | [string, ...string[]];
+  /**
+   * Owner-sheet column used by the back-test only (internal).
+   */
+  sheet_field?: string | [string, ...string[]];
+  poor?: number;
+  great?: number;
+  weight: number;
+  status?: ShortlistRuleStatus;
+  note?: string;
+  evidence?: string;
+}
+/**
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "LocalizedText".
+ */
+export interface LocalizedText49 {
+  [k: string]: string;
+}
+/**
+ * Bonus (points > 0) or penalty (points < 0) with a plain-language rule.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistAdjustment".
+ */
+export interface ShortlistAdjustment {
+  id: Id;
+  points: number;
+  rule?: string;
+  field?: string | [string, ...string[]];
+  /**
+   * Internal, back-test only.
+   */
+  sheet_field?: string | [string, ...string[]];
+  /**
+   * Internal, back-test only.
+   */
+  sheet_rule?: string;
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  applies_with?: string;
+  status?: ShortlistRuleStatus;
+  evidence?: string;
+}
+/**
+ * Explore filter a profile preselects, shown as a removable chip 'Set by your profile' (Decision 050).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "FilterPreset".
+ */
+export interface FilterPreset {
+  field: string;
+  min?: number;
+  max?: number;
+  equals?: string | number | boolean;
+  why?: LocalizedText49;
 }
 /**
  * Row in data/taxonomy/finance_profiles.yaml: typical finance terms per country and product, read by the price-mode calculator (Decision 017). null = no citable figure; the calculator asks the user instead of guessing.
@@ -1846,10 +2154,10 @@ export interface FinanceSource {
  */
 export interface ClueType {
   id: Id;
-  label: LocalizedText48;
-  technical?: LocalizedText49;
-  short: LocalizedText50;
-  explainer?: LocalizedText51;
+  label: LocalizedText50;
+  technical?: LocalizedText51;
+  short: LocalizedText52;
+  explainer?: LocalizedText53;
   value_kind: ClueValueKind;
   /**
    * Metric unit for number values (kW, kWh, in for rim size code); absent for text, code and date values.
@@ -1867,7 +2175,7 @@ export interface ClueType {
   paper_fields?: {
     [k: string]: string;
   };
-  ask_seller?: LocalizedText52;
+  ask_seller?: LocalizedText54;
   /**
    * Typical strength of this clue type; each VariantClue still states its own.
    */
@@ -1882,33 +2190,33 @@ export interface ClueType {
   glossary_id?: string;
 }
 /**
- * Plain-language label.
- */
-export interface LocalizedText48 {
-  [k: string]: string;
-}
-/**
- * Technical name shown under the plain label.
- */
-export interface LocalizedText49 {
-  [k: string]: string;
-}
-/**
- * Tooltip text, at most 20 words (e.g. 'What is the type-approval code?').
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
  */
 export interface LocalizedText50 {
   [k: string]: string;
 }
 /**
- * Plain-language explainer for /learn and Detailed mode.
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
  */
 export interface LocalizedText51 {
   [k: string]: string;
 }
 /**
- * Copyable 'ask the seller' line template (six languages, spec §5). May contain '{value}' or '{variant}', filled by the web app.
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
  */
 export interface LocalizedText52 {
+  [k: string]: string;
+}
+/**
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
+ */
+export interface LocalizedText53 {
+  [k: string]: string;
+}
+/**
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
+ */
+export interface LocalizedText54 {
   [k: string]: string;
 }
 /**
@@ -1992,7 +2300,7 @@ export interface VariantClue {
    * Character position (1-based) for VIN-position clue types.
    */
   position?: number;
-  description?: LocalizedText53;
+  description?: LocalizedText55;
   strength: ClueStrength;
   /**
    * Variant ids this clue rules out; they must exist and share a look-alike group with variant_id (checked at release time).
@@ -2037,9 +2345,9 @@ export interface ClueRange {
   max: number | string | null;
 }
 /**
- * Buyer-facing detail for visible-feature clues, e.g. 'heat-pump pipe left of the front motor'. Not for trim names.
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
  */
-export interface LocalizedText53 {
+export interface LocalizedText55 {
   [k: string]: string;
 }
 /**
@@ -2092,7 +2400,7 @@ export interface LookalikeGroup {
    * Markets where the confusion applies (same-marketing-name); absent = everywhere.
    */
   markets?: CountryCode[];
-  label?: LocalizedText54;
+  label?: LocalizedText56;
   built_at?: string;
   /**
    * Internal note; never shown.
@@ -2100,9 +2408,9 @@ export interface LookalikeGroup {
   notes?: string;
 }
 /**
- * Short label, e.g. 'ID.3 Pro: 58 vs 59 kWh'.
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
  */
-export interface LocalizedText54 {
+export interface LocalizedText56 {
   [k: string]: string;
 }
 /**
@@ -2222,15 +2530,6 @@ export interface UsedPriceBand {
   fact_ids?: string[];
 }
 /**
- * Text keyed by language (en, nl, de, fr, es, it); en required.
- *
- * This interface was referenced by `EvSchema`'s JSON-Schema
- * via the `definition` "LocalizedText".
- */
-export interface LocalizedText55 {
-  [k: string]: string;
-}
-/**
  * One aggregate number per country (or region), date, metric and power band. Never point-level data. Decision 012.
  *
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -2294,16 +2593,16 @@ export interface CountryChargingLink {
   url: string;
   job: "official-map" | "local-app" | "map" | "route-planner" | "price-compare";
   order: number;
-  label?: LocalizedText56;
+  label?: LocalizedText57;
   /**
    * URL template with {placeholders}, e.g. ABRP car model; null = plain link.
    */
   deep_link_template?: string | null;
 }
 /**
- * Optional link label override.
+ * Text keyed by language (en, nl, de, fr, es, it); en required.
  */
-export interface LocalizedText56 {
+export interface LocalizedText57 {
   [k: string]: string;
 }
 /**
@@ -2377,10 +2676,22 @@ export interface ConsumptionTest {
     software_version?: string;
     notes?: string;
   };
-  source: Source;
+  /**
+   * Full Source in staging files; a SourceRef inside consumption_matrix.json (the file lists the Sources once).
+   */
+  source: Source | SourceRef;
   source_record?: string;
   retrieved_at: string;
   confidence: Confidence;
+}
+/**
+ * Pointer to a Source listed elsewhere in the same file (e.g. the file's `sources`).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "SourceRef".
+ */
+export interface SourceRef {
+  id: Id;
 }
 /**
  * One road band × temperature band cell.
@@ -2532,4 +2843,514 @@ export interface ChargingStatsRelease {
     [k: string]: Id;
   };
   stats: ChargingStat[];
+}
+/**
+ * Source, date, licence and confidence for a whole block of a release file (data rule 1).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ProvenanceNote".
+ */
+export interface ProvenanceNote {
+  source_id: Id;
+  /**
+   * ISO date the source was read.
+   */
+  retrieved_at: string | null;
+  licence: string;
+  confidence: Confidence;
+}
+/**
+ * ProvenanceNote plus how the station climate figures were made (T-034, Decision 041).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ClimateProvenance".
+ */
+export interface ClimateProvenance {
+  source_id: Id;
+  retrieved_at: string | null;
+  licence: string;
+  confidence: Confidence;
+  /**
+   * Temperature unit, °C.
+   */
+  unit?: string;
+  /**
+   * Reference period, e.g. '1991-2020'.
+   */
+  period?: string | null;
+  method?: string;
+  /**
+   * Field name → plain-language definition (Nerd mode).
+   */
+  definitions?: {
+    [k: string]: string;
+  };
+}
+/**
+ * Climate figures of one weather station, listed once per towns file (T-034).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "WeatherStation".
+ */
+export interface WeatherStation {
+  name?: string | null;
+  lat: number;
+  lon: number;
+  elevation_m?: number | null;
+  /**
+   * Mean of daily mean temperature per month, Jan..Dec, °C.
+   *
+   * @minItems 12
+   * @maxItems 12
+   */
+  months_mean_c?:
+    | [
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null,
+        number | null
+      ]
+    | null;
+  jan_mean_c?: number | null;
+  /**
+   * How jan_mean_c was computed (e.g. 'daily').
+   */
+  jan_mean_method?: string | null;
+  /**
+   * 10th percentile of January daily mean temperature, 1991-2020 (Decision 041).
+   */
+  jan_p10_c?: number | null;
+  /**
+   * Full Januaries behind the figures.
+   */
+  jan_years?: number | null;
+}
+/**
+ * One town for the Trip fit town search (GeoNames, CC BY 4.0).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "Town".
+ */
+export interface Town {
+  /**
+   * Source-scoped id, e.g. 'geonames:2759794'.
+   */
+  id: string;
+  name: string;
+  /**
+   * Name per UI language when it differs.
+   */
+  names?: {
+    [k: string]: string;
+  };
+  /**
+   * Lowercase country code as in the file name (uk for the United Kingdom).
+   */
+  country: string;
+  lat: number;
+  lon: number;
+  population?: number | null;
+  /**
+   * GeoNames admin1 code (region).
+   */
+  admin1?: string;
+  elevation_m?: number | null;
+  /**
+   * Key in the file's `stations`; null = no station in range, the app uses its country default.
+   */
+  station_id: string | null;
+  station_km?: number;
+}
+/**
+ * releases/<n>/towns/<cc>.json: towns + January climate for Trip fit, one file per country (T-034).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "TownsRelease".
+ */
+export interface TownsRelease {
+  release: number;
+  generated_at: string;
+  country: string;
+  sources: Source[];
+  provenance: {
+    towns: ProvenanceNote;
+    /**
+     * null = climate source gated or missing; towns ship without climate.
+     */
+    climate: ClimateProvenance | null;
+  };
+  stations: {
+    [k: string]: WeatherStation;
+  };
+  towns: Town[];
+}
+/**
+ * releases/<n>/consumption_matrix.json: per-variant consumption matrix (T-033). Every cell is a model output.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ConsumptionMatrixRelease".
+ */
+export interface ConsumptionMatrixRelease {
+  release: number;
+  generated_at: string;
+  model_version: string;
+  estimate: true;
+  note?: string;
+  road_bands?: RoadBand[];
+  band_speed_kmh?: BandSpeeds;
+  temperature_bands?: TemperatureBand[];
+  heater_types?: HeaterType[];
+  /**
+   * Model parameters (all estimates, pipeline/ev_pipeline/derive/consumption_params.yaml).
+   */
+  params?: {
+    wall_to_battery?: number;
+    climb_regen_recovery?: number;
+    drivetrain_efficiency?: number;
+  };
+  sources?: Source[];
+  /**
+   * Tests behind measured cells; source is a SourceRef into `sources`.
+   */
+  tests?: ConsumptionTest[];
+  variants: ConsumptionModel[];
+}
+/**
+ * One question of the profile picker (4 taps; ids shared with trip-fit §4, Decision 050).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "PickerQuestion".
+ */
+export interface PickerQuestion {
+  id: string;
+  question: LocalizedText49;
+  /**
+   * @minItems 2
+   */
+  answers: [string, string, ...string[]];
+  /**
+   * Skip this question when an earlier answer matches.
+   */
+  skip_if?: {
+    [k: string]: string[];
+  };
+}
+/**
+ * 'Where you live' modifier (city / town / countryside): changes thresholds and weights of any profile.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistModifier".
+ */
+export interface ShortlistModifier {
+  id: Id;
+  label: LocalizedText49;
+  short?: LocalizedText49;
+  /**
+   * Picker answers that select this row: question id → accepted answer ids.
+   */
+  picker?: {
+    [k: string]: string[];
+  };
+  /**
+   * Factor id → steps up (+) or down (-); one step = × weight_step_factor, then renormalised.
+   */
+  weight_steps?: {
+    [k: string]: number;
+  };
+  gate_scale?: number;
+  /**
+   * Gates with rural_min_km use that value.
+   */
+  use_rural_gates?: boolean;
+  penalties?: ShortlistAdjustment[];
+  hints?: string[];
+}
+/**
+ * shortlist_rules.yaml: selection rules per profile (Decision 038), modifiers, add-ons and the picker (Decision 050). Rules are rows, not code.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistRules".
+ */
+export interface ShortlistRules {
+  schema: string;
+  derived_from?: string;
+  /**
+   * true = agent-derived, owner still to confirm thresholds.
+   */
+  review?: boolean;
+  /**
+   * @minItems 1
+   */
+  profiles: [UsageProfile, ...UsageProfile[]];
+  modifiers?: ShortlistModifier[];
+  addons?: UsageProfile[];
+  weight_step_factor?: number;
+  picker?: PickerQuestion[];
+}
+/**
+ * Score of one variant for one profile combination (T-069).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistScore".
+ */
+export interface ShortlistScore {
+  score: number;
+  band: ShortlistBand;
+  /**
+   * Reason codes: '+<factor>', '-<factor>', 'gate:<id>', 'bonus:<id>', 'penalty:<id>'; the app turns them into plain words.
+   */
+  reasons?: string[];
+  /**
+   * Factors / gates without data (scored 0.5 or passed).
+   */
+  unknown?: string[];
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistVariantScores".
+ */
+export interface ShortlistVariantScores {
+  variant_id: Id;
+  /**
+   * Derived inputs (winter range, real Wh/km, ...), all estimates.
+   */
+  derived?: {
+    [k: string]: number | null;
+  };
+  /**
+   * Profile id → factor id → 0..1 value (null = unknown).
+   */
+  factors?: {
+    [k: string]: {
+      [k: string]: number | null;
+    };
+  };
+  /**
+   * Profile id → unknown factors / gates.
+   */
+  unknown?: {
+    [k: string]: string[];
+  };
+  /**
+   * Profile combination → score.
+   */
+  scores: {
+    [k: string]: ShortlistScore;
+  };
+}
+/**
+ * releases/<n>/shortlist_scores.json (T-069): editorial scores per variant and profile combination.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ShortlistScoresRelease".
+ */
+export interface ShortlistScoresRelease {
+  release: number;
+  generated_at: string;
+  model_version?: string;
+  estimate?: boolean;
+  /**
+   * true: one owner's rules, opinion not fact.
+   */
+  editorial?: boolean;
+  note?: string;
+  rules?: {
+    path?: string;
+    sha256?: string;
+    schema?: string | null;
+    review?: boolean;
+  };
+  licence?: string;
+  combos?: ShortlistComboKey[];
+  bands?: ShortlistBand[];
+  variants: ShortlistVariantScores[];
+}
+/**
+ * INTERNAL ONLY: values copied by hand from other sites into the owner's sheet. Calibrate the rules; never in a release, the app or open data (data rules 1-2). No published type contains this.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialSheetValues".
+ */
+export interface EditorialSheetValues {
+  use: "internal";
+  [k: string]: string | number | boolean | null | "internal";
+}
+/**
+ * Publishable owner pick ('Owner's pick'): verdict, tier, flags and notes, always labelled as one person's opinion (Decision 038). Has no sheet_values by design.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialPick".
+ */
+export interface EditorialPick {
+  /**
+   * Sheet tab.
+   */
+  tab?: string;
+  row?: number;
+  section?: string;
+  group?: string | null;
+  make: string;
+  model: string;
+  model_year?: number | null;
+  variant?: string | null;
+  seed_model_id?: Id | null;
+  seed_generation_id?: Id | null;
+  in_seed?: boolean;
+  /**
+   * Cross-reference id only (link check); never used to copy data.
+   */
+  evdb_car_id?: number | null;
+  /**
+   * Rank inside a group, lower is better (1.1-1.5).
+   */
+  tier?: number | null;
+  verdict: EditorialVerdict;
+  favourite: boolean;
+  flags?: EditorialFlag[];
+  /**
+   * Owner's own words (CC BY 4.0).
+   */
+  notes?: string | null;
+}
+/**
+ * INTERNAL row of menno-picks.yaml primary_car_picks: an EditorialPick plus sheet_values. Strip sheet_values to get an EditorialPick.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialPickSheetRow".
+ */
+export interface EditorialPickSheetRow {
+  /**
+   * Sheet tab.
+   */
+  tab?: string;
+  row?: number;
+  section?: string;
+  group?: string | null;
+  make: string;
+  model: string;
+  model_year?: number | null;
+  variant?: string | null;
+  seed_model_id?: Id | null;
+  seed_generation_id?: Id | null;
+  in_seed?: boolean;
+  /**
+   * Cross-reference id only (link check); never used to copy data.
+   */
+  evdb_car_id?: number | null;
+  /**
+   * Rank inside a group, lower is better (1.1-1.5).
+   */
+  tier?: number | null;
+  verdict: EditorialVerdict;
+  favourite: boolean;
+  flags?: EditorialFlag[];
+  /**
+   * Owner's own words (CC BY 4.0).
+   */
+  notes?: string | null;
+  sheet_values: EditorialSheetValues;
+}
+/**
+ * Row of menno-picks.yaml eras: model-level verdict per era (OTHER EVs tab).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialEraPick".
+ */
+export interface EditorialEraPick {
+  /**
+   * Sheet tab.
+   */
+  tab?: string;
+  row?: number;
+  era: string;
+  make: string;
+  model: string;
+  seed_model_id?: Id | null;
+  seed_generation_id?: Id | null;
+  in_seed?: boolean;
+  battery_options_kwh?: number[] | null;
+  verdict: EditorialVerdict;
+  favourite: boolean;
+  remark?: string | null;
+}
+/**
+ * INTERNAL row of menno-picks.yaml used_budget_bands_2025_07 (stale July 2025 used-market analysis).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialUsedBudgetPick".
+ */
+export interface EditorialUsedBudgetPick {
+  /**
+   * Sheet tab.
+   */
+  tab?: string;
+  row?: number;
+  price_band: string;
+  /**
+   * Sheet tier code, e.g. 'A1'.
+   */
+  tier?: string | null;
+  make: string;
+  model: string;
+  seed_model_id?: Id | null;
+  seed_generation_id?: Id | null;
+  in_seed?: boolean;
+  battery_kwh?: number | null;
+  verdict: EditorialVerdict;
+  favourite: boolean;
+  availability?: string | null;
+  pros?: string | null;
+  cons?: string | null;
+  sheet_values?: EditorialSheetValues;
+}
+/**
+ * data/editorial/menno-picks.yaml (generated by import_menno_sheet.py). Internal file: publish EditorialPick rows only.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "EditorialPicks".
+ */
+export interface EditorialPicks {
+  schema: string;
+  author: string;
+  source?: {
+    name?: string;
+    imported?: string;
+    importer?: string;
+  };
+  scope?: string;
+  licence?: string;
+  primary_car_picks: EditorialPickSheetRow[];
+  eras?: EditorialEraPick[];
+  used_budget_bands_2025_07?: {
+    note?: string;
+    rows?: EditorialUsedBudgetPick[];
+  };
+}
+/**
+ * Ids that were published before and are gone now: old id → successor id, or null when there is no successor (T-062). The web app redirects old URLs with it.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "RetiredIds".
+ */
+export interface RetiredIds {
+  [k: string]: Id | null;
+}
+/**
+ * releases/<n>/retired_ids.json (T-062). Becomes Catalogue.retired_ids once the pipeline test for the in-catalogue path lands with it (WS1); the pipeline switches on its own when Catalogue has the property.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "RetiredIdsFile".
+ */
+export interface RetiredIdsFile {
+  release: number;
+  generated_at: string;
+  retired_ids: RetiredIds;
 }
