@@ -352,4 +352,20 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Older cars can show an honest NEDC figure labelled as such. Real range stays derived from WLTP only.
 
+---
+
+## Decision 024: Type-approval values attach only on unique evidence; versions of one source are spread, not conflicts
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** RDW type approvals (rdw-tgk) carry many versions per car. Placing them on our variants needs evidence, and versions of one source that disagree are not a cross-source conflict.
+
+**Decision:**
+- A type-approval version attaches to a variant only when exactly one variant fits the evidence (range number in the name, years ±1, battery window from range × consumption, trade-name words, WLTP within 2%). Ties and misfits go to review with a reason; nothing is guessed.
+- All versions of a source in `SPREAD_SOURCES` (today rdw-tgk) on one variant count as one vote, cast by the earliest model year's version. Other values are noted as "same-source versions differ" in provenance, not written to conflicts.csv, and can't outvote other sources.
+- RDW plate values and RDW type approvals share one origin for agreement counts (Q-087).
+
+**Consequences:** Pre-2020 rows gain NEDC, worst-case WLTP and running-order mass where the evidence is unique. Remaining ties (Zoe Z.E. 40, Honda e, Model 3 LR vs Performance) need more seed evidence (Q-089).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

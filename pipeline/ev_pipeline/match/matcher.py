@@ -76,6 +76,13 @@
    year). Only RDW is gated for now (2026-11-15: gating ADEME and KilowattApp too would
    send 28 + 27 more records to review, not yet checked one by one; ADEME's "(57Kw)" in
    names may not be peak power).
+   TGK evidence (TGK_EVIDENCE_SOURCES, rdw-tgk; see `tgk_pick`): a type-approval version
+   names no battery, so the variant is picked from the version's own figures: years (+-1),
+   the battery its range x consumption implies, trade-name words, a range number in the
+   variant name ("R240"), WLTP, and (tie-break only) a missing 30-minute power meaning more
+   than one motor. Only a single fitting variant is chosen; ties and misfits go to review
+   ("tgk: several variants fit" / "tgk: no variant fits"). A TGK year shared by two
+   generations (e-Golf 2017) is decided the same way across both generations' variants.
 
 Nothing here decides values: that is merge's job.
 """
@@ -113,7 +120,9 @@ EXCLUDED_SOURCES = frozenset({"nyland"})  # permission pending: never in a relea
 # KBA FZ10: the "mit Elektroantrieb (BEV)" column; DfT VEH0120: Fuel = battery electric;
 # ADEME: Energie = ELECTRIC; KilowattApp: an electric-car database (no PHEVs; the smallest
 # car pack is 14.4 kWh, checked 2026-11-15).
-BEV_FILTERED_SOURCES = frozenset({"rdw", "eea", "kba-fz10", "dft-veh", "ademe", "kilowatt-openev"})
+BEV_FILTERED_SOURCES = frozenset(
+    {"rdw", "rdw-tgk", "eea", "kba-fz10", "dft-veh", "ademe", "kilowatt-openev"}
+)
 
 # Sources whose model column is coarse; their variant column names the car (see 8 above).
 MATCH_ON_VARIANT_NAME = frozenset({"dft-veh"})
@@ -677,6 +686,8 @@ def match_records(
         records, key=lambda r: (-priority_of(r.source.id.root), r.source.id.root, r.record_key)
     )
     deferred: list[tuple[SourceRecord, SeedGeneration]] = []
+    # TGK records whose year two generations share: (source, record key) -> those generations.
+    multi_gen: dict[tuple[str, str], list[SeedGeneration]] = {}
     for rec in ordered:
         sid = rec.source.id.root
         if sid in EXCLUDED_SOURCES:
@@ -712,6 +723,15 @@ def match_records(
             _add_count(rec, model, result, evidence, note)
             continue
         gen, why = find_generation(model, rec.year, evidence, rec)
+        if gen is None and sid in TGK_EVIDENCE_SOURCES and why.startswith(AMBIGUOUS_GENERATION):
+            # TGK figures (battery fit, years) can tell the generations apart: attach decides
+            # among the variants of every generation sharing the year (see 9 above).
+            shared = sorted(
+                (g for g in model.generations if g.covers(rec.year)), key=lambda g: g.year_start
+            )
+            deferred.append((rec, shared[-1]))
+            multi_gen[(sid, rec.record_key)] = shared
+            continue
         if gen is None:
             result.unmatched.append(_unmatched(rec, why))
             continue
@@ -730,7 +750,7 @@ def match_records(
         _add_spec_facts(rec, gen, vid, info, result)
         result.matched_records += 1
     split_year_bands(result)
-    attach_records(deferred, result)
+    attach_records(deferred, result, multi_gen)
     result.corroboration_facts = _best_corroboration(result.corroboration_facts)
     return result
 
@@ -867,6 +887,8 @@ class _Candidate:
     kwh: set[float]
     power: set[float]
     wltp: set[float]
+    # TGK: the defining (kWh, basis) figures, basis net / gross / name (see tgk_pick)
+    battery: set[tuple[float, str]] = field(default_factory=set)
 
 
 def _distinct_tokens(text: str | None, drop: set[str]) -> set[str]:
@@ -874,11 +896,16 @@ def _distinct_tokens(text: str | None, drop: set[str]) -> set[str]:
 
 
 def attach_records(
-    deferred: list[tuple[SourceRecord, SeedGeneration]], result: MatchResult
+    deferred: list[tuple[SourceRecord, SeedGeneration]],
+    result: MatchResult,
+    multi_gen: dict[tuple[str, str], list[SeedGeneration]] | None = None,
 ) -> None:
-    """Place attach-only records (ADEME, KilowattApp) on existing variants (see 9 above)."""
+    """Place attach-only records (ADEME, KilowattApp, RDW, TGK) on existing variants (see 9
+    above). `multi_gen`: TGK records whose year two generations share; their candidates are
+    the variants of all those generations."""
     if not deferred:
         return
+    multi_gen = multi_gen or {}
     band_root: dict[str, str] = {}
     for b in result.year_bands:
         for nid in b["new_ids"]:  # type: ignore[union-attr]
@@ -893,9 +920,11 @@ def attach_records(
 
     for rec, gen in deferred:
         sid = rec.source.id.root
-        roots = by_gen.get(gen.id, {})
+        gens = multi_gen.get((sid, rec.record_key), [gen])
+        where = " / ".join(g.id for g in gens)
+        roots = {r: m for g in gens for r, m in by_gen.get(g.id, {}).items()}
         if not roots:
-            result.unmatched.append(_unmatched(rec, f"no variant in {gen.id} to attach to"))
+            result.unmatched.append(_unmatched(rec, f"no variant in {where} to attach to"))
             continue
         # Words of the make and the seed model name say nothing about the variant.
         drop = set(tokens(rec.make)) | set(tokens(gen.model_id))
@@ -913,6 +942,7 @@ def attach_records(
                     | kwh_in_text(info.name),
                     _numbers(mfs, "power_kw"),
                     _numbers(mfs, "wltp_range_km"),
+                    _defining_kwh(mfs, info.name),
                 )
             )
         rec_name = rec.variant_name or ""
@@ -924,18 +954,20 @@ def attach_records(
             if not pool:
                 kw = ", ".join(f"{p:g}" for p in sorted(power))
                 result.unmatched.append(
-                    _unmatched(rec, f"attach-only: {NO_POWER_MATCH} ({kw} kW) in {gen.id}")
+                    _unmatched(rec, f"attach-only: {NO_POWER_MATCH} ({kw} kW) in {where}")
                 )
                 continue
         exact = [c for c in pool if result.variants[c.root].named(sid, rec_name)]
         if len(exact) == 1:
             chosen, why = exact[0], ""
+        elif sid in TGK_EVIDENCE_SOURCES:
+            chosen, why = tgk_pick(rec, pool, drop, result)
         elif len(pool) == 1 and not need_evidence:
             chosen, why = pool[0], ""  # the generation's only variant, or the only power match
         else:
             chosen, why = _best_candidate(rec, pool, drop, strict=gated)
         if chosen is None:
-            result.unmatched.append(_unmatched(rec, f"attach-only: {why} in {gen.id}"))
+            result.unmatched.append(_unmatched(rec, f"attach-only: {why} in {where}"))
             continue
         members = chosen.members
         if power and len(members) > 1:
@@ -949,9 +981,180 @@ def attach_records(
             ]
             members = fits or members
         vid = _band_for_year(members, rec.year, result)
-        _add_spec_facts(rec, gen, vid, result.variants[vid], result)
+        info = result.variants[vid]
+        target = next((g for g in gens if g.id == info.generation_id), gen)
+        _add_spec_facts(rec, target, vid, info, result)
         result.attached[sid] += 1
         result.matched_records += 1
+
+
+# --- TGK evidence (rdw-tgk): pick the variant inside a generation -------------------------
+#
+# A type-approval version names no battery, so the variant is chosen by what the version's
+# own figures imply, and only when exactly one candidate fits (ties and misfits -> review):
+# 1. Years: the version's first-admission year within the candidate's years, +-1 year
+#    (first admission lags or leads the model year).
+# 2. Battery: range x consumption of the same cycle (NEDC pair; WLTP best pair) is the
+#    energy the test drew from the wall: usable kWh x 1.03-1.45, gross kWh x 1.0-1.25 on
+#    the 2026-11-15 TGK rows of Golf, i3, Zoe, Leaf, Ioniq, Kona, Niro, Soul, Model 3/S,
+#    e-208, Mini, Honda e, I-Pace, e-tron and EQC. A candidate fits when every such energy
+#    is within TGK_ENERGY_RATIO of one of its defining battery figures (seed-manual's when
+#    it has one, else the highest-priority source's; kWh in its name only when no source
+#    has one). Candidates of unknown battery stay only with name evidence, or when no
+#    candidate fits (then they need name evidence).
+# 0. Range in the name: a 3-digit number in a candidate name equal to the version's NEDC or
+#    WLTP range ("Q210", "R240") limits the choice to those candidates (checked first; the
+#    year and battery checks still apply, so a contradiction goes to review).
+# 3. Name: distinctive words of the maker trade names ("I3S", "E-TRON 55"), and a kWh figure
+#    in the plate name ("NISSAN LEAF 24KWH") within 1 kWh of the candidate's.
+# 4. WLTP: the version's best-case WLTP within 2 % of the candidate's known WLTP.
+# 5. Drivetrain (tie-break only): TGK leaves 30-minute power out on multi-motor versions, so
+#    a version with range figures but no 30-minute power prefers AWD candidates. The reverse
+#    is not used: some dual-motor versions (I-Pace, early Model S) carry one 30-minute row.
+# Running-order mass is not used: seed kerb weights are sparse and not on the same basis.
+TGK_EVIDENCE_SOURCES = frozenset({"rdw-tgk"})
+# Energy drawn on the test / battery kWh, per basis of the battery figure (see 2 above).
+TGK_ENERGY_RATIO: dict[str, tuple[float, float]] = {
+    "net": (1.0, 1.5),
+    "gross": (0.95, 1.3),
+    "name": (0.95, 1.5),  # kWh in a variant name: net or gross, unknown
+}
+TGK_YEAR_SLACK = 1
+TGK_TIE = "tgk: several variants fit"
+TGK_MISFIT = "tgk: no variant fits"
+_RANGE_NUM_RE = re.compile(r"(?<!\d)(\d{3})(?!\d)(?!\s*(?:kw|ah|v\b|nm|ps|hp|km/h))", re.I)
+
+
+def tgk_energies(rec: SourceRecord) -> list[float]:
+    """kWh drawn on the test: range x consumption / 100 per cycle (NEDC; WLTP best case)."""
+    out = []
+    for rng, cons in (
+        ("nedc_range_km", "nedc_consumption_kwh_100km"),
+        ("wltp_range_km", "consumption_kwh_100km"),
+    ):
+        r, c = _spec_num(rec, rng), _spec_num(rec, cons)
+        if r and c:
+            out.append(round(next(iter(r)) * next(iter(c)) / 100, 1))
+    return out
+
+
+def _defining_kwh(mfs: list[MatchedFact], name: str) -> set[tuple[float, str]]:
+    """The battery figures that define a variant, as (kWh, basis): seed-manual's, else the
+    highest-priority source's (other sources' kWh may be wrong or another pack's); kWh in
+    the variant name (basis unknown) only when no source gives one."""
+    by_src: dict[str, set[tuple[float, str]]] = {}
+    for f, basis in (("battery_kwh_net", "net"), ("battery_kwh_gross", "gross")):
+        for mf in mfs:
+            for v in _numbers([mf], f):
+                by_src.setdefault(mf.source_id, set()).add((v, basis))
+    if not by_src:
+        return {(v, "name") for v in kwh_in_text(name)}
+    if "seed-manual" in by_src:
+        return by_src["seed-manual"]
+    return by_src[max(by_src, key=lambda s: (priority_of(s), s))]
+
+
+def _span(c: _Candidate, result: MatchResult) -> tuple[int | None, int | None, bool]:
+    """(first year, last year, open end) over the candidate's year bands."""
+    years: set[int] = set()
+    end: int | None = None
+    open_end = False
+    for v in c.members:
+        info = result.variants[v]
+        years |= info.years
+        open_end = open_end or info.open_end
+        if info.explicit_end is not None:
+            end = max(end or info.explicit_end, info.explicit_end)
+    if not years:
+        return None, None, open_end
+    return min(years), (None if open_end else max(end or max(years), max(years))), open_end
+
+
+def _year_fits(c: _Candidate, year: int, result: MatchResult) -> bool:
+    lo, hi, _ = _span(c, result)
+    if lo is None:
+        return True  # unknown years: no evidence either way
+    return lo - TGK_YEAR_SLACK <= year and (hi is None or year <= hi + TGK_YEAR_SLACK)
+
+
+def _battery_fits(energies: list[float], kwh: set[tuple[float, str]]) -> bool:
+    def ok(e: float, b: float, basis: str) -> bool:
+        lo, hi = TGK_ENERGY_RATIO[basis]
+        return b > 0 and lo <= e / b <= hi
+
+    return all(any(ok(e, b, basis) for b, basis in kwh) for e in energies)
+
+
+def _tgk_words(rec: SourceRecord, drop: set[str]) -> set[str]:
+    """Distinctive words of the trade-name part of the TGK name (before " · ") and model."""
+    trade = (rec.variant_name or "").split(" · ")[0]
+    return _distinct_tokens(trade, drop) | _distinct_tokens(rec.model, drop)
+
+
+def _range_named(rec: SourceRecord, name: str) -> bool:
+    """A 3-digit number in the variant name equals the version's NEDC or WLTP range."""
+    ranges = {round(x) for f in ("nedc_range_km", "wltp_range_km") for x in _spec_num(rec, f)}
+    return bool(ranges & {int(m.group(1)) for m in _RANGE_NUM_RE.finditer(name)})
+
+
+def tgk_pick(
+    rec: SourceRecord, cands: list[_Candidate], drop: set[str], result: MatchResult
+) -> tuple[_Candidate | None, str]:
+    """TGK evidence (see above): the one candidate that fits, else (None, reason)."""
+    pool = list(cands)
+
+    def ids(cs: list[_Candidate]) -> str:
+        return ", ".join(c.root for c in cs)
+
+    # A variant named after this range ("R240") is the only one it can be, whatever the years
+    # say; if the years then disagree, that is a misfit for review, not another variant.
+    by_range = [c for c in pool if _range_named(rec, result.variants[c.root].name)]
+    if by_range:
+        pool = by_range
+    if rec.year is not None:
+        pool = [c for c in pool if _year_fits(c, rec.year, result)]
+        if not pool:
+            return None, f"{TGK_MISFIT} year {rec.year} (+-{TGK_YEAR_SLACK})"
+    words = _tgk_words(rec, drop)
+    rec_kwh = kwh_in_text(rec.model, rec.variant_name)  # "NISSAN LEAF 24KWH"
+    named = {
+        c.root: len(words & c.name_tokens)
+        + (1 if any(abs(a - b) <= KWH_TOLERANCE for a in rec_kwh for b in c.kwh) else 0)
+        for c in pool
+    }
+    energies = tgk_energies(rec)
+    need_evidence = False
+    if energies:
+        fit = [c for c in pool if c.battery and _battery_fits(energies, c.battery)]
+        unknown = [c for c in pool if not c.battery]
+        e_txt = "/".join(f"{e:g}" for e in energies)
+        if fit:
+            pool = fit + [c for c in unknown if named[c.root] > 0]
+        elif unknown:
+            pool, need_evidence = unknown, len(cands) > 1
+        else:
+            return None, f"{TGK_MISFIT} the battery (range x consumption {e_txt} kWh)"
+    top = max(named[c.root] for c in pool)
+    if top > 0:
+        pool = [c for c in pool if named[c.root] == top]
+    elif need_evidence:
+        return None, f"{TGK_MISFIT}: battery unknown and no name evidence ({ids(pool)})"
+    if len(pool) > 1:
+        wltp = _spec_num(rec, "wltp_range_km")
+        close = [c for c in pool if _close_rel(wltp, c.wltp, WLTP_TOLERANCE)]
+        if close:
+            pool = close
+    if len(pool) > 1 and energies and FactField.power_30min_kw not in rec.specs:
+        awd = [c for c in pool if "awd" in _drivetrains(c, result)]
+        if awd:
+            pool = awd
+    if len(pool) == 1:
+        return pool[0], ""
+    return None, f"{TGK_TIE} ({ids(pool)})"
+
+
+def _drivetrains(c: _Candidate, result: MatchResult) -> set[str]:
+    return {d for v in c.members for _, d, _ in result.variants[v].drivetrains}
 
 
 def _power_pool(power: set[float], cands: list[_Candidate]) -> tuple[list[_Candidate], bool]:

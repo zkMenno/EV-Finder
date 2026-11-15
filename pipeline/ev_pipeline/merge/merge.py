@@ -25,6 +25,7 @@ listed on the Merged result and written to data/review/conflicts.csv by the rele
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from ev_pipeline.match.matcher import MatchedFact
@@ -35,6 +36,12 @@ NOT_INDEPENDENT = frozenset({"seed-manual", "model-estimate"})
 # Sources that copy the same origin count once towards "N sources agree" (Q-087):
 # RDW's per-plate WLTP values come from the RDW type approvals (rdw-tgk).
 SAME_ORIGIN: dict[str, str] = {"rdw-tgk": "rdw"}
+# Sources whose several records on one variant are versions of that variant (TGK: one record
+# per type-approved version). Their spread is variant spread, not a cross-source conflict:
+# the source votes once, with its best-ranked (earliest model year) fact; versions that differ
+# from that fact are listed as `spread` ("same-source versions differ"), never as conflicts.
+SPREAD_SOURCES = frozenset({"rdw-tgk"})
+SPREAD_NOTE = "same-source versions differ"
 
 _CONF_RANK = {"low": 0, "medium": 1, "high": 2}
 
@@ -64,6 +71,8 @@ class Merged:
     # Q-019: generation-level facts that agree with the value (merge/corroborate.py). They
     # count toward agreeing_sources (and the quality tier), never toward value or confidence.
     corroborations: list[MatchedFact] = field(default_factory=list)
+    # SPREAD_SOURCES versions whose value differs from their source's own vote.
+    spread: list[MatchedFact] = field(default_factory=list)
 
     @property
     def agreeing_sources(self) -> int:
@@ -81,7 +90,22 @@ class Merged:
             parts.append(f"{self.overruled} conflicting value(s) not used")
         for c in self.corroborations:
             parts.append(f"{c.source_id} generation average agrees (corroboration, not the value)")
+        if self.spread:
+            parts.append(self.spread_text())
         return "; ".join(parts) or None
+
+    def spread_text(self) -> str:
+        """ "same-source versions differ: rdw-tgk 359-378 km (5 versions; earliest used)"."""
+        out = []
+        for sid in sorted({f.source_id for f in self.spread}):
+            fs = [f for f in self.spread if f.source_id == sid]
+            vals = [f.fact.value for f in fs]
+            if self.winner.source_id == sid:
+                vals.append(self.winner.fact.value)
+            nums = [v for v in vals if isinstance(v, int | float) and not isinstance(v, bool)]
+            rng = f"{min(nums):g}-{max(nums):g} {self.unit}" if nums else "several values"
+            out.append(f"{sid} {rng} ({len(fs)} other version(s); earliest model year used)")
+        return f"{SPREAD_NOTE}: " + ", ".join(out)
 
 
 def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) -> Merged:
@@ -94,6 +118,7 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         year_pref = -mf.year if mf.year is not None else -10_000
         return (policy.priority(mf.source_id), year_pref, mf.fact.retrieved_at, mf.fact.id)
 
+    facts, followers, spread = _one_vote_per_version_source(facts, rank, policy)
     by_rank = sorted(facts, key=rank, reverse=True)
     rule = "single" if len(facts) == 1 else policy.mode
     if len(facts) == 1:
@@ -135,6 +160,17 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         agreeing.remove(winner)
     agreeing.insert(0, winner)
     conflicts = [f for f in by_rank if f not in agreeing]
+    # SPREAD_SOURCES: versions that agree with the value join it; the rest are spread when
+    # their source's vote is part of the value, else plain conflicts like that vote.
+    voted = {f.source_id for f in agreeing}
+    same_spread: list[MatchedFact] = []
+    for f in sorted(followers + spread, key=rank, reverse=True):
+        if policy.agree(winner.fact.value, f.fact.value):
+            agreeing.append(f)
+        elif f.source_id in voted:
+            same_spread.append(f)
+        else:
+            conflicts.append(f)
     source_ids: list[str] = []
     for f in agreeing:
         if f.source_id not in source_ids:
@@ -157,7 +193,24 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         independent_agreeing=len(independent),
         conflicts=conflicts,
         tolerance=policy.tolerance_text(),
+        spread=same_spread,
     )
+
+
+def _one_vote_per_version_source(
+    facts: list[MatchedFact], rank: Callable[[MatchedFact], tuple], policy: FieldPolicy
+) -> tuple[list[MatchedFact], list[MatchedFact], list[MatchedFact]]:
+    """(voters, followers, spread): each SPREAD_SOURCES source keeps its best-ranked fact as
+    its one vote; its other facts follow (agree with that vote) or are spread (differ)."""
+    voters = [f for f in facts if f.source_id not in SPREAD_SOURCES]
+    followers: list[MatchedFact] = []
+    spread: list[MatchedFact] = []
+    for sid in sorted({f.source_id for f in facts if f.source_id in SPREAD_SOURCES}):
+        mine = sorted((f for f in facts if f.source_id == sid), key=rank, reverse=True)
+        voters.append(mine[0])
+        for f in mine[1:]:
+            (followers if policy.agree(mine[0].fact.value, f.fact.value) else spread).append(f)
+    return voters, followers, spread
 
 
 def merge_variant_facts(

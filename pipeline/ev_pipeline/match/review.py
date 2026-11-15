@@ -9,6 +9,8 @@ from pathlib import Path
 from ev_pipeline.match.matcher import (
     AMBIGUOUS_EVIDENCE,
     NO_POWER_MATCH,
+    TGK_MISFIT,
+    TGK_TIE,
     MatchResult,
     UnmatchedRow,
 )
@@ -16,8 +18,9 @@ from ev_pipeline.match.matcher import (
 UNMATCHED_COLUMNS = ["source_id", "record_key", "make", "model", "variant_name", "year", "reason"]
 MAX_ROWS = 1900  # brief: keep the file under 2000 rows
 # Reasons listed before the rest, so the row cap never cuts them (Q-086: RDW records the
-# power gate held back sort after most sources and were cut entirely).
-PRIORITY_REASONS = (NO_POWER_MATCH, AMBIGUOUS_EVIDENCE)
+# power gate held back sort after most sources and were cut entirely; TGK ties and
+# misfits likewise).
+PRIORITY_REASONS = (NO_POWER_MATCH, AMBIGUOUS_EVIDENCE, TGK_TIE, TGK_MISFIT)
 
 
 def _priority(row: UnmatchedRow) -> int:

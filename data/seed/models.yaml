@@ -125,7 +125,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["MEGANE"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["MEGANE"]
           dft-veh: [{name: "MEGANE", match: prefix}]
         generations:
           - id: renault-megane-e-tech-gen1
@@ -223,10 +223,11 @@ makes:
         # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        # rdw-tgk takes the rdw names: its make/model come from the same NL plates (BEV proxy).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["GOLF"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["GOLF"]
           dft-veh: ["GOLF"]
-          rdw: ["GOLF E"]
+          rdw,rdw-tgk: ["GOLF E"]
         generations:
           - id: volkswagen-e-golf-mk7
             name: Mk7
@@ -251,7 +252,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw: ["VOLKSWAGEN, VW ID.3"]
+          rdw,rdw-tgk: ["VOLKSWAGEN, VW ID.3"]
         generations:
           - id: volkswagen-id3-gen1
             name: ID.3
@@ -334,7 +335,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["IONIQ"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["IONIQ"]
           dft-veh: [{name: "IONIQ", match: prefix}]
         generations:
           - id: hyundai-ioniq-electric-gen1
@@ -358,7 +359,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["KONA", "KONA, KAUAI", "KAUAI"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["KONA", "KONA, KAUAI", "KAUAI"]
           dft-veh: ["KONA, KAUAI", "KAUAI", {name: "KONA", match: prefix}]
         generations:
           - id: hyundai-kona-electric-os
@@ -437,7 +438,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["SOUL"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["SOUL"]
           dft-veh: [{name: "SOUL", match: prefix}]
         generations:
           - id: kia-soul-ev-ps
@@ -468,7 +469,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["NIRO"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["NIRO"]
           dft-veh: [{name: "NIRO", match: prefix}]
         generations:
           - id: kia-niro-ev-de
@@ -654,9 +655,9 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["208"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["208"]
           dft-veh: [{name: "208", match: prefix}]
-          rdw: ["208 E", "208 E-TENSE"]  # BEV-filtered rows: the only electric 208 is the e-208
+          rdw,rdw-tgk: ["208 E", "208 E-TENSE"]  # BEV-filtered rows: the only electric 208 is the e-208
         generations:
           - id: peugeot-e-208-p21
             name: e-208 (P21)
@@ -680,7 +681,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["2008"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["2008"]
           dft-veh: [{name: "2008", match: prefix}]
         generations:
           - id: peugeot-e-2008-p24
@@ -708,7 +709,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["CORSA"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["CORSA"]
           dft-veh: [{name: "CORSA", match: prefix}]
         generations:
           - id: opel-corsa-e-f
@@ -729,8 +730,8 @@ makes:
         bev_only_aliases: [MOKKA]
         source_aliases: {dft-veh: [MOKKA]}
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["MOKKA"]
-          rdw: ["MOKKA ULTIMATE EV"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["MOKKA"]
+          rdw,rdw-tgk: ["MOKKA ULTIMATE EV"]
           dft-veh: [{name: "MOKKA", match: prefix}]
         generations:
           - id: opel-mokka-gen1
@@ -753,9 +754,9 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["500"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["500"]
           dft-veh: ["500"]
-          rdw: ["FIAT500E", "FAIT 500E"]  # RDW typing variants
+          rdw,rdw-tgk: ["FIAT500E", "FAIT 500E"]  # RDW typing variants
         generations:
           - id: fiat-500e-312
             name: 500e (US-only)
@@ -840,9 +841,9 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["ZS"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["ZS"]
           dft-veh: [{name: "ZS", match: prefix}]
-          rdw: ["ROEWE ZS EV"]  # RDW: MG | ROEWE ZS EV (China-market name on NL plates)
+          rdw,rdw-tgk: ["ROEWE ZS EV"]  # RDW: MG | ROEWE ZS EV (China-market name on NL plates)
         generations:
           - id: mg-zs-ev-gen1
             name: ZS EV
@@ -929,7 +930,7 @@ makes:
         aliases_by_source:
           kba-fz10:
             - {name: "Q4", match: prefix, note: "KBA Modellreihe Q4, BEV column only: counted as the Q4 e-tron"}
-          rdw: ["Q4 4 E-TRON"]  # RDW typo
+          rdw,rdw-tgk: ["Q4 4 E-TRON"]  # RDW typo
         generations:
           - id: audi-q4-e-tron-gen1
             name: Q4 e-tron
@@ -1040,7 +1041,7 @@ makes:
           kba-fz10:
             - {name: "GLB", match: prefix, note: "KBA Modellreihe GLB, BEV column: counted as the EQB / GLB electric (the year picks the generation)"}
           eea: [{name: "CLASSE EQB", match: prefix}, {name: "GLB", match: prefix}]  # EEA FR commercial name; DE 'GLB ... WITH EQ T.'
-          rdw: [{name: "GLB", match: prefix}]
+          rdw,rdw-tgk: [{name: "GLB", match: prefix}]
           dft-veh: [{name: "GLB", match: prefix}]
         generations:
           - id: mercedes-eqb-gen1
@@ -1088,7 +1089,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw: ["JAUGAR I-PACE"]  # RDW typo
+          rdw,rdw-tgk: ["JAUGAR I-PACE"]  # RDW typo
         generations:
           - id: jaguar-i-pace-x590
             name: I-Pace (X590)
@@ -1132,7 +1133,7 @@ makes:
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
           dft-veh: [{name: "FORTWO", match: prefix}]
-          rdw: ["FORTWO COUPE ED", "FORTWO CABRIO ED"]  # RDW handelsbenaming; ED = electric drive (fortwo, not forfour)
+          rdw,rdw-tgk: ["FORTWO COUPE ED", "FORTWO CABRIO ED"]  # RDW handelsbenaming; ED = electric drive (fortwo, not forfour)
         generations:
           - id: smart-eq-fortwo-451
             name: fortwo electric drive (451)
@@ -1283,9 +1284,9 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["XC40"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["XC40"]
           dft-veh: [{name: "XC40", match: prefix}]
-          rdw: ["XC40 TWIN78AWD SPORT"]
+          rdw,rdw-tgk: ["XC40 TWIN78AWD SPORT"]
         generations:
           - id: volvo-xc40-recharge-gen1
             name: XC40 Recharge
@@ -1345,7 +1346,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw: ["MUSTACH MACH E"]  # RDW typo
+          rdw,rdw-tgk: ["MUSTACH MACH E"]  # RDW typo
         generations:
           - id: ford-mustang-mach-e-gen1
             name: Mustang Mach-E
@@ -1366,7 +1367,7 @@ makes:
         bev_only_aliases: [EXPLORER]
         source_aliases: {dft-veh: [EXPLORER], kilowatt-openev: [Explorer]}
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe: ["EXPLORER"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["EXPLORER"]
           dft-veh: [{name: "EXPLORER", match: prefix}]
           kilowatt-openev: [{name: "Explorer", match: prefix}]
         generations:
@@ -1385,7 +1386,7 @@ makes:
         bev_only_aliases: [PUMA]
         source_aliases: {dft-veh: [PUMA]}
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["PUMA"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["PUMA"]
           dft-veh: [{name: "PUMA", match: prefix}]
         generations:
           - id: ford-puma-gen-e-gen1
@@ -1409,7 +1410,7 @@ makes:
         # matches the whole name only; {match: prefix} matches leading words. Replaces
         # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
         aliases_by_source:
-          rdw,eea,kba-fz10,ademe,kilowatt-openev: ["C4"]
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["C4"]
           dft-veh: ["C4"]
           ademe: [{name: "C4 X", match: prefix}]
         generations:
@@ -1451,7 +1452,7 @@ makes:
         notes: "The electric Macan. The name 'MACAN' is shared with the combustion Macan, so it is matched only by source: RDW, EEA, KBA BEV column and DfT battery electric are BEV-only, OpenEV and KilowattApp are EV datasets; the generation starts in 2024, so 1 RDW 'MACAN S' of 2015 stays unmatched. Body: OpenEV `crossover` (Wikidata Q2753440, the item for all Macans: sport utility vehicle). Segment: no length in any source and no size class in Wikidata; J-medium as a placeholder (as for the Explorer EV): judgement call, Q-083."
         source_aliases: {rdw: [MACAN], eea: [MACAN], kba-fz10: [MACAN], dft-veh: [MACAN], openev: [Macan], kilowatt-openev: [Macan]}
         aliases_by_source:
-          rdw,eea,kba-fz10,dft-veh,openev,kilowatt-openev: [{name: "MACAN", match: prefix}]
+          rdw,rdw-tgk,eea,kba-fz10,dft-veh,openev,kilowatt-openev: [{name: "MACAN", match: prefix}]
         generations:
           - id: porsche-macan-electric-gen1
             name: Macan Electric
