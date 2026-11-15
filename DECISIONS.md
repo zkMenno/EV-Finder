@@ -499,4 +499,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** 245 → 226 rows. Merged rows now follow merge policy, so some uncited seed values were replaced by source values; a few need a cited check (MG4 Standard DC 135, Mégane EV40 AC 22, Cupra Born 58 DC 135).
 
+## Decision 034: AC charging means the standard on-board charger; optional chargers get their own field
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Sources mix the standard and the optional on-board charger (e-208/e-2008 7.4 vs 11 kW, Mégane 7.4 vs 22, MG4 Standard 6.6 vs 11), so `ac_kw` flips between them by source.
+
+**Decision:** `ac_kw` is the standard charger. An optional charger is a separate additive field `ac_kw_optional` (schema + pipeline + web task T-063). Until T-063 lands, rows keep today's merged value and the citation for the standard figure sits in review. Year-dependent values (Born 58 DC, e-208 51 vs 54 kWh, I-Pace AC) are split by model year in the seed when an official source gives both.
+
+**Consequences:** some AC figures shown tonight are the optional charger; T-063 fixes the meaning.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

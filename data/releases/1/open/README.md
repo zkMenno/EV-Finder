@@ -1,7 +1,7 @@
 # Open EV catalogue, release 1
 
 - Release: 1
-- Date: 2026-11-15 (generated 2026-11-15T06:45:07+00:00)
+- Date: 2026-11-15 (generated 2026-11-15T06:58:53+00:00)
 - Variants: 226
 - Sources: ademe, dft-veh, eea, fueleconomy, kba-fz10, kilowatt-openev, model-estimate, openev, rdw, rdw-tgk, seed-manual
 - Licence: CC BY 4.0 (LICENSE); third-party credits in ATTRIBUTION.md

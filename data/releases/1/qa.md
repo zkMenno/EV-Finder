@@ -4,8 +4,8 @@ Overall: **review** (fail = blocked; review = published, items to check). Detail
 
 | Check | Blocking | Status | Summary |
 |---|---|---|---|
-| Provenance completeness | yes | pass | 5305 values checked; 0 problem(s) |
-| Licence gate re-check | yes | pass | 13 sources, 41332 facts; 0 problem(s) |
+| Provenance completeness | yes | pass | 5298 values checked; 0 problem(s) |
+| Licence gate re-check | yes | pass | 13 sources, 41323 facts; 0 problem(s) |
 | Diff vs previous release | no | skipped | first release: nothing to compare |
 | Outliers and impossible values | no | flag | 0 impossible value(s), 24 outside P1-P99 (reference: this release) |
 | Coverage of the top-40 used models | no | info | 40 models; 2+ agreeing sources on every headline field: 0 (0%, target 80% before launch) |

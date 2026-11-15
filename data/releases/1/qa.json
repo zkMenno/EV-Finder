@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T06:45:07+00:00",
+ "generated_at": "2026-11-15T06:58:53+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -9,12 +9,12 @@
    "title": "Provenance completeness",
    "blocking": true,
    "status": "pass",
-   "summary": "5305 values checked; 0 problem(s)",
+   "summary": "5298 values checked; 0 problem(s)",
    "details": {
-    "values_checked": 5305,
-    "dated_by_fact": 5274,
+    "values_checked": 5298,
+    "dated_by_fact": 5267,
     "dated_by_source": 31,
-    "facts_checked": 41332,
+    "facts_checked": 41323,
     "errors": [],
     "error_count": 0
    }
@@ -24,7 +24,7 @@
    "title": "Licence gate re-check",
    "blocking": true,
    "status": "pass",
-   "summary": "13 sources, 41332 facts; 0 problem(s)",
+   "summary": "13 sources, 41323 facts; 0 problem(s)",
    "details": {
     "sources": [
      "ademe",
@@ -47,12 +47,12 @@
      "eea": 872,
      "fueleconomy": 171,
      "kba-fz10": 216,
-     "kilowatt-openev": 1096,
-     "model-estimate": 1511,
-     "openev": 2298,
-     "rdw": 1178,
+     "kilowatt-openev": 1099,
+     "model-estimate": 1506,
+     "openev": 2290,
+     "rdw": 1174,
      "rdw-tgk": 1012,
-     "seed-manual": 1988
+     "seed-manual": 1987
     },
     "errors": [],
     "error_count": 0
@@ -1144,8 +1144,8 @@
        },
        "dc_peak_kw": {
         "covered": false,
-        "missing": 1,
-        "one": 2,
+        "missing": 2,
+        "one": 1,
         "two_plus": 1
        },
        "dc_avg_10_80_kw": {
@@ -1728,16 +1728,19 @@
        },
        "dc_peak_kw": {
         "covered": false,
-        "one": 4,
-        "two_plus": 1
+        "one": 3,
+        "two_plus": 1,
+        "missing": 1
        },
        "dc_avg_10_80_kw": {
         "covered": false,
-        "estimate": 5
+        "estimate": 4,
+        "missing": 1
        },
        "dc_km_per_20min": {
         "covered": false,
-        "estimate": 5
+        "estimate": 4,
+        "missing": 1
        }
       }
      },
@@ -1979,11 +1982,11 @@
     "could_fill": "openev (2023+), kilowatt-openev; owner tests (permission pending)"
    },
    "wltp_range_km": {
-    "two_plus": 12,
-    "one": 25,
+    "two_plus": 13,
+    "one": 24,
     "estimate": 0,
     "none": 3,
-    "share_two_plus": 0.3,
+    "share_two_plus": 0.325,
     "meets_target": false,
     "could_fill": "openev, ademe (FR line-up), rdw fuel table (adapter live, Q-068), eea per type (adapter extension)"
    },
@@ -1999,8 +2002,8 @@
    "dc_peak_kw": {
     "two_plus": 9,
     "one": 20,
-    "estimate": 8,
-    "none": 3,
+    "estimate": 7,
+    "none": 4,
     "share_two_plus": 0.225,
     "meets_target": false,
     "could_fill": "openev, kilowatt-openev; fastned (waiting)"
@@ -2636,7 +2639,7 @@
      "battery_kwh_net": "one",
      "wltp_range_km": "one",
      "ac_kw": "one",
-     "dc_peak_kw": "estimate",
+     "dc_peak_kw": "none",
      "dc_avg_10_80_kw": "estimate",
      "real_range_km": "estimate",
      "price_new.NL": "none",
@@ -2920,7 +2923,7 @@
     "variants_in_release": 1,
     "levels": {
      "battery_kwh_net": "two_plus",
-     "wltp_range_km": "one",
+     "wltp_range_km": "two_plus",
      "ac_kw": "two_plus",
      "dc_peak_kw": "two_plus",
      "dc_avg_10_80_kw": "estimate",
@@ -3196,8 +3199,8 @@
    "ATTRIBUTION.md": 4407,
    "LICENSE": 715,
    "README.md": 14164,
-   "variants.csv": 1007269,
-   "variants.json": 1937018
+   "variants.csv": 1006962,
+   "variants.json": 1936777
   }
  }
 }

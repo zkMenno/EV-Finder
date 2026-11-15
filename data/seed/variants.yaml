@@ -419,12 +419,20 @@ variants:
     drivetrain: fwd
     specs:
       battery_kwh_net: 40
-      ac_kw: 7.4
       power_kw: 96
       boot_l: 440
       length_mm: 4200
       seats: 5
     cited:
+      ac_kw:
+        value: 22
+        source_url: https://www.renault.ie/electric-vehicles/megane-e-tech-electric/electric-faq.html
+        source_name: "Renault Ireland, Megane E-Tech electric FAQ"
+        retrieved: 2026-11-15
+        quote: "full power of AC public charging stations up to 22 kW with this version"
+        locator: "FAQ, 40 kWh battery, Boost Charge version"
+        confidence: low
+        notes: "Low: trim dependent, not year dependent. 22 kW AC is the EV40 Boost Charge; the EV40 Standard Charge has the 7.4 kW charger (the page does not state its AC figure). Renault Finland brochure 03/2023 lists '40kWh 130hv (boost charge)' with 'Type 2 AC 2-22 kW ja pikalataus CCS DC jopa 85 kW'. The seed's uncited 7.4 was the Standard Charge figure."
       dc_peak_kw:
         value: 85
         source_url: https://www.renault.ie/electric-vehicles/megane-e-tech-electric/electric-faq.html
@@ -446,13 +454,22 @@ variants:
       openev: ["Base"]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 60
       ac_kw: 7.4
       dc_peak_kw: 130
       power_kw: 160
       boot_l: 440
       length_mm: 4200
       seats: 5
+    cited:
+      battery_kwh_net:
+        value: 60
+        source_url: https://cdn.group.renault.com/ren/es/modelos/megane-etech-electrico/CATALOGO_MEGANE_E-TECH_100_ELEC_ES.pdf
+        source_name: "Renault Spain, Mégane E-Tech 100% eléctrico catalogue (October 2025)"
+        retrieved: 2026-11-15
+        quote: "capacidad útil de la batería (kWh) 60"
+        locator: "p. 24 'baterías y motorizaciones', 60 kWh 220 CV column"
+        confidence: medium
+        notes: "OpenEV gives 57 usable for this row. Same catalogue: WLTP 468 km; AC 7.4 or 22 kW by version (p. 9). Renault Finland 03/2023: DC up to 130 kW."
     notes: "WLTP roughly 450-470 km. AC 7.4 kW or 22 kW depending on version."
     confidence: low
   - generation_id: nissan-leaf-ze0
@@ -1170,7 +1187,6 @@ variants:
       openev: [{name: "Base", years: [2024, null]}]
     drivetrain: fwd
     specs:
-      battery_kwh_gross: 51
       ac_kw: 7.4
       dc_peak_kw: 100
       power_kw: 115
@@ -1178,6 +1194,23 @@ variants:
       length_mm: 4055
       towing_kg: 0
       seats: 5
+    cited:
+      battery_kwh_gross:
+        value: 51
+        source_url: https://www.media.stellantis.com/es-es/peugeot/press/nuevo-peugeot-e-208-100-electrico-mas-divertido-mas-eficiente-y-con-hasta-400-km-de-autonomia-con-un-nuevo-motor-electrico
+        source_name: "Stellantis media (Peugeot Spain), 'Nuevo Peugeot e-208 100% eléctrico ...', 27 Sep 2022"
+        retrieved: 2026-11-15
+        quote: "con una capacidad bruta de 51 kWh"
+        confidence: low
+        notes: "Low: the press release is for the 2023 car (115 kW); the row spans 2023 on and later cars reportedly use a 54 kWh gross pack (OpenEV MY2024-25: 50 net / 54 gross; not confirmed from a maker page). Same figure in the Dutch release (media.stellantis.com/nl-nl, same date)."
+      battery_kwh_net:
+        value: 48.1
+        source_url: https://www.media.stellantis.com/es-es/peugeot/press/nuevo-peugeot-e-208-100-electrico-mas-divertido-mas-eficiente-y-con-hasta-400-km-de-autonomia-con-un-nuevo-motor-electrico
+        source_name: "Stellantis media (Peugeot Spain), 'Nuevo Peugeot e-208 100% eléctrico ...', 27 Sep 2022"
+        retrieved: 2026-11-15
+        quote: "48,1 kWh útiles"
+        confidence: low
+        notes: "Low for the same year-band reason (row 2023 on; a later 54 kWh gross pack would be about 51 usable). Same release: 115 kW, WLTP up to 400 km (homologation pending), 7.4 kW single-phase standard, 11 kW three-phase optional, 100 kW DC."
     notes: "Updated motor and battery. WLTP roughly 400 km."
     confidence: low
   - generation_id: peugeot-e-2008-p24
@@ -1333,6 +1366,16 @@ variants:
       length_mm: 3632
       towing_kg: 0
       seats: 4
+    cited:
+      wltp_range_km:
+        value: 320
+        source_url: https://www.media.stellantis.com/ch-de/fiat/press/die-gesamte-baureihe-des-neuen-500-ist-nun-in-der-schweiz-erhltlich
+        source_name: "Stellantis media (Fiat Switzerland), 'Die gesamte Baureihe des neuen 500 ist nun in der Schweiz erhältlich', 4 May 2021"
+        retrieved: 2026-11-15
+        quote: "Im WLTP-Zyklus erreicht die Reichweite 320 km, die im reinen Stadtzyklus auf 460 km ansteigt."
+        locator: "Versions PASSION, ICON and la Prima (87 kW)"
+        confidence: low
+        notes: "Low: the page names the trims and the 87 kW motor but not the 42 kWh battery. Same page: 87 kW, AC up to 11 kW, DC up to 85 kW. The release shows 337 km (RDW TGK + ADEME best case of the WLTP family); 320 is Fiat's headline figure, so this is likely a best-case vs typical difference, not an error."
     notes: "WLTP roughly 310-320 km. Hatchback, cabrio and 3+1 bodies."
     confidence: low
   - generation_id: fiat-500e-332
@@ -1436,10 +1479,19 @@ variants:
     specs:
       battery_kwh_net: 58
       ac_kw: 11
-      dc_peak_kw: 120
       boot_l: 385
       length_mm: 4322
       seats: 5
+    cited:
+      dc_peak_kw:
+        value: 120
+        source_url: https://cdn.uc.assets.prezly.com/34359316-f25e-44da-a593-c7ea94745496/-/inline/no/CU21-34N%20-%20Born%20press%20pack%20(22p).pdf
+        source_name: "SEAT Import Belgium (CUPRA), press release CU21/34N 'CUPRA Born', 4 October 2021"
+        retrieved: 2026-11-15
+        quote: "Max. oplaadvermogen DC (120 kW)"
+        locator: "Technical data, columns 58 kWh 204 pk (150 kW) and 58 kWh e-Boost 231 pk (170 kW)"
+        confidence: low
+        notes: "Low: launch press pack (MY2022), figures marked indicative; the row spans 2021 on, and OpenEV gives 135 kW for MY2023-25. No maker source for 135 kW on the 58 kWh was found, so a later update can't be confirmed or ruled out. Same pack: 58 kWh net, WLTP about 424 km (150 kW) / 420 km (e-Boost), AC up to 11 kW."
     notes: "150 kW, or 170 kW with e-Boost. WLTP roughly 420 km."
     confidence: low
   - generation_id: cupra-born-gen1
@@ -1557,14 +1609,39 @@ variants:
       kilowatt-openev: ["Standard Range"]
     drivetrain: rwd
     specs:
-      battery_kwh_net: 51
-      ac_kw: 6.6
-      dc_peak_kw: 117
       power_kw: 125
       boot_l: 363
       length_mm: 4287
       seats: 5
-    notes: "LFP. WLTP roughly 350 km. 6.6 kW AC on many versions, 11 kW on others."
+    cited:
+      battery_kwh_net:
+        value: 50.8
+        source_url: https://www.mg.co.uk/sites/default/files/2022-10/MG4-EV-Brochure.pdf
+        source_name: "MG Motor UK, MG4 EV brochure (October 2022)"
+        retrieved: 2026-11-15
+        quote: "Battery capacity (usable), kWh 50.8 kWh 61.7 kWh"
+        locator: "Technical specification, pp. 28-29, column SE Standard Range (51 kWh nominal)"
+        confidence: medium
+        notes: "Re-checked after the Decision 033 dedup: OpenEV publishes 49 usable for this row (MY2023-25); MG UK gives 50.8. Nominal 51 kWh in the same table."
+      dc_peak_kw:
+        value: 117
+        source_url: https://www.mg.co.uk/sites/default/files/2022-10/MG4-EV-Brochure.pdf
+        source_name: "MG Motor UK, MG4 EV brochure (October 2022)"
+        retrieved: 2026-11-15
+        quote: "Maximum rapid charge capability, DC 117kW 135kW"
+        locator: "Technical specification, pp. 28-29, column SE Standard Range (117 kW; 135 kW is the 64 kWh Long Range)"
+        confidence: medium
+        notes: "OpenEV gives 135 kW for this row, which is the 64 kWh car's figure in MG's table. An MG Austria brochure copy (July 2023, dealer-hosted, table text garbled) seems to give 88 kW for the Standard; not used, needs a clean maker source."
+      ac_kw:
+        value: 7
+        source_url: https://www.mg.co.uk/sites/default/files/2022-10/MG4-EV-Brochure.pdf
+        source_name: "MG Motor UK, MG4 EV brochure (October 2022)"
+        retrieved: 2026-11-15
+        quote: "On-board charger, AC 7kW 7kW"
+        locator: "Technical specification, pp. 28-29 (SE Standard Range and SE Long Range)"
+        confidence: medium
+        notes: "MG UK rounds the 6.6 kW single-phase charger to 7 kW. Market and year dependent: OpenEV/KilowattApp give 11 kW (MY2023-25); MG Austria (July 2023 brochure copy) lists 6.6 kW standard and no 11 kW option on the Standard."
+    notes: "LFP. WLTP 350 km (MG UK). 6.6 kW AC on many versions, 11 kW on others."
     confidence: low
   - generation_id: mg-mg4-gen1
     id: mg-mg4-gen1-long-range
@@ -1819,6 +1896,15 @@ variants:
       length_mm: 4682
       towing_kg: 750
       seats: 5
+    cited:
+      wltp_range_km:
+        value: 470
+        source_url: https://www.jaguar.fr/content/dam/jdx/pdfs/fr/Infographies%20I-PACE%2021MY.pdf
+        source_name: "Jaguar France, I-PACE infographic (file name '21MY')"
+        retrieved: 2026-11-15
+        quote: "470km (292 miles) D'AUTONOMIE SELON LE CYCLE WLTP"
+        confidence: low
+        notes: "Low: no model year in the text (only the file name says 21MY), and the row spans 2018-2024. Same sheet: 90 kWh battery, 100 kW DC, 11 kW wall box, 400 ch. jaguar.com specifications page (read same day) also says up to 470 km WLTP. AC is year dependent: 7 kW on-board charger until MY2020, 11 kW from MY2021 (seed note, not maker-cited)."
     notes: "90 kWh gross. WLTP roughly 470 km. 7 kW AC until MY21, then 11 kW. Check battery replacement campaign status."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
@@ -2072,9 +2158,23 @@ variants:
     source_names:
       openev: ["SE"]
     drivetrain: fwd
+    cited:
+      battery_kwh_net:
+        value: 28.9
+        source_url: https://press.bmwgroup.com/global/article/attachment/T0306501EN/447528
+        source_name: "MINI Media Information, Technical Specifications MINI Cooper SE (03/2020)"
+        retrieved: 2026-11-15
+        quote: "Energy capacity (gross / net) kWh 32,6 / 28,9"
+        confidence: medium
+      battery_kwh_gross:
+        value: 32.6
+        source_url: https://press.bmwgroup.com/global/article/attachment/T0306501EN/447528
+        source_name: "MINI Media Information, Technical Specifications MINI Cooper SE (03/2020)"
+        retrieved: 2026-11-15
+        quote: "Energy capacity (gross / net) kWh 32,6 / 28,9"
+        confidence: medium
+        notes: "Same sheet: 135 kW, DC 50 kW, 11 kW three-phase wall box. Its range (235-270 km) is NEDC-correlated, not pure WLTP, so it is not cited."
     specs:
-      battery_kwh_net: 28.9
-      battery_kwh_gross: 32.6
       ac_kw: 11
       dc_peak_kw: 50
       power_kw: 135

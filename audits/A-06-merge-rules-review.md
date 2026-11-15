@@ -150,3 +150,25 @@ Release 1 rebuilt from the same staging; ruff, format, `pytest -q` (1177 passed)
 - **New rule (derive):** after a citation withholds `battery_kwh_net`, the row used to re-estimate it as 0.93 x gross from the same wrong record (EQA 61.8, Q4 Sportback 48.4). `build_rows` now gets the unpublished citations (`qa/value_guard.citation_values`) and drops a net-from-gross estimate that every such citation contradicts (validation.csv).
 - **QA flag fixed (derive):** e-Golf 24 kWh "DC average 41.8 > peak 40": the KilowattApp estimated curve peaks at 44 kW while the row's peak is the seed's 40 (KilowattApp's own 44 is taken out by `needs_backing`). Rule now: a non-measured curve above the row's `dc_peak_kw` is capped at it before integrating (noted in provenance); a sourced or measured average above the peak goes to validation.csv. e-Golf 41.8 → 39.6. Other capped rows: ID. Buzz Pro 128 → 117.1, ID.3 Pro (2020-22) 77.3 → 70.5, EQC 400 104.9 → 98.7, Ioniq 5 AWD 175.6 → 175.4 (and their minutes / km-per-10-min).
 - **Still for a reviewer (rows look mis-modelled, not restructured):** OpenEV Q4 "50" / "50 Sportback" are RWD 150 kW 8.5 s, which are Audi's 40 e-tron figures (no RWD "50" existed; 2024+ names are 45 / 55); their drivetrain can't be cited (not a number). OpenEV Q4 "40 Sportback" (125 kW, 9.0 s, WLTP 348) matches the Sportback 35. `renault-megane-e-tech-gen1-40-kwh` duplicates seed `-ev40`. Renault's R5 sheet gives EV40 usable 40 kWh vs OpenEV 38 (not entered). R90 AC rests on an Italian sheet without a Renault imprint; the Renault UK July 2017 kit's R90 column says 3-43 kW.
+
+## Follow-up: cited checks on rows merged by Decision 033 (seed builder, 2026-11-15)
+
+After the Decision 033 dedup, some uncited seed values lost to single-source OpenEV values. Each one below was checked against a maker page (read 2026-11-15) and added as a seed `cited:` value in `data/seed/variants.yaml` (source `maker-docs`, blocked by Q-008, so these are evidence only). Where a citation replaced an uncited seed figure, the seed figure was taken out of `specs`. Release 1 rebuilt from the existing staging; ruff, format, `pytest -q` (1197 passed) and `qa check-release` pass. Rows 226 → 226; 17 published values changed, all on the rows below.
+
+| Row | Field | Maker figure (source) | Published before → after |
+|---|---|---|---|
+| `mg-mg4-gen1-standard` | DC peak | 117 kW (MG UK brochure 10/2022, medium) | 135 (OpenEV, the 64 kWh figure) → **withheld**; DC average/minutes go with it |
+| | usable | 50.8 kWh (same, medium) | 49 (OpenEV) → **50.8** (KilowattApp, agrees) |
+| | AC | 7 kW (same; MG rounds 6.6) | 11 stays: OpenEV + KilowattApp agree, so the citation goes to review. Market/year dependent (MG Austria 07/2023 copy: 6.6 kW, no 11 kW on the Standard) |
+| `renault-megane-e-tech-gen1-ev40` | AC | 22 kW Boost Charge (Renault IE FAQ, low) | 22 stays (agrees). **Trim dependent**: Standard Charge is 7.4 kW; the row covers both |
+| | DC peak | 85 kW (already cited) | stays **empty**: OpenEV 130 withheld, 85 can't ship until Q-008 |
+| `renault-megane-e-tech-gen1-ev60` | usable | 60 kWh (Renault ES catalogue 10/2025, medium) | 57 (OpenEV) → **60** (KilowattApp, agrees) |
+| `cupra-born-gen1-58kwh` | DC peak | 120 kW (CUPRA Belgium press pack 10/2021, low: indicative, launch year) | 135 (OpenEV MY2023-25) → **withheld**. Possibly year dependent: no maker source for 135 kW on the 58 kWh was found |
+| `peugeot-e-208-p21-51kwh` | usable / gross | 48.1 / 51 kWh (Stellantis media 27-09-2022, low) | 50 (OpenEV) → **48.1** (KilowattApp, agrees). **Year dependent**: later cars reportedly have a 54 kWh gross pack (OpenEV MY2024-25: 50 / 54; not maker-confirmed) |
+| `jaguar-i-pace-x590-ev400` | WLTP | 470 km (Jaguar FR infographic "21MY", low) | 437 (RDW 2018) → **470** (RDW TGK + OpenEV). RDW 437 / 450 and TGK 480 went to review: probably year and wheel dependent (launch 480, MY21 470) |
+| `fiat-500e-332-42kwh` | WLTP | 320 km (Fiat CH press 04-05-2021, low: page names trims and 87 kW, not the battery) | 337 stays (RDW TGK + ADEME agree); citation goes to review. Probably best case vs headline figure |
+| `mini-cooper-se-f56-cooper-se` | usable / gross | 28.9 / 32.6 kWh (MINI technical specs 03/2020, medium) | 28.9 stays (agrees) |
+
+Checked with no difference over 5% (no citation added): Leaf 40 kWh (Nissan EU 2017: 40 kWh, 110 kW, 6.6 kW AC, 50 kW DC; NEDC only); e-2008 54 kWh (Stellantis 04-05-2023: 115 kW, WLTP 406 vs 404; 54 kWh not labelled gross/net; 7.4 kW AC standard, 11 kW optional); I-Pace DC 100; Born 58 WLTP/battery/AC; MG4 Standard WLTP 350; Mégane EV40/EV60 WLTP and EV60 DC 130; 500e AC 11 / DC 85 / 87 kW.
+
+**For the coordinator / product:** on several rows, AC shows the optional charger (e-208 / e-2008 11 kW, where 7.4 is standard; Mégane 22 kW, where Standard Charge / Super Charge is 7.4; MG4 Standard 11 kW). Decide whether AC shows "standard" or "max option". Year-split candidates: e-208 51 vs 54 kWh, I-Pace AC 7 → 11 kW (MY21), Born 58 DC. The MG4 Standard DC is still open (MG UK says 117, a garbled MG Austria copy seems to say 88).
