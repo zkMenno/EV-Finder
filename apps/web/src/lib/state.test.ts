@@ -26,6 +26,12 @@ const full: ExploreState = {
     bootMin: 400,
     lengthMax: 4500,
     towingMin: 750,
+    seatsMin: 7,
+    acMin: 11,
+    yearMin: 2019,
+    yearMax: 2023,
+    makes: ["kia", "tesla"],
+    excludeMakes: ["mg"],
     voltageClasses: ["800v"],
     voltageMin: 300,
     voltageMax: 900,
@@ -146,6 +152,6 @@ describe("sort cycle and counters", () => {
   });
   it("counts active filters", () => {
     expect(activeFilterCount(defaultState().filters)).toBe(0);
-    expect(activeFilterCount(full.filters)).toBe(18);
+    expect(activeFilterCount(full.filters)).toBe(24);
   });
 });

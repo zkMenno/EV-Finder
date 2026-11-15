@@ -63,3 +63,13 @@ body {
     transition: none !important;
   }
 }
+
+/* Home-hero scenes (UX design v6): one of day / night shows, following the theme (Decision 022). */
+.evs-scene { display: block; width: 100%; height: auto; border-radius: var(--radius-lg, 12px); }
+.evs-scene--night { display: none; }
+:root[data-theme="dark"] .evs-scene--day { display: none; }
+:root[data-theme="dark"] .evs-scene--night { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .evs-scene--day { display: none; }
+  :root:not([data-theme="light"]) .evs-scene--night { display: block; }
+}
