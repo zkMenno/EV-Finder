@@ -11,6 +11,8 @@ Format: `Q-NNN` · task id (if any) · who asked · date.
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15 ★ most urgent
 From about 01:05 the coordinator's push clone was on `main`, so syncs pushed `main` as well as `proto/overnight-1`. Both now point to 660427d (CI green; nothing deploys from `main` yet). **Default:** leave `main` alone (force-push is forbidden by AGENTS.md and blocked by the ruleset) and keep working on the branch only. **Fix for Menno:** briefly allow force-push on `main`, run `git push --force-with-lease=main:660427d origin 319468c:main`, re-enable protection, then open the draft PR.
 
+**Update 02:00:** WS0 has since pushed four commits to `main` on top of 660427d (spec mirror, workstreams, Decisions 011–014). Resetting `main` would now delete their work, so **don't force-push**. New default: keep `main` as is, merge `main` into `proto/overnight-1` (done, clean), and open the draft PR for the remaining overnight work.
+
 **Answer:**
 
 ### Q-001 · Server capacity · coordinator · 2026-11-15
