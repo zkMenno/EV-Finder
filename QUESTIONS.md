@@ -8,13 +8,6 @@ Format: `Q-NNN` · task id (if any) · who asked · date.
 
 ## Open
 
-### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15 ★ most urgent
-From about 01:05 the coordinator's push clone was on `main`, so syncs pushed `main` as well as `proto/overnight-1`. Both now point to 660427d (CI green; nothing deploys from `main` yet). **Default:** leave `main` alone (force-push is forbidden by AGENTS.md and blocked by the ruleset) and keep working on the branch only. **Fix for Menno:** briefly allow force-push on `main`, run `git push --force-with-lease=main:660427d origin 319468c:main`, re-enable protection, then open the draft PR.
-
-**Update 02:00:** WS0 has since pushed four commits to `main` on top of 660427d (spec mirror, workstreams, Decisions 011–014). Resetting `main` would now delete their work, so **don't force-push**. New default: keep `main` as is, merge `main` into `proto/overnight-1` (done, clean), and open the draft PR for the remaining overnight work.
-
-**Answer:**
-
 ### Q-001 · Server capacity · coordinator · 2026-11-15
 Does the AppInfra server have room for EV Finder? Partly answered (see Decision 006): CAX31, 16 GB, shared with GardenLayer and Dungeon Tracker; fits on paper while Cahier stays off. Still needed from the "EV Finder capacity check" chat: real `docker stats`, free disk, existing job timers (to confirm the 00:30–02:30 UTC window), and off-site backup status.
 
@@ -212,7 +205,24 @@ Upstream docs do not say how curves were obtained (no "measured" anywhere); its 
 
 **Answer:**
 
+### Q-049 · "No DC data" rule and Explore's Tab stops · T-008 / T-009 / T-010 review · builder · 2026-11-15
+**Done (defaults):** (1) `hasDcData(row)` (`apps/web/src/lib/dc.ts`) is true when `dc_peak_kw`, `dc_avg_10_80_kw` or `dc_minutes_10_80` is a positive number. Without it, `charger_400v_mode`, `charger_400v_kw` and `fast_on_400v` read as missing everywhere (Explore, variant/generation pages, spec diff, compare, the "fast on 400 V" filter) and show "—" with screen-reader text "no DC charging data". The spec diff/compare drop the 400 V row when no car in it has DC data. (2) In the Explore **table**, numbers and the generation link are no longer Tab stops (they still open on hover/tap): a row is 3 stops (name link, heart, compare), 4 at Nerd level (+ one "Sources" button listing every number's source and confidence). Keyboard users reach a number's popover on the variant page; cards are unchanged. OK? Or should a car with only a derived `dc_km_per_20min` also count as "has DC data"?
+
+**Answer:**
+
+### Q-050 · Credits wording comes partly from `terms` text · About page · builder · 2026-11-15
+The About page (`/[country]/about`) builds its credits from the release's `sources` array. When a release entry has no `attribution`, it falls back to `data/sources.yaml`, which has no `attribution:` field, so `apps/web/scripts/sources.mjs` takes the quoted text in `terms` ("attribution '…' required", "visible attribution to '…'", or a `terms` that starts with a quote). That gives the KilowattApp, KBA FZ10 and DfT lines. EEA ("© European Union, EEA, CC BY 4.0"), ADEME/SDES (Licence Ouverte), OGL and KilowattApp also have fixed fallback wording in `apps/web/src/lib/credits.ts`, added when the release text doesn't already contain it. RDW uses the interim wording "Dutch vehicle register (RDW open data, CC0)" until **Q-037** is answered (it overrides the release's "Bron: RDW Open Data"). **Suggestion for the coordinator:** add an explicit `attribution:` to each entry in `data/sources.yaml` (the extractor prefers it), and have the pipeline copy it into every release's `sources`. Is the RDW wording OK for now?
+
+**Answer:**
+
 ## Closed
+
+### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15
+From about 01:05 the coordinator's push clone was on `main`, so syncs pushed `main` as well as `proto/overnight-1`. Both now point to 660427d (CI green; nothing deploys from `main` yet). **Default:** leave `main` alone (force-push is forbidden by AGENTS.md and blocked by the ruleset) and keep working on the branch only. **Fix for Menno:** briefly allow force-push on `main`, run `git push --force-with-lease=main:660427d origin 319468c:main`, re-enable protection, then open the draft PR.
+
+**Update 02:00:** WS0 has since pushed four commits to `main` on top of 660427d (spec mirror, workstreams, Decisions 011–014). Resetting `main` would now delete their work, so **don't force-push**. New default: keep `main` as is, merge `main` into `proto/overnight-1` (done, clean), and open the draft PR for the remaining overnight work.
+
+**Answer:** WS0 (addendum 4): no force-push needed; `main` moved on, so the branch merges normally through PR #1. Closed.
 
 ### Q-038 · Two different "Open EV Data" datasets · coordinator · 2026-11-15
 The project decisions log says "Open EV Data (MIT + attribution, drop default curves)". That describes **KilowattApp/open-ev-data** (MIT with attribution requirement, © Tijs Teulings), which has DC charge curves. Tonight's pipeline uses **open-ev-data/open-ev-data-dataset** (CDLA-Permissive-2.0), which has no curves. **Default:** keep the CDLA dataset as the base spec source and add the KilowattApp dataset in wave 5 as a curve source (drop its default curves, keep measured ones, attribution in the UI). Did you mean one, or both?
