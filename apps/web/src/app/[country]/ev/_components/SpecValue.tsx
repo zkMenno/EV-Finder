@@ -3,9 +3,8 @@
 import type { PublishedVariant } from "@ev/schema";
 import { Num } from "@/components/Num";
 import { Term } from "@/components/Term";
-import type { MsgKey } from "@/i18n";
+import { hasMsgKey, type MsgKey } from "@/i18n";
 import { DASH, formatMoney } from "@/lib/format";
-import { hasPageKey } from "@/lib/pages-i18n";
 import type { SpecField } from "@/lib/spec-diff";
 import { sourcesFor, type PageCtx } from "../_lib/context";
 
@@ -13,7 +12,7 @@ const ND = "not-disclosed";
 
 export function fieldLabel(ctx: PageCtx, field: SpecField): string {
   const k = `field.${field.key}`;
-  return hasPageKey(k) ? ctx.pt(k, { country: ctx.cfg.name }) : field.key;
+  return hasMsgKey(k) ? ctx.t(k, { country: ctx.cfg.name }) : field.key;
 }
 
 /** Plain-language label with the glossary ⓘ (safe inside <th>, not inside <label>/<button>). */
@@ -49,7 +48,7 @@ export function textValue(ctx: PageCtx, row: PublishedVariant, key: Extract<Spec
       return msg(ctx, `segment.${v}`, String(v));
     case "drivetrain": {
       const k = `drivetrain.${v}`;
-      return hasPageKey(k) ? ctx.pt(k) : String(v);
+      return hasMsgKey(k) ? ctx.t(k) : String(v);
     }
     default:
       return String(v);

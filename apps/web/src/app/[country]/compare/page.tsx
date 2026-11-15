@@ -10,7 +10,6 @@ import { isCountrySlug } from "@/config/countries";
 import { siteName } from "@/config/site";
 import { COMPARE_MAX } from "@/lib/compare-store";
 import { formatYears } from "@/lib/format";
-import { pagesT } from "@/lib/pages-i18n";
 import { requestLang } from "@/lib/request-lang";
 import { cellValue, differingCells, SPEC_FIELDS, SPEC_GROUPS } from "@/lib/spec-diff";
 import { FieldLabel, SpecValue } from "../ev/_components/SpecValue";
@@ -19,6 +18,7 @@ import { variantHref } from "../ev/_lib/routes";
 import { CompareActions } from "./_components/CompareActions";
 import { compareUrl, parseCompareIds } from "./_lib/ids";
 import "./print.css";
+import { getT } from "@/i18n";
 
 type Props = {
   params: Promise<{ country: string }>;
@@ -28,7 +28,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { country } = await params;
   if (!isCountrySlug(country)) return {};
-  return { title: pagesT(await requestLang(country))("compare.title"), robots: { index: false } };
+  return { title: getT(await requestLang(country))("compare.title"), robots: { index: false } };
 }
 
 export default async function ComparePage({ params, searchParams }: Props) {
@@ -36,7 +36,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
   if (!isCountrySlug(country)) notFound();
   const sp = await searchParams;
   const ctx = await pageCtx(country);
-  const { t, pt, cfg } = ctx;
+  const { t, cfg } = ctx;
   const ids = parseCompareIds(sp.ids);
   const onlyDiff = sp.diff === "1";
   const cars = ids.map((id) => ctx.cat.variant(id)).filter((r): r is PublishedVariant => !!r);
@@ -45,7 +45,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
 
   const groups: CompareGroupView[] = SPEC_GROUPS.map((group) => ({
     key: group,
-    title: pt(`variant.group.${group}`),
+    title: t(`variant.group.${group}`),
     rows: SPEC_FIELDS.filter((f) => f.group === group).flatMap((field) => {
       const values = cars.map((c) => cellValue(c, field, cfg.code));
       if (values.every((v) => v === null)) return [];
@@ -63,28 +63,28 @@ export default async function ComparePage({ params, searchParams }: Props) {
 
   return (
     <div data-compare-page="">
-      <Breadcrumbs label={t("nav.main")} items={[{ label: pt("crumb.home"), href: `/${country}` }, { label: pt("crumb.compare") }]} />
+      <Breadcrumbs label={t("nav.main")} items={[{ label: t("crumb.home"), href: `/${country}` }, { label: t("crumb.compare") }]} />
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{pt("compare.title")}</h1>
-          <p className="mt-2 max-w-3xl text-slate-800">{pt("compare.intro", { max: COMPARE_MAX })}</p>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("compare.title")}</h1>
+          <p className="mt-2 max-w-3xl text-slate-800">{t("compare.intro", { max: COMPARE_MAX })}</p>
         </div>
         {cars.length ? (
-          <CompareActions text={{ share: pt("compare.share"), copied: pt("compare.copied"), copyFailed: pt("compare.copyFailed"), print: pt("compare.print") }} />
+          <CompareActions text={{ share: t("compare.share"), copied: t("compare.copied"), copyFailed: t("compare.copyFailed"), print: t("compare.print") }} />
         ) : null}
       </div>
 
       {missing.length ? (
         <p className="mt-4 rounded-md border border-amber-700 bg-amber-50 p-3 text-sm" role="status">
-          {pt("compare.notFound", { ids: missing.join(", ") })}
+          {t("compare.notFound", { ids: missing.join(", ") })}
         </p>
       ) : null}
 
       {!cars.length ? (
         <p className="mt-6">
-          {pt("compare.empty")}{" "}
+          {t("compare.empty")}{" "}
           <Link href={`/${country}`} className="text-blue-800 underline underline-offset-2">
-            {pt("compare.toExplore")}
+            {t("compare.toExplore")}
           </Link>
         </p>
       ) : (
@@ -97,19 +97,19 @@ export default async function ComparePage({ params, searchParams }: Props) {
                 data-testid="compare-diff-toggle"
               >
                 <span aria-hidden="true">{onlyDiff ? "☑" : "☐"}</span>
-                {onlyDiff ? pt("compare.showAll") : pt("compare.onlyDiff")}
+                {onlyDiff ? t("compare.showAll") : t("compare.onlyDiff")}
               </Link>
             ) : (
-              <p className="text-sm text-slate-800">{pt("compare.addMore")}</p>
+              <p className="text-sm text-slate-800">{t("compare.addMore")}</p>
             )}
-            <p className="text-sm text-slate-700">{pt("compare.legend")}</p>
+            <p className="text-sm text-slate-700">{t("compare.legend")}</p>
           </div>
           {groups.length ? (
             <div className="mt-3">
               <CompareTable
-                caption={pt("compare.caption", { n: cars.length })}
-                fieldHeader={pt("gen.diff.fieldHeader")}
-                differsLabel={pt("compare.differs")}
+                caption={t("compare.caption", { n: cars.length })}
+                fieldHeader={t("gen.diff.fieldHeader")}
+                differsLabel={t("compare.differs")}
                 columns={cars.map((c) => {
                   const name = `${c.make_name} ${c.model_name} ${c.variant_name}`;
                   return {
@@ -130,7 +130,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
                           )}
                           className="text-xs font-normal text-slate-800 underline underline-offset-2 print:hidden"
                         >
-                          {pt("compare.remove", { name })}
+                          {t("compare.remove", { name })}
                         </Link>
                       </span>
                     ),
@@ -140,10 +140,10 @@ export default async function ComparePage({ params, searchParams }: Props) {
               />
             </div>
           ) : (
-            <p className="mt-4">{pt("compare.noDiffs")}</p>
+            <p className="mt-4">{t("compare.noDiffs")}</p>
           )}
           <p className="mt-4 hidden text-xs print:block">
-            {pt("compare.printNote", { site: siteName, release: ctx.cat.origin() === "fixture" ? "dev" : ctx.cat.release() })}
+            {t("compare.printNote", { site: siteName, release: ctx.cat.origin() === "fixture" ? "dev" : ctx.cat.release() })}
           </p>
         </>
       )}

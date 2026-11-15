@@ -109,7 +109,7 @@ export const SPEC_FIELDS: readonly SpecField[] = [
   text("segment", "practicality"),
 
   { kind: "price", key: "price_new", group: "availability" },
-  num("registered_count_nl", "availability", undefined, 0),
+  num("registered_count_nl", "availability", undefined, 0, "registrations-nl"),
 ];
 
 /** Rows of the per-generation spec diff (T-009): the fields that tell variants and years apart. */

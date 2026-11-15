@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Num } from "@/components/Num";
+import { TermInfo } from "@/components/Term";
 import { isCountrySlug } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
 import { formatYears } from "@/lib/format";
@@ -30,21 +31,22 @@ export default async function ModelPage({ params }: Props) {
   const rows = modelRows(ctx.cat.rows(), make, model);
   const first = rows[0];
   if (!first) notFound();
-  const { t, pt } = ctx;
+  const { t } = ctx;
+  const rdwTerm = ctx.tax.terms["registrations-nl"];
   const gens = groupGenerations(ctx.cat, rows);
   const name = `${first.make_name} ${first.model_name}`;
 
   return (
     <>
-      <Breadcrumbs label={t("nav.main")} items={[{ label: pt("crumb.home"), href: `/${country}` }, { label: name }]} />
+      <Breadcrumbs label={t("nav.main")} items={[{ label: t("crumb.home"), href: `/${country}` }, { label: name }]} />
       <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{name}</h1>
       <p className="mt-2 text-slate-800">
         {gens.length === 1
-          ? pt("model.intro.one", { variants: rows.length })
-          : pt("model.intro", { generations: gens.length, variants: rows.length })}
+          ? t("model.intro.one", { variants: rows.length })
+          : t("model.intro", { generations: gens.length, variants: rows.length })}
       </p>
 
-      <h2 className="mt-8 text-xl font-semibold">{pt("model.generations")}</h2>
+      <h2 className="mt-8 text-xl font-semibold">{t("model.generations")}</h2>
       <ul className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {gens.map((g) => {
           const rdw = firstWith(g.rows, "registered_count_nl");
@@ -56,15 +58,15 @@ export default async function ModelPage({ params }: Props) {
                 </Link>
               </h3>
               <p className="text-sm">
-                <span className="sr-only">{pt("years.label")}: </span>
+                <span className="sr-only">{t("years.label")}: </span>
                 <span className="tabular-nums">{formatYears(g.yearStart, g.yearEnd, t("years.now"))}</span>
                 {g.uncertain ? (
-                  <span className="ml-2 rounded border border-amber-700 px-1 text-xs text-amber-900" title={pt("years.unchecked.help")}>
-                    {pt("years.unchecked")}
+                  <span className="ml-2 rounded border border-amber-700 px-1 text-xs text-amber-900" title={t("years.unchecked.help")}>
+                    {t("years.unchecked")}
                   </span>
                 ) : null}
               </p>
-              <p className="text-sm text-slate-800">{pt("model.variants", { n: g.rows.length })}</p>
+              <p className="text-sm text-slate-800">{t("model.variants", { n: g.rows.length })}</p>
               {rdw ? (
                 <p className="text-sm">
                   <Num
@@ -76,7 +78,8 @@ export default async function ModelPage({ params }: Props) {
                     labels={ctx.labels}
                     asOf={ctx.asOf}
                   />{" "}
-                  {pt("gen.rdw")}
+                  {t("gen.rdw")}
+                  <TermInfo term={rdwTerm} country={country} text={ctx.termText} />
                 </p>
               ) : null}
             </li>

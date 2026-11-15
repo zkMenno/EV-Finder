@@ -51,3 +51,22 @@ test("Language and country switchers keep the rest of the URL", async ({ page })
   // UK prices in GBP.
   await expect(page.getByLabel(/new price \(GBP\)/i)).toBeVisible();
 });
+
+test("Explore rows link to variant pages; header links to Rankings and Compare", async ({ page }) => {
+  await page.goto("/nl");
+  const nav = page.getByRole("navigation", { name: /Hoofdmenu|Main/ });
+  await expect(nav.getByRole("link", { name: "Ranglijsten" })).toHaveAttribute("href", "/nl/top");
+  await expect(nav.getByRole("link", { name: "Vergelijken" })).toHaveAttribute("href", "/nl/compare");
+
+  const first = page.getByTestId("explore-row").first().getByRole("rowheader").getByRole("link");
+  const href = await first.getAttribute("href");
+  expect(href).toMatch(/^\/nl\/ev\/[^/]+\/[^/]+\/[^/]+\/[^/]+$/);
+  await first.click();
+  await expect(page).toHaveURL(new RegExp(`${href}$`));
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+});
+
+test("Staff pages are off by default (404 without STAFF_PAGES=1)", async ({ request }) => {
+  const res = await request.get("/staff/review");
+  expect(res.status()).toBe(404);
+});

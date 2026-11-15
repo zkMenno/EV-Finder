@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { toExploreRow } from "@/lib/explore-data";
 import { catalogue } from "@/test/helpers";
 import {
   childSegment,
@@ -54,5 +55,17 @@ describe("slugs from stable ids", () => {
     const g = generationParams(rows).map((p) => `${p.make}/${p.model}/${p.generation}`);
     expect(new Set(g).size).toBe(g.length);
     expect(g).toHaveLength(new Set(rows.map((r) => r.generation_id)).size);
+  });
+});
+
+describe("Explore rows link to variant pages", () => {
+  it("compact Explore rows carry every id variantHref needs, and each href resolves", () => {
+    for (const r of rows) {
+      const e = toExploreRow(r);
+      const href = variantHref("nl", e);
+      expect(href).toBe(variantHref("nl", r));
+      const [, , , make, model, gen, variant] = href.split("/");
+      expect(findVariant(rows, make!, model!, gen!, variant!)?.variant_id).toBe(r.variant_id);
+    }
   });
 });

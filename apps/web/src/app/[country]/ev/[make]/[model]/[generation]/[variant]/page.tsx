@@ -36,7 +36,7 @@ export default async function VariantPage({ params }: Props) {
   const all = ctx.cat.rows();
   const row = findVariant(all, make, model, generation, variant);
   if (!row) notFound();
-  const { t, pt, cfg } = ctx;
+  const { t, cfg } = ctx;
   const modelName = `${row.make_name} ${row.model_name}`;
   const name = `${modelName} ${row.variant_name}`;
   const siblings = timelineOrder(generationRows(all, make, model, generation)).filter((r) => r.variant_id !== row.variant_id);
@@ -46,7 +46,7 @@ export default async function VariantPage({ params }: Props) {
       <Breadcrumbs
         label={t("nav.main")}
         items={[
-          { label: pt("crumb.home"), href: `/${country}` },
+          { label: t("crumb.home"), href: `/${country}` },
           { label: modelName, href: modelHref(country, row) },
           { label: row.generation_name, href: generationHref(country, row) },
           { label: row.variant_name },
@@ -59,10 +59,10 @@ export default async function VariantPage({ params }: Props) {
             <span>{row.generation_name}</span>
             <span className="tabular-nums">· {formatYears(row.year_start, row.year_end, t("years.now"))}</span>
             {row.generation_uncertain ? (
-              <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">{pt("years.unchecked")}</span>
+              <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">{t("years.unchecked")}</span>
             ) : null}
             <span className="rounded border border-slate-400 px-1 text-xs">
-              {pt("variant.quality", { tier: t(`tier.${row.quality_tier}`) })}
+              {t("variant.quality", { tier: t(`tier.${row.quality_tier}`) })}
             </span>
           </p>
         </div>
@@ -81,18 +81,18 @@ export default async function VariantPage({ params }: Props) {
         />
       </div>
 
-      <h2 className="mt-8 text-xl font-semibold">{pt("variant.specs")}</h2>
+      <h2 className="mt-8 text-xl font-semibold">{t("variant.specs")}</h2>
       <div className="mt-3 grid gap-6 lg:grid-cols-2">
         {SPEC_GROUPS.map((group) => {
           const fields = SPEC_FIELDS.filter((f) => f.group === group);
-          const title = pt(`variant.group.${group}`);
+          const title = t(`variant.group.${group}`);
           return (
             <table key={group} className="w-full border-collapse text-sm">
               <caption className="pb-1 text-left text-base font-semibold">{title}</caption>
               <thead className="sr-only">
                 <tr>
-                  <th scope="col">{pt("gen.diff.fieldHeader")}</th>
-                  <th scope="col">{pt("variant.valueHeader")}</th>
+                  <th scope="col">{t("gen.diff.fieldHeader")}</th>
+                  <th scope="col">{t("variant.valueHeader")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -109,7 +109,7 @@ export default async function VariantPage({ params }: Props) {
                 {group === "availability" ? (
                   <tr className="border-t border-slate-200">
                     <th scope="row" className="py-2 pr-3 text-left align-top font-normal text-slate-800">
-                      {pt("gen.usedPrice", { country: cfg.name })}
+                      {t("gen.usedPrice", { country: cfg.name })}
                     </th>
                     <td className="py-2 align-top">
                       <PriceBand currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
@@ -126,11 +126,11 @@ export default async function VariantPage({ params }: Props) {
         <SeeListings
           links={seeListings(country, row)}
           text={{
-            title: pt("listings.title"),
-            intro: pt("listings.intro", { name: modelName, country: cfg.name }),
-            newTab: pt("listings.newTab"),
-            unverified: pt("listings.unverified"),
-            none: pt("listings.none"),
+            title: t("listings.title"),
+            intro: t("listings.intro", { name: modelName, country: cfg.name }),
+            newTab: t("listings.newTab"),
+            unverified: t("listings.unverified"),
+            none: t("listings.none"),
           }}
         />
       </div>
@@ -138,7 +138,7 @@ export default async function VariantPage({ params }: Props) {
       {siblings.length ? (
         <section aria-labelledby="siblings" className="mt-8">
           <h2 id="siblings" className="text-xl font-semibold">
-            {pt("variant.otherVariants")}
+            {t("variant.otherVariants")}
           </h2>
           <ul className="mt-2 flex flex-wrap gap-2">
             {siblings.map((s) => (

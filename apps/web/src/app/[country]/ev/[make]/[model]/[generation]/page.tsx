@@ -8,6 +8,7 @@ import { Num } from "@/components/Num";
 import { PriceBand } from "@/components/PriceBand";
 import { SeeListings } from "@/components/SeeListings";
 import { SpecDiff } from "@/components/SpecDiff";
+import { Term } from "@/components/Term";
 import { isCountrySlug } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
 import { formatYears } from "@/lib/format";
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 /** One value for the whole generation, or "differs by variant". */
 function Summary({ ctx, field, rows }: { ctx: PageCtx; field: Extract<SpecField, { kind: "text" }>; rows: Parameters<typeof textValue>[1][] }) {
   const values = [...new Set(rows.map((r) => textValue(ctx, r, field.key)))];
-  return <>{values.length === 1 ? values[0] : `${ctx.pt("gen.mixed")}: ${values.join(", ")}`}</>;
+  return <>{values.length === 1 ? values[0] : `${ctx.t("gen.mixed")}: ${values.join(", ")}`}</>;
 }
 
 export default async function GenerationPage({ params }: Props) {
@@ -42,13 +43,14 @@ export default async function GenerationPage({ params }: Props) {
   const ctx = await pageCtx(country);
   const rows = generationRows(ctx.cat.rows(), make, model, generation);
   if (!rows.length) notFound();
-  const { t, pt, cfg } = ctx;
+  const { t, cfg } = ctx;
   const g = generationView(ctx.cat, rows);
   const first = g.rows[0]!;
   const modelName = `${first.make_name} ${first.model_name}`;
   const fullName = generationTitle({ ...first, generation_name: g.name });
   const diff = specDiff(g.rows, fieldsFor(DIFF_KEYS), cfg.code);
   const rdw = firstWith(g.rows, "registered_count_nl");
+  const rdwTerm = ctx.tax.terms["registrations-nl"];
   const textField = (key: string) => SPEC_FIELDS.find((f) => f.key === key) as Extract<SpecField, { kind: "text" }>;
   const keyFacts = ["voltage_class_id", "chemistry_id", "charger_400v_mode", "cooling_id"].map(textField);
 
@@ -56,16 +58,16 @@ export default async function GenerationPage({ params }: Props) {
     <>
       <Breadcrumbs
         label={t("nav.main")}
-        items={[{ label: pt("crumb.home"), href: `/${country}` }, { label: modelName, href: modelHref(country, first) }, { label: g.name }]}
+        items={[{ label: t("crumb.home"), href: `/${country}` }, { label: modelName, href: modelHref(country, first) }, { label: g.name }]}
       />
       <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{fullName}</h1>
       <p className="mt-2 flex flex-wrap items-center gap-2 text-slate-800">
-        <span className="sr-only">{pt("years.label")}: </span>
+        <span className="sr-only">{t("years.label")}: </span>
         <span className="tabular-nums">{formatYears(g.yearStart, g.yearEnd, t("years.now"))}</span>
         {g.uncertain ? (
           <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">
-            {pt("years.unchecked")}
-            <span className="sr-only">. {pt("years.unchecked.help")}</span>
+            {t("years.unchecked")}
+            <span className="sr-only">. {t("years.unchecked.help")}</span>
           </span>
         ) : null}
         {first.segment ? <span>· {t(`segment.${first.segment}`)}</span> : first.body ? <span>· {t(`body.${first.body}`)}</span> : null}
@@ -73,7 +75,7 @@ export default async function GenerationPage({ params }: Props) {
 
       <section aria-labelledby="key-facts" className="mt-6">
         <h2 id="key-facts" className="text-xl font-semibold">
-          {pt("gen.keyFacts")}
+          {t("gen.keyFacts")}
         </h2>
         <dl className="mt-3 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
           {keyFacts.map((f) => (
@@ -88,7 +90,7 @@ export default async function GenerationPage({ params }: Props) {
           ))}
           <div>
             <dt className="text-sm text-slate-700">
-              {pt("gen.rdw")}
+              <Term term={rdwTerm ? { ...rdwTerm, label: t("gen.rdw") } : undefined} fallback={t("gen.rdw")} country={country} text={ctx.termText} showTechnical={false} />
             </dt>
             <dd className="font-medium" data-testid="rdw-count">
               <Num
@@ -100,11 +102,11 @@ export default async function GenerationPage({ params }: Props) {
                 labels={ctx.labels}
                 asOf={ctx.asOf}
               />
-              <span className="sr-only">. {pt("gen.rdw.help")}</span>
+              <span className="sr-only">. {t("gen.rdw.help")}</span>
             </dd>
           </div>
           <div>
-            <dt className="text-sm text-slate-700">{pt("gen.usedPrice", { country: cfg.name })}</dt>
+            <dt className="text-sm text-slate-700">{t("gen.usedPrice", { country: cfg.name })}</dt>
             <dd>
               <PriceBand currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
             </dd>
@@ -116,18 +118,18 @@ export default async function GenerationPage({ params }: Props) {
         <SeeListings
           links={seeListings(country, first)}
           text={{
-            title: pt("listings.title"),
-            intro: pt("listings.intro", { name: modelName, country: cfg.name }),
-            newTab: pt("listings.newTab"),
-            unverified: pt("listings.unverified"),
-            none: pt("listings.none"),
+            title: t("listings.title"),
+            intro: t("listings.intro", { name: modelName, country: cfg.name }),
+            newTab: t("listings.newTab"),
+            unverified: t("listings.unverified"),
+            none: t("listings.none"),
           }}
         />
       </div>
 
       <section aria-labelledby="timeline" className="mt-8">
         <h2 id="timeline" className="text-xl font-semibold">
-          {pt("gen.timeline")}
+          {t("gen.timeline")}
         </h2>
         {g.changeMarkers.length ? (
           <ol className="mt-3 border-l-2 border-slate-300 pl-4">
@@ -139,19 +141,19 @@ export default async function GenerationPage({ params }: Props) {
             ))}
           </ol>
         ) : (
-          <p className="mt-2 text-slate-800">{pt("gen.timeline.empty")}</p>
+          <p className="mt-2 text-slate-800">{t("gen.timeline.empty")}</p>
         )}
       </section>
 
       <section aria-labelledby="spec-diff" className="mt-8">
         <h2 id="spec-diff" className="text-xl font-semibold">
-          {pt("gen.diff")}
+          {t("gen.diff")}
         </h2>
-        <p className="mb-2 mt-1 text-sm text-slate-700">{pt("gen.diff.legend")}</p>
+        <p className="mb-2 mt-1 text-sm text-slate-700">{t("gen.diff.legend")}</p>
         <SpecDiff
-          caption={pt("gen.diff.caption", { name: fullName })}
-          fieldHeader={pt("gen.diff.fieldHeader")}
-          changedLabel={pt("gen.diff.changed")}
+          caption={t("gen.diff.caption", { name: fullName })}
+          fieldHeader={t("gen.diff.fieldHeader")}
+          changedLabel={t("gen.diff.changed")}
           columns={diff.columns.map((r) => ({
             key: r.variant_id,
             header: (

@@ -140,6 +140,16 @@ The ev, top and learn pages have `generateStaticParams` for all 5 countries (1,5
 
 **Answer:**
 
+### Q-034 · Static model pages (Q-033): skipped for now, needs a decision · T-008 (wave 4) · builder · 2026-11-15
+Tried to make the ev, top and learn pages static. **Not done**, for three reasons: (1) `<html lang>` sits in the root layout, which can only learn the language from the request, so a static page needs the language as a route segment, which means a layout restructure (multiple root layouts or a hidden `[lang]` segment the proxy rewrites to); (2) static pages bake the catalogue in at build time, but the app re-reads `data/releases/latest` at runtime (Decision 008: releases swap atomically and roll back by pointing `latest` back), and the Docker build stage has no `data/releases`, so in the image the pages would be built from the dev fixture; (3) one copy per language would mean 1,552 × 6 paths. **Default:** pages stay on-demand (ƒ, fast: the catalogue is cached in memory). **Proposal if static is wanted:** proxy rewrites `/{country}/…` to a hidden `/{lang}/{country}/…` tree (public URLs, `?lang` and the cookie stay as they are), `generateStaticParams` only for each country's default language, others on demand with ISR, `revalidate` on a release change, and `data/releases` copied into the build stage. Needs a Decision entry first. Is static output needed for launch?
+
+**Answer:**
+
+### Q-035 · Staff review page: reads pipeline files, no auth yet · T-008 (wave 4) · builder · 2026-11-15
+`/staff/review` (read-only table of `data/review/unmatched.csv` and `conflicts.csv`) reads those files directly, which `apps/web/AGENTS.md` rule 5 otherwise forbids; I noted it there as the one exception. It is off unless `STAFF_PAGES=1` (404 otherwise), `noindex` plus `X-Robots-Tag`, and has no login. In the Docker image the CSVs aren't there (it shows "not found" unless `REVIEW_DIR` points at a mount). **Default:** keep `STAFF_PAGES=0` in production until staff auth exists; use it locally. OK, or should it sit behind Caddy basic auth on staging?
+
+**Answer:**
+
 ## Closed
 
 ### Q-031 · DC ranking: km in 10 or 20 minutes? · T-011 · builder · 2026-11-15

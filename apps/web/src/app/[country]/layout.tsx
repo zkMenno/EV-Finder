@@ -5,7 +5,7 @@ import { CompareTray } from "@/components/CompareTray";
 import { CountrySwitcher, LanguageSwitcher } from "@/components/Switchers";
 import { COUNTRIES, COUNTRY_SLUGS, isCountrySlug, LANGS } from "@/config/countries";
 import { siteName } from "@/config/site";
-import { getDict, makeT } from "@/i18n";
+import { getClientDict, makeT } from "@/i18n";
 import { getCatalogue } from "@/lib/catalogue";
 import { requestLang } from "@/lib/request-lang";
 
@@ -20,7 +20,7 @@ export default async function CountryLayout({
   if (!isCountrySlug(country)) notFound();
   const cfg = COUNTRIES[country];
   const lang = await requestLang(country);
-  const dict = getDict(lang);
+  const dict = getClientDict(lang);
   const t = makeT(dict);
   const cat = getCatalogue();
 
@@ -37,6 +37,9 @@ export default async function CountryLayout({
           <nav aria-label={t("nav.main")} className="flex gap-4 text-sm">
             <Link href={`/${country}`} className="font-medium hover:underline">
               {t("nav.explore")}
+            </Link>
+            <Link href={`/${country}/top`} className="font-medium hover:underline">
+              {t("nav.rankings")}
             </Link>
             <Link href={`/${country}/compare`} className="font-medium hover:underline">
               {t("nav.compare")}

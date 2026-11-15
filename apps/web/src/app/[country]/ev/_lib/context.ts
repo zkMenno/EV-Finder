@@ -8,7 +8,6 @@ import { getT, type T } from "@/i18n";
 import { getCatalogue, type Catalogue } from "@/lib/catalogue";
 import { sourceNames } from "@/lib/explore-data";
 import { localeFor } from "@/lib/format";
-import { pagesT, type PT } from "@/lib/pages-i18n";
 import { requestLang } from "@/lib/request-lang";
 import { localizeTaxonomy, type UiTaxonomy } from "@/lib/taxonomy";
 
@@ -18,7 +17,6 @@ export interface PageCtx {
   lang: Lang;
   locale: string;
   t: T;
-  pt: PT;
   cat: Catalogue;
   labels: NumLabels;
   /** All source id → name. Pass `sourcesFor(ctx, prov)` to <Num> to keep the payload small. */
@@ -38,7 +36,6 @@ export async function pageCtx(country: CountrySlug): Promise<PageCtx> {
     lang,
     locale: localeFor(lang),
     t,
-    pt: pagesT(lang),
     cat,
     labels: numLabels(t),
     sources: sourceNames(cat.sources()),

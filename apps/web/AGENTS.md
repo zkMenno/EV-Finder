@@ -11,12 +11,12 @@ Next.js 16 (App Router, Turbopack) · React 19 · TypeScript strict · Tailwind 
 1. **Server components by default.** Add `"use client"` only where interaction needs it (Explore, Num, Term, CompareTray, switchers). Pages, layouts and learn pages stay server components.
 2. **Every number goes through `<Num>`** (`src/components/Num.tsx`): value + unit + `provenance` from the row. It shows source and confidence on hover, focus and tap, the Decision 009 text badges ("N sources agree", "1 source", "estimate", "claim"), and inline sources at Nerd level. From a server component, pass `labels={numLabels(t)}` (functions can't cross the client boundary). Missing values render "—", never 0.
 3. **No third-party browser calls.** No external fonts, CDNs, analytics, images or iframes. The browser talks only to our own origin. A CSP in `next.config.ts` enforces this, and the e2e smoke test fails on any foreign request.
-4. **JS budget: Explore first load < 200 KB gzip.** Next 16 no longer prints sizes, so measure: start the production server, sum the gzipped `<script src>` chunks on `/nl` (skip `noModule`). Last measured: ~154 KB gzip for modern browsers (193 KB counting the noModule polyfills). No table, state or UI libraries; ask in `QUESTIONS.md` before adding any runtime dependency.
-5. **Data access only through `src/lib/catalogue.ts`** (Decision 008): `getCatalogue()` reads `data/releases/<latest>/catalogue.json` (or `CATALOGUE_DIR`) and falls back to the dev fixture. Never read the pipeline's other files directly.
+4. **JS budget: Explore first load < 200 KB gzip.** Next 16 no longer prints sizes, so measure: start the production server, sum the gzipped `<script src>` chunks on `/nl` (skip `noModule`). Last measured (wave 4): ~156 KB gzip for modern browsers (195 KB counting the noModule polyfills). No table, state or UI libraries; ask in `QUESTIONS.md` before adding any runtime dependency.
+5. **Data access only through `src/lib/catalogue.ts`** (Decision 008): `getCatalogue()` reads `data/releases/<latest>/catalogue.json` (or `CATALOGUE_DIR`) and falls back to the dev fixture. Never read the pipeline's other files directly. One exception: the staff page `/staff/review` reads `data/review/*.csv` via `src/lib/review.ts` (off unless `STAFF_PAGES=1`, Q-035).
 6. **Taxonomy is data** (Decision 010): voltage classes, chemistries, cooling types and glossary terms come from `catalogue.taxonomy()`. Adding a row must need no code change. Ids are free strings; `not-disclosed` is valid and never matches a filter choice.
 7. **One state shape** (`src/lib/state.ts`, `ExploreState`) for URL, localStorage and later accounts. Add a field there with a URL key, (de)serialisers and a test, or not at all.
 8. **localStorage only via `src/lib/storage.ts`** (try/catch, works when storage is missing or throws).
-9. **i18n:** strings live in `src/i18n/*.json`. EN is complete, NL covers the main UI, other languages fall back to EN key by key. Use `t()`; no hard-coded UI text. The brand name comes from `APP_NAME` (`src/config/site.ts`).
+9. **i18n:** strings live in `src/i18n/*.json` (one dictionary per language, page strings included). EN is complete, NL covers the public UI (staff pages are EN only), other languages fall back to EN key by key. Use `t()`; no hard-coded UI text. Client components get `getClientDict(lang)`, which drops the server-only prefixes in `SERVER_ONLY_PREFIXES` (`crumb.`, `model.`, `gen.`, `listings.`, `variant.`, `field.`, `drivetrain.`, `top.`, `staff.`); a test fails if a client component uses one. The brand name comes from `APP_NAME` (`src/config/site.ts`).
 10. **Metric units always**; format with `src/lib/format.ts` (Intl, language locale, country currency).
 11. **Accessibility:** visible focus, labels on every control, `aria-sort` on sortable headers, text (not colour alone) for status.
 
@@ -26,7 +26,9 @@ Next.js 16 (App Router, Turbopack) · React 19 · TypeScript strict · Tailwind 
 - `Term` / `TermLabel` / `TermInfo` / `InfoTip`: glossary ⓘ.
 - `PriceBand`: used-price band ("Not enough data" below 5 samples).
 - `CompareTray` + `src/lib/compare-store.ts`: the compare tray (max 4, persisted). It lives in `app/[country]/layout.tsx`. The compare page itself belongs to T-010; read `?ids=a,b`.
-- `src/config/countries.ts`: countries, currency, default language, `listingLinks()` (unverified URL patterns).
+- `src/config/countries.ts`: countries, currency, default language (client-safe).
+- `src/lib/listings.ts`: `seeListings()` / `listingLinks()` (server only). Patterns live in `config/countries/<country>.yaml` at the repo root; `scripts/listings.mjs` validates them and writes `src/config/listings.generated.json` (run `pnpm listings` after editing; `build`/`dev` run it, and a test fails when the JSON is stale). Public search URLs only (Decision 004), all `verified: false`.
+- Explore rows and cards link to variant pages via `variantHref`/`generationHref` (`app/[country]/ev/_lib/routes.ts`).
 
 ## Tests
 

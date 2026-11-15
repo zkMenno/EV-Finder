@@ -7,12 +7,12 @@ import { Num } from "@/components/Num";
 import { RankingTable } from "@/components/RankingTable";
 import { COUNTRIES, COUNTRY_SLUGS, isCountrySlug } from "@/config/countries";
 import { formatMoney, formatYears, localeFor } from "@/lib/format";
-import { pagesT } from "@/lib/pages-i18n";
 import { isRankingId, PRICE_THRESHOLD, ranking, RANKING_IDS, type RankEntry, type RankingId } from "@/lib/rankings";
 import { requestLang } from "@/lib/request-lang";
 import { pageCtx, sourcesFor, type PageCtx } from "../../ev/_lib/context";
 import { generationTitle } from "../../ev/_lib/data";
 import { generationHref, variantHref } from "../../ev/_lib/routes";
+import { getT } from "@/i18n";
 
 type Props = { params: Promise<{ country: string; list: string }> };
 
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isCountrySlug(country) || !isRankingId(list)) return {};
   const lang = await requestLang(country);
   const cfg = COUNTRIES[country];
-  return { title: pagesT(lang)(`top.${list}.title`, { price: formatMoney(PRICE_THRESHOLD[cfg.currency], cfg.currency, localeFor(lang)) }) };
+  return { title: getT(lang)(`top.${list}.title`, { price: formatMoney(PRICE_THRESHOLD[cfg.currency], cfg.currency, localeFor(lang)) }) };
 }
 
 const UNIT: Record<RankingId, string | undefined> = {
@@ -59,17 +59,17 @@ export default async function RankingPage({ params }: Props) {
   const { country, list } = await params;
   if (!isCountrySlug(country) || !isRankingId(list)) notFound();
   const ctx = await pageCtx(country);
-  const { t, pt, cfg } = ctx;
+  const { t, cfg } = ctx;
   const price = formatMoney(PRICE_THRESHOLD[cfg.currency], cfg.currency, ctx.locale);
-  const title = pt(`top.${list}.title`, { price });
+  const title = t(`top.${list}.title`, { price });
   const entries = ranking(list, ctx.cat.rows(), cfg.code, cfg.currency);
   const estimates = entries.filter((e) => e.estimate).length;
   const perGeneration = list === "most-available-nl";
 
   const headers = [
-    perGeneration ? pt("top.most-available-nl.generation") : pt("top.car"),
-    pt(`top.${list}.metric`),
-    ...(list === "longest-real-range-under-30k" ? [pt("top.longest-real-range-under-30k.price")] : []),
+    perGeneration ? t("top.most-available-nl.generation") : t("top.car"),
+    t(`top.${list}.metric`),
+    ...(list === "longest-real-range-under-30k" ? [t("top.longest-real-range-under-30k.price")] : []),
   ];
 
   const rows = entries.map((e) => {
@@ -110,32 +110,32 @@ export default async function RankingPage({ params }: Props) {
     return { key: perGeneration ? r.generation_id : r.variant_id, rank: e.rank, cells };
   });
 
-  const emptyText = list === "longest-real-range-under-30k" ? pt("top.longest-real-range-under-30k.empty") : pt("top.empty");
+  const emptyText = list === "longest-real-range-under-30k" ? t("top.longest-real-range-under-30k.empty") : t("top.empty");
 
   return (
     <>
       <Breadcrumbs
         label={t("nav.main")}
-        items={[{ label: pt("crumb.home"), href: `/${country}` }, { label: pt("crumb.top"), href: `/${country}/top` }, { label: title }]}
+        items={[{ label: t("crumb.home"), href: `/${country}` }, { label: t("crumb.top"), href: `/${country}/top` }, { label: title }]}
       />
       <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h1>
-      <p className="mt-2 max-w-3xl text-slate-800">{pt(`top.${list}.short`, { price, country: cfg.name })}</p>
+      <p className="mt-2 max-w-3xl text-slate-800">{t(`top.${list}.short`, { price, country: cfg.name })}</p>
 
       <section aria-labelledby="method" className="mt-4 max-w-3xl rounded-md border border-slate-300 bg-slate-50 p-4">
         <h2 id="method" className="font-semibold">
-          {pt("top.method")}
+          {t("top.method")}
         </h2>
-        <p className="mt-1 text-sm">{pt(`top.${list}.method`, { price, country: cfg.name })}</p>
+        <p className="mt-1 text-sm">{t(`top.${list}.method`, { price, country: cfg.name })}</p>
         {entries.length && estimates ? (
           <p className="mt-2 text-sm font-medium" data-testid="estimate-note">
-            {estimates === entries.length ? pt("top.allEstimates") : pt("top.estimates", { n: estimates, total: entries.length })}
+            {estimates === entries.length ? t("top.allEstimates") : t("top.estimates", { n: estimates, total: entries.length })}
           </p>
         ) : null}
       </section>
 
       <div className="mt-6">
         {rows.length ? (
-          <RankingTable caption={pt("top.caption", { title })} rankHeader={pt("top.rank")} headers={headers} rows={rows} />
+          <RankingTable caption={t("top.caption", { title })} rankHeader={t("top.rank")} headers={headers} rows={rows} />
         ) : (
           <p className="rounded-md border border-slate-300 p-4" data-testid="ranking-empty">
             {emptyText}

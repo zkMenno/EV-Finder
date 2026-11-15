@@ -1,0 +1,25 @@
+# "See listings" deep links for this country (T-009, moved here in wave 4).
+# Public search URLs only: we link out and never fetch them. No sampling targets, rates or
+# partner/affiliate ids here (Decision 004). Every pattern is an unverified guess until someone
+# opens it by hand (verified: false, Q-028).
+#
+# Fields per site:
+#   site          stable id
+#   label         button text
+#   url_template  https URL; placeholders {make} {model} (our slugs), {makeName} {modelName}
+#                 (display names), {MAKE} {MODEL} (upper-cased names); all URL-encoded
+#   filters       our filter -> query parameters added to the URL (only "electric" today)
+#   slug_overrides  our make/model slug -> the site's slug (optional)
+#   priority      lower = shown first
+#   verified      true only after a manual check of the live site
+# Loaded at build time by apps/web/scripts/listings.mjs.
+
+country: uk
+listings:
+  - site: autotrader-uk
+    label: Autotrader
+    url_template: "https://www.autotrader.co.uk/car-search?make={makeName}&model={modelName}"
+    filters:
+      electric: { fuel-type: Electric }
+    priority: 1
+    verified: false

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Explore } from "@/components/Explore";
 import { COUNTRIES, isCountrySlug } from "@/config/countries";
-import { getDict, getT } from "@/i18n";
+import { getClientDict, getT } from "@/i18n";
 import { clientCatalogueKey, getCatalogue } from "@/lib/catalogue";
 import { sourceNames, toExploreRow } from "@/lib/explore-data";
 import { applyFilters, sortRows } from "@/lib/filters";
@@ -31,7 +31,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   const cfg = COUNTRIES[country];
   const sp = await searchParams;
   const lang = await requestLang(country);
-  const dict = getDict(lang);
+  const dict = getClientDict(lang);
   const t = getT(lang);
 
   const cat = getCatalogue();

@@ -3,7 +3,8 @@ import { numBadges } from "@/components/Num";
 import { numLabels } from "@/components/num-labels";
 import { quartiles } from "@/components/PriceBand";
 import { swapCountry, withLang } from "@/components/Switchers";
-import { COUNTRIES, listingLinks } from "@/config/countries";
+import { COUNTRIES } from "@/config/countries";
+import { listingLinks } from "@/lib/listings";
 import { getT } from "@/i18n";
 import { DASH, formatMoney, formatNumber, formatYears, localeFor } from "./format";
 

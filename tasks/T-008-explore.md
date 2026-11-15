@@ -52,4 +52,30 @@ Open / for the next builder:
 - `/[country]/compare` is linked from the nav and tray but owned by T-010; until it lands it 404s.
 - The `pnpm-workspace.yaml` `onlyBuiltDependencies` list is unchanged; sharp isn't needed (no next/image).
 
+## Integration (wave 4)
+
+**Builder, 2026-11-15 (overnight 1, wave 4). Branch proto/overnight-1. Owns all of apps/web, plus config/countries/, config/price-index/ and .env.example (names only).**
+
+Done:
+1. **Integration.**
+   - Explore links: the car name in table rows and cards links to the variant page (`variantHref`), and the Generation column links to the generation page (`generationHref`). `make_id` is now in the compact Explore rows (`EXPLORE_FIELDS`) so the client can build the href. Unit test: every fixture row's Explore href resolves back to the same variant.
+   - Header nav: Explore · Rankings (`/[country]/top`, new key `nav.rankings`) · Compare.
+   - i18n: `pages.{en,nl}.json` merged into `en.json` / `nl.json` (no key collisions); `src/lib/pages-i18n.ts` and its test removed; pages use the normal `t()`, and `hasMsgKey()` (in `src/i18n/index.ts`) replaces `hasPageKey()`. The 12 page strings NL lacked are translated now. de/fr/es/it still fall back to EN key by key (tested). To keep the Explore payload small, client components get `getClientDict()`, which leaves out the server-only prefixes; a test scans the `"use client"` components for those keys.
+   - RDW count: the `registrations-nl` Term ⓘ is on the generation page (key facts), the model page (per generation) and every spec table (variant page, compare) via the `registered_count_nl` spec field. Explore already had it.
+2. **Q-033 (static pages): skipped, see Q-034.** It needs the language as a route segment (root layout owns `<html lang>`), and static output would bake in the catalogue at build time, which clashes with runtime release swaps (Decision 008) and with the Docker build stage having no `data/releases`. A concrete design is in Q-034; it needs a Decision entry first. Language switcher and e2e unchanged.
+3. **Stretch.**
+   - a. `/staff/review` (`src/app/staff/review/page.tsx`, `src/lib/review.ts`): read-only tables for `unmatched.csv` / `conflicts.csv`, server-side read with an RFC 4180 parser, filter by `source_id` (GET form, no JS), 500 rows per page with prev/next links, file mtime shown. 404 unless `STAFF_PAGES=1`; `robots: noindex` plus an `X-Robots-Tag` header in `next.config.ts`. `REVIEW_DIR` overrides the folder. EN-only strings (`staff.*`). `STAFF_PAGES` and `REVIEW_DIR` added to `.env.example`. Exception to lane rule 5 noted in `apps/web/AGENTS.md` (Q-035). Checked by hand with release data: 1,411 unmatched rows (3 pages), conflicts filter `openev` = 151 of 489.
+   - b. Listing links moved to `config/countries/{nl,de,fr,be,uk}.yaml` (site, label, url_template, filters map, slug_overrides, priority, verified: false). `apps/web/scripts/listings.mjs` validates them at build time (https only, known placeholders and filters, no duplicate ids, and it rejects keys/query names that look like rates, sampling, affiliate ids or secrets, per Decision 004) and writes `src/config/listings.generated.json`, which `src/lib/listings.ts` imports. `build` and `dev` run it; `pnpm listings` runs it alone; `--check` fails on a stale JSON, and a unit test does the same in CI. `js-yaml` 4.3.2 added as a **devDependency** (already in the lockfile through ESLint; build-time only, so no YAML code in any bundle; checked in `.next`). `src/config/countries.ts` no longer holds listings and stays client-safe. URLs are unchanged except mobile.de, where `ft=ELECTRICITY` now comes after `q=`.
+   - c. `config/price-index/README.md` + `apps/web/src/lib/price-index.ts` (`PRICE_INDEX`: NL/DE/FR/BE/UK → 2010–2026 → `null`, `priceIndex()`), with a test. Not used in the UI.
+4. `apps/web/README.md` (all routes, commands, env) and `apps/web/AGENTS.md` (i18n, listings, rule 5 exception, JS size) updated.
+
+Checks (from the repo root, each separately): `pnpm --filter @ev/web lint`, `typecheck`, `test` (16 files, 123 tests), `build`, `e2e` (4 tests: the 2 earlier ones, plus Explore row → variant page with the Rankings/Compare nav links, and `/staff/review` 404 by default). All green.
+
+Size: Explore `/nl` first load **~156 KB gzip** for modern browsers (519 KB raw; 9 scripts), 195 KB including the 38.6 KB noModule polyfills. Was ~154 KB; the 2 KB is `next/link` in Explore. HTML on release 1: 414 KB raw / 28.7 KB gzip.
+
+For the coordinator:
+- Q-034 (static pages), Q-035 (staff page, no auth).
+- Docker: `.dockerignore` (not my lane) leaves `config/` out of the build context, so the image build uses the committed `listings.generated.json` (the script warns and keeps it). To regenerate in the image, allow `!config/countries/` and add `COPY config/countries config/countries` to the build stage.
+- Any edit to `config/countries/*.yaml` must be followed by `pnpm --filter @ev/web listings` and committing the JSON, or the unit test fails.
+
 ## Review

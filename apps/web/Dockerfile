@@ -30,6 +30,8 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
 # ---- build: Next standalone output ----
 FROM deps AS build
 COPY packages/schema packages/schema
+# config/countries/ is not in the build context (.dockerignore); scripts/listings.mjs then keeps the
+# committed src/config/listings.generated.json, which a unit test keeps in step with the YAML.
 COPY apps/web apps/web
 RUN pnpm --filter @ev/web build
 

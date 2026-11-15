@@ -4,7 +4,9 @@
 // and sorts the full list in the browser. All state lives in the URL (see lib/state.ts).
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
 import type { Country, Currency } from "@ev/schema";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { generationHref, variantHref } from "@/app/[country]/ev/_lib/routes";
 import type { CountrySlug, Lang } from "@/config/countries";
 import { makeT, type Dict, type MsgKey, type T } from "@/i18n";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
@@ -601,7 +603,11 @@ function charger400(r: ExploreRow, c: Ctx) {
 
 const COLS: Col[] = [
   { id: "car", key: "name", label: "col.car", levels: ALL, cell: () => null },
-  { id: "gen", key: null, label: "col.generation", term: "generation", levels: DN, cell: (r) => r.generation_name },
+  { id: "gen", key: null, label: "col.generation", term: "generation", levels: DN, cell: (r, c) => (
+      <Link href={generationHref(c.country, r)} className="underline decoration-slate-400 underline-offset-2 hover:text-blue-900">
+        {r.generation_name}
+      </Link>
+    ) },
   { id: "variant", key: null, label: "col.variant", term: "variant", levels: DN, cell: (r) => r.variant_name },
   { id: "years", key: "years", label: "col.years", term: "model-years", levels: ALL, cell: (r, c) => formatYears(r.year_start, r.year_end, c.t("years.now")) },
   { id: "era", key: "era", label: "col.era", term: "era", levels: DN, cell: (r) => r.era },
@@ -678,9 +684,10 @@ function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state:
                 <div className="flex items-center gap-2">
                   <RowActions row={r} t={t} />
                   <span className="flex flex-col">
-                    <span className="whitespace-nowrap">
+                    <Link href={variantHref(ctx.country, r)} className="whitespace-nowrap text-blue-800 underline underline-offset-2 hover:text-blue-950">
                       {r.make_name} {r.model_name}
-                    </span>
+                      {level !== "simple" ? <span className="sr-only"> {r.generation_name} {r.variant_name}</span> : null}
+                    </Link>
                     {level === "simple" ? (
                       <span className="whitespace-nowrap text-xs font-normal text-slate-700">
                         {r.generation_name} · {r.variant_name}
@@ -719,7 +726,9 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="font-semibold">
-            {r.make_name} {r.model_name}
+            <Link href={variantHref(c.country, r)} className="text-blue-800 underline underline-offset-2 hover:text-blue-950">
+              {r.make_name} {r.model_name}
+            </Link>
           </h3>
           <p className="text-sm text-slate-700">
             {r.generation_name} · {r.variant_name} · {formatYears(r.year_start, r.year_end, t("years.now"))}

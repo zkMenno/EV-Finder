@@ -32,6 +32,8 @@ const config: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
         ],
       },
+      // Staff pages (404 unless STAFF_PAGES=1) are never indexed.
+      { source: "/staff/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] },
     ];
   },
 };

@@ -9,6 +9,7 @@ export const EXPLORE_FIELDS = [
   "generation_name",
   "model_id",
   "model_name",
+  "make_id",
   "make_name",
   "year_start",
   "year_end",
