@@ -1,0 +1,12 @@
+{
+  "id": "xx-used-car-loan",
+  "country": "XX",
+  "product": "used-car-loan",
+  "typical_apr": 7.5,
+  "default_term_months": null,
+  "default_deposit_pct": null,
+  "source": null,
+  "retrieved_at": null,
+  "notes": "Fixture: a rate without a source must be rejected.",
+  "review": true
+}

@@ -147,6 +147,13 @@ export type RoadBand = "town" | "rural" | "motorway";
  */
 export type WeightLevel = "off" | "low" | "medium" | "high" | "very-high";
 /**
+ * Kind of finance a FinanceProfile row describes. pcp = personal contract purchase (balloon at the end; UK, similar to FR LOA).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "FinanceProduct".
+ */
+export type FinanceProduct = "used-car-loan" | "new-car-loan" | "private-lease" | "business-lease" | "pcp";
+/**
  * Car-side ISO 15118-20 support. Default not-disclosed; never inferred from model year (Decision 011).
  *
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -775,6 +782,7 @@ export interface Taxonomy {
   temperature_bands?: TemperatureBand[];
   heater_types?: HeaterType[];
   usage_profiles?: UsageProfile[];
+  finance_profiles?: FinanceProfile[];
 }
 /**
  * Row in data/taxonomy/voltage_classes.yaml. Data, not an enum: add a row, no code change.
@@ -1640,6 +1648,77 @@ export interface LocalizedText46 {
  */
 export interface LocalizedText47 {
   [k: string]: string;
+}
+/**
+ * Row in data/taxonomy/finance_profiles.yaml: typical finance terms per country and product, read by the price-mode calculator (Decision 017). null = no citable figure; the calculator asks the user instead of guessing.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "FinanceProfile".
+ */
+export interface FinanceProfile {
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  id: string;
+  country: CountryCode;
+  product: FinanceProduct;
+  /**
+   * Typical annual percentage rate of charge, in percent (8.91 = 8.91 %). null = no citable source; the calculator asks for a rate.
+   */
+  typical_apr: number | null;
+  /**
+   * Sourced typical term; null = no source, the calculator uses its own labelled default.
+   */
+  default_term_months: number | null;
+  /**
+   * Sourced typical deposit as percent of the price; null = no source.
+   */
+  default_deposit_pct: number | null;
+  /**
+   * Required (not null) whenever typical_apr has a value.
+   */
+  source: FinanceSource | null;
+  /**
+   * When the source was read. Required (not null) whenever typical_apr has a value.
+   */
+  retrieved_at: string | null;
+  /**
+   * Staff notes: caveats, why a value is null, what the figure does and does not cover.
+   */
+  notes?: string;
+  /**
+   * true = entered by an agent or not yet checked by a person; goes to the review queue.
+   */
+  review: boolean;
+}
+/**
+ * Where a FinanceProfile figure comes from. Central-bank statistics only for typical_apr (Decision 017).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "FinanceSource".
+ */
+export interface FinanceSource {
+  /**
+   * Publisher and dataset, e.g. 'ECB Data Portal, MFI interest rate statistics'.
+   */
+  name: string;
+  url: string;
+  /**
+   * Reuse terms as stated by the publisher; '(to confirm)' if not checked.
+   */
+  licence?: string;
+  /**
+   * The publisher's series key, e.g. 'MIR.M.DE.B.A2B.A.C.A.2250.EUR.N'.
+   */
+  series_id?: string;
+  /**
+   * The publisher's own title for the series (Nerd mode).
+   */
+  series_title?: string;
+  /**
+   * Observation period of the figure: YYYY, YYYY-MM or YYYY-MM-DD.
+   */
+  period?: string;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema

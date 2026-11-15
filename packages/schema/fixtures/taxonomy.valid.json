@@ -91,5 +91,19 @@
         "battery_risk": "medium"
       }
     }
+  ],
+  "finance_profiles": [
+    {
+      "id": "xx-private-lease",
+      "country": "XX",
+      "product": "private-lease",
+      "typical_apr": null,
+      "default_term_months": null,
+      "default_deposit_pct": null,
+      "source": null,
+      "retrieved_at": null,
+      "notes": "Fixture: no citable figure, so everything is null.",
+      "review": true
+    }
   ]
 }

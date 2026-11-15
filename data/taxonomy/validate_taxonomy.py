@@ -64,6 +64,8 @@ TAXONOMY_FILES = {
     "charging_metrics": ("charging_metrics.yaml", "ChargingMetric"),
     "charging_definitions": ("charging_definitions.yaml", "ChargingDefinition"),
     "power_bands": ("power_bands.yaml", "PowerBand"),
+    # Decision 017 (price modes, T-043).
+    "finance_profiles": ("finance_profiles.yaml", "FinanceProfile"),
 }
 # Tables whose rows carry a localized `label` and `short` (EN + NL required, short <= 20 words).
 LABELLED_NEW = (
@@ -77,7 +79,7 @@ LABELLED_NEW = (
     "charging_definitions",
     "power_bands",
 )
-NO_LABEL = {"bidi_equipment"}  # rows have `name`, not a localized label
+NO_LABEL = {"bidi_equipment", "finance_profiles"}  # rows have no localized label
 # Ids the spec requires (docs/spec/bidirectional-and-connectors.md §2.2/§3.1,
 # docs/spec/charging-buildout.md "Data model"), hyphenated per Decision 019.
 REQUIRED_IDS = {
@@ -800,6 +802,31 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
     for pid in sorted(set(platforms) - used_platforms):
         warn(f"platforms.yaml: platform {pid} is not used by any link")
 
+    # --- finance profiles (Decision 017) ---------------------------------------------------
+    # Schema: a typical_apr needs a source + retrieved_at. Here: id convention, one row per
+    # country + product, and a cited rate names its series and period.
+    seen_cp: set[tuple[str, str]] = set()
+    for row in tax.get("finance_profiles") or []:
+        if not isinstance(row, dict):
+            continue
+        fid, cc, prod = row.get("id"), row.get("country"), row.get("product")
+        if isinstance(cc, str) and isinstance(prod, str):
+            if fid != f"{cc.lower()}-{prod}":
+                err(f"finance_profiles.yaml [{fid}] id should be {cc.lower()}-{prod}")
+            if (cc, prod) in seen_cp:
+                err(f"finance_profiles.yaml [{fid}] second row for {cc} {prod}")
+            seen_cp.add((cc, prod))
+        src = row.get("source")
+        if row.get("typical_apr") is not None and isinstance(src, dict):
+            for k in ("series_id", "period"):
+                if not src.get(k):
+                    err(f"finance_profiles.yaml [{fid}] typical_apr set but source.{k} missing")
+        for k in ("default_term_months", "default_deposit_pct"):
+            if row.get(k) is not None and not isinstance(src, dict):
+                err(f"finance_profiles.yaml [{fid}] {k} set without a source")
+        if row.get("typical_apr") is None and not row.get("notes"):
+            err(f"finance_profiles.yaml [{fid}] typical_apr is null: notes must say why")
+
     return errors, warnings
 
 
@@ -909,7 +936,12 @@ def self_test(base: Data, schema: Schema) -> int:
     def m_link_job(d: Data) -> None:
         d["countries"]["nl"]["charging_links"][0]["job"] = "find-charger"
 
+    def m_finance_unsourced(d: Data) -> None:
+        row = next(r for r in d["taxonomy"]["finance_profiles"] if r["typical_apr"] is not None)
+        row["source"], row["retrieved_at"] = None, None
+
     cases: list[tuple[str, Callable[[Data], None], str]] = [
+        ("finance rate without source (schema)", m_finance_unsourced, "finance_profiles.yaml"),
         ("unknown bidi route", m_route, "route_id 'teleport'"),
         ("unknown equipment source", m_equip_source, "source id 'no-such-source'"),
         ("unknown maps_to band", m_maps_to, "is not one of our bands"),

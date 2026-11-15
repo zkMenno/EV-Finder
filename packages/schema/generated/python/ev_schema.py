@@ -1495,6 +1495,86 @@ class ClimateNormal(BaseModel):
     retrieved_at: date
 
 
+class FinanceProduct(Enum):
+    used_car_loan = 'used-car-loan'
+    new_car_loan = 'new-car-loan'
+    private_lease = 'private-lease'
+    business_lease = 'business-lease'
+    pcp = 'pcp'
+
+
+class FinanceSource(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    name: str = Field(
+        ...,
+        description="Publisher and dataset, e.g. 'ECB Data Portal, MFI interest rate statistics'.",
+    )
+    url: str
+    licence: str | None = Field(
+        None,
+        description="Reuse terms as stated by the publisher; '(to confirm)' if not checked.",
+    )
+    series_id: str | None = Field(
+        None,
+        description="The publisher's series key, e.g. 'MIR.M.DE.B.A2B.A.C.A.2250.EUR.N'.",
+    )
+    series_title: str | None = Field(
+        None, description="The publisher's own title for the series (Nerd mode)."
+    )
+    period: str | None = Field(
+        None,
+        description='Observation period of the figure: YYYY, YYYY-MM or YYYY-MM-DD.',
+        pattern='^[0-9]{4}(-[0-9]{2}){0,2}$',
+    )
+
+
+class FinanceProfile(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id = Field(
+        ...,
+        description="Convention: <country-lowercase>-<product>, e.g. 'nl-used-car-loan'.",
+    )
+    country: CountryCode
+    product: FinanceProduct
+    typical_apr: float | None = Field(
+        ...,
+        description='Typical annual percentage rate of charge, in percent (8.91 = 8.91 %). null = no citable source; the calculator asks for a rate.',
+        ge=0.0,
+        le=100.0,
+    )
+    default_term_months: int | None = Field(
+        ...,
+        description='Sourced typical term; null = no source, the calculator uses its own labelled default.',
+        ge=1,
+        le=120,
+    )
+    default_deposit_pct: float | None = Field(
+        ...,
+        description='Sourced typical deposit as percent of the price; null = no source.',
+        ge=0.0,
+        le=100.0,
+    )
+    source: FinanceSource | None = Field(
+        ..., description='Required (not null) whenever typical_apr has a value.'
+    )
+    retrieved_at: date | None = Field(
+        ...,
+        description='When the source was read. Required (not null) whenever typical_apr has a value.',
+    )
+    notes: str | None = Field(
+        None,
+        description='Staff notes: caveats, why a value is null, what the figure does and does not cover.',
+    )
+    review: bool = Field(
+        ...,
+        description='true = entered by an agent or not yet checked by a person; goes to the review queue.',
+    )
+
+
 class Variant(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -1690,6 +1770,7 @@ class Taxonomy(BaseModel):
     temperature_bands: list[TemperatureBand] | None = None
     heater_types: list[HeaterType] | None = None
     usage_profiles: list[UsageProfile] | None = None
+    finance_profiles: list[FinanceProfile] | None = None
 
 
 class Catalogue(BaseModel):

@@ -682,3 +682,98 @@ glossary_terms:
     - nmc
     nerd_note:
       en: From the chemistry table; always follow the maker's own guidance for the specific car.
+
+  # --- price modes: loan / lease (Decision 017, T-043) ---
+  - id: loan
+    label: {en: "Car loan", nl: "Autolening"}
+    technical: {en: "Instalment loan (consumer credit)", nl: "Persoonlijke lening of autofinanciering"}
+    short:
+      en: "You borrow part of the price and pay it back monthly with interest. The car is yours."
+      nl: "Je leent een deel van de prijs en betaalt het maandelijks terug met rente. De auto is van jou."
+    long:
+      en: >-
+        With a loan you buy the car, put down a deposit if you like, and repay the rest in fixed
+        monthly amounts over an agreed term. Interest is the price of borrowing, shown as an APR that
+        includes most fees. Our monthly figure is an estimate from a typical national rate, not an
+        offer from a lender.
+    nerd_note:
+      en: "Annuity formula: payment = P × r / (1 − (1 + r)^−n), with n months and monthly rate r = (1 + APR)^(1/12) − 1. Typical rates come from central-bank consumer-credit statistics (finance_profiles), not lender quotes; with no source the calculator asks you for a rate."
+    related: [total-cost-over-term, balloon-pcp, lease, estimate]
+
+  - id: lease
+    label: {en: "Lease", nl: "Lease"}
+    technical: {en: "Operating lease (long-term rental)", nl: "Operationele lease"}
+    short:
+      en: "You rent the car for a fixed monthly fee and hand it back at the end. You never own it."
+      nl: "Je huurt de auto voor een vast bedrag per maand en levert hem aan het eind weer in."
+    long:
+      en: >-
+        A lease is a long-term rental: you pay a fixed amount each month for an agreed term and
+        mileage, and return the car at the end. The leasing company owns the car and carries the loss
+        in value, and often insurance and maintenance too. Extra kilometres or damage at hand-back can
+        cost extra.
+    nerd_note:
+      en: "A lessor prices the lease from expected depreciation (price minus residual value), its funding cost and any services. We show no lease figures until partner feeds exist; lease links are labelled and never change rankings."
+    related: [private-lease, residual-value, loan, balloon-pcp]
+
+  - id: private-lease
+    label: {en: "Private lease", nl: "Private lease"}
+    technical: {en: "Consumer operating lease", nl: "Operationele lease voor particulieren"}
+    short:
+      en: "A lease for private people, not companies: one monthly price, usually including insurance, maintenance and road tax."
+      nl: "Lease voor particulieren: één maandbedrag, meestal inclusief verzekering, onderhoud en wegenbelasting."
+    long:
+      en: >-
+        Private lease is the consumer version of a company-car lease and is common in the
+        Netherlands. You pay one all-in monthly amount and return the car at the end of the term. In
+        the Netherlands it comes with a credit check and a BKR registration, and providers with the
+        Keurmerk Private Lease follow its code of conduct.
+    nerd_note:
+      en: "Used-car ('occasion') private lease exists in NL. The closest French products are LLD (long-term rental) and LOA (rental with an option to buy). Term length and yearly kilometres move the price most."
+    related: [lease, residual-value, total-cost-over-term]
+
+  - id: balloon-pcp
+    label: {en: "Balloon payment / PCP", nl: "Slottermijn / ballonfinanciering"}
+    technical: {en: "Personal contract purchase (balloon finance)", nl: "Financiering met slottermijn"}
+    short:
+      en: "Lower monthly payments, then one large final payment: pay it, hand the car back, or trade in."
+      nl: "Lagere maandbedragen en aan het eind één grote slottermijn: betalen, auto inleveren of inruilen."
+    long:
+      en: >-
+        With balloon finance part of the price is left over as one large payment at the end of the
+        term, so the monthly amounts are lower. In the UK this is called PCP (personal contract
+        purchase), and the French LOA works in a similar way. You pay more interest overall than on a
+        normal loan of the same size, because the balloon stays borrowed for the whole term.
+    nerd_note:
+      en: "The balloon is usually set near the lender's guaranteed future value (GFV) of the car, a form of residual value. Monthly payment = annuity on (amount borrowed − present value of the balloon)."
+    related: [loan, residual-value, total-cost-over-term]
+
+  - id: residual-value
+    label: {en: "Residual value", nl: "Restwaarde"}
+    technical: {en: "Residual value (RV)", nl: "Restwaarde"}
+    short:
+      en: "What the car is expected to be worth at the end of a loan or lease."
+      nl: "Wat de auto naar verwachting nog waard is aan het eind van een lening of lease."
+    long:
+      en: >-
+        Residual value is the expected price of the car at the end of a contract. It sets the balloon
+        in PCP-style finance and much of the monthly price of a lease, because you mostly pay for the
+        value the car loses. Battery health and the model's used-price trend both affect it.
+    nerd_note:
+      en: "For a lease, the depreciation part of the monthly price is roughly (price − residual value) / months, plus funding cost on the average balance. A residual value is a forecast, not a guarantee, unless the contract guarantees it."
+    related: [balloon-pcp, lease, soh]
+
+  - id: total-cost-over-term
+    label: {en: "Total cost over the term", nl: "Totaal over de looptijd"}
+    technical: {en: "Total amount payable", nl: "Totaal te betalen bedrag"}
+    short:
+      en: "Everything you pay from start to end: deposit, all monthly payments and any final payment."
+      nl: "Alles wat je van begin tot eind betaalt: aanbetaling, alle maandbedragen en een eventuele slottermijn."
+    long:
+      en: >-
+        A low monthly amount can hide a high total, so every monthly figure here also shows the total
+        paid over the term. For a loan it is the deposit plus all monthly payments plus any balloon.
+        The difference between this total and the cash price is the cost of borrowing.
+    nerd_note:
+      en: "Under the EU consumer credit directive (CCD2, Directive (EU) 2023/2225), credit adverts that show cost figures must give a representative example that includes the total amount payable. Our calculator is an estimate, not an offer, but shows the same figures."
+    related: [loan, balloon-pcp, estimate]
