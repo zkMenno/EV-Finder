@@ -1,0 +1,77 @@
+{
+  "NL": {
+    "id": "nl-used-car-loan",
+    "country": "NL",
+    "product": "used-car-loan",
+    "typical_apr": null,
+    "default_term_months": null,
+    "default_deposit_pct": null,
+    "source": null,
+    "retrieved_at": null,
+    "review": true
+  },
+  "DE": {
+    "id": "de-used-car-loan",
+    "country": "DE",
+    "product": "used-car-loan",
+    "typical_apr": 8.91,
+    "default_term_months": null,
+    "default_deposit_pct": null,
+    "source": {
+      "name": "ECB Data Portal, MFI interest rate statistics (MIR), compiled by Deutsche Bundesbank",
+      "url": "https://data.ecb.europa.eu/data/datasets/MIR/MIR.M.DE.B.A2B.A.C.A.2250.EUR.N",
+      "series_id": "MIR.M.DE.B.A2B.A.C.A.2250.EUR.N",
+      "period": "2026-09"
+    },
+    "retrieved_at": "2026-11-15",
+    "review": true
+  },
+  "FR": {
+    "id": "fr-used-car-loan",
+    "country": "FR",
+    "product": "used-car-loan",
+    "typical_apr": 6.11,
+    "default_term_months": null,
+    "default_deposit_pct": null,
+    "source": {
+      "name": "ECB Data Portal, MFI interest rate statistics (MIR), compiled by Banque de France",
+      "url": "https://data.ecb.europa.eu/data/datasets/MIR/MIR.M.FR.B.A2B.A.C.A.2250.EUR.N",
+      "series_id": "MIR.M.FR.B.A2B.A.C.A.2250.EUR.N",
+      "period": "2026-09"
+    },
+    "retrieved_at": "2026-11-15",
+    "review": true
+  },
+  "BE": {
+    "id": "be-used-car-loan",
+    "country": "BE",
+    "product": "used-car-loan",
+    "typical_apr": 6.24,
+    "default_term_months": null,
+    "default_deposit_pct": null,
+    "source": {
+      "name": "ECB Data Portal, MFI interest rate statistics (MIR), compiled by Nationale Bank van België",
+      "url": "https://data.ecb.europa.eu/data/datasets/MIR/MIR.M.BE.B.A2B.A.C.A.2250.EUR.N",
+      "series_id": "MIR.M.BE.B.A2B.A.C.A.2250.EUR.N",
+      "period": "2026-09"
+    },
+    "retrieved_at": "2026-11-15",
+    "review": true
+  },
+  "UK": {
+    "id": "uk-used-car-loan",
+    "country": "UK",
+    "product": "used-car-loan",
+    "typical_apr": 7.11,
+    "default_term_months": null,
+    "default_deposit_pct": null,
+    "source": {
+      "name": "Bank of England Database (IADB), quoted household interest rates",
+      "url": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2026&Dateto=now&SeriesCodes=IUMHPTL&CSVF=TN&UsingCodes=Y&VPD=Y&VFD=N",
+      "series_id": "IUMHPTL",
+      "period": "2026-10"
+    },
+    "retrieved_at": "2026-11-15",
+    "review": true
+  }
+}

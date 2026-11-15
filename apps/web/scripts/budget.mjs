@@ -2,9 +2,9 @@
 //
 //   node apps/web/scripts/budget.mjs        (from the repo root or apps/web)
 //
-// 1. Explore first-load JS: the JS chunks the browser loads on /[country], read from the build
+// 1. Explore first-load JS: the JS chunks the browser loads on /[country]/[lang], read from the build
 //    manifests (build-manifest.json rootMainFiles + the client-reference manifest's entryJSFiles
-//    for app/layout, app/[country]/layout and app/[country]/page), each gzipped (level 9) and
+//    for app/[country]/[lang]/layout and app/[country]/[lang]/page), each gzipped (level 9) and
 //    summed. Fails above 200 KB. noModule polyfills are reported but not counted (modern browsers
 //    skip them), matching how A-01 measured.
 // 2. Client catalogue (/data/catalogue-<n>.json): built from the latest release (CATALOGUE_DIR or
@@ -23,8 +23,9 @@ export const WEB_DIR = path.resolve(here, "..");
 export const JS_BUDGET_KB = 200;
 export const CATALOGUE_BUDGET_KB = 300;
 
-/** The app entries whose client chunks load on /[country] (Explore). */
-export const EXPLORE_ENTRIES = ["[project]/apps/web/src/app/layout", "[project]/apps/web/src/app/[country]/layout", "[project]/apps/web/src/app/[country]/page"];
+/** The app entries whose client chunks load on /[country]/[lang] (Explore). */
+// Since Decision 015 the root layout is app/[country]/[lang]/layout (no app/layout).
+export const EXPLORE_ENTRIES = ["[project]/apps/web/src/app/[country]/[lang]/layout", "[project]/apps/web/src/app/[country]/[lang]/page"];
 
 export const gzipBytes = (buf) => gzipSync(buf, { level: 9 }).length;
 export const kb = (bytes) => Math.round(bytes / 100) / 10;
@@ -67,7 +68,7 @@ export function latestCatalogue(dir) {
 
 function measureJs(nextDir) {
   const buildManifest = JSON.parse(readFileSync(path.join(nextDir, "build-manifest.json"), "utf8"));
-  const crm = path.join(nextDir, "server/app/[country]/page_client-reference-manifest.js");
+  const crm = path.join(nextDir, "server/app/[country]/[lang]/page_client-reference-manifest.js");
   if (!existsSync(crm)) throw new Error(`${crm} not found: run \`pnpm --filter @ev/web build\` first`);
   const { modern, polyfills } = exploreChunks(buildManifest, parseClientReferenceManifest(readFileSync(crm, "utf8")));
   const size = (f) => {
@@ -95,7 +96,7 @@ async function main() {
   const polyGz = js.polyfills.reduce((s, f) => s + f.gz, 0);
   const cat = await measureCatalogue();
 
-  console.log(`Explore /[country] first-load JS: ${js.modern.length} chunks, ${kb(jsGz)} KB gzip (${kb(jsRaw)} KB raw); budget < ${JS_BUDGET_KB} KB`);
+  console.log(`Explore /[country]/[lang] first-load JS: ${js.modern.length} chunks, ${kb(jsGz)} KB gzip (${kb(jsRaw)} KB raw); budget < ${JS_BUDGET_KB} KB`);
   for (const f of js.modern) console.log(`  ${kb(f.gz).toFixed(1).padStart(6)} KB  ${f.file}`);
   console.log(`  + noModule polyfills (not counted): ${kb(polyGz)} KB gzip`);
   console.log(`Client catalogue (${cat.file}, ${cat.rows} rows): ${kb(cat.gz)} KB gzip (${kb(cat.raw)} KB raw); budget < ${CATALOGUE_BUDGET_KB} KB`);

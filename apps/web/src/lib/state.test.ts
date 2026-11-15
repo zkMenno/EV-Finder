@@ -3,7 +3,9 @@ import {
   activeFilterCount,
   defaultState,
   deserializeState,
+  EXPLORE_PARAM_KEYS,
   fromSearchParams,
+  hasPayParam,
   hasViewParam,
   nextSort,
   serializeState,
@@ -37,6 +39,7 @@ const full: ExploreState = {
   dir: "desc",
   view: "cards",
   level: "nerd",
+  pay: "loan",
 };
 
 describe("ExploreState URL (de)serialise", () => {
@@ -98,6 +101,17 @@ describe("ExploreState URL (de)serialise", () => {
     expect(s.filters.batteryMin).toBe(60);
     expect(s.sort).toBe("price");
     expect(s.dir).toBe("asc");
+  });
+
+  it("price mode (Decision 017): `pay` in the URL, buy is the clean default", () => {
+    expect(fromSearchParams({ pay: "loan" }).pay).toBe("loan");
+    expect(fromSearchParams({ pay: "rent" }).pay).toBe("buy");
+    expect(toSearchParams(defaultState()).has("pay")).toBe(false);
+    expect(toSearchParams({ ...defaultState(), pay: "lease" }).get("pay")).toBe("lease");
+    expect(hasPayParam({ pay: "loan" })).toBe(true);
+    expect(hasPayParam({})).toBe(false);
+    expect(deserializeState(serializeState({ ...defaultState(), pay: "loan" })).pay).toBe("loan");
+    expect(EXPLORE_PARAM_KEYS).toContain("pay");
   });
 
   it("detects an explicit view param", () => {

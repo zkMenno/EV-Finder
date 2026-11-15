@@ -76,16 +76,29 @@ The one left: `minimatch` 10.2.6 (GHSA-g3hv-75wg-m249, patched ≥ 11.0.1) via `
 
 ### Remaining, code (not done tonight)
 
-1. **Strict CSP with nonces (web lane, #2).** `next.config.ts` and `infra/deploy/ev.caddy` still allow `script-src 'unsafe-inline'`. Move to a per-request nonce set in `proxy.ts`, which Next reads from the CSP header, and keep Caddy in step. Not touched: a web builder is active in `apps/web`.
-2. **Staff page guard (Q-035, web lane, #5).** `/staff/*` is 404 unless `STAFF_PAGES=1`, but once enabled it has no auth. Add an env-flagged basic guard (for example `STAFF_BASIC_AUTH=user:hash` checked in `proxy.ts`, constant-time compare), or Caddy `basic_auth` (server item below). It is never linked publicly today.
+1. ~~Strict CSP with nonces (web lane, #2)~~ **done**, see "Web items" below. Caddy still needs a change (server item 2).
+2. ~~Staff page guard (Q-035, web lane, #5)~~ **done**, see "Web items" below.
 3. `minimatch` dev advisory via `typescript-eslint` (see Fixes): needs a coordinator decision on a root `pnpm.overrides` entry.
 4. Optional: list `httpcore` as a direct dependency in `pipeline/pyproject.toml` (`net.py` imports it; today it comes in through `httpx`, locked in `uv.lock`). `net.py` swaps httpx's private `_pool` to plug in the pinned backend; a test fails if an httpx upgrade breaks that.
 
 ### Remaining, server (WS4 / AppInfra)
 
 1. Caddy `basic_auth` (or IP allowlist) on `/staff/*` before `STAFF_PAGES=1` is set on any public host.
-2. Apply `infra/deploy/ev.caddy` headers (HSTS, CSP, Permissions-Policy) once the real domain exists. Re-check with `curl -I` on staging.
+2. Apply `infra/deploy/ev.caddy` headers (HSTS, Permissions-Policy) once the real domain exists, but **remove its `Content-Security-Policy` line**: it is deferred, so it replaces the app's strict per-request policy with the old one that has `script-src 'unsafe-inline'` (Q-073). Re-check with `curl -I` on staging that the CSP has a nonce (Explore) or `sha256-` hashes (a model page) and no `'unsafe-inline'` in `script-src`.
 3. Egress: the jobs container only needs HTTPS (443) to the hosts in `data/sources.yaml` `hosts:` (plus github.com for git). An outbound firewall or Docker network rule enforces it at a second layer. Also block the Hetzner metadata address `169.254.169.254` from containers.
 4. Mount `data/sources.yaml` read-only into the jobs container (it is now also the fetch allowlist), or ship it in the image.
 5. Run containers as non-root with read-only root filesystems and memory limits (Decision 006). The jobs image already runs as `ev`.
 6. GitHub repo settings (Menno or WS4): branch protection on `main` requiring `ci-ok`; "Require approval for all outside collaborators" for fork PR workflows; Actions default token permission set to read-only.
+
+### Web items (2026-11-15, web builder, proto/overnight-1)
+
+| Item | What changed |
+|---|---|
+| Strict CSP, no `'unsafe-inline'` for scripts (#2) | Set per request in `apps/web/src/proxy.ts` (policy in `src/lib/csp.ts`; removed from `next.config.ts`). **Dynamic pages** (Explore, Compare, staff): fresh 16-byte nonce per request, passed in the request's CSP header so Next.js stamps its own scripts. **Static pages** (4,235 SSG pages since T-050): no request at render time, so no nonce; `scripts/csp-hashes.mjs` runs after `next build` (part of `pnpm build`), hashes each prerendered page's inline scripts (sha256) into `.next/server/csp-hashes.json` (+ the standalone copy), and the proxy sends that page's hashes. Static pages stay static. `script-src 'self'` + nonce or hashes; `object-src 'none'`, `connect-src 'self'`, `frame-ancestors 'none'`, `base-uri`/`form-action 'self'`. `style-src` keeps `'unsafe-inline'` (style attributes). Dev adds `'unsafe-eval'` only in `next dev`. If the manifest is missing in production, the proxy logs an error and falls back to the old policy so the site keeps working (Q-073). |
+| Zero foreign requests | Unchanged (`connect-src 'self'`, `img-src 'self' data:`, `font-src 'self'`); e2e "every page talks only to our own origin" passes on the new URLs. |
+| CSP tests | Unit (`src/lib/csp.test.ts`): nonce format/freshness, no `'unsafe-inline'`, hash vs nonce choice, hashing of a prerendered page, 404 hashes. e2e (`e2e/security.spec.ts`): a static learn page gets hashes and no nonce, a dynamic page a new nonce per request, neither has `'unsafe-inline'`, no CSP violations in the console, and client components still work under the policy. |
+| Other headers (#6) | `next.config.ts` adds `X-Frame-Options: DENY`, `Cross-Origin-Opener-Policy: same-origin`, `Permissions-Policy` and HSTS (1 year, includeSubDomains), next to `nosniff` and `Referrer-Policy`; e2e checks them. |
+| Staff guard (Q-035, #5) | `src/lib/staff-auth.ts` + proxy: with `STAFF_PAGES=1`, `/staff/*` needs HTTP Basic credentials equal to `STAFF_BASIC_AUTH` (`user:pass`, env only; compared in constant time via sha256 + `timingSafeEqual`). No `STAFF_BASIC_AUTH` = always 401 (fails closed). 401 and staff responses carry `X-Robots-Tag: noindex, nofollow` and `Cache-Control: no-store`; pages stay `noindex` and are never linked. `STAFF_PAGES` unset = 404 as before (e2e). Names added to `.env.example` with a dummy value. |
+| Static build safety | Not a security item, but related: `next build` now fails if `data/releases/latest` exists but can't be read (no silent fixture pages), and the CSP step fails the build if a prerendered catalogue page is a 404. |
+
+Remaining (web): none from this list. Server: Caddy CSP line (server item 2), optional Caddy `basic_auth` on top of the app guard (server item 1).

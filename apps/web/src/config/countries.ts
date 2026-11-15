@@ -1,4 +1,7 @@
 import type { Country, Currency } from "@ev/schema";
+// Languages per country come from config/countries/<cc>.yaml (`languages`, `default_language`),
+// validated into this JSON by scripts/countries.mjs (Decision 015). Never hard-code them here.
+import languages from "./countries.generated.json";
 
 export type Lang = "en" | "nl" | "de" | "fr" | "es" | "it";
 export const LANGS: readonly Lang[] = ["en", "nl", "de", "fr", "es", "it"];
@@ -11,8 +14,21 @@ export interface CountryConfig {
   code: Country;
   name: string;
   currency: Currency;
+  /** /{country}/ redirects here (config `default_language`). */
   defaultLang: Lang;
+  /** The country's own UI languages (config `languages`). */
+  languages: readonly Lang[];
+  /** Languages we serve URLs for: its own languages + English (Decision 015). */
+  served: readonly Lang[];
 }
+
+type LangConfig = { languages: string[]; default_language: string; served: string[] };
+const langCfg = languages as Record<CountrySlug, LangConfig>;
+const lc = (slug: CountrySlug) => ({
+  defaultLang: langCfg[slug].default_language as Lang,
+  languages: langCfg[slug].languages as Lang[],
+  served: langCfg[slug].served as Lang[],
+});
 
 // "See listings" deep links live in config/countries/<slug>.yaml at the repo root (src/lib/listings.ts).
 export const COUNTRIES: Record<CountrySlug, CountryConfig> = {
@@ -21,35 +37,35 @@ export const COUNTRIES: Record<CountrySlug, CountryConfig> = {
     code: "NL",
     name: "Nederland",
     currency: "EUR",
-    defaultLang: "nl",
+    ...lc("nl"),
   },
   de: {
     slug: "de",
     code: "DE",
     name: "Deutschland",
     currency: "EUR",
-    defaultLang: "de",
+    ...lc("de"),
   },
   fr: {
     slug: "fr",
     code: "FR",
     name: "France",
     currency: "EUR",
-    defaultLang: "fr",
+    ...lc("fr"),
   },
   be: {
     slug: "be",
     code: "BE",
     name: "België / Belgique",
     currency: "EUR",
-    defaultLang: "nl",
+    ...lc("be"),
   },
   uk: {
     slug: "uk",
     code: "UK",
     name: "United Kingdom",
     currency: "GBP",
-    defaultLang: "en",
+    ...lc("uk"),
   },
 };
 
@@ -61,4 +77,19 @@ export function isCountrySlug(v: string | undefined | null): v is CountrySlug {
 
 export function isLang(v: string | undefined | null): v is Lang {
   return v != null && (LANGS as readonly string[]).includes(v);
+}
+
+/** Is `lang` served for `country` (its own languages + English)? */
+export function isServed(country: CountrySlug, lang: string | undefined | null): lang is Lang {
+  return isLang(lang) && COUNTRIES[country].served.includes(lang);
+}
+
+/** Every served country × language pair, in config order (static params, hreflang, sitemap). */
+export function servedPairs(): { country: CountrySlug; lang: Lang }[] {
+  return COUNTRY_SLUGS.flatMap((country) => COUNTRIES[country].served.map((lang) => ({ country, lang })));
+}
+
+/** BCP 47 tag for hreflang: language-REGION (uk → GB). */
+export function hreflangTag(country: CountrySlug, lang: Lang): string {
+  return `${lang}-${country === "uk" ? "GB" : country.toUpperCase()}`;
 }

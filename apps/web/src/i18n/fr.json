@@ -1,1 +1,20 @@
-{}
+{
+  "banner.lang.label": "Suggestion de langue",
+  "banner.lang.offer": "Cette page existe aussi en {language}",
+  "banner.lang.dismiss": "Non merci",
+  "pay.label": "Mode de paiement",
+  "pay.buy": "Achat comptant",
+  "pay.loan": "Crédit par mois",
+  "pay.lease": "Location par mois",
+  "pay.col.loan": "Par mois (crédit)",
+  "pay.col.lease": "Par mois (location)",
+  "pay.perMonth": "{amount}/mois",
+  "pay.estimate": "estimation",
+  "loan.title": "Estimation du crédit",
+  "loan.notOffer": "Estimation, pas une offre. Les prêteurs fixent eux-mêmes taux et conditions.",
+  "loan.term": "Durée",
+  "loan.termMonths": "{n} mois",
+  "loan.monthly": "Par mois",
+  "loan.total": "Total sur la durée",
+  "nav.learn": "Comprendre"
+}

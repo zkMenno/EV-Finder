@@ -1,6 +1,6 @@
 "use client";
 // Glossary terms (Decision 010): plain-language label with the technical name underneath,
-// plus an ⓘ tooltip from glossary_terms linking to /[country]/learn/[term].
+// plus an ⓘ tooltip from glossary_terms linking to /[country]/[lang]/learn/[term].
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { UiTerm } from "@/lib/taxonomy";
@@ -57,10 +57,11 @@ export function InfoTip({
   );
 }
 
-export function TermInfo({ term, country, text }: { term?: UiTerm; country: string; text: TermText }) {
+/** `base` = "/{country}/{lang}"; the ⓘ links to its learn page. */
+export function TermInfo({ term, base, text }: { term?: UiTerm; base: string; text: TermText }) {
   if (!term) return null;
   return (
-    <InfoTip label={term.label} href={`/${country}/learn/${term.id}`} text={text}>
+    <InfoTip label={term.label} href={`${base}/learn/${term.id}`} text={text}>
       <span className="block">{term.short}</span>
     </InfoTip>
   );
@@ -70,20 +71,20 @@ export function TermInfo({ term, country, text }: { term?: UiTerm; country: stri
 export function Term({
   term,
   fallback,
-  country,
+  base,
   text,
   showTechnical = true,
 }: {
   term?: UiTerm;
   fallback: string;
-  country: string;
+  base: string;
   text: TermText;
   showTechnical?: boolean;
 }) {
   return (
     <span className="inline-flex items-start gap-1">
       <TermLabel term={term} fallback={fallback} showTechnical={showTechnical} />
-      <TermInfo term={term} country={country} text={text} />
+      <TermInfo term={term} base={base} text={text} />
     </span>
   );
 }

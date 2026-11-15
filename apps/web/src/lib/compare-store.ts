@@ -37,8 +37,9 @@ export function removeItem(items: readonly CompareItem[], id: string): readonly 
   return items.filter((i) => i.id !== id);
 }
 
-export function compareHref(country: string, items: readonly CompareItem[]): string {
-  return `/${country}/compare?ids=${items.map((i) => encodeURIComponent(i.id)).join(",")}`;
+/** `base` = "/{country}/{lang}" (Decision 015). */
+export function compareHref(base: string, items: readonly CompareItem[]): string {
+  return `${base}/compare?ids=${items.map((i) => encodeURIComponent(i.id)).join(",")}`;
 }
 
 export interface CompareStore extends ListStore<CompareItem> {

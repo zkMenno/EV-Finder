@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { numBadges } from "@/components/Num";
 import { numLabels } from "@/components/num-labels";
 import { quartiles } from "@/components/PriceBand";
-import { swapCountry, withLang } from "@/components/Switchers";
+import { swapCountry, swapLang } from "@/components/Switchers";
 import { COUNTRIES } from "@/config/countries";
 import { listingLinks } from "@/lib/listings";
 import { getT } from "@/i18n";
@@ -54,12 +54,15 @@ describe("price band", () => {
 });
 
 describe("switchers and listing links", () => {
-  it("country switch keeps the path and query", () => {
-    expect(swapCountry("/nl/compare", "?ids=a,b", "de")).toBe("/de/compare?ids=a,b");
-    expect(swapCountry("/nl", "", "uk")).toBe("/uk");
+  it("country switch keeps the path and query; keeps the language if served, else the default", () => {
+    expect(swapCountry("/nl/nl/compare", "?ids=a,b", "de")).toBe("/de/de/compare?ids=a,b");
+    expect(swapCountry("/nl/en/compare", "?ids=a,b", "de")).toBe("/de/en/compare?ids=a,b");
+    expect(swapCountry("/nl/nl", "", "uk")).toBe("/uk/en");
+    expect(swapCountry("/nl/nl", "?range=300", "be")).toBe("/be/nl?range=300");
   });
-  it("language switch keeps the URL and sets ?lang", () => {
-    expect(withLang("/nl", "?price=30000&lang=nl", "en")).toBe("/nl?price=30000&lang=en");
+  it("language switch swaps the language segment and keeps path + query", () => {
+    expect(swapLang("/nl/nl", "?price=30000", "en")).toBe("/nl/en?price=30000");
+    expect(swapLang("/be/nl/ev/a/b/c", "", "fr")).toBe("/be/fr/ev/a/b/c");
   });
   it("builds unverified deep links, priority order", () => {
     const links = listingLinks("nl", "Volkswagen", "ID.3");

@@ -15,6 +15,11 @@
 # Loaded at build time by apps/web/scripts/listings.mjs.
 
 country: fr
+# UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
+# these languages plus English. /{country}/ redirects to default_language. Read by
+# apps/web/scripts/countries.mjs.
+languages: [fr]
+default_language: fr
 listings:
   - site: leboncoin
     label: leboncoin

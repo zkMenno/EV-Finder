@@ -5,7 +5,7 @@ const flagOff = process.env.E2E_TRIP_FIT === "0";
 
 test("TRIP_FIT=0 hides the whole trip UI (run with E2E_TRIP_FIT=0)", async ({ page }) => {
   test.skip(!flagOff, "flag on in this run");
-  await page.goto("/nl?lang=en&trip=1");
+  await page.goto("/nl/en?trip=1");
   await expect(page.getByTestId("result-count")).toBeVisible();
   await expect(page.getByTestId("trip-bar")).toHaveCount(0);
   await expect(page.getByTestId("trip-col")).toHaveCount(0);
@@ -20,7 +20,7 @@ test("Trip check: profile + trip → result card, Explore column, winter filter,
     if (!u.startsWith(origin) && !u.startsWith("data:")) foreign.push(u);
   });
 
-  await page.goto("/nl?lang=en");
+  await page.goto("/nl/en");
   await expect(page.getByTestId("result-count")).not.toContainText("…");
   // Hidden until opened: no column, no panel.
   await expect(page.getByTestId("trip-col")).toHaveCount(0);
@@ -89,7 +89,7 @@ test("Trip check: profile + trip → result card, Explore column, winter filter,
 test("Trip check works at 360 px", async ({ page }) => {
   test.skip(flagOff, "trip fit flag off");
   await page.setViewportSize({ width: 360, height: 740 });
-  await page.goto("/nl?lang=en");
+  await page.goto("/nl/en");
   await page.getByTestId("trip-open").click();
   await page.locator("#trip-km").fill("80");
   await expect(page.getByTestId("trip-result")).toBeVisible();

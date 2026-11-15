@@ -76,7 +76,7 @@ describe("charging links: config validation (scripts/charging-links.mjs)", () =>
 
   it("normalises defaults and sorts by order", () => {
     const out = validateChargingLinks("nl", [{ ...ok, order: 2 }, { ...ok, url: "https://www.plugshare.com/", label: "PlugShare", order: 1 }]);
-    expect(out.map((l) => l.label)).toEqual(["PlugShare", "Chargemap"]);
+    expect(out.map((l) => l.label.en)).toEqual(["PlugShare", "Chargemap"]);
     expect(out[0]).toMatchObject({ tool: null, official: false, utm: true });
   });
 
@@ -88,6 +88,31 @@ describe("charging links: config validation (scripts/charging-links.mjs)", () =>
     expect(() => validateChargingLinks("nl", [{ ...ok, url: "https://chargemap.com/?partner=1" }])).toThrow(/private config/);
     expect(() => validateChargingLinks("nl", [ok, ok])).toThrow(/duplicate/);
     expect(() => validateChargingLinks("nl", [{ ...ok, job: "Find Charger" }])).toThrow(/job/);
+  });
+
+  it("accepts the schema shape (tool name + LocalizedText label, country, verified) and the string form", () => {
+    const [schemaRow] = validateChargingLinks("nl", [
+      { country: "NL", tool: "Chargemap", job: "map", order: 1, url: "https://chargemap.com/", label: { en: "Chargemap", nl: "Chargemap (NL)" }, verified: false },
+    ]);
+    expect(schemaRow).toMatchObject({ tool: "chargemap", label: { en: "Chargemap", nl: "Chargemap (NL)" }, verified: false });
+    const [noLabel] = validateChargingLinks("nl", [{ tool: "A Better Routeplanner", job: "route-planner", order: 1, url: "https://abetterrouteplanner.com/" }]);
+    expect(noLabel).toMatchObject({ tool: "a-better-routeplanner", label: { en: "A Better Routeplanner" } });
+    const [plain] = validateChargingLinks("nl", [ok]);
+    expect(typeof plain!.label).toBe("object");
+    expect(() => validateChargingLinks("nl", [{ ...ok, label: { nl: "x" } }])).toThrow(/label.en/);
+    expect(() => validateChargingLinks("nl", [{ ...ok, label: { xx: "x", en: "y" } }])).toThrow(/language/);
+    expect(() => validateChargingLinks("nl", [{ ...ok, verified: "no" }])).toThrow(/verified/);
+  });
+
+  it("renders the label in the page language, falling back to EN; plain strings still work", () => {
+    const cfg = {
+      ...fixture,
+      de: [{ job: "map", label: { en: "Charger map", de: "Ladekarte" }, url: "https://x.example/", order: 1, tool: "x", official: false, utm: false }],
+      fr: [{ job: "map", label: { en: "Charger map" }, url: "https://x.example/", order: 1, tool: "x", official: false, utm: false }],
+    } as unknown as NonNullable<NonNullable<Parameters<typeof chargingLinks>[1]>["config"]>;
+    expect(chargingLinks("de", { config: cfg, lang: "de" })[0]!.label).toBe("Ladekarte");
+    expect(chargingLinks("fr", { config: cfg, lang: "fr" })[0]!.label).toBe("Charger map");
+    expect(chargingLinks("nl", { config: cfg, lang: "nl" })[0]!.label).toBe("Chargemap");
   });
 
   it("listings.mjs accepts the charging_links key in a country file", () => {

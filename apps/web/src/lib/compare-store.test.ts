@@ -71,7 +71,7 @@ describe("compare store", () => {
   });
 
   it("builds the compare link", () => {
-    expect(compareHref("nl", [item("a"), item("b")])).toBe("/nl/compare?ids=a,b");
+    expect(compareHref("/nl/nl", [item("a"), item("b")])).toBe("/nl/nl/compare?ids=a,b");
   });
 });
 

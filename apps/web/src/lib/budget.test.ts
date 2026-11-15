@@ -11,7 +11,7 @@ describe("perf budget script", () => {
     const build = { rootMainFiles: ["r1.js", "r2.js"], polyfillFiles: ["poly.js"] };
     const entryJSFiles = Object.fromEntries(EXPLORE_ENTRIES.map((e, i) => [e, ["shared.js", `e${i}.js`, "style.css"]]));
     const { modern, polyfills } = exploreChunks(build, { entryJSFiles });
-    expect(modern.sort()).toEqual(["e0.js", "e1.js", "e2.js", "r1.js", "r2.js", "shared.js"]);
+    expect(modern.sort()).toEqual(["e0.js", "e1.js", "r1.js", "r2.js", "shared.js"]);
     expect(polyfills).toEqual(["poly.js"]);
   });
 

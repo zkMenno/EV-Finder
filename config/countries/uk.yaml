@@ -15,6 +15,11 @@
 # Loaded at build time by apps/web/scripts/listings.mjs.
 
 country: uk
+# UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
+# these languages plus English. /{country}/ redirects to default_language. Read by
+# apps/web/scripts/countries.mjs.
+languages: [en]
+default_language: en
 listings:
   - site: autotrader-uk
     label: Autotrader

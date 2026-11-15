@@ -75,9 +75,9 @@ export const SPEC_FIELDS: readonly SpecField[] = [
   num("consumption_kwh_100km", "range", "kWh/100 km", 1, "consumption"),
   num("consumption_motorway_kwh_100km", "range", "kWh/100 km", 1, "consumption"),
 
-  num("battery_kwh_net", "battery", "kWh", 1, "usable-vs-gross"),
+  num("battery_kwh_net", "battery", "kWh", 1, "battery-capacity"),
   text("chemistry_id", "battery", "chemistry"),
-  text("charge_100_daily", "battery", "chemistry"),
+  text("charge_100_daily", "battery", "charge-to-100"),
   text("cooling_id", "battery", "cooling"),
   text("cell_format", "battery", "cell-format"),
   text("voltage_class_id", "battery", "voltage-class"),
@@ -86,7 +86,7 @@ export const SPEC_FIELDS: readonly SpecField[] = [
   text("platform_name", "battery", "platform"),
 
   num("dc_km_per_20min", "charging", "km", 0, "dc-km-20min"),
-  num("dc_km_per_10min", "charging", "km", 0, "dc-km-20min"),
+  num("dc_km_per_10min", "charging", "km", 0, "dc-km-10min"),
   num("dc_peak_kw", "charging", "kW", 0, "peak-kw"),
   num("dc_avg_10_80_kw", "charging", "kW", 0, "10-80"),
   num("dc_minutes_10_80", "charging", "min", 0, "10-80"),
@@ -96,20 +96,20 @@ export const SPEC_FIELDS: readonly SpecField[] = [
   num("ac_kw", "charging", "kW", 1, "ac-charging"),
   num("ac_km_per_h", "charging", "km/h", 0, "ac-charging"),
 
-  num("power_kw", "performance", "kW", 0),
-  num("accel_0_100_s", "performance", "s", 1),
-  text("drivetrain", "performance"),
+  num("power_kw", "performance", "kW", 0, "motor-power"),
+  num("accel_0_100_s", "performance", "s", 1, "acceleration-0-100"),
+  text("drivetrain", "performance", "drivetrain"),
 
-  num("length_mm", "dimensions", "mm", 0),
-  num("weight_kg", "dimensions", "kg", 0),
+  num("length_mm", "dimensions", "mm", 0, "vehicle-length"),
+  num("weight_kg", "dimensions", "kg", 0, "kerb-weight"),
 
-  num("boot_l", "practicality", "l", 0),
-  num("seats", "practicality", undefined, 0),
-  num("towing_kg", "practicality", "kg", 0),
-  text("body", "practicality"),
-  text("segment", "practicality"),
+  num("boot_l", "practicality", "l", 0, "boot-volume"),
+  num("seats", "practicality", undefined, 0, "seats"),
+  num("towing_kg", "practicality", "kg", 0, "towing-capacity"),
+  text("body", "practicality", "body-type"),
+  text("segment", "practicality", "segment"),
 
-  { kind: "price", key: "price_new", group: "availability" },
+  { kind: "price", key: "price_new", group: "availability", term: "new-price" },
   num("registered_count_nl", "availability", undefined, 0, "registrations-nl"),
 ];
 

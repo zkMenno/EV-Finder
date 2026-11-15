@@ -1,6 +1,6 @@
 // Server-only read path for the published catalogue (Decision 008).
 // A Postgres implementation can sit behind the same `Catalogue` interface later.
-import { readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import type {
   BatteryPack,
@@ -108,10 +108,24 @@ export function latestCataloguePath(dir: string = releasesDir()): string | null 
 let cache: { key: string; catalogue: Catalogue } | null = null;
 const fixtureCatalogue = new JsonCatalogue(fixture as unknown as CatalogueFile, "fixture");
 
+/**
+ * `next build` bakes static pages from the catalogue (Decision 015), so a release that is missing
+ * or half-written while a releases folder exists must fail the build, never silently fall back
+ * to the dev fixture (that would publish fixture pages and 404s). At run time the fallback stays.
+ */
+function isBuild(env: Record<string, string | undefined> = process.env): boolean {
+  return env.NEXT_PHASE === "phase-production-build";
+}
+
 /** The current catalogue. Re-reads only when the release file changes (pointer swap = rollback). */
 export function getCatalogue(): Catalogue {
   const p = latestCataloguePath();
-  if (!p) return fixtureCatalogue;
+  if (!p) {
+    if (isBuild() && existsSync(path.join(releasesDir(), "latest"))) {
+      throw new Error(`catalogue: ${releasesDir()}/latest exists but its catalogue.json can't be found (release being written?); refusing to build static pages from the dev fixture`);
+    }
+    return fixtureCatalogue;
+  }
   try {
     const key = `${p}:${statSync(p).mtimeMs}`;
     if (cache?.key === key) return cache.catalogue;
@@ -120,6 +134,7 @@ export function getCatalogue(): Catalogue {
     cache = { key, catalogue };
     return catalogue;
   } catch (err) {
+    if (isBuild()) throw new Error(`catalogue: could not read ${p} during the build`, { cause: err });
     // A half-written or broken release must not take the site down.
     console.error(`catalogue: could not read ${p}, using dev fixture`, err);
     return fixtureCatalogue;

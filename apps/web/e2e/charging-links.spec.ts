@@ -6,7 +6,7 @@ const fixtureOn = process.env.E2E_CHARGING_LINKS_FILE !== "";
 
 test("Country page and learn pages show the link block; links are text, new tab, noopener, UTM", async ({ page }) => {
   test.skip(!fixtureOn, "no charging link fixture");
-  await page.goto("/nl?lang=en");
+  await page.goto("/nl/en");
   const block = page.getByTestId("charging-links");
   await expect(block).toBeVisible();
   await expect(block.getByRole("heading", { name: "Find a charger / plan a trip" })).toBeVisible();
@@ -21,22 +21,22 @@ test("Country page and learn pages show the link block; links are text, new tab,
     expect(await l.locator("img").count()).toBe(0);
   }
 
-  await page.goto("/nl/learn/real-range?lang=en");
+  await page.goto("/nl/en/learn/real-range");
   await expect(page.getByTestId("charging-links").getByTestId("charging-link")).toHaveCount(4);
 });
 
 test("A country without links renders no block", async ({ page }) => {
-  await page.goto("/de?lang=en");
+  await page.goto("/de/en");
   await expect(page.getByTestId("result-count")).toBeVisible();
   await expect(page.getByTestId("charging-links")).toHaveCount(0);
 });
 
 test("Model pages: plain ABRP link in the footer, no duplicate ABRP in the block; fits 360 px", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 740 });
-  await page.goto("/nl?lang=en&view=table");
+  await page.goto("/nl/en?view=table");
   const href = await page.getByTestId("explore-row").first().getByRole("rowheader").getByRole("link").getAttribute("href");
-  const modelHref = href!.split("/").slice(0, 5).join("/");
-  await page.goto(`${modelHref}?lang=en`);
+  const modelHref = href!.split("/").slice(0, 6).join("/");
+  await page.goto(`${modelHref}`);
   const block = page.getByTestId("charging-links");
   await expect(block).toBeVisible();
   const abrp = block.getByTestId("abrp-link");
@@ -50,6 +50,6 @@ test("Model pages: plain ABRP link in the footer, no duplicate ABRP in the block
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
 
   // Variant pages get the same footer.
-  await page.goto(`${href}?lang=en`);
+  await page.goto(`${href}`);
   await expect(page.getByTestId("abrp-link")).toBeVisible();
 });

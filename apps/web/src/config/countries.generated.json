@@ -1,0 +1,55 @@
+{
+  "nl": {
+    "languages": [
+      "nl"
+    ],
+    "default_language": "nl",
+    "served": [
+      "nl",
+      "en"
+    ]
+  },
+  "de": {
+    "languages": [
+      "de"
+    ],
+    "default_language": "de",
+    "served": [
+      "de",
+      "en"
+    ]
+  },
+  "fr": {
+    "languages": [
+      "fr"
+    ],
+    "default_language": "fr",
+    "served": [
+      "fr",
+      "en"
+    ]
+  },
+  "be": {
+    "languages": [
+      "nl",
+      "fr",
+      "de"
+    ],
+    "default_language": "nl",
+    "served": [
+      "nl",
+      "fr",
+      "de",
+      "en"
+    ]
+  },
+  "uk": {
+    "languages": [
+      "en"
+    ],
+    "default_language": "en",
+    "served": [
+      "en"
+    ]
+  }
+}

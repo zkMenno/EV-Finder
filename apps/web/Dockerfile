@@ -27,16 +27,6 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
     NODE_EXTRA_CA_CERTS=$([ -f /run/secrets/extra_ca ] && echo /run/secrets/extra_ca) \
     pnpm install --frozen-lockfile --filter "@ev/web..."
 
-# ---- build: Next standalone output ----
-FROM deps AS build
-COPY packages/schema packages/schema
-# scripts/listings.mjs reads config/countries/*.yaml (allowed by .dockerignore) and regenerates
-# src/config/listings.generated.json. data/sources.yaml is not in the context, so scripts/sources.mjs
-# keeps the committed src/config/sources.generated.json (a unit test keeps it in step with the YAML).
-COPY config/countries config/countries
-COPY apps/web apps/web
-RUN pnpm --filter @ev/web build
-
 # ---- catalogue: copy only the latest published release (data/releases/<latest>) ----
 FROM busybox:stable AS catalogue
 COPY data/releases /src
@@ -48,6 +38,19 @@ RUN set -eu; \
     cp "/src/$n/catalogue.json" "/out/$n/"; \
     if [ -f "/src/$n/README.md" ]; then cp "/src/$n/README.md" "/out/$n/"; fi; \
     printf '%s\n' "$n" > /out/latest
+
+# ---- build: Next standalone output ----
+FROM deps AS build
+COPY packages/schema packages/schema
+# scripts/listings.mjs reads config/countries/*.yaml (allowed by .dockerignore) and regenerates
+# src/config/listings.generated.json. data/sources.yaml is not in the context, so scripts/sources.mjs
+# keeps the committed src/config/sources.generated.json (a unit test keeps it in step with the YAML).
+COPY config/countries config/countries
+COPY apps/web apps/web
+# Model / generation / variant / learn pages are static (Decision 015, Q-033/Q-034): they are
+# built from the release that ships in this image, so a new release means a new image.
+COPY --from=catalogue /out data/releases
+RUN pnpm --filter @ev/web build
 
 # ---- runtime: standalone server, non-root, read-only friendly ----
 FROM node:${NODE_VERSION}-slim AS runtime

@@ -1,5 +1,6 @@
 // One state shape for Explore, shared by the URL, localStorage and (later) accounts.
 import type { Body, Era, Segment } from "@ev/schema";
+import { isPayMode, type PayMode } from "@/lib/finance";
 
 export const ERAS: readonly Era[] = ["pre-2018", "2018-20", "2021-22", "2023-24", "2025+"];
 export const SEGMENTS: readonly Segment[] = ["A", "B", "C", "D", "E", "F", "J-small", "J-medium", "J-large"];
@@ -58,6 +59,8 @@ export interface ExploreState {
   dir: SortDir;
   view: View;
   level: Level;
+  /** Price mode (Decision 017): outright price, loan per month or lease per month. URL `pay`. */
+  pay: PayMode;
 }
 
 export const NUMERIC_FILTERS = [
@@ -123,7 +126,7 @@ export function defaultFilters(): ExploreFilters {
 }
 
 export function defaultState(): ExploreState {
-  return { v: 1, filters: defaultFilters(), sort: null, dir: "asc", view: "table", level: "detailed" };
+  return { v: 1, filters: defaultFilters(), sort: null, dir: "asc", view: "table", level: "detailed", pay: "buy" };
 }
 
 function num(v: unknown): number | null {
@@ -174,7 +177,14 @@ export function fromSearchParams(src: ParamSource): ExploreState {
   for (const k of Object.keys(FLAG_PARAM) as FlagFilter[]) s.filters[k] = getParam(src, FLAG_PARAM[k]) === "1";
   const level = getParam(src, "level");
   if ((LEVELS as readonly string[]).includes(level ?? "")) s.level = level as Level;
+  const pay = getParam(src, "pay");
+  if (isPayMode(pay)) s.pay = pay;
   return s;
+}
+
+/** Whether the URL explicitly sets the price mode (else the remembered one wins). */
+export function hasPayParam(src: ParamSource): boolean {
+  return isPayMode(getParam(src, "pay"));
 }
 
 /** Whether the URL explicitly sets the display level (else the stored preference wins). */
@@ -204,6 +214,7 @@ export function toSearchParams(state: ExploreState): URLSearchParams {
   for (const k of Object.keys(FLAG_PARAM) as FlagFilter[]) if (f[k]) p.set(FLAG_PARAM[k], "1");
   if (state.view === "cards") p.set("view", "cards");
   if (state.level !== "detailed") p.set("level", state.level);
+  if (state.pay !== "buy") p.set("pay", state.pay);
   return p;
 }
 
@@ -237,6 +248,7 @@ export function normalizeState(input: unknown): ExploreState {
   for (const k of Object.keys(LIST_PARAM) as ListFilter[]) s.filters[k] = ids(f[k]);
   for (const k of Object.keys(FLAG_PARAM) as FlagFilter[]) s.filters[k] = f[k] === true;
   if (typeof o.level === "string" && (LEVELS as readonly string[]).includes(o.level)) s.level = o.level as Level;
+  if (isPayMode(o.pay)) s.pay = o.pay;
   return s;
 }
 
@@ -266,6 +278,7 @@ export const EXPLORE_PARAM_KEYS: readonly string[] = [
   "sort",
   "view",
   "level",
+  "pay",
 ];
 
 /** Numeric columns sort high→low first; text-like columns low→high. */

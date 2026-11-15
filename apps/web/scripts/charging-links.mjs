@@ -20,12 +20,47 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 export const OUT_FILE = path.resolve(here, "../src/config/charging-links.generated.json");
 export const MAX_LINKS = 5;
 
-const LINK_KEYS = new Set(["job", "label", "url", "order", "tool", "official", "utm", "deep_link_template", "note"]);
+const LINK_KEYS = new Set(["job", "label", "url", "order", "tool", "official", "utm", "deep_link_template", "note", "country", "verified"]);
+const LANGS = ["en", "nl", "de", "fr", "es", "it"];
 // Same guard as listings.mjs (Decision 004): no partner, affiliate or secret config in the public repo.
 const FORBIDDEN = /(rate|sampl|affiliate|partner|token|secret|api[_-]?key|password|cookie|proxy)/i;
 const ID_RE = /^[a-z0-9][a-z0-9-]*$/;
 
 const isObj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+
+/** "Chargemap" → "chargemap", "A Better Routeplanner" → "a-better-routeplanner"; ids pass through. */
+export function toolId(tool) {
+  const t = tool.trim();
+  if (ID_RE.test(t)) return t;
+  return t
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Label as LocalizedText ({en, …}); a plain string becomes {en}; missing falls back to the tool name. */
+function localizedLabel(l, at, fail) {
+  if (typeof l.label === "string") {
+    if (!l.label.trim()) fail(`${at}: label is empty`);
+    return { en: l.label.trim() };
+  }
+  if (isObj(l.label)) {
+    const out = {};
+    for (const [k, v] of Object.entries(l.label)) {
+      if (!LANGS.includes(k)) fail(`${at}: label language "${k}" is not one of ${LANGS.join(", ")}`);
+      else if (typeof v !== "string" || !v.trim()) fail(`${at}: label.${k} must be a non-empty string`);
+      else out[k] = v.trim();
+    }
+    if (!out.en) fail(`${at}: label.en is required`);
+    return out;
+  }
+  if (l.label !== undefined && l.label !== null) fail(`${at}: label must be a string or {en, nl, …}`);
+  if (typeof l.tool === "string" && l.tool.trim()) return { en: l.tool.trim() };
+  fail(`${at}: label or tool is required`);
+  return { en: "" };
+}
 
 /** Validates one country's `charging_links` (may be undefined); returns the sorted list or throws. */
 export function validateChargingLinks(country, list) {
@@ -47,10 +82,13 @@ export function validateChargingLinks(country, list) {
       if (FORBIDDEN.test(k)) fail(`${at}: "${k}" looks like private config (Decision 004)`);
     }
     if (typeof l.job !== "string" || !ID_RE.test(l.job)) fail(`${at}: job must be a lowercase id`);
-    if (typeof l.label !== "string" || !l.label.trim()) fail(`${at}: label is required`);
+    // Two accepted shapes: the current one (label: string, tool: lowercase id) and the schema's
+    // CountryChargingLink (tool: display name, label: optional LocalizedText {en, nl, …}).
+    const label = localizedLabel(l, at, fail);
     if (typeof l.order !== "number" || !Number.isFinite(l.order)) fail(`${at}: order must be a number`);
-    if (l.tool !== undefined && (typeof l.tool !== "string" || !ID_RE.test(l.tool))) fail(`${at}: tool must be a lowercase id`);
-    for (const k of ["official", "utm"]) if (l[k] !== undefined && typeof l[k] !== "boolean") fail(`${at}: ${k} must be true or false`);
+    if (l.tool !== undefined && (typeof l.tool !== "string" || !l.tool.trim())) fail(`${at}: tool must be a non-empty string`);
+    if (l.country !== undefined && (typeof l.country !== "string" || !/^([A-Z]{2}|ALL)$/.test(l.country))) fail(`${at}: country must be a country code or ALL`);
+    for (const k of ["official", "utm", "verified"]) if (l[k] !== undefined && typeof l[k] !== "boolean") fail(`${at}: ${k} must be true or false`);
     if (l.deep_link_template !== undefined && l.deep_link_template !== null && typeof l.deep_link_template !== "string") fail(`${at}: deep_link_template must be a string`);
     if (typeof l.url !== "string" || !l.url.startsWith("https://")) fail(`${at}: url must be an https URL`);
     else {
@@ -67,12 +105,13 @@ export function validateChargingLinks(country, list) {
     }
     out.push({
       job: l.job,
-      label: typeof l.label === "string" ? l.label.trim() : "",
+      label,
       url: l.url,
       order: l.order,
-      tool: l.tool ?? null,
+      tool: typeof l.tool === "string" ? toolId(l.tool) : null,
       official: l.official === true,
       utm: l.utm !== false,
+      verified: l.verified === true,
     });
   }
   if (errors.length) throw new Error(errors.join("\n"));

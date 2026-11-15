@@ -29,6 +29,12 @@
     "status": "blocked",
     "owner": "SPF Mobilité et Transports (BE)"
   },
+  "bnetza": {
+    "name": "Bundesnetzagentur Ladesäulenregister: Ladeinfrastruktur in Zahlen",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "Bundesnetzagentur (DE)"
+  },
   "cbs": {
     "name": "CBS StatLine 86402NED",
     "licence": "CC-BY-4.0",
@@ -40,6 +46,12 @@
     "licence": "none",
     "status": "blocked",
     "owner": "Consumer Reports"
+  },
+  "dft-charging": {
+    "name": "DfT electric vehicle charging infrastructure statistics (EVCI tables)",
+    "licence": "OGL-UK-3.0",
+    "status": "active",
+    "owner": "UK Department for Transport"
   },
   "dft-veh": {
     "name": "DfT vehicle licensing data files (VEH0120/0160)",
@@ -63,8 +75,14 @@
   "dvsa-mot": {
     "name": "DVSA MOT history",
     "licence": "OGL-UK-3.0",
-    "status": "active",
+    "status": "blocked",
     "owner": "DVSA (UK)"
+  },
+  "eafo": {
+    "name": "European Alternative Fuels Observatory (recharging points per power level",
+    "licence": "EC reuse policy CC-BY-4.0 for EU-owned content; third-party content excluded (unclear)",
+    "status": "blocked",
+    "owner": "European Commission DG MOVE"
   },
   "edmunds": {
     "name": "Edmunds range tests",
@@ -97,7 +115,7 @@
     "owner": "Fastned"
   },
   "fueleconomy": {
-    "name": "fueleconomy.gov",
+    "name": "fueleconomy.gov vehicles dataset (EPA)",
     "licence": "US-Government-Public-Domain",
     "status": "active",
     "owner": "US DOE / EPA"
@@ -134,6 +152,12 @@
     "status": "blocked",
     "owner": "various OEMs"
   },
+  "manual": {
+    "name": "Manual entries (hand-entered, cited by URL)",
+    "licence": "none (individual facts cited by URL and date)",
+    "status": "blocked",
+    "owner": "EV Finder staff"
+  },
   "model-estimate": {
     "name": "EV Finder estimate models",
     "licence": "CC-BY-4.0",
@@ -166,6 +190,12 @@
   },
   "rdw": {
     "name": "RDW Open Data",
+    "licence": "CC0-1.0",
+    "status": "active",
+    "owner": "RDW (NL)"
+  },
+  "rdw-defects": {
+    "name": "RDW Open Data: APK defects (Geconstateerde Gebreken)",
     "licence": "CC0-1.0",
     "status": "active",
     "owner": "RDW (NL)"

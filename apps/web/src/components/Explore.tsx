@@ -6,7 +6,7 @@
 import type { Country, Currency, FieldProvenance } from "@ev/schema";
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
-import { generationHref, variantHref } from "@/app/[country]/ev/_lib/routes";
+import { generationHref, variantHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import type { CountrySlug, Lang } from "@/config/countries";
 import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
@@ -15,6 +15,9 @@ import type { ClientCatalogue, ExploreRow } from "@/lib/explore-data";
 import { favouriteStore } from "@/lib/favourites";
 import { applyFilters, displayName, priceFor, sortRows } from "@/lib/filters";
 import { formatMoney, formatYears, localeFor } from "@/lib/format";
+import { effectiveLoan, monthlyFor, readPayMode, writePayMode, type EffectiveLoan, type FinanceProfileView, type PayMode } from "@/lib/finance";
+import { LeaseNotice, LoanBox, PayModeToggle, useLoanSettings, type FinanceUi } from "@/components/PriceMode";
+import { siteBase } from "@/lib/site-paths";
 import {
   activeFilterCount,
   BODIES,
@@ -74,6 +77,10 @@ export interface ExploreProps {
   asOf: string;
   /** TRIP_FIT=1 (server env): shows the trip fit quick check. Off → no trip UI at all. */
   tripFit?: boolean;
+  /** This country's finance profile (data/taxonomy/finance_profiles.yaml), Decision 017. */
+  finance: FinanceProfileView | null;
+  /** The URL sets ?pay= (else the remembered price mode wins). */
+  payFromUrl: boolean;
 }
 
 interface Ctx {
@@ -84,11 +91,16 @@ interface Ctx {
   code: Country;
   currency: Currency;
   country: CountrySlug;
+  /** "/{country}/{lang}": prefix for every link (Decision 015). */
+  base: string;
   tax: UiTaxonomy;
   names: { voltage: Map<string, string>; chem: Map<string, string>; cool: Map<string, string> };
   termText: TermText;
   level: Level;
   asOf: string;
+  /** Price mode and the effective loan inputs (Decision 017). */
+  pay: PayMode;
+  loan: EffectiveLoan;
   /**
    * Inside the table, numbers and secondary links are not Tab stops (one stop per row for the
    * name link, heart and compare; provenance via the variant page or the Nerd "sources" button).
@@ -114,6 +126,8 @@ export function Explore(props: ExploreProps) {
   const [tripSettings, setTripSettings] = useState<TripSettings | null>(null);
   const [tripOpen, setTripOpen] = useState(false);
   const tripFit = props.tripFit === true;
+  const [loanSettings, setLoanSettings] = useLoanSettings();
+  const loan = useMemo(() => effectiveLoan(props.finance, loanSettings), [props.finance, loanSettings]);
 
   const tripRows = all ?? props.initialRows;
   const fits = useMemo(
@@ -130,6 +144,7 @@ export function Explore(props: ExploreProps) {
       code: props.code,
       currency: props.currency,
       country: props.country,
+      base: siteBase(props.country, props.lang),
       tax: props.taxonomy,
       names: {
         voltage: new Map(props.taxonomy.voltageClasses.map((v) => [v.id, v.label])),
@@ -139,9 +154,11 @@ export function Explore(props: ExploreProps) {
       termText: { about: t("term.about"), learnMore: t("term.learnMore") },
       level: state.level,
       asOf: props.asOf,
+      pay: state.pay,
+      loan,
       trip: tripMod && fits ? { mod: tripMod, fits, ui: { t, level: state.level, locale, labels: numLabels(t), country: props.country } } : undefined,
     }),
-    [t, locale, sources, props.code, props.currency, props.country, props.taxonomy, state.level, props.asOf, tripMod, fits],
+    [t, locale, sources, props.code, props.currency, props.country, props.lang, props.taxonomy, state.level, props.asOf, state.pay, loan, tripMod, fits],
   );
 
   const openTrip = () => {
@@ -215,11 +232,15 @@ export function Explore(props: ExploreProps) {
       const stored = readStorage(LEVEL_KEY);
       if ((LEVELS as readonly string[]).includes(stored ?? "") && stored !== props.initialState.level) patch.level = stored as Level;
     }
+    if (!props.payFromUrl) {
+      const stored = readPayMode();
+      if (stored && stored !== props.initialState.pay) patch.pay = stored;
+    }
     // One-off read of browser-only preferences after hydration (reading them during render would
     // mismatch the server HTML), so a setState here is intended.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (Object.keys(patch).length) setState((s) => ({ ...s, ...patch }));
-  }, [props.viewFromUrl, props.levelFromUrl, props.initialState.view, props.initialState.level]);
+  }, [props.viewFromUrl, props.levelFromUrl, props.payFromUrl, props.initialState.view, props.initialState.level, props.initialState.pay]);
 
   // State → URL (replaceState: no server round trip, links stay shareable).
   useEffect(() => {
@@ -245,6 +266,20 @@ export function Explore(props: ExploreProps) {
   const setLevel = (level: Level) => {
     writeStorage(LEVEL_KEY, level);
     setState({ ...state, level });
+  };
+  const setPay = (pay: PayMode) => {
+    writePayMode(pay);
+    setState({ ...state, pay });
+  };
+  const financeUi: FinanceUi = {
+    t,
+    locale,
+    currency: props.currency,
+    code: props.code,
+    level: state.level,
+    base: ctx.base,
+    terms: props.taxonomy.terms,
+    termText: ctx.termText,
   };
 
   const matches = useMemo(() => {
@@ -275,13 +310,16 @@ export function Explore(props: ExploreProps) {
             {!all ? <span className="ml-2 text-slate-600">{t("explore.loading")}</span> : null}
           </p>
           <div className="flex flex-wrap gap-2">
-            <Toggle
-              label={t("level")}
-              options={LEVELS.map((l) => ({ value: l, label: t(`level.${l}`) }))}
-              value={state.level}
-              onChange={setLevel}
-              testId="level-switch"
-            />
+            <span className="inline-flex items-center">
+              <Toggle
+                label={t("level")}
+                options={LEVELS.map((l) => ({ value: l, label: t(`level.${l}`) }))}
+                value={state.level}
+                onChange={setLevel}
+                testId="level-switch"
+              />
+              <TermInfo term={props.taxonomy.terms["detail-level"]} base={ctx.base} text={ctx.termText} />
+            </span>
             <Toggle
               label={t("explore.view")}
               options={(["table", "cards"] as const).map((v) => ({ value: v, label: t(`explore.view.${v}`) }))}
@@ -289,6 +327,12 @@ export function Explore(props: ExploreProps) {
               onChange={setView}
             />
           </div>
+        </div>
+
+        <div className="mb-3 flex flex-col gap-2">
+          <PayModeToggle value={state.pay} onChange={setPay} ui={financeUi} />
+          {state.pay === "loan" ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={financeUi} /> : null}
+          {state.pay === "lease" ? <LeaseNotice ui={financeUi} /> : null}
         </div>
 
         {tripFit ? (
@@ -440,7 +484,7 @@ function FilterLabel({ htmlFor, termId, fallback, ctx }: { htmlFor?: string; ter
       <Tag {...(htmlFor ? { htmlFor } : {})} className="text-sm font-medium">
         <TermLabel term={term ? { ...term, label: fallback } : undefined} fallback={fallback} showTechnical={ctx.level !== "simple"} />
       </Tag>
-      <TermInfo term={term} country={ctx.country} text={ctx.termText} />
+      <TermInfo term={term} base={ctx.base} text={ctx.termText} />
     </span>
   );
 }
@@ -506,7 +550,7 @@ function Chips<V extends string>({
     <fieldset>
       <legend className="mb-1 flex w-full items-start justify-between gap-1 text-sm font-medium">
         <span>{legend}</span>
-        <TermInfo term={term} country={ctx.country} text={ctx.termText} />
+        <TermInfo term={term} base={ctx.base} text={ctx.termText} />
       </legend>
       <div className="flex flex-wrap gap-1.5">
         {options.map((o) => (
@@ -538,7 +582,7 @@ function Flag({ id, termId, label, checked, onChange, ctx }: { id: string; termI
         <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-0.5 h-4 w-4 accent-blue-800" />
         {label}
       </label>
-      <TermInfo term={ctx.tax.terms[termId]} country={ctx.country} text={ctx.termText} />
+      <TermInfo term={ctx.tax.terms[termId]} base={ctx.base} text={ctx.termText} />
     </div>
   );
 }
@@ -588,7 +632,7 @@ function ChemistryInfo({ id, ctx }: { id: string; ctx: Ctx }) {
       </span>
     ) : null;
   return (
-    <InfoTip label={c.label} href={`/${ctx.country}/learn/chemistry`} text={ctx.termText}>
+    <InfoTip label={c.label} href={`${ctx.base}/learn/chemistry`} text={ctx.termText}>
       {c.explainer ? <span className="block">{c.explainer}</span> : null}
       {list(t("chem.pros"), c.pros)}
       {list(t("chem.cons"), c.cons)}
@@ -734,10 +778,21 @@ function named(map: Map<string, string>, id: string | null | undefined, c: Ctx):
 function priceCell(r: ExploreRow, c: Ctx) {
   const amount = priceFor(r, c.code);
   const currency = r.price_new?.[c.code]?.currency ?? c.currency;
+  if (c.pay === "lease") return <Missing label={c.t("pay.lease.none")} />;
+  // Loan: the monthly estimate from this price + the shown loan inputs; hover = the price's source.
+  const monthly = c.pay === "loan" ? monthlyFor(amount, c.loan) : null;
+  if (c.pay === "loan" && !monthly) return <Missing label={amount === null ? c.t("num.noData") : c.t("pay.needRate")} />;
   return (
     <Num
       value={amount}
-      text={amount !== null ? formatMoney(amount, currency, c.locale) : undefined}
+      text={
+        monthly
+          ? `≈ ${c.t("pay.perMonth", { amount: formatMoney(monthly.monthly, currency, c.locale) })}`
+          : amount !== null
+            ? formatMoney(amount, currency, c.locale)
+            : undefined
+      }
+      note={monthly ? c.t("pay.estimate") : undefined}
       provenance={r.provenance[`price_new.${c.code}`] ?? r.provenance.price_new}
       sources={c.sources}
       locale={c.locale}
@@ -767,7 +822,7 @@ function charger400(r: ExploreRow, c: Ctx) {
 const COLS: Col[] = [
   { id: "car", key: "name", label: "col.car", levels: ALL, cell: () => null },
   { id: "gen", key: null, label: "col.generation", term: "generation", levels: DN, cell: (r, c) => (
-      <Link href={generationHref(c.country, r)} tabIndex={c.inTable ? -1 : undefined} className="underline decoration-slate-400 underline-offset-2 hover:text-blue-900">
+      <Link href={generationHref(c.base, r)} tabIndex={c.inTable ? -1 : undefined} className="underline decoration-slate-400 underline-offset-2 hover:text-blue-900">
         {r.generation_name}
       </Link>
     ) },
@@ -785,8 +840,8 @@ const COLS: Col[] = [
   { id: "charger400", key: null, label: "col.charger400", term: "400v-charger-behaviour", levels: N, cell: charger400 },
   { id: "chem", key: null, label: "col.chemistry", term: "chemistry", levels: DN, cell: (r, c) => named(c.names.chem, r.chemistry_id, c) + (c.level === "nerd" && r.cell_format ? ` · ${named(NO_NAMES, r.cell_format, c)}` : "") },
   { id: "cool", key: null, label: "col.cooling", term: "cooling", levels: N, cell: (r, c) => named(c.names.cool, r.cooling_id, c) },
-  { id: "platform", key: null, label: "col.platform", levels: N, cell: (r) => r.platform_name ?? "—" },
-  { id: "pack", key: null, label: "col.pack", levels: N, cell: (r, c) => named(NO_NAMES, r.battery_pack_id, c) },
+  { id: "platform", key: null, label: "col.platform", term: "platform", levels: N, cell: (r) => r.platform_name ?? "—" },
+  { id: "pack", key: null, label: "col.pack", term: "battery-pack", levels: N, cell: (r, c) => named(NO_NAMES, r.battery_pack_id, c) },
   { id: "quality", key: "quality", label: "col.quality", term: "quality-tier", levels: ALL, cell: (r, c) => <QualityBadge tier={r.quality_tier} label={c.t(`tier.${r.quality_tier}`)} help={c.t(`tier.${r.quality_tier}.help`)} /> },
 ];
 
@@ -810,8 +865,10 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
             {cols.map((col, i) => {
               const sorted = col.key && state.sort === col.key;
               const ariaSort = sorted ? (state.dir === "asc" ? "ascending" : "descending") : col.key ? "none" : undefined;
-              const term = col.term ? ctx.tax.terms[col.term] : undefined;
-              const label = <TermLabel term={term} fallback={t(col.label)} showTechnical={level !== "simple"} />;
+              // Price column follows the price mode (Decision 017).
+              const payCol = col.id === "price" && ctx.pay !== "buy" ? ctx.pay : null;
+              const term = payCol ? ctx.tax.terms[payCol] : col.term ? ctx.tax.terms[col.term] : undefined;
+              const label = <TermLabel term={term} fallback={payCol ? t(`pay.col.${payCol}`) : t(col.label)} showTechnical={level !== "simple"} />;
               return (
                 <th
                   key={col.id}
@@ -835,14 +892,17 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
                     ) : (
                       label
                     )}
-                    <TermInfo term={term} country={ctx.country} text={ctx.termText} />
+                    <TermInfo term={term} base={ctx.base} text={ctx.termText} />
                   </span>
                 </th>
               );
             })}
             {trip ? (
               <th scope="col" className="sticky top-0 z-20 min-w-36 border-b border-slate-300 bg-slate-100 px-3 py-2 text-left align-bottom font-semibold" data-testid="trip-col">
-                {t("trip.col")}
+                <span className="inline-flex items-end gap-1">
+                  {t("trip.col")}
+                  <TermInfo term={ctx.tax.terms["trip-fit"]} base={ctx.base} text={ctx.termText} />
+                </span>
               </th>
             ) : null}
           </tr>
@@ -862,7 +922,7 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
                 <div className="flex items-center gap-2">
                   <RowActions row={r} t={t} />
                   <span className="flex flex-col">
-                    <Link href={variantHref(ctx.country, r)} className="whitespace-nowrap text-blue-800 underline underline-offset-2 hover:text-blue-950">
+                    <Link href={variantHref(ctx.base, r)} className="whitespace-nowrap text-blue-800 underline underline-offset-2 hover:text-blue-950">
                       {r.make_name} {r.model_name}
                       {level !== "simple" ? <span className="sr-only"> {r.generation_name} {r.variant_name}</span> : null}
                     </Link>
@@ -960,13 +1020,19 @@ function RowSources({ row, ctx }: { row: ExploreRow; ctx: Ctx }) {
 
 function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
   const { t, level } = c;
-  const item = (label: string, value: ReactNode) => (
+  const item = (label: ReactNode, value: ReactNode) => (
     <div className="flex flex-col">
       <dt className="text-xs text-slate-700">{label}</dt>
       <dd>{value}</dd>
     </div>
   );
-  const term = (id: string, fallback: MsgKey) => c.tax.terms[id]?.label ?? t(fallback);
+  // Label + glossary ⓘ (glossary sweep item 4); a missing term renders the plain label.
+  const term = (id: string, fallback: MsgKey, suffix = "") => (
+    <span className="inline-flex items-center gap-0.5">
+      {(c.tax.terms[id]?.label ?? t(fallback)) + suffix}
+      <TermInfo term={c.tax.terms[id]} base={c.base} text={c.termText} />
+    </span>
+  );
   const more = level !== "simple";
   return (
     <li
@@ -977,7 +1043,7 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="font-semibold">
-            <Link href={variantHref(c.country, r)} className="text-blue-800 underline underline-offset-2 hover:text-blue-950">
+            <Link href={variantHref(c.base, r)} className="text-blue-800 underline underline-offset-2 hover:text-blue-950">
               {r.make_name} {r.model_name}
             </Link>
           </h3>
@@ -989,19 +1055,22 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
       </div>
       {c.trip ? (
         <div className="text-sm">
-          <span className="text-xs text-slate-700">{t("trip.col")}</span>
+          <span className="inline-flex items-center gap-0.5 text-xs text-slate-700">
+            {t("trip.col")}
+            <TermInfo term={c.tax.terms["trip-fit"]} base={c.base} text={c.termText} />
+          </span>
           <c.trip.mod.TripCell fit={c.trip.fits.get(r.variant_id)} ui={c.trip.ui} inTable={false} />
         </div>
       ) : null}
       <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
         {item(term("real-range", "col.range"), num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c)))}
-        {item(`${term("dc-km-20min", "col.dc")} (${t("col.dc20.unit")})`, num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0))}
-        {item(term("new-price", "col.price"), priceCell(r, c))}
-        {item(t("price.used"), <PriceBand currency={c.currency} locale={c.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />)}
+        {item(term("dc-km-20min", "col.dc", ` (${t("col.dc20.unit")})`), num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0))}
+        {item(c.pay === "buy" ? term("new-price", "col.price") : term(c.pay, `pay.col.${c.pay}`), priceCell(r, c))}
+        {item(term("used-price", "price.used"), <PriceBand currency={c.currency} locale={c.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />)}
         {more ? (
           <>
             {item(term("usable-vs-gross", "col.battery"), num(r, c, r.battery_kwh_net, "battery_kwh_net", "kWh"))}
-            {item(`${t("col.dc")} (${t("col.dc.unit")})`, num(r, c, r.dc_km_per_10min, "dc_km_per_10min", "km", 0))}
+            {item(term("dc-km-10min", "col.dc", ` (${t("col.dc.unit")})`), num(r, c, r.dc_km_per_10min, "dc_km_per_10min", "km", 0))}
             {item(term("peak-kw", "col.dcPeak"), num(r, c, r.dc_peak_kw, "dc_peak_kw", "kW", 0, undefined, r.dc_peak_kw_is_claim === true))}
             {item(term("ac-charging", "col.ac"), num(r, c, r.ac_km_per_h, "ac_km_per_h", "km/h", 0))}
             {item(term("voltage-class", "col.voltage"), named(c.names.voltage, r.voltage_class_id, c))}
@@ -1015,8 +1084,8 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
             {item(term("cooling", "col.cooling"), named(c.names.cool, r.cooling_id, c))}
             {item(term("400v-charger-behaviour", "col.charger400"), charger400(r, c))}
             {item(term("nominal-voltage", "col.voltage"), num(r, c, r.voltage_nominal_v, "voltage_nominal_v", "V", 0))}
-            {item(t("col.platform"), r.platform_name ?? "—")}
-            {item(t("col.pack"), named(NO_NAMES, r.battery_pack_id, c))}
+            {item(term("platform", "col.platform"), r.platform_name ?? "—")}
+            {item(term("battery-pack", "col.pack"), named(NO_NAMES, r.battery_pack_id, c))}
           </>
         ) : null}
       </dl>

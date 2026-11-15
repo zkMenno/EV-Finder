@@ -15,8 +15,8 @@ export function RankingTable({
 }: {
   caption: string;
   rankHeader: string;
-  /** Column headers after the rank; the first column is the row header (the car). */
-  headers: string[];
+  /** Column headers after the rank; the first column is the row header (the car). May carry a glossary ⓘ. */
+  headers: ReactNode[];
   rows: RankingRowView[];
 }) {
   return (
@@ -28,8 +28,8 @@ export function RankingTable({
             <th scope="col" className="w-14 px-3 py-2 text-right font-semibold">
               {rankHeader}
             </th>
-            {headers.map((h) => (
-              <th key={h} scope="col" className="px-3 py-2 text-left font-semibold">
+            {headers.map((h, i) => (
+              <th key={i} scope="col" className="px-3 py-2 text-left font-semibold">
                 {h}
               </th>
             ))}

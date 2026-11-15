@@ -4,14 +4,17 @@
 // logos, no affiliate tags: plain URLs plus our UTM tag, new tab, rel="noopener" (+ nofollow for
 // third-party sites). Server only.
 import { readFileSync } from "node:fs";
-import type { CountrySlug } from "@/config/countries";
+import type { CountrySlug, Lang } from "@/config/countries";
 import generated from "@/config/charging-links.generated.json";
 
 export interface ChargingLinkConfig {
   /** What the tool is for, official-map | local-app | map | route-planner | price-compare (schema CountryChargingLink.job). */
   job: string;
-  /** Tool name shown as link text (text only, no logos). */
-  label: string;
+  /**
+   * Link text per language (text only, no logos): schema LocalizedText, EN required. Older
+   * generated files and test fixtures may still hold a plain string; both are accepted.
+   */
+  label: Partial<Record<Lang, string>> & { en: string } | string;
   url: string;
   order: number;
   tool: string | null;
@@ -19,6 +22,14 @@ export interface ChargingLinkConfig {
   official: boolean;
   /** false: link without our UTM tag (config can opt out per link). */
   utm: boolean;
+  /** true only after someone opened the link by hand (absent = false). */
+  verified?: boolean;
+}
+
+/** The label in `lang`, falling back to EN (LocalizedText), or the plain string form. */
+export function linkLabel(label: ChargingLinkConfig["label"], lang: Lang = "en"): string {
+  if (typeof label === "string") return label;
+  return label[lang] ?? label.en;
 }
 
 export interface ChargingLink {
@@ -76,7 +87,7 @@ function isAbrp(url: string): boolean {
 }
 
 /** The block's links for one country, in config order, at most five. */
-export function chargingLinks(country: CountrySlug, opts: { withoutAbrp?: boolean; config?: Config } = {}): ChargingLink[] {
+export function chargingLinks(country: CountrySlug, opts: { withoutAbrp?: boolean; config?: Config; lang?: Lang } = {}): ChargingLink[] {
   const list = (opts.config ?? chargingConfig())[country] ?? [];
   return [...list]
     .sort((a, b) => a.order - b.order)
@@ -85,7 +96,7 @@ export function chargingLinks(country: CountrySlug, opts: { withoutAbrp?: boolea
     .map((l, i) => ({
       id: l.tool ?? `${l.job}-${i}`,
       job: l.job,
-      label: l.label,
+      label: linkLabel(l.label, opts.lang),
       url: l.utm ? withUtm(l.url) : l.url,
       rel: linkRel(l.official),
       target: "_blank" as const,

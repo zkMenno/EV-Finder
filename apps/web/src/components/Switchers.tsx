@@ -1,8 +1,11 @@
 "use client";
-// Language and country switchers. Both keep the rest of the URL (path after the country + query).
+// Language and country switchers. Both keep the rest of the URL (path after /{country}/{lang} + query),
+// so filters (query) and the compare tray (localStorage) survive a switch.
 import type { CountrySlug, Lang } from "@/config/countries";
+import { LANG_COOKIE } from "@/lib/lang";
+import { swapCountry, swapLang } from "@/lib/site-paths";
 
-const LANG_NAMES: Record<Lang, string> = {
+export const LANG_NAMES: Record<Lang, string> = {
   en: "English",
   nl: "Nederlands",
   de: "Deutsch",
@@ -11,17 +14,11 @@ const LANG_NAMES: Record<Lang, string> = {
   it: "Italiano",
 };
 
-/** URL for the same page in another country. Exported for tests. */
-export function swapCountry(pathname: string, search: string, to: string): string {
-  const rest = pathname.replace(/^\/[^/]+/, "");
-  return `/${to}${rest}${search}`;
-}
+export { swapCountry, swapLang } from "@/lib/site-paths";
 
-/** URL for the same page in another language (sets ?lang=, the proxy stores the cookie). */
-export function withLang(pathname: string, search: string, lang: string): string {
-  const p = new URLSearchParams(search);
-  p.set("lang", lang);
-  return `${pathname}?${p.toString()}`;
+/** Remembers the choice (cookie, used only where a URL has no language: `/{country}`). */
+export function rememberLang(lang: string) {
+  document.cookie = `${LANG_COOKIE}=${lang}; path=/; max-age=31536000; samesite=lax`;
 }
 
 const selectCls =
@@ -36,8 +33,8 @@ export function LanguageSwitcher({ lang, label, langs }: { lang: Lang; label: st
         value={lang}
         onChange={(e) => {
           const next = e.target.value;
-          document.cookie = `lang=${next}; path=/; max-age=31536000; samesite=lax`;
-          window.location.assign(withLang(window.location.pathname, window.location.search, next));
+          rememberLang(next);
+          window.location.assign(swapLang(window.location.pathname, window.location.search, next as Lang));
         }}
       >
         {langs.map((l) => (
@@ -66,7 +63,7 @@ export function CountrySwitcher({
         className={selectCls}
         value={country}
         onChange={(e) => {
-          window.location.assign(swapCountry(window.location.pathname, window.location.search, e.target.value));
+          window.location.assign(swapCountry(window.location.pathname, window.location.search, e.target.value as CountrySlug));
         }}
       >
         {countries.map((c) => (

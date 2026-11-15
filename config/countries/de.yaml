@@ -15,6 +15,11 @@
 # Loaded at build time by apps/web/scripts/listings.mjs.
 
 country: de
+# UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
+# these languages plus English. /{country}/ redirects to default_language. Read by
+# apps/web/scripts/countries.mjs.
+languages: [de]
+default_language: de
 listings:
   - site: mobile-de
     label: mobile.de
