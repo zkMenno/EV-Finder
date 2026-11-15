@@ -194,4 +194,49 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** More rows per variant and a monthly re-check job for bidi facts. Most cars will show "not offered" or "not disclosed" for ISO 15118-20 at first, which is honest.
 
+## Decision 012: Charging infrastructure as aggregate statistics with one definition per series
+
+**Status:** Accepted (WS0, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Spec tab "Charging buildout" (docs/spec/charging-buildout.md): buyers still picture the 2019 network. Countries count charging points, devices, locations and connectors differently (Belgium: ~22k fully public vs ~126k public + semi-public). Open Charge Map's per-location CC BY-SA licences clash with our CC BY 4.0 output.
+
+**Decision:**
+- Aggregates only (counts, power, per-capita), never point-level charger data, and no charger map of our own.
+- New table `charging_stats` (country, region?, period_end, metric, power_band, value, unit, source_id, definition_id, confidence, entered_by) plus taxonomies `charging_metrics`, `charging_definitions`, `power_bands`, and config `country_charging_links`. Variant field `abrp_typecode` (nullable).
+- A chart draws exactly one `definition_id`; a definition change starts a new series with a marked break. Cross-country comparison uses EAFO (Europe) or IEA (world) only.
+- One official primary per country; PDF-only sources are entered by staff in `data/manual/charging/*.yaml` with a source URL. Monthly job inside the night window; release diff flags month-on-month changes above 15 % or any drop.
+- Phasing: link-outs + /learn "Charging in 2026" = Core 1; country pages + ABRP car deep link = Core 2; EAFO comparison and "how this car fits the network" = Next.
+
+**Consequences:** A small separate fact table and five taxonomies; definitions need curation (WS3). Some countries will show fewer metrics than others, which is honest.
+
+## Decision 013: Trip fit routing on a separate Valhalla box; scoring in the browser
+
+**Status:** Accepted (WS0, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Spec tab "Trip fit" (docs/spec/trip-fit.md) needs routes split into road bands with climb per trip. The shared CAX31 is already ~1 GB over its worst-case budget in the job window (Decision 006). Free hosted routing plans (openrouteservice, GraphHopper) are non-commercial. Nominatim for Europe needs ~64 GB RAM.
+
+**Decision:**
+- Routing = self-hosted Valhalla (OpenStreetMap) on its own small Hetzner Arm box (~€5–15/month after a sizing test for NL+BE+LU+DE+FR+UK), not on the shared CAX31. Monthly tile rebuild.
+- Hosted free routing APIs only for prototypes and staging.
+- No Nominatim: town search from GeoNames cities (CC BY 4.0) plus a map pin.
+- The server returns a route summary per trip (km per road band, climb, descent, starts); the browser multiplies it with a static per-variant consumption matrix (variants × 3 road bands × 5 temperature bands) published with each release. Re-ranking is instant and server load is one route call per trip edit.
+- Privacy: addresses never reach the server; coordinates rounded to ~200 m before routing; no request logging on the route endpoint; accounts store trip names and summaries only; share links carry summaries, never places.
+- Consumption model: per-road-band consumption × temperature curve per heater type + warm-up per cold start + climb; fallback ladder measured → platform → physics → WLTP ratio; P10–P90 band. Launch gate: back-test median error < 10 % on the top-40 used models.
+- OSM-derived route data is ODbL: only per-trip summaries computed on the fly reach users; nothing OSM-derived enters the CC BY release.
+
+**Consequences:** One more small server for WS4 to run and back up (tiles are rebuildable, so no backup of tiles). Quick check without routes (Core 1) can ship before the box exists.
+
+## Decision 014: Workstreams coordinate through repo files; one owner per path
+
+**Status:** Accepted (WS0, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** The first build chat lost time to two chats editing the same decisions file and to Menno relaying messages by hand.
+
+**Decision:** Up to six long-running workstreams (WS0 coordinator, WS1 pipeline, WS2 web, WS3 curation, WS4 infra, WS5 partnerships). Each has `workstreams/<ws>/START.md`, `STATUS.md` and an append-only `INBOX.md`. Every path has one owning workstream (table in workstreams/README.md and BOARD.md); others write to the owner's INBOX. Read right before writing; small edits. The spec is mirrored into `docs/spec/` and the repo copy wins for builders. Research and audit numbers (R-NN, A-NN) are handed out by WS0 to avoid clashes.
+
+**Consequences:** Slightly more files, far fewer overwrites and no human relay. AGENTS.md's role table still holds; workstreams are the long-running chats that fill those roles.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
