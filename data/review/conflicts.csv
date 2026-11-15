@@ -358,9 +358,12 @@ cf-edb473a937,open,audi-e-tron-q8-55-sportback,wltp_range_km,rdw-tgk,629.0,km,54
 cf-9480842fdd,open,audi-e-tron-q8-55-sportback,wltp_range_km,rdw-tgk,629.0,km,542.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1914*22|SBM1JAQ1|QE1QE1G1Z01RT31A210GAAEM0|0:wltp_range_km
 cf-a4596ac489,open,audi-e-tron-q8-quattro,battery_kwh_net,kilowatt-openev,77.0,kWh,100.0,±2%,kilowatt-openev:data/v2/models/audi.json#5c8679af-fa28-440e-bd5b-389b5eb80847:battery_kwh_net
 cf-346ec26bac,open,audi-e-tron-q8-quattro,battery_kwh_net,kilowatt-openev,77.0,kWh,100.0,±2%,kilowatt-openev:data/v2/models/audi.json#5409ff78-d91e-4868-8906-4b0c4ee3c81c:battery_kwh_net
-cf-96024172b4,open,audi-e-tron-q8-quattro,epa_range_km,fueleconomy,363.7,km,437.7,±2%,fueleconomy:vehicles.csv:id=45984;market=us:epa_range_km
-cf-22b9fd4408,open,audi-e-tron-q8-quattro,epa_range_km,fueleconomy,458.7,km,437.7,±2%,fueleconomy:vehicles.csv:id=46913;market=us:epa_range_km
-cf-be48751efe,open,audi-e-tron-q8-quattro,epa_range_km,fueleconomy,408.8,km,437.7,±2%,fueleconomy:vehicles.csv:id=48300;market=us:epa_range_km
+cf-22b9fd4408,open,audi-e-tron-q8-quattro,epa_range_km,fueleconomy,458.7,km,363.7,±2%,fueleconomy:vehicles.csv:id=46913;market=us:epa_range_km
+cf-be48751efe,open,audi-e-tron-q8-quattro,epa_range_km,fueleconomy,408.8,km,363.7,±2%,fueleconomy:vehicles.csv:id=48300;market=us:epa_range_km
+cf-e6d0d38c18,open,audi-e-tron-q8-quattro,epa_range_km,fueleconomy,437.7,km,363.7,±2%,fueleconomy:vehicles.csv:id=48299;market=us:epa_range_km
+cf-683d94b917,open,audi-e-tron-q8-quattro,epa_range_km,openev,446.0,km,363.7,±2%,openev:src/audi/q8_e_tron/base.json+src/audi/q8_e_tron/2023/q8_e_tron_quattro.json:epa_range_km
+cf-53ed0d8b5f,open,audi-e-tron-q8-quattro,epa_range_km,openev,446.0,km,363.7,±2%,openev:src/audi/q8_e_tron/base.json+src/audi/q8_e_tron/2024/q8_e_tron_quattro.json:epa_range_km
+cf-983e2f3cc7,open,audi-e-tron-q8-quattro,epa_range_km,openev,446.0,km,363.7,±2%,openev:src/audi/q8_e_tron/base.json+src/audi/q8_e_tron/2025/q8_e_tron_quattro.json:epa_range_km
 cf-808be65d15,open,audi-e-tron-q8-quattro-sportback,epa_range_km,fueleconomy,476.4,km,362.1,±2%,fueleconomy:vehicles.csv:id=47440;market=us:epa_range_km
 cf-64028503b8,open,audi-e-tron-q8-quattro-sportback,epa_range_km,fueleconomy,482.8,km,362.1,±2%,fueleconomy:vehicles.csv:id=46914;market=us:epa_range_km
 cf-cd03ac4130,open,audi-e-tron-q8-quattro-sportback,epa_range_km,fueleconomy,408.8,km,362.1,±2%,fueleconomy:vehicles.csv:id=48302;market=us:epa_range_km
@@ -696,10 +699,13 @@ cf-9e1f9ec599,open,audi-q4-e-tron-gen1-quattro,battery_kwh_net,kilowatt-openev,7
 cf-e559fea3a0,open,audi-q4-e-tron-gen1-quattro,battery_kwh_net,kilowatt-openev,77.0,kWh,73.0,±2%,kilowatt-openev:data/v2/models/audi.json#22e9874b-60b1-43a1-b150-2d42181d6c7c:battery_kwh_net
 cf-436a0fd713,open,audi-q4-e-tron-gen1-quattro,dc_peak_kw,kilowatt-openev,175.0,kW,125.0,±5%,kilowatt-openev:data/v2/models/audi.json#80a8992c-3246-4b00-b49d-e9d9ca153a4a:dc_peak_kw
 cf-d9f6364d71,open,audi-q4-e-tron-gen1-quattro,dc_peak_kw,kilowatt-openev,150.0,kW,125.0,±5%,kilowatt-openev:data/v2/models/audi.json#22e9874b-60b1-43a1-b150-2d42181d6c7c:dc_peak_kw
-cf-8292c9502a,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,387.9,km,379.8,±2%,fueleconomy:vehicles.csv:id=44781;market=us:epa_range_km
-cf-54ad1f48d2,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,415.2,km,379.8,±2%,fueleconomy:vehicles.csv:id=47810;market=us:epa_range_km
-cf-79ec7930ac,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,415.2,km,379.8,±2%,fueleconomy:vehicles.csv:id=48681;market=us:epa_range_km
-cf-a689a9182d,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,403.9,km,379.8,±2%,fueleconomy:vehicles.csv:id=50182;market=us:epa_range_km
+cf-36e3433e6a,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,379.8,km,387.9,±2%,fueleconomy:vehicles.csv:id=45988;market=us:epa_range_km
+cf-54ad1f48d2,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,415.2,km,387.9,±2%,fueleconomy:vehicles.csv:id=47810;market=us:epa_range_km
+cf-79ec7930ac,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,415.2,km,387.9,±2%,fueleconomy:vehicles.csv:id=48681;market=us:epa_range_km
+cf-a689a9182d,open,audi-q4-e-tron-gen1-quattro,epa_range_km,fueleconomy,403.9,km,387.9,±2%,fueleconomy:vehicles.csv:id=50182;market=us:epa_range_km
+cf-55ea9a5070,open,audi-q4-e-tron-gen1-quattro,epa_range_km,openev,375.0,km,387.9,±2%,openev:src/audi/q4_e_tron/base.json+src/audi/q4_e_tron/2023/q4_e_tron_quattro.json:epa_range_km
+cf-0e46270f0b,open,audi-q4-e-tron-gen1-quattro,epa_range_km,openev,375.0,km,387.9,±2%,openev:src/audi/q4_e_tron/base.json+src/audi/q4_e_tron/2024/q4_e_tron_quattro.json:epa_range_km
+cf-597edd7119,open,audi-q4-e-tron-gen1-quattro,epa_range_km,openev,375.0,km,387.9,±2%,openev:src/audi/q4_e_tron/base.json+src/audi/q4_e_tron/2025/q4_e_tron_quattro.json:epa_range_km
 cf-855e752522,open,audi-q4-e-tron-gen1-quattro-sportback,battery_kwh_net,kilowatt-openev,77.0,kWh,73.0,±2%,kilowatt-openev:data/v2/models/audi.json#e767341e-a7dc-44e3-aa0f-4cd134b6d130:battery_kwh_net
 cf-e901e59951,open,audi-q4-e-tron-gen1-quattro-sportback,battery_kwh_net,kilowatt-openev,77.0,kWh,73.0,±2%,kilowatt-openev:data/v2/models/audi.json#a368aa50-fa4e-4842-b363-8b7a7e13977d:battery_kwh_net
 cf-f9c7cf86c1,open,audi-q4-e-tron-gen1-quattro-sportback,dc_peak_kw,kilowatt-openev,150.0,kW,125.0,±5%,kilowatt-openev:data/v2/models/audi.json#e767341e-a7dc-44e3-aa0f-4cd134b6d130:dc_peak_kw
@@ -758,18 +764,6 @@ cf-fb2e961695,open,audi-q6-e-tron-gen1-sq6,wltp_range_km,rdw-tgk,685.0,km,600.0,
 cf-8427ffbc96,open,audi-q6-e-tron-gen1-sq6,wltp_range_km,rdw-tgk,685.0,km,600.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00337*07|SBL1NAQ1|QE1QE1G1Z05RT020GAAEM0FLC|0:wltp_range_km
 cf-c6f24a5fb4,open,bmw-i3-i01-94ah,dc_curve,kilowatt-openev,"points=[Point(root=[0.0, 47.0]), Point(root=[70.0, 47.0]), Point(root=[80.0, 32.9]), Point(root=[100.0, 27.2])] status=<Status.estimated: 'estimated'> conditions=Conditions(battery_temp_c=None, preconditioned=None, ambient_temp_c=None, charger_kw=None, software_version=None)",kW,"points=[Point(root=[0.0, 44.0]), Point(root=[60.0, 46.0]), Point(root=[80.0, 50.0]), Point(root=[100.0, 3.0])] status=<Status.estimated: 'estimated'> conditions=Conditions(battery_temp_c=None, preconditioned=None, ambient_temp_c=None, charger_kw=None, software_version=None)",±3%,kilowatt-openev:data/v2/models/bmw.json#01c7b5f8-263d-48c1-8a70-db1a6272246b#dc_curve:dc_curve
 cf-a6a3883b78,open,bmw-i3-i01-94ah,dc_peak_kw,kilowatt-openev,47.0,kW,50.0,±5%,kilowatt-openev:data/v2/models/bmw.json#01c7b5f8-263d-48c1-8a70-db1a6272246b:dc_peak_kw
-cf-18f7740c6d,open,bmw-i3-i01-i3s,epa_range_km,fueleconomy,246.2,km,172.2,±2%,fueleconomy:vehicles.csv:id=41055;market=us:epa_range_km
-cf-862c550f99,open,bmw-i3-i01-i3s,epa_range_km,fueleconomy,246.2,km,172.2,±2%,fueleconomy:vehicles.csv:id=42513;market=us:epa_range_km
-cf-7e910558d8,open,bmw-i3-i01-i3s,epa_range_km,fueleconomy,246.2,km,172.2,±2%,fueleconomy:vehicles.csv:id=43662;market=us:epa_range_km
-cf-4ad3041f62,open,bmw-i3-i01-i3s,price_new.NL,rdw,52067.0,EUR,50062.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW I|I3S|2018|BMWI-1|7Z61|0A040000:price_new
-cf-c685aa54c1,open,bmw-i3-i01-i3s,price_new.NL,rdw,56924.0,EUR,50062.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:BMW I|I3S|2018|BMWI-1|8P61:price_new
-cf-d0fed5e612,open,bmw-i3-i01-i3s,wltp_range_km,rdw,233.0,km,279.0,±2%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:BMW I|I3S|2018|BMWI-1|7Z61:wltp_range_km
-cf-2dbeec0697,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*09|8P61|0AW40000|0:wltp_range_km
-cf-999515efb7,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*10|8P61|0AW40000|0:wltp_range_km
-cf-d8de15a3c4,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*11|8P61|0AW40000|0:wltp_range_km
-cf-b4deeb8531,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*13|8P61|0AW40000|0:wltp_range_km
-cf-f9edd1efc0,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*12|8P61|0AW40000|0:wltp_range_km
-cf-cfce5990a3,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*14|8P61|0AW40000|1:wltp_range_km
 cf-c16e177fe5,open,bmw-i4-g26-edrive35,battery_kwh_gross,openev,70.3,kWh,68.7,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_edrive35.json:battery_kwh_gross
 cf-7a1e1a8457,open,bmw-i4-g26-edrive35,battery_kwh_gross,openev,70.3,kWh,68.7,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_edrive35.json:battery_kwh_gross
 cf-98ef1e17fc,open,bmw-i4-g26-edrive35,consumption_kwh_100km,rdw,15.9,kWh/100km,16.4,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I4 EDRIVE35|2025#consumption_kwh_100km:consumption_kwh_100km
@@ -802,10 +796,15 @@ cf-51bea75d04,open,bmw-i4-g26-edrive35,consumption_kwh_100km,rdw-tgk,15.41,kWh/1
 cf-ae9b2a695b,open,bmw-i4-g26-edrive35,consumption_kwh_100km,rdw-tgk,15.41,kWh/100km,16.4,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*10|11HD|0AH5A000|0:consumption_kwh_100km
 cf-6e9dabc35b,open,bmw-i4-g26-edrive35,consumption_kwh_100km,rdw-tgk,14.64,kWh/100km,16.4,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*13|51HD|0AW5A700|0:consumption_kwh_100km
 cf-3134eb4bb5,open,bmw-i4-g26-edrive35,consumption_kwh_100km,rdw-tgk,14.64,kWh/100km,16.4,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*13|51HD|0AW5A000|0:consumption_kwh_100km
-cf-01e068e69f,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,378.2,km,412.0,±2%,fueleconomy:vehicles.csv:id=46617;market=us:epa_range_km
-cf-c455ec664a,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,444.2,km,412.0,±2%,fueleconomy:vehicles.csv:id=46919;market=us:epa_range_km
-cf-8b03b53fad,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,392.7,km,412.0,±2%,fueleconomy:vehicles.csv:id=48309;market=us:epa_range_km
-cf-33d8da9997,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,428.1,km,412.0,±2%,fueleconomy:vehicles.csv:id=48308;market=us:epa_range_km
+cf-b4db21127b,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,412.0,km,378.2,±2%,fueleconomy:vehicles.csv:id=46616;market=us:epa_range_km
+cf-18ddb37d56,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,405.6,km,378.2,±2%,fueleconomy:vehicles.csv:id=46920;market=us:epa_range_km
+cf-c455ec664a,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,444.2,km,378.2,±2%,fueleconomy:vehicles.csv:id=46919;market=us:epa_range_km
+cf-8b03b53fad,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,392.7,km,378.2,±2%,fueleconomy:vehicles.csv:id=48309;market=us:epa_range_km
+cf-33d8da9997,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,428.1,km,378.2,±2%,fueleconomy:vehicles.csv:id=48308;market=us:epa_range_km
+cf-47edfd13cc,open,bmw-i4-g26-edrive35,epa_range_km,fueleconomy,403.9,km,378.2,±2%,fueleconomy:vehicles.csv:id=50187;market=us:epa_range_km
+cf-2f9ce06927,open,bmw-i4-g26-edrive35,epa_range_km,openev,418.0,km,378.2,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json+src/bmw/i4/2023/i4_edrive35.json:epa_range_km
+cf-5a634d0bf3,open,bmw-i4-g26-edrive35,epa_range_km,openev,406.0,km,378.2,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_edrive35.json:epa_range_km
+cf-9af1ac7551,open,bmw-i4-g26-edrive35,epa_range_km,openev,412.0,km,378.2,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_edrive35.json:epa_range_km
 cf-16aef04856,open,bmw-i4-g26-edrive35,price_new.NL,rdw,63832.0,EUR,70842.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I4 EDRIVE35|2024|G4C|11HD|0AL5A00B:price_new
 cf-14f3c36f6e,open,bmw-i4-g26-edrive35,price_new.NL,rdw,67611.0,EUR,70842.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I4 EDRIVE35|2025|G4C|51HD|0AW5A700:price_new
 cf-140b64d24b,open,bmw-i4-g26-edrive35,price_new.NL,rdw,62393.0,EUR,70842.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I4 EDRIVE35|2025|G4C|51HD|0AW5A000:price_new
@@ -912,11 +911,13 @@ cf-caa2e2e991,open,bmw-i4-g26-m50,consumption_kwh_100km,rdw-tgk,18.0,kWh/100km,1
 cf-ab877e02ff,open,bmw-i4-g26-m50,consumption_kwh_100km,rdw-tgk,18.0,kWh/100km,18.8,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*07|31AW|0AW50700|0:consumption_kwh_100km
 cf-3d4185e8a4,open,bmw-i4-g26-m50,consumption_kwh_100km,rdw-tgk,17.51,kWh/100km,18.8,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*10|31HD|0AW5070B|0:consumption_kwh_100km
 cf-9cedf47ce8,open,bmw-i4-g26-m50,consumption_kwh_100km,rdw-tgk,17.51,kWh/100km,18.8,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*10|31HD|0AW50700|0:consumption_kwh_100km
-cf-d77e1c3118,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,365.3,km,434.5,±2%,fueleconomy:vehicles.csv:id=45132;market=us:epa_range_km
-cf-4f14fa7d01,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,365.3,km,434.5,±2%,fueleconomy:vehicles.csv:id=45991;market=us:epa_range_km
-cf-0ede7aec1e,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,365.3,km,434.5,±2%,fueleconomy:vehicles.csv:id=46916;market=us:epa_range_km
-cf-c33ce1c0df,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,365.3,km,434.5,±2%,fueleconomy:vehicles.csv:id=48313;market=us:epa_range_km
-cf-71d86b8de6,open,bmw-i4-g26-m50,epa_range_km,openev,394.0,km,434.5,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json+src/bmw/i4/2023/i4_m50.json:epa_range_km
+cf-d72a318e26,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,434.5,km,365.3,±2%,fueleconomy:vehicles.csv:id=45131;market=us:epa_range_km
+cf-7ab26156e1,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,436.1,km,365.3,±2%,fueleconomy:vehicles.csv:id=45990;market=us:epa_range_km
+cf-5d8b319d57,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,432.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=46915;market=us:epa_range_km
+cf-f59cfcf6b2,open,bmw-i4-g26-m50,epa_range_km,fueleconomy,429.7,km,365.3,±2%,fueleconomy:vehicles.csv:id=48312;market=us:epa_range_km
+cf-71d86b8de6,open,bmw-i4-g26-m50,epa_range_km,openev,394.0,km,365.3,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2023/i4.json+src/bmw/i4/2023/i4_m50.json:epa_range_km
+cf-1de5833aaf,open,bmw-i4-g26-m50,epa_range_km,openev,435.0,km,365.3,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_m50.json:epa_range_km
+cf-636175a0be,open,bmw-i4-g26-m50,epa_range_km,openev,429.0,km,365.3,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_m50.json:epa_range_km
 cf-b2269c968d,open,bmw-i4-g26-m50,price_new.NL,rdw,86332.0,EUR,90153.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I4 M50|2022|G4C|31AW|0AW50700:price_new
 cf-442c251c0e,open,bmw-i4-g26-m50,wltp_range_km,rdw,523.0,km,500.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I4 M60 XDRIVE|2025#wltp_range_km:wltp_range_km
 cf-5e4e94e057,open,bmw-i4-g26-m50,wltp_range_km,rdw,513.0,km,500.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I4 M60 XDRIVE|2026#wltp_range_km:wltp_range_km
@@ -940,11 +941,13 @@ cf-be68444085,open,bmw-i4-g26-m50,wltp_range_km,rdw-tgk,521.0,km,500.0,±2%,rdw-
 cf-fdf8a3e636,open,bmw-i4-g26-m50,wltp_range_km,rdw-tgk,521.0,km,500.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*07|31AW|0AW50700|0:wltp_range_km
 cf-d9d67aa0d6,open,bmw-i4-g26-m50,wltp_range_km,rdw-tgk,522.0,km,500.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*10|31HD|0AW5070B|0:wltp_range_km
 cf-2f2ef25ccb,open,bmw-i4-g26-m50,wltp_range_km,rdw-tgk,522.0,km,500.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00122*10|31HD|0AW50700|0:wltp_range_km
-cf-90ff234a7c,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,449.0,km,494.1,±2%,fueleconomy:vehicles.csv:id=46918;market=us:epa_range_km
-cf-232e21fe10,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,431.3,km,494.1,±2%,fueleconomy:vehicles.csv:id=48315;market=us:epa_range_km
-cf-198d6c567f,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,461.9,km,494.1,±2%,fueleconomy:vehicles.csv:id=48314;market=us:epa_range_km
-cf-8c08b2d85b,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,431.3,km,494.1,±2%,fueleconomy:vehicles.csv:id=50193;market=us:epa_range_km
-cf-8a6f8166a5,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,461.9,km,494.1,±2%,fueleconomy:vehicles.csv:id=50192;market=us:epa_range_km
+cf-0d4a5e0d18,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,494.1,km,449.0,±2%,fueleconomy:vehicles.csv:id=46917;market=us:epa_range_km
+cf-232e21fe10,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,431.3,km,449.0,±2%,fueleconomy:vehicles.csv:id=48315;market=us:epa_range_km
+cf-198d6c567f,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,461.9,km,449.0,±2%,fueleconomy:vehicles.csv:id=48314;market=us:epa_range_km
+cf-8c08b2d85b,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,431.3,km,449.0,±2%,fueleconomy:vehicles.csv:id=50193;market=us:epa_range_km
+cf-8a6f8166a5,open,bmw-i4-g26-xdrive40,epa_range_km,fueleconomy,461.9,km,449.0,±2%,fueleconomy:vehicles.csv:id=50192;market=us:epa_range_km
+cf-436f709bab,open,bmw-i4-g26-xdrive40,epa_range_km,openev,494.0,km,449.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_xdrive40.json:epa_range_km
+cf-d8b9a6faaf,open,bmw-i4-g26-xdrive40,epa_range_km,openev,494.0,km,449.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_xdrive40.json:epa_range_km
 cf-5c3ba41efe,open,bmw-i4-g26-xdrive40,top_speed_kmh,openev,190.0,km/h,200.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_xdrive40.json:top_speed_kmh
 cf-b9db05fdd1,open,bmw-i4-g26-xdrive40,top_speed_kmh,openev,190.0,km/h,200.0,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_xdrive40.json:top_speed_kmh
 cf-45d44dbec7,open,bmw-i5-gen1-edrive40,consumption_kwh_100km,rdw,17.5,kWh/100km,16.5,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:BMW|I5 EDRIVE40|2024|G6E|11HH:consumption_kwh_100km
@@ -1041,14 +1044,18 @@ cf-acfbe45255,open,bmw-i5-gen1-edrive40,consumption_kwh_100km,rdw-tgk,15.98,kWh/
 cf-683971c1b1,open,bmw-i5-gen1-edrive40,consumption_kwh_100km,rdw-tgk,15.98,kWh/100km,16.5,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00317*07|31HG|0AH5A800|0:consumption_kwh_100km
 cf-a9237875e5,open,bmw-i5-gen1-edrive40,consumption_kwh_100km,rdw-tgk,15.98,kWh/100km,16.5,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00317*07|31HG|0AB5A800|0:consumption_kwh_100km
 cf-22d87f49f4,open,bmw-i5-gen1-edrive40,consumption_kwh_100km,rdw-tgk,15.98,kWh/100km,16.5,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00317*06|31HG|0AB50800|0:consumption_kwh_100km
-cf-8a93d7c1e0,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,434.5,km,474.8,±2%,fueleconomy:vehicles.csv:id=46925;market=us:epa_range_km
-cf-20892f4e12,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,447.4,km,474.8,±2%,fueleconomy:vehicles.csv:id=46924;market=us:epa_range_km
-cf-c6a2d40c3f,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,436.1,km,474.8,±2%,fueleconomy:vehicles.csv:id=48318;market=us:epa_range_km
-cf-ee25496740,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,447.4,km,474.8,±2%,fueleconomy:vehicles.csv:id=48317;market=us:epa_range_km
-cf-01a32734bc,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,447.4,km,474.8,±2%,fueleconomy:vehicles.csv:id=49615;market=us:epa_range_km
-cf-707d3e735a,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,498.9,km,474.8,±2%,fueleconomy:vehicles.csv:id=49613;market=us:epa_range_km
-cf-60b15ef9ee,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,450.6,km,474.8,±2%,fueleconomy:vehicles.csv:id=50362;market=us:epa_range_km
-cf-7ad2d77a02,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,527.9,km,474.8,±2%,fueleconomy:vehicles.csv:id=50360;market=us:epa_range_km
+cf-20892f4e12,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,447.4,km,434.5,±2%,fueleconomy:vehicles.csv:id=46924;market=us:epa_range_km
+cf-1a7d1f47fb,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,474.8,km,434.5,±2%,fueleconomy:vehicles.csv:id=46923;market=us:epa_range_km
+cf-ee25496740,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,447.4,km,434.5,±2%,fueleconomy:vehicles.csv:id=48317;market=us:epa_range_km
+cf-8d1608f666,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,474.8,km,434.5,±2%,fueleconomy:vehicles.csv:id=48316;market=us:epa_range_km
+cf-01a32734bc,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,447.4,km,434.5,±2%,fueleconomy:vehicles.csv:id=49615;market=us:epa_range_km
+cf-bfffb419b8,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,482.8,km,434.5,±2%,fueleconomy:vehicles.csv:id=49614;market=us:epa_range_km
+cf-707d3e735a,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,498.9,km,434.5,±2%,fueleconomy:vehicles.csv:id=49613;market=us:epa_range_km
+cf-60b15ef9ee,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,450.6,km,434.5,±2%,fueleconomy:vehicles.csv:id=50362;market=us:epa_range_km
+cf-64fd333d0a,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,481.2,km,434.5,±2%,fueleconomy:vehicles.csv:id=50361;market=us:epa_range_km
+cf-7ad2d77a02,open,bmw-i5-gen1-edrive40,epa_range_km,fueleconomy,527.9,km,434.5,±2%,fueleconomy:vehicles.csv:id=50360;market=us:epa_range_km
+cf-7764fd47bd,open,bmw-i5-gen1-edrive40,epa_range_km,openev,475.0,km,434.5,±2%,openev:src/bmw/i5/base.json+src/bmw/i5/2024/i5.json:epa_range_km
+cf-197bcd97f9,open,bmw-i5-gen1-edrive40,epa_range_km,openev,475.0,km,434.5,±2%,openev:src/bmw/i5/base.json+src/bmw/i5/2025/i5.json:epa_range_km
 cf-62e20c2ca7,open,bmw-i5-gen1-edrive40,price_new.NL,rdw,90468.0,EUR,83253.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I5 EDRIVE40|2024|G6E|31FK|0AD50000:price_new
 cf-dd089ac9f0,open,bmw-i5-gen1-edrive40,price_new.NL,rdw,86414.0,EUR,83253.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I5 EDRIVE40|2024|G6E|11HH|0AL50800:price_new
 cf-4a44d51c24,open,bmw-i5-gen1-edrive40,price_new.NL,rdw,89072.0,EUR,83253.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I5 EDRIVE40|2024|G6E|11HH|0AH50000:price_new
@@ -1124,9 +1131,14 @@ cf-0b861bed32,open,bmw-i5-gen1-m60,price_new.NL,rdw,132734.0,EUR,106921.0,±3%,r
 cf-150d241a6e,open,bmw-i5-gen1-m60,wltp_range_km,rdw,459.0,km,515.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I5 M60 XDRIVE|2023#wltp_range_km:wltp_range_km
 cf-8d0f8713b3,open,bmw-ix-gen1-m60,ac_kw,kilowatt-openev,22.0,kW,11.0,±2%,kilowatt-openev:data/v2/models/bmw.json#5076b1d4-9b07-4f36-8050-64668d5b3634:ac_kw
 cf-4f258cb3c1,open,bmw-ix-gen1-m60,consumption_kwh_100km,rdw,22.65,kWh/100km,21.7,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX M60|2023#consumption_kwh_100km:consumption_kwh_100km
-cf-20b641ca77,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,441.0,km,463.5,±2%,fueleconomy:vehicles.csv:id=45327;market=us:epa_range_km
-cf-d3bf2206dd,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,476.4,km,463.5,±2%,fueleconomy:vehicles.csv:id=46938;market=us:epa_range_km
-cf-9affd36fd1,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,476.4,km,463.5,±2%,fueleconomy:vehicles.csv:id=46937;market=us:epa_range_km
+cf-f0af5226fa,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,463.5,km,441.0,±2%,fueleconomy:vehicles.csv:id=45326;market=us:epa_range_km
+cf-d3bf2206dd,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,476.4,km,441.0,±2%,fueleconomy:vehicles.csv:id=46938;market=us:epa_range_km
+cf-9affd36fd1,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,476.4,km,441.0,±2%,fueleconomy:vehicles.csv:id=46937;market=us:epa_range_km
+cf-a647099812,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,458.7,km,441.0,±2%,fueleconomy:vehicles.csv:id=48334;market=us:epa_range_km
+cf-c561c3c584,open,bmw-ix-gen1-m60,epa_range_km,fueleconomy,457.1,km,441.0,±2%,fueleconomy:vehicles.csv:id=48333;market=us:epa_range_km
+cf-de4ebefae5,open,bmw-ix-gen1-m60,epa_range_km,openev,463.0,km,441.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2023/ix.json+src/bmw/ix/2023/ix_m60.json:epa_range_km
+cf-35f81ba217,open,bmw-ix-gen1-m60,epa_range_km,openev,463.0,km,441.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2024/ix.json+src/bmw/ix/2024/ix_m60.json:epa_range_km
+cf-13c202a547,open,bmw-ix-gen1-m60,epa_range_km,openev,459.0,km,441.0,±2%,openev:src/bmw/ix/base.json+src/bmw/ix/2025/ix.json+src/bmw/ix/2025/ix_m60.json:epa_range_km
 cf-0e5f72dc8c,open,bmw-ix-gen1-m60,weight_kg,ademe,2584.0,kg,2710.0,±1%,ademe:ademe-car-labelling:B.M.W.|IX|iX M60:weight_kg
 cf-96429143e1,open,bmw-ix-gen1-m60,wheelbase_mm,rdw-tgk,3000.0,mm,2984.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00109*02|31CF|0AA50000|0:wheelbase_mm
 cf-2b1f0d9b70,open,bmw-ix-gen1-m60,wheelbase_mm,rdw-tgk,3000.0,mm,2984.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00109*01|31CF|0AW50000|0:wheelbase_mm
@@ -1456,12 +1468,6 @@ cf-82cd283216,open,ford-mustang-mach-e-gen1-er-awd,epa_range_km,fueleconomy,482.
 cf-9f765b6b79,open,ford-mustang-mach-e-gen1-er-awd,epa_range_km,fueleconomy,386.2,km,434.5,±2%,fueleconomy:vehicles.csv:id=50200;market=us:epa_range_km
 cf-cffad7f92e,open,ford-mustang-mach-e-gen1-extended-range,width_mm,rdw-tgk,1881.0,mm,1930.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*2387*03|EHL72YX|5AAAZNALWAB|0:width_mm
 cf-2fd17088fa,open,ford-mustang-mach-e-gen1-extended-range,width_mm,rdw-tgk,1881.0,mm,1930.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*2387*14|EHL72YX|5ACAZNBM5BB|0:width_mm
-cf-5bbf9691d0,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,98.7,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2023/mustang_mach_e.json+src/ford/mustang_mach_e/2023/mustang_mach_e_gt.json:battery_kwh_gross
-cf-d5f54aa1a1,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,98.7,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2024/mustang_mach_e.json+src/ford/mustang_mach_e/2024/mustang_mach_e_gt.json:battery_kwh_gross
-cf-3d091831a5,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,98.7,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2025/mustang_mach_e.json+src/ford/mustang_mach_e/2025/mustang_mach_e_gt.json:battery_kwh_gross
-cf-5981bcd2c5,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2023/mustang_mach_e.json+src/ford/mustang_mach_e/2023/mustang_mach_e_gt.json:battery_kwh_net
-cf-bb3b94e6e4,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2024/mustang_mach_e.json+src/ford/mustang_mach_e/2024/mustang_mach_e_gt.json:battery_kwh_net
-cf-f983a975b1,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,±2%,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2025/mustang_mach_e.json+src/ford/mustang_mach_e/2025/mustang_mach_e_gt.json:battery_kwh_net
 cf-ce0ec916d0,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,91.0,kWh,88.0,±2%,kilowatt-openev:data/v2/models/ford.json#9cbae0bd-03f9-43d4-890a-9ebaa181b5f6:battery_kwh_net
 cf-3a0761edf8,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,kilowatt-openev,91.0,kWh,88.0,±2%,kilowatt-openev:data/v2/models/ford.json#a5a98ff7-7ab6-40e7-a1e5-4271127d63c3:battery_kwh_net
 cf-085b33d97d,open,ford-mustang-mach-e-gen1-gt,epa_range_km,fueleconomy,434.5,km,418.4,±2%,fueleconomy:vehicles.csv:id=44797;market=us:epa_range_km
@@ -1587,8 +1593,11 @@ cf-5e6ee0eb0f,open,hyundai-ioniq-6-gen1-awd,epa_range_km,fueleconomy,508.6,km,43
 cf-69d65910e2,open,hyundai-ioniq-6-gen1-awd,epa_range_km,openev,497.0,km,434.5,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2023/ioniq_6.json+src/hyundai/ioniq_6/2023/ioniq_6_awd.json:epa_range_km
 cf-215958e3b8,open,hyundai-ioniq-6-gen1-awd,epa_range_km,openev,497.0,km,434.5,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2024/ioniq_6.json+src/hyundai/ioniq_6/2024/ioniq_6_awd.json:epa_range_km
 cf-536b58b09d,open,hyundai-ioniq-6-gen1-awd,epa_range_km,openev,497.0,km,434.5,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2025/ioniq_6.json+src/hyundai/ioniq_6/2025/ioniq_6_awd.json:epa_range_km
-cf-c3679336f2,open,hyundai-ioniq-6-gen1-long-range,epa_range_km,fueleconomy,490.8,km,581.0,±2%,fueleconomy:vehicles.csv:id=46623;market=us:epa_range_km
-cf-e70379f42c,open,hyundai-ioniq-6-gen1-long-range,epa_range_km,fueleconomy,490.8,km,581.0,±2%,fueleconomy:vehicles.csv:id=46958;market=us:epa_range_km
+cf-643455e0e8,open,hyundai-ioniq-6-gen1-long-range,epa_range_km,fueleconomy,581.0,km,490.8,±2%,fueleconomy:vehicles.csv:id=46622;market=us:epa_range_km
+cf-12aff2cd79,open,hyundai-ioniq-6-gen1-long-range,epa_range_km,fueleconomy,581.0,km,490.8,±2%,fueleconomy:vehicles.csv:id=46957;market=us:epa_range_km
+cf-06de230a8d,open,hyundai-ioniq-6-gen1-long-range,epa_range_km,openev,581.0,km,490.8,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2023/ioniq_6.json+src/hyundai/ioniq_6/2023/ioniq_6_long_range.json:epa_range_km
+cf-f42386a8e1,open,hyundai-ioniq-6-gen1-long-range,epa_range_km,openev,581.0,km,490.8,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2024/ioniq_6.json+src/hyundai/ioniq_6/2024/ioniq_6_long_range.json:epa_range_km
+cf-8c8d942715,open,hyundai-ioniq-6-gen1-long-range,epa_range_km,openev,581.0,km,490.8,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2025/ioniq_6.json+src/hyundai/ioniq_6/2025/ioniq_6_long_range.json:epa_range_km
 cf-0b83c752a8,open,hyundai-ioniq-6-gen1-standard-range,epa_range_km,openev,361.0,km,386.2,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2023/ioniq_6.json:epa_range_km
 cf-a1950f31ff,open,hyundai-ioniq-6-gen1-standard-range,epa_range_km,openev,361.0,km,386.2,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2024/ioniq_6.json:epa_range_km
 cf-af189d0ca8,open,hyundai-ioniq-6-gen1-standard-range,epa_range_km,openev,361.0,km,386.2,±2%,openev:src/hyundai/ioniq_6/base.json+src/hyundai/ioniq_6/2025/ioniq_6.json:epa_range_km
@@ -2064,11 +2073,15 @@ cf-b2143a2113,open,peugeot-e-208-p21-base,battery_kwh_net,kilowatt-openev,45.0,k
 cf-37522b4150,open,peugeot-e-208-p21-base,battery_kwh_net,kilowatt-openev,45.0,kWh,46.0,±2%,kilowatt-openev:data/v2/models/peugeot.json#926efa33-4c55-43df-80f3-4b8d2d65a00a:battery_kwh_net
 cf-e15b6b57a9,open,peugeot-e-208-p21-base-2024,wltp_range_km,openev,400.0,km,362.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2024/e_208.json:wltp_range_km
 cf-9d5d29e4b1,open,peugeot-e-208-p21-base-2024,wltp_range_km,openev,410.0,km,362.0,±2%,openev:src/peugeot/e_208/base.json+src/peugeot/e_208/2025/e_208.json:wltp_range_km
-cf-b3f8dbc129,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,400.7,km,418.4,±2%,fueleconomy:vehicles.csv:id=44449;market=us:epa_range_km
-cf-0da79f1ea4,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,428.1,km,418.4,±2%,fueleconomy:vehicles.csv:id=46976;market=us:epa_range_km
-cf-18948ded2a,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,444.2,km,418.4,±2%,fueleconomy:vehicles.csv:id=46975;market=us:epa_range_km
-cf-2349000d47,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,431.3,km,418.4,±2%,fueleconomy:vehicles.csv:id=48403;market=us:epa_range_km
-cf-29d86f6a2a,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,447.4,km,418.4,±2%,fueleconomy:vehicles.csv:id=48402;market=us:epa_range_km
+cf-ae653fc054,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,418.4,km,400.7,±2%,fueleconomy:vehicles.csv:id=45753;market=us:epa_range_km
+cf-0da79f1ea4,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,428.1,km,400.7,±2%,fueleconomy:vehicles.csv:id=46976;market=us:epa_range_km
+cf-18948ded2a,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,444.2,km,400.7,±2%,fueleconomy:vehicles.csv:id=46975;market=us:epa_range_km
+cf-2349000d47,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,431.3,km,400.7,±2%,fueleconomy:vehicles.csv:id=48403;market=us:epa_range_km
+cf-29d86f6a2a,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,fueleconomy,447.4,km,400.7,±2%,fueleconomy:vehicles.csv:id=48402;market=us:epa_range_km
+cf-2c430985bc,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,openev,418.0,km,400.7,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2023/polestar_2.json:epa_range_km
+cf-36a60248de,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,openev,418.0,km,400.7,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2023/polestar_2.json+src/polestar/polestar_2/2023/polestar_2_long_range_dual_motor.json:epa_range_km
+cf-70b3e12b6f,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,openev,418.0,km,400.7,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2024/polestar_2.json:epa_range_km
+cf-51025c2e17,open,polestar-2-gen1-long-range-dual-motor,epa_range_km,openev,418.0,km,400.7,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2024/polestar_2.json+src/polestar/polestar_2/2024/polestar_2_long_range_dual_motor.json:epa_range_km
 cf-9c4c9c9632,open,polestar-2-gen1-long-range-single-motor,consumption_kwh_100km,rdw,15.0,kWh/100km,17.3,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:POLESTAR|POLESTAR 2|2023|V|VSFC:consumption_kwh_100km
 cf-0024d25d0a,open,polestar-2-gen1-long-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2024/polestar_2.json+src/polestar/polestar_2/2024/polestar_2_long_range_single_motor.json:power_kw
 cf-279d19e35c,open,polestar-2-gen1-long-range-single-motor,power_kw,openev,200.0,kW,170.0,±2%,openev:src/polestar/polestar_2/base.json+src/polestar/polestar_2/2025/polestar_2.json+src/polestar/polestar_2/2025/polestar_2_long_range_single_motor.json:power_kw
@@ -2100,26 +2113,28 @@ cf-e6119d67ca,open,porsche-taycan-gen1-4s,consumption_kwh_100km,ademe,21.8,kWh/1
 cf-695d2df594,open,porsche-taycan-gen1-4s,consumption_kwh_100km,ademe,21.6,kWh/100km,18.9,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4 CROSS TURISMO:consumption_kwh_100km
 cf-3413a48882,open,porsche-taycan-gen1-4s,dc_peak_kw,kilowatt-openev,225.0,kW,270.0,±5%,kilowatt-openev:data/v2/models/porsche.json#34b5ef32-efea-48fc-8386-3800d0b737f0:dc_peak_kw
 cf-6a01f2248c,open,porsche-taycan-gen1-4s,dc_peak_kw,kilowatt-openev,223.0,kW,270.0,±5%,kilowatt-openev:data/v2/models/porsche.json#6330cebd-38e0-dd93-a2a4-0d50eaf8ac2d:dc_peak_kw
-cf-e2690b6332,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,326.7,km,365.3,±2%,fueleconomy:vehicles.csv:id=42590;market=us:epa_range_km
-cf-13c81fa9c3,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,346.0,km,365.3,±2%,fueleconomy:vehicles.csv:id=44722;market=us:epa_range_km
-cf-2eaa6c93c9,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,320.3,km,365.3,±2%,fueleconomy:vehicles.csv:id=43684;market=us:epa_range_km
-cf-f9d87e3338,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,346.0,km,365.3,±2%,fueleconomy:vehicles.csv:id=44794;market=us:epa_range_km
-cf-85a836cf04,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,320.3,km,365.3,±2%,fueleconomy:vehicles.csv:id=44787;market=us:epa_range_km
-cf-d3791bd826,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,331.5,km,365.3,±2%,fueleconomy:vehicles.csv:id=46021;market=us:epa_range_km
-cf-2017fbef0e,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,378.2,km,365.3,±2%,fueleconomy:vehicles.csv:id=46020;market=us:epa_range_km
-cf-3f940a3e30,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,331.5,km,365.3,±2%,fueleconomy:vehicles.csv:id=47467;market=us:epa_range_km
-cf-007cc8088f,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,378.2,km,365.3,±2%,fueleconomy:vehicles.csv:id=47466;market=us:epa_range_km
-cf-5d8a3ce1d2,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,405.6,km,365.3,±2%,fueleconomy:vehicles.csv:id=48733;market=us:epa_range_km
-cf-1a3ece7a53,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,474.8,km,365.3,±2%,fueleconomy:vehicles.csv:id=48732;market=us:epa_range_km
-cf-5e3e0d93d8,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,437.7,km,365.3,±2%,fueleconomy:vehicles.csv:id=48731;market=us:epa_range_km
-cf-5bd8a54931,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,506.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=48413;market=us:epa_range_km
-cf-147ec35f98,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,405.6,km,365.3,±2%,fueleconomy:vehicles.csv:id=50239;market=us:epa_range_km
-cf-09561cc752,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,506.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=50238;market=us:epa_range_km
-cf-28fc116f69,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,474.8,km,365.3,±2%,fueleconomy:vehicles.csv:id=50237;market=us:epa_range_km
-cf-38c6c48a6d,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,437.7,km,365.3,±2%,fueleconomy:vehicles.csv:id=50236;market=us:epa_range_km
-cf-f436b77152,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,506.9,km,365.3,±2%,fueleconomy:vehicles.csv:id=51060;market=us:epa_range_km
-cf-798d13945f,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,474.8,km,365.3,±2%,fueleconomy:vehicles.csv:id=51059;market=us:epa_range_km
-cf-f5b5a5b74d,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,437.7,km,365.3,±2%,fueleconomy:vehicles.csv:id=51058;market=us:epa_range_km
+cf-13c81fa9c3,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,346.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=44722;market=us:epa_range_km
+cf-0d5f31b039,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,365.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=43685;market=us:epa_range_km
+cf-f9d87e3338,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,346.0,km,326.7,±2%,fueleconomy:vehicles.csv:id=44794;market=us:epa_range_km
+cf-4adc46bf14,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,365.3,km,326.7,±2%,fueleconomy:vehicles.csv:id=44788;market=us:epa_range_km
+cf-2017fbef0e,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,378.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=46020;market=us:epa_range_km
+cf-ae6dde10d5,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,370.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=46019;market=us:epa_range_km
+cf-abe84e5cc0,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,370.1,km,326.7,±2%,fueleconomy:vehicles.csv:id=47860;market=us:epa_range_km
+cf-007cc8088f,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,378.2,km,326.7,±2%,fueleconomy:vehicles.csv:id=47466;market=us:epa_range_km
+cf-5d8a3ce1d2,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,405.6,km,326.7,±2%,fueleconomy:vehicles.csv:id=48733;market=us:epa_range_km
+cf-1a3ece7a53,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,474.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=48732;market=us:epa_range_km
+cf-5e3e0d93d8,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,437.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=48731;market=us:epa_range_km
+cf-5bd8a54931,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=48413;market=us:epa_range_km
+cf-147ec35f98,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,405.6,km,326.7,±2%,fueleconomy:vehicles.csv:id=50239;market=us:epa_range_km
+cf-09561cc752,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=50238;market=us:epa_range_km
+cf-28fc116f69,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,474.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=50237;market=us:epa_range_km
+cf-38c6c48a6d,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,437.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=50236;market=us:epa_range_km
+cf-f436b77152,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,506.9,km,326.7,±2%,fueleconomy:vehicles.csv:id=51060;market=us:epa_range_km
+cf-798d13945f,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,474.8,km,326.7,±2%,fueleconomy:vehicles.csv:id=51059;market=us:epa_range_km
+cf-f5b5a5b74d,open,porsche-taycan-gen1-4s,epa_range_km,fueleconomy,437.7,km,326.7,±2%,fueleconomy:vehicles.csv:id=51058;market=us:epa_range_km
+cf-91afa73c72,open,porsche-taycan-gen1-4s,epa_range_km,openev,365.0,km,326.7,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2023/taycan.json+src/porsche/taycan/2023/taycan_4s.json:epa_range_km
+cf-56cda5855a,open,porsche-taycan-gen1-4s,epa_range_km,openev,365.0,km,326.7,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2024/taycan.json+src/porsche/taycan/2024/taycan_4s.json:epa_range_km
+cf-f838d8f32f,open,porsche-taycan-gen1-4s,epa_range_km,openev,365.0,km,326.7,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2025/taycan.json+src/porsche/taycan/2025/taycan_4s.json:epa_range_km
 cf-d25182b8cc,open,porsche-taycan-gen1-4s,price_new.FR,ademe,118130.0,EUR,151885.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#2#price_new:FR:price_new
 cf-f7a8028c2a,open,porsche-taycan-gen1-4s,price_new.FR,ademe,111602.0,EUR,151885.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S SPORT TURISMO#1#price_new:FR:price_new
 cf-e3912a524d,open,porsche-taycan-gen1-4s,price_new.FR,ademe,109129.0,EUR,151885.0,±3%,ademe:ademe-car-labelling:PORSCHE|TAYCAN|TAYCAN 4S CROSS TURISMO#price_new:FR:price_new
@@ -2186,19 +2201,21 @@ cf-9a8d6b3fb4,open,porsche-taycan-gen1-4s,wltp_range_km,rdw-tgk,676.0,km,463.0,�
 cf-45eb68575b,open,porsche-taycan-gen1-4s,wltp_range_km,rdw-tgk,676.0,km,463.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*0919*10|JN22|2521100|0:wltp_range_km
 cf-e09edaf1cb,open,porsche-taycan-gen1-4s,wltp_range_km,rdw-tgk,676.0,km,463.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*0919*10|JN22|2521000|0:wltp_range_km
 cf-1efc74097b,open,porsche-taycan-gen1-4s,wltp_range_km,rdw-tgk,676.0,km,463.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*0919*10|JN22|2520000|0:wltp_range_km
-cf-f8ce408b24,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,323.5,km,341.2,±2%,fueleconomy:vehicles.csv:id=42383;market=us:epa_range_km
-cf-c0180062eb,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,328.3,km,341.2,±2%,fueleconomy:vehicles.csv:id=44724;market=us:epa_range_km
-cf-d4feb03ff8,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,328.3,km,341.2,±2%,fueleconomy:vehicles.csv:id=44795;market=us:epa_range_km
-cf-974c9b7170,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,375.0,km,341.2,±2%,fueleconomy:vehicles.csv:id=46027;market=us:epa_range_km
-cf-4eaf117fde,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,383.0,km,341.2,±2%,fueleconomy:vehicles.csv:id=46026;market=us:epa_range_km
-cf-e1ab6f697c,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,375.0,km,341.2,±2%,fueleconomy:vehicles.csv:id=47475;market=us:epa_range_km
-cf-f669fff23a,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,383.0,km,341.2,±2%,fueleconomy:vehicles.csv:id=47472;market=us:epa_range_km
-cf-0c5b7360af,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,426.5,km,341.2,±2%,fueleconomy:vehicles.csv:id=48736;market=us:epa_range_km
-cf-8e66cd81a2,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,510.2,km,341.2,±2%,fueleconomy:vehicles.csv:id=48735;market=us:epa_range_km
-cf-7eeab4cf61,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,469.9,km,341.2,±2%,fueleconomy:vehicles.csv:id=48734;market=us:epa_range_km
-cf-7f0a5654e2,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,426.5,km,341.2,±2%,fueleconomy:vehicles.csv:id=50244;market=us:epa_range_km
-cf-3a0785ba94,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,469.9,km,341.2,±2%,fueleconomy:vehicles.csv:id=50243;market=us:epa_range_km
-cf-afc2d1765f,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,469.9,km,341.2,±2%,fueleconomy:vehicles.csv:id=51062;market=us:epa_range_km
+cf-1b7aad465e,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,341.2,km,323.5,±2%,fueleconomy:vehicles.csv:id=43910;market=us:epa_range_km
+cf-295b714520,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,341.2,km,323.5,±2%,fueleconomy:vehicles.csv:id=44791;market=us:epa_range_km
+cf-974c9b7170,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,375.0,km,323.5,±2%,fueleconomy:vehicles.csv:id=46027;market=us:epa_range_km
+cf-4eaf117fde,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,383.0,km,323.5,±2%,fueleconomy:vehicles.csv:id=46026;market=us:epa_range_km
+cf-e1ab6f697c,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,375.0,km,323.5,±2%,fueleconomy:vehicles.csv:id=47475;market=us:epa_range_km
+cf-f669fff23a,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,383.0,km,323.5,±2%,fueleconomy:vehicles.csv:id=47472;market=us:epa_range_km
+cf-0c5b7360af,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,426.5,km,323.5,±2%,fueleconomy:vehicles.csv:id=48736;market=us:epa_range_km
+cf-8e66cd81a2,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,510.2,km,323.5,±2%,fueleconomy:vehicles.csv:id=48735;market=us:epa_range_km
+cf-7eeab4cf61,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,469.9,km,323.5,±2%,fueleconomy:vehicles.csv:id=48734;market=us:epa_range_km
+cf-7f0a5654e2,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,426.5,km,323.5,±2%,fueleconomy:vehicles.csv:id=50244;market=us:epa_range_km
+cf-3a0785ba94,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,469.9,km,323.5,±2%,fueleconomy:vehicles.csv:id=50243;market=us:epa_range_km
+cf-afc2d1765f,open,porsche-taycan-gen1-turbo,epa_range_km,fueleconomy,469.9,km,323.5,±2%,fueleconomy:vehicles.csv:id=51062;market=us:epa_range_km
+cf-ddf29dcf82,open,porsche-taycan-gen1-turbo,epa_range_km,openev,345.0,km,323.5,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2023/taycan.json+src/porsche/taycan/2023/taycan_turbo.json:epa_range_km
+cf-cce536927a,open,porsche-taycan-gen1-turbo,epa_range_km,openev,345.0,km,323.5,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2024/taycan.json+src/porsche/taycan/2024/taycan_turbo.json:epa_range_km
+cf-adbf6d4667,open,porsche-taycan-gen1-turbo,epa_range_km,openev,345.0,km,323.5,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2025/taycan.json+src/porsche/taycan/2025/taycan_turbo.json:epa_range_km
 cf-f37de67327,open,porsche-taycan-gen1-turbo,seats,rdw-tgk,5.0,count,4.0,±0,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*0919*06|JA12|1050000|1:seats
 cf-fcc528d2e8,open,porsche-taycan-gen1-turbo,seats,rdw-tgk,5.0,count,4.0,±0,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e13*2007/46*0919*05|JA12|1050000|0:seats
 cf-42b149c7b6,open,porsche-taycan-gen1-turbo,top_speed_kmh,openev,260.0,km/h,230.0,±2%,openev:src/porsche/taycan/base.json+src/porsche/taycan/2023/taycan.json+src/porsche/taycan/2023/taycan_turbo.json:top_speed_kmh
@@ -2305,11 +2322,7 @@ cf-92081ec109,open,renault-scenic-e-tech-gen1-base,wltp_range_km,rdw-tgk,636.0,k
 cf-a14abb8b86,open,renault-scenic-e-tech-gen1-base,wltp_range_km,rdw-tgk,636.0,km,608.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e2*2018/858*00018*17|HE2|J1EEA7K000C0|0:wltp_range_km
 cf-d8fca14dfc,open,renault-scenic-e-tech-gen1-base,wltp_range_km,rdw-tgk,636.0,km,608.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e2*2018/858*00018*16|HE2|J1EEA7K000C0|0:wltp_range_km
 cf-4e00e0edca,open,renault-scenic-e-tech-gen1-base,wltp_range_km,rdw-tgk,636.0,km,608.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e2*2018/858*00018*14|HE2|J1EEA7K000B0|0:wltp_range_km
-cf-256b8af817,open,renault-zoe-ph1-q210,ac_kw,seed-manual,43.0,kW,11.0,±2%,seed-manual:renault-zoe-ph1-q210#cited:ac_kw:ac_kw
 cf-ed88ddcba1,open,renault-zoe-ph1-q210,battery_kwh_net,seed-manual,22.0,kWh,23.3,±2%,seed-manual:renault-zoe-ph1-q210:battery_kwh_net
-cf-b9a2288143,open,renault-zoe-ph1-q90,ac_kw,kilowatt-openev,11.0,kW,43.0,±2%,kilowatt-openev:data/v2/models/renault.json#a38c9b3b-ae0a-4e53-a5e5-502380ca60ec:ac_kw
-cf-a0eb7d1138,open,renault-zoe-ph1-r110,ac_kw,kilowatt-openev,11.0,kW,22.0,±2%,kilowatt-openev:data/v2/models/renault.json#91413796-1642-47d9-b3e8-407b52d842d7:ac_kw
-cf-c68dc2dcff,open,renault-zoe-ph1-r110,ac_kw,kilowatt-openev,11.0,kW,22.0,±2%,kilowatt-openev:data/v2/models/renault.json#5d224876-e1ac-4eaf-ae79-fb5db90c22cc:ac_kw
 cf-526f63eae9,open,renault-zoe-ph1-r240,battery_kwh_net,seed-manual,22.0,kWh,23.3,±2%,seed-manual:renault-zoe-ph1-r240:battery_kwh_net
 cf-fcee215b1a,open,renault-zoe-ph1-r90,ac_kw,seed-manual,22.0,kW,11.0,±2%,seed-manual:renault-zoe-ph1-r90:ac_kw
 cf-426cb47ce9,open,renault-zoe-ph2-r110,ac_kw,kilowatt-openev,11.0,kW,22.0,±2%,kilowatt-openev:data/v2/models/renault.json#3a5aec49-6b1c-49ad-9291-f14a78091b97:ac_kw
@@ -3097,11 +3110,11 @@ cf-bd95a60b7e,open,tesla-model-s-palladium-plaid,epa_range_km,fueleconomy,497.3,
 cf-412ce18cdd,open,tesla-model-s-palladium-plaid,epa_range_km,fueleconomy,592.2,km,560.1,±2%,fueleconomy:vehicles.csv:id=49742;market=us:epa_range_km
 cf-18bc8a5941,open,tesla-model-s-palladium-plaid,top_speed_kmh,openev,322.0,km/h,300.0,±2%,openev:src/tesla/model_s/base.json+src/tesla/model_s/2025/model_s.json+src/tesla/model_s/2025/model_s_plaid.json:top_speed_kmh
 cf-7dad9b05ae,open,tesla-model-y-gen1-long-range,battery_kwh_net,seed-manual,75.0,kWh,79.0,±2%,seed-manual:tesla-model-y-gen1-long-range:battery_kwh_net
-cf-e778daae03,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,524.6,km,495.7,±2%,fueleconomy:vehicles.csv:id=43406;market=us:epa_range_km
-cf-0aa7605fc8,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,449.0,km,495.7,±2%,fueleconomy:vehicles.csv:id=45196;market=us:epa_range_km
-cf-d787b5caf8,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,531.1,km,495.7,±2%,fueleconomy:vehicles.csv:id=45018;market=us:epa_range_km
-cf-b75a12da32,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,531.1,km,495.7,±2%,fueleconomy:vehicles.csv:id=46212;market=us:epa_range_km
-cf-008e902ccb,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,449.0,km,495.7,±2%,fueleconomy:vehicles.csv:id=46211;market=us:epa_range_km
+cf-0aa7605fc8,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,449.0,km,524.6,±2%,fueleconomy:vehicles.csv:id=45196;market=us:epa_range_km
+cf-008e902ccb,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,449.0,km,524.6,±2%,fueleconomy:vehicles.csv:id=46211;market=us:epa_range_km
+cf-3187da4186,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,495.7,km,524.6,±2%,fueleconomy:vehicles.csv:id=48474;market=us:epa_range_km
+cf-ce9772221a,open,tesla-model-y-gen1-long-range,epa_range_km,fueleconomy,498.9,km,524.6,±2%,fueleconomy:vehicles.csv:id=47913;market=us:epa_range_km
+cf-49903eebd1,open,tesla-model-y-gen1-long-range,epa_range_km,openev,500.0,km,524.6,±2%,openev:src/tesla/model_y/base.json+src/tesla/model_y/2024/model_y.json+src/tesla/model_y/2024/model_y_long_range_awd.json:epa_range_km
 cf-5bd320b7e2,open,tesla-model-y-gen1-long-range-rwd,epa_range_km,openev,542.0,km,515.0,±2%,openev:src/tesla/model_y/base.json+src/tesla/model_y/2024/model_y.json:epa_range_km
 cf-0af7f9d17c,open,tesla-model-y-gen1-long-range-rwd,top_speed_kmh,openev,201.0,km/h,217.0,±2%,openev:src/tesla/model_y/base.json+src/tesla/model_y/2024/model_y.json:top_speed_kmh
 cf-abb3acd79d,open,tesla-model-y-gen1-long-range-rwd,width_mm,rdw-tgk,1921.0,mm,2129.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e4*2007/46*1293*42|Y5LR|BJB3S5T3X|0:width_mm
@@ -3115,9 +3128,8 @@ cf-484f23a818,open,tesla-model-y-gen1-long-range-rwd,width_mm,rdw-tgk,1921.0,mm,
 cf-c417423852,open,tesla-model-y-gen1-long-range-rwd,width_mm,rdw-tgk,1921.0,mm,2129.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e4*2007/46*1293*35|Y5LR|BVB3S5T3X|0:width_mm
 cf-daf52a2d86,open,tesla-model-y-gen1-performance,battery_kwh_net,kilowatt-openev,76.0,kWh,79.0,±2%,kilowatt-openev:data/v2/models/tesla.json#48fe5bfc-89c4-4408-b262-52900a562b12:battery_kwh_net
 cf-cc1b007faa,open,tesla-model-y-gen1-performance,battery_kwh_net,seed-manual,75.0,kWh,79.0,±2%,seed-manual:tesla-model-y-gen1-performance:battery_kwh_net
-cf-9eb9d7d6d4,open,tesla-model-y-gen1-performance,epa_range_km,fueleconomy,487.6,km,449.0,±2%,fueleconomy:vehicles.csv:id=43407;market=us:epa_range_km
-cf-ecdd1e70ca,open,tesla-model-y-gen1-performance,epa_range_km,fueleconomy,487.6,km,449.0,±2%,fueleconomy:vehicles.csv:id=45019;market=us:epa_range_km
-cf-fe870ec2cf,open,tesla-model-y-gen1-performance,epa_range_km,fueleconomy,487.6,km,449.0,±2%,fueleconomy:vehicles.csv:id=46213;market=us:epa_range_km
+cf-f3b6368c8c,open,tesla-model-y-gen1-performance,epa_range_km,fueleconomy,449.0,km,487.6,±2%,fueleconomy:vehicles.csv:id=47914;market=us:epa_range_km
+cf-71ca3a230b,open,tesla-model-y-gen1-performance,epa_range_km,openev,446.0,km,487.6,±2%,openev:src/tesla/model_y/base.json+src/tesla/model_y/2024/model_y.json+src/tesla/model_y/2024/model_y_performance.json:epa_range_km
 cf-47b38b7c94,open,tesla-model-y-gen1-performance,top_speed_kmh,openev,250.0,km/h,217.0,±2%,openev:src/tesla/model_y/base.json+src/tesla/model_y/2024/model_y.json+src/tesla/model_y/2024/model_y_performance.json:top_speed_kmh
 cf-4211b2364b,open,tesla-model-y-gen1-performance,width_mm,rdw-tgk,1921.0,mm,2129.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e4*2007/46*1293*19|Y5CD|BZB3S5T3|0:width_mm
 cf-eadc7010be,open,tesla-model-y-gen1-performance,width_mm,rdw-tgk,1921.0,mm,2129.0,±10 mm,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e4*2007/46*1293*29|Y5LD|PVP4S5T3|0:width_mm
@@ -3720,23 +3732,28 @@ cf-ef0f9e8e34,open,volkswagen-id4-gen1-pro,consumption_kwh_100km,rdw,16.2,kWh/10
 cf-f19e9efe85,open,volkswagen-id4-gen1-pro,consumption_kwh_100km,rdw,16.0,kWh/100km,18.17,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:VOLKSWAGEN|ID.4 PRO 210KW|2026#consumption_kwh_100km:consumption_kwh_100km
 cf-7df0edf670,open,volkswagen-id4-gen1-pro,dc_peak_kw,kilowatt-openev,143.0,kW,135.0,±5%,kilowatt-openev:data/v2/models/volkswagen.json#2d7c8848-6488-43a3-b900-e28548c243ce:dc_peak_kw
 cf-80e375d501,open,volkswagen-id4-gen1-pro,dc_peak_kw,seed-manual,125.0,kW,135.0,±5%,seed-manual:volkswagen-id4-gen1-pro:dc_peak_kw
-cf-9a3679c503,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,386.2,km,442.6,±2%,fueleconomy:vehicles.csv:id=44726;market=us:epa_range_km
-cf-f92261f98b,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,400.7,km,442.6,±2%,fueleconomy:vehicles.csv:id=44725;market=us:epa_range_km
-cf-fcd444e0f9,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,418.4,km,442.6,±2%,fueleconomy:vehicles.csv:id=44052;market=us:epa_range_km
-cf-d54f5d1a06,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,402.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=43558;market=us:epa_range_km
-cf-5ad8afda23,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,421.6,km,442.6,±2%,fueleconomy:vehicles.csv:id=45413;market=us:epa_range_km
-cf-baabefa71c,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,394.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=45258;market=us:epa_range_km
-cf-9230ac1376,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,403.9,km,442.6,±2%,fueleconomy:vehicles.csv:id=45257;market=us:epa_range_km
-cf-157568796d,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,410.4,km,442.6,±2%,fueleconomy:vehicles.csv:id=46034;market=us:epa_range_km
-cf-afdb24ee7d,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,410.4,km,442.6,±2%,fueleconomy:vehicles.csv:id=46033;market=us:epa_range_km
-cf-507875c01e,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=47923;market=us:epa_range_km
-cf-9a3dbd9535,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=47486;market=us:epa_range_km
-cf-ca5b526f8d,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=47485;market=us:epa_range_km
-cf-aec98e0377,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=47484;market=us:epa_range_km
-cf-ceb40bd0d3,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=49157;market=us:epa_range_km
-cf-6d1e909a99,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=49156;market=us:epa_range_km
-cf-8c4f477de3,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=48774;market=us:epa_range_km
-cf-bd6b49e387,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,442.6,±2%,fueleconomy:vehicles.csv:id=48773;market=us:epa_range_km
+cf-f92261f98b,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,400.7,km,386.2,±2%,fueleconomy:vehicles.csv:id=44725;market=us:epa_range_km
+cf-fcd444e0f9,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,418.4,km,386.2,±2%,fueleconomy:vehicles.csv:id=44052;market=us:epa_range_km
+cf-d54f5d1a06,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,402.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=43558;market=us:epa_range_km
+cf-5ad8afda23,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,421.6,km,386.2,±2%,fueleconomy:vehicles.csv:id=45413;market=us:epa_range_km
+cf-939e2f53a2,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,442.6,km,386.2,±2%,fueleconomy:vehicles.csv:id=45259;market=us:epa_range_km
+cf-baabefa71c,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,394.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=45258;market=us:epa_range_km
+cf-9230ac1376,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,403.9,km,386.2,±2%,fueleconomy:vehicles.csv:id=45257;market=us:epa_range_km
+cf-8ee1532f8f,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,442.6,km,386.2,±2%,fueleconomy:vehicles.csv:id=46036;market=us:epa_range_km
+cf-62d7e0707a,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,442.6,km,386.2,±2%,fueleconomy:vehicles.csv:id=46035;market=us:epa_range_km
+cf-157568796d,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,410.4,km,386.2,±2%,fueleconomy:vehicles.csv:id=46034;market=us:epa_range_km
+cf-afdb24ee7d,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,410.4,km,386.2,±2%,fueleconomy:vehicles.csv:id=46033;market=us:epa_range_km
+cf-507875c01e,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=47923;market=us:epa_range_km
+cf-9a3dbd9535,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=47486;market=us:epa_range_km
+cf-ca5b526f8d,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=47485;market=us:epa_range_km
+cf-aec98e0377,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=47484;market=us:epa_range_km
+cf-ceb40bd0d3,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=49157;market=us:epa_range_km
+cf-6d1e909a99,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,468.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=49156;market=us:epa_range_km
+cf-8c4f477de3,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=48774;market=us:epa_range_km
+cf-bd6b49e387,open,volkswagen-id4-gen1-pro,epa_range_km,fueleconomy,423.3,km,386.2,±2%,fueleconomy:vehicles.csv:id=48773;market=us:epa_range_km
+cf-b3eae6a362,open,volkswagen-id4-gen1-pro,epa_range_km,openev,442.0,km,386.2,±2%,openev:src/volkswagen/id_4/base.json+src/volkswagen/id_4/2023/id_4.json:epa_range_km
+cf-5998a65c10,open,volkswagen-id4-gen1-pro,epa_range_km,openev,442.0,km,386.2,±2%,openev:src/volkswagen/id_4/base.json+src/volkswagen/id_4/2024/id_4.json:epa_range_km
+cf-8c124b9628,open,volkswagen-id4-gen1-pro,epa_range_km,openev,442.0,km,386.2,±2%,openev:src/volkswagen/id_4/base.json+src/volkswagen/id_4/2025/id_4.json:epa_range_km
 cf-72bf6b75ed,open,volkswagen-id4-gen1-pro,price_new.NL,rdw,57935.0,EUR,51235.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:VOLKSWAGEN|ID.4 PRO 150 KW|2022|E2|4ACEBJAL1FX2|OPE1MH0020O1ASA:price_new
 cf-f5e3d0c002,open,volkswagen-id4-gen1-pro,price_new.NL,rdw,48905.0,EUR,51235.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:VOLKSWAGEN|ID.4 PRO 150 KW|2022|E2|:price_new
 cf-98f5c1921b,open,volkswagen-id4-gen1-pro,price_new.NL,rdw,48385.0,EUR,51235.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:VOLKSWAGEN|ID.4 PRO 128 KW|2023|E2|4ACEBJAL1TX2|OPE1MH0020O1ASA:price_new
@@ -4078,65 +4095,61 @@ cf-8a5c5f3544,open,tesla-model-s-gen1-85,battery_kwh_net,kilowatt-openev,85.5,kW
 cf-5b5385adc9,open,tesla-model-s-gen1-85,battery_kwh_net,kilowatt-openev,85.5,kWh,80.8,> pack tesla-s-85 gross 85 kWh,kilowatt-openev:data/v2/models/tesla.json#b373b864-f112-48af-a612-59ea12fc3bed:battery_kwh_net
 cf-78bd35dcc1,open,tesla-model-s-gen1-85,battery_kwh_net,kilowatt-openev,85.5,kWh,80.8,> pack tesla-s-85 gross 85 kWh,kilowatt-openev:data/v2/models/tesla.json#e1306b62-fd6e-4f70-8174-a21d013babf7:battery_kwh_net
 cf-8ebb06f247,open,volkswagen-id3-gen1-pure,battery_kwh_net,kilowatt-openev,52.0,kWh,45.0,> pack meb-45 gross 48 kWh,kilowatt-openev:data/v2/models/volkswagen.json#438d036a-66dd-4dd0-8d0c-eeaa4e1e82cb:battery_kwh_net
+cf-5bbf9691d0,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,,contradicted by a citation that can't ship yet (Q-008): maker-docs 98.7 kWh,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2023/mustang_mach_e.json+src/ford/mustang_mach_e/2023/mustang_mach_e_gt.json:battery_kwh_gross
+cf-d5f54aa1a1,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,,contradicted by a citation that can't ship yet (Q-008): maker-docs 98.7 kWh,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2024/mustang_mach_e.json+src/ford/mustang_mach_e/2024/mustang_mach_e_gt.json:battery_kwh_gross
+cf-3d091831a5,open,ford-mustang-mach-e-gen1-gt,battery_kwh_gross,openev,88.0,kWh,,contradicted by a citation that can't ship yet (Q-008): maker-docs 98.7 kWh,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2025/mustang_mach_e.json+src/ford/mustang_mach_e/2025/mustang_mach_e_gt.json:battery_kwh_gross
+cf-5981bcd2c5,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,contradicted by a citation that can't ship yet (Q-008): maker-docs 88 kWh,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2023/mustang_mach_e.json+src/ford/mustang_mach_e/2023/mustang_mach_e_gt.json:battery_kwh_net
+cf-bb3b94e6e4,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,contradicted by a citation that can't ship yet (Q-008): maker-docs 88 kWh,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2024/mustang_mach_e.json+src/ford/mustang_mach_e/2024/mustang_mach_e_gt.json:battery_kwh_net
+cf-f983a975b1,open,ford-mustang-mach-e-gen1-gt,battery_kwh_net,openev,82.0,kWh,88.0,contradicted by a citation that can't ship yet (Q-008): maker-docs 88 kWh,openev:src/ford/mustang_mach_e/base.json+src/ford/mustang_mach_e/2025/mustang_mach_e.json+src/ford/mustang_mach_e/2025/mustang_mach_e_gt.json:battery_kwh_net
+cf-879738af58,open,renault-zoe-ph1-q210,ac_kw,kilowatt-openev,11.0,kW,,contradicted by a citation that can't ship yet (Q-008): maker-docs 43 kW,kilowatt-openev:data/v2/models/renault.json#0df343c3-719e-479a-905e-d2f7f723b287:ac_kw
+cf-51a1dc94b5,open,renault-zoe-ph1-q210,ac_kw,kilowatt-openev,11.0,kW,,contradicted by a citation that can't ship yet (Q-008): maker-docs 43 kW,kilowatt-openev:data/v2/models/renault.json#f86de6eb-6e47-4d87-8dfc-6a512118561e:ac_kw
+cf-b9a2288143,open,renault-zoe-ph1-q90,ac_kw,kilowatt-openev,11.0,kW,,contradicted by a citation that can't ship yet (Q-008): maker-docs 43 kW,kilowatt-openev:data/v2/models/renault.json#a38c9b3b-ae0a-4e53-a5e5-502380ca60ec:ac_kw
+cf-c68dc2dcff,open,renault-zoe-ph1-r110,ac_kw,kilowatt-openev,11.0,kW,22.0,contradicted by a citation that can't ship yet (Q-008): maker-docs 22 kW,kilowatt-openev:data/v2/models/renault.json#5d224876-e1ac-4eaf-ae79-fb5db90c22cc:ac_kw
+cf-a0eb7d1138,open,renault-zoe-ph1-r110,ac_kw,kilowatt-openev,11.0,kW,22.0,contradicted by a citation that can't ship yet (Q-008): maker-docs 22 kW,kilowatt-openev:data/v2/models/renault.json#91413796-1642-47d9-b3e8-407b52d842d7:ac_kw
+cf-d2147cb081,open,renault-zoe-ph1-r110,ac_kw,kilowatt-openev,41.0,kW,22.0,contradicted by a citation that can't ship yet (Q-008): maker-docs 22 kW,kilowatt-openev:data/v2/models/renault.json#748de479-af53-4598-bf8b-8fd40f82396f:ac_kw
+cf-78d6ad2946,open,renault-zoe-ph1-r240,ac_kw,kilowatt-openev,23.3,kW,,contradicted by a citation that can't ship yet (Q-008): maker-docs 22 kW,kilowatt-openev:data/v2/models/renault.json#09f87767-b93d-4f7a-a957-e5b4a1b07a45:ac_kw
 cf-4c0bb4d03d,open,bmw-i3-i01-94ah,ac_kw,kilowatt-openev,27.2,kW,11.0,field mix-up: ac_kw 27.2 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/bmw.json#01c7b5f8-263d-48c1-8a70-db1a6272246b:ac_kw
 cf-db393aeeee,open,bmw-i3-i01-94ah,ac_kw,kilowatt-openev,27.2,kW,11.0,field mix-up: ac_kw 27.2 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/bmw.json#72572e52-fd8e-4017-affc-bdb933b7ddeb:ac_kw
-cf-a9ca3ad5d0,open,bmw-i3-i01-94ah,ac_kw,kilowatt-openev,27.2,kW,11.0,field mix-up: ac_kw 27.2 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/bmw.json#e2ac7ccd-b521-4a26-a952-b981876e2a6e:ac_kw
+cf-a9ca3ad5d0,open,bmw-i3-i01-i3s-94ah,ac_kw,kilowatt-openev,27.2,kW,11.0,field mix-up: ac_kw 27.2 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/bmw.json#e2ac7ccd-b521-4a26-a952-b981876e2a6e:ac_kw
 cf-d315e0451e,open,hyundai-ioniq-electric-gen1-28kwh,ac_kw,kilowatt-openev,28.0,kW,6.6,field mix-up: ac_kw 28.0 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/hyundai.json#8a18fe98-6df5-494d-b2b0-1fda8721461e:ac_kw
 cf-e768957943,open,hyundai-kona-electric-os-39kwh,ac_kw,kilowatt-openev,39.2,kW,7.2,field mix-up: ac_kw 39.2 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/hyundai.json#37250d57-293d-4687-8e6e-6e9390f4f4bd:ac_kw
 cf-99d1db4b98,open,kia-soul-ev-ps-30kwh,ac_kw,kilowatt-openev,30.0,kW,6.6,field mix-up: ac_kw 30.0 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/kia.json#3aae85e6-17b5-42d6-a0d1-513db7afe74d:ac_kw
-cf-d2147cb081,open,renault-zoe-ph1-r110,ac_kw,kilowatt-openev,41.0,kW,22.0,field mix-up: ac_kw 41.0 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/renault.json#748de479-af53-4598-bf8b-8fd40f82396f:ac_kw
-cf-78d6ad2946,open,renault-zoe-ph1-r240,ac_kw,kilowatt-openev,23.3,kW,22.0,field mix-up: ac_kw 23.3 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/renault.json#09f87767-b93d-4f7a-a957-e5b4a1b07a45:ac_kw
 cf-4a49e7885b,open,smart-eq-fortwo-453-eq,ac_kw,kilowatt-openev,16.7,kW,22.0,field mix-up: ac_kw 16.7 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/smart.json#0463887d-0e86-4d37-ba39-ae6eba9f8ee0:ac_kw
 cf-3de22d3bc3,open,volkswagen-e-golf-mk7-24kwh,ac_kw,kilowatt-openev,20.5,kW,3.6,field mix-up: ac_kw 20.5 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/volkswagen.json#4185879e-14ae-453a-b774-63a52b8360a5:ac_kw
 cf-4aa2e5c572,open,volkswagen-e-golf-mk75-36kwh,ac_kw,kilowatt-openev,32.0,kW,7.2,field mix-up: ac_kw 32.0 equals battery_kwh_net (no other backing),kilowatt-openev:data/v2/models/volkswagen.json#f1f34d44-ef7e-47f3-92ec-ddf250d3c74b:ac_kw
-cf-fd07e4d555,open,audi-q4-e-tron-gen1-40,dc_peak_kw,seed-manual,125.0,kW,,needs backing: only kilowatt-openev,seed-manual:audi-q4-e-tron-gen1-40:dc_peak_kw
-cf-49bf61e7ff,open,audi-q4-e-tron-gen1-40,dc_peak_kw,kilowatt-openev,125.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/audi.json#409a3d54-3dec-b5bb-5d6c-2a48749728c3:dc_peak_kw
-cf-d7507fb6f7,open,audi-q4-e-tron-gen1-40,dc_peak_kw,kilowatt-openev,143.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/audi.json#645e2574-40c4-45ca-ba5f-be85d1928e0d:dc_peak_kw
-cf-9f8bfa4677,open,bmw-i3-i01-60ah,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:bmw-i3-i01-60ah:dc_peak_kw
-cf-2778444bf8,open,bmw-i3-i01-60ah,dc_peak_kw,kilowatt-openev,47.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/bmw.json#e67dc450-d658-4bee-bd0f-a750d445b2f9:dc_peak_kw
+cf-d7507fb6f7,open,audi-q4-e-tron-gen1-40,dc_peak_kw,kilowatt-openev,143.0,kW,125.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/audi.json#645e2574-40c4-45ca-ba5f-be85d1928e0d:dc_peak_kw
+cf-2778444bf8,open,bmw-i3-i01-60ah,dc_peak_kw,kilowatt-openev,47.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/bmw.json#e67dc450-d658-4bee-bd0f-a750d445b2f9:dc_peak_kw
 cf-cb3b5e50c6,open,cupra-born-gen1-45kwh,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/cupra.json#ab631897-9d68-4971-8cbc-b81d0ef2ccaa:dc_peak_kw
-cf-30a0cd151f,open,cupra-born-gen1-77kwh,dc_peak_kw,seed-manual,135.0,kW,,needs backing: only kilowatt-openev,seed-manual:cupra-born-gen1-77kwh:dc_peak_kw
-cf-18db43ed7a,open,cupra-born-gen1-77kwh,dc_peak_kw,kilowatt-openev,125.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/cupra.json#93754920-4a86-c1e9-7f58-7b183afbdbef:dc_peak_kw
+cf-18db43ed7a,open,cupra-born-gen1-77kwh,dc_peak_kw,kilowatt-openev,125.0,kW,135.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/cupra.json#93754920-4a86-c1e9-7f58-7b183afbdbef:dc_peak_kw
 cf-ac246508db,open,fiat-500e-312-24kwh,dc_peak_kw,kilowatt-openev,40.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/fiat.json#53f0d524-01bf-dace-0553-897eef13cb0c:dc_peak_kw
-cf-7e0e6b9204,open,hyundai-ioniq-electric-gen1-38kwh,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:hyundai-ioniq-electric-gen1-38kwh:dc_peak_kw
-cf-38d9c73c08,open,hyundai-ioniq-electric-gen1-38kwh,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/hyundai.json#3038b11b-2dfc-4f9f-b22c-4bfdc08d0c4b:dc_peak_kw
-cf-ce0acb41fb,open,kia-ev6-gen1-77kwh-awd,dc_peak_kw,seed-manual,230.0,kW,,needs backing: only kilowatt-openev,seed-manual:kia-ev6-gen1-77kwh-awd:dc_peak_kw
-cf-caf3178833,open,kia-ev6-gen1-77kwh-awd,dc_peak_kw,kilowatt-openev,263.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/kia.json#f6af4032-78a1-4394-9f0e-d70d67691255:dc_peak_kw
-cf-4b8238a872,open,kia-ev6-gen1-gt,dc_peak_kw,seed-manual,230.0,kW,,needs backing: only kilowatt-openev,seed-manual:kia-ev6-gen1-gt:dc_peak_kw
-cf-884b8e625a,open,kia-ev6-gen1-gt,dc_peak_kw,kilowatt-openev,263.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/kia.json#51f81489-1ec9-4a1f-a0cd-abb0d05b4a30:dc_peak_kw
+cf-38d9c73c08,open,hyundai-ioniq-electric-gen1-38kwh,dc_peak_kw,kilowatt-openev,46.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/hyundai.json#3038b11b-2dfc-4f9f-b22c-4bfdc08d0c4b:dc_peak_kw
+cf-caf3178833,open,kia-ev6-gen1-77kwh-awd,dc_peak_kw,kilowatt-openev,263.0,kW,230.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/kia.json#f6af4032-78a1-4394-9f0e-d70d67691255:dc_peak_kw
+cf-884b8e625a,open,kia-ev6-gen1-gt,dc_peak_kw,kilowatt-openev,263.0,kW,230.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/kia.json#51f81489-1ec9-4a1f-a0cd-abb0d05b4a30:dc_peak_kw
 cf-c099868a49,open,kia-soul-ev-ps-27kwh,dc_peak_kw,kilowatt-openev,50.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/kia.json#add28704-7b59-474d-bfa6-2338e54ccaef:dc_peak_kw
 cf-1b2c5973fb,open,kia-soul-ev-ps-30kwh,dc_peak_kw,kilowatt-openev,50.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/kia.json#5e1746c9-56a2-4fb9-8a76-b75c95a037ee:dc_peak_kw
 cf-41d5fd04d2,open,kia-soul-ev-ps-30kwh,dc_peak_kw,kilowatt-openev,50.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/kia.json#cdeb8e37-6ca5-484e-b5bf-ffb2a1c47c5e:dc_peak_kw
-cf-aa72cbacdf,open,mercedes-eqc-n293-400,dc_peak_kw,seed-manual,110.0,kW,,needs backing: only kilowatt-openev,seed-manual:mercedes-eqc-n293-400:dc_peak_kw
-cf-d9efbd0b39,open,mercedes-eqc-n293-400,dc_peak_kw,kilowatt-openev,125.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/mercedes.json#5335d545-cfeb-4bca-bb11-cf0966f1b5ca:dc_peak_kw
-cf-d9d1c5a3c4,open,mercedes-eqc-n293-400,dc_peak_kw,kilowatt-openev,125.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/mercedes.json#8a5cd1a2-f84a-22b9-b397-470fe5ca5bca:dc_peak_kw
-cf-e4c0fa7d2e,open,mg-zs-ev-gen1-long-range,dc_peak_kw,seed-manual,92.0,kW,,needs backing: only kilowatt-openev,seed-manual:mg-zs-ev-gen1-long-range:dc_peak_kw
-cf-f8797fb83a,open,mg-zs-ev-gen1-long-range,dc_peak_kw,kilowatt-openev,76.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/mg.json#567edd8d-f8de-8c8e-c3ed-6f46598a2393:dc_peak_kw
+cf-d9efbd0b39,open,mercedes-eqc-n293-400,dc_peak_kw,kilowatt-openev,125.0,kW,110.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/mercedes.json#5335d545-cfeb-4bca-bb11-cf0966f1b5ca:dc_peak_kw
+cf-d9d1c5a3c4,open,mercedes-eqc-n293-400,dc_peak_kw,kilowatt-openev,125.0,kW,110.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/mercedes.json#8a5cd1a2-f84a-22b9-b397-470fe5ca5bca:dc_peak_kw
+cf-f8797fb83a,open,mg-zs-ev-gen1-long-range,dc_peak_kw,kilowatt-openev,76.0,kW,92.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/mg.json#567edd8d-f8de-8c8e-c3ed-6f46598a2393:dc_peak_kw
 cf-a03b855887,open,mg-zs-ev-gen1-standard-range,dc_peak_kw,kilowatt-openev,80.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/mg.json#8b0195b6-5318-46d9-a6fd-1b5f75e8b495:dc_peak_kw
-cf-266f20b499,open,nissan-leaf-ze0-24kwh,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:nissan-leaf-ze0-24kwh:dc_peak_kw
-cf-1db5f6c8e6,open,nissan-leaf-ze0-24kwh,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#294fb510-34b8-49be-8cf8-419d1557585a:dc_peak_kw
-cf-d64f148c81,open,nissan-leaf-ze0-24kwh,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#3b649ae3-935b-425b-b5d6-75c549b96d40:dc_peak_kw
-cf-72711c52cc,open,nissan-leaf-ze0-24kwh,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#dc7d163b-29bc-45cf-8156-60eb3e3b1294:dc_peak_kw
-cf-e50091e373,open,nissan-leaf-ze0-30kwh,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:nissan-leaf-ze0-30kwh:dc_peak_kw
-cf-35d66bece3,open,nissan-leaf-ze0-30kwh,dc_peak_kw,kilowatt-openev,47.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#74f2c3a5-f78f-459a-823a-dfc0a21e5aeb:dc_peak_kw
-cf-6fd4448b82,open,nissan-leaf-ze0-30kwh,dc_peak_kw,kilowatt-openev,47.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#83ec0576-bfb8-400a-9af9-483b2684673c:dc_peak_kw
-cf-e474f79609,open,nissan-leaf-ze0-30kwh,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#a3b8ef1d-66e5-4527-8af4-7196012fc86f:dc_peak_kw
-cf-40352f9d13,open,nissan-leaf-ze1-40kwh,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:nissan-leaf-ze1-40kwh:dc_peak_kw
-cf-40ff63d787,open,nissan-leaf-ze1-40kwh,dc_peak_kw,kilowatt-openev,45.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#77028f96-eb9b-4c65-b452-c92011b1fc1c:dc_peak_kw
-cf-e7b8ab28a4,open,renault-zoe-ph1-q210,dc_peak_kw,kilowatt-openev,43.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#0df343c3-719e-479a-905e-d2f7f723b287:dc_peak_kw
+cf-d64f148c81,open,nissan-leaf-ze0-24kwh,dc_peak_kw,kilowatt-openev,46.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#3b649ae3-935b-425b-b5d6-75c549b96d40:dc_peak_kw
+cf-72711c52cc,open,nissan-leaf-ze0-24kwh,dc_peak_kw,kilowatt-openev,46.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#dc7d163b-29bc-45cf-8156-60eb3e3b1294:dc_peak_kw
+cf-1db5f6c8e6,open,nissan-leaf-ze0-24kwh,dc_peak_kw,kilowatt-openev,100.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#294fb510-34b8-49be-8cf8-419d1557585a:dc_peak_kw
+cf-e474f79609,open,nissan-leaf-ze0-30kwh,dc_peak_kw,kilowatt-openev,100.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#a3b8ef1d-66e5-4527-8af4-7196012fc86f:dc_peak_kw
+cf-35d66bece3,open,nissan-leaf-ze0-30kwh,dc_peak_kw,kilowatt-openev,47.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#74f2c3a5-f78f-459a-823a-dfc0a21e5aeb:dc_peak_kw
+cf-6fd4448b82,open,nissan-leaf-ze0-30kwh,dc_peak_kw,kilowatt-openev,47.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#83ec0576-bfb8-400a-9af9-483b2684673c:dc_peak_kw
+cf-40ff63d787,open,nissan-leaf-ze1-40kwh,dc_peak_kw,kilowatt-openev,45.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/nissan.json#77028f96-eb9b-4c65-b452-c92011b1fc1c:dc_peak_kw
 cf-f0540179ff,open,renault-zoe-ph1-q210,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#f86de6eb-6e47-4d87-8dfc-6a512118561e:dc_peak_kw
+cf-e7b8ab28a4,open,renault-zoe-ph1-q210,dc_peak_kw,kilowatt-openev,43.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#0df343c3-719e-479a-905e-d2f7f723b287:dc_peak_kw
 cf-5a2ef2e6c4,open,renault-zoe-ph1-q90,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#a38c9b3b-ae0a-4e53-a5e5-502380ca60ec:dc_peak_kw
-cf-8314711dc7,open,renault-zoe-ph1-r110,dc_peak_kw,kilowatt-openev,45.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#5d224876-e1ac-4eaf-ae79-fb5db90c22cc:dc_peak_kw
 cf-0a1763c84b,open,renault-zoe-ph1-r110,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#91413796-1642-47d9-b3e8-407b52d842d7:dc_peak_kw
+cf-8314711dc7,open,renault-zoe-ph1-r110,dc_peak_kw,kilowatt-openev,45.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#5d224876-e1ac-4eaf-ae79-fb5db90c22cc:dc_peak_kw
 cf-72ce941828,open,renault-zoe-ph1-r110,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#c53b5947-23a3-420c-9798-f3846732e41a:dc_peak_kw
 cf-ee08cc625f,open,renault-zoe-ph1-r90,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#65359747-ec05-47f0-95cf-06e1e8f2b04f:dc_peak_kw
-cf-7c1be2ca76,open,renault-zoe-ph2-r110,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:renault-zoe-ph2-r110:dc_peak_kw
-cf-bd2910cc00,open,renault-zoe-ph2-r110,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#3a5aec49-6b1c-49ad-9291-f14a78091b97:dc_peak_kw
-cf-093c224c42,open,renault-zoe-ph2-r110,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#de3a8751-00c9-46d1-9e7a-ad830835c6a7:dc_peak_kw
-cf-d34ff7c2f3,open,renault-zoe-ph2-r135,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:renault-zoe-ph2-r135:dc_peak_kw
-cf-4e46fdb864,open,renault-zoe-ph2-r135,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#19cbc943-5149-407a-be9c-73c19aaf198c:dc_peak_kw
-cf-d7ae6e8aeb,open,renault-zoe-ph2-r135,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#5079c683-69ba-44b3-b8c8-d31fa00c97a1:dc_peak_kw
-cf-050d037b1f,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#0463887d-0e86-4d37-ba39-ae6eba9f8ee0:dc_peak_kw
+cf-bd2910cc00,open,renault-zoe-ph2-r110,dc_peak_kw,kilowatt-openev,46.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#3a5aec49-6b1c-49ad-9291-f14a78091b97:dc_peak_kw
+cf-093c224c42,open,renault-zoe-ph2-r110,dc_peak_kw,kilowatt-openev,46.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#de3a8751-00c9-46d1-9e7a-ad830835c6a7:dc_peak_kw
+cf-4e46fdb864,open,renault-zoe-ph2-r135,dc_peak_kw,kilowatt-openev,46.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#19cbc943-5149-407a-be9c-73c19aaf198c:dc_peak_kw
+cf-d7ae6e8aeb,open,renault-zoe-ph2-r135,dc_peak_kw,kilowatt-openev,46.0,kW,50.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#5079c683-69ba-44b3-b8c8-d31fa00c97a1:dc_peak_kw
 cf-9616af758d,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#2a17d5c7-8d48-4448-baca-8e0f4836e557:dc_peak_kw
 cf-e496062bf5,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#2cdf228e-5f4a-447c-98e2-447e6e1e4fb8:dc_peak_kw
 cf-4be6d119d3,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#533f5a6a-d9d8-4375-9148-e47d7b1b95ab:dc_peak_kw
@@ -4145,14 +4158,12 @@ cf-480ac47f55,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,150.0,kW,,n
 cf-1f34085ee9,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#e3525b59-d3b9-4eef-9a01-1408358c5534:dc_peak_kw
 cf-fa1137b35a,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#ee0e58a8-6c62-4a38-8c9a-48af62a8b610:dc_peak_kw
 cf-bc59d3a494,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#f0b185de-9b9d-4a08-924f-450c4dadc7a6:dc_peak_kw
-cf-18f576b9a4,open,tesla-model-s-facelift-p100d,dc_peak_kw,seed-manual,120.0,kW,,needs backing: only kilowatt-openev,seed-manual:tesla-model-s-facelift-p100d:dc_peak_kw
-cf-46875c6764,open,tesla-model-s-facelift-p100d,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/tesla.json#6a3876d6-2607-43d1-84d5-0956c40974e4:dc_peak_kw
-cf-1adc665a48,open,volkswagen-e-golf-mk7-24kwh,dc_peak_kw,seed-manual,40.0,kW,,needs backing: only kilowatt-openev,seed-manual:volkswagen-e-golf-mk7-24kwh:dc_peak_kw
-cf-4701a131e1,open,volkswagen-e-golf-mk7-24kwh,dc_peak_kw,kilowatt-openev,44.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#f1b46b0a-b101-4072-a246-0b52f0cc51f5:dc_peak_kw
-cf-892b54a6df,open,volkswagen-id3-gen1-pro,dc_peak_kw,seed-manual,100.0,kW,,needs backing: only kilowatt-openev,seed-manual:volkswagen-id3-gen1-pro:dc_peak_kw
-cf-66f2229d08,open,volkswagen-id3-gen1-pro,dc_peak_kw,kilowatt-openev,130.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#d8044adf-2538-4d45-b2d8-2b2fd0951766:dc_peak_kw
-cf-bd5916b74e,open,volkswagen-id3-gen1-pro,dc_peak_kw,kilowatt-openev,124.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#df88e24b-e7f8-4195-b03e-694efc7d5a65:dc_peak_kw
-cf-65ab70b025,open,volkswagen-id3-gen1-pro,dc_peak_kw,kilowatt-openev,124.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#eb33afca-159e-44f4-91cb-fd58369a68e1:dc_peak_kw
+cf-050d037b1f,open,smart-eq-fortwo-453-eq,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/smart.json#0463887d-0e86-4d37-ba39-ae6eba9f8ee0:dc_peak_kw
+cf-46875c6764,open,tesla-model-s-facelift-p100d,dc_peak_kw,kilowatt-openev,100.0,kW,120.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/tesla.json#6a3876d6-2607-43d1-84d5-0956c40974e4:dc_peak_kw
+cf-4701a131e1,open,volkswagen-e-golf-mk7-24kwh,dc_peak_kw,kilowatt-openev,44.0,kW,40.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#f1b46b0a-b101-4072-a246-0b52f0cc51f5:dc_peak_kw
+cf-66f2229d08,open,volkswagen-id3-gen1-pro,dc_peak_kw,kilowatt-openev,130.0,kW,100.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#d8044adf-2538-4d45-b2d8-2b2fd0951766:dc_peak_kw
+cf-bd5916b74e,open,volkswagen-id3-gen1-pro,dc_peak_kw,kilowatt-openev,124.0,kW,100.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#df88e24b-e7f8-4195-b03e-694efc7d5a65:dc_peak_kw
+cf-65ab70b025,open,volkswagen-id3-gen1-pro,dc_peak_kw,kilowatt-openev,124.0,kW,100.0,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#eb33afca-159e-44f4-91cb-fd58369a68e1:dc_peak_kw
 cf-15efc07026,open,volkswagen-id3-gen1-pure,dc_peak_kw,kilowatt-openev,50.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#0a7e79c1-ecd6-4639-bac1-9c9e49fec84c:dc_peak_kw
 cf-0183325967,open,volkswagen-id3-gen1-pure,dc_peak_kw,kilowatt-openev,101.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#22b86216-2ae4-431f-930c-bfbf83e7a1c6:dc_peak_kw
 cf-6c6677f901,open,volkswagen-id3-gen1-pure,dc_peak_kw,kilowatt-openev,145.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/volkswagen.json#438d036a-66dd-4dd0-8d0c-eeaa4e1e82cb:dc_peak_kw

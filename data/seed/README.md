@@ -16,7 +16,7 @@ Validate it with `python3 -I data/seed/validate_variants.py` (checks ids, genera
 
 A variant may carry `cited:` values next to its unchecked `specs`: `field: {value, source_url, source_name, retrieved, quote and/or locator, confidence, notes}`.
 Each cited value must come from a public page (https), name the date it was read, and set its confidence honestly; a field is either in `specs` or in `cited`, never both.
-The pipeline turns each one into its own `seed-manual` record, so the published fact carries that URL and retrieval date instead of the file date.
+The pipeline turns each one into its own record under the cited document's source, `maker-docs` by default (A-06 F3; an optional `source_id:` names another registered source, never `seed-manual`), with that URL and retrieval date. It then passes the licence gate like any other fact: while `maker-docs` is blocked (Q-008) cited values do not ship. They still count as evidence: a value from one independent source that a cited value contradicts is withheld and sent to review, and a cited value that agrees is noted in the field's provenance.
 Only add a cited value when a manufacturer or official source states it; if none is found, leave the field out and note it.
 
 ## variant_links.yaml (T-060)

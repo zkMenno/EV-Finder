@@ -27,6 +27,14 @@ MAKE_ALIASES: dict[str, str] = {
 }
 
 SEED_MANUAL_SOURCE_ID = "seed-manual"
+# A-06 F3: a seed `cited:` value is a fact from the document it cites, not hand-entered seed
+# data, so it carries that document's source: `maker-docs` (maker spec sheets, press kits and
+# price lists, also when a third party hosts the copy) unless the entry names another
+# registered `source_id`. It then goes through the licence gate like any other fact
+# (maker-docs is blocked until Q-008), never under the seed's CC BY licence.
+CITED_DEFAULT_SOURCE_ID = "maker-docs"
+CITED_SOURCE_NAMES = {"maker-docs": "Maker documents and price lists"}
+CITED_LICENCE = "none (individual facts cited by URL and date)"
 
 
 @dataclass
@@ -334,11 +342,16 @@ def parse_cited(
         if not (c.get("quote") or c.get("locator")):
             problems.append(f"{vid}: cited {fname}: needs a quote or locator; skipped")
             continue
-        cited_source = source.model_copy(
-            update={
-                "url": url,
-                "name": f"{source.name}: {c.get('source_name') or url}",
-            }
+        sid = c.get("source_id") or CITED_DEFAULT_SOURCE_ID
+        if not isinstance(sid, str) or sid == source.id.root:
+            problems.append(f"{vid}: cited {fname}: source_id must be the cited document's source")
+            continue
+        label = CITED_SOURCE_NAMES.get(sid, sid)
+        cited_source = Source(
+            id=sid,
+            name=f"{label}: {c.get('source_name') or url}",
+            licence=CITED_LICENCE,
+            url=url,
         )
         out.append(
             SourceRecord(

@@ -10,6 +10,14 @@
 # mixup_with: [fields]: a value within 0.5 of one of these fields (merged row value, or the same
 #   source record's own value) is a likely field mix-up; unless another independent source or a
 #   citation agrees, it goes to review and the field is merged again without it (qa/value_guard.py).
+# seed_counts_as_backing (default false, A-06 F4): for needs_backing, an agreeing *uncited*
+#   seed-manual value counts as backing. An explicit exception to "seed-manual never confirms":
+#   only dc_peak_kw sets it (KilowattApp + seed agree -> ships at the KilowattApp confidence).
+# same_origin: {source: origin} (A-06 F8): for this field, that source's values are copies of
+#   that origin and count once with it towards "N sources agree" (OpenEV cites EPA for EPA range).
+# Citations that can't ship yet (A-06 F3; seed `cited:` values are source maker-docs, blocked
+#   until Q-008) are evidence only: when one contradicts a value only one independent origin
+#   backs, the field is withheld and sent to review (qa/value_guard.guard_contradicted).
 schema: field-sources/v1
 fields:
   names_years:       {primary: [eea, rdw], fallbacks: [openev, wikidata, maker-docs], merge: priority}
@@ -31,8 +39,8 @@ fields:
   dc_curve:          {primary: [fastned], fallbacks: [kilowatt-openev, openev, nyland, model-estimate], merge: priority,
                       note: "OpenEV only where not a default curve; then same platform/pack; else generic shape (estimated)."}
   dc_peak_kw:        {primary: [fastned, openev], fallbacks: [kilowatt-openev, maker-docs, seed-manual], tolerance: {pct: 5}, merge: priority,
-                      needs_backing: [kilowatt-openev],
-                      note: "A-05 F9: KilowattApp alone is not enough (Zoe Ph1 R110: 150 kW on a car without DC)."}
+                      needs_backing: [kilowatt-openev], seed_counts_as_backing: true,
+                      note: "A-05 F9: KilowattApp alone is not enough (Zoe Ph1 R110: 150 kW on a car without DC). A-06 F4: an agreeing uncited seed value counts as backing (policy, logged in A-06 Fixes)."}
   dc_avg_10_80_kw:   {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {pct: 5}, merge: median,
                       note: "Derived from the curve when present; maker figures labelled 'claim'."}
   dc_minutes_10_80:  {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {abs: 2, unit: min}, merge: median}
@@ -43,7 +51,9 @@ fields:
                       note: "ADEME holds the best case (highest range) of each WLTP interpolation family."}
   consumption_kwh_100km: {primary: [eea, rdw], fallbacks: [rdw-tgk, maker-docs, openev, ademe, seed-manual], tolerance: {pct: 3}, merge: priority,
                       note: "ADEME holds the best case (lowest consumption) of each WLTP family."}
-  epa_range_km:      {primary: [fueleconomy], fallbacks: [openev, seed-manual], tolerance: {pct: 2}, merge: priority}
+  epa_range_km:      {primary: [fueleconomy], fallbacks: [openev, seed-manual], tolerance: {pct: 2}, merge: priority,
+                      same_origin: {openev: fueleconomy},
+                      note: "A-06 F8: an EPA rating only comes from EPA; OpenEV's files cite fueleconomy.gov, so OpenEV + fueleconomy agreeing is one origin."}
   real_range_summer_km:   {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
   real_range_motorway_km: {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
   real_range_winter_km:   {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}

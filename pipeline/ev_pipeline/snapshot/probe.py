@@ -34,7 +34,9 @@ class ProbeResult:
 
 
 def _git_runner(cmd: list[str]) -> str:
-    out = subprocess.run(cmd, capture_output=True, text=True, timeout=GIT_TIMEOUT_S, check=True)
+    out = subprocess.run(
+        cmd, capture_output=True, text=True, timeout=GIT_TIMEOUT_S, check=True, env=net.git_env()
+    )
     return out.stdout
 
 

@@ -220,12 +220,15 @@ def fetch_cmd() -> int:
         except (net.FetchBlocked, ValueError) as exc:
             print(f"fetch {NAME}: refusing to clone: {exc}")
             return 1
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, env=net.git_env())
         if result.returncode != 0:
             print(f"fetch {NAME}: git clone failed: {result.stderr.strip()}")
             return 1
         commit = subprocess.run(
-            ["git", "-C", str(clone), "rev-parse", "HEAD"], capture_output=True, text=True
+            ["git", "-C", str(clone), "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            env=net.git_env(),
         ).stdout.strip()
         licence = (clone / "LICENSE").read_text(encoding="utf-8")
         if "Attribution Requirement" not in licence or ATTRIBUTION not in " ".join(licence.split()):

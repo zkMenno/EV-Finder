@@ -28,7 +28,7 @@ sources:
   - {id: kba, name: KBA stock tables (FZ2/FZ6/FZ28), owner: Kraftfahrt-Bundesamt (DE), licence: dl-de/by-2-0 (to confirm per file), access: bulk, cadence: yearly, status: blocked, terms: "Layouts not yet checked (R-02)."}
   - {id: eu-safety-gate, name: EU Safety Gate, owner: European Commission, licence: CC-BY-4.0 (to confirm), access: bulk, cadence: weekly, status: blocked, terms: "Confirm Commission reuse terms."}
   - {id: maker-docs, name: Maker documents and price lists, owner: various OEMs, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,
-     terms: "Facts cited one by one with URL + date; no copying of tables. Needs a decision before it counts as releasable (Q-008)."}
+     terms: "Facts cited one by one with URL + date; no copying of tables. Needs a decision before it counts as releasable (Q-008). Seed `cited:` values in data/seed/variants.yaml carry this id (A-06 F3), also for maker documents hosted by third parties; while blocked they never ship and only withhold a lone value they contradict (qa/value_guard.guard_contradicted)."}
   - {id: manual, name: "Manual entries (hand-entered, cited by URL)", owner: EV Finder staff, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,
      terms: "data/manual/<topic>/*.yaml, one cited fact each (URL, retrieved date, quote or page). Mostly maker documents, so internal-only like maker-docs until Q-008 is answered; validate with `ev manual check`."}
   - {id: nyland, name: Bjørn Nyland range/charging tests, owner: Bjørn Nyland, licence: none, access: manual, cadence: ad hoc, status: waiting_permission, hosts: [docs.google.com, "*.googleusercontent.com"],

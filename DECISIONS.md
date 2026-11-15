@@ -453,4 +453,20 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** packs 123 → 181 rows, platforms 140 → 206 of 244. Links more than 5% off (Model 3/Y Highland/Juniper, Q4 50, Q8 55, Ioniq 6 Standard, Leaf e+) are flagged for a reviewer.
 
+## Decision 031: Cited maker facts are gated like any source; a value a citation contradicts is withheld
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Review A-06 found cited seed values shipping as `seed-manual` (CC BY), skipping the licence gate for maker documents (Q-008), and guards that could resurrect overruled values or delete backed ones. Supersedes the consequence lines of Decisions 028 and 029 where they differ.
+
+**Decision:**
+- Seed `cited:` values are facts of source `maker-docs` (or another registered source) with their URL, date and confidence, and pass the licence gate. While Q-008 is open they don't ship; they still anchor the battery gate.
+- If a blocked or low-confidence citation contradicts a value backed by at most one independent origin, that value goes to review and the field is merged again without it. Never ship a value we have evidence is wrong.
+- All guards share one fact pool and repeat until stable; a removed fact never returns. `needs_backing` drops only the weak facts and re-merges.
+- `manual` and `maker-docs` never count as independent. New policy keys: `seed_counts_as_backing` (only `dc_peak_kw`), `same_origin` (OpenEV EPA → fueleconomy).
+- Cited platform links in `variant_links.yaml` still ship (memberships, not spec values) until Q-008 says otherwise.
+
+**Consequences:** 0 of 15 cited facts ship; 16 rows regain a DC peak; Zoe Q210/Q90/R240 AC withheld; R90 still 11 kW (uncited); BMW i3s split into 94 Ah and 120 Ah rows (new id `bmw-i3-i01-i3s-94ah`).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

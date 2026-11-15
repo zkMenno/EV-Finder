@@ -31,6 +31,7 @@ size checks still apply. The address check is tested on `PinnedBackend` with a f
 from __future__ import annotations
 
 import ipaddress
+import os
 import re
 import socket
 import time
@@ -365,6 +366,17 @@ def safe_client(
 GIT_REPO_PART = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9._-]{0,99})$")
 GIT_SAFE_FLAGS = ("-c", "protocol.allow=never", "-c", "protocol.https.allow=always")
 """Only https may be used by git, also for submodules and redirects git itself follows."""
+
+# A-06 L4: git must not read the user's or the system gitconfig, where `url.<x>.insteadOf`
+# could rewrite a checked URL after `check_git_url` let it through.
+GIT_ISOLATED_ENV = {"GIT_CONFIG_GLOBAL": "/dev/null", "GIT_CONFIG_NOSYSTEM": "1",
+                    "GIT_TERMINAL_PROMPT": "0"}  # fmt: skip
+
+
+def git_env() -> dict[str, str]:
+    """Environment for every git subprocess: the caller's env without any gitconfig file."""
+    env = {k: v for k, v in os.environ.items() if k != "GIT_CONFIG"}
+    return {**env, **GIT_ISOLATED_ENV}
 
 
 def check_git_url(

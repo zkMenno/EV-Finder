@@ -65,7 +65,9 @@ def test_cited_value_becomes_its_own_record_with_provenance() -> None:
     [i3s] = [m for m in mvs if m.id == "bmw-i3-i01-i3s"]
     [rec] = i3s.cited_records
     assert rec.record_key == "bmw-i3-i01-i3s#cited:battery_kwh_gross"
-    assert rec.source.id.root == "seed-manual"
+    # A-06 F3: the cited document's source (maker-docs), not the seed's CC BY licence.
+    assert rec.source.id.root == "maker-docs"
+    assert "unchecked" not in rec.source.name and "CC-BY" not in rec.source.licence
     assert rec.source.url == URL
     assert rec.retrieved_at == date(2026, 11, 15)  # the cited date, not the file date
     assert rec.confidence.value == "medium"

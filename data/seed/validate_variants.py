@@ -28,7 +28,9 @@ TOP_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "note
 # `cited` (A-05 follow-up): field -> one value with its own public source. Unlike `specs`
 # (unchecked, from model knowledge), each entry names the page it was read from.
 CITED_REQUIRED = {"value", "source_url", "retrieved", "confidence"}
-CITED_KEYS = CITED_REQUIRED | {"source_name", "quote", "locator", "notes"}
+# `source_id` (A-06 F3, optional): the registered source of the cited document; default
+# maker-docs. Never seed-manual: a cited value is the document's fact, not seed data.
+CITED_KEYS = CITED_REQUIRED | {"source_name", "source_id", "quote", "locator", "notes"}
 REQUIRED_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "confidence"}
 SOURCE_KEYS = {"id", "name", "licence", "attribution"}
 
@@ -117,6 +119,9 @@ def validate_cited(
             errors.append(f"{w}: unknown keys {sorted(extra)}")
         if not (c.get("quote") or c.get("locator")):
             errors.append(f"{w}: needs a quote or a locator")
+        sid = c.get("source_id")
+        if sid is not None and (not isinstance(sid, str) or not sid or sid == "seed-manual"):
+            errors.append(f"{w}: source_id must be a registered source other than seed-manual")
         val = c.get("value")
         if not is_num(val):
             errors.append(f"{w}: value must be a number")

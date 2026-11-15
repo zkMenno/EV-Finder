@@ -112,7 +112,8 @@ links:
   - {variant_id: bmw-i3-i01-60ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-60ah, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i3-i01-94ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-94ah, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i3-i01-120ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native}
-  - {variant_id: bmw-i3-i01-i3s, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native, uncertain: true, notes: "i3s had the 94 Ah pack until 2018 and the 120 Ah pack after; linked to 120 Ah."}
+  - {variant_id: bmw-i3-i01-i3s-94ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-94ah, voltage: *v400, charger_400v: *native, notes: "2017-18 i3s, 94 Ah pack (A-06 F7 split)."}
+  - {variant_id: bmw-i3-i01-i3s, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native, notes: "120 Ah i3s (late 2018 on); the 94 Ah i3s is bmw-i3-i01-i3s-94ah (A-06 F7)."}
   - {variant_id: bmw-i4-g26-edrive35, platform_id: bmw-clar, battery_pack_id: bmw-gen5-67, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i4-g26-edrive40, platform_id: bmw-clar, battery_pack_id: bmw-gen5-81, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i4-g26-m50, platform_id: bmw-clar, battery_pack_id: bmw-gen5-81, voltage: *v400, charger_400v: *native}

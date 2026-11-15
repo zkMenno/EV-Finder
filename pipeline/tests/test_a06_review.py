@@ -1,14 +1,12 @@
 """A-06 review (audits/A-06-merge-rules-review.md): confirmed bugs in how the Decision 025-030
-rules interact. Each test states the intended behaviour and is a strict xfail until fixed;
-remove the marker in the fix PR.
+rules interact. Each test states the intended behaviour; they were strict xfails until the
+fixes (see the "Fixes" section of the audit, which also lists the tests added with them).
 """
 
 from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
-
-import pytest
 
 from ev_pipeline.match.matcher import MatchedFact, priority_of
 from ev_pipeline.merge.merge import merge_facts, merge_variant_facts
@@ -65,7 +63,6 @@ def _mf(
     return MatchedFact(fact, source, priority_of(source), year)
 
 
-@pytest.mark.xfail(strict=True, reason="A-06 F1")
 def test_needs_backing_keeps_a_backed_value_when_the_winner_is_unbacked() -> None:
     """Audi Q4 40 in release 1: KilowattApp 143 (earliest year, wins) and 125, seed 125.
     The 125 group is backed (seed counts as backing per Q-091 default), but the guard
@@ -81,7 +78,6 @@ def test_needs_backing_keeps_a_backed_value_when_the_winner_is_unbacked() -> Non
     assert merged[VID]["dc_peak_kw"].value == 125
 
 
-@pytest.mark.xfail(strict=True, reason="A-06 F1")
 def test_needs_backing_does_not_drop_another_sources_value() -> None:
     """A lone KilowattApp DC peak outranks a maker-docs figure; withholding it must not
     also withhold the maker figure (the field should be merged again without it)."""
@@ -95,7 +91,6 @@ def test_needs_backing_does_not_drop_another_sources_value() -> None:
     assert merged[VID]["dc_peak_kw"].value == 50
 
 
-@pytest.mark.xfail(strict=True, reason="A-06 F2")
 def test_impossible_guard_does_not_undo_a_cited_win() -> None:
     """Rule `cited` sets usable 88 (Ford) over OpenEV's lone 82. A lone, uncited OpenEV gross
     of 85 then makes usable > gross; the guard ranks the cited value at 0 support, drops it,
@@ -112,7 +107,6 @@ def test_impossible_guard_does_not_undo_a_cited_win() -> None:
     assert net is None or net.value != 82
 
 
-@pytest.mark.xfail(strict=True, reason="A-06 F3")
 def test_published_facts_keep_the_citation_url() -> None:
     """A seed `cited:` fact's only real provenance is its URL; facts.parquet drops it."""
     url = "https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf"
@@ -121,7 +115,6 @@ def test_published_facts_keep_the_citation_url() -> None:
     assert url in flat.values()
 
 
-@pytest.mark.xfail(strict=True, reason="A-06 F6")
 def test_a_manual_citation_is_not_an_independent_confirmation() -> None:
     """merge.py: 'A cited fact still never counts as an independent confirmation'. A `manual`
     fact is cited by definition, yet it is counted as a second independent origin."""

@@ -59,10 +59,10 @@ from ev_pipeline.match.review import unmatched_rows, write_unmatched
 from ev_pipeline.match.seed import ManualVariant, Seed, load_manual_variants, load_seed
 from ev_pipeline.merge.corroborate import apply_corroboration
 from ev_pipeline.merge.generation_years import corroborate_years
-from ev_pipeline.merge.merge import Merged, merge_variant_facts
+from ev_pipeline.merge.merge import Merged, has_citation, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.qa.pack_guard import fill_winning_values, guard_usable_vs_pack
-from ev_pipeline.qa.value_guard import guard_impossible, guard_mixups, guard_needs_backing
+from ev_pipeline.qa.value_guard import run_guards
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
 from ev_pipeline.release.charging_stats import build_charging_stats
@@ -306,11 +306,13 @@ def build_release(
 
     records = [r for r in records if gate(r.source.id.root)]
     manual = [mv for mv in manual if gate(mv.record.source.id.root)]
-    # P7: hand-entered facts (data/manual/), source `manual`; blocked until Q-008.
+    # P7: hand-entered facts (data/manual/), source `manual`; blocked until Q-008. Like seed
+    # `cited:` values (source maker-docs, A-06 F3) they are gated after matching below: a
+    # blocked citation never ships, but it is kept as evidence for guard_contradicted.
     hand = load_manual_dir(data_dir, today, registry)
     problems += issue_problems(hand.issues)
     inputs += [{"path": str(data_dir / Path(p).relative_to("data"))} for p in hand.files]
-    hand_facts = [mf for mf in hand.facts if gate(mf.fact.source.id.root)]
+    hand_facts = list(hand.facts)
 
     links = load_links(data_dir)
     result = match_records(records, seed, manual, generation_pack_kwh(links, manual))
@@ -320,6 +322,18 @@ def build_release(
     problems += hand_problems
     spec_facts, dropped = check_fact_ranges(result.spec_facts)
     problems += dropped
+    # A-06 F3: citations from a source that is not releasable (maker-docs, manual: Q-008) are
+    # evidence only, never values; anything else unreleasable here would be a bug: drop it.
+    evidence: dict[str, list[MatchedFact]] = {}
+    shipping: list[MatchedFact] = []
+    for mf in spec_facts:
+        if gate(mf.source_id):
+            shipping.append(mf)
+        elif has_citation(mf):
+            evidence.setdefault(mf.fact.subject_id.root, []).append(mf)
+    spec_facts = shipping
+    for info in result.variants.values():
+        info.source_ids = {s for s in info.source_ids if registry.releasable(s)}
 
     by_variant: dict[str, list[MatchedFact]] = {}
     for mf in spec_facts:
@@ -329,11 +343,9 @@ def build_release(
         by_variant, links, {vid: info.generation_id for vid, info in result.variants.items()}
     )
     merged = {vid: merge_variant_facts(fs, policies) for vid, fs in by_variant.items()}
-    # A-05 F9 / F7: unbacked values and impossible pairs go to review, not into rows.
-    # Field mix-ups first (ac_kw that is really the battery kWh), so later guards see clean values.
-    pack_conflicts += guard_mixups(merged, by_variant, policies)
-    pack_conflicts += guard_needs_backing(merged, by_variant, policies)
-    pack_conflicts += guard_impossible(merged, by_variant, policies)
+    # A-05 F9 / F7, A-06: contradicted, mixed-up, unbacked values and impossible pairs go to
+    # review, not into rows (qa/value_guard.run_guards repeats them until nothing changes).
+    pack_conflicts += run_guards(merged, by_variant, policies, evidence)
     fill_winning_values(pack_conflicts, merged)
     # Q-019 (a): generation averages may confirm a merged value, never set one (flag-gated).
     corro_facts, corro_dropped = check_fact_ranges(result.corroboration_facts)
@@ -725,6 +737,7 @@ def _flat_facts(facts: list[dict[str, Any]], years: list[int | None]) -> list[di
                 "source_id": f["source"]["id"],
                 "source_name": f["source"]["name"],
                 "source_licence": f["source"]["licence"],
+                "source_url": f["source"].get("url"),
                 "source_record": f.get("source_record"),
                 "retrieved_at": f["retrieved_at"],
                 "confidence": f["confidence"],
