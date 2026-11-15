@@ -5,10 +5,14 @@
 articles:
   - slug: charging-2026
     order: 1
-    langs: [en, nl]
+    langs: [en, nl, de, fr, es, it]
     title:
       en: "Charging in 2026: what's changed"
       nl: "Laden in 2026: wat er veranderd is"
+      de: "Laden 2026: Was sich geändert hat"
+      fr: "La recharge en 2026 : ce qui a changé"
+      es: "La carga en 2026: qué ha cambiado"
+      it: "La ricarica nel 2026: cosa è cambiato"
   - slug: plugs-and-bidirectional
     order: 2
     langs: [en, nl]
@@ -17,10 +21,14 @@ articles:
       nl: "Stekkers en tweerichtingsladen"
   - slug: winter-range
     order: 3
-    langs: [en, nl]
+    langs: [en, nl, de, fr, es, it]
     title:
       en: "Winter range explained"
       nl: "Winterbereik uitgelegd"
+      de: "Reichweite im Winter erklärt"
+      fr: "L'autonomie en hiver expliquée"
+      es: "La autonomía en invierno, explicada"
+      it: "L'autonomia in inverno spiegata"
   - slug: chemistries
     order: 4
     langs: [en, nl]
@@ -35,7 +43,11 @@ articles:
       nl: "400V, 800V en hoger: accuspanning uitgelegd"
   - slug: batteries-health
     order: 6
-    langs: [en, nl]
+    langs: [en, nl, de, fr, es, it]
     title:
       en: "Batteries and used battery health"
       nl: "Accu's en accugezondheid bij occasions"
+      de: "Akkus und Akkuzustand bei Gebrauchtwagen"
+      fr: "Les batteries et leur état sur une voiture d'occasion"
+      es: "Baterías y salud de la batería en coches usados"
+      it: "Batterie e stato di salute della batteria nelle auto usate"
