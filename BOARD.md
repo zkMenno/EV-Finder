@@ -65,6 +65,8 @@ _Last updated: 2026-11-15 01:00 UTC by WS0. Waves 1–4 are being built by overn
 - T-037 valhalla-box (WS4)
 - T-028 web-country-charging-pages (WS2, Core 2) — after T-025
 
+- T-043 price-modes (WS3 finance_profiles + WS2 UI; schema WS0)
+
 ### Wave 8 — Trip fit Core 2
 - T-038 web-trip-routes (WS2) — after T-033, T-034, T-037
 

@@ -21,6 +21,10 @@ Since your brief, `main` gained the full spec mirror, new decisions and tasks. P
 5. **T-026** web charging link-out block + plain ABRP link (Core 1; config only, no data).
 6. **T-036** Trip fit quick range check with a **fixture** consumption matrix, behind a feature flag (Core 1 UI only; no real model tonight).
 
+7. If time is left: **Decision 015** (`/{country}/{lang}/` URLs + hreflang) — it answers your Q-033/Q-034, so static model pages can come back.
+8. If time is left: the schema part of **T-043** (`FinanceProfile`, Decision 017).
+9. Working title is now **EV Shortlist** (Decision 018): set the brand-name config value to it; don't rename the repo, packages or ids.
+
 Skip for tonight (need permissions, live data or infra): T-025 ingest beyond fixtures, T-028, T-029, T-032–T-035, T-037, T-038, T-040.
 
 ## 3. Report

@@ -1,5 +1,7 @@
 # Brand name shortlist (research, 15 Nov 2026)
 
+> **Status 15 Nov 2026 (Menno):** working title **EV Shortlist**. **EV Field Guide** kept in the back pocket. Still open to other names and domains: nothing registered yet; the final pick goes through a proper trademark check first (Decision 018).
+
 **Recommendation: EV Almanac** (evalmanac.com and evalmanac.nl both unregistered on 15 Nov 2026; .eu not checked). Backups: **EV Roadbook** and **EV Field Guide**.
 
 This is a quick screen, not legal clearance. Nothing was registered or bought. Before any public step, run a proper EUIPO / BOIP / UKIPO / INPI / DPMA search (or ask a trademark attorney) and register the domains the same day.
@@ -68,3 +70,15 @@ Unregistered as .com and .nl but rejected (too obscure, or no fit): evroster, ev
 - TomTom EV Guide (from search results): https://www.tomtom.com/en_us/ev-guide/
 - My EV App (from search results): https://apps.apple.com/app/id1299942513
 - EV Drive Journal (from search results): https://appgoblin.info/apps/6762697484
+
+## Round 2 (15 Nov, after Menno's reply: "EV Field Guide could work; could also just be EV Shortlist or Used EVs")
+
+| Name | .com | .nl | Trademark / web screen | Fits road-trip identity | Notes |
+|---|---|---|---|---|---|
+| **EV Shortlist** | 🟢 free (RDAP 404) | 🟢 free (RDAP 404) | 🟢 no EV product of that name found by web search; 🟡 "shortlist" is a generic word, so likely protectable only as a logo | Partly | Says the job the spec opens with: "the fastest way to build a shortlist of EVs". "Shortlist" is used as a loanword in NL and DE; less so in FR/ES/IT. Covers new and used. |
+| Used EVs | 🔴 taken (usedevs.com registered 14 Mar 2007) | 🟢 free | 🔴 too generic to register as a word mark | No | Excludes new cars, which Explore shows side by side. The .com is gone. |
+| EV Field Guide | 🟢 free | 🟢 free | 🟡 many "EV Guide" names | Yes | See row 3 above. |
+
+**WS0 view:** EV Shortlist is the most descriptive and the easiest to explain; EV Field Guide fits the illustrated map identity best. Both domains are free in .com and .nl; .eu still needs a manual check. Used EVs is out (.com taken, too generic, excludes new cars).
+
+Sources (opened 15 Nov 2026): rdap.verisign.com lookups for evshortlist.com (404), usedevs.com (registered 2007-03-14), evfieldguide.com (404); rdap.sidn.nl lookups for evshortlist.nl (404) and usedevs.nl (404); web search "EV Shortlist" electric car (no product found).

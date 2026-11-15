@@ -1,4 +1,4 @@
-<!-- Mirror of the claude.ai spec doc, tab "Master spec v2" (rev 37), exported 2026-11-15 by WS0. For builders this repo copy wins; product changes start in the doc and WS0 mirrors them here. -->
+<!-- Mirror of the claude.ai spec doc, tab "Master spec v2" (rev 39), exported 2026-11-15 by WS0. For builders this repo copy wins; product changes start in the doc and WS0 mirrors them here. -->
 
 # Used-EV Finder — Master spec v2
 
@@ -264,6 +264,28 @@ Rules for layer 3, so the risk stays small: one request per search per day at mo
 | Cross-border view | "Cheaper in DE: typical €2.1k less" on generation pages, once two neighbouring countries have bands |
 
 **Order of countries for feeds:** follow the click data from Stage A, not guesses.
+
+### Ways to pay: outright, loan or lease (added 15 Nov 2026)
+
+Many buyers don't pay cash: they lease, or put some money down and borrow the rest. Every price on Explore, model pages and Compare can switch between **Buy outright** (the used price band, as now), **Loan per month** and **Lease per month**. The choice is remembered and kept in the URL. It feeds the honest monthly cost-of-ownership view (the UX positioning).
+
+| Mode | What we show | Where the number comes from | Phase |
+| --- | --- | --- | --- |
+| Buy outright | Used asking-price band, new price | Section 8 layers | Core |
+| Loan per month | Our own estimate from the price, your deposit, term (default 48 months) and a typical interest rate per country, labelled "estimate, not an offer" | Calculator in the browser; typical rates in an editable `finance_profiles` table per country with source and date | Core 2 |
+| Lease per month | "Used lease from about €X/month" plus a link to used-lease sites | Partner feeds only; plain link otherwise | Next |
+
+**Used leasing exists in most launch countries.** NL: private occasion lease (Ayvens, Athlon), with a credit check and BKR registration under the Keurmerk Private Lease. DE: LeasingMarkt.de lists used EV leases, though 72% of its lease enquiries are for new cars. FR: Vivacar lists about 6,000 used EVs on LOA/LLD from about €90/month; Renault Renew offers used LOA. UK: used PCP/HP finance is common.
+
+**Rules (legal, not advice):**
+
+- From 20 Nov 2026 the EU consumer credit directive (CCD2) requires credit adverts that show cost figures to include a representative example and the warning "Borrowing money costs money". Our calculator is not an offer and names no lender, but it still shows the assumptions and that warning. Lawyer question added to research R-03.
+- UK: introducing people to car finance or lease providers is credit broking and needs FCA authorisation. No UK finance or lease links until that is checked; the calculator only.
+- No commission on loans at launch. Lease links are labelled and never change rankings (no paid rankings).
+
+Plain-language tooltips: "loan", "lease", "private lease", "balloon payment / PCP", "residual value", "total cost over the term". Every monthly figure also shows the total paid over the term.
+
+Sources (15 Nov 2026): [Ayvens private occasion lease](https://www.ayvens.com/nl-nl/private-lease-showroom/onze-autos/237573/kia-niro-ev/) · [Athlon EV occasions](https://www.athlon.com/nl/private-lease/kennisbank/ev-populair-bij-private-lease/) · [LeasingMarkt.de used EV leasing](https://www.leasingmarkt.de/e-auto/gebraucht) · [LeasingMarkt Rückspiegel 2025](https://www.leasingmarkt.de/wplm/wp-content/uploads/2022/03/pm-leasing-rueckspiegel-2025.pdf) · [Vivacar used EV LOA/LLD](https://www.vivacar.fr/voiture-occasion/electrique?page=67) · [iAutos on used LOA](https://iautos.fr/leasing/loa-electrique) · [EUR-Lex CCD2 summary](https://eur-lex.europa.eu/EN/legal-content/summary/consumer-credit-agreements-2023.html) · [FCA primary credit brokers](https://www.fca.org.uk/firms/authorisation/consumer-credit-brokers/primary-credit-brokers/printable/print)
 
 ## 9. Accounts and user dashboard (Core, light)
 
