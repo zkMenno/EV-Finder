@@ -105,11 +105,6 @@ The schema says "every non-null number has provenance". **Default:** this covers
 
 **Answer:**
 
-### Q-024 · Glossary ids the web app needs that `glossary_terms.yaml` lacks · T-008 · builder · 2026-11-15
-Explore puts a glossary ⓘ on every column and filter. These ids are used but not yet in `data/taxonomy/glossary_terms.yaml`: `new-price`, `registrations-nl`, `model-years`, `segment`, `body-type`, `boot-volume`, `vehicle-length`, `towing-capacity`, `charge-to-100`. **Default:** the web dev fixture carries draft rows for them (EN + NL), and a missing term just shows the plain label without ⓘ (no crash). Please add them to the YAML (the drafts are in `apps/web/src/fixtures/catalogue.sample.json`, last entries of `taxonomy.glossary_terms`). I also switched my ids to yours: `chemistry`, `cooling`, `quality-tier`, `peak-kw`, `400v-charger-behaviour`, `usable-vs-gross` (the last is a slightly odd plain label for a "Battery size" column; a `battery-capacity` term may read better).
-
-**Answer:**
-
 ### Q-025 · Nerd mode wants "sources with date", but FieldProvenance has no date · T-008 / schema · builder · 2026-11-15
 `FieldProvenance` carries source ids, confidence, agreeing_sources, estimate and note, but no `retrieved_at`. **Default:** Nerd mode shows the release date (`generated_at`) next to the sources. Should `FieldProvenance` get `retrieved_at` (latest of its facts), or should the client JSON resolve `fact_ids` to dates?
 
@@ -117,11 +112,6 @@ Explore puts a glossary ⓘ on every column and filter. These ids are used but n
 
 ### Q-026 · Default display level and Explore row links · T-008 · builder · 2026-11-15
 **Defaults:** (1) Explore opens at **Detailed** (the brief's column set); Simple and Nerd are one click away and remembered in localStorage + `?level=`. Simple may be the friendlier default for first-time visitors. (2) Explore rows don't link to model pages yet because T-009 hasn't fixed the route; once it has, the car name should link there. Which default level do you want?
-
-**Answer:**
-
-### Q-027 · `CATALOGUE_DIR` in `.env.example` · T-008 · builder · 2026-11-15
-The web app reads `data/releases/<latest>/catalogue.json` and accepts `CATALOGUE_DIR` to point elsewhere (e.g. in the Docker image). `.env.example` is outside the web lane. **Default:** documented in `apps/web/README.md` only. Coordinator: please add `CATALOGUE_DIR=` to `.env.example`.
 
 **Answer:**
 
@@ -136,6 +126,16 @@ Hyundai/Kia E-GMP 58 kWh packs are sold as 800 V but sit around 523 V nominal, w
 **Answer:**
 
 ## Closed
+
+### Q-027 · `CATALOGUE_DIR` in `.env.example` · T-008 · builder · 2026-11-15
+The web app reads `data/releases/<latest>/catalogue.json` and accepts `CATALOGUE_DIR` to point elsewhere (e.g. in the Docker image). `.env.example` is outside the web lane. **Default:** documented in `apps/web/README.md` only. Coordinator: please add `CATALOGUE_DIR=` to `.env.example`.
+
+**Answer:** Coordinator added CATALOGUE_DIR to .env.example. Closed.
+
+### Q-024 · Glossary ids the web app needs that `glossary_terms.yaml` lacks · T-008 · builder · 2026-11-15
+Explore puts a glossary ⓘ on every column and filter. These ids are used but not yet in `data/taxonomy/glossary_terms.yaml`: `new-price`, `registrations-nl`, `model-years`, `segment`, `body-type`, `boot-volume`, `vehicle-length`, `towing-capacity`, `charge-to-100`. **Default:** the web dev fixture carries draft rows for them (EN + NL), and a missing term just shows the plain label without ⓘ (no crash). Please add them to the YAML (the drafts are in `apps/web/src/fixtures/catalogue.sample.json`, last entries of `taxonomy.glossary_terms`). I also switched my ids to yours: `chemistry`, `cooling`, `quality-tier`, `peak-kw`, `400v-charger-behaviour`, `usable-vs-gross` (the last is a slightly odd plain label for a "Battery size" column; a `battery-capacity` term may read better).
+
+**Answer:** Coordinator added the 9 terms to data/taxonomy/glossary_terms.yaml. Closed.
 
 ### Q-022 · EEA licence marked "(to confirm)" but status `active` · coordinator · builder · 2026-11-15
 `data/sources.yaml` says licences marked "(to confirm)" stay blocked, but EEA is `active` with "CC-BY-4.0 (to confirm on datahub page)". **Default:** the gate follows `status` (EEA is released) and the release README credits EEA as CC-BY-4.0. If EEA must wait, set its status to `waiting_permission` and the gate drops it (tested).

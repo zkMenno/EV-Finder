@@ -1,6 +1,6 @@
 {
  "step": "release",
- "at": "2026-11-15T00:04:45+00:00",
+ "at": "2026-11-15T00:06:02+00:00",
  "inputs": [
   {
    "path": "/home/claude/zkmenno/ev-finder/data/seed/models.yaml",
@@ -74,8 +74,8 @@
   "quality_tiers": {
    "single-source": 210
   },
-  "catalogue_json_bytes": 1963866,
-  "catalogue_json_gzip_bytes": 95753,
+  "catalogue_json_bytes": 1969053,
+  "catalogue_json_gzip_bytes": 97484,
   "diff": {
    "rows_previous": 0,
    "rows": 210,

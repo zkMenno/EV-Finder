@@ -1,6 +1,6 @@
 # EV Finder catalogue release 1
 
-Generated 2026-11-15T00:04:45+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
+Generated 2026-11-15T00:06:02+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
 
 ## Counts
 

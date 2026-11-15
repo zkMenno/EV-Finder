@@ -516,3 +516,169 @@ glossary_terms:
     nerd_note:
       en: "Nominal is roughly cells in series times about 3.6-3.7 V for NMC, about 3.2 V for LFP."
     related: [voltage-class, 400v, 800v]
+
+  # Added by coordinator from the web builder's drafts (Q-024).
+  - id: new-price
+    label:
+      en: New price
+      nl: Nieuwprijs
+    technical:
+      en: List price, base trim
+      nl: Catalogusprijs, basisuitvoering
+    short:
+      en: Price when bought new in this country, if still on sale.
+      nl: Prijs bij aankoop nieuw in dit land, als hij nog te koop is.
+    long:
+      en: The list price when the car was on sale new in this country, in local currency. Used cars sell
+        for much less; this is a reference, not a market value.
+    related:
+    - registrations-nl
+    nerd_note:
+      en: Tonight only German euro prices from Open EV Data are available; NL will use the RDW catalogue
+        price later.
+  - id: registrations-nl
+    label:
+      en: Cars on Dutch roads
+      nl: Auto's op Nederlandse wegen
+    technical:
+      en: RDW registration count
+      nl: Aantal RDW-registraties
+    short:
+      en: How many of this generation are registered in the Netherlands.
+      nl: Hoeveel van deze generatie in Nederland geregistreerd zijn.
+    long:
+      en: How many of these cars are registered in the Netherlands, from RDW open data. A high number means
+        more choice on the used market and easier parts and servicing.
+    related:
+    - generation
+    - new-price
+    nerd_note:
+      en: Counted per generation from RDW first-admission data with a no-engine proxy for battery-electric
+        cars (Q-010). Imports count from their first foreign registration.
+  - id: model-years
+    label:
+      en: Years
+      nl: Jaren
+    technical:
+      en: Model years on sale in Europe
+      nl: Modeljaren te koop in Europa
+    short:
+      en: The years this version was sold new in Europe.
+      nl: De jaren waarin deze versie nieuw te koop was in Europa.
+    long:
+      en: The years this generation or variant was sold in Europe. Boundaries marked as not yet checked
+        may shift by a year.
+    related:
+    - generation
+    - era
+    nerd_note:
+      en: Year bands come from the hand-made seed list; uncertain ones are flagged in the data, not hidden.
+  - id: segment
+    label:
+      en: Size class
+      nl: Grootteklasse
+    technical:
+      en: Segment
+      nl: Segment
+    short:
+      en: European size class, from city car (A) to large SUV.
+      nl: Europese grootteklasse, van stadsauto (A) tot grote SUV.
+    long:
+      en: The European size class, from A (city car) to F (luxury), with J for SUVs. It helps compare cars
+        of similar size and price.
+    related:
+    - body-type
+    - vehicle-length
+    nerd_note:
+      en: Assigned by hand in the seed list; segment borders are a judgement call.
+  - id: body-type
+    label:
+      en: Body
+      nl: Carrosserie
+    technical:
+      en: Body style
+      nl: Carrosserievorm
+    short:
+      en: Hatchback, saloon, estate, SUV and so on.
+      nl: Hatchback, sedan, stationwagen, SUV enzovoort.
+    long:
+      en: 'The shape of the car: hatchback, sedan, estate, SUV and so on. It affects boot space, height
+        and real-world range.'
+    related:
+    - segment
+    - real-range
+    nerd_note:
+      en: Body type also drives the provisional real-range ratio when no tests exist.
+  - id: boot-volume
+    label:
+      en: Boot
+      nl: Kofferbak
+    technical:
+      en: Boot volume (litres, VDA)
+      nl: Kofferbakvolume (liter, VDA)
+    short:
+      en: Luggage space behind the rear seats.
+      nl: Bagageruimte achter de achterbank.
+    long:
+      en: Luggage space behind the rear seats in litres, seats up. Makers measure it in different ways,
+        so small differences mean little.
+    related:
+    - vehicle-length
+    - body-type
+    nerd_note:
+      en: VDA litres where known; some makers quote to the roof or include under-floor space, so compare
+        with care.
+  - id: vehicle-length
+    label:
+      en: Length
+      nl: Lengte
+    technical:
+      en: Overall length (mm)
+      nl: Totale lengte (mm)
+    short:
+      en: Bumper to bumper, handy for parking spaces and garages.
+      nl: Van bumper tot bumper, handig voor parkeerplekken en garages.
+    long:
+      en: Overall length in millimetres, bumper to bumper. Useful for parking spaces, garages and ferries.
+    related:
+    - boot-volume
+    - segment
+    nerd_note:
+      en: From type-approval or maker data; tolerance 10 mm between sources (Decision 009).
+  - id: towing-capacity
+    label:
+      en: Towing
+      nl: Trekgewicht
+    technical:
+      en: Braked towing capacity (kg)
+      nl: Geremd trekgewicht (kg)
+    short:
+      en: Heaviest braked trailer the car is approved to tow.
+      nl: Zwaarste geremde aanhanger die de auto mag trekken.
+    long:
+      en: The heaviest braked trailer the car is approved to tow, in kilograms. Zero means it is not approved
+        for towing.
+    related:
+    - vehicle-length
+    - real-range
+    nerd_note:
+      en: Braked figure from type approval where available; towing cuts range sharply.
+  - id: charge-to-100
+    label:
+      en: OK to charge to 100% daily
+      nl: Dagelijks tot 100% laden mag
+    technical:
+      en: Daily 100% state of charge
+      nl: Dagelijks 100% laadtoestand
+    short:
+      en: Some batteries (mostly LFP) are fine at 100% every day; others prefer about 80%.
+      nl: Sommige accu's (vooral LFP) kunnen elke dag 100%; andere liever ongeveer 80%.
+    long:
+      en: Whether the battery chemistry is happy being charged to 100% every day. LFP batteries usually
+        are; most others prefer about 80% for daily use.
+    related:
+    - chemistry
+    - lfp
+    - nmc
+    nerd_note:
+      en: From the chemistry table; always follow the maker's own guidance for the specific car.
