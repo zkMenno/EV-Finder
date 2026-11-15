@@ -72,12 +72,12 @@ _(at the end of the run)_
 | A4 T-019 bidi taxonomies (coordinator half) | done (partial) | 7 tables; 12 wallbox rows held back until their sources are releasable (Q-008); per-car rows are WS3 |
 | A4 T-026 charging link-out block | done | Explore, learn and model pages; plain ABRP link; UTM tag (Q-056) |
 | A4 T-036 Trip fit quick check (flag, fixture matrix) | done | behind `TRIP_FIT=1`; fixture matrix + 20 towns typed from memory, labelled PROVISIONAL; keep off in production (Q-055) |
-| A5.1 country + language URLs | running | |
-| A5.2 price modes | data done, UI running | APRs from ECB/BoE consumer-credit series (all consumer loans, not car-only); NL null → user enters a rate (Q-060) |
+| A5.1 country + language URLs | done | `/{country}/{lang}/…`, 11 country × language pairs, hreflang + sitemap, Accept-Language banner only; 4,301 static pages (closes Q-033/Q-034) |
+| A5.2 price modes | done | Buy / Loan / Lease control in URL + storage; loan calculator with CCD2 warning; APRs from ECB/BoE consumer-credit series (not car-only); NL asks for a rate (Q-060); lease = placeholder |
 | A5.3 open data bundle | done (pipeline) | `data/releases/1/open/`: CSV + JSON, 195 rows, ATTRIBUTION, LICENSE, README; ODbL test; `/data` page queued for web |
-| A5.4 /learn drafts | done (text), rendering queued | 5 articles × EN + NL, 43 sources; spec vs source disagreements (NIO semi-solid, El Prix %, VW box) in Q-061 |
+| A5.4 /learn drafts | done, rendered on /learn | 5 articles × EN + NL, 43 sources; spec vs source disagreements (NIO semi-solid, El Prix %, VW box) in Q-061 |
 | A5.5 release QA | done | blocking checks pass; flags EV6 77 kWh AWD usable 80 > gross 77.4 (data bug); 0 of top-40 have 2+ agreeing sources on all headline fields |
-| A5.6 security baseline | partial | done: Actions least privilege + pinned SHAs, audit job (warn only), safe fetch (host allowlist, SSRF guard, size caps); web nonce CSP + staff guard running; server items for WS4 in audits/A-02 |
+| A5.6 security baseline | partial | done: Actions least privilege + pinned SHAs, audit job (warn only), safe fetch (host allowlist, SSRF guard, size caps); strict CSP without unsafe-inline (nonces + build-time hashes), staff basic-auth guard; server items for WS4 in audits/A-02 |
 | A5.7 back-test skeleton | done | leave-one-out on synthetic fixtures; skipped on real data (no licence-cleared tests yet) |
 
 ## Bottomless backlog
