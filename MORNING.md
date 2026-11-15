@@ -88,5 +88,6 @@ _(at the end of the run)_
 | 1 | Glossary sweep | done (data), wiring queued | 49 → 88 terms; ~35 UI labels need their ⓘ wired (list in `data/review/glossary-sweep.md`) |
 | 6 | Source-scoped aliases | done (on) | +80 matched records; EEA VW make alias places +62,301 registrations; no record moved to a wrong model; MG4 trim duplicates (Q-062) |
 | 7 | EEA as corroboration | done (off) | with the flag on, sourced rows 2 → 6, but EEA averages blend variants, so it stays off (Q-019) |
+| 9 | Docs for new builders | done | root, pipeline, infra READMEs; every command run; web README queued |
 | — | RDW WLTP + catalogue price (from item 5) | running | |
 
