@@ -387,6 +387,11 @@ No answer needed unless you disagree. **(1) Used-price rankings need a release f
 
 **Answer:**
 
+### Q-086 · RDW per-type-approval records: attach when kW evidence disagrees? · T-054 · pipeline builder (RDW) · 2026-11-15
+No answer needed unless you disagree. T-054 splits wide RDW groups by type-approval codes (`type`/`variant`/`uitvoering`); NL prices on seed variants go from 88 to 463 facts in a read-only matcher run (109 variants with an RDW price, was 40). There is deliberately **no code → variant table**: the attach-only matcher places each record by evidence (median kW in `variant_name`, WLTP km). Most land right (Model 3 RWD / LR / Performance, ID.4 Pro / GTX, MG4, i5, Kona). Where the seed lacks the right row they land on a near neighbour: Model Y 2025 `YS5MD` (378 kW, 600 km, €55,590) → `tesla-model-y-juniper-long-range-rwd` (208 kW) on WLTP alone; Q6 e-tron Performance (225 kW) → quattro (285 kW); ID.4 Pro 4MOTION 210 kW → GTX (220 kW) on name words. **Default:** left as is (match/ is not my lane). **Proposal for the matcher owner:** for RDW, when the record has kW evidence and no candidate is within 2 % of it, send to review instead of attaching on WLTP or name words alone; and the seed lane could add the missing rows (Model Y Juniper LR AWD, Q6 Performance).
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

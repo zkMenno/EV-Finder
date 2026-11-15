@@ -11,38 +11,11 @@
 {
 "merk": "HYUNDAI",
 "handelsbenaming": "IONIQ5",
-"jaar": "2022",
-"n": "1877",
-"med": "54750",
-"mn": "42505",
-"mx": "64890"
-},
-{
-"merk": "HYUNDAI",
-"handelsbenaming": "IONIQ5",
 "jaar": "2023",
 "n": "2242",
 "med": "58595",
 "mn": "46495",
 "mx": "68690"
-},
-{
-"merk": "HYUNDAI",
-"handelsbenaming": "IONIQ5",
-"jaar": "2024",
-"n": "662",
-"med": "57195",
-"mn": "42795",
-"mx": "68890"
-},
-{
-"merk": "HYUNDAI",
-"handelsbenaming": "IONIQ5",
-"jaar": "2025",
-"n": "1118",
-"med": "52945",
-"mn": "36900",
-"mx": "68490"
 },
 {
 "merk": "HYUNDAI",
@@ -398,65 +371,11 @@
 {
 "merk": "TESLA",
 "handelsbenaming": "MODEL 3",
-"jaar": "2020",
-"n": "7693",
-"med": "50780",
-"mn": "46080",
-"mx": "75380"
-},
-{
-"merk": "TESLA",
-"handelsbenaming": "MODEL 3",
-"jaar": "2021",
-"n": "2488",
-"med": "56980",
-"mn": "46980",
-"mx": "73880"
-},
-{
-"merk": "TESLA",
-"handelsbenaming": "MODEL 3",
-"jaar": "2022",
-"n": "792",
-"med": "59990",
-"mn": "44990",
-"mx": "75790"
-},
-{
-"merk": "TESLA",
-"handelsbenaming": "MODEL 3",
-"jaar": "2023",
-"n": "5022",
-"med": "44990",
-"mn": "41990",
-"mx": "69090"
-},
-{
-"merk": "TESLA",
-"handelsbenaming": "MODEL 3",
 "jaar": "2024",
 "n": "10685",
 "med": "44290",
 "mn": "4990",
 "mx": "68190"
-},
-{
-"merk": "TESLA",
-"handelsbenaming": "MODEL 3",
-"jaar": "2025",
-"n": "5825",
-"med": "41990",
-"mn": "38990",
-"mx": "67490"
-},
-{
-"merk": "TESLA",
-"handelsbenaming": "MODEL 3",
-"jaar": "2026",
-"n": "3873",
-"med": "38640",
-"mn": "35303",
-"mx": "71190"
 },
 {
 "merk": "TESLA",

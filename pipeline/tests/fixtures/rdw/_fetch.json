@@ -34,26 +34,40 @@
     "$group": "merk, handelsbenaming, jaar",
     "$order": "merk, handelsbenaming, jaar"
   },
+  "price_variant_query": {
+    "$select": "merk, handelsbenaming, date_extract_y(datum_eerste_toelating_dt) AS jaar, type, variant, count(catalogusprijs) AS n, median(catalogusprijs) AS med, min(catalogusprijs) AS mn, max(catalogusprijs) AS mx",
+    "$where": "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101 AND datum_eerste_toelating = datum_eerste_tenaamstelling_in_nederland AND catalogusprijs > 0",
+    "$group": "merk, handelsbenaming, jaar, type, variant",
+    "$order": "merk, handelsbenaming, jaar, type, variant"
+  },
+  "price_uitvoering_query": {
+    "$select": "merk, handelsbenaming, date_extract_y(datum_eerste_toelating_dt) AS jaar, type, variant, uitvoering, count(catalogusprijs) AS n, median(catalogusprijs) AS med, min(catalogusprijs) AS mn, max(catalogusprijs) AS mx",
+    "$where": "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101 AND datum_eerste_toelating = datum_eerste_tenaamstelling_in_nederland AND catalogusprijs > 0",
+    "$group": "merk, handelsbenaming, jaar, type, variant, uitvoering",
+    "$order": "merk, handelsbenaming, jaar, type, variant, uitvoering"
+  },
   "sample_main_query": {
-    "$select": "kenteken, merk, handelsbenaming, date_extract_y(datum_eerste_toelating_dt) AS jaar, catalogusprijs, datum_eerste_toelating = datum_eerste_tenaamstelling_in_nederland AS nieuw_nl",
+    "$select": "kenteken, merk, handelsbenaming, date_extract_y(datum_eerste_toelating_dt) AS jaar, type, variant, uitvoering, catalogusprijs, datum_eerste_toelating = datum_eerste_tenaamstelling_in_nederland AS nieuw_nl",
     "$where": "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101 AND kenteken like '___7%'",
     "$order": "kenteken"
   },
   "sample_fuel_query": {
-    "$select": "kenteken, actie_radius_enkel_elektrisch_wltp AS range_km, elektrisch_verbruik_enkel_elektrisch_wltp AS wh_km",
+    "$select": "kenteken, actie_radius_enkel_elektrisch_wltp AS range_km, elektrisch_verbruik_enkel_elektrisch_wltp AS wh_km, netto_max_vermogen_elektrisch AS kw",
     "$where": "brandstof_omschrijving = 'Elektriciteit' AND (actie_radius_enkel_elektrisch_wltp IS NOT NULL OR elektrisch_verbruik_enkel_elektrisch_wltp IS NOT NULL) AND kenteken like '___7%'",
     "$order": "kenteken"
   },
   "pages": 1,
   "rows": 118,
-  "price_groups": 81,
+  "price_groups": 1837,
+  "price_groups_variant": 3135,
+  "price_groups_uitvoering": 6744,
   "sample": {
     "main_rows": 91814,
     "fuel_rows": 86048,
     "joined_plates": 83111,
     "groups": 1811,
-    "note": "Plates are joined in memory and never stored; only histograms.",
-    "fixture_groups": 86
+    "fine_groups": 5129,
+    "note": "Plates are joined in memory and never stored; only histograms."
   },
-  "note": "Test fixture: subset of the recorded live responses (rows for LEAF, MODEL 3, ID.3, IONIQ 5, MEGANE E-TECH), unchanged. Counts recorded 2026-11-14; price stats and sample histograms recorded 2026-11-15. RDW Open Data, CC0. No plates."
+  "note": "Test fixture, RDW Open Data, CC0, no plates. page-000.json: counts recorded 2026-11-14 (LEAF, MODEL 3, ID.3, IONIQ 5, MEGANE E-TECH), unchanged. Price stats (coarse, per type+variant, per type+variant+uitvoering) and per-code sample histograms: subset of the 2026-11-15 live fetch (T-054), 83 make x trade name x year groups, <= 200 rows per file. Fetch counts below are of the full fetch."
 }
