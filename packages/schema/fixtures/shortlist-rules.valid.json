@@ -1,0 +1,165 @@
+{
+  "schema": "shortlist-rules/v1",
+  "review": true,
+  "profiles": [
+    {
+      "id": "road-tripper",
+      "aliases": ["only-car-long-trips"],
+      "label": {
+        "en": "Main car that also does the road trips"
+      },
+      "short": {
+        "en": "Your only or main car, and it drives you on holiday too."
+      },
+      "applies_when": {
+        "car_role": ["only", "main"],
+        "long_trips": ["monthly", "often"]
+      },
+      "weights": {
+        "dc_km_20min_winter": "very-high",
+        "battery_risk": "high"
+      },
+      "bands": {
+        "800v": {
+          "shortlist": 68,
+          "consider": 63
+        },
+        "default": {
+          "shortlist": 60,
+          "consider": 50
+        }
+      },
+      "gates": [
+        {
+          "id": "winter-range-floor",
+          "field": "real_range_km",
+          "min_km": 250,
+          "rural_min_km": 280,
+          "reason": {
+            "en": "Under 250 km in winter: too short as your only car."
+          }
+        }
+      ],
+      "factors": [
+        {
+          "id": "dc-speed",
+          "field": "dc_km_per_20min",
+          "poor": 450,
+          "great": 1300,
+          "weight": 30
+        },
+        {
+          "id": "efficiency",
+          "field": "consumption_kwh_100km",
+          "poor": 290,
+          "great": 210,
+          "weight": 10
+        },
+        {
+          "id": "one-pedal",
+          "field": "one_pedal",
+          "status": "gap",
+          "weight": 10
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "newest-version",
+          "points": 4,
+          "rule": "Newest model year of a model."
+        }
+      ],
+      "penalties": [
+        {
+          "id": "too-big-for-b-roads",
+          "points": -16,
+          "applies_with": "rural",
+          "field": ["length_mm", "kerb_mass_kg"],
+          "status": "calibrate"
+        }
+      ],
+      "filter_presets": [
+        {
+          "field": "dc_km_per_20min",
+          "min": 200,
+          "why": {
+            "en": "Adds 200+ km in 20 minutes"
+          }
+        }
+      ],
+      "not_rules": ["Looks: personal, never scored."]
+    },
+    {
+      "id": "kerbside-charger",
+      "label": {
+        "en": "No charger at home"
+      },
+      "picker": {
+        "charge_where": ["public_only"]
+      },
+      "combines_with": ["road-tripper"],
+      "weight_steps": {
+        "efficiency": 2,
+        "dc-speed": 1
+      },
+      "extra_factors": [
+        {
+          "id": "fast-on-400v",
+          "field": "fast_on_400v",
+          "weight": 8
+        }
+      ]
+    }
+  ],
+  "modifiers": [
+    {
+      "id": "rural",
+      "label": {
+        "en": "Countryside"
+      },
+      "picker": {
+        "home_area": ["countryside"]
+      },
+      "use_rural_gates": true,
+      "weight_steps": {
+        "winter-range": 1
+      },
+      "gate_scale": 1.0
+    }
+  ],
+  "addons": [
+    {
+      "id": "keep-8-years",
+      "label": {
+        "en": "Keep it 8+ years"
+      },
+      "kind": "addon",
+      "weight_steps": {
+        "battery-health-risk": 1
+      },
+      "prefer": {
+        "chemistry_id": ["lfp"]
+      }
+    }
+  ],
+  "weight_step_factor": 1.5,
+  "picker": [
+    {
+      "id": "car_role",
+      "question": {
+        "en": "This car will be"
+      },
+      "answers": ["only", "main", "second"]
+    },
+    {
+      "id": "long_trips",
+      "question": {
+        "en": "Long trips (300 km+)"
+      },
+      "answers": ["never", "often"],
+      "skip_if": {
+        "car_role": ["second"]
+      }
+    }
+  ]
+}

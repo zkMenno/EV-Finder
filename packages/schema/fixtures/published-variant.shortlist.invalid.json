@@ -1,0 +1,132 @@
+{
+  "release": 1,
+  "variant_id": "nissan-leaf-ze1-40kwh",
+  "variant_name": "40 kWh",
+  "generation_id": "nissan-leaf-ze1",
+  "generation_name": "ZE1",
+  "generation_uncertain": false,
+  "model_id": "nissan-leaf",
+  "model_name": "Leaf",
+  "make_id": "nissan",
+  "make_name": "Nissan",
+  "year_start": 2018,
+  "year_end": 2024,
+  "era": "2018-20",
+  "segment": "C",
+  "body": "hatchback",
+  "drivetrain": "fwd",
+  "battery_kwh_net": 39,
+  "wltp_range_km": 270,
+  "consumption_kwh_100km": 17.1,
+  "ac_kw": 6.6,
+  "dc_peak_kw": 46,
+  "dc_avg_10_80_kw": 30,
+  "ac_km_per_h": 38.6,
+  "dc_km_per_10min": 29.2,
+  "real_range_km": 235,
+  "real_range_rung": "body-ratio",
+  "on_sale_new": false,
+  "price_new": {},
+  "registered_count_nl": null,
+  "quality_tier": "single-source",
+  "change_markers": [
+    {
+      "year": 2019,
+      "text": "62 kWh e+ added"
+    }
+  ],
+  "provenance": {
+    "battery_kwh_net": {
+      "source_ids": ["fixture"],
+      "confidence": "medium"
+    },
+    "real_range_km": {
+      "source_ids": ["fixture"],
+      "confidence": "low",
+      "derived": true,
+      "note": "body-type ratio"
+    }
+  },
+  "abrp_typecode": null,
+  "iso15118_20_support": "no",
+  "heat_pump": "option",
+  "drag_coefficient": null,
+  "frontal_area_m2": null,
+  "kerb_mass_kg": null,
+  "wheel_sizes_in": [16, 17],
+  "ports": [
+    {
+      "id": "nissan-leaf-ze1-40kwh-nl-2018",
+      "variant_id": "nissan-leaf-ze1-40kwh",
+      "market": "NL",
+      "model_year_from": 2018,
+      "model_year_to": 2024,
+      "ac_inlet_id": "type2",
+      "dc_inlet_id": "chademo",
+      "native_or_adapter": "native",
+      "supercharger_access": "none",
+      "source_ids": ["fixture"],
+      "retrieved_at": "2026-11-15",
+      "confidence": "low"
+    }
+  ],
+  "bidi": [
+    {
+      "id": "nissan-leaf-ze1-v2g-chademo",
+      "subject_type": "variant",
+      "subject_id": "nissan-leaf-ze1-40kwh",
+      "mode_id": "v2g",
+      "route_id": "chademo-dc",
+      "protocol_id": "chademo",
+      "max_kw_out": "not-disclosed",
+      "tariff_required": true,
+      "caveats": [
+        {
+          "id": "chademo-legacy"
+        },
+        {
+          "id": "tariff-required"
+        }
+      ],
+      "market_status": {
+        "UK": {
+          "status_id": "live",
+          "source_ids": ["fixture"],
+          "checked_at": "2026-11-15",
+          "confidence": "low",
+          "tariff_names": ["fixture tariff"]
+        }
+      },
+      "source_ids": ["fixture"],
+      "retrieved_at": "2026-11-15",
+      "confidence": "low"
+    }
+  ],
+  "consumption_epa_kwh_100km": 18.6,
+  "epa_range_city_km": 280,
+  "epa_range_hwy_km": 230,
+  "ac_kw_optional": null,
+  "ac_full_charge_h": 7.5,
+  "frunk_l": 0,
+  "width_mm": 1790,
+  "one_pedal": "via-setting",
+  "regen_paddles": "no",
+  "ota_updates": "infotainment-only",
+  "abrp_replaced_by": null,
+  "shortlist_score": {
+    "runabout": 61.5,
+    "runabout+kerbside.rural": 47.0,
+    "road-tripper": 12.0
+  },
+  "shortlist_band": {
+    "runabout": "great"
+  },
+  "shortlist_reasons": {
+    "runabout": ["+efficiency", "-battery-health-risk"],
+    "road-tripper": ["gate:dc-not-terrible"]
+  },
+  "shortlist_unknown_factors": {
+    "runabout": ["one-pedal"],
+    "road-tripper": []
+  }
+}
