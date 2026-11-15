@@ -591,4 +591,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Trip fit routes, charging pages, bidi filters, variant clue box/finder, lease figures, accounts, alerts and rankings pages wait. Supersedes the phase tags in earlier decisions where they conflict (e.g. Decision 017: only the loan estimate ships; Decision 019: only differences-only ships).
 
+## Decision 052: Packages must be 3 days old before we lock them (matches Dependabot)
+
+**Status:** Accepted (coordinator fix, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Every Dependabot npm job failed (and emailed Menno): Dependabot waits 3 days before trusting a new version and runs pnpm with that rule, but an agent had locked @playwright/test 1.65.1 (and a few transitive packages) when they were under 2 days old, so pnpm refused to install the project at all.
+
+**Decision:** `minimumReleaseAge: 4320` (3 days) in pnpm-workspace.yaml, and an explicit `cooldown: default-days: 3` for npm in .github/dependabot.yml. The two values stay equal. Lockfile regenerated under the rule; @playwright/test pinned to 1.65.0.
+
+**Consequences:** Agents can no longer lock a version fresher than Dependabot accepts, so this failure can't come back. Urgent security fixes that are under 3 days old go in `minimumReleaseAgeExclude` with a comment.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

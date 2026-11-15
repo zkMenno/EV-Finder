@@ -25,6 +25,9 @@ updates:
       time: "09:00"
       timezone: Europe/Paris
     open-pull-requests-limit: 5
+    # Keep equal to minimumReleaseAge in pnpm-workspace.yaml (3 days), or update jobs fail (Decision 052).
+    cooldown:
+      default-days: 3
     groups:
       npm-dev:
         dependency-type: development

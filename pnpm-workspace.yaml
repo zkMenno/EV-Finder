@@ -5,3 +5,7 @@ packages:
 # pnpm 10 blocks dependency install scripts by default; allow only the ones we need.
 onlyBuiltDependencies:
   - esbuild
+
+# Only install package versions that are at least 3 days old (4320 minutes). Dependabot applies
+# the same 3-day cooldown; if we lock a fresher version, its update jobs fail (Decision 052).
+minimumReleaseAge: 4320
