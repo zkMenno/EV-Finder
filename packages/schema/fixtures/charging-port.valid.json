@@ -1,0 +1,20 @@
+{
+  "id": "hyundai-ioniq-5-us-my2025",
+  "variant_id": "hyundai-ioniq-5-77kwh-rwd",
+  "market": "US",
+  "model_year_from": 2025,
+  "model_year_to": null,
+  "ac_inlet_id": "nacs-j3400",
+  "dc_inlet_id": "nacs-j3400",
+  "native_or_adapter": "native",
+  "supercharger_access": "native",
+  "adapters_included": [
+    {
+      "from_connector_id": "ccs1",
+      "to_connector_id": "nacs-j3400"
+    }
+  ],
+  "source_ids": ["fixture"],
+  "retrieved_at": "2026-11-15",
+  "confidence": "low"
+}

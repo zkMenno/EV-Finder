@@ -1,0 +1,12 @@
+{
+  "id": "ccs2",
+  "label": {
+    "en": "CCS (Europe)"
+  },
+  "technical": {
+    "en": "CCS Combo 2"
+  },
+  "current": ["ac", "dc"],
+  "standard": "IEC 62196-3",
+  "regions": ["EU", "AU"]
+}

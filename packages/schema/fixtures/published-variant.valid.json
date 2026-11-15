@@ -29,14 +29,77 @@
   "price_new": {},
   "registered_count_nl": null,
   "quality_tier": "single-source",
-  "change_markers": [{ "year": 2019, "text": "62 kWh e+ added" }],
+  "change_markers": [
+    {
+      "year": 2019,
+      "text": "62 kWh e+ added"
+    }
+  ],
   "provenance": {
-    "battery_kwh_net": { "source_ids": ["fixture"], "confidence": "medium" },
+    "battery_kwh_net": {
+      "source_ids": ["fixture"],
+      "confidence": "medium"
+    },
     "real_range_km": {
       "source_ids": ["fixture"],
       "confidence": "low",
       "derived": true,
       "note": "body-type ratio"
     }
-  }
+  },
+  "abrp_typecode": null,
+  "iso15118_20_support": "no",
+  "heat_pump": "option",
+  "drag_coefficient": null,
+  "frontal_area_m2": null,
+  "kerb_mass_kg": null,
+  "wheel_sizes_in": [16, 17],
+  "ports": [
+    {
+      "id": "nissan-leaf-ze1-40kwh-nl-2018",
+      "variant_id": "nissan-leaf-ze1-40kwh",
+      "market": "NL",
+      "model_year_from": 2018,
+      "model_year_to": 2024,
+      "ac_inlet_id": "type2",
+      "dc_inlet_id": "chademo",
+      "native_or_adapter": "native",
+      "supercharger_access": "none",
+      "source_ids": ["fixture"],
+      "retrieved_at": "2026-11-15",
+      "confidence": "low"
+    }
+  ],
+  "bidi": [
+    {
+      "id": "nissan-leaf-ze1-v2g-chademo",
+      "subject_type": "variant",
+      "subject_id": "nissan-leaf-ze1-40kwh",
+      "mode_id": "v2g",
+      "route_id": "chademo-dc",
+      "protocol_id": "chademo",
+      "max_kw_out": "not-disclosed",
+      "tariff_required": true,
+      "caveats": [
+        {
+          "id": "chademo-legacy"
+        },
+        {
+          "id": "tariff-required"
+        }
+      ],
+      "market_status": {
+        "UK": {
+          "status_id": "live",
+          "source_ids": ["fixture"],
+          "checked_at": "2026-11-15",
+          "confidence": "low",
+          "tariff_names": ["fixture tariff"]
+        }
+      },
+      "source_ids": ["fixture"],
+      "retrieved_at": "2026-11-15",
+      "confidence": "low"
+    }
+  ]
 }

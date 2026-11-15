@@ -1,0 +1,9 @@
+{
+  "id": "motorway",
+  "label": {
+    "en": "Motorway"
+  },
+  "band": "motorway",
+  "osm_highway": ["motorway", "motorway_link", "trunk"],
+  "max_speed_kmh": null
+}

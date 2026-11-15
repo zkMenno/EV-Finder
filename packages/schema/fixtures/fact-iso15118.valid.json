@@ -1,0 +1,16 @@
+{
+  "id": "fixture:volvo-ex30:iso15118_20_support",
+  "subject_type": "variant",
+  "subject_id": "volvo-ex30-single-motor-er",
+  "field": "iso15118_20_support",
+  "value": "not-disclosed",
+  "unit": "enum",
+  "source": {
+    "id": "fixture",
+    "name": "Fixture source",
+    "url": "https://example.org/fixture",
+    "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-15",
+  "confidence": "low"
+}

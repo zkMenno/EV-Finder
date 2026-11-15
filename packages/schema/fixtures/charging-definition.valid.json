@@ -1,0 +1,17 @@
+{
+  "id": "uk-dft-evse-2026",
+  "label": {
+    "en": "UK public EV chargers (DfT, from 2026)"
+  },
+  "counts": "point",
+  "country": "UK",
+  "source_id": "fixture",
+  "includes_semi_public": null,
+  "fast_label": {
+    "en": "rapid or above (50 kW+)"
+  },
+  "valid_from": "2026-01-01",
+  "valid_to": null,
+  "replaced_by": null,
+  "comparable_across_countries": false
+}

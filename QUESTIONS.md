@@ -230,6 +230,11 @@ Their names never equal OpenEV/seed names (ADEME "e-208 (57Kw)", KilowattApp "LR
 
 **Answer:**
 
+### Q-054 · Schema judgement calls for bidi, charging stats and Trip fit · T-018 / T-023 / T-030 · schema delegate (WS0) · 2026-11-15
+No answer needed from Menno unless you disagree; the coordinator may log these in DECISIONS. **Defaults taken:** (1) Taxonomy ids use hyphens (`ac-onboard`, `iso15118-20`, `not-disclosed`), not the spec's underscores, because every id must match the `Id` pattern (Decision 010). (2) New entities use a new `CountryCode` (any 2-letter code, UK not GB) instead of the 5-country `Country` list, so US/AU rows need no schema change; charging stats also accept `EU27`, `EUROPE`, `WORLD`. (3) No separate `usable_kwh` fact: `battery_kwh_net` already is usable capacity. New fact names carry units like the existing ones (`frontal_area_m2`, `kerb_mass_kg`, `wheel_size_in` = rim size code). (4) Allowed values for `iso15118_20_support` / `heat_pump` facts are checked at release time, not in the schema, because a schema rule on `Fact` broke the generated TypeScript type. (5) Prices of bidirectional boxes are stored in euros as a min–max band, with the original price in a note.
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15

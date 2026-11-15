@@ -239,4 +239,22 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Slightly more files, far fewer overwrites and no human relay. AGENTS.md's role table still holds; workstreams are the long-running chats that fill those roles.
 
+---
+
+## Decision 015: Schema conventions for bidi, charging stats and Trip fit (T-018, T-023, T-030)
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Addendum 4 added 37 schema defs. A few conventions differ from the spec text and need to be shared.
+
+**Decision:**
+- Taxonomy ids use hyphens (`ac-onboard`, `iso15118-20`, `dc-150-349`), not underscores, because every id must match the `Id` pattern (Decision 010). Seed tasks T-019, T-024 and T-031 write ids this way.
+- New entities use `CountryCode` (any two-letter code, `UK` not `GB`), so US/AU rows need no schema change. The five-value `Country` enum stays for existing launch-market fields.
+- No separate `usable_kwh` fact: `battery_kwh_net` is usable capacity. New fact names carry units (`frontal_area_m2`, `kerb_mass_kg`, `wheel_size_in`).
+- Allowed values for `iso15118_20_support`, `heat_pump` and `drag_coefficient` facts are checked at release time (WS1), not in the schema, because a conditional schema rule broke the generated TypeScript `Fact` type.
+- `CountryChargingLink`, `ChargingStat`, `ConsumptionModel` and `ClimateNormal` are defined but not yet part of `Catalogue`; WS1 decides how they ship.
+
+**Consequences:** All additions are optional, so release 1 still validates. Details in Q-054.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

@@ -1,0 +1,31 @@
+{
+  "variant_id": "vw-id3-pro-58kwh",
+  "release": 2,
+  "model_version": "0.1.0",
+  "heat_pump": "option",
+  "usable_kwh": 58,
+  "mass_kg": 1800,
+  "warm_up_kwh": null,
+  "regen_recovery": 0.6,
+  "cells": [
+    {
+      "road_band": "motorway",
+      "temperature_band_id": "t-0",
+      "heater_type_id": "resistive",
+      "wh_km": 225,
+      "p10_wh_km": 205,
+      "p90_wh_km": 250,
+      "rung": "measured",
+      "confidence": "medium",
+      "test_ids": ["fixture:vw-id3-58:120kmh:2025-01-10"]
+    },
+    {
+      "road_band": "town",
+      "temperature_band_id": "t-0",
+      "heater_type_id": "heat-pump",
+      "wh_km": 175,
+      "rung": "physics",
+      "confidence": "low"
+    }
+  ]
+}

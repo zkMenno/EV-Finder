@@ -1,0 +1,10 @@
+{
+  "id": "keep-8-years",
+  "label": {
+    "en": "Keep 8+ years"
+  },
+  "kind": "addon",
+  "weights": {
+    "battery_risk": "+1"
+  }
+}

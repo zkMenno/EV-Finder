@@ -1,0 +1,19 @@
+{
+  "id": "main-car-monthly-road-trips",
+  "label": {
+    "en": "Main car, monthly road trips"
+  },
+  "kind": "base",
+  "applies_when": {
+    "car_role": ["main"],
+    "long_trips": ["monthly"]
+  },
+  "weights": {
+    "price": "medium",
+    "efficiency": "medium",
+    "dc_km_20min_winter": "high",
+    "winter_1000km_time": "high",
+    "ac_speed": "low",
+    "battery_risk": "medium"
+  }
+}

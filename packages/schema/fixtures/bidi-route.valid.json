@@ -1,0 +1,11 @@
+{
+  "id": "dc-offboard",
+  "label": {
+    "en": "Needs a special DC wallbox"
+  },
+  "technical": {
+    "en": "DC bidirectional (inverter in the wallbox)"
+  },
+  "inverter_location": "wallbox",
+  "needs_special_box": true
+}

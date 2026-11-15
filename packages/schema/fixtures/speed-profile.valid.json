@@ -1,0 +1,18 @@
+{
+  "id": "nl-default",
+  "country": "NL",
+  "label": {
+    "en": "Netherlands"
+  },
+  "speeds_kmh": {
+    "town": 45,
+    "rural": 80,
+    "motorway": 100
+  },
+  "style_offset_kmh": {
+    "slower": -10,
+    "at_limit": 0,
+    "faster": 10
+  },
+  "source_ids": ["fixture"]
+}

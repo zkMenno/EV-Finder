@@ -224,6 +224,12 @@ class FactField(Enum):
     charger_400v_behaviour = 'charger_400v_behaviour'
     warranty_years = 'warranty_years'
     warranty_km = 'warranty_km'
+    iso15118_20_support = 'iso15118_20_support'
+    heat_pump = 'heat_pump'
+    drag_coefficient = 'drag_coefficient'
+    frontal_area_m2 = 'frontal_area_m2'
+    kerb_mass_kg = 'kerb_mass_kg'
+    wheel_size_in = 'wheel_size_in'
 
 
 class SubjectType(Enum):
@@ -397,16 +403,6 @@ class GlossaryTerm(BaseModel):
     related: list[Id] | None = None
 
 
-class Taxonomy(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    voltage_classes: list[VoltageClass]
-    chemistries: list[Chemistry]
-    cooling_types: list[CoolingType]
-    glossary_terms: list[GlossaryTerm]
-
-
 class NominalV(RootModel[float]):
     root: float = Field(..., ge=0.0)
 
@@ -546,6 +542,959 @@ class RegistrationCount(BaseModel):
     source_id: Id
 
 
+class LocalizedText(RootModel[dict[str, str] | None]):
+    root: dict[str, str] | None = None
+
+
+class CountryCode(RootModel[str]):
+    root: str = Field(
+        ...,
+        description='Any market as an ISO 3166-1 alpha-2 code, except UK for the United Kingdom (same as Country). Wider than Country so US/AU/NZ/CA rows (Phase 4) need no schema change; checked against config at release time.',
+        pattern='^[A-Z]{2}$',
+    )
+
+
+class BidiMode(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    order: int | None = Field(None, description='Display order.')
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class InverterLocation(Enum):
+    car = 'car'
+    wallbox = 'wallbox'
+    varies = 'varies'
+
+
+class BidiRoute(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    inverter_location: InverterLocation | None = Field(
+        None,
+        description='Where the inverter sits; decides the home box price (R-01 §3).',
+    )
+    needs_special_box: bool | None = Field(
+        None, description='true = needs a bidirectional box beyond a normal wallbox.'
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class BidiProtocol(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    standard: str | None = Field(
+        None,
+        description="Formal standard name, e.g. 'EN ISO 15118-20:2022'. Nerd mode.",
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class ParamKind(Enum):
+    none = 'none'
+    number = 'number'
+    date = 'date'
+    version = 'version'
+
+
+class Severity(Enum):
+    info = 'info'
+    condition = 'condition'
+    blocker = 'blocker'
+
+
+class BidiCaveat(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText = Field(..., description='Tooltip text, at most 20 words.')
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    param_kind: ParamKind | None = Field(
+        'none', description='Type of the optional parameter a capability row may pass.'
+    )
+    param_unit: str | None = Field(
+        None, description='Metric unit of a number param, e.g. kWh.'
+    )
+    severity: Severity | None = Field(
+        None,
+        description='condition = shown as an eligibility condition, never a plain tick.',
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class FilterGroup(Enum):
+    live = 'live'
+    pilot_or_announced = 'pilot-or-announced'
+    not_available = 'not-available'
+
+
+class BidiStatus(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    filter_group: FilterGroup | None = Field(
+        None,
+        description="live matches the default filter; pilot-or-announced only with 'Include pilots and announced'.",
+    )
+    order: int | None = None
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class CurrentEnum(Enum):
+    ac = 'ac'
+    dc = 'dc'
+
+
+class ConnectorType(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    current: list[CurrentEnum] | None = Field(
+        None, description='What the plug carries.', min_length=1
+    )
+    standard: str | None = Field(None, description="e.g. 'SAE J3400', 'IEC 62196-3'.")
+    regions: list[str] | None = Field(
+        None,
+        description="Where it is common, e.g. 'EU', 'US', 'JP' (display hint, not a rule).",
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class PriceBandEur(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    min: float = Field(..., ge=0.0)
+    max: float | None = Field(None, ge=0.0)
+    as_of: date | None = None
+    note: str | None = Field(
+        None, description='e.g. list vs intro price, original currency.'
+    )
+
+
+class Current(Enum):
+    ac = 'ac'
+    dc = 'dc'
+
+
+class MaxKw(RootModel[float]):
+    root: float = Field(..., ge=0.0)
+
+
+class BidiEquipment(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    name: str
+    maker: str
+    route_id: Id = Field(..., description='bidi_routes id.')
+    current: Current | None = None
+    max_kw: MaxKw | str | None = None
+    mode_ids: list[Id] | None = Field(None, description='bidi_modes ids it supports.')
+    protocol_ids: list[Id] | None = Field(
+        None, description='bidi_protocols ids it supports.'
+    )
+    price_band: PriceBandEur | str | None = None
+    markets: list[CountryCode] | None = None
+    compatible_platform_ids: list[Id] | None = None
+    compatible_variant_ids: list[Id] | None = None
+    url: str | None = None
+    source_ids: list[Id] = Field(
+        ..., description='Ids of rows in the catalogue sources list.', min_length=1
+    )
+    retrieved_at: date | None = None
+    notes: str | None = None
+
+
+class Iso15118Support(Enum):
+    yes = 'yes'
+    no = 'no'
+    not_disclosed = 'not-disclosed'
+
+
+class BidiCaveatRef(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id = Field(..., description='bidi_caveats id.')
+    param: float | str | None = Field(
+        None,
+        description="Optional parameter, typed by the caveat row's param_kind (number, ISO date, version string).",
+    )
+
+
+class BidiMarketStatus(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    status_id: Id = Field(..., description='bidi_status id.')
+    since: date | None = Field(
+        None, description='Date the status started (launch date), if known.'
+    )
+    source_ids: list[Id] = Field(
+        ..., description='Ids of rows in the catalogue sources list.', min_length=1
+    )
+    checked_at: date = Field(
+        ..., description='Last date a source confirmed this status.'
+    )
+    confidence: Confidence
+    tariff_names: list[str] | None = Field(
+        None,
+        description="Required energy contracts in this country, e.g. 'Mobilize Power'.",
+    )
+    caveats: list[BidiCaveatRef] | None = Field(
+        None, description='Country-only caveats, added to the capability caveats.'
+    )
+    fact_ids: list[str] | None = None
+
+
+class SubjectType1(Enum):
+    variant = 'variant'
+    platform = 'platform'
+
+
+class MaxKwOut(RootModel[float]):
+    root: float = Field(..., ge=0.0)
+
+
+class ModelYear(RootModel[int]):
+    root: int = Field(..., ge=2008, le=2040)
+
+
+class BidiCapability(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    subject_type: SubjectType1
+    subject_id: Id
+    mode_id: Id = Field(..., description='bidi_modes id.')
+    route_id: Id = Field(..., description='bidi_routes id.')
+    protocol_id: Id | None = Field(
+        None, description='bidi_protocols id (the table has a not-disclosed row).'
+    )
+    max_kw_out: MaxKwOut | str | None = None
+    min_software: str | None = Field(None, description="e.g. 'ID. Software 3.5'.")
+    min_battery_net_kwh: float | None = Field(None, ge=0.0)
+    build_date_from: date | None = None
+    model_years: list[ModelYear] | None = Field(
+        None,
+        description='Model years covered; empty or absent = all years of the subject.',
+    )
+    equipment_ids: list[Id] | None = Field(
+        None, description='bidi_equipment ids (approved boxes).'
+    )
+    tariff_required: bool | str | None = Field(
+        None,
+        description='A specific energy contract is needed (names per country in market_status).',
+    )
+    caveats: list[BidiCaveatRef] | None = None
+    market_status: dict[str, BidiMarketStatus] = Field(
+        ...,
+        description='Country → status. A country that is absent means not known (shown as not disclosed).',
+    )
+    eligibility_url: str | None = Field(
+        None, description="Maker's eligibility page (used-car checklist deep link)."
+    )
+    source_ids: list[Id] = Field(
+        ..., description='Ids of rows in the catalogue sources list.', min_length=1
+    )
+    retrieved_at: date
+    confidence: Confidence
+    fact_ids: list[str] | None = None
+    notes: str | None = Field(
+        None, description='Internal note; never shown as a caveat.'
+    )
+
+
+class AdapterRef(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    from_connector_id: Id = Field(
+        ..., description='connector_types id of the station side.'
+    )
+    to_connector_id: Id = Field(..., description='connector_types id of the car side.')
+
+
+class NativeOrAdapter(Enum):
+    native = 'native'
+    adapter = 'adapter'
+    not_disclosed = 'not-disclosed'
+
+
+class SuperchargerAccess(Enum):
+    native = 'native'
+    adapter = 'adapter'
+    magic_dock = 'magic-dock'
+    none = 'none'
+    not_disclosed = 'not-disclosed'
+
+
+class ChargingPort(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    variant_id: Id
+    market: CountryCode
+    model_year_from: int = Field(..., ge=2008, le=2040)
+    model_year_to: int | None = Field(
+        None, description='null = still current.', ge=2008, le=2040
+    )
+    ac_inlet_id: Id | str
+    dc_inlet_id: Id | str | None = Field(
+        ..., description='connector_types id; null = no DC charging.'
+    )
+    native_or_adapter: NativeOrAdapter | None = Field(
+        None,
+        description="Whether the listed DC connector is the car's own inlet or reached through an included adapter.",
+    )
+    supercharger_access: SuperchargerAccess | None = Field(
+        None, description='(US) Can it use Tesla Superchargers, and how.'
+    )
+    adapters_included: list[AdapterRef] | None = None
+    source_ids: list[Id] = Field(
+        ..., description='Ids of rows in the catalogue sources list.', min_length=1
+    )
+    retrieved_at: date
+    confidence: Confidence
+    notes: str | None = None
+
+
+class ChargingArea1(Enum):
+    EU27 = 'EU27'
+    EUROPE = 'EUROPE'
+    WORLD = 'WORLD'
+
+
+class ChargingArea(RootModel[CountryCode | ChargingArea1]):
+    root: CountryCode | ChargingArea1 = Field(
+        ...,
+        description='A country, or an aggregate area for EAFO (EU27, EUROPE) and IEA (WORLD) series.',
+    )
+
+
+class ChargingMetric(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    unit: str = Field(
+        ...,
+        description='Metric unit: count, kW, %, per 100k people, EVs per point, kW per EV.',
+    )
+    higher_is_better: bool | None = Field(
+        None, description='false for evs-per-point; null = neutral.'
+    )
+    derived: bool | None = Field(
+        None,
+        description='true when we compute it (ratios) rather than read it from a source.',
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class Counts(Enum):
+    point = 'point'
+    device = 'device'
+    location = 'location'
+    connector = 'connector'
+    port = 'port'
+
+
+class ChargingDefinition(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    counts: Counts = Field(
+        ...,
+        description='Unit counted: a point is not a device is not a location is not a connector.',
+    )
+    country: ChargingArea | None = None
+    source_id: Id
+    includes_semi_public: bool | None = Field(
+        None, description='Supermarket / car-park points etc.'
+    )
+    fast_label: LocalizedText | None = Field(
+        None,
+        description="The source's own word for 'fast' (Nerd mode), e.g. 'Schnellladepunkt (>22 kW)'.",
+    )
+    valid_from: date | None = None
+    valid_to: date | None = None
+    replaced_by: Id | None = Field(
+        None, description='Definition that continues the series after a break.'
+    )
+    comparable_across_countries: bool | None = Field(
+        None, description='true only for EAFO / IEA definitions.'
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class Current1(Enum):
+    ac = 'ac'
+    dc = 'dc'
+    any = 'any'
+
+
+class PowerBand(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    current: Current1
+    min_kw: float = Field(..., description='Inclusive lower bound.', ge=0.0)
+    max_kw: float | None = Field(
+        None, description='Exclusive upper bound; null = open-ended.', ge=0.0
+    )
+    ours: bool | None = Field(None, description='true = one of our display bands.')
+    source_id: Id | None = Field(None, description="Set for a source's own band.")
+    maps_to: list[Id] | None = Field(
+        None,
+        description='Our band ids this source band falls into (one when it maps cleanly).',
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class EnteredBy(Enum):
+    pipeline = 'pipeline'
+    staff = 'staff'
+
+
+class ChargingStat(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: str
+    country: ChargingArea
+    region: str | None = Field(
+        None,
+        description='Sub-national region (e.g. a German state), null = whole country.',
+    )
+    period_end: date = Field(..., description='As-of date of the figure.')
+    metric_id: Id = Field(..., description='charging_metrics id.')
+    power_band_id: Id | None = Field(
+        None, description='power_bands id; null = all bands.'
+    )
+    value: float = Field(..., ge=0.0)
+    unit: str
+    source_id: Id
+    definition_id: Id = Field(..., description='charging_definitions id.')
+    confidence: Confidence
+    entered_by: EnteredBy
+    source_url: str | None = Field(
+        None,
+        description='Required when entered_by = staff (data/manual/charging/*.yaml).',
+    )
+    source_record: str | None = None
+    source_label: str | None = Field(
+        None, description="The source's own label for the figure (Nerd mode)."
+    )
+    retrieved_at: date
+    notes: str | None = None
+
+
+class Job(Enum):
+    official_map = 'official-map'
+    local_app = 'local-app'
+    map = 'map'
+    route_planner = 'route-planner'
+    price_compare = 'price-compare'
+
+
+class CountryChargingLink(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    country: CountryCode | str = Field(
+        ..., description='ALL = pan-European / global tool shown everywhere.'
+    )
+    tool: str = Field(..., description="Tool name, e.g. 'Chargemap'.")
+    url: str
+    job: Job
+    order: int = Field(..., ge=0)
+    label: LocalizedText | None = Field(
+        None, description='Optional link label override.'
+    )
+    deep_link_template: str | None = Field(
+        None,
+        description='URL template with {placeholders}, e.g. ABRP car model; null = plain link.',
+    )
+
+
+class RoadBand(Enum):
+    town = 'town'
+    rural = 'rural'
+    motorway = 'motorway'
+
+
+class HeatPumpFitment(Enum):
+    standard = 'standard'
+    option = 'option'
+    none = 'none'
+    not_disclosed = 'not-disclosed'
+
+
+class ConsumptionRung(Enum):
+    measured = 'measured'
+    platform = 'platform'
+    physics = 'physics'
+    wltp_ratio = 'wltp-ratio'
+
+
+class RoadClass(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    band: RoadBand
+    osm_highway: list[str] | None = Field(
+        None, description='OSM highway=* values, e.g. motorway, trunk, residential.'
+    )
+    max_speed_kmh: float | None = Field(
+        None, description='Typical limit when the way has no maxspeed tag.'
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class BandSpeeds(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    town: float = Field(..., ge=0.0)
+    rural: float = Field(..., ge=0.0)
+    motorway: float = Field(..., ge=0.0)
+
+
+class StyleOffsetKmh(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    slower: float | None = None
+    at_limit: float | None = None
+    faster: float | None = None
+
+
+class SpeedProfile(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText | None = Field(None, description='Plain-language label.')
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    country: CountryCode
+    speeds_kmh: BandSpeeds
+    style_offset_kmh: StyleOffsetKmh | None = Field(
+        None,
+        description='Offset applied per driving style; spec default -10 / 0 / +10.',
+    )
+    source_ids: list[Id] | None = None
+    valid_from: date | None = None
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class TemperatureBand(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    min_c: float | None = Field(None, description='Inclusive; null = open-ended.')
+    max_c: float | None = Field(None, description='Exclusive; null = open-ended.')
+    representative_c: float = Field(
+        ..., description='Temperature the matrix cell is computed at.'
+    )
+    order: int | None = None
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class TemperatureCurveItem(RootModel[list]):
+    root: list = Field(..., max_length=2, min_length=2)
+
+
+class HeaterType(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    temperature_curve: list[TemperatureCurveItem] | None = Field(
+        None,
+        description="(ambient °C, consumption factor vs 20 °C) points; a car's own winter test replaces it.",
+    )
+    warm_up_kwh: float | None = Field(
+        None,
+        description='Energy per cold start (cabin + battery); dropped when preheated on the plug.',
+        ge=0.0,
+    )
+    source_ids: list[Id] | None = None
+    confidence: Confidence | None = None
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class WeightLevel(Enum):
+    off = 'off'
+    low = 'low'
+    medium = 'medium'
+    high = 'high'
+    very_high = 'very-high'
+
+
+class Kind1(Enum):
+    base = 'base'
+    addon = 'addon'
+
+
+class UsageProfile(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    short: LocalizedText | None = Field(
+        None, description='Tooltip text, at most 20 words.'
+    )
+    kind: Kind1 | None = 'base'
+    applies_when: dict[str, list[str]] | None = Field(
+        None,
+        description='Picker answers that select this profile: question id → accepted answer ids.',
+    )
+    weights: dict[str, WeightLevel] | None = Field(
+        None,
+        description='Factor → weight (price, efficiency, dc_km_20min_winter, winter_1000km_time, ac_speed, battery_risk ...).',
+    )
+    weight_steps: dict[str, int] | None = Field(
+        None,
+        description='Add-ons: factor → steps up (+) or down (-), e.g. battery_risk +1.',
+    )
+    order: int | None = None
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class TestKind(Enum):
+    constant_speed = 'constant-speed'
+    route = 'route'
+    cycle = 'cycle'
+    owner_data = 'owner-data'
+
+
+class BandKm(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    town: float | None = Field(None, ge=0.0)
+    rural: float | None = Field(None, ge=0.0)
+    motorway: float | None = Field(None, ge=0.0)
+
+
+class TyreSeason(Enum):
+    summer = 'summer'
+    winter = 'winter'
+    all_season = 'all-season'
+    not_disclosed = 'not-disclosed'
+
+
+class EnergyBasis(Enum):
+    battery = 'battery'
+    wall = 'wall'
+    not_disclosed = 'not-disclosed'
+
+
+class Precipitation(Enum):
+    dry = 'dry'
+    wet = 'wet'
+    snow = 'snow'
+    not_disclosed = 'not-disclosed'
+
+
+class Conditions1(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    preconditioned: bool | None = None
+    hvac: str | None = Field(None, description="e.g. '21 °C auto'.")
+    heat_pump_fitted: bool | None = None
+    wind: str | None = None
+    precipitation: Precipitation | None = None
+    payload_kg: float | None = Field(None, ge=0.0)
+    battery_soh_pct: float | None = Field(None, ge=0.0, le=110.0)
+    software_version: str | None = None
+    notes: str | None = None
+
+
+class ConsumptionTest(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: str
+    variant_id: Id
+    test_kind: TestKind = Field(
+        ...,
+        description='constant-speed = steady speed run; route = mixed real route; cycle = lab cycle.',
+    )
+    speed_kmh: float | None = Field(
+        None, description='Constant speed, or average speed for a route.', ge=0.0
+    )
+    road_band: RoadBand | None = Field(
+        None, description='Band the test represents, if a single one.'
+    )
+    band_km: BandKm | None = Field(None, description='Route tests: km per road band.')
+    distance_km: float | None = Field(None, ge=0.0)
+    climb_m: float | None = Field(None, ge=0.0)
+    temperature_c: float = Field(
+        ..., description='Ambient temperature (average for the test).'
+    )
+    wheel_size_in: float | None = Field(
+        None,
+        description='Rim diameter code (ISO/ETRTO designation, inches by convention).',
+        ge=10.0,
+        le=26.0,
+    )
+    tyre: str | None = Field(None, description="Tyre size, e.g. '235/45 R19'.")
+    tyre_season: TyreSeason | None = None
+    consumption_wh_km: float = Field(..., gt=0.0)
+    energy_basis: EnergyBasis = Field(
+        ...,
+        description="battery = from the car's own meter / SoC; wall = includes charging losses.",
+    )
+    range_km: float | None = Field(
+        None, description='Range result, if the test reports one.', ge=0.0
+    )
+    observed_at: date | None = Field(None, description='Test date.')
+    conditions: Conditions1 | None = None
+    source: Source
+    source_record: str | None = None
+    retrieved_at: date
+    confidence: Confidence
+
+
+class ConsumptionCell(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    road_band: RoadBand
+    temperature_band_id: Id = Field(..., description='temperature_bands id.')
+    heater_type_id: Id | None = Field(
+        None,
+        description='Set when the variant has the heat pump as an option: one cell set per heater case.',
+    )
+    wh_km: float = Field(..., gt=0.0)
+    p10_wh_km: float | None = Field(None, gt=0.0)
+    p90_wh_km: float | None = Field(None, gt=0.0)
+    rung: ConsumptionRung
+    confidence: Confidence
+    test_ids: list[str] | None = Field(
+        None, description='ConsumptionTest ids behind a measured cell.'
+    )
+
+
+class ConsumptionModel(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    variant_id: Id
+    release: int = Field(..., ge=1)
+    model_version: str | None = Field(
+        None, description='Version of the model code that built it.'
+    )
+    heat_pump: HeatPumpFitment | None = None
+    usable_kwh: float | None = Field(None, ge=0.0)
+    mass_kg: float | None = Field(
+        None, description='Mass used for climb energy.', ge=0.0
+    )
+    warm_up_kwh: float | None = Field(
+        None, description='Per cold start; overrides the heater_types default.', ge=0.0
+    )
+    regen_recovery: float | None = Field(
+        None,
+        description='Share of climb energy recovered downhill (~0.6).',
+        ge=0.0,
+        le=1.0,
+    )
+    drivetrain_efficiency: float | None = Field(None, ge=0.0, le=1.0)
+    cells: list[ConsumptionCell] = Field(..., min_length=1)
+    generated_at: str | None = None
+
+
+class MonthlyClimate(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    month: int = Field(..., ge=1, le=12)
+    mean_c: float = Field(..., description='Mean daily temperature.')
+    p10_c: float | None = Field(
+        None, description='Colder 10th-percentile day (cold snap check).'
+    )
+    mean_min_c: float | None = None
+
+
+class LocationKind(Enum):
+    town = 'town'
+    grid_cell = 'grid-cell'
+
+
+class ClimateNormal(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    location_kind: LocationKind
+    name: str | None = None
+    country: CountryCode | None = None
+    geonames_id: int | None = None
+    lat: float = Field(..., ge=-90.0, le=90.0)
+    lon: float = Field(..., ge=-180.0, le=180.0)
+    grid_resolution_deg: float | None = Field(None, gt=0.0)
+    elevation_m: float | None = None
+    period: str = Field(
+        ...,
+        description="Reference period, e.g. '1991-2020'.",
+        pattern='^[0-9]{4}-[0-9]{4}$',
+    )
+    months: list[MonthlyClimate] = Field(..., max_length=12, min_length=12)
+    source_id: Id
+    retrieved_at: date
+
+
 class Variant(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -561,6 +1510,10 @@ class Variant(BaseModel):
     battery_pack_id: Id | None = None
     voltage: VariantVoltage | None = None
     charger_400v: Charger400vBehaviour | None = None
+    abrp_typecode: str | None = Field(
+        None,
+        description='ABRP car model code for deep links (Decision 012); null = plain ABRP link.',
+    )
 
 
 class Fact(BaseModel):
@@ -689,6 +1642,54 @@ class PublishedVariant(BaseModel):
         None,
         description='Per country: official counts (fleet and/or new registrations).',
     )
+    abrp_typecode: str | None = Field(
+        None, description='ABRP car model code; null = plain ABRP link.'
+    )
+    iso15118_20_support: Iso15118Support | None = Field(
+        'not-disclosed',
+        description='Car-side ISO 15118-20. Default not-disclosed; never inferred.',
+    )
+    bidi: list[BidiCapability] | None = Field(
+        None,
+        description='Bidirectional capabilities incl. rows inherited from the platform; keyed by model_years and per-country market_status.',
+    )
+    ports: list[ChargingPort] | None = Field(
+        None, description='Charging inlets per market and model-year range.'
+    )
+    heat_pump: HeatPumpFitment | None = Field(
+        None, description='Heat pump: standard / option / none / not-disclosed.'
+    )
+    drag_coefficient: float | None = Field(None, description='Cd, unitless.')
+    frontal_area_m2: float | None = None
+    kerb_mass_kg: float | None = Field(None, description='EU mass in running order.')
+    wheel_sizes_in: list[float] | None = Field(
+        None, description='Rim diameter codes offered (e.g. [18, 19, 20]).'
+    )
+
+
+class Taxonomy(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    voltage_classes: list[VoltageClass]
+    chemistries: list[Chemistry]
+    cooling_types: list[CoolingType]
+    glossary_terms: list[GlossaryTerm]
+    bidi_modes: list[BidiMode] | None = None
+    bidi_routes: list[BidiRoute] | None = None
+    bidi_protocols: list[BidiProtocol] | None = None
+    bidi_caveats: list[BidiCaveat] | None = None
+    bidi_status: list[BidiStatus] | None = None
+    connector_types: list[ConnectorType] | None = None
+    bidi_equipment: list[BidiEquipment] | None = None
+    charging_metrics: list[ChargingMetric] | None = None
+    charging_definitions: list[ChargingDefinition] | None = None
+    power_bands: list[PowerBand] | None = None
+    road_classes: list[RoadClass] | None = None
+    speed_profiles: list[SpeedProfile] | None = None
+    temperature_bands: list[TemperatureBand] | None = None
+    heater_types: list[HeaterType] | None = None
+    usage_profiles: list[UsageProfile] | None = None
 
 
 class Catalogue(BaseModel):

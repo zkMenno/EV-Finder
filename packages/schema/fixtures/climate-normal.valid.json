@@ -1,0 +1,74 @@
+{
+  "id": "geonames-2759794",
+  "location_kind": "town",
+  "name": "Amsterdam",
+  "country": "NL",
+  "geonames_id": 2759794,
+  "lat": 52.37,
+  "lon": 4.89,
+  "period": "1991-2020",
+  "months": [
+    {
+      "month": 1,
+      "mean_c": 1.0,
+      "p10_c": -4.0
+    },
+    {
+      "month": 2,
+      "mean_c": 2.0,
+      "p10_c": -3.0
+    },
+    {
+      "month": 3,
+      "mean_c": 5.5,
+      "p10_c": 0.5
+    },
+    {
+      "month": 4,
+      "mean_c": 9.5,
+      "p10_c": 4.5
+    },
+    {
+      "month": 5,
+      "mean_c": 13.5,
+      "p10_c": 8.5
+    },
+    {
+      "month": 6,
+      "mean_c": 16.5,
+      "p10_c": 11.5
+    },
+    {
+      "month": 7,
+      "mean_c": 19.0,
+      "p10_c": 14.0
+    },
+    {
+      "month": 8,
+      "mean_c": 19.0,
+      "p10_c": 14.0
+    },
+    {
+      "month": 9,
+      "mean_c": 16.0,
+      "p10_c": 11.0
+    },
+    {
+      "month": 10,
+      "mean_c": 12.0,
+      "p10_c": 7.0
+    },
+    {
+      "month": 11,
+      "mean_c": 7.5,
+      "p10_c": 2.5
+    },
+    {
+      "month": 12,
+      "mean_c": 4.0,
+      "p10_c": -1.0
+    }
+  ],
+  "source_id": "fixture",
+  "retrieved_at": "2026-11-15"
+}

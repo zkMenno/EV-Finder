@@ -1,0 +1,55 @@
+{
+  "id": "grid-52-4",
+  "location_kind": "grid-cell",
+  "lat": 152.0,
+  "lon": 4.9,
+  "period": "1991-2020",
+  "months": [
+    {
+      "month": 1,
+      "mean_c": -1.0
+    },
+    {
+      "month": 2,
+      "mean_c": 0.0
+    },
+    {
+      "month": 3,
+      "mean_c": 3.5
+    },
+    {
+      "month": 4,
+      "mean_c": 7.5
+    },
+    {
+      "month": 5,
+      "mean_c": 11.5
+    },
+    {
+      "month": 6,
+      "mean_c": 14.5
+    },
+    {
+      "month": 7,
+      "mean_c": 17.0
+    },
+    {
+      "month": 8,
+      "mean_c": 17.0
+    },
+    {
+      "month": 9,
+      "mean_c": 14.0
+    },
+    {
+      "month": 10,
+      "mean_c": 10.0
+    },
+    {
+      "month": 11,
+      "mean_c": 5.5
+    }
+  ],
+  "source_id": "fixture",
+  "retrieved_at": "2026-11-15"
+}

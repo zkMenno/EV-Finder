@@ -1,0 +1,10 @@
+{
+  "id": "dc-150-349",
+  "label": {
+    "en": "DC 150–349 kW"
+  },
+  "current": "dc",
+  "min_kw": 150,
+  "max_kw": 350,
+  "ours": true
+}

@@ -1,0 +1,15 @@
+{
+  "id": "de:2026-07-01:public-points-dc:dc-150-349",
+  "country": "DE",
+  "region": null,
+  "period_end": "2026-07-01",
+  "metric_id": "public-points-dc",
+  "power_band_id": "dc-150-349",
+  "value": 12345,
+  "unit": "count",
+  "source_id": "fixture",
+  "definition_id": "de-bnetza-ladepunkt",
+  "confidence": "high",
+  "entered_by": "pipeline",
+  "retrieved_at": "2026-11-15"
+}

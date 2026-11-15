@@ -1,0 +1,10 @@
+{
+  "id": "t-0",
+  "label": {
+    "en": "Around 0 °C"
+  },
+  "min_c": -3,
+  "max_c": 3,
+  "representative_c": 0,
+  "order": 2
+}

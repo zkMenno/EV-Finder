@@ -14,5 +14,9 @@
     "class_id": "400v",
     "switchable": false
   },
-  "charger_400v": { "mode": "native", "kw": null }
+  "charger_400v": {
+    "mode": "native",
+    "kw": null
+  },
+  "abrp_typecode": null
 }

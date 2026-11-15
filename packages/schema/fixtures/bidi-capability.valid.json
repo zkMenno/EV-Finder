@@ -1,0 +1,54 @@
+{
+  "id": "vw-meb-77-v2h-dc",
+  "subject_type": "platform",
+  "subject_id": "vw-meb",
+  "mode_id": "v2h",
+  "route_id": "dc-offboard",
+  "protocol_id": "iso15118-2-ext",
+  "max_kw_out": "not-disclosed",
+  "min_software": "ID. Software 3.5",
+  "min_battery_net_kwh": 77,
+  "build_date_from": null,
+  "model_years": [2023, 2024, 2025, 2026],
+  "equipment_ids": ["hager-e3dc-s10-e-compact", "elli-chargeline-bidi"],
+  "tariff_required": false,
+  "caveats": [
+    {
+      "id": "needs-dc-box"
+    },
+    {
+      "id": "software-min",
+      "param": "3.5"
+    },
+    {
+      "id": "battery-min",
+      "param": 77
+    },
+    {
+      "id": "discharge-cap"
+    }
+  ],
+  "market_status": {
+    "DE": {
+      "status_id": "live",
+      "source_ids": ["fixture"],
+      "checked_at": "2026-11-15",
+      "confidence": "medium",
+      "caveats": [
+        {
+          "id": "smart-meter-required"
+        }
+      ]
+    },
+    "NL": {
+      "status_id": "not-disclosed",
+      "source_ids": ["fixture"],
+      "checked_at": "2026-11-15",
+      "confidence": "low"
+    }
+  },
+  "eligibility_url": "https://example.org/eligibility",
+  "source_ids": ["fixture"],
+  "retrieved_at": "2026-11-15",
+  "confidence": "medium"
+}

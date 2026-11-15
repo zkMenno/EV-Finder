@@ -1,0 +1,9 @@
+{
+  "id": "x",
+  "variant_id": "vw-id3-pro-58kwh",
+  "test_kind": "constant-speed",
+  "temperature_c": 2,
+  "consumption_kwh_100km": 21.5,
+  "retrieved_at": "2026-11-15",
+  "confidence": "medium"
+}
