@@ -312,7 +312,7 @@ export function Hero(props: HeroProps) {
   };
 
   return (
-    <div className="rounded-lg border border-slate-300 bg-white p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero">
+    <div className="evs-tex evs-tex--map evs-tex--no-sun rounded-lg border border-slate-300 bg-white p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero">
       <div className="grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-[2.375rem] font-extrabold leading-tight tracking-tight sm:text-[3.25rem]">{t("hero.title")}</h1>
