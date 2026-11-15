@@ -44,6 +44,10 @@ import { generationHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import { LoanBox, LoanWarning, useLoanSettings, type FinanceUi } from "./PriceMode";
 import { profileName } from "./SuggestedSort";
 import { TermInfo, type TermText } from "./Term";
+import cityDay from "@/assets/illustrations/scene-city-hero-day.svg";
+import cityNight from "@/assets/illustrations/scene-city-night.svg";
+import villageDay from "@/assets/illustrations/scene-village-hero-day.svg";
+import villageNight from "@/assets/illustrations/scene-village-night.svg";
 
 export interface HeroProps {
   country: CountrySlug;
@@ -98,6 +102,22 @@ function presetLabel(p: ActivePreset, t: T, locale: string): string {
   }
   const n = formatNumber(p.min ?? p.max ?? 0, locale, 0);
   return t(`hero.preset.${p.field}.${p.min !== undefined ? "min" : "max"}` as MsgKey, { n });
+}
+
+// ── Home-hero scene (UX design v6): village, or city for city answers; day and night versions ──
+
+function Scene({ city }: { city: boolean }) {
+  const day = city ? cityDay : villageDay;
+  const night = city ? cityNight : villageNight;
+  return (
+    <div className="mx-auto w-full max-w-[14rem] md:max-w-[22rem]" aria-hidden="true">
+      {/* Decorative (alt=""); the theme CSS shows one of the two (globals.css .evs-scene). */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={day.src} width={day.width} height={day.height} alt="" className="evs-scene evs-scene--day" />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={night.src} width={night.width} height={night.height} alt="" loading="lazy" className="evs-scene evs-scene--night" />
+    </div>
+  );
 }
 
 // ── Small building blocks ───────────────────────────────────────────────────────────────────
@@ -289,8 +309,13 @@ export function Hero(props: HeroProps) {
 
   return (
     <div className="rounded-lg border border-slate-300 bg-white p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero">
-      <h1 className="font-[family-name:var(--font-display)] text-3xl font-extrabold tracking-tight sm:text-4xl">{t("hero.title")}</h1>
-      <p className="mt-2 max-w-2xl text-base text-slate-800">{t("hero.intro")}</p>
+      <div className="grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
+        <div>
+          <h1 className="font-[family-name:var(--font-display)] text-[2.375rem] font-extrabold leading-tight tracking-tight sm:text-[3.25rem]">{t("hero.title")}</h1>
+          <p className="mt-3 max-w-2xl text-lg text-slate-800">{t("hero.intro")}</p>
+        </div>
+        <Scene city={hero.answers.area === "city"} />
+      </div>
 
       <div className="mt-6 grid gap-6">
         <Step n={1} title={t("hero.step1")} t={t}>
