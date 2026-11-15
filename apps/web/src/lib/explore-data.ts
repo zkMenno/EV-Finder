@@ -1,6 +1,7 @@
 // Compact rows shipped to the browser for Explore. Same field names as PublishedVariant,
 // only the columns Explore needs, nulls dropped. Pure: safe on server and client.
 import type { FieldProvenance, PublishedVariant, Source } from "@ev/schema";
+import { compactBands, type CompactBands, type VariantUsedPrices } from "./variant-prices";
 
 export const EXPLORE_FIELDS = [
   "variant_id",
@@ -78,6 +79,8 @@ const NUMERIC = new Set<string>([
 
 export type ExploreRow = Pick<PublishedVariant, (typeof EXPLORE_FIELDS)[number]> & {
   provenance: Record<string, FieldProvenance>;
+  /** Used price bands by build year and country (T-081), compact; absent without data. */
+  used_bands?: CompactBands;
 };
 
 export interface ClientCatalogue {
@@ -87,7 +90,7 @@ export interface ClientCatalogue {
   rows: ExploreRow[];
 }
 
-export function toExploreRow(row: PublishedVariant): ExploreRow {
+export function toExploreRow(row: PublishedVariant, used?: VariantUsedPrices): ExploreRow {
   const out: Record<string, unknown> = {};
   for (const f of EXPLORE_FIELDS) {
     const v = row[f];
@@ -98,6 +101,8 @@ export function toExploreRow(row: PublishedVariant): ExploreRow {
     if (NUMERIC.has(k) || k.startsWith("price_new")) prov[k] = p;
   }
   out.provenance = prov;
+  const bands = compactBands(used?.get(row.variant_id));
+  if (bands) out.used_bands = bands;
   return out as ExploreRow;
 }
 
@@ -105,6 +110,6 @@ export function sourceNames(sources: Source[]): Record<string, string> {
   return Object.fromEntries(sources.map((s) => [s.id, s.name]));
 }
 
-export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[]): ClientCatalogue {
-  return { release, sources: sourceNames(sources), rows: rows.map(toExploreRow) };
+export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[], used?: VariantUsedPrices): ClientCatalogue {
+  return { release, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used)) };
 }

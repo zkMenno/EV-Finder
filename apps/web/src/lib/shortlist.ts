@@ -361,6 +361,10 @@ export interface PriceFit {
   yearFrom: number;
   yearTo: number | null;
   samples?: number;
+  /** Our model, not counted listings (T-081 `method: model`). */
+  estimate?: boolean;
+  /** Built on a list price from a nearby year or another country. */
+  lowConfidence?: boolean;
 }
 
 /** Bands for one generation in one country with enough samples (PriceBand.MIN_SAMPLES = 5). */
@@ -404,6 +408,32 @@ export function usedFit(row: ExploreRow, bands: UsedPriceBand[] | undefined, bud
   };
 }
 
+/**
+ * Per-variant bands by build year (T-081): the build years within the variant's years whose
+ * typical price fits the budget; the price shown is the newest of those years (no budget: the
+ * newest year). Null without bands for this country, or when none fits.
+ */
+export function variantFit(row: ExploreRow, country: Country, budget: number | null): PriceFit | null {
+  const list = row.used_bands?.[country];
+  if (!list?.length) return null;
+  const end = row.year_end ?? Infinity;
+  const inYears = list.filter(([y]) => y >= row.year_start && y <= end);
+  const fits = budget === null ? inYears : inYears.filter(([, , median]) => median <= budget);
+  if (!fits.length) return null;
+  const newest = fits[fits.length - 1]!;
+  const [year, p25, median, p75, flags] = newest;
+  return {
+    kind: "used",
+    amount: median,
+    low: p25,
+    high: p75,
+    yearFrom: budget === null ? year : fits[0]![0],
+    yearTo: year,
+    estimate: (flags & 1) === 1,
+    lowConfidence: (flags & 2) === 2,
+  };
+}
+
 function newFit(row: ExploreRow, country: Country): PriceFit | null {
   if (row.on_sale_new !== true) return null;
   const p = priceFor(row, country);
@@ -416,7 +446,15 @@ export function priceFit(
   opts: { country: Country; cond: Condition; budget: number | null; usedBands?: UsedBands; nowYear: number },
 ): { fit: PriceFit | null; over: boolean } {
   const cands: PriceFit[] = [];
-  if (opts.cond !== "new") {
+  if (opts.cond !== "new" && row.used_bands?.[opts.country]?.length) {
+    // Per-variant bands by build year (T-081) win over generation bands.
+    const v = variantFit(row, opts.country, opts.budget);
+    if (v) cands.push(v);
+    else {
+      const any = variantFit(row, opts.country, null);
+      if (any) cands.push({ ...any, amount: Infinity });
+    }
+  } else if (opts.cond !== "new") {
     const anyBand = usedFit(row, opts.usedBands?.[row.generation_id], null, opts.nowYear);
     const u = usedFit(row, opts.usedBands?.[row.generation_id], opts.budget, opts.nowYear);
     if (u) cands.push(u);

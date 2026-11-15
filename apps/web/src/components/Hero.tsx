@@ -766,6 +766,7 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   else if (pick.price.low !== null && pick.price.high !== null)
     price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high) });
   else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount) });
+  const priceNote = pick.price?.estimate ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate") : null;
 
   return (
     <li className="rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank} data-variant={row.variant_id}>
@@ -800,6 +801,7 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               <dt className="text-slate-700">{t("hero.card.price")}</dt>
               <dd className="font-semibold" data-testid="hero-price">
                 {price}
+                {priceNote ? <span className="block text-xs font-normal text-slate-700" data-testid="hero-price-note">{priceNote}</span> : null}
                 {monthly ? <span className="block text-sm font-normal text-slate-800">{t("hero.monthly", { amount: r.money(monthly.monthly) })}</span> : null}
               </dd>
             </div>
