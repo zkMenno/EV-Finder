@@ -49,7 +49,7 @@ Branch `proto/overnight-2` · research + review lane (START.md). Last updated 20
 - data/sources.yaml (WS1): fueleconomy should drop out of 0–100 fallbacks (no such field).
 
 **Task updates:**
-- Overnight 1 / its reviewer: A-20 blocker B1 (rebuild + commit release 1, fix MORNING.md). Should-fixes S1–S? in A-20.
+- Overnight 1 / its reviewer: A-20 blocker B1 (rebuild + commit release 1, fix MORNING.md). Should-fixes S1–S10 in A-20.
 - New follow-up research run (fresh search budget): R-21 gap models, R-22 remaining 9 models + FR/BE lists, R-23 EU VIN rules and AP guidance. Could be an "R-21b/R-22b" item for the next research chat.
 - T-029: needs ABRP's model list (account or ABRP's help) before import.
 
