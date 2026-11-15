@@ -14,6 +14,7 @@ from ev_pipeline.match.matcher import (
     find_model,
     match_records,
     normalise_unit,
+    registration_entries,
 )
 from ev_pipeline.match.normalise import key, slug, strip_accents, tokens
 from ev_pipeline.match.review import unmatched_rows, write_unmatched
@@ -506,16 +507,39 @@ def test_leaf_shared_year_prefers_older_generation_on_battery_evidence() -> None
     assert agg["nissan-leaf-ze1"].value == 128 and agg["nissan-leaf-gen3"].value == 29
 
 
-def test_shared_year_without_evidence_goes_to_review_when_both_generations_have_variants():
+def test_shared_year_without_evidence_is_counted_at_model_level_never_split():
+    """RDW shared year, both generations have variants, no name/battery evidence: the cars
+    are counted for the model (level "model"), not guessed into a generation, not split by
+    a ratio and not sent to review (coverage-gaps finding 6)."""
+    from ev_pipeline.match.matcher import SHARED_YEAR_NOTE
     from ev_pipeline.match.seed import parse_seed
 
     seed = parse_seed(LEAF_SEED)
     manual = _manual("kona-os", "kona-os-64", "64 kWh", 2018, 64)
     manual += _manual("kona-sx2", "kona-sx2-65", "65.4 kWh", 2023, 65.4)
     res = match_records([_count("KONA", 2023, 1667), _count("KONA", 2022, 1192)], seed, manual)
-    [row] = res.unmatched
-    assert row.reason.startswith("ambiguous-generation") and row.year == "2023"
-    assert [mf.generation_id for mf in res.count_facts] == ["kona-os"]  # 2022: one generation
+    assert res.unmatched == []
+    by_year = {mf.year: mf for mf in res.count_facts}
+    assert by_year[2022].generation_id == "kona-os"  # 2022: one generation
+    shared = by_year[2023]
+    assert shared.generation_id is None and shared.model_id == "hyundai-kona-electric"
+    assert shared.fact.subject_type.value == "model" and shared.fact.value == 1667
+    assert SHARED_YEAR_NOTE in (shared.note or "") and "ambiguous-generation" in shared.note
+    # registered_count_nl (aggregate_counts) stays generation level: the 2023 cars are not in it.
+    agg = aggregate_counts(res.count_facts, seed, "rdw", "NL")
+    assert {g: a.value for g, a in agg.items()} == {"kona-os": 1192}
+    # PublishedVariant.registrations: one model-level entry with the whole shared-year count on
+    # every generation, next to (never added to) the generation-level entry.
+    regs = registration_entries(res.count_facts, seed)
+    for gid in ("kona-os", "kona-sx2"):
+        model_level = [e for e in regs[gid]["NL"] if e.level == "model"]
+        assert [(e.count, e.kind, e.source_id) for e in model_level] == [(1667, "fleet", "rdw")]
+        assert model_level[0].fact_ids == [shared.fact.id]
+        assert any(SHARED_YEAR_NOTE in n for n in model_level[0].notes)
+    assert [(e.count, e.level) for e in regs["kona-os"]["NL"] if e.level == "generation"] == [
+        (1192, "generation")
+    ]
+    assert not [e for e in regs["kona-sx2"]["NL"] if e.level == "generation"]
     # Without the evidence index the plain "newer wins" rule still applies (Q-014).
     assert find_generation(seed.models["hyundai-kona-electric"], 2023)[0].id == "kona-sx2"
 
@@ -618,3 +642,161 @@ def test_year_band_split_ends_an_open_seed_manual_span() -> None:
     assert base.years == {2020} and base.explicit_end == 2023 and not base.open_end
     assert later.years == {2024, 2025} and later.open_end
     assert base.source_ids == {"seed-manual"} and later.source_ids == {"openev"}
+
+
+# --- Q-062: seed variant source_names (one row per real car) ------------------------------
+
+MG_SEED = {
+    "makes": [
+        {
+            "id": "mg",
+            "name": "MG",
+            "make_aliases_by_source": {"openev": ["MG Motor"]},
+            "models": [
+                {
+                    "id": "mg-mg4",
+                    "name": "MG4",
+                    "generations": [{"id": "mg4-g1", "years": [2022, None]}],
+                }
+            ],
+        }
+    ]
+}
+
+
+def _mg_manual(source_names: dict | None = None):
+    from ev_pipeline.match.seed import parse_manual_variants
+
+    v = {
+        "generation_id": "mg4-g1",
+        "id": "mg4-g1-standard",
+        "name": "Standard Range (51 kWh)",
+        "years": [2023, None],
+        "specs": {"battery_kwh_net": 51},
+    }
+    if source_names is not None:
+        v["source_names"] = source_names
+    return parse_manual_variants({"variants": [v]}, date(2026, 11, 14))[0]
+
+
+def _mg_openev(variant: str, year: int = 2024, net: float = 49):
+    return _rec(
+        "MG Motor",
+        "MG4",
+        variant,
+        year,
+        specs={
+            "battery_kwh_net": SpecValue(value=net, unit="kWh"),
+            "wltp_range_km": SpecValue(value=350, unit="km"),
+        },
+    )
+
+
+def test_source_names_join_other_sources_trims_to_the_seed_variant() -> None:
+    from ev_pipeline.match.seed import parse_seed
+
+    seed = parse_seed(MG_SEED)
+    manual = _mg_manual({"openev": ["Standard", "Standard Range"]})
+    recs = [_mg_openev("Standard"), _mg_openev("Standard Range"), _mg_openev("Trophy", net=61)]
+    res = match_records(recs, seed, manual, scoped_aliases=True)
+    assert sorted(res.variants) == ["mg4-g1-standard", "mg4-g1-trophy"]
+    on_seed = {
+        mf.fact.source_record
+        for mf in res.spec_facts
+        if mf.fact.subject_id.root == "mg4-g1-standard"
+    }
+    assert on_seed == {
+        "mg4-g1-standard",
+        "MG Motor/MG4/Standard/2024",
+        "MG Motor/MG4/Standard Range/2024",
+    }
+    assert res.variants["mg4-g1-standard"].name == "Standard Range (51 kWh)"  # seed name kept
+
+
+def test_source_names_are_scoped_to_their_source() -> None:
+    from ev_pipeline.match.seed import parse_seed
+
+    seed = parse_seed(MG_SEED)
+    manual = _mg_manual({"kilowatt-openev": ["Standard"]})  # not an OpenEV name
+    res = match_records([_mg_openev("Standard Range")], seed, manual, scoped_aliases=True)
+    assert "mg4-g1-standard-range" in res.variants  # OpenEV's name was not aliased: own row
+    assert res.variants["mg4-g1-standard"].source_names == {"kilowatt-openev": {"standard"}}
+
+
+def test_without_source_names_openev_trims_stay_separate_rows() -> None:
+    from ev_pipeline.match.seed import parse_seed
+
+    seed = parse_seed(MG_SEED)
+    res = match_records([_mg_openev("Standard Range")], seed, _mg_manual(), scoped_aliases=True)
+    assert sorted(res.variants) == ["mg4-g1-standard", "mg4-g1-standard-range"]
+
+
+def test_attach_only_record_matches_a_source_name_exactly() -> None:
+    from ev_pipeline.match.seed import parse_manual_variants, parse_seed
+
+    seed = parse_seed(MG_SEED)
+    data = {
+        "variants": [
+            {"generation_id": "mg4-g1", "id": "mg4-g1-standard", "name": "Standard Range (51 kWh)",
+             "years": [2022, None], "specs": {"battery_kwh_net": 51},
+             "source_names": {"kilowatt-openev": ["SR"]}},
+            {"generation_id": "mg4-g1", "id": "mg4-g1-long-range", "name": "Long Range (64 kWh)",
+             "years": [2022, None], "specs": {"battery_kwh_net": 61.7}},
+        ]
+    }  # fmt: skip
+    manual = parse_manual_variants(data, date(2026, 11, 14))[0]
+    kw = {"id": "kilowatt-openev", "name": "KilowattApp", "licence": "MIT"}
+    rec = _rec(
+        "MG", "MG4 EV", "SR", 2022, source=kw, specs={"dc_peak_kw": SpecValue(value=117, unit="kW")}
+    )
+    res = match_records([rec], seed, manual, scoped_aliases=True)
+    [mf] = [m for m in res.spec_facts if m.source_id == "kilowatt-openev"]
+    assert mf.fact.subject_id.root == "mg4-g1-standard"
+
+
+def test_source_names_bad_shapes_and_clashes_are_rejected() -> None:
+    from ev_pipeline.match.seed import parse_manual_variants, parse_seed, parse_source_names
+
+    assert parse_source_names({"openev,kilowatt-openev": ["Std"]}, "v") == {
+        "openev": {"std"},
+        "kilowatt-openev": {"std"},
+    }
+    for bad in (["Standard"], {"openev": "Standard"}, {"openev": [""]}, {"": ["x"]}):
+        with pytest.raises(ValueError):
+            parse_source_names(bad, "v")
+    seed = parse_seed(MG_SEED)
+    data = {
+        "variants": [
+            {"generation_id": "mg4-g1", "id": f"mg4-g1-{i}", "name": n, "years": [2022, None],
+             "specs": {}, "source_names": {"openev": ["Standard"]}}
+            for i, n in (("a", "A"), ("b", "B"))
+        ]
+    }  # fmt: skip
+    manual = parse_manual_variants(data, date(2026, 11, 14))[0]
+    with pytest.raises(ValueError, match="source_names"):
+        match_records([], seed, manual)
+
+
+def test_variants_validator_checks_source_names() -> None:
+    import importlib.util
+
+    path = Path(__file__).resolve().parents[2] / "data" / "seed" / "validate_variants.py"
+    spec = importlib.util.spec_from_file_location("validate_variants", path)
+    assert spec is not None and spec.loader is not None
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    base = {"generation_id": "g", "years": [2022, None], "drivetrain": "rwd", "specs": {},
+            "confidence": "low"}  # fmt: skip
+    doc = {
+        "source": {"id": "seed-manual", "name": "s", "licence": "CC-BY-4.0", "attribution": "a"},
+        "variants": [
+            {**base, "id": "g-a", "name": "A", "source_names": {"openev": ["Standard"]}},
+            {**base, "id": "g-b", "name": "B", "source_names": {"openev": ["STANDARD"]}},
+            {**base, "id": "g-c", "name": "C", "source_names": {"openev": "Standard"}},
+            {**base, "id": "g-d", "name": "D", "source_names": {"openev": ["Trophy"]}},
+        ],
+    }
+    errors = mod.validate(doc, {"g": (2022, None)})
+    assert any("g-b" in e and "also on g-a" in e for e in errors)
+    assert any("g-c" in e and "non-empty names" in e for e in errors)
+    assert not any("g-d" in e or "g-a)" in e for e in errors)

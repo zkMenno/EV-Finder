@@ -272,6 +272,31 @@ class ManualVariant:
     year_start: int | None
     year_end: int | None
     record: SourceRecord
+    # Q-062: the names other sources give this same car (`source_names: {openev: [Standard,
+    # "Standard Range"]}` in variants.yaml; keys may be "a,b"). Source id -> normalised keys.
+    # A record of that source with that variant name in this generation joins this variant
+    # instead of making a near-duplicate row of its own.
+    source_names: dict[str, set[str]] = field(default_factory=dict)
+
+
+def parse_source_names(raw: Any, vid: str) -> dict[str, set[str]]:
+    """`source_names` of one seed-manual variant -> source id -> normalised name keys."""
+    out: dict[str, set[str]] = {}
+    if raw is None:
+        return out
+    if not isinstance(raw, dict):
+        raise ValueError(f"{vid}: source_names must map source ids to lists of names")
+    for keys, names in raw.items():
+        sids = [x.strip() for x in str(keys).split(",") if x.strip()]
+        if not sids or not isinstance(names, list):
+            raise ValueError(f"{vid}: bad source_names entry {keys!r}: {names!r}")
+        for n in names:
+            k = key(str(n))
+            if not k:
+                raise ValueError(f"{vid}: empty name in source_names for {keys}")
+            for sid in sids:
+                out.setdefault(sid, set()).add(k)
+    return out
 
 
 def parse_manual_variants(
@@ -336,6 +361,7 @@ def parse_manual_variants(
                 year_start=years[0],
                 year_end=years[1] if len(years) > 1 else None,
                 record=record,
+                source_names=parse_source_names(v.get("source_names"), vid),
             )
         )
     return out, problems

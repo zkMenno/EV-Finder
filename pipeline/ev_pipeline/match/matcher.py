@@ -73,6 +73,7 @@ import json
 import os
 import re
 from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from ev_pipeline.match.normalise import key, prefix_keys, slug, tokens
@@ -122,9 +123,14 @@ COUNT_KIND: dict[str, str] = {
     "eea": "new_registrations",
 }
 # Count sources placed at model level (not sent to review) when their year is shared by two
-# generations without evidence (`ambiguous-generation`). A year outside every generation
-# (KBA 2025 "GOLF" BEV: the e-Golf ended in 2020) still goes to review.
-MODEL_LEVEL_FALLBACK = frozenset({"kba-fz10"})
+# generations without evidence (`ambiguous-generation`): the cars are counted for the model
+# without guessing the generation, and never split between generations by a ratio. RDW
+# joined on 2026-11-15 (coverage-gaps finding 6: about 10,400 NL cars of Niro 2022, Zoe 2019,
+# Kona 2023, Model S 2016, e-Golf 2017, Soul 2019). A year outside every generation
+# (KBA 2025 "GOLF" BEV: the e-Golf ended in 2020) still goes to review. EEA still sends a
+# shared year to review (no such EEA year in the 2025/2026 files).
+MODEL_LEVEL_FALLBACK = frozenset({"kba-fz10", "rdw"})
+SHARED_YEAR_NOTE = "shared year, generation unknown"
 _KBA_PERIOD_RE = re.compile(r"YTD (\d{4}-\d{2}\.\.\d{2})")
 _DFT_PERIOD_RE = re.compile(r"(\d{4}) Q([1-4])")
 
@@ -230,6 +236,13 @@ class VariantInfo:
     open_end: bool = False  # seed-manual years [start, null]
     drivetrains: list[tuple[int, str, str]] = field(default_factory=list)  # (prio, value, src)
     source_ids: set[str] = field(default_factory=set)
+    # Q-062: names other sources use for this variant (seed-manual `source_names`).
+    source_names: dict[str, set[str]] = field(default_factory=dict)
+
+    def named(self, source_id: str, name: str | None) -> bool:
+        """True when `name` is this variant's name or one of `source_id`'s names for it."""
+        k = key(name or "base")
+        return k == key(self.name) or k in self.source_names.get(source_id, set())
 
 
 @dataclass
@@ -568,6 +581,8 @@ def build_evidence(
         if mv.record.source.id.root in EXCLUDED_SOURCES or mv.generation_id not in seed.generations:
             continue
         ev.add_variant(mv.generation_id, mv.name, record_kwh(mv.record))
+        for keys in mv.source_names.values():
+            ev.names.setdefault(mv.generation_id, set()).update(keys)
     for rec in records:
         sid = rec.source.id.root
         if rec.kind != "spec" or sid in EXCLUDED_SOURCES or sid in COUNT_ONLY_SOURCES:
@@ -605,6 +620,8 @@ def match_records(
     evidence = build_evidence(records, seed, manual, generation_kwh, scoped)
     # (generation_id, variant name key) -> variant id
     variant_ids: dict[tuple[str, str], str] = {}
+    # Q-062: (generation_id, source id, variant name key) -> seed-manual variant id
+    source_name_ids: dict[tuple[str, str, str], str] = {}
 
     for mv in manual:
         if mv.record.source.id.root in EXCLUDED_SOURCES:
@@ -617,7 +634,14 @@ def match_records(
             )
             continue
         variant_ids[(gen.id, key(mv.name))] = mv.id
+        for sid_, keys in mv.source_names.items():
+            for k in keys:
+                prev = source_name_ids.setdefault((gen.id, sid_, k), mv.id)
+                if prev != mv.id:
+                    raise ValueError(f"source_names: {sid_} {k!r} on {prev} and {mv.id}")
         info = result.variants.setdefault(mv.id, VariantInfo(mv.id, gen.id, mv.name))
+        for sid_, keys in mv.source_names.items():
+            info.source_names.setdefault(sid_, set()).update(keys)
         if mv.year_start is not None:
             info.years.add(int(mv.year_start))
         if mv.year_end is not None:
@@ -672,7 +696,7 @@ def match_records(
             continue
         name = rec.variant_name or "base"
         vkey = (gen.id, key(name) or "base")
-        vid = variant_ids.get(vkey)
+        vid = source_name_ids.get((gen.id, sid, vkey[1])) or variant_ids.get(vkey)
         if vid is None:
             vid = f"{gen.id}-{slug(name) or 'base'}"
             variant_ids[vkey] = vid
@@ -849,7 +873,7 @@ def attach_records(
                 )
             )
         rec_name = rec.variant_name or ""
-        exact = [c for c in cands if key(result.variants[c.root].name) == key(rec_name or "base")]
+        exact = [c for c in cands if result.variants[c.root].named(sid, rec_name)]
         if len(exact) == 1:
             chosen, why = exact[0], ""
         elif len(cands) == 1:
@@ -972,7 +996,7 @@ def _add_count(
             and why.startswith(AMBIGUOUS_GENERATION)
         ):
             subject_type, subject_id, gen_id = "model", model.id, None
-            note = "; ".join(x for x in (note, f"model level: {why}") if x)
+            note = "; ".join(x for x in (note, f"model level: {SHARED_YEAR_NOTE} ({why})") if x)
         elif gen is None:
             result.unmatched.append(_unmatched(rec, why))
             return
@@ -1167,7 +1191,9 @@ def registration_entries(
     generation), the whole group's count for that model is one model-level entry, repeated
     on every generation of the model (level "model"; "generation" for a one-generation
     model). Nothing is summed across sources, periods or kinds. RDW keeps `aggregate_counts`
-    so its NL fleet equals registered_count_nl."""
+    so its NL fleet equals registered_count_nl; its shared-year cars (model-level facts that
+    `aggregate_counts` leaves out) become one extra entry per model with level "model",
+    repeated on every generation and never added to the generation entry."""
     out: dict[str, dict[str, list[RegistrationEntry]]] = {}
     groups: dict[tuple[str, str, str], list[MatchedFact]] = {}
     for mf in count_facts:
@@ -1184,13 +1210,16 @@ def registration_entries(
         kind = COUNT_KIND[sid]
         if sid == "rdw":
             by_id = {mf.fact.id: mf for mf in mfs}
+            taken: set[str] = set()
             for gid, agg in aggregate_counts(mfs, seed, sid, cc).items():
                 used = [by_id[f] for f in agg.fact_ids]
+                taken.update(agg.fact_ids)
                 conf = min((_conf_of(m) for m in used), key=lambda c: _CONF_ORDER[c])
                 add(gid, cc, RegistrationEntry(
                     agg.value, kind, period or None, agg.level, sid, agg.fact_ids, conf,
                     sorted({m.note for m in used if m.note}),
                 ))  # fmt: skip
+            _add_rdw_model_level(mfs, taken, seed, cc, kind, period, add)
             continue
         by_model: dict[str, list[MatchedFact]] = {}
         for mf in mfs:
@@ -1213,3 +1242,33 @@ def registration_entries(
                     [m.fact.id for m in used], conf, sorted({m.note for m in used if m.note}),
                 ))  # fmt: skip
     return out
+
+
+def _add_rdw_model_level(
+    mfs: list[MatchedFact],
+    taken: set[str],
+    seed: Seed,
+    cc: str,
+    kind: str,
+    period: str,
+    add: Callable[[str, str, RegistrationEntry], None],
+) -> None:
+    """RDW shared-year cars (MODEL_LEVEL_FALLBACK): one model-level entry per model, repeated
+    on every generation of a multi-generation model. Never split, never summed into the
+    generation entry (registered_count_nl stays the generation-level fleet)."""
+    by_model: dict[str, list[MatchedFact]] = {}
+    for mf in mfs:
+        if mf.generation_id is None and mf.year is not None and mf.fact.id not in taken:
+            by_model.setdefault(str(mf.model_id), []).append(mf)
+    for model_id, items in sorted(by_model.items()):
+        gens = seed.models[model_id].generations
+        if len(gens) < 2:
+            continue  # a shared year needs two generations; nothing to place
+        items = sorted(items, key=lambda m: m.fact.id)
+        conf = min((_conf_of(m) for m in items), key=lambda c: _CONF_ORDER[c])
+        notes = sorted({m.note for m in items if m.note})
+        for g in gens:
+            add(g.id, cc, RegistrationEntry(
+                sum(int(m.fact.value) for m in items), kind, period or None, "model", "rdw",
+                [m.fact.id for m in items], conf, notes,
+            ))  # fmt: skip

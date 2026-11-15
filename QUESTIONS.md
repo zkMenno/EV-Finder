@@ -304,6 +304,11 @@ No answer needed unless you disagree. Seed variants can now list the names other
 
 **Answer:**
 
+### Q-068 · RDW WLTP + NL price records: how matching should take them · match (coordinator) · coverage-gaps findings 3–4 · pipeline builder (rdw) · 2026-11-15
+No answer needed from Menno; this is for the coordinator / match builder. `ev normalise rdw` now also emits `kind="spec"` records: `wltp_range_km`, `consumption_kwh_100km` (one field per record) and `price_new` (country NL, EUR), per make × trade name × year of first admission, confidence medium, each with a `registered_count` weight (the cars behind the median; `_add_spec_facts` skips it). Groups whose spread is wide (IQR > 5 % of the median) or too small (< 5 cars) emit nothing. **Open point:** `rdw` is not in `ATTACH_ONLY_SOURCES`, so as it stands each record becomes a new `<generation>-base` variant (no `variant_name`). **Default (recommended):** add `rdw` to `ATTACH_ONLY_SOURCES` before the next release, so a record attaches to the generation's only variant or the one its WLTP km points to. If that can't land first, run the release without these records (filter `kind == "spec"` for `rdw`). Two smaller points: (1) the WLTP values come from a 10 % plate sample (Socrata refuses joins and has no percentile function), the price median from the full group; (2) an RDW app token would unlock nothing useful (SODA3 needs one, but joins were not tested there), so no account is needed.
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15

@@ -1401,6 +1401,11 @@ variants:
     id: mg-mg4-gen1-standard
     name: "Standard Range (51 kWh)"
     years: [2022, null]
+    # Q-062: OpenEV lists this car twice, as "Standard" and "Standard Range" (both 51 kWh gross /
+    # 49 net, 125 kW, WLTP 350 km in openev 2023-2025), so both names join this row.
+    source_names:
+      openev: ["Standard", "Standard Range"]
+      kilowatt-openev: ["Standard Range"]
     drivetrain: rwd
     specs:
       battery_kwh_net: 51
@@ -1416,6 +1421,11 @@ variants:
     id: mg-mg4-gen1-long-range
     name: "Long Range (64 kWh)"
     years: [2022, null]
+    # Q-062: OpenEV "Trophy" is this car (64 kWh gross / 61 net, 150 kW, like the seed). OpenEV
+    # "Standard Long Range" has the same pack but 125 kW, so it stays its own row.
+    source_names:
+      openev: ["Trophy"]
+      kilowatt-openev: ["Long Range"]
     drivetrain: rwd
     specs:
       battery_kwh_net: 61.7

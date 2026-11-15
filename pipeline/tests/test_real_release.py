@@ -311,9 +311,12 @@ def test_registrations_are_never_summed_across_sources_or_periods(
     bad = []
     for r in rows:
         for cc, entries in (r.get("registrations") or {}).items():
-            keys = [(e["source_id"], e["period"]) for e in entries]
+            # One entry per source, period and level. RDW may have two for one period: its
+            # generation-level fleet and its shared-year cars at model level (matcher
+            # MODEL_LEVEL_FALLBACK); they are separate lines, never added together.
+            keys = [(e["source_id"], e["period"], e.get("level")) for e in entries]
             if len(keys) != len(set(keys)):
-                bad.append((r["variant_id"], cc, "duplicate source/period"))
+                bad.append((r["variant_id"], cc, "duplicate source/period/level"))
             for e in entries:
                 if COUNT_KIND.get(e["source_id"]) != e["kind"]:
                     bad.append((r["variant_id"], cc, e["source_id"], e["kind"]))
@@ -326,9 +329,23 @@ def test_registrations_are_never_summed_across_sources_or_periods(
                 if e["source_id"] != "rdw":  # RDW: summed per first-admission year (below)
                     own = [f for f in own if (e["period"] or "") in (f["source_record"] or "")
                            or e["source_id"] == "eea"]  # fmt: skip
-                if own and sum(f["value_num"] for f in own) != e["count"]:
+                if e["source_id"] == "rdw":  # facts of both RDW levels are cited together
+                    total = sum(x["count"] for x in entries if x["source_id"] == "rdw")
+                    if own and sum(f["value_num"] for f in own) != total:
+                        bad.append((r["variant_id"], cc, "rdw", total))
+                elif own and sum(f["value_num"] for f in own) != e["count"]:
                     bad.append((r["variant_id"], cc, e["source_id"], e["count"]))
-        nl = [e for e in (r.get("registrations") or {}).get("NL", []) if e["source_id"] == "rdw"]
+        nl = [
+            e
+            for e in (r.get("registrations") or {}).get("NL", [])
+            if e["source_id"] == "rdw" and e.get("level") != "model"
+        ]
+        # A shared-year RDW model-level entry needs a model with 2+ generations.
+        for e in (r.get("registrations") or {}).get("NL", []):
+            if e["source_id"] == "rdw" and e.get("level") == "model":
+                gens = {x["generation_id"] for x in rows if x["model_id"] == r["model_id"]}
+                if len(gens) < 2:
+                    bad.append((r["variant_id"], "NL", "rdw model level on a 1-generation model"))
         nl_counts = [(e["count"], e["kind"]) for e in nl]
         if r.get("registered_count_nl") is not None and nl_counts != [
             (r["registered_count_nl"], "fleet")
@@ -388,3 +405,42 @@ def test_kilowatt_consumption_is_never_published(facts: dict[str, dict[str, Any]
         for f in facts.values()
         if f["source_id"] == "kilowatt-openev" and f["field"] == "consumption_kwh_100km"
     ]
+
+
+def test_mg4_has_one_row_per_real_car(rows: list[dict[str, Any]]) -> None:
+    """Q-062: OpenEV's MG4 trims ("Standard", "Standard Range", "Trophy") join the seed rows
+    via `source_names` in data/seed/variants.yaml; no near-duplicate MG4 rows."""
+    mg4 = sorted(r["variant_id"] for r in rows if r["generation_id"] == "mg-mg4-gen1")
+    if not mg4:
+        pytest.skip("no MG4 rows in this release")
+    for dup in ("mg-mg4-gen1-standard-range", "mg-mg4-gen1-trophy"):
+        assert dup not in mg4
+    # Same pack, same power, same WLTP = same car: at most one row per (kWh, kW, WLTP) and band.
+    seen: dict[tuple[Any, ...], str] = {}
+    for r in rows:
+        if r["generation_id"] != "mg-mg4-gen1":
+            continue
+        k = (r.get("battery_kwh_net"), r.get("power_kw"), r.get("wltp_range_km"), r["year_start"])
+        assert k not in seen, (r["variant_id"], seen.get(k))
+        seen[k] = r["variant_id"]
+
+
+def test_rdw_shared_years_are_counted_at_model_level(rows: list[dict[str, Any]]) -> None:
+    """Coverage-gaps finding 6: RDW cars of a shared year are counted for the model with a
+    'shared year, generation unknown' note, on every generation, never split."""
+    entries = [
+        (r["generation_id"], e)
+        for r in rows
+        for e in (r.get("registrations") or {}).get("NL", [])
+        if e["source_id"] == "rdw" and e.get("level") == "model"
+    ]
+    if not entries:
+        pytest.skip("no shared-year RDW counts in this release")
+    by_model: dict[str, set[int]] = {}
+    for r in rows:
+        for e in (r.get("registrations") or {}).get("NL", []):
+            if e["source_id"] == "rdw" and e.get("level") == "model":
+                by_model.setdefault(r["model_id"], set()).add(e["count"])
+                note = r["provenance"]["registrations.NL"].get("note", "")
+                assert "shared year, generation unknown" in note, r["variant_id"]
+    assert all(len(v) == 1 for v in by_model.values()), by_model  # same number everywhere

@@ -109,7 +109,7 @@ makes:
             name: Phase 2 (ZE50)
             years: [2019, 2024]
             uncertain: true
-            notes: "Launched late 2019, most deliveries from 2020. Production reported to have ended early 2024; confirm last model year."
+            notes: "Launched late 2019, most deliveries from 2020. Production reported to have ended early 2024; confirm last model year. End year kept at 2024. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). 2025: RDW 2 cars (under 0.1% of the 7861 NL cars of 2020-2024), EEA 39 (DE 6, FR 17, BE 14, NL 2), KBA 7; likely late stock."
             change_markers:
               - {year: 2019, text: "52 kWh battery, new interior, optional 50 kW CCS"}
               - {year: 2021, text: "Renamed Zoe E-Tech Electric"}
@@ -240,9 +240,9 @@ makes:
         generations:
           - id: volkswagen-id4-gen1
             name: ID.4
-            years: [2021, null]
+            years: [2020, null]
             uncertain: true
-            notes: "1st Edition deliveries late 2020/early 2021. A facelift or rename around 2026 has been reported but is unverified."
+            notes: "1st Edition deliveries late 2020/early 2021. A facelift or rename around 2026 has been reported but is unverified. Start year moved 2021 -> 2020 (coverage-gaps finding 7). Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW: 2830 NL cars first admitted in 2020, all 'ID.4 PRO 150 KW' (the same name as 2,225 cars of 2023), = 11.7% of the model's 24125 NL cars, so above the 5% bar."
             change_markers:
               - {year: 2021, text: "GTX dual-motor"}
               - {year: 2023, text: "MY24 update: APP550 motor, new infotainment"}
@@ -367,9 +367,9 @@ makes:
               - {year: 2018, text: "30 kWh battery in some markets"}
           - id: kia-soul-ev-sk3
             name: Gen 2 (e-Soul, SK3)
-            years: [2019, 2022]
+            years: [2019, 2024]
             uncertain: true
-            notes: "European end of sales is unverified (2022 vs 2023). Sold as e-Soul in most of Europe."
+            notes: "European end of sales is unverified. Sold as e-Soul in most of Europe. End year moved 2022 -> 2024 (coverage-gaps finding 7). Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW 'SOUL': 2023 95 and 2024 99 cars = 6.4% and 6.6% of the 1490 NL cars of 2020-2025 (2019 is shared with the PS); 2025: 3 cars (0.2%), so 2025 is not added. Weaker signals not used for the boundary: EEA 2025 new registrations DE 33, FR 15, BE 1; KBA 2025 34, 2026 (Jan-Oct) 6, possibly late stock."
             change_markers:
               - {year: 2019, text: "39.2 and 64 kWh, CCS"}
 
@@ -432,7 +432,7 @@ makes:
             name: i3 (I01)
             years: [2013, 2022]
             uncertain: true
-            notes: "Single generation; battery size is the key used-buyer variable. Year the REx was dropped in Europe is unverified (around 2019)."
+            notes: "Single generation; battery size is the key used-buyer variable. Year the REx was dropped in Europe is unverified (around 2019). GAP (coverage-gaps finding 7, QUESTIONS Q-065): a car named i3 shows up after this generation ended. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW 2026: 210 cars 'I3 50 XDRIVE'; EEA DE 2025: 119 ('I3 50 XDRIVE' 93, 'I3 40 XDRIVE' 22, 'I3 40L' 4); KBA 2026: 1 'I3'. No generation was added for it: what car this is has not been checked against a primary source. These counts stay in unmatched.csv ('year outside every generation')."
             change_markers:
               - {year: 2013, text: "60 Ah (22 kWh); optional range extender (REx)"}
               - {year: 2016, text: "94 Ah (33 kWh)"}
@@ -692,7 +692,8 @@ makes:
           - id: audi-e-tron-ge
             name: e-tron (GE)
             years: [2019, 2022]
-            uncertain: false
+            uncertain: true
+            notes: "Start year kept at 2019 (coverage-gaps finding 7). Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW: 644 NL cars first admitted in 2018 ('AUDI E-TRON' 639, 'E-TRON' 5) = 4.2% of the 15258 NL cars of 2018-2022, below the 5% bar; these 2018 cars stay outside every generation (unmatched.csv) until a primary source confirms 2018 deliveries."
             change_markers:
               - {year: 2019, text: "e-tron 55 (95 kWh gross)"}
               - {year: 2020, text: "Sportback body; e-tron 50 (71 kWh)"}
@@ -701,7 +702,7 @@ makes:
             name: Q8 e-tron
             years: [2023, 2025]
             uncertain: true
-            notes: "Facelift plus rename (late 2022, MY2023), bigger batteries (106/114 kWh gross). Brussels production reported to end early 2025; last on-sale year unverified."
+            notes: "Facelift plus rename (late 2022, MY2023), bigger batteries (106/114 kWh gross). Brussels production reported to end early 2025; last on-sale year unverified. End year kept at 2025. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). 2026: RDW 1 car ('SQ8 SPORTBACK E-TRON'), KBA 3; too few to move the end."
             change_markers:
               - {year: 2023, text: "Renamed Q8 e-tron, 106/114 kWh"}
 
@@ -770,7 +771,7 @@ makes:
             name: EQC (N293)
             years: [2019, 2023]
             uncertain: true
-            notes: "End of European sales (2022 vs 2023) unverified. On-board charger upgrade timing unverified."
+            notes: "End of European sales (2022 vs 2023) unverified. On-board charger upgrade timing unverified. End year kept at 2023. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW 2024: 41 cars = 1.7% of the 2427 NL cars, 2025: 1; EEA 2025: 10 (BE 3, DE 3, FR 4). Below the 5% bar."
             change_markers:
               - {year: 2019, text: "80 kWh, 7.4 kW AC"}
               - {year: 2020, text: "11 kW on-board charger"}
@@ -793,7 +794,7 @@ makes:
             name: I-Pace (X590)
             years: [2018, 2024]
             uncertain: true
-            notes: "Production reported to end in late 2024 as Jaguar reset the brand; confirm. Battery replacement campaign on some cars; check history."
+            notes: "Production reported to end in late 2024 as Jaguar reset the brand; confirm. Battery replacement campaign on some cars; check history. End year kept at 2024. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). 2025: RDW 4 cars (0.1% of 2816 NL cars), EEA 43 (FR 37, BE 3, NL 3); likely late stock."
             change_markers:
               - {year: 2018, text: "90 kWh, 7 kW AC"}
               - {year: 2020, text: "MY21: 11 kW AC, Pivi Pro infotainment"}

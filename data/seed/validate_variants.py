@@ -22,7 +22,8 @@ ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 DRIVETRAINS = {"fwd", "rwd", "awd"}
 CONFIDENCE = {"low", "medium", "high"}
 YEAR_TOLERANCE = 1
-TOP_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "notes", "confidence"}
+TOP_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "notes", "confidence",
+            "source_names"}
 REQUIRED_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "confidence"}
 SOURCE_KEYS = {"id", "name", "licence", "attribution"}
 
@@ -96,6 +97,8 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
     find_price_keys(variants_doc, "$", errors)
 
     seen: set[str] = set()
+    # source_names (Q-062): (generation, source, normalised name) -> variant id; must be unique.
+    named: dict[tuple[str, str, str], str] = {}
     for i, v in enumerate(variants):
         where = f"variants[{i}]"
         if not isinstance(v, dict):
@@ -129,6 +132,26 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
             errors.append(f"{where}: confidence must be one of {sorted(CONFIDENCE)}")
         if "notes" in v and v["notes"] is not None and not isinstance(v["notes"], str):
             errors.append(f"{where}: notes must be a string")
+        sn = v.get("source_names")
+        if sn is not None:
+            if not isinstance(sn, dict) or not sn:
+                errors.append(f"{where}: source_names must map source ids to lists of names")
+            else:
+                for keys, names in sn.items():
+                    sids = [x.strip() for x in str(keys).split(",") if x.strip()]
+                    if not sids or not all(ID_RE.match(x) for x in sids):
+                        errors.append(f"{where}: source_names key {keys!r} must be source ids")
+                    if not isinstance(names, list) or not names or not all(
+                        isinstance(n, str) and n.strip() for n in names
+                    ):
+                        errors.append(f"{where}: source_names[{keys}] must be non-empty names")
+                        continue
+                    for sid in sids:
+                        for n in names:
+                            nk = re.sub(r"[^a-z0-9]", "", n.lower())
+                            prev = named.setdefault((str(gid), sid, nk), str(vid))
+                            if prev != vid:
+                                errors.append(f"{where}: source name {sid} {n!r} also on {prev}")
 
         years = v.get("years")
         if not (isinstance(years, list) and len(years) == 2 and isinstance(years[0], int)
