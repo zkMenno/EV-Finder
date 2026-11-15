@@ -447,6 +447,34 @@ export interface PublishedVariant {
    * From the chemistry row.
    */
   charge_100_daily?: boolean | null;
+  /**
+   * Per country: official counts (fleet and/or new registrations).
+   */
+  registrations?: {
+    [k: string]: RegistrationCount[];
+  };
+}
+/**
+ * One official count for a country. Kinds are not added together.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "RegistrationCount".
+ */
+export interface RegistrationCount {
+  count: number;
+  /**
+   * fleet = cars on the road (stock); new_registrations = first registrations in the period.
+   */
+  kind: "fleet" | "new_registrations";
+  /**
+   * e.g. '2026-Q2', '2025', '2026-01..10'.
+   */
+  period?: string;
+  /**
+   * Level the count was matched at; model-level counts repeat on every generation.
+   */
+  level?: "generation" | "model";
+  source_id: Id;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema

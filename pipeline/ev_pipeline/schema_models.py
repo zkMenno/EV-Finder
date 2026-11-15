@@ -271,100 +271,6 @@ class Charger400vMode(Enum):
     NoneType_None = None
 
 
-class PublishedVariant(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    release: int = Field(..., ge=1)
-    variant_id: Id
-    variant_name: str
-    generation_id: Id
-    generation_name: str
-    generation_uncertain: bool | None = None
-    model_id: Id
-    model_name: str
-    make_id: Id
-    make_name: str
-    year_start: int
-    year_end: int | None = None
-    era: Era
-    segment: Segment | None = None
-    body: Body | None = None
-    drivetrain: Drivetrain | None = None
-    battery_kwh_net: float | None = None
-    wltp_range_km: float | None = None
-    consumption_kwh_100km: float | None = None
-    ac_kw: float | None = None
-    dc_peak_kw: float | None = None
-    dc_avg_10_80_kw: float | None = None
-    ac_km_per_h: float | None = Field(
-        None, description='Derived: ac_kw / consumption * 100.'
-    )
-    dc_km_per_10min: float | None = Field(
-        None,
-        description='Derived: km added in 10 min at motorway consumption (dc_avg_10_80_kw / motorway consumption * 100 / 6).',
-    )
-    real_range_km: float | None = None
-    real_range_rung: RealRangeRung | None = None
-    power_kw: float | None = None
-    accel_0_100_s: float | None = None
-    boot_l: float | None = None
-    length_mm: float | None = None
-    weight_kg: float | None = None
-    towing_kg: float | None = None
-    seats: int | None = None
-    on_sale_new: bool | None = None
-    price_new: dict[str, Money] | None = Field(
-        None, description='New price per country (local currency).'
-    )
-    registered_count_nl: int | None = Field(
-        None, description='RDW registrations, counted at generation level.'
-    )
-    quality_tier: QualityTier
-    change_markers: list[ChangeMarker] | None = None
-    provenance: dict[str, FieldProvenance] = Field(
-        ...,
-        description='Field name → where the value came from. Every non-null number above must have an entry.',
-    )
-    dc_minutes_10_80: float | None = Field(None, description='Minutes 10-80%.')
-    dc_km_per_20min: float | None = Field(
-        None,
-        description='Derived: km added in 20 min at motorway consumption. Used for the DC ranking.',
-    )
-    dc_peak_held_min: float | None = Field(
-        None, description='Minutes above 90% of peak.'
-    )
-    consumption_motorway_kwh_100km: float | None = Field(
-        None, description='Motorway consumption used for km-in-N-minutes.'
-    )
-    dc_curve_status: DcCurveStatus | None = None
-    dc_peak_kw_is_claim: bool | None = Field(
-        None, description='true when dc_peak_kw is a maker claim, not measured.'
-    )
-    platform_id: str | None = None
-    platform_name: str | None = None
-    battery_pack_id: str | None = None
-    chemistry_id: str | None = Field(
-        None, description="Taxonomy id or 'not-disclosed'."
-    )
-    cooling_id: str | None = None
-    cell_format: str | None = None
-    voltage_nominal_v: float | None = None
-    voltage_max_v: float | None = None
-    voltage_label: str | None = None
-    voltage_class_id: str | None = Field(
-        None, description="Derived class id, or 'not-disclosed'."
-    )
-    voltage_switchable: bool | None = None
-    charger_400v_mode: Charger400vMode | None = None
-    charger_400v_kw: float | None = None
-    fast_on_400v: bool | None = Field(
-        None,
-        description='Derived: native 400 V car, or booster/limited at >= 50 kW on 400 V chargers.',
-    )
-    charge_100_daily: bool | None = Field(None, description='From the chemistry row.')
-
-
 class Point(RootModel[list]):
     root: list = Field(..., max_length=2, min_length=2)
 
@@ -611,6 +517,35 @@ class VariantVoltage(BaseModel):
     )
 
 
+class Kind(Enum):
+    fleet = 'fleet'
+    new_registrations = 'new_registrations'
+
+
+class Level(Enum):
+    generation = 'generation'
+    model = 'model'
+
+
+class RegistrationCount(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    count: int = Field(..., ge=0)
+    kind: Kind = Field(
+        ...,
+        description='fleet = cars on the road (stock); new_registrations = first registrations in the period.',
+    )
+    period: str | None = Field(
+        None, description="e.g. '2026-Q2', '2025', '2026-01..10'."
+    )
+    level: Level | None = Field(
+        None,
+        description='Level the count was matched at; model-level counts repeat on every generation.',
+    )
+    source_id: Id
+
+
 class Variant(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -655,6 +590,104 @@ class Fact(BaseModel):
     confidence: Confidence
     claim: bool | None = Field(
         None, description='true when the value is a maker claim rather than measured.'
+    )
+
+
+class PublishedVariant(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    release: int = Field(..., ge=1)
+    variant_id: Id
+    variant_name: str
+    generation_id: Id
+    generation_name: str
+    generation_uncertain: bool | None = None
+    model_id: Id
+    model_name: str
+    make_id: Id
+    make_name: str
+    year_start: int
+    year_end: int | None = None
+    era: Era
+    segment: Segment | None = None
+    body: Body | None = None
+    drivetrain: Drivetrain | None = None
+    battery_kwh_net: float | None = None
+    wltp_range_km: float | None = None
+    consumption_kwh_100km: float | None = None
+    ac_kw: float | None = None
+    dc_peak_kw: float | None = None
+    dc_avg_10_80_kw: float | None = None
+    ac_km_per_h: float | None = Field(
+        None, description='Derived: ac_kw / consumption * 100.'
+    )
+    dc_km_per_10min: float | None = Field(
+        None,
+        description='Derived: km added in 10 min at motorway consumption (dc_avg_10_80_kw / motorway consumption * 100 / 6).',
+    )
+    real_range_km: float | None = None
+    real_range_rung: RealRangeRung | None = None
+    power_kw: float | None = None
+    accel_0_100_s: float | None = None
+    boot_l: float | None = None
+    length_mm: float | None = None
+    weight_kg: float | None = None
+    towing_kg: float | None = None
+    seats: int | None = None
+    on_sale_new: bool | None = None
+    price_new: dict[str, Money] | None = Field(
+        None, description='New price per country (local currency).'
+    )
+    registered_count_nl: int | None = Field(
+        None, description='RDW registrations, counted at generation level.'
+    )
+    quality_tier: QualityTier
+    change_markers: list[ChangeMarker] | None = None
+    provenance: dict[str, FieldProvenance] = Field(
+        ...,
+        description='Field name → where the value came from. Every non-null number above must have an entry.',
+    )
+    dc_minutes_10_80: float | None = Field(None, description='Minutes 10-80%.')
+    dc_km_per_20min: float | None = Field(
+        None,
+        description='Derived: km added in 20 min at motorway consumption. Used for the DC ranking.',
+    )
+    dc_peak_held_min: float | None = Field(
+        None, description='Minutes above 90% of peak.'
+    )
+    consumption_motorway_kwh_100km: float | None = Field(
+        None, description='Motorway consumption used for km-in-N-minutes.'
+    )
+    dc_curve_status: DcCurveStatus | None = None
+    dc_peak_kw_is_claim: bool | None = Field(
+        None, description='true when dc_peak_kw is a maker claim, not measured.'
+    )
+    platform_id: str | None = None
+    platform_name: str | None = None
+    battery_pack_id: str | None = None
+    chemistry_id: str | None = Field(
+        None, description="Taxonomy id or 'not-disclosed'."
+    )
+    cooling_id: str | None = None
+    cell_format: str | None = None
+    voltage_nominal_v: float | None = None
+    voltage_max_v: float | None = None
+    voltage_label: str | None = None
+    voltage_class_id: str | None = Field(
+        None, description="Derived class id, or 'not-disclosed'."
+    )
+    voltage_switchable: bool | None = None
+    charger_400v_mode: Charger400vMode | None = None
+    charger_400v_kw: float | None = None
+    fast_on_400v: bool | None = Field(
+        None,
+        description='Derived: native 400 V car, or booster/limited at >= 50 kW on 400 V chargers.',
+    )
+    charge_100_daily: bool | None = Field(None, description='From the chemistry row.')
+    registrations: dict[str, list[RegistrationCount]] | None = Field(
+        None,
+        description='Per country: official counts (fleet and/or new registrations).',
     )
 
 

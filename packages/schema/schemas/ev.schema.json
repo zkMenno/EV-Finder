@@ -670,6 +670,19 @@
         "charge_100_daily": {
           "type": ["boolean", "null"],
           "description": "From the chemistry row."
+        },
+        "registrations": {
+          "type": "object",
+          "description": "Per country: official counts (fleet and/or new registrations).",
+          "propertyNames": {
+            "$ref": "#/$defs/Country"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/RegistrationCount"
+            }
+          }
         }
       }
     },
@@ -1273,6 +1286,35 @@
         "switchable": {
           "type": ["boolean", "null"],
           "description": "Pack can switch between 400 and 800 V."
+        }
+      }
+    },
+    "RegistrationCount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["count", "kind", "source_id"],
+      "description": "One official count for a country. Kinds are not added together.",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["fleet", "new_registrations"],
+          "description": "fleet = cars on the road (stock); new_registrations = first registrations in the period."
+        },
+        "period": {
+          "type": "string",
+          "description": "e.g. '2026-Q2', '2025', '2026-01..10'."
+        },
+        "level": {
+          "type": "string",
+          "enum": ["generation", "model"],
+          "description": "Level the count was matched at; model-level counts repeat on every generation."
+        },
+        "source_id": {
+          "$ref": "#/$defs/Id"
         }
       }
     }
