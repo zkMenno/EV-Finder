@@ -13,6 +13,7 @@ Source of truth for product scope is the claude.ai doc "Used-EV Finder — Produ
 | [charging-buildout.md](charging-buildout.md) | Charging buildout | Country charging pages, link-outs, "Charging in 2026" |
 | [bidirectional-and-connectors.md](bidirectional-and-connectors.md) | Bidirectional & plugs | V2H/V2G, plugs, ISO 15118-20 (Decision 011) |
 | [trip-fit.md](trip-fit.md) | Trip fit | "The range you truly need": flow, model, routing (Decision 013) |
+| [variant-finder.md](variant-finder.md) | Variant finder | Diff view, change timeline, "spot it in an ad" clues, finder (Decision 019) |
 | [workflow.md](workflow.md) | Workflow | Agent roles, task lifecycle, waves (superseded in part by workstreams/) |
 
 Last full export: 2026-11-15.
