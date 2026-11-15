@@ -73,7 +73,7 @@ _(at the end of the run)_
 | A4 T-026 charging link-out block | done | Explore, learn and model pages; plain ABRP link; UTM tag (Q-056) |
 | A4 T-036 Trip fit quick check (flag, fixture matrix) | done | behind `TRIP_FIT=1`; fixture matrix + 20 towns typed from memory, labelled PROVISIONAL; keep off in production (Q-055) |
 | A5.1 country + language URLs | running | |
-| A5.2 price modes | running (data + UI) | |
+| A5.2 price modes | data done, UI running | APRs from ECB/BoE consumer-credit series (all consumer loans, not car-only); NL null → user enters a rate (Q-060) |
 | A5.3 open data bundle | done (pipeline) | `data/releases/1/open/`: CSV + JSON, 195 rows, ATTRIBUTION, LICENSE, README; ODbL test; `/data` page queued for web |
 | A5.4 /learn drafts | running | |
 | A5.5 release QA | done | blocking checks pass; flags EV6 77 kWh AWD usable 80 > gross 77.4 (data bug); 0 of top-40 have 2+ agreeing sources on all headline fields |
