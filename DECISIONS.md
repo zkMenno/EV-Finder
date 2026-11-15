@@ -339,4 +339,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** The UX chat changes colours in one file. axe runs on both themes in CI (0 findings tonight).
 
+---
+
+## Decision 023: NEDC, worst-case WLTP and mass in running order are their own fields
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** R-08 found that the best open source for 2010–2020 EVs is RDW's type-approval data (TGK, CC0), which gives NEDC range, WLTP best and worst bounds and mass in running order (incl. 75 kg driver). Mixing these into WLTP or kerb weight would make numbers look comparable when they aren't.
+
+**Decision:** New FactFields `nedc_range_km`, `nedc_consumption_kwh_100km`, `wltp_range_km_worst`, `wltp_consumption_kwh_100km_worst`, `mass_running_order_kg`, `power_30min_kw`, and optional PublishedVariant columns `nedc_range_km`, `wltp_range_km_worst`, `mass_running_order_kg`. NEDC never fills WLTP; running-order mass never fills kerb weight; 30-minute power never fills peak power. `wltp_range_km` keeps meaning the best case or the single stated value.
+
+**Consequences:** Older cars can show an honest NEDC figure labelled as such. Real range stays derived from WLTP only.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

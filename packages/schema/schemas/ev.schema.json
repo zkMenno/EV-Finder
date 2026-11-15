@@ -328,7 +328,13 @@
         "drag_coefficient",
         "frontal_area_m2",
         "kerb_mass_kg",
-        "wheel_size_in"
+        "wheel_size_in",
+        "nedc_range_km",
+        "nedc_consumption_kwh_100km",
+        "wltp_range_km_worst",
+        "wltp_consumption_kwh_100km_worst",
+        "mass_running_order_kg",
+        "power_30min_kw"
       ],
       "description": "Fact field names. Enum-valued facts are checked at release time, not here (an if/then on Fact breaks the generated TS type): iso15118_20_support → Iso15118Support (yes/no/not-disclosed, default not-disclosed, never inferred); heat_pump → HeatPumpFitment; drag_coefficient → Cd 0-1. Units: frontal_area_m2 m², kerb_mass_kg kg (EU mass in running order), wheel_size_in = rim diameter code. Usable battery is battery_kwh_net (no separate usable_kwh field)."
     },
@@ -766,6 +772,18 @@
           "type": "integer",
           "minimum": 0,
           "description": "Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues."
+        },
+        "nedc_range_km": {
+          "type": ["number", "null"],
+          "description": "NEDC range (old EU cycle). Never used to fill WLTP."
+        },
+        "wltp_range_km_worst": {
+          "type": ["number", "null"],
+          "description": "Worst-case WLTP range of the type approval (wltp_range_km is the best case or the single stated value)."
+        },
+        "mass_running_order_kg": {
+          "type": ["number", "null"],
+          "description": "Mass in running order (incl. 75 kg driver), as in type approval; weight_kg stays kerb weight."
         }
       }
     },

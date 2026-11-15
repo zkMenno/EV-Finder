@@ -212,6 +212,12 @@ class FactField(Enum):
     frontal_area_m2 = 'frontal_area_m2'
     kerb_mass_kg = 'kerb_mass_kg'
     wheel_size_in = 'wheel_size_in'
+    nedc_range_km = 'nedc_range_km'
+    nedc_consumption_kwh_100km = 'nedc_consumption_kwh_100km'
+    wltp_range_km_worst = 'wltp_range_km_worst'
+    wltp_consumption_kwh_100km_worst = 'wltp_consumption_kwh_100km_worst'
+    mass_running_order_kg = 'mass_running_order_kg'
+    power_30min_kw = 'power_30min_kw'
 
 
 class SubjectType(Enum):
@@ -2124,6 +2130,17 @@ class PublishedVariant(BaseModel):
         None,
         description="Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues.",
         ge=0,
+    )
+    nedc_range_km: float | None = Field(
+        None, description='NEDC range (old EU cycle). Never used to fill WLTP.'
+    )
+    wltp_range_km_worst: float | None = Field(
+        None,
+        description='Worst-case WLTP range of the type approval (wltp_range_km is the best case or the single stated value).',
+    )
+    mass_running_order_kg: float | None = Field(
+        None,
+        description='Mass in running order (incl. 75 kg driver), as in type approval; weight_kg stays kerb weight.',
     )
 
 

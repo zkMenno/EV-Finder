@@ -107,7 +107,13 @@ export type FactField =
   | "drag_coefficient"
   | "frontal_area_m2"
   | "kerb_mass_kg"
-  | "wheel_size_in";
+  | "wheel_size_in"
+  | "nedc_range_km"
+  | "nedc_consumption_kwh_100km"
+  | "wltp_range_km_worst"
+  | "wltp_consumption_kwh_100km_worst"
+  | "mass_running_order_kg"
+  | "power_30min_kw";
 /**
  * Any market as an ISO 3166-1 alpha-2 code, except UK for the United Kingdom (same as Country). Wider than Country so US/AU/NZ/CA rows (Phase 4) need no schema change; checked against config at release time.
  *
@@ -635,6 +641,18 @@ export interface PublishedVariant {
    * Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues.
    */
   clue_count?: number;
+  /**
+   * NEDC range (old EU cycle). Never used to fill WLTP.
+   */
+  nedc_range_km?: number | null;
+  /**
+   * Worst-case WLTP range of the type approval (wltp_range_km is the best case or the single stated value).
+   */
+  wltp_range_km_worst?: number | null;
+  /**
+   * Mass in running order (incl. 75 kg driver), as in type approval; weight_kg stays kerb weight.
+   */
+  mass_running_order_kg?: number | null;
 }
 /**
  * One official count for a country. Kinds are not added together.
