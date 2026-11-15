@@ -1,0 +1,50 @@
+{
+  "release": 1,
+  "generated_at": "2026-11-15T01:00:00+00:00",
+  "model_version": "0.1",
+  "estimate": true,
+  "editorial": true,
+  "licence": "CC-BY-4.0",
+  "rules": {
+    "path": "editorial/shortlist_rules.yaml",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "schema": "shortlist-rules/v1",
+    "review": true
+  },
+  "combos": ["road-tripper", "road-tripper+kerbside.rural"],
+  "bands": ["shortlist", "consider", "fallback", "ruled-out", "not-enough-data"],
+  "variants": [
+    {
+      "variant_id": "kia-ev6-gen1-lr-2wd",
+      "derived": {
+        "winter_range_km": 390,
+        "real_wh_km": 205.3
+      },
+      "factors": {
+        "road-tripper": {
+          "dc-speed": 0.82,
+          "one-pedal": null
+        }
+      },
+      "unknown": {
+        "road-tripper": ["one-pedal"]
+      },
+      "scores": {
+        "road-tripper": {
+          "score": 71.2,
+          "band": "shortlist",
+          "reasons": ["+dc-speed"]
+        },
+        "road-tripper+kerbside.rural": {
+          "score": 64.0,
+          "band": "consider",
+          "reasons": []
+        },
+        "Road Tripper": {
+          "score": 1,
+          "band": "consider"
+        }
+      }
+    }
+  ]
+}

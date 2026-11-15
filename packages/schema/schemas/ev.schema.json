@@ -242,6 +242,14 @@
         "abrp_typecode": {
           "type": ["string", "null"],
           "description": "ABRP car model code for deep links (Decision 012); null = plain ABRP link."
+        },
+        "abrp_deprecated": {
+          "type": "boolean",
+          "description": "ABRP lists abrp_typecode as deprecated (old codes still work in the planner, R-24)."
+        },
+        "abrp_replaced_by": {
+          "type": ["string", "null"],
+          "description": "ABRP's replacement typecode when abrp_typecode is deprecated (R-24). An ABRP code, not a variant id: renamed or merged variants go in Catalogue.retired_ids."
         }
       }
     },
@@ -527,11 +535,36 @@
           "type": ["number", "null"],
           "description": "EPA (US 5-cycle) range in km, from fueleconomy.gov / OpenEV. Its own field: agreement is only ever counted against other EPA figures, never against WLTP (T-059)."
         },
+        "epa_range_city_km": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "EPA city range, km (R-28)."
+        },
+        "epa_range_hwy_km": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "EPA highway range, km (R-28). The EPA highway cycle is not 120 km/h motorway driving."
+        },
         "consumption_kwh_100km": {
           "type": ["number", "null"]
         },
+        "consumption_epa_kwh_100km": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "EPA label consumption (combined), kWh/100 km, wall basis. Separate from the WLTP consumption_kwh_100km (R-28)."
+        },
         "ac_kw": {
           "type": ["number", "null"]
+        },
+        "ac_kw_optional": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Optional bigger on-board charger, kW (Decision 034, T-063). ac_kw stays the standard one; null = no option or not known."
+        },
+        "ac_full_charge_h": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "EPA 240 V empty-to-full charge time, hours (R-28). Info only; never used to derive ac_kw."
         },
         "dc_peak_kw": {
           "type": ["number", "null"]
@@ -569,8 +602,18 @@
         "boot_l": {
           "type": ["number", "null"]
         },
+        "frunk_l": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Front boot, litres. 0 = no frunk; null = not known."
+        },
         "length_mm": {
           "type": ["number", "null"]
+        },
+        "width_mm": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Width without mirrors, mm."
         },
         "weight_kg": {
           "type": ["number", "null"]
@@ -712,6 +755,10 @@
           "type": ["string", "null"],
           "description": "ABRP car model code; null = plain ABRP link."
         },
+        "abrp_replaced_by": {
+          "type": ["string", "null"],
+          "description": "ABRP's replacement typecode when abrp_typecode is deprecated (R-24)."
+        },
         "iso15118_20_support": {
           "$ref": "#/$defs/Iso15118Support",
           "default": "not-disclosed",
@@ -741,6 +788,39 @@
             }
           ],
           "description": "Heat pump: standard / option / none / not-disclosed."
+        },
+        "one_pedal": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OnePedal"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "One-pedal driving (T-066). null = not in the data yet; not-disclosed = looked for, not stated."
+        },
+        "regen_paddles": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FeatureAvailability"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Steering-wheel paddles to change regen strength (T-066)."
+        },
+        "ota_updates": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/OtaUpdates"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Over-the-air software updates (T-066)."
         },
         "drag_coefficient": {
           "type": ["number", "null"],
@@ -772,6 +852,54 @@
           "type": "integer",
           "minimum": 0,
           "description": "Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues."
+        },
+        "shortlist_score": {
+          "type": "object",
+          "description": "Profile combination → score 0..100 (T-069). Editorial opinion, not fact.",
+          "propertyNames": {
+            "$ref": "#/$defs/ShortlistComboKey"
+          },
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "shortlist_band": {
+          "type": "object",
+          "description": "Profile combination → band (T-069).",
+          "propertyNames": {
+            "$ref": "#/$defs/ShortlistComboKey"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/ShortlistBand"
+          }
+        },
+        "shortlist_reasons": {
+          "type": "object",
+          "description": "Profile combination → reason codes (see ShortlistScore.reasons).",
+          "propertyNames": {
+            "$ref": "#/$defs/ShortlistComboKey"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "shortlist_unknown_factors": {
+          "type": "object",
+          "description": "Profile combination → factors / gates without data.",
+          "propertyNames": {
+            "$ref": "#/$defs/ShortlistComboKey"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         },
         "nedc_range_km": {
           "type": ["number", "null"],
@@ -2816,10 +2944,18 @@
       "type": "object",
       "additionalProperties": false,
       "required": ["id", "label"],
-      "description": "Row in data/taxonomy/usage_profiles.yaml: Fit-score weights per profile (trip-fit §6). A new row, not new code.",
+      "description": "Row in data/taxonomy/usage_profiles.yaml and in shortlist_rules.yaml profiles / addons: one profile type for Trip fit (weights, trip-fit §6) and the shortlist (gates, factors, bands, Decision 038). A new row, not new code. kind addon = ticked extra on top of a base profile.",
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "uniqueItems": true,
+          "description": "Older ids that still resolve to this row (URLs, saved profiles)."
         },
         "label": {
           "$ref": "#/$defs/LocalizedText",
@@ -2847,11 +2983,37 @@
             }
           }
         },
+        "picker": {
+          "type": "object",
+          "description": "shortlist_rules.yaml spelling of applies_when (same meaning). New rows: use applies_when.",
+          "propertyNames": {
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          }
+        },
+        "matches_usage_profile": {
+          "$ref": "#/$defs/Id",
+          "description": "Transitional: the usage_profiles row this shortlist profile maps to, until both live in one table (T-066)."
+        },
+        "combines_with": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "uniqueItems": true,
+          "description": "Overlay profile (e.g. kerbside-charger): applied on top of these base profiles."
+        },
         "weights": {
           "type": "object",
           "description": "Factor → weight (price, efficiency, dc_km_20min_winter, winter_1000km_time, ac_speed, battery_risk ...).",
           "propertyNames": {
-            "pattern": "^[a-z0-9_]+$"
+            "pattern": "^[a-z0-9_-]+$"
           },
           "additionalProperties": {
             "$ref": "#/$defs/WeightLevel"
@@ -2859,13 +3021,94 @@
         },
         "weight_steps": {
           "type": "object",
-          "description": "Add-ons: factor → steps up (+) or down (-), e.g. battery_risk +1.",
+          "description": "Add-ons, modifiers and overlays: factor id → steps up (+) or down (-), e.g. battery-health-risk +1. One step = × weight_step_factor, then renormalised.",
           "propertyNames": {
-            "pattern": "^[a-z0-9_]+$"
+            "pattern": "^[a-z0-9_-]+$"
           },
           "additionalProperties": {
             "type": "integer"
           }
+        },
+        "bands": {
+          "$ref": "#/$defs/ShortlistBands"
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistGate"
+          }
+        },
+        "factors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistFactor"
+          }
+        },
+        "extra_factors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistFactor"
+          },
+          "description": "Overlays and add-ons: factors added to the base profile's."
+        },
+        "bonuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistAdjustment"
+          }
+        },
+        "penalties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistAdjustment"
+          }
+        },
+        "filter_presets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilterPreset"
+          }
+        },
+        "prefer": {
+          "type": "object",
+          "description": "Soft preference: PublishedVariant field → preferred values (sorts up, never filters).",
+          "propertyNames": {
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": ["string", "number", "boolean"]
+            }
+          }
+        },
+        "sort_default": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$",
+          "description": "Default Explore sort for this profile, e.g. price_used_asc."
+        },
+        "not_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "What the owner cares about but is deliberately not scored."
+        },
+        "calibration": {
+          "type": "string",
+          "description": "How the thresholds were checked (back-test, research)."
+        },
+        "origin": {
+          "type": "string"
+        },
+        "why_a_profile": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ShortlistRuleStatus"
         },
         "order": {
           "type": "integer"
@@ -3022,7 +3265,15 @@
           }
         },
         "source": {
-          "$ref": "#/$defs/Source"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Source"
+            },
+            {
+              "$ref": "#/$defs/SourceRef"
+            }
+          ],
+          "description": "Full Source in staging files; a SourceRef inside consumption_matrix.json (the file lists the Sources once)."
         },
         "source_record": {
           "type": "string"
@@ -4019,6 +4270,1352 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "FeatureAvailability": {
+      "type": "string",
+      "enum": ["yes", "no", "not-disclosed"],
+      "description": "Generic yes / no / not-disclosed for a car feature. Default not-disclosed; never inferred."
+    },
+    "OnePedal": {
+      "type": "string",
+      "enum": ["yes", "via-setting", "no", "not-disclosed"],
+      "description": "One-pedal driving (regen to a full stop): yes = default or one button; via-setting = a menu setting to turn on; no; not-disclosed."
+    },
+    "OtaUpdates": {
+      "type": "string",
+      "enum": ["full", "infotainment-only", "none", "not-disclosed"],
+      "description": "Over-the-air updates: full = drive / battery / charging software too; infotainment-only = maps and media only."
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "description": "Pointer to a Source listed elsewhere in the same file (e.g. the file's `sources`).",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        }
+      }
+    },
+    "ProvenanceNote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "retrieved_at", "licence", "confidence"],
+      "description": "Source, date, licence and confidence for a whole block of a release file (data rule 1).",
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "retrieved_at": {
+          "type": ["string", "null"],
+          "description": "ISO date the source was read."
+        },
+        "licence": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        }
+      }
+    },
+    "ClimateProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "retrieved_at", "licence", "confidence"],
+      "description": "ProvenanceNote plus how the station climate figures were made (T-034, Decision 041).",
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "retrieved_at": {
+          "type": ["string", "null"]
+        },
+        "licence": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Temperature unit, °C."
+        },
+        "period": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9]{4}-[0-9]{4}$",
+          "description": "Reference period, e.g. '1991-2020'."
+        },
+        "method": {
+          "type": "string"
+        },
+        "definitions": {
+          "type": "object",
+          "description": "Field name → plain-language definition (Nerd mode).",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "WeatherStation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lat", "lon"],
+      "description": "Climate figures of one weather station, listed once per towns file (T-034).",
+      "properties": {
+        "name": {
+          "type": ["string", "null"]
+        },
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "elevation_m": {
+          "type": ["number", "null"]
+        },
+        "months_mean_c": {
+          "type": ["array", "null"],
+          "items": {
+            "type": ["number", "null"]
+          },
+          "minItems": 12,
+          "maxItems": 12,
+          "description": "Mean of daily mean temperature per month, Jan..Dec, °C."
+        },
+        "jan_mean_c": {
+          "type": ["number", "null"]
+        },
+        "jan_mean_method": {
+          "type": ["string", "null"],
+          "description": "How jan_mean_c was computed (e.g. 'daily')."
+        },
+        "jan_p10_c": {
+          "type": ["number", "null"],
+          "description": "10th percentile of January daily mean temperature, 1991-2020 (Decision 041)."
+        },
+        "jan_years": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Full Januaries behind the figures."
+        }
+      }
+    },
+    "Town": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "country", "lat", "lon", "station_id"],
+      "description": "One town for the Trip fit town search (GeoNames, CC BY 4.0).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z]+:[0-9A-Za-z_-]+$",
+          "description": "Source-scoped id, e.g. 'geonames:2759794'."
+        },
+        "name": {
+          "type": "string"
+        },
+        "names": {
+          "type": "object",
+          "description": "Name per UI language when it differs.",
+          "propertyNames": {
+            "enum": ["en", "nl", "de", "fr", "es", "it"]
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[a-z]{2}$",
+          "description": "Lowercase country code as in the file name (uk for the United Kingdom)."
+        },
+        "lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "lon": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "population": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "admin1": {
+          "type": "string",
+          "description": "GeoNames admin1 code (region)."
+        },
+        "elevation_m": {
+          "type": ["number", "null"]
+        },
+        "station_id": {
+          "type": ["string", "null"],
+          "description": "Key in the file's `stations`; null = no station in range, the app uses its country default."
+        },
+        "station_km": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "TownsRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "release",
+        "generated_at",
+        "country",
+        "sources",
+        "provenance",
+        "stations",
+        "towns"
+      ],
+      "description": "releases/<n>/towns/<cc>.json: towns + January climate for Trip fit, one file per country (T-034).",
+      "properties": {
+        "release": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[a-z]{2}$"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Source"
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["towns", "climate"],
+          "properties": {
+            "towns": {
+              "$ref": "#/$defs/ProvenanceNote"
+            },
+            "climate": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ClimateProvenance"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null = climate source gated or missing; towns ship without climate."
+            }
+          }
+        },
+        "stations": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/WeatherStation"
+          }
+        },
+        "towns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Town"
+          }
+        }
+      }
+    },
+    "ConsumptionMatrixRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release", "generated_at", "model_version", "estimate", "variants"],
+      "description": "releases/<n>/consumption_matrix.json: per-variant consumption matrix (T-033). Every cell is a model output.",
+      "properties": {
+        "release": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        },
+        "estimate": {
+          "type": "boolean",
+          "const": true
+        },
+        "note": {
+          "type": "string"
+        },
+        "road_bands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoadBand"
+          }
+        },
+        "band_speed_kmh": {
+          "$ref": "#/$defs/BandSpeeds"
+        },
+        "temperature_bands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TemperatureBand"
+          }
+        },
+        "heater_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HeaterType"
+          }
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Model parameters (all estimates, pipeline/ev_pipeline/derive/consumption_params.yaml).",
+          "properties": {
+            "wall_to_battery": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "climb_regen_recovery": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "drivetrain_efficiency": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Source"
+          }
+        },
+        "tests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConsumptionTest"
+          },
+          "description": "Tests behind measured cells; source is a SourceRef into `sources`."
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConsumptionModel"
+          }
+        }
+      }
+    },
+    "ShortlistRuleStatus": {
+      "type": "string",
+      "enum": ["ok", "gap", "calibrate", "draft"],
+      "description": "gap = field not in the data yet (factor scores 0.5, never a guess); calibrate = thresholds still to check; draft = not used for scoring yet."
+    },
+    "ShortlistBand": {
+      "type": "string",
+      "enum": ["shortlist", "consider", "fallback", "ruled-out", "not-enough-data"],
+      "description": "Band of a scored variant (Decision 038). ruled-out = failed a gate; not-enough-data = more than half the weight unknown."
+    },
+    "ShortlistBandThresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["shortlist", "consider"],
+      "description": "Score 0..100 at or above which a car is 'shortlist' / 'consider'; below = fallback.",
+      "properties": {
+        "shortlist": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "consider": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "ShortlistBands": {
+      "type": "object",
+      "description": "Voltage class id (voltage_classes) or 'default' → thresholds. 'default' is used when the car's class has no row.",
+      "propertyNames": {
+        "$ref": "#/$defs/Id"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/ShortlistBandThresholds"
+      },
+      "minProperties": 1
+    },
+    "ShortlistGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "field"],
+      "description": "Hard rule: a known value under the floor rules the car out with `reason`. Unknown values pass and are listed as unknown.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "minItems": 1
+            }
+          ],
+          "description": "PublishedVariant field(s) the app reads."
+        },
+        "sheet_field": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "minItems": 1
+            }
+          ],
+          "description": "Owner-sheet column used by the back-test only (internal)."
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "min_km": {
+          "type": "number",
+          "minimum": 0
+        },
+        "rural_min_km": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Floor used instead of min_km with the rural modifier."
+        },
+        "min_km_per_h": {
+          "type": "number",
+          "minimum": 0
+        },
+        "status": {
+          "$ref": "#/$defs/ShortlistRuleStatus"
+        },
+        "reason": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Plain words shown to users when the gate fails."
+        },
+        "evidence": {
+          "type": "string",
+          "description": "Why the rule exists (owner picks, research)."
+        }
+      }
+    },
+    "ShortlistFactor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "field", "weight"],
+      "description": "Scored factor: value mapped linearly onto 0..1 between `poor` and `great` (clamped; poor > great means lower is better), times weight. Categorical fields (one_pedal, bidi, heat_pump, cooling_id) map by the scoring job's table and have no poor/great.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "label": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "minItems": 1
+            }
+          ],
+          "description": "PublishedVariant field(s) the app reads."
+        },
+        "sheet_field": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "minItems": 1
+            }
+          ],
+          "description": "Owner-sheet column used by the back-test only (internal)."
+        },
+        "poor": {
+          "type": "number"
+        },
+        "great": {
+          "type": "number"
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "status": {
+          "$ref": "#/$defs/ShortlistRuleStatus"
+        },
+        "note": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        }
+      }
+    },
+    "ShortlistAdjustment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "points"],
+      "description": "Bonus (points > 0) or penalty (points < 0) with a plain-language rule.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "points": {
+          "type": "number"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "minItems": 1
+            }
+          ]
+        },
+        "sheet_field": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z0-9_]+$"
+              },
+              "minItems": 1
+            }
+          ],
+          "description": "Internal, back-test only."
+        },
+        "sheet_rule": {
+          "type": "string",
+          "description": "Internal, back-test only."
+        },
+        "applies_with": {
+          "$ref": "#/$defs/Id",
+          "description": "Only with this modifier (e.g. rural)."
+        },
+        "status": {
+          "$ref": "#/$defs/ShortlistRuleStatus"
+        },
+        "evidence": {
+          "type": "string"
+        }
+      }
+    },
+    "FilterPreset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field"],
+      "description": "Explore filter a profile preselects, shown as a removable chip 'Set by your profile' (Decision 050).",
+      "properties": {
+        "field": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "equals": {
+          "type": ["string", "number", "boolean"]
+        },
+        "why": {
+          "$ref": "#/$defs/LocalizedText"
+        }
+      }
+    },
+    "PickerQuestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "question", "answers"],
+      "description": "One question of the profile picker (4 taps; ids shared with trip-fit §4, Decision 050).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "question": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "skip_if": {
+          "type": "object",
+          "description": "Skip this question when an earlier answer matches.",
+          "propertyNames": {
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          }
+        }
+      }
+    },
+    "ShortlistModifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "description": "'Where you live' modifier (city / town / countryside): changes thresholds and weights of any profile.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "label": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "short": {
+          "$ref": "#/$defs/LocalizedText"
+        },
+        "picker": {
+          "type": "object",
+          "description": "Picker answers that select this row: question id → accepted answer ids.",
+          "propertyNames": {
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            }
+          }
+        },
+        "weight_steps": {
+          "type": "object",
+          "description": "Factor id → steps up (+) or down (-); one step = × weight_step_factor, then renormalised.",
+          "propertyNames": {
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "gate_scale": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "use_rural_gates": {
+          "type": "boolean",
+          "description": "Gates with rural_min_km use that value."
+        },
+        "penalties": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistAdjustment"
+          }
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ShortlistRules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "profiles"],
+      "description": "shortlist_rules.yaml: selection rules per profile (Decision 038), modifiers, add-ons and the picker (Decision 050). Rules are rows, not code.",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "pattern": "^shortlist-rules/v[0-9]+$"
+        },
+        "derived_from": {
+          "type": "string"
+        },
+        "review": {
+          "type": "boolean",
+          "description": "true = agent-derived, owner still to confirm thresholds."
+        },
+        "profiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UsageProfile"
+          },
+          "minItems": 1
+        },
+        "modifiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistModifier"
+          }
+        },
+        "addons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UsageProfile"
+          }
+        },
+        "weight_step_factor": {
+          "type": "number",
+          "exclusiveMinimum": 1,
+          "default": 1.5
+        },
+        "picker": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PickerQuestion"
+          }
+        }
+      }
+    },
+    "ShortlistComboKey": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*([+.][a-z0-9]+(-[a-z0-9]+)*)*$",
+      "description": "Profile combination key: <profile>[+<overlay>][.<modifier>], e.g. 'road-tripper', 'runabout+kerbside.rural'."
+    },
+    "ShortlistScore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "band"],
+      "description": "Score of one variant for one profile combination (T-069).",
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "band": {
+          "$ref": "#/$defs/ShortlistBand"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Reason codes: '+<factor>', '-<factor>', 'gate:<id>', 'bonus:<id>', 'penalty:<id>'; the app turns them into plain words."
+        },
+        "unknown": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Factors / gates without data (scored 0.5 or passed)."
+        }
+      }
+    },
+    "ShortlistVariantScores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["variant_id", "scores"],
+      "properties": {
+        "variant_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "derived": {
+          "type": "object",
+          "description": "Derived inputs (winter range, real Wh/km, ...), all estimates.",
+          "additionalProperties": {
+            "type": ["number", "null"]
+          }
+        },
+        "factors": {
+          "type": "object",
+          "description": "Profile id → factor id → 0..1 value (null = unknown).",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": ["number", "null"]
+            }
+          }
+        },
+        "unknown": {
+          "type": "object",
+          "description": "Profile id → unknown factors / gates.",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "scores": {
+          "type": "object",
+          "description": "Profile combination → score.",
+          "propertyNames": {
+            "$ref": "#/$defs/ShortlistComboKey"
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/ShortlistScore"
+          }
+        }
+      }
+    },
+    "ShortlistScoresRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release", "generated_at", "variants"],
+      "description": "releases/<n>/shortlist_scores.json (T-069): editorial scores per variant and profile combination.",
+      "properties": {
+        "release": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "model_version": {
+          "type": "string"
+        },
+        "estimate": {
+          "type": "boolean"
+        },
+        "editorial": {
+          "type": "boolean",
+          "description": "true: one owner's rules, opinion not fact."
+        },
+        "note": {
+          "type": "string"
+        },
+        "rules": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "schema": {
+              "type": ["string", "null"]
+            },
+            "review": {
+              "type": "boolean"
+            }
+          }
+        },
+        "licence": {
+          "type": "string"
+        },
+        "combos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistComboKey"
+          }
+        },
+        "bands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistBand"
+          }
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ShortlistVariantScores"
+          }
+        }
+      }
+    },
+    "EditorialVerdict": {
+      "type": "string",
+      "enum": ["shortlist", "consider", "fallback", "ruled_out", "unrated"],
+      "description": "Owner's verdict from the sheet colour (data/editorial/README.md legend)."
+    },
+    "EditorialFlag": {
+      "type": "string",
+      "enum": ["love", "like", "watching", "expensive"]
+    },
+    "EditorialSheetValues": {
+      "type": "object",
+      "required": ["use"],
+      "description": "INTERNAL ONLY: values copied by hand from other sites into the owner's sheet. Calibrate the rules; never in a release, the app or open data (data rules 1-2). No published type contains this.",
+      "properties": {
+        "use": {
+          "const": "internal"
+        }
+      },
+      "additionalProperties": {
+        "type": ["string", "number", "boolean", "null"]
+      }
+    },
+    "EditorialPick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["make", "model", "verdict", "favourite"],
+      "description": "Publishable owner pick ('Owner's pick'): verdict, tier, flags and notes, always labelled as one person's opinion (Decision 038). Has no sheet_values by design.",
+      "properties": {
+        "tab": {
+          "type": "string",
+          "description": "Sheet tab."
+        },
+        "row": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "section": {
+          "type": "string"
+        },
+        "group": {
+          "type": ["string", "null"]
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "model_year": {
+          "type": ["integer", "null"],
+          "minimum": 1990,
+          "maximum": 2035
+        },
+        "variant": {
+          "type": ["string", "null"]
+        },
+        "seed_model_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "seed_generation_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "in_seed": {
+          "type": "boolean"
+        },
+        "evdb_car_id": {
+          "type": ["integer", "null"],
+          "description": "Cross-reference id only (link check); never used to copy data."
+        },
+        "tier": {
+          "type": ["number", "null"],
+          "description": "Rank inside a group, lower is better (1.1-1.5)."
+        },
+        "verdict": {
+          "$ref": "#/$defs/EditorialVerdict"
+        },
+        "favourite": {
+          "type": "boolean"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EditorialFlag"
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": ["string", "null"],
+          "description": "Owner's own words (CC BY 4.0)."
+        }
+      }
+    },
+    "EditorialPickSheetRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["make", "model", "verdict", "favourite", "sheet_values"],
+      "description": "INTERNAL row of menno-picks.yaml primary_car_picks: an EditorialPick plus sheet_values. Strip sheet_values to get an EditorialPick.",
+      "properties": {
+        "tab": {
+          "type": "string",
+          "description": "Sheet tab."
+        },
+        "row": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "section": {
+          "type": "string"
+        },
+        "group": {
+          "type": ["string", "null"]
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "model_year": {
+          "type": ["integer", "null"],
+          "minimum": 1990,
+          "maximum": 2035
+        },
+        "variant": {
+          "type": ["string", "null"]
+        },
+        "seed_model_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "seed_generation_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "in_seed": {
+          "type": "boolean"
+        },
+        "evdb_car_id": {
+          "type": ["integer", "null"],
+          "description": "Cross-reference id only (link check); never used to copy data."
+        },
+        "tier": {
+          "type": ["number", "null"],
+          "description": "Rank inside a group, lower is better (1.1-1.5)."
+        },
+        "verdict": {
+          "$ref": "#/$defs/EditorialVerdict"
+        },
+        "favourite": {
+          "type": "boolean"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EditorialFlag"
+          },
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": ["string", "null"],
+          "description": "Owner's own words (CC BY 4.0)."
+        },
+        "sheet_values": {
+          "$ref": "#/$defs/EditorialSheetValues"
+        }
+      }
+    },
+    "EditorialEraPick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["era", "make", "model", "verdict", "favourite"],
+      "description": "Row of menno-picks.yaml eras: model-level verdict per era (OTHER EVs tab).",
+      "properties": {
+        "tab": {
+          "type": "string",
+          "description": "Sheet tab."
+        },
+        "row": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "era": {
+          "type": "string",
+          "pattern": "^[0-9]{4}(-[0-9]{4})?\\+?$"
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "seed_model_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "seed_generation_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "in_seed": {
+          "type": "boolean"
+        },
+        "battery_options_kwh": {
+          "type": ["array", "null"],
+          "items": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "verdict": {
+          "$ref": "#/$defs/EditorialVerdict"
+        },
+        "favourite": {
+          "type": "boolean"
+        },
+        "remark": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "EditorialUsedBudgetPick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["price_band", "make", "model", "verdict", "favourite"],
+      "description": "INTERNAL row of menno-picks.yaml used_budget_bands_2025_07 (stale July 2025 used-market analysis).",
+      "properties": {
+        "tab": {
+          "type": "string",
+          "description": "Sheet tab."
+        },
+        "row": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "price_band": {
+          "type": "string"
+        },
+        "tier": {
+          "type": ["string", "null"],
+          "description": "Sheet tier code, e.g. 'A1'."
+        },
+        "make": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "seed_model_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "seed_generation_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "in_seed": {
+          "type": "boolean"
+        },
+        "battery_kwh": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "verdict": {
+          "$ref": "#/$defs/EditorialVerdict"
+        },
+        "favourite": {
+          "type": "boolean"
+        },
+        "availability": {
+          "type": ["string", "null"]
+        },
+        "pros": {
+          "type": ["string", "null"]
+        },
+        "cons": {
+          "type": ["string", "null"]
+        },
+        "sheet_values": {
+          "$ref": "#/$defs/EditorialSheetValues"
+        }
+      }
+    },
+    "EditorialPicks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "author", "primary_car_picks"],
+      "description": "data/editorial/menno-picks.yaml (generated by import_menno_sheet.py). Internal file: publish EditorialPick rows only.",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "pattern": "^editorial-picks/v[0-9]+$"
+        },
+        "author": {
+          "type": "string"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "imported": {
+              "type": "string",
+              "format": "date"
+            },
+            "importer": {
+              "type": "string"
+            }
+          }
+        },
+        "scope": {
+          "type": "string"
+        },
+        "licence": {
+          "type": "string"
+        },
+        "primary_car_picks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EditorialPickSheetRow"
+          }
+        },
+        "eras": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EditorialEraPick"
+          }
+        },
+        "used_budget_bands_2025_07": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "type": "string"
+            },
+            "rows": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/EditorialUsedBudgetPick"
+              }
+            }
+          }
+        }
+      }
+    },
+    "RetiredIds": {
+      "type": "object",
+      "description": "Ids that were published before and are gone now: old id → successor id, or null when there is no successor (T-062). The web app redirects old URLs with it.",
+      "propertyNames": {
+        "$ref": "#/$defs/Id"
+      },
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Id"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "RetiredIdsFile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release", "generated_at", "retired_ids"],
+      "description": "releases/<n>/retired_ids.json (T-062). Becomes Catalogue.retired_ids once the pipeline test for the in-catalogue path lands with it (WS1); the pipeline switches on its own when Catalogue has the property.",
+      "properties": {
+        "release": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "retired_ids": {
+          "$ref": "#/$defs/RetiredIds"
         }
       }
     }
