@@ -55,3 +55,37 @@ No critical or high findings in production code or runtime dependencies.
 **`pnpm audit` after the fixes: 1 advisory (1 moderate), down from 16 (3 critical, 1 high, 11 moderate, 1 low).** `pnpm audit --prod`: no known vulnerabilities.
 
 The one left: `minimatch` 10.2.6 (GHSA-g3hv-75wg-m249, patched ≥ 11.0.1) via `typescript-eslint` → `@typescript-eslint/typescript-estree`, dev only (lint). The latest `typescript-eslint` (8.72.2) still depends on `minimatch ^10.2.2`, so a bump can't fix it; a root `pnpm.overrides` entry (`"minimatch@>=7 <11.0.1": ">=11.0.1"`) would, but the root `package.json` is outside the web lane and a major-version override of a lint dependency needs a test run by the coordinator. Dependabot will pick up a fixed `typescript-eslint`.
+
+## Status (overnight, addendum 5 item 6)
+
+**2026-11-15, builder (proto/overnight-1), CI + pipeline-fetch lane.** Addendum 5 calls this audit "A-01"; in this repo security is **A-02** (A-01 is the performance budget), so the status lives here.
+
+### Done
+
+| Item | What changed |
+|---|---|
+| Actions least privilege | `ci.yml`: top-level `contents: read`, and every job states its own `permissions:` (`contents: read`; `ci-ok` gets `{}`). `images.yml` is split in two: `build` (pull requests and manual runs off main; `contents: read`, no registry login, no push) and `push` (main only; the one job with `packages: write`). Before, the single job held `packages: write` while building PR code. All checkouts use `persist-credentials: false`, so the token doesn't stay in `.git/config`. |
+| Actions pinned to SHAs | All 8 actions pinned to a full commit SHA with a `# vX.Y.Z` comment, resolved with `git ls-remote` (each pin equals its major tag today): `actions/checkout` v7.0.1 `3d3c42e5…`, `actions/setup-node` v7.1.0 `949feb24…`, `actions/upload-artifact` v7.0.2 `cf430e03…`, `astral-sh/setup-uv` v7.6.0 `37802adc…`, `docker/setup-buildx-action` v3.12.0 `8d2750c6…`, `docker/login-action` v3.7.0 `c94ce9fb…`, `docker/metadata-action` v5.10.0 `c299e40c…`, `docker/build-push-action` v6.19.2 `10e90e36…`. Dependabot's `github-actions` entry bumps SHA and comment together. (Closes #8.) |
+| No secrets for fork PRs | Both workflows use `pull_request`, never `pull_request_target`; the only secret (`GITHUB_TOKEN` for GHCR login) is used only in the main-only `push` job. |
+| Dependency audit in CI | New `audit` job, `continue-on-error: true` and not part of `ci-ok` (warns, never blocks): `pnpm audit --prod`, and `uvx pip-audit --disable-pip` on `uv export --frozen --no-dev` (the hashed runtime set from `uv.lock`; nothing gets installed). Both report "No known vulnerabilities" locally tonight. |
+| Lockfiles | `pnpm-lock.yaml` and `pipeline/uv.lock` are committed (in the git index, not ignored). CI installs with `pnpm install --frozen-lockfile` and now `uv sync --locked` (was plain `uv sync`, which would quietly re-lock); Dockerfiles already use `uv sync --frozen`. |
+| Workflow check | YAML parses; `actionlint` 1.7.12 (via `uvx --from actionlint-py`) reports nothing. shellcheck wasn't installed, so `run:` scripts weren't shell-linted. |
+| Safe fetch for pipeline | New `pipeline/ev_pipeline/net.py` → `safe_client(source_id, timeout=…, max_bytes=…, max_seconds=…)`. It allows only `https`, default port, no user info, no IP literals, hosts from the source's new `hosts:` list in `data/sources.yaml` (`*.x` = subdomains only). It checks every redirect hop (max 5). The SSRF guard resolves DNS once, refuses the host if any answer is non-public (private, loopback, link-local incl. 169.254.169.254, CGNAT, multicast, reserved, unspecified, IPv4-mapped), then connects to the checked IP itself (no DNS-rebinding gap; TLS still verifies the hostname). Per-operation timeout, a total time budget per response (default 600 s) and a size cap: 32 MB by default, counted on the wire and after gzip decoding (bomb-safe; other encodings are refused). Env proxies are ignored. Errors are `httpx.RequestError` subclasses (`FetchBlocked`, `ResponseTooLarge`), so the adapters' existing error handling covers them. |
+| Adapters switched | One-line change in `fetch_cmd` of `rdw`, `eea`, `kba_fz10`, `ademe`, `nyland`, `dft_veh` (DfT: `max_bytes=256 MB`; it already streams to disk). `openev` / `kilowatt-openev` use `git clone` of github.com (not httpx); their `hosts: [github.com]` is there for the egress record. |
+| Tests | `pipeline/tests/test_net.py`, 52 tests, no network: allowlist, wildcard, scheme/port/userinfo/IP-literal refusals, redirect re-checks and loop bound, size caps (announced, streamed, stream-to-disk, gzip bomb), time budget, address classes, backend connects to the checked IP, refuses mixed answers, the real transport refuses a loopback-resolving host, and every HTTP source has `hosts:` in the registry. |
+
+### Remaining, code (not done tonight)
+
+1. **Strict CSP with nonces (web lane, #2).** `next.config.ts` and `infra/deploy/ev.caddy` still allow `script-src 'unsafe-inline'`. Move to a per-request nonce set in `proxy.ts`, which Next reads from the CSP header, and keep Caddy in step. Not touched: a web builder is active in `apps/web`.
+2. **Staff page guard (Q-035, web lane, #5).** `/staff/*` is 404 unless `STAFF_PAGES=1`, but once enabled it has no auth. Add an env-flagged basic guard (for example `STAFF_BASIC_AUTH=user:hash` checked in `proxy.ts`, constant-time compare), or Caddy `basic_auth` (server item below). It is never linked publicly today.
+3. `minimatch` dev advisory via `typescript-eslint` (see Fixes): needs a coordinator decision on a root `pnpm.overrides` entry.
+4. Optional: list `httpcore` as a direct dependency in `pipeline/pyproject.toml` (`net.py` imports it; today it comes in through `httpx`, locked in `uv.lock`). `net.py` swaps httpx's private `_pool` to plug in the pinned backend; a test fails if an httpx upgrade breaks that.
+
+### Remaining, server (WS4 / AppInfra)
+
+1. Caddy `basic_auth` (or IP allowlist) on `/staff/*` before `STAFF_PAGES=1` is set on any public host.
+2. Apply `infra/deploy/ev.caddy` headers (HSTS, CSP, Permissions-Policy) once the real domain exists. Re-check with `curl -I` on staging.
+3. Egress: the jobs container only needs HTTPS (443) to the hosts in `data/sources.yaml` `hosts:` (plus github.com for git). An outbound firewall or Docker network rule enforces it at a second layer. Also block the Hetzner metadata address `169.254.169.254` from containers.
+4. Mount `data/sources.yaml` read-only into the jobs container (it is now also the fetch allowlist), or ship it in the image.
+5. Run containers as non-root with read-only root filesystems and memory limits (Decision 006). The jobs image already runs as `ev`.
+6. GitHub repo settings (Menno or WS4): branch protection on `main` requiring `ci-ok`; "Require approval for all outside collaborators" for fork PR workflows; Actions default token permission set to read-only.

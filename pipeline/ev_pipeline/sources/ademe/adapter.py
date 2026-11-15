@@ -39,6 +39,7 @@ from pathlib import Path
 
 import httpx
 
+from ev_pipeline import net
 from ev_pipeline.records import SourceRecord, SpecValue
 from ev_pipeline.schema_models import Confidence, Country, FactField, Source
 from ev_pipeline.sources import _common as c
@@ -222,9 +223,7 @@ def fetch(client: httpx.Client, target: Path) -> int:
 def fetch_cmd(client: httpx.Client | None = None) -> int:
     target = c.raw_dir(DIR)
     own = client is None
-    client = client or httpx.Client(
-        timeout=120, headers={"User-Agent": c.USER_AGENT}, follow_redirects=True
-    )
+    client = client or net.safe_client(NAME, timeout=120)
     try:
         size = fetch(client, target)
     except (httpx.HTTPError, LicenceChanged) as exc:

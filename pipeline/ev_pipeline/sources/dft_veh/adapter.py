@@ -32,6 +32,7 @@ from pathlib import Path
 
 import httpx
 
+from ev_pipeline import net
 from ev_pipeline.records import SourceRecord, SpecValue
 from ev_pipeline.schema_models import Confidence, Country, FactField, Source
 from ev_pipeline.sources import _common as c
@@ -187,9 +188,7 @@ def fetch(client: httpx.Client, target: Path, max_seconds: float = MAX_DOWNLOAD_
 def fetch_cmd(client: httpx.Client | None = None) -> int:
     target = c.raw_dir(DIR)
     own = client is None
-    client = client or httpx.Client(
-        timeout=120, headers={"User-Agent": c.USER_AGENT}, follow_redirects=True
-    )
+    client = client or net.safe_client(NAME, timeout=120, max_bytes=256 * net.MB)
     try:
         size = fetch(client, target)
     except (httpx.HTTPError, FileNotFoundError, DownloadTooSlow) as exc:

@@ -20,6 +20,7 @@ from pathlib import Path
 
 import httpx
 
+from ev_pipeline import net
 from ev_pipeline.records import SourceRecord, SpecValue
 from ev_pipeline.schema_models import Confidence, FactField, Source
 from ev_pipeline.sources import _common as c
@@ -101,9 +102,7 @@ def fetch_cmd(client: httpx.Client | None = None) -> int:
     target = c.local_dir(NAME)
     target.mkdir(parents=True, exist_ok=True)
     own = client is None
-    client = client or httpx.Client(
-        timeout=120, follow_redirects=True, headers={"User-Agent": c.USER_AGENT}
-    )
+    client = client or net.safe_client(NAME, timeout=120)
     try:
         resp = client.get(url)
         resp.raise_for_status()

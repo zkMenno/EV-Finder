@@ -1,16 +1,18 @@
 # Source registry (Decision 009, provisional). One entry per source.
 # status: active | waiting_permission | blocked
+# hosts: what the fetcher may contact (ev_pipeline/net.py allowlist; redirects are re-checked).
+#   Git-cloned sources list github.com for the egress record; git doesn't go through net.py.
 # Rule: only `active` sources with a named licence or written permission reach a public release.
 # Licences marked "(to confirm)" were not verified tonight; they stay blocked until checked.
 schema: sources/v1
 sources:
-  - {id: openev, name: Open EV Data, owner: open-ev-data (GitHub), licence: CDLA-Permissive-2.0, access: bulk, cadence: monthly, status: active,
+  - {id: openev, name: Open EV Data, owner: open-ev-data (GitHub), licence: CDLA-Permissive-2.0, access: bulk, cadence: monthly, status: active, hosts: [github.com],
      terms: "Licence verified from the LICENCE file in the repo, 2026-11-15."}
-  - {id: kilowatt-openev, name: "Open EV Data (KilowattApp)", owner: Tijs Teulings / KilowattApp (GitHub), licence: MIT-with-attribution, access: bulk, cadence: monthly, status: active,
+  - {id: kilowatt-openev, name: "Open EV Data (KilowattApp)", owner: Tijs Teulings / KilowattApp (GitHub), licence: MIT-with-attribution, access: bulk, cadence: monthly, status: active, hosts: [github.com],
      terms: "Licence verified from LICENSE, 2026-11-15. Must show visible attribution to 'Open EV Data (https://github.com/KilowattApp/open-ev-data)' on the About/credits page. Default curves (is_default_charging_curve) are dropped."}
-  - {id: rdw, name: RDW Open Data, owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active,
+  - {id: rdw, name: RDW Open Data, owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active, hosts: [opendata.rdw.nl],
      terms: "Primary NL register. Registrations, type-approval specs, catalogue price, defects, recalls. Bijsluiter: reusers may not state the data comes from RDW nor use its logo (Q-037)."}
-  - {id: eea, name: EEA CO2 monitoring of new cars (Reg. 2019/631), owner: European Environment Agency, licence: CC-BY-4.0, access: api, cadence: yearly, status: active,
+  - {id: eea, name: EEA CO2 monitoring of new cars (Reg. 2019/631), owner: European Environment Agency, licence: CC-BY-4.0, access: api, cadence: yearly, status: active, hosts: [discodata.eea.europa.eu, sdi.eea.europa.eu],
      terms: "Licence confirmed in EEA SDI metadata (copyright holder DG CLIMA), 2026-11-15. 2025 data is provisional."}
   - {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", owner: EV Finder, licence: CC-BY-4.0, access: manual, cadence: ad hoc, status: active,
      terms: "Model knowledge, confidence low; to be replaced by sourced data."}
@@ -24,7 +26,7 @@ sources:
   - {id: eu-safety-gate, name: EU Safety Gate, owner: European Commission, licence: CC-BY-4.0 (to confirm), access: bulk, cadence: weekly, status: blocked, terms: "Confirm Commission reuse terms."}
   - {id: maker-docs, name: Maker documents and price lists, owner: various OEMs, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,
      terms: "Facts cited one by one with URL + date; no copying of tables. Needs a decision before it counts as releasable (Q-008)."}
-  - {id: nyland, name: Bjørn Nyland range/charging tests, owner: Bjørn Nyland, licence: none, access: manual, cadence: ad hoc, status: waiting_permission,
+  - {id: nyland, name: Bjørn Nyland range/charging tests, owner: Bjørn Nyland, licence: none, access: manual, cadence: ad hoc, status: waiting_permission, hosts: [docs.google.com, "*.googleusercontent.com"],
      terms: "Importer may run; data stays in git-ignored data/local/. Never in repo, release or fixture."}
   - {id: fastned, name: Fastned charging curves, owner: Fastned, licence: none, access: manual, cadence: ad hoc, status: waiting_permission, terms: "Ask for permission."}
   - {id: naf, name: NAF El Prix tests, owner: NAF / Motor (NO), licence: none, access: manual, cadence: twice yearly, status: waiting_permission, terms: "Permission email pending (ROADMAP)."}
@@ -42,11 +44,11 @@ sources:
      terms: "Share-alike would spread to our derived data. Use only to cross-check RDW-derived totals by hand (Q-036)."}
   - {id: cbs, name: CBS StatLine 86402NED, owner: CBS (NL), licence: CC-BY-4.0, access: api, cadence: yearly, status: active, aggregates: [rdw],
      terms: "Fleet by fuel/age/region only, no make/model. Sanity totals only. Not imported tonight."}
-  - {id: kba-fz10, name: "KBA FZ10 new registrations by make and model series", owner: Kraftfahrt-Bundesamt (DE), licence: dl-de/by-2-0, access: bulk, cadence: monthly, status: active,
+  - {id: kba-fz10, name: "KBA FZ10 new registrations by make and model series", owner: Kraftfahrt-Bundesamt (DE), licence: dl-de/by-2-0, access: bulk, cadence: monthly, status: active, hosts: [www.kba.de],
      terms: "Licence stated in the file's Impressum sheet; attribution '© Kraftfahrt-Bundesamt, Flensburg' required. KBA asks for notice before deep-linking kba.de."}
-  - {id: ademe, name: ADEME Car Labelling, owner: ADEME (FR), licence: Licence-Ouverte-2.0, access: bulk, cadence: quarterly, status: active, aggregates: [maker-docs],
+  - {id: ademe, name: ADEME Car Labelling, owner: ADEME (FR), licence: Licence-Ouverte-2.0, access: bulk, cadence: quarterly, status: active, hosts: [data.ademe.fr], aggregates: [maker-docs],
      terms: "Cars currently on sale in FR, with list prices. Snapshot each quarter for history."}
-  - {id: dft-veh, name: "DfT vehicle licensing data files (VEH0120/0160)", owner: UK Department for Transport, licence: OGL-UK-3.0, access: bulk, cadence: quarterly, status: active, aggregates: [dvla],
+  - {id: dft-veh, name: "DfT vehicle licensing data files (VEH0120/0160)", owner: UK Department for Transport, licence: OGL-UK-3.0, access: bulk, cadence: quarterly, status: active, hosts: [www.gov.uk, assets.publishing.service.gov.uk], aggregates: [dvla],
      terms: "'Contains public sector information licensed under the Open Government Licence v3.0.' Asset URLs change each release; resolve via the gov.uk content API."}
   - {id: dvla, name: DVLA vehicle register, owner: DVLA (UK), licence: none (not open in bulk), access: api, cadence: n/a, status: blocked, terms: "Per-plate lookup API with key only; use DfT aggregates instead."}
   - {id: be-mobilit, name: "FPS Mobility (DIV) vehicle registrations", owner: SPF Mobilité et Transports (BE), licence: CC0-1.0 (to confirm), access: manual, cadence: yearly, status: blocked,
