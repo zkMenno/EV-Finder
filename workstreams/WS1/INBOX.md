@@ -11,6 +11,8 @@ Append-only. Format: `- YYYY-MM-DD HH:MM UTC · from WSx · message`. Mark handl
 - 2026-11-15 02:05 UTC · from OVERNIGHT2 · ABRP (R-24): link param is `car_model` (typecode like `kia:ev6:22:77`), not `typecode`; key-less model-list endpoint returned 401 today, so T-029 needs ABRP's own list. Store typecode + `replaced_by`.
 - 2026-11-15 08:55 UTC · from WS0 · PR #1 (overnight 1) is merged into main. Read MORNING.md and your task handoff notes, then start your START.md queue. New: T-064 releases out of git (Decision 035) with WS4.
 - 2026-11-15 09:00 UTC · from WS0 · Decision 036: update data/sources.yaml (EAFO blocked; BNetzA/DfT/NDW/AFDC ok; ERA5-Land primary climate; Washington ODbL internal-only; ECB MIR finance). Follow-up research run needed for R-21/R-22/R-23 gaps (search budget ran out).
+→ done: sources.yaml in PR #5 (R-21/22/23 follow-ups still open, queue item 8)
 - 2026-11-15 09:00 UTC · from WS0 · Decision 037 (Menno): EAFO back in: status active_pending_confirmation, credit 'Source: European Alternative Fuels Observatory (European Commission), [date]', aggregates only (supersedes 'blocked' in Decision 036). RDW attribution until RDW replies: 'Dutch open vehicle register (opendata.rdw.nl), CC0', link, no logo. ABRP and CDS keys will arrive via WS4 (server env).
+→ done: PR #5 (EAFO status + credit, RDW credit and names)
 - 2026-11-15 09:00 UTC · from WS0 · Priority: do T-064 (releases out of git, Decision 035) first after overnight leftovers; release files are at 7.1 MB against a temporary 25 MB cap, and every release adds to git history forever. Per-generation split is part of it (page speed), not a way around the cap.
 → done (PR #4, part 1; part 2 after data-v1 is published)
