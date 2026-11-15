@@ -10,3 +10,4 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | UX | Brand + design system (docs/design/, claude/brand-design-decisions.md) | https://claude.ai/code/session_01JuyZEVwepSTrWVdkrCyGeQ | 2026-11-15 |
 | WS4 prep | AppInfra capacity check chat | (Menno: add link) | 2026-11-15 |
 | OVERNIGHT2 | Overnight research + review pack on `proto/overnight-2` (R-20…R-31, A-20, growth keywords, outreach translations) | https://claude.ai/code/session_01JuyZEVvDWLuBFGEnLBuGTR | 2026-11-15 |
+| WS1 | Data pipeline: T-064 releases out of git, T-025, T-034, T-032/033, T-035, T-051 | https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY | 2026-11-15 |
