@@ -176,6 +176,17 @@ def provenance_errors(rows: list[dict[str, Any]]) -> list[str]:
         for cc in row.get("price_new") or {}:
             if f"price_new.{cc}" not in prov:
                 errors.append(f"{row['variant_id']}: price_new.{cc} has no provenance")
+        for cc, entries in (row.get("registrations") or {}).items():
+            p = prov.get(f"registrations.{cc}")
+            if p is None:
+                errors.append(f"{row['variant_id']}: registrations.{cc} has no provenance")
+                continue
+            for e in entries:
+                if e.get("source_id") not in p.get("source_ids", []):
+                    errors.append(
+                        f"{row['variant_id']}: registrations.{cc} count from {e.get('source_id')}"
+                        " not in its provenance"
+                    )
         for f, p in prov.items():
             if not p.get("source_ids"):
                 errors.append(f"{row['variant_id']}: provenance {f} has no source")

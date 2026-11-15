@@ -10,7 +10,8 @@ Each field lists `primary` and `fallbacks` source ids (that order is the priorit
 Sources not listed for a field rank below every listed one, in the default order
 (matcher.SOURCE_PRIORITY). Fields not in the file keep the overnight defaults: majority of 3+
 agreeing values, else priority, recency as tie-breaker, 3% tolerance (`mode = "default"`).
-Prices map to `price_new_nl` (NL) and `price_new_other` (other countries).
+Prices map to `price_new_<cc>` when the file has one (e.g. `price_new_fr`), else
+`price_new_nl` (NL) and `price_new_other` (other countries).
 """
 
 from __future__ import annotations
@@ -64,7 +65,10 @@ class Policies:
 
     def for_field(self, name: str) -> FieldPolicy:
         if name.startswith("price_new."):
-            name = "price_new_nl" if name.endswith(".NL") else "price_new_other"
+            cc = name.split(".", 1)[1].lower()
+            if f"price_new_{cc}" in self.fields:  # e.g. price_new_fr (ADEME first)
+                return self.fields[f"price_new_{cc}"]
+            name = "price_new_nl" if cc == "nl" else "price_new_other"
         return self.fields.get(name, DEFAULT_POLICY)
 
 

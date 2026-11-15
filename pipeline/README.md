@@ -30,7 +30,7 @@ uv run pytest && uv run ruff check . && uv run ruff format --check .
 
 | Path | What | Required |
 |---|---|---|
-| `data/seed/models.yaml` | Make → Model → Generation seed; `name_aliases`, `name_excludes` ("e-tron GT" is not an e-tron) and `bev_only_aliases` (bare RDW/EEA names like `KONA`, used for BEV-filtered sources only) for matching | yes |
+| `data/seed/models.yaml` | Make → Model → Generation seed; `name_aliases`, `name_excludes` ("e-tron GT" is not an e-tron), `bev_only_aliases` (bare names like `KONA`, used for BEV-only sources: rdw, eea, kba-fz10, dft-veh, ademe, kilowatt-openev) and `source_aliases` (names valid for one source only, e.g. KBA `4ER` = i4, with an optional note) for matching | yes |
 | `data/staging/*.records.jsonl` | one `SourceRecord` per line (`ev_pipeline/records.py`) | no |
 | `data/seed/variants.yaml` | hand-entered variants, source `seed-manual` | no |
 | `data/sources.yaml` | licence gate: only `status: active` with a named, confirmed licence (or `permission: written`) is released | **yes*** |
@@ -42,12 +42,24 @@ uv run pytest && uv run ruff check . && uv run ruff format --check .
 release, whatever the registry says. EEA records are used for registration counts only; its
 registration-weighted spec averages are not facts (Q-039).
 
+New sources (2026-11-15): **kba-fz10** (DE new registrations, year-to-date), **dft-veh** (UK
+fleet at quarter end; matched on its "Model" column, since GenModels like "HYUNDAI IONIQ" are
+coarse), **ademe** (FR list prices, best-case WLTP, mass) and **kilowatt-openev** (specs and
+DC curves, all `estimated`). ADEME and KilowattApp are *attach-only*: they add facts to existing
+variants and never create rows; records they cannot place go to unmatched.csv with the reason
+(Q-052). KilowattApp's `consumption_kwh_100km` is not used (not a WLTP figure, Q-048).
+
 ### What it writes
 
 - `data/releases/<n>/catalogue.json`: schema `Catalogue` (compact JSON, numbers to 1 decimal),
   `catalogue.parquet` (same rows, flat), `facts.parquet` (every fact merged in), `diff.json`
   (vs the previous release), `coverage.md`, `README.md` (counts, licences, attribution),
   `run_log.json` (inputs, outputs, outcome).
+- Each row's `registrations` holds official counts per country, one per source and period:
+  `fleet` (RDW NL, DfT UK) or `new_registrations` (KBA DE, EEA NL/DE/FR/BE); `level: model`
+  when the count is for the whole model (DfT has no year), repeated on every generation.
+  Counts are never added across sources, periods or kinds. Provenance key:
+  `registrations.<country>`. `registered_count_nl` stays (= the RDW NL fleet).
 - `data/releases/latest`: the newest release number. Roll back by writing an older number.
 - `data/review/unmatched.csv` (records we could not place; other makes summarised),
   `validation.csv` (values dropped: out of range, bad unit), `conflicts.csv` (values outside

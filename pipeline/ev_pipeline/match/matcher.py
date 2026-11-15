@@ -34,9 +34,26 @@
    original id and ends the year before). Smaller differences stay in one variant; merge then
    prefers the earliest model year and lists the rest in conflicts.csv.
 5. Registration counts are kept as facts on the generation, or on the model when the record
-   has no year; aggregation happens in `aggregate_counts`.
+   has no year (DfT fleet) or, for MODEL_LEVEL_FALLBACK sources (KBA), when the year cannot
+   pick one generation. Each count fact carries its period (KBA "2025-01..12", DfT "2026-Q2").
+   Aggregation: `aggregate_counts` (RDW -> registered_count_nl) and `registration_entries`
+   (every source -> PublishedVariant.registrations). Counts of different sources, periods or
+   kinds (fleet / new registrations) are never added together.
 6. Count-only sources (COUNT_ONLY_SOURCES, EEA): their spec records are dropped and counted,
    never matched: the EEA averages blend different cars (T-004 review, Q-039).
+7. Source-scoped aliases (`source_aliases` in models.yaml): names one source uses for a model
+   (KBA "4ER" = the BEV column of the BMW 4 series = i4). They may start with a make the seed
+   lacks ("SEAT BORN" -> Cupra Born). Their optional note goes into the count's provenance.
+8. MATCH_ON_VARIANT_NAME (DfT): the model column is coarse (GenModel "HYUNDAI IONIQ" holds
+   the Ioniq 5, 6 and 9 too), so the variant column (DfT "Model") is matched instead.
+9. ATTACH_ONLY_SOURCES (ADEME, KilowattApp): their names never equal ours ("e-208 (57Kw)",
+   "LR"), so they never make variants of their own. After the main pass each record is
+   attached to one existing variant of its generation: same name, else the generation's
+   only variant, else the single variant with the most evidence (battery kWh, power kW,
+   WLTP km, shared distinctive name words; on equal evidence the name with the fewest words
+   the record lacks); a tie or no evidence goes to review. Year bands of one variant count
+   as one candidate; the record's year then picks the band. A record without a year uses
+   battery/name evidence to pick the generation, else goes to review.
 
 Nothing here decides values: that is merge's job.
 """
@@ -58,6 +75,7 @@ from ev_pipeline.match.seed import (
     model_alias_keys,
     model_bev_only_keys,
     model_exclude_tokens,
+    model_source_alias_keys,
 )
 from ev_pipeline.records import SourceRecord, SpecValue
 from ev_pipeline.schema_models import ChargeCurve, Fact, FactField, Id
@@ -66,7 +84,37 @@ EXCLUDED_SOURCES = frozenset({"nyland"})  # permission pending: never in a relea
 
 # Sources that hold battery-electric cars only, so a bare trade name ("KONA") means the BEV.
 # RDW: server-side BEV proxy (no displacement, see sources/rdw); EEA: Ft = 'electric'.
-BEV_FILTERED_SOURCES = frozenset({"rdw", "eea"})
+# KBA FZ10: the "mit Elektroantrieb (BEV)" column; DfT VEH0120: Fuel = battery electric;
+# ADEME: Energie = ELECTRIC; KilowattApp: an electric-car database (no PHEVs; the smallest
+# car pack is 14.4 kWh, checked 2026-11-15).
+BEV_FILTERED_SOURCES = frozenset({"rdw", "eea", "kba-fz10", "dft-veh", "ademe", "kilowatt-openev"})
+
+# Sources whose model column is coarse; their variant column names the car (see 8 above).
+MATCH_ON_VARIANT_NAME = frozenset({"dft-veh"})
+
+# Sources that only add facts to variants made by other sources (see 9 above).
+ATTACH_ONLY_SOURCES = frozenset({"ademe", "kilowatt-openev"})
+
+# Fields a source emits that we do not use, with the reason (counted in the run log).
+IGNORED_FIELDS: dict[str, dict[str, str]] = {
+    # Our consumption_kwh_100km is a WLTP figure (motorway = x 1.30, AC km/h); KilowattApp's
+    # "energy_consumption" is an app average of unknown cycle (Q-048 item 5).
+    "kilowatt-openev": {"consumption_kwh_100km": "not a WLTP figure"},
+}
+
+# What a source's registration count is (RegistrationCount.kind).
+COUNT_KIND: dict[str, str] = {
+    "rdw": "fleet",
+    "dft-veh": "fleet",
+    "kba-fz10": "new_registrations",
+    "eea": "new_registrations",
+}
+# Count sources placed at model level (not sent to review) when their year is shared by two
+# generations without evidence (`ambiguous-generation`). A year outside every generation
+# (KBA 2025 "GOLF" BEV: the e-Golf ended in 2020) still goes to review.
+MODEL_LEVEL_FALLBACK = frozenset({"kba-fz10"})
+_KBA_PERIOD_RE = re.compile(r"YTD (\d{4}-\d{2}\.\.\d{2})")
+_DFT_PERIOD_RE = re.compile(r"(\d{4}) Q([1-4])")
 
 # Sources used for registration counts only; their spec records never become facts (Q-039).
 COUNT_ONLY_SOURCES = frozenset({"eea"})
@@ -113,6 +161,8 @@ class MatchedFact:
     year: int | None
     generation_id: str | None = None
     model_id: str | None = None
+    period: str | None = None  # registration counts: the period the count covers
+    note: str | None = None  # e.g. a source alias note ("KBA joins ID.4 and ID.5")
 
 
 @dataclass
@@ -163,6 +213,8 @@ class MatchResult:
     excluded: Counter[str] = field(default_factory=Counter)
     count_only_skipped: Counter[str] = field(default_factory=Counter)
     year_bands: list[dict[str, object]] = field(default_factory=list)
+    attached: Counter[str] = field(default_factory=Counter)  # attach-only records placed
+    ignored_fields: Counter[str] = field(default_factory=Counter)  # "source:field" dropped
     matched_records: int = 0
 
 
@@ -176,13 +228,27 @@ def _contains_run(toks: list[str], run: list[str]) -> bool:
 
 
 def find_model(seed: Seed, make_id: str, record: SourceRecord) -> tuple[SeedModel | None, str]:
+    model, why, _ = find_model_noted(seed, make_id, record)
+    return model, why
+
+
+def find_model_noted(
+    seed: Seed, make_id: str, record: SourceRecord
+) -> tuple[SeedModel | None, str, str | None]:
+    """find_model plus the note of the source alias that matched (if any)."""
     make = seed.makes[make_id]
-    bev_only = record.source.id.root in BEV_FILTERED_SOURCES
+    sid = record.source.id.root
+    bev_only = sid in BEV_FILTERED_SOURCES
     alias_index: dict[str, set[str]] = {}
     exact_index: dict[str, set[str]] = {}
+    notes: dict[tuple[str, str], str] = {}  # (model id, key) -> source alias note
     for m in make.models:
         for k in model_alias_keys(m):
             alias_index.setdefault(k, set()).add(m.id)
+        for k, a in model_source_alias_keys(m, sid).items():
+            alias_index.setdefault(k, set()).add(m.id)
+            if a.note:
+                notes[(m.id, k)] = a.note
         if bev_only:
             for k in model_bev_only_keys(m):
                 exact_index.setdefault(k, set()).add(m.id)
@@ -193,6 +259,7 @@ def find_model(seed: Seed, make_id: str, record: SourceRecord) -> tuple[SeedMode
             variants_of_toks.append(toks[len(strip) :])
     # Every (match length, model) candidate; the longest non-excluded one wins.
     candidates: dict[str, int] = {}
+    cand_key: dict[str, str] = {}
     for tl in variants_of_toks:
         hits = [(pk, alias_index[pk]) for pk in prefix_keys(tl) if pk in alias_index]
         full = "".join(tl)
@@ -200,7 +267,9 @@ def find_model(seed: Seed, make_id: str, record: SourceRecord) -> tuple[SeedMode
             hits.append((full, exact_index[full]))
         for pk, ids in hits:
             for mid in ids:
-                candidates[mid] = max(candidates.get(mid, 0), len(pk))
+                if len(pk) > candidates.get(mid, 0):
+                    candidates[mid] = len(pk)
+                    cand_key[mid] = pk
     excluded: list[str] = []
     for mid in list(candidates):
         runs = model_exclude_tokens(seed.models[mid])
@@ -209,13 +278,40 @@ def find_model(seed: Seed, make_id: str, record: SourceRecord) -> tuple[SeedMode
             del candidates[mid]
     if not candidates:
         if excluded:
-            return None, f"model not in seed (name excluded from {', '.join(sorted(excluded))})"
-        return None, "model not in seed"
+            why = f"model not in seed (name excluded from {', '.join(sorted(excluded))})"
+            return None, why, None
+        return None, "model not in seed", None
     best_len = max(candidates.values())
     best = {mid for mid, n in candidates.items() if n == best_len}
     if len(best) > 1:
-        return None, f"ambiguous model: {', '.join(sorted(best))}"
-    return seed.models[best.pop()], ""
+        return None, f"ambiguous model: {', '.join(sorted(best))}", None
+    mid = best.pop()
+    return seed.models[mid], "", notes.get((mid, cand_key[mid]))
+
+
+def find_by_source_alias(seed: Seed, record: SourceRecord) -> tuple[SeedModel | None, str | None]:
+    """For a make the seed lacks: a source alias written with its make ("SEAT BORN")."""
+    sid = record.source.id.root
+    toks = tokens(record.make) + tokens(record.model)
+    pks = set(prefix_keys(toks))
+    found: dict[str, str | None] = {}
+    for m in seed.models.values():
+        for a in m.source_aliases.get(sid, []):
+            if key(a.name) in pks:
+                found[m.id] = a.note
+    if len(found) != 1:
+        return None, None
+    mid, note = found.popitem()
+    if any(_contains_run(toks, run) for run in model_exclude_tokens(seed.models[mid])):
+        return None, None
+    return seed.models[mid], note
+
+
+def match_view(record: SourceRecord) -> SourceRecord:
+    """The record as matching sees it: DfT is matched on its variant column (see 8 above)."""
+    if record.source.id.root in MATCH_ON_VARIANT_NAME and record.variant_name:
+        return record.model_copy(update={"model": record.variant_name})
+    return record
 
 
 def kwh_in_text(*texts: str | None) -> set[float]:
@@ -266,6 +362,12 @@ def find_generation(
     if year is None:
         if len(model.generations) == 1:
             return model.generations[0], ""
+        if evidence is not None and record is not None:
+            # No year (ADEME): battery/name evidence may still single out one generation.
+            nk, kwh = key(record.variant_name), record_kwh(record)
+            backed = [g for g in model.generations if evidence.supports(g.id, nk, kwh)]
+            if len(backed) == 1:
+                return backed[0], ""
         return None, f"no year and model has {len(model.generations)} generations"
     hits = [g for g in model.generations if g.covers(year)]
     if not hits:
@@ -386,7 +488,7 @@ def build_evidence(
         make_id = seed.make_id_for(rec.make)
         if make_id is None or rec.year is None:
             continue
-        model, _ = find_model(seed, make_id, rec)
+        model, _ = find_model(seed, make_id, match_view(rec))
         if model is None:
             continue
         hits = [g for g in model.generations if g.covers(rec.year)]
@@ -433,6 +535,7 @@ def match_records(
     ordered = sorted(
         records, key=lambda r: (-priority_of(r.source.id.root), r.source.id.root, r.record_key)
     )
+    deferred: list[tuple[SourceRecord, SeedGeneration]] = []
     for rec in ordered:
         sid = rec.source.id.root
         if sid in EXCLUDED_SOURCES:
@@ -441,20 +544,28 @@ def match_records(
         if sid in COUNT_ONLY_SOURCES and rec.kind != "registration_count":
             result.count_only_skipped[sid] += 1
             continue
+        view = match_view(rec)
         make_id = seed.make_id_for(rec.make)
+        note: str | None = None
         if make_id is None:
-            result.other_makes[(sid, rec.make.strip().upper())] += 1
-            continue
-        model, why = find_model(seed, make_id, rec)
-        if model is None:
-            result.unmatched.append(_unmatched(rec, why))
-            continue
+            model, note = find_by_source_alias(seed, view)
+            if model is None:
+                result.other_makes[(sid, rec.make.strip().upper())] += 1
+                continue
+        else:
+            model, why, note = find_model_noted(seed, make_id, view)
+            if model is None:
+                result.unmatched.append(_unmatched(rec, why))
+                continue
         if rec.kind == "registration_count":
-            _add_count(rec, model, result, evidence)
+            _add_count(rec, model, result, evidence, note)
             continue
         gen, why = find_generation(model, rec.year, evidence, rec)
         if gen is None:
             result.unmatched.append(_unmatched(rec, why))
+            continue
+        if sid in ATTACH_ONLY_SOURCES:
+            deferred.append((rec, gen))
             continue
         name = rec.variant_name or "base"
         vkey = (gen.id, key(name) or "base")
@@ -468,7 +579,177 @@ def match_records(
         _add_spec_facts(rec, gen, vid, info, result)
         result.matched_records += 1
     split_year_bands(result)
+    attach_records(deferred, result)
     return result
+
+
+# --- attach-only sources -------------------------------------------------------------------
+
+# Words that say nothing about which variant a name means.
+_STOP_TOKENS = frozenset(
+    [
+        "electric",
+        "electrique",
+        "elettrica",
+        "ev",
+        "bev",
+        "moteur",
+        "motor",
+        "kw",
+        "kwh",
+        "ch",
+        "hp",
+        "ps",
+        "auto",
+        "automatic",
+        "base",
+        "edition",
+        "new",
+        "version",
+        "e",
+    ]
+)
+_KW_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*kw(?!h)", re.IGNORECASE)
+POWER_TOLERANCE = 0.02
+WLTP_TOLERANCE = 0.02
+
+
+def _numbers(mfs: list[MatchedFact], fname: str) -> set[float]:
+    out: set[float] = set()
+    for mf in mfs:
+        v = mf.fact.value
+        if mf.fact.field.value == fname and isinstance(v, int | float) and not isinstance(v, bool):
+            out.add(float(v))
+    return out
+
+
+def _close_rel(a: set[float], b: set[float], tol: float) -> bool:
+    return any(abs(x - y) <= tol * max(abs(x), abs(y)) for x in a for y in b)
+
+
+def _spec_num(rec: SourceRecord, fname: str) -> set[float]:
+    sv = rec.specs.get(FactField(fname))
+    if sv is None or isinstance(sv.value, bool) or not isinstance(sv.value, int | float):
+        return set()
+    return {float(sv.value)}
+
+
+@dataclass
+class _Candidate:
+    root: str
+    members: list[str]  # the root variant id and its year-band ids
+    name_tokens: set[str]
+    kwh: set[float]
+    power: set[float]
+    wltp: set[float]
+
+
+def _distinct_tokens(text: str | None, drop: set[str]) -> set[str]:
+    return {t for t in tokens(text) if t not in _STOP_TOKENS and t not in drop}
+
+
+def attach_records(
+    deferred: list[tuple[SourceRecord, SeedGeneration]], result: MatchResult
+) -> None:
+    """Place attach-only records (ADEME, KilowattApp) on existing variants (see 9 above)."""
+    if not deferred:
+        return
+    band_root: dict[str, str] = {}
+    for b in result.year_bands:
+        for nid in b["new_ids"]:  # type: ignore[union-attr]
+            band_root[str(nid)] = str(b["variant_id"])
+    facts_of: dict[str, list[MatchedFact]] = {}
+    for mf in result.spec_facts:
+        facts_of.setdefault(mf.fact.subject_id.root, []).append(mf)
+    by_gen: dict[str, dict[str, list[str]]] = {}
+    for vid, info in result.variants.items():
+        root = band_root.get(vid, vid)
+        by_gen.setdefault(info.generation_id, {}).setdefault(root, []).append(vid)
+
+    for rec, gen in deferred:
+        sid = rec.source.id.root
+        roots = by_gen.get(gen.id, {})
+        if not roots:
+            result.unmatched.append(_unmatched(rec, f"no variant in {gen.id} to attach to"))
+            continue
+        # Words of the make and the seed model name say nothing about the variant.
+        drop = set(tokens(rec.make)) | set(tokens(gen.model_id))
+        cands: list[_Candidate] = []
+        for root, members in sorted(roots.items()):
+            mfs = [mf for v in members for mf in facts_of.get(v, [])]
+            info = result.variants[root]
+            cands.append(
+                _Candidate(
+                    root,
+                    sorted(members),
+                    _distinct_tokens(info.name, drop),
+                    _numbers(mfs, "battery_kwh_net")
+                    | _numbers(mfs, "battery_kwh_gross")
+                    | kwh_in_text(info.name),
+                    _numbers(mfs, "power_kw"),
+                    _numbers(mfs, "wltp_range_km"),
+                )
+            )
+        rec_name = rec.variant_name or ""
+        exact = [c for c in cands if key(result.variants[c.root].name) == key(rec_name or "base")]
+        if len(exact) == 1:
+            chosen, why = exact[0], ""
+        elif len(cands) == 1:
+            chosen, why = cands[0], ""  # the generation's only variant
+        else:
+            chosen, why = _best_candidate(rec, cands, drop)
+        if chosen is None:
+            result.unmatched.append(_unmatched(rec, f"attach-only: {why} in {gen.id}"))
+            continue
+        vid = _band_for_year(chosen.members, rec.year, result)
+        _add_spec_facts(rec, gen, vid, result.variants[vid], result)
+        result.attached[sid] += 1
+        result.matched_records += 1
+
+
+def _best_candidate(
+    rec: SourceRecord, cands: list[_Candidate], drop: set[str]
+) -> tuple[_Candidate | None, str]:
+    words = _distinct_tokens(rec.variant_name, drop) | _distinct_tokens(rec.model, drop)
+    kwh = record_kwh(rec)
+    power = {float(m.group(1).replace(",", ".")) for m in _KW_RE.finditer(rec.variant_name or "")}
+    power |= _spec_num(rec, "power_kw")
+    wltp = _spec_num(rec, "wltp_range_km")
+    scored: list[tuple[int, _Candidate]] = []
+    for c in cands:
+        score = len(words & c.name_tokens)
+        score += 2 if any(abs(a - b) <= KWH_TOLERANCE for a in kwh for b in c.kwh) else 0
+        score += 2 if _close_rel(power, c.power, POWER_TOLERANCE) else 0
+        score += 1 if _close_rel(wltp, c.wltp, WLTP_TOLERANCE) else 0
+        scored.append((score, c))
+    top = max(s for s, _ in scored)
+    if top == 0:
+        return None, "no variant evidence (name, kWh, kW, WLTP)"
+    best = [c for s, c in scored if s == top]
+    if len(best) > 1:
+        # Same evidence: the variant whose name has the fewest words the record lacks.
+        extra = {c.root: len(c.name_tokens - words) for c in best}
+        fewest = min(extra.values())
+        best = [c for c in best if extra[c.root] == fewest]
+    if len(best) > 1:
+        return None, "tie between " + ", ".join(c.root for c in best)
+    return best[0], ""
+
+
+def _band_for_year(members: list[str], year: int | None, result: MatchResult) -> str:
+    """The year band of a variant that holds `year` (else the first band)."""
+    if year is None or len(members) == 1:
+        return members[0] if len(members) == 1 else min(members, key=len)
+    starts = []
+    for vid in members:
+        ys = result.variants[vid].years
+        starts.append((min(ys) if ys else 0, vid))
+    starts.sort()
+    pick = starts[0][1]
+    for start, vid in starts:
+        if start <= year:
+            pick = vid
+    return pick
 
 
 def _add_spec_facts(
@@ -481,6 +762,9 @@ def _add_spec_facts(
     for f, sv in rec.specs.items():
         fname = f.value if isinstance(f, FactField) else str(f)
         if fname == "registered_count":
+            continue
+        if fname in IGNORED_FIELDS.get(sid, {}):
+            result.ignored_fields[f"{sid}:{fname}"] += 1
             continue
         if fname == "price_new" and rec.country is None:
             result.problems.append(
@@ -496,11 +780,25 @@ def _add_spec_facts(
             )
 
 
+def count_period(rec: SourceRecord) -> str:
+    """The period a count covers: KBA "2025-01..12" (YTD), DfT "2026-Q2" (quarter end),
+    RDW the fetch date (fleet snapshot), else the record's year."""
+    sid = rec.source.id.root
+    if sid == "kba-fz10" and (m := _KBA_PERIOD_RE.search(rec.record_key)):
+        return m.group(1)
+    if sid == "dft-veh" and (m := _DFT_PERIOD_RE.search(rec.record_key)):
+        return f"{m.group(1)}-Q{m.group(2)}"
+    if COUNT_KIND.get(sid) == "fleet" or rec.year is None:
+        return rec.retrieved_at.isoformat()
+    return str(rec.year)
+
+
 def _add_count(
     rec: SourceRecord,
     model: SeedModel,
     result: MatchResult,
     evidence: GenerationEvidence | None = None,
+    note: str | None = None,
 ) -> None:
     sv = rec.specs.get(FactField.registered_count)
     if sv is None:
@@ -510,10 +808,18 @@ def _add_count(
         subject_type, subject_id, gen_id = "model", model.id, None
     else:
         gen, why = find_generation(model, rec.year, evidence, rec)
-        if gen is None:
+        if (
+            gen is None
+            and rec.source.id.root in MODEL_LEVEL_FALLBACK
+            and why.startswith(AMBIGUOUS_GENERATION)
+        ):
+            subject_type, subject_id, gen_id = "model", model.id, None
+            note = "; ".join(x for x in (note, f"model level: {why}") if x)
+        elif gen is None:
             result.unmatched.append(_unmatched(rec, why))
             return
-        subject_type, subject_id, gen_id = "generation", gen.id, gen.id
+        else:
+            subject_type, subject_id, gen_id = "generation", gen.id, gen.id
     fact = _make_fact(rec, "registered_count", sv, subject_type, subject_id, result)
     if fact is not None:
         result.count_facts.append(
@@ -524,6 +830,8 @@ def _add_count(
                 rec.year,
                 gen_id,
                 model.id,
+                period=count_period(rec),
+                note=note,
             )
         )
         result.matched_records += 1
@@ -666,4 +974,84 @@ def aggregate_counts(
         agg = out.setdefault(gid, CountAggregate(0, [], [source_id], level))
         agg.value += int(mf.fact.value)
         agg.fact_ids.append(mf.fact.id)
+    return out
+
+
+@dataclass
+class RegistrationEntry:
+    """One count for PublishedVariant.registrations[country] (one source, period and kind)."""
+
+    count: int
+    kind: str  # fleet | new_registrations
+    period: str | None
+    level: str  # generation | model
+    source_id: str
+    fact_ids: list[str]
+    confidence: str
+    notes: list[str] = field(default_factory=list)
+
+
+_CONF_ORDER = {"low": 0, "medium": 1, "high": 2}
+
+
+def _conf_of(mf: MatchedFact) -> str:
+    c = mf.fact.confidence
+    return c.value if hasattr(c, "value") else str(c)
+
+
+def registration_entries(
+    count_facts: list[MatchedFact], seed: Seed
+) -> dict[str, dict[str, list[RegistrationEntry]]]:
+    """generation id -> country -> entries.
+
+    One entry per (source, country, period). Generation-level facts sum into their generation.
+    When a model has any model-level fact in a group (DfT has no year; KBA years that pick no
+    generation), the whole group's count for that model is one model-level entry, repeated
+    on every generation of the model (level "model"; "generation" for a one-generation
+    model). Nothing is summed across sources, periods or kinds. RDW keeps `aggregate_counts`
+    so its NL fleet equals registered_count_nl."""
+    out: dict[str, dict[str, list[RegistrationEntry]]] = {}
+    groups: dict[tuple[str, str, str], list[MatchedFact]] = {}
+    for mf in count_facts:
+        kind = COUNT_KIND.get(mf.source_id)
+        cc = mf.fact.country.value if mf.fact.country else None
+        if kind is None or cc is None or not isinstance(mf.fact.value, int | float):
+            continue
+        groups.setdefault((mf.source_id, cc, mf.period or ""), []).append(mf)
+
+    def add(gid: str, cc: str, entry: RegistrationEntry) -> None:
+        out.setdefault(gid, {}).setdefault(cc, []).append(entry)
+
+    for (sid, cc, period), mfs in sorted(groups.items()):
+        kind = COUNT_KIND[sid]
+        if sid == "rdw":
+            by_id = {mf.fact.id: mf for mf in mfs}
+            for gid, agg in aggregate_counts(mfs, seed, sid, cc).items():
+                used = [by_id[f] for f in agg.fact_ids]
+                conf = min((_conf_of(m) for m in used), key=lambda c: _CONF_ORDER[c])
+                add(gid, cc, RegistrationEntry(
+                    agg.value, kind, period or None, agg.level, sid, agg.fact_ids, conf,
+                    sorted({m.note for m in used if m.note}),
+                ))  # fmt: skip
+            continue
+        by_model: dict[str, list[MatchedFact]] = {}
+        for mf in mfs:
+            by_model.setdefault(str(mf.model_id), []).append(mf)
+        for model_id, items in sorted(by_model.items()):
+            items = sorted(items, key=lambda m: m.fact.id)
+            gens = seed.models[model_id].generations
+            if any(m.generation_id is None for m in items):
+                buckets = {g.id: items for g in gens}
+                level = "generation" if len(gens) == 1 else "model"
+            else:
+                buckets = {}
+                for m in items:
+                    buckets.setdefault(str(m.generation_id), []).append(m)
+                level = "generation"
+            for gid, used in buckets.items():
+                conf = min((_conf_of(m) for m in used), key=lambda c: _CONF_ORDER[c])
+                add(gid, cc, RegistrationEntry(
+                    sum(int(m.fact.value) for m in used), kind, period or None, level, sid,
+                    [m.fact.id for m in used], conf, sorted({m.note for m in used if m.note}),
+                ))  # fmt: skip
     return out

@@ -10,7 +10,8 @@ fields:
   length_mm:         {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {abs: 10, unit: mm}, merge: priority}
   width_mm:          {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {abs: 10, unit: mm}, merge: priority}
   wheelbase_mm:      {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {abs: 10, unit: mm}, merge: priority}
-  weight_kg:         {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, seed-manual], tolerance: {pct: 1}, merge: priority}
+  weight_kg:         {primary: [rdw], fallbacks: [eea, euroncap, wikidata, maker-docs, openev, ademe, seed-manual], tolerance: {pct: 1}, merge: priority,
+                      note: "ADEME 'poids a vide' = Masse OM - 75 kg (no driver)."}
   towing_kg:         {primary: [rdw], fallbacks: [eea, maker-docs, openev, seed-manual], tolerance: {pct: 1}, merge: priority}
   power_kw:          {primary: [eea, rdw], fallbacks: [openev, fueleconomy, seed-manual], tolerance: {pct: 2}, merge: priority}
   drivetrain:        {primary: [eea, rdw], fallbacks: [openev, fueleconomy, seed-manual], merge: priority}
@@ -23,8 +24,10 @@ fields:
   dc_avg_10_80_kw:   {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {pct: 5}, merge: median,
                       note: "Derived from the curve when present; maker figures labelled 'claim'."}
   dc_minutes_10_80:  {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {abs: 2, unit: min}, merge: median}
-  wltp_range_km:     {primary: [eea, rdw], fallbacks: [maker-docs, openev, seed-manual], tolerance: {pct: 2}, merge: priority}
-  consumption_kwh_100km: {primary: [eea, rdw], fallbacks: [maker-docs, openev, seed-manual], tolerance: {pct: 3}, merge: priority}
+  wltp_range_km:     {primary: [eea, rdw], fallbacks: [maker-docs, openev, ademe, seed-manual], tolerance: {pct: 2}, merge: priority,
+                      note: "ADEME holds the best case (highest range) of each WLTP interpolation family."}
+  consumption_kwh_100km: {primary: [eea, rdw], fallbacks: [maker-docs, openev, ademe, seed-manual], tolerance: {pct: 3}, merge: priority,
+                      note: "ADEME holds the best case (lowest consumption) of each WLTP family."}
   epa_range_km:      {primary: [fueleconomy], fallbacks: [openev, seed-manual], tolerance: {pct: 2}, merge: priority}
   real_range_summer_km:   {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
   real_range_motorway_km: {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
@@ -33,8 +36,10 @@ fields:
   consumption_motorway_kwh_100km: {primary: [spritmonitor, adac], fallbacks: [model-estimate], tolerance: {pct: 5}, merge: median,
                       note: "Fallback = WLTP consumption x ratio (estimate)."}
   price_new_nl:      {primary: [rdw], fallbacks: [maker-docs], merge: newest, note: "RDW catalogusprijs."}
+  price_new_fr:      {primary: [ademe], fallbacks: [maker-docs, openev], merge: priority, note: "ADEME Car Labelling list price (EUR, FR)."}
   price_new_other:   {primary: [maker-docs], fallbacks: [], merge: newest, note: "Manual price lists per country."}
-  registered_count:  {primary: [rdw, dft-veh0160], fallbacks: [kba, sdes, eea], merge: newest, note: "Fleet per model/year per country."}
+  registered_count:  {primary: [rdw, dft-veh, dft-veh0160], fallbacks: [kba-fz10, kba, sdes, eea], merge: newest,
+                      note: "Not merged: each source/period/kind is its own RegistrationCount (registrations.<country>); never summed across sources."}
   inspection_defects: {primary: [rdw, dvsa-mot], fallbacks: [], merge: newest}
   battery_health:    {primary: [aviloo], fallbacks: [recurrent, model-estimate], merge: newest, note: "Fallback: generic chemistry curve (estimate)."}
   recalls:           {primary: [rdw, dvsa-mot, nhtsa], fallbacks: [eu-safety-gate], merge: newest}

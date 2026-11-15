@@ -8,7 +8,13 @@ Row rules:
 - price_new per country from merged `price_new` facts (one value per country).
 - registered_count_nl = RDW count summed over the whole generation (all registration years
   inside the generation span). Every variant of a generation carries the same number: RDW
-  does not split by variant. It is a generation figure, not a variant one.
+  does not split by variant. It is a generation figure, not a variant one. Kept for
+  backwards compatibility; the same RDW number is also registrations.NL (kind fleet).
+- registrations[country] = one RegistrationCount per source and period (matcher
+  `registration_entries`): fleet (RDW NL, DfT UK) or new registrations (KBA DE, EEA
+  NL/DE/FR/BE), level generation or model (DfT has no year: a model-level count repeats on
+  every generation's variants). Never summed across sources, periods or kinds. Provenance
+  key `registrations.<country>` lists every source and fact behind that country's counts.
 - Charging (Decision 009), see derive/metrics.py for the formulas:
   * a dc_curve fact gives dc_avg_10_80_kw, dc_minutes_10_80 and dc_peak_held_min;
   * else a sourced dc_avg_10_80_kw / dc_minutes_10_80 is kept as is;
@@ -28,7 +34,7 @@ from datetime import date
 from typing import Any
 
 from ev_pipeline.derive import metrics as m
-from ev_pipeline.match.matcher import CountAggregate, Problem, VariantInfo
+from ev_pipeline.match.matcher import CountAggregate, Problem, RegistrationEntry, VariantInfo
 from ev_pipeline.match.seed import Seed
 from ev_pipeline.merge.merge import Merged, merge_drivetrain, min_confidence
 from ev_pipeline.merge.policy import Policies
@@ -230,6 +236,57 @@ def _charging(vid, values, pv, mv, drop) -> dict[str, Any]:
     return extra
 
 
+def _curve_note(status: str | None, avg_p: dict[str, Any]) -> str:
+    if not avg_p.get("derived") or status is None:
+        return "; dc_avg_10_80_kw is a sourced figure"
+    if status == "measured":
+        return "; measured charge curve"
+    if status == "default":
+        return "; PROVISIONAL default curve shape"
+    srcs = "+".join(s for s in avg_p["source_ids"] if s != ESTIMATE_SOURCE)
+    return f"; {status} charge curve ({srcs})"
+
+
+def _mway_note(mway_p: dict[str, Any]) -> str:
+    return "; motorway consumption is an estimate" if mway_p.get("estimate") else ""
+
+
+def registrations_block(
+    by_country: dict[str, list[RegistrationEntry]],
+) -> tuple[dict[str, list[dict[str, Any]]], dict[str, dict[str, Any]]]:
+    """(row registrations, provenance entries keyed `registrations.<country>`)."""
+    regs: dict[str, list[dict[str, Any]]] = {}
+    pv: dict[str, dict[str, Any]] = {}
+    for cc in sorted(by_country):
+        entries = sorted(by_country[cc], key=lambda e: (e.source_id, e.kind, e.period or ""))
+        regs[cc] = [
+            {
+                "count": int(e.count),
+                "kind": e.kind,
+                "period": e.period,
+                "level": e.level,
+                "source_id": e.source_id,
+            }
+            for e in entries
+        ]
+        notes = []
+        for e in entries:
+            n = f"{e.source_id}: {e.kind} {e.period or ''}, {e.level} level".replace(" ,", ",")
+            if e.level == "model":
+                n += " (whole model, same number on every generation)"
+            if e.notes:
+                n += " [" + "; ".join(e.notes) + "]"
+            notes.append(n)
+        pv[f"registrations.{cc}"] = prov(
+            [e.source_id for e in entries],
+            min_confidence(*[e.confidence for e in entries]),
+            [f for e in entries for f in e.fact_ids],
+            note="Official counts, never added across sources, periods or kinds: "
+            + " | ".join(notes),
+        )
+    return regs, pv
+
+
 def build_rows(
     variants: dict[str, VariantInfo],
     merged: dict[str, dict[str, Merged]],
@@ -239,9 +296,12 @@ def build_rows(
     release: int,
     policies: Policies | None = None,
     inherited: dict[str, dict[str, Any]] | None = None,
+    registrations: dict[str, dict[str, list[RegistrationEntry]]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[Problem]]:
     """`inherited`: per variant, extra row values with provenance from links/packs
-    (see derive/links.py); applied after merged facts, never over them."""
+    (see derive/links.py); applied after merged facts, never over them.
+    `registrations`: generation id -> country -> entries (matcher.registration_entries)."""
+    regs_by_gen = registrations or {}
     policies = policies or Policies()
     inherited = inherited or {}
     problems: list[Problem] = []
@@ -318,9 +378,12 @@ def build_rows(
         cons = values.get("consumption_kwh_100km")
         if "consumption_motorway_kwh_100km" not in values and cons:
             values["consumption_motorway_kwh_100km"] = m.motorway_consumption(cons)
+            cp = pv["consumption_kwh_100km"]
+            what = "estimated consumption" if cp.get("estimate") else "consumption"
+            srcs = "+".join(s for s in cp["source_ids"] if s != ESTIMATE_SOURCE) or "estimate"
             pv["consumption_motorway_kwh_100km"] = derived_prov(
-                [pv["consumption_kwh_100km"]],
-                f"PROVISIONAL WLTP consumption x {m.MOTORWAY_PER_WLTP}",
+                [cp],
+                f"PROVISIONAL {what} ({srcs}) x {m.MOTORWAY_PER_WLTP}",
                 estimate=True,
             )
         if cons and "ac_kw" in values:
@@ -339,7 +402,9 @@ def build_rows(
                 pv[f] = derived_prov(
                     inputs,
                     f"dc_avg_10_80_kw x {minutes}/60 / motorway consumption x 100"
-                    + (", capped at the 10-80% window" if net else ", no battery size: uncapped"),
+                    + (", capped at the 10-80% window" if net else ", no battery size: uncapped")
+                    + _curve_note(extra.get("dc_curve_status"), pv["dc_avg_10_80_kw"])
+                    + _mway_note(pv["consumption_motorway_kwh_100km"]),
                 )
 
         drivetrain, _ = merge_drivetrain(info.drivetrains, policies.fields.get("drivetrain"))
@@ -367,12 +432,25 @@ def build_rows(
     rows: list[dict[str, Any]] = []
     for w in work:
         rows.append(
-            _finish_row(w, seed, inputs_all, observations, ratios, nl_counts, today, release, drop)
+            _finish_row(
+                w,
+                seed,
+                inputs_all,
+                observations,
+                ratios,
+                nl_counts,
+                today,
+                release,
+                drop,
+                regs_by_gen.get(w.info.generation_id, {}),
+            )  # fmt: skip
         )
     return rows, problems
 
 
-def _finish_row(w, seed, inputs_all, observations, ratios, nl_counts, today, release, drop):
+def _finish_row(
+    w, seed, inputs_all, observations, ratios, nl_counts, today, release, drop, regs=None
+):
     info, values, pv = w.info, w.values, w.provenance
     gen = seed.generations[info.generation_id]
     model = seed.models[gen.model_id]
@@ -462,6 +540,9 @@ def _finish_row(w, seed, inputs_all, observations, ratios, nl_counts, today, rel
     if price_new:
         row["price_new"] = dict(sorted(price_new.items()))
     row["registered_count_nl"] = values.get("registered_count_nl")
+    if regs:
+        row["registrations"], reg_pv = registrations_block(regs)
+        pv.update(reg_pv)
     # sourced = battery and range each confirmed by 2+ agreeing sources; a derived or
     # inherited net battery does not count.
     bat_p = pv.get("battery_kwh_net", {})

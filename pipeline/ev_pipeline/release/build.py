@@ -49,6 +49,7 @@ from ev_pipeline.match.matcher import (
     UnmatchedRow,
     aggregate_counts,
     match_records,
+    registration_entries,
 )
 from ev_pipeline.match.review import unmatched_rows, write_unmatched
 from ev_pipeline.match.seed import ManualVariant, Seed, load_manual_variants, load_seed
@@ -294,6 +295,7 @@ def build_release(
     merged = {vid: merge_variant_facts(fs, policies) for vid, fs in by_variant.items()}
     conflicts = conflict_rows(merged)
     nl_counts = aggregate_counts(result.count_facts, seed, "rdw", "NL")
+    registrations = registration_entries(result.count_facts, seed)
 
     n = release or next_release_number(data_dir / "releases")
     inputs += [{"path": p} for p in links.inputs]
@@ -307,7 +309,15 @@ def build_release(
         for vid, info in result.variants.items()
     }
     rows, row_problems = build_rows(
-        result.variants, merged, seed, nl_counts, today, n, policies=policies, inherited=inherited
+        result.variants,
+        merged,
+        seed,
+        nl_counts,
+        today,
+        n,
+        policies=policies,
+        inherited=inherited,
+        registrations=registrations,
     )
     for row in rows:
         finish_voltage(links, row, row.get("platform_id"))
@@ -569,7 +579,14 @@ def release_readme(res: ReleaseResult) -> str:
         " (mild-weather mixed driving), not measurements.",
         "- `seed-manual` values are hand-entered and unchecked (confidence low).",
         "- `registered_count_nl` is per generation: every variant of a generation shows the"
-        " same RDW total.",
+        " same RDW total (also in `registrations.NL`, kind fleet).",
+        "- `registrations` holds official counts per country, one per source and period:"
+        " `fleet` = cars on the road (RDW NL, DfT UK), `new_registrations` = first registrations"
+        " in the period (KBA DE year-to-date, EEA NL/DE/FR/BE per year). They are never added"
+        " together. `level: model` (DfT has no model year) repeats the whole model's count on"
+        " every generation.",
+        "- Charge curves from KilowattApp are `estimated` (upstream does not say how they were"
+        " obtained); km-in-N-minutes also uses an estimated motorway consumption.",
         "",
     ]
     return "\n".join(lines)
@@ -617,6 +634,13 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "matched_records": res.match.matched_records,
         "excluded_records": dict(res.match.excluded),
         "count_only_spec_records_skipped": dict(res.match.count_only_skipped),
+        "attach_only_records_attached": dict(res.match.attached),
+        "ignored_fields": dict(res.match.ignored_fields),
+        "registrations_coverage": registrations_coverage(rows),
+        "dc_curve_status": dict(Counter(r.get("dc_curve_status") or "none" for r in rows)),
+        "price_new_coverage": dict(
+            sorted(Counter(cc for r in rows for cc in (r.get("price_new") or {})).items())
+        ),
         "year_bands": res.match.year_bands,
         "unmatched_records": res.unmatched_count,
         "unmatched_seed_makes": len(res.match.unmatched),
@@ -629,6 +653,18 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "catalogue_json_gzip_bytes": res.catalogue_gzip_bytes,
         "diff": res.diff["counts"],
     }
+
+
+def registrations_coverage(rows: list[dict[str, Any]]) -> dict[str, dict[str, int]]:
+    """Per country: variants with any count, and per source+kind how many variants have one."""
+    out: dict[str, dict[str, int]] = {}
+    for r in rows:
+        for cc, entries in (r.get("registrations") or {}).items():
+            c = out.setdefault(cc, {"variants": 0})
+            c["variants"] += 1
+            for key in sorted({f"{e['source_id']}:{e['kind']}:{e['level']}" for e in entries}):
+                c[key] = c.get(key, 0) + 1
+    return dict(sorted(out.items()))
 
 
 def run_log(res: ReleaseResult, outcome: str) -> dict[str, Any]:

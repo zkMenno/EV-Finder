@@ -119,6 +119,8 @@ makes:
         segment: C
         body: crossover
         name_aliases: [Megane E-Tech, Mégane E-Tech, Megane E-Tech Electric, Megane EV]
+        bev_only_aliases: [MEGANE]
+        source_aliases: {dft-veh: [MEGANE]}
         generations:
           - id: renault-megane-e-tech-gen1
             name: Megane E-Tech Electric
@@ -168,7 +170,7 @@ makes:
         segment: C
         body: hatchback
         name_aliases: [e Golf, eGolf, Golf electric]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: [GOLF]
         generations:
           - id: volkswagen-e-golf-mk7
@@ -207,6 +209,9 @@ makes:
         segment: J-medium
         body: suv
         name_aliases: [ID4, ID 4]
+        source_aliases:
+          kba-fz10:
+            - {name: "ID.4, ID.5", note: "KBA joins ID.4 and ID.5 in one row; the count includes the ID.5 (not in the seed)"}
         generations:
           - id: volkswagen-id4-gen1
             name: ID.4
@@ -225,8 +230,10 @@ makes:
         segment: C
         body: hatchback
         name_aliases: [IONIQ Electric, Ioniq EV, Ioniq (electric)]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: [IONIQ]
+        name_excludes: [Ioniq 3, Ioniq 5, Ioniq 6, Ioniq 9]
+        source_aliases: {dft-veh: [IONIQ]}
         generations:
           - id: hyundai-ioniq-electric-gen1
             name: Ioniq Electric
@@ -242,8 +249,9 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [Kona EV, KONA Electric, Kauai Electric]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: [KONA, "KONA, KAUAI", KAUAI]
+        source_aliases: {dft-veh: [KONA]}
         generations:
           - id: hyundai-kona-electric-os
             name: Gen 1 (OS)
@@ -301,8 +309,9 @@ makes:
         segment: J-small
         body: crossover
         name_aliases: [e-Soul, Soul Electric, Soul EV]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: [SOUL]
+        source_aliases: {dft-veh: [SOUL]}
         generations:
           - id: kia-soul-ev-ps
             name: Gen 1 (PS)
@@ -325,8 +334,9 @@ makes:
         segment: J-small
         body: crossover
         name_aliases: [e-Niro, Niro EV, Niro Electric, e Niro]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: [NIRO]
+        source_aliases: {dft-veh: [NIRO]}
         generations:
           - id: kia-niro-ev-de
             name: e-Niro (Gen 1, DE)
@@ -384,6 +394,9 @@ makes:
         segment: D
         body: sedan
         notes: "Five-door Gran Coupe (liftback)."
+        source_aliases:
+          kba-fz10:
+            - {name: 4ER, note: "KBA Modellreihe 4ER, BEV column only: counted as the i4"}
         generations:
           - id: bmw-i4-g26
             name: i4 (G26)
@@ -402,8 +415,9 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [e208, E-208, 208 Electric]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: ["208"]
+        source_aliases: {dft-veh: ["208"]}
         generations:
           - id: peugeot-e-208-p21
             name: e-208 (P21)
@@ -420,8 +434,9 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [e2008, E-2008, 2008 Electric]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: ["2008"]
+        source_aliases: {dft-veh: ["2008"]}
         generations:
           - id: peugeot-e-2008-p24
             name: e-2008 (P24)
@@ -440,9 +455,10 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [Corsa Electric, Corsa-e, Corsa e, e-Corsa, Vauxhall Corsa-e, Vauxhall Corsa Electric]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: [CORSA]
         notes: "Sold as Vauxhall in the UK."
+        source_aliases: {dft-veh: [CORSA]}
         generations:
           - id: opel-corsa-e-f
             name: Corsa F
@@ -461,7 +477,7 @@ makes:
         segment: A
         body: hatchback
         name_aliases: [500 Electric, New 500, 500 elettrica, Nuova 500, 500 La Prima, Abarth 500e]
-        # bev_only_aliases: bare RDW/EEA trade names; matched only for BEV-filtered sources (rdw, eea), whole name only.
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: ["500"]
         generations:
           - id: fiat-500e-312
@@ -510,6 +526,7 @@ makes:
         body: hatchback
         name_aliases: [MG4 Electric, MG 4, MG4 EV, Mulan]
         notes: "Do not confuse with the 2025 'MG4 Urban', reported to be a different car (unverified)."
+        name_excludes: [4 Urban, MG4 Urban]
         generations:
           - id: mg-mg4-gen1
             name: MG4
@@ -526,6 +543,8 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [MG ZS EV, ZS Electric, MG ZS Electric]
+        bev_only_aliases: [ZS]
+        source_aliases: {dft-veh: [ZS]}
         generations:
           - id: mg-zs-ev-gen1
             name: ZS EV
@@ -568,6 +587,9 @@ makes:
         # A different car that starts with the same words: never match these names to this model.
         name_excludes: [e-tron GT, RS e-tron GT, S e-tron GT]
         notes: "Do not confuse with e-tron GT, a different model."
+        source_aliases:
+          kba-fz10:
+            - {name: Q8, note: "KBA Modellreihe Q8, BEV column only: counted as the Q8 e-tron"}
         generations:
           - id: audi-e-tron-ge
             name: e-tron (GE)
@@ -592,6 +614,9 @@ makes:
         name_aliases: [Q4 e-tron, Q4 Sportback e-tron, Q4 etron, Q4 SB e-tron,
                        Q4 35 e-tron, Q4 40 e-tron, Q4 45 e-tron, Q4 50 e-tron, Q4 55 e-tron,
                        Q4 Sportback 35 e-tron, Q4 Sportback 40 e-tron, Q4 Sportback 45 e-tron, Q4 Sportback 50 e-tron, Q4 Sportback 55 e-tron]
+        source_aliases:
+          kba-fz10:
+            - {name: Q4, note: "KBA Modellreihe Q4, BEV column only: counted as the Q4 e-tron"}
         generations:
           - id: audi-q4-e-tron-gen1
             name: Q4 e-tron
@@ -610,6 +635,9 @@ makes:
         segment: J-medium
         body: suv
         name_aliases: [EQA 250, EQA 300, EQA 350]
+        source_aliases:
+          kba-fz10:
+            - {name: GLA, note: "KBA Modellreihe GLA, BEV column: read as the EQA (2025: 9,687 vs EEA DE EQA 9,682; Q-051)"}
         generations:
           - id: mercedes-eqa-h243
             name: EQA (H243)
@@ -680,6 +708,7 @@ makes:
         segment: A
         body: hatchback
         name_aliases: [fortwo electric drive, fortwo ED, fortwo EQ, smart EQ, smart ED, fortwo cabrio electric]
+        source_aliases: {dft-veh: [FORTWO]}
         generations:
           - id: smart-eq-fortwo-451
             name: fortwo electric drive (451)
@@ -725,6 +754,10 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [Mini Electric, Cooper SE, Cooper E, Mini Cooper Electric, Mini E, Mini Full Electric]
+        # KBA "MINI | MINI" is NOT mapped: KBA has one Modellreihe for every MINI, and its 2025
+        # BEV count (15,495) is 2.4x EEA's Cooper SE/E count for DE (6,570), so it includes the
+        # Aceman / Countryman E (Q-051). DfT "COOPER ..." names are Cooper-only.
+        source_aliases: {dft-veh: [COOPER]}
         generations:
           - id: mini-cooper-se-f56
             name: F56
@@ -749,6 +782,9 @@ makes:
         segment: C
         body: hatchback
         name_aliases: [Born, CUPRA Born, Seat el-Born, el-Born]
+        source_aliases:
+          kba-fz10:
+            - {name: SEAT BORN, note: "KBA files the Cupra Born under make SEAT"}
         generations:
           - id: cupra-born-gen1
             name: Born
@@ -787,6 +823,8 @@ makes:
         body: suv
         name_aliases: [XC40 Recharge, XC40 Pure Electric, XC40 P8, EX40, XC40 BEV]
         notes: "Do not confuse with plug-in hybrid XC40 Recharge T4/T5. C40 Recharge / EC40 is a separate model, not in this seed."
+        bev_only_aliases: [XC40]
+        source_aliases: {dft-veh: [XC40]}
         generations:
           - id: volvo-xc40-recharge-gen1
             name: XC40 Recharge
@@ -833,6 +871,8 @@ makes:
         body: crossover
         name_aliases: [e-C4, eC4, C4 Electric, ë-C4 Electric, e-C4 X, ë-C4 X]
         notes: "ë-C4 X is the saloon-style sibling; alias included for matching, may deserve its own model later."
+        bev_only_aliases: [C4]
+        source_aliases: {ademe: [C4 X]}
         generations:
           - id: citroen-e-c4-c41
             name: ë-C4 (C41)

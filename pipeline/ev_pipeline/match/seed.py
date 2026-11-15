@@ -22,6 +22,8 @@ MAKE_ALIASES: dict[str, str] = {
     "vauxhall": "opel",
     "bmwi": "bmw",
     "teslamotors": "tesla",
+    "mgroewe": "mg",  # KBA FZ10 files MG as "MG ROEWE"
+    "opelvauxhall": "opel",  # KilowattApp
 }
 
 SEED_MANUAL_SOURCE_ID = "seed-manual"
@@ -57,6 +59,17 @@ class SeedModel:
     # Bare trade names ("KONA", "208") that mean this electric model only in sources that hold
     # nothing but BEVs (matcher.BEV_FILTERED_SOURCES). Exact whole-name match, never a prefix.
     bev_only_aliases: list[str] = field(default_factory=list)
+    # Names one source uses for this model, valid for that source only (`source_aliases:
+    # {kba-fz10: ["4ER", {name: "ID.4, ID.5", note: "..."}]}`). Prefix match like
+    # `name_aliases`; an alias may start with a make the seed lacks ("SEAT BORN"). A `note`
+    # travels with the matched counts into the release provenance.
+    source_aliases: dict[str, list[SourceAlias]] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class SourceAlias:
+    name: str
+    note: str | None = None
 
 
 @dataclass
@@ -113,6 +126,7 @@ def parse_seed(data: dict[str, Any]) -> Seed:
                 generations=sorted(mgens, key=lambda g: g.year_start),
                 name_excludes=list(md.get("name_excludes") or []),
                 bev_only_aliases=list(md.get("bev_only_aliases") or []),
+                source_aliases=_parse_source_aliases(md.get("source_aliases")),
             )
             make_models.append(sm)
             models[sm.id] = sm
@@ -120,6 +134,19 @@ def parse_seed(data: dict[str, Any]) -> Seed:
         make_keys[key(mk["name"])] = mk["id"]
         make_keys[key(mk["id"])] = mk["id"]
     return Seed(makes=makes, make_keys=make_keys, models=models, generations=gens)
+
+
+def _parse_source_aliases(raw: Any) -> dict[str, list[SourceAlias]]:
+    out: dict[str, list[SourceAlias]] = {}
+    for sid, items in (raw or {}).items():
+        for it in items or []:
+            if isinstance(it, str):
+                out.setdefault(str(sid), []).append(SourceAlias(it))
+            elif isinstance(it, dict) and it.get("name"):
+                out.setdefault(str(sid), []).append(SourceAlias(str(it["name"]), it.get("note")))
+            else:
+                raise ValueError(f"bad source_aliases entry for {sid}: {it!r}")
+    return out
 
 
 def load_seed(path: Path) -> Seed:
@@ -278,6 +305,15 @@ def model_bev_only_keys(model: SeedModel) -> set[str]:
 def model_exclude_tokens(model: SeedModel) -> list[list[str]]:
     """Token lists of `name_excludes`; matched as a contiguous run anywhere in a name."""
     return [t for t in (tokens(n) for n in model.name_excludes) if t]
+
+
+def model_source_alias_keys(model: SeedModel, source_id: str) -> dict[str, SourceAlias]:
+    """Normalised keys of this model's aliases for one source (with and without the make)."""
+    out: dict[str, SourceAlias] = {}
+    for a in model.source_aliases.get(source_id, []):
+        for k in _with_and_without_make(model, [a.name]):
+            out[k] = a
+    return out
 
 
 def model_alias_keys(model: SeedModel) -> set[str]:

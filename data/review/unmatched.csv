@@ -1,4 +1,194 @@
 source_id,record_key,make,model,variant_name,year,reason
+ademe,ademe-car-labelling:AUDI|E-TRON GT|RS e-tron GT quattro (598ch),AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (4x)
+ademe,ademe-car-labelling:B.M.W.|IX|iX M60,B.M.W.,IX,,,model not in seed (6x)
+ademe,ademe-car-labelling:B.M.W.|IX3|iX3,B.M.W.,IX3,,,model not in seed (2x)
+ademe,ademe-car-labelling:CITROEN|BERLINGO|e-BERLINGO M (57Kw),CITROEN,BERLINGO,,,model not in seed (4x)
+ademe,ademe-car-labelling:CITROEN|C4|e-C4 (57Kw),CITROEN,C4,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in citroen-e-c4-c41 (2x)"
+ademe,ademe-car-labelling:CITROEN|C4 X|e-C4 X (57Kw),CITROEN,C4 X,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in citroen-e-c4-c41 (2x)"
+ademe,ademe-car-labelling:CITROEN|SPACE TOURER|e-SPACE TOURER M (57Kw),CITROEN,SPACE TOURER,,,model not in seed (8x)
+ademe,ademe-car-labelling:DACIA|SPRING|SPRING (19Kw)#price_new:FR,DACIA,SPRING,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in dacia-spring-gen1 (1x)"
+ademe,ademe-car-labelling:FIAT|500|500e berline électrique 23.8 kWh,FIAT,500,,,no year and model has 2 generations (4x)
+ademe,ademe-car-labelling:HONDA|E|E (60Kw)#1,HONDA,E,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in honda-e-gen1 (4x)"
+ademe,ademe-car-labelling:KIA|EV6|EV6 Moteur électrique 430kW (585ch),KIA,EV6,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-ev6-gen1 (2x)"
+ademe,ademe-car-labelling:KIA|NIRO|Niro EV Moteur électrique (204ch),KIA,NIRO,,,no year and model has 2 generations (6x)
+ademe,ademe-car-labelling:KIA|SOUL|e-Soul Moteur électrique (204ch),KIA,SOUL,,,no year and model has 2 generations (2x)
+ademe,ademe-car-labelling:M.G.|MARVEL|MARVEL R 2WD,M.G.,MARVEL,,,model not in seed (4x)
+ademe,ademe-car-labelling:MERCEDES|EQB 350|EQB 350 4MATIC,MERCEDES,EQB 350,,,model not in seed (2x)
+ademe,ademe-car-labelling:MINI|MINI|MINI Cooper SE Hatch 3P (F56),MINI,MINI,,,model not in seed (2x)
+ademe,ademe-car-labelling:NISSAN|ARIYA|63kWh ENGAGE,NISSAN,ARIYA,,,model not in seed (4x)
+ademe,ademe-car-labelling:NISSAN|LEAF|LEAF 62kWh,NISSAN,LEAF,,,"attach-only: tie between nissan-leaf-ze1-62-kwh, nissan-leaf-ze1-e-plus-62kwh in nissan-leaf-ze1 (2x)"
+ademe,ademe-car-labelling:OPEL|CORSA|CORSA-E (57Kw)#1,OPEL,CORSA,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in opel-corsa-e-f (4x)"
+ademe,ademe-car-labelling:OPEL|MOKKA|MOKKA-E (57Kw)#1,OPEL,MOKKA,,,model not in seed (4x)
+ademe,ademe-car-labelling:PEUGEOT|2008|e-2008 (57Kw)#1,PEUGEOT,2008,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in peugeot-e-2008-p24 (4x)"
+ademe,ademe-car-labelling:PEUGEOT|208|e-208 (57Kw)#1,PEUGEOT,208,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in peugeot-e-208-p21 (3x)"
+ademe,ademe-car-labelling:PEUGEOT|RIFTER|e-RIFTER Standard (57Kw),PEUGEOT,RIFTER,,,model not in seed (2x)
+ademe,ademe-car-labelling:PEUGEOT|TRAVELLER|e-TRAVELLER Long (57Kw),PEUGEOT,TRAVELLER,,,model not in seed (4x)
+ademe,ademe-car-labelling:RENAULT|MEGANE|MEGANE (55Kw)#1,RENAULT,MEGANE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in renault-megane-e-tech-gen1 (8x)"
+ademe,ademe-car-labelling:RENAULT|TWINGO|TWINGO (31Kw)#1,RENAULT,TWINGO,,,model not in seed (6x)
+ademe,ademe-car-labelling:RENAULT|ZOE|ZOE (51Kw),RENAULT,ZOE,,,no year and model has 2 generations (2x)
+ademe,ademe-car-labelling:TESLA|MODEL 3|MODEL 3 (153Kw),TESLA,MODEL 3,,,no year and model has 2 generations (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI A6|A6 E-TRON BLACK ED PERFORMANCE,AUDI,AUDI A6,,,model not in seed (12x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI E-TRON|RS E-TRON GT,AUDI,AUDI E-TRON,,,model not in seed (9x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI E-TRON|E-TRON GT QUATTRO,AUDI,AUDI E-TRON,,,model not in seed (name excluded from audi-e-tron) (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI Q5|Q5 VORSPRUNG TDI MHEV QUAT SA,AUDI,AUDI Q5,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI Q6|Q6 E-TRON BLACK ED QUATTRO,AUDI,AUDI Q6,,,model not in seed (15x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI RS6|RS 6 GT TFSI MHEV QUATTRO AUTO,AUDI,AUDI RS6,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI S6|S6 E-TRON BLACK ED QUATTRO,AUDI,AUDI S6,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:AUDI|AUDI SQ6|SQ6 E-TRON BLACK EDITION QUAT,AUDI,AUDI SQ6,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW 1602|1602,BMW,BMW 1602,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW I5|I5 EDRIVE40 M SPORT,BMW,BMW I5,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW I7|I7 EDRIVE50 EXCELLENCE,BMW,BMW I7,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW IX|IX M60,BMW,BMW IX,,,model not in seed (12x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW IX1|IX1 EDRIVE20 M SPORT,BMW,BMW IX1,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW IX2|IX2 EDRIVE20 M SPORT,BMW,BMW IX2,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW IX3|IX3 50 XDRIVE,BMW,BMW IX3,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BMW|BMW Z3|Z3,BMW,BMW Z3,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BYD|BYD ATTO 2|ATTO 2 BOOST,BYD,BYD ATTO 2,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BYD|BYD DOLPHIN|DOLPHIN ACTIVE EV,BYD,BYD DOLPHIN,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BYD|BYD E6|E6,BYD,BYD E6,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BYD|BYD SEAL|SEAL DESIGN EV,BYD,BYD SEAL,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:BYD|BYD SEALION|SEALION 7 COMFORT EV,BYD,BYD SEALION,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN 2CV|2 CV6 SPECIAL,CITROEN,CITROEN 2CV,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN AMI|AMI,CITROEN,CITROEN AMI,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN AX|AX DIMENSION,CITROEN,CITROEN AX,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN BERLINGO|E-BERLINGO FEEL,CITROEN,CITROEN BERLINGO,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN C-ZERO|C-ZERO 1,CITROEN,CITROEN C-ZERO,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN C1|C1 TOUCH,CITROEN,CITROEN C1,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN DS|DS 19,CITROEN,CITROEN DS,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN DYANE|DYANE 6,CITROEN,CITROEN DYANE,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN E-BERLINGO|E-BERLINGO MAX,CITROEN,CITROEN E-BERLINGO,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN E-C3|E-C3 +,CITROEN,CITROEN E-C3,,,model not in seed (9x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN E-C5|E-C5 AIRCROSS MAX,CITROEN,CITROEN E-C5,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CITROEN|CITROEN SPACETOURER|E-SPACETOURER BUSINESS,CITROEN,CITROEN SPACETOURER,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:CUPRA|CUPRA TAVASCAN|TAVASCAN V1 EV,CUPRA,CUPRA TAVASCAN,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FIAT|FIAT 1500|1500,FIAT,FIAT 1500,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FIAT|FIAT 500|500L,FIAT,FIAT 500,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FIAT|FIAT 600|600 D,FIAT,FIAT 600,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FIAT|FIAT BRAVO|BRAVO 80 SX,FIAT,FIAT BRAVO,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FIAT|FIAT DUCATO|E-DUCATO 42,FIAT,FIAT DUCATO,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FIAT|FIAT GRANDE PANDA|GRANDE PANDA ICON EV,FIAT,FIAT GRANDE PANDA,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD ALLIED|ALLIED VEHICLES MAXICAB EV,FORD,FORD ALLIED,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD ANGLIA|ANGLIA,FORD,FORD ANGLIA,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD CAPRI|CAPRI COLLECTION EV,FORD,FORD CAPRI,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD CORTINA|CORTINA,FORD,FORD CORTINA,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD EXPLORER|EXPLORER COLLECTION EV,FORD,FORD EXPLORER,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD FOCUS|FOCUS ELECTRIC,FORD,FORD FOCUS,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD MONDEO|MONDEO,FORD,FORD MONDEO,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD MUSTANG|MUSTANG AUTO,FORD,FORD MUSTANG,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD PUMA|PUMA BLUECRUISE EDITION EV,FORD,FORD PUMA,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD TOURNEO|TOURNEO COURIER ACTIVE EV,FORD,FORD TOURNEO,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD TRANSIT|E-TRANSIT 350 LEADER,FORD,FORD TRANSIT,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:FORD|FORD TRANSIT CUSTOM|TRANSIT CUSTOM 320 LIMITED EV,FORD,FORD TRANSIT CUSTOM,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HONDA|HONDA E|ENY1 ADVANCE,HONDA,HONDA E,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HONDA|HONDA INSIGHT|INSIGHT ES CVT,HONDA,HONDA INSIGHT,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HONDA|HONDA JAZZ|JAZZ HS IMA CVT,HONDA,HONDA JAZZ,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HONDA|HONDA SUPER N|SUPER N ADVANCE,HONDA,HONDA SUPER N,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HYUNDAI|HYUNDAI 1200|1200 GL,HYUNDAI,HYUNDAI 1200,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HYUNDAI|HYUNDAI 1400|1400 GLS,HYUNDAI,HYUNDAI 1400,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HYUNDAI|HYUNDAI INSTER|INSTER 01 EV,HYUNDAI,HYUNDAI INSTER,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:HYUNDAI|HYUNDAI IONIQ|IONIQ 9 CALLIGRAPHY EV 4X4,HYUNDAI,HYUNDAI IONIQ,,,model not in seed (name excluded from hyundai-ioniq-electric) (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:JAGUAR|JAGUAR E TYPE|'E' TYPE,JAGUAR,JAGUAR E TYPE,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:JAGUAR|JAGUAR S TYPE|S TYPE,JAGUAR,JAGUAR S TYPE,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:JAGUAR|JAGUAR XJ SERIES|XJ-S AUTO,JAGUAR,JAGUAR XJ SERIES,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:KIA|KIA EV2|EV2 FIRST EDITION,KIA,KIA EV2,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:KIA|KIA EV3|EV3 AIR,KIA,KIA EV3,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:KIA|KIA EV4|EV4 AIR,KIA,KIA EV4,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:KIA|KIA EV5|EV5 AIR,KIA,KIA EV5,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:KIA|KIA EV9|EV9 AIR,KIA,KIA EV9,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:KIA|KIA PV5|PV5 PASSENGER ESSENTIAL,KIA,KIA PV5,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES 200|230 SL,MERCEDES,MERCEDES 200,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES AMG CLASS|AMG EQE 53 4M+ NGT ED HYPRSCRN,MERCEDES,MERCEDES AMG CLASS,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES B CLASS|B 250 ELECTRIC ART E,MERCEDES,MERCEDES B CLASS,,,model not in seed (12x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES C CLASS|C250 SPORT PREM + D 4MATIC A,MERCEDES,MERCEDES C CLASS,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES ECITAN|ECITAN PREMIUM,MERCEDES,MERCEDES ECITAN,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES EQB CLASS|EQB 250+ AMG LINE EXECUTIVE,MERCEDES,MERCEDES EQB CLASS,,,model not in seed (13x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES EQE CLASS|EQE 300 AMG LINE,MERCEDES,MERCEDES EQE CLASS,,,model not in seed (26x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES EQS CLASS|EQS 350 AMG LINE PREMIUM,MERCEDES,MERCEDES EQS CLASS,,,model not in seed (16x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES EQV CLASS|EQV 300 SPORT,MERCEDES,MERCEDES EQV CLASS,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES ESPRINTER|ESPRINTER PROGRESSIVE,MERCEDES,MERCEDES ESPRINTER,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES EVITO|EVITO PURE,MERCEDES,MERCEDES EVITO,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES|MERCEDES VITO|EVITO TOURER PREMIUM,MERCEDES,MERCEDES VITO,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ AMG EQE CLASS|AMG EQE 53 NGHT ED PREMIUM 4M+,MERCEDES-BENZ,MERCEDES-BENZ AMG EQE CLASS,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ CLA CLASS|CLA 200 ELECTRIC SPRT EXECUTVE,MERCEDES-BENZ,MERCEDES-BENZ CLA CLASS,,,model not in seed (13x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ ECITAN|ECITAN SELECT,MERCEDES-BENZ,MERCEDES-BENZ ECITAN,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ EQB CLASS|EQB 250PLUS URBAN EDITION,MERCEDES-BENZ,MERCEDES-BENZ EQB CLASS,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ EQE CLASS|EQE 350 AMG LN PRM + NGT ED 4M,MERCEDES-BENZ,MERCEDES-BENZ EQE CLASS,,,model not in seed (14x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ EQS CLASS|EQS 350 BUSINESS CLASS,MERCEDES-BENZ,MERCEDES-BENZ EQS CLASS,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ EQV CLASS|EQV 300 EXECUTIVE EXTRA-LONG,MERCEDES-BENZ,MERCEDES-BENZ EQV CLASS,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ G CLASS|G 580 WTH EQ-TECH AMG LN PRM +,MERCEDES-BENZ,MERCEDES-BENZ G CLASS,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ GLB CLASS|GLB 250PLUS E AMG LINE EXEC,MERCEDES-BENZ,MERCEDES-BENZ GLB CLASS,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ GLC CLASS|GLC 400 ELCTRC AMG LN PREM+ 4M,MERCEDES-BENZ,MERCEDES-BENZ GLC CLASS,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MERCEDES-BENZ|MERCEDES-BENZ SPRINTER|ESPRINTER 414 L2 PRO,MERCEDES-BENZ,MERCEDES-BENZ SPRINTER,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG 4|4 URBAN COMFORT EV,MG,MG 4,,,model not in seed (name excluded from mg-mg4) (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG 5|5 EXCITE,MG,MG 5,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG A|A,MG,MG A,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG B|B,MG,MG B,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG CYBERSTER|CYBERSTER GT EV AWD,MG,MG CYBERSTER,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG IM5|IM5 LONG RANGE,MG,MG IM5,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG IM6|IM6 LAUNCH EDITION AWD,MG,MG IM6,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG MGF|MGF,MG,MG MGF,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG S5|MG S5 SE EV,MG,MG S5,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG S6|MG S6 SE EV,MG,MG S6,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MG|MG ZT|ZT,MG,MG ZT,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MINI|MINI ACEMAN|ACEMAN CLASSIC ELECTRIC,MINI,MINI ACEMAN,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MINI|MINI COUNTRYMAN|C-MAN CLASSIC S ELECTRIC ALL4,MINI,MINI COUNTRYMAN,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:MINI|MINI JOHN COOPER WORKS|JOHN COOPER WORKS ELECTRIC,MINI,MINI JOHN COOPER WORKS,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:NISSAN|NISSAN ARIYA|ARIYA ADVANCE,NISSAN,NISSAN ARIYA,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:NISSAN|NISSAN DYNAMO|DYNAMO TAXI E-NV200,NISSAN,NISSAN DYNAMO,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:NISSAN|NISSAN INTERSTAR|INTERSTAR-E TEKNA,NISSAN,NISSAN INTERSTAR,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:NISSAN|NISSAN LEAF|EAGLE ATHENA LEAF,NISSAN,NISSAN LEAF,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:NISSAN|NISSAN MICRA|MICRA ADVANCE,NISSAN,NISSAN MICRA,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:NISSAN|NISSAN NV200|E-NV200 ACENTA,NISSAN,NISSAN NV200,,,model not in seed (9x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT 106|106 ELECTRIC AUTO,PEUGEOT,PEUGEOT 106,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT 3008|3008 ALLURE EV,PEUGEOT,PEUGEOT 3008,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT 308|308 ALLURE EV,PEUGEOT,PEUGEOT 308,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT 408|408 ALLURE EV,PEUGEOT,PEUGEOT 408,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT 5008|5008 ALLURE MHEV AUTO,PEUGEOT,PEUGEOT 5008,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT ALLIED|ALLIED EHORIZON RE AUTOMATIC,PEUGEOT,PEUGEOT ALLIED,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT ION|ION,PEUGEOT,PEUGEOT ION,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT PARTNER|PARTNER TEPEE ACTIVE BEV,PEUGEOT,PEUGEOT PARTNER,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT RIFTER|RIFTER ALLURE EV,PEUGEOT,PEUGEOT RIFTER,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:PEUGEOT|PEUGEOT TRAVELLER|E-TRAVELLER ACTIVE,PEUGEOT,PEUGEOT TRAVELLER,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:POLESTAR|POLESTAR 3|POLESTAR 3 EV,POLESTAR,POLESTAR 3,,,model not in seed (9x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:POLESTAR|POLESTAR 4|POLESTAR 4 EV AWD,POLESTAR,POLESTAR 4,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT 4|4,RENAULT,RENAULT 4,,,model not in seed (9x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT 5|5 EVOLUTION E-TECH EV,RENAULT,RENAULT 5,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT ADRIA|ADRIA MATRIX SUPREME M 687 SBC,RENAULT,RENAULT ADRIA,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT FLUENCE|FLUENCE DYNAMIQUE,RENAULT,RENAULT FLUENCE,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT KANGOO|KANGOO BUSINESS ML20 Z.E.,RENAULT,RENAULT KANGOO,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT MASTER|MASTER BUSINESS LM35 I ZE,RENAULT,RENAULT MASTER,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT SCENIC|SCENIC ESPRIT ALPINE E-TECH EV,RENAULT,RENAULT SCENIC,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:RENAULT|RENAULT TWIZY|TWIZY CARGO,RENAULT,RENAULT TWIZY,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:SKODA|SKODA CITIGO|CITIGO E SE IV,SKODA,SKODA CITIGO,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:SKODA|SKODA ELROQ|ELROQ EDITION,SKODA,SKODA ELROQ,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:SMART|SMART 1|1 BRABUS EV 4X4,SMART,SMART 1,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:SMART|SMART 3|3 25TH ANNIVERSARY EDITION EV,SMART,SMART 3,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:SMART|SMART 5|5 BRABUS EV 4X4,SMART,SMART 5,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:SMART|SMART FORFOUR|FORFOUR E-DRIVE PRIME PREM +,SMART,SMART FORFOUR,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:TESLA|TESLA MODEL X|MODEL X 100D,TESLA,TESLA MODEL X,,,model not in seed (11x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:TESLA|TESLA ROADSTER|ROADSTER AUTO,TESLA,TESLA ROADSTER,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VAUXHALL|VAUXHALL ASTRA|ASTRA DESIGN EV,VAUXHALL,VAUXHALL ASTRA,,,model not in seed (4x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VAUXHALL|VAUXHALL COMBO|COMBO LIFE DESIGN EV,VAUXHALL,VAUXHALL COMBO,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VAUXHALL|VAUXHALL FRONTERA|FRONTERA DESIGN EV,VAUXHALL,VAUXHALL FRONTERA,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VAUXHALL|VAUXHALL GRANDLAND|GRANDLAND DESIGN EV,VAUXHALL,VAUXHALL GRANDLAND,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VAUXHALL|VAUXHALL MOKKA|MOKKA DESIGN EV,VAUXHALL,VAUXHALL MOKKA,,,model not in seed (15x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VAUXHALL|VAUXHALL VIVARO|VIVARO LIFE COMBI EV,VAUXHALL,VAUXHALL VIVARO,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN 1300|1300,VOLKSWAGEN,VOLKSWAGEN 1300,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN 1303|1303 S,VOLKSWAGEN,VOLKSWAGEN 1303,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN BEETLE|1200 BEETLE,VOLKSWAGEN,VOLKSWAGEN BEETLE,,,model not in seed (5x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN ID BUZZ|ID BUZZ 1ST EDITION,VOLKSWAGEN,VOLKSWAGEN ID BUZZ,,,model not in seed (6x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN ID5|ID5 BLACK EDITION,VOLKSWAGEN,VOLKSWAGEN ID5,,,model not in seed (14x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN ID7|ID7 GTX,VOLKSWAGEN,VOLKSWAGEN ID7,,,model not in seed (8x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN KARMANN GHIA|KARMANN GHIA,VOLKSWAGEN,VOLKSWAGEN KARMANN GHIA,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN TRANSPORTER|ETRANSPORTER LIFE,VOLKSWAGEN,VOLKSWAGEN TRANSPORTER,,,model not in seed (2x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN UP|E-UP,VOLKSWAGEN,VOLKSWAGEN UP,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLKSWAGEN|VOLKSWAGEN VENTO|VENTO CL AUTO,VOLKSWAGEN,VOLKSWAGEN VENTO,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLVO|VOLVO C40|C40 + RECHARGE EV,VOLVO,VOLVO C40,,,model not in seed (7x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLVO|VOLVO EC40|EC40 + BLACK EDITION,VOLVO,VOLVO EC40,,,model not in seed (12x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLVO|VOLVO ES90|ES90 PLUS,VOLVO,VOLVO ES90,,,model not in seed (3x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLVO|VOLVO EX30|EX30 CORE,VOLVO,VOLVO EX30,,,model not in seed (17x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLVO|VOLVO EX60|EX60 P10 ULTRA AWD,VOLVO,VOLVO EX60,,,model not in seed (1x)
+dft-veh,VEH0120_UK:2026 Q2:Licensed:VOLVO|VOLVO EX90|EX90 PLUS,VOLVO,VOLVO EX90,,,model not in seed (3x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|AUDI|A2 ETRON|2025,AUDI,A2 ETRON,,,model not in seed (1x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON|2025,AUDI,A6 AV E-TRON,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|AUDI|A6 AV E-TRON PERFORMANCE|2025,AUDI,A6 AV E-TRON PERFORMANCE,,,model not in seed (4x)
@@ -315,6 +505,7 @@ eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG S5 EV|2025,MG,MG S5 EV,,,
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MG S6 EV|2025,MG,MG S6 EV,,,model not in seed (1x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MG|MG5 ELECTRIC|2025,MG,MG5 ELECTRIC,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG|MGS5 EV|2025,MG,MGS5 EV,,,model not in seed (1x)
+eea,"[CO2Emission].[latest].[co2cars_2025Pv31]:DE|MG, ROEWE|MG MARVEL R ELECTRIC|2025","MG, ROEWE",MG MARVEL R ELECTRIC,,,model not in seed (1x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|ACEMAN E|2025,MINI,ACEMAN E,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|ACEMAN SE|2025,MINI,ACEMAN SE,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COUNTRYMAN E|2025,MINI,COUNTRYMAN E,,,model not in seed (4x)
@@ -408,7 +599,622 @@ eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|ES90|2025,VOLVO,ES90,,,mo
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30|2025,VOLVO,EX30,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30 CROSS COUNTRY|2025,VOLVO,EX30 CROSS COUNTRY,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX90|2025,VOLVO,EX90,,,model not in seed (4x)
-eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|XC40|2025,VOLVO,XC40,,,model not in seed (4x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:AUDI|A2,AUDI,A2,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:AUDI|A6,AUDI,A6,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:AUDI|E-TRON GT,AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:AUDI|Q6,AUDI,Q6,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:AUDI|Q8,AUDI,Q8,,,year 2026 outside every generation of audi-e-tron (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BMW|1ER,BMW,1ER,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:BMW|3ER,BMW,3ER,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BMW|5ER,BMW,5ER,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BMW|7ER,BMW,7ER,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:BMW|I3,BMW,I3,,,year 2026 outside every generation of bmw-i3 (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BMW|IX,BMW,IX,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BMW|X1,BMW,X1,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BMW|X2,BMW,X2,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BMW|X3,BMW,X3,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BYD|ATTO 2,BYD,ATTO 2,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BYD|DOLPHIN,BYD,DOLPHIN,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BYD|DOLPHIN SURF,BYD,DOLPHIN SURF,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BYD|SEAL,BYD,SEAL,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BYD|SEAL U,BYD,SEAL U,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BYD|SEALION 7,BYD,SEALION 7,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:BYD|TANG,BYD,TANG,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:CITROEN|BERLINGO,CITROEN,BERLINGO,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:CITROEN|C-ZERO,CITROEN,C-ZERO,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:CITROEN|C3,CITROEN,C3,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:CITROEN|C5,CITROEN,C5,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:CITROEN|JUMPY,CITROEN,JUMPY,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FIAT|600,FIAT,600,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FIAT|DOBLO,FIAT,DOBLO,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FIAT|DUCATO,FIAT,DUCATO,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FIAT|GRANDE PANDA,FIAT,GRANDE PANDA,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FIAT|PANDA,FIAT,PANDA,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:FIAT|QUBO,FIAT,QUBO,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FIAT|SCUDO,FIAT,SCUDO,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FIAT|ULYSSE,FIAT,ULYSSE,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FORD|CAPRI,FORD,CAPRI,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FORD|ECOSPORT,FORD,ECOSPORT,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FORD|EXPLORER,FORD,EXPLORER,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FORD|PUMA,FORD,PUMA,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FORD|TRANSIT COURIER,FORD,TRANSIT COURIER,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:FORD|TRANSIT CUSTOM,FORD,TRANSIT CUSTOM,,,model not in seed (2x)
+kba-fz10,"fz10_2025_12:YTD 2025-01..12:FORD|TRANSIT, TOURNEO",FORD,"TRANSIT, TOURNEO",,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HONDA|E:NY1,HONDA,E:NY1,,,model not in seed (name excluded from honda-e) (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|ELANTRA,HYUNDAI,ELANTRA,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|G80,HYUNDAI,G80,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|GV60,HYUNDAI,GV60,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|GV70,HYUNDAI,GV70,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|I 30,HYUNDAI,I 30,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|INSTER,HYUNDAI,INSTER,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:HYUNDAI|IONIQ 3,HYUNDAI,IONIQ 3,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|IONIQ 9,HYUNDAI,IONIQ 9,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:HYUNDAI|STARIA,HYUNDAI,STARIA,,,model not in seed (2x)
+kba-fz10,"fz10_2025_12:YTD 2025-01..12:HYUNDAI|XG 25, 30, 250, 350",HYUNDAI,"XG 25, 30, 250, 350",,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:KIA|EV2,KIA,EV2,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:KIA|EV3,KIA,EV3,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:KIA|EV4,KIA,EV4,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:KIA|EV5,KIA,EV5,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:KIA|EV9,KIA,EV9,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:KIA|PV5,KIA,PV5,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:KIA|RIO,KIA,RIO,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:KIA|SOUL,KIA,SOUL,,,year 2025 outside every generation of kia-soul-ev (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:KIA|SOUL,KIA,SOUL,,,year 2026 outside every generation of kia-soul-ev (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MERCEDES|ACTROS,MERCEDES,ACTROS,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MERCEDES|B-KLASSE,MERCEDES,B-KLASSE,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MERCEDES|C-KLASSE,MERCEDES,C-KLASSE,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|CITAN,MERCEDES,CITAN,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|CLA-KLASSE,MERCEDES,CLA-KLASSE,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|E-KLASSE,MERCEDES,E-KLASSE,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|G-KLASSE,MERCEDES,G-KLASSE,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|GLB,MERCEDES,GLB,,,model not in seed (2x)
+kba-fz10,"fz10_2025_12:YTD 2025-01..12:MERCEDES|GLK, GLC",MERCEDES,"GLK, GLC",,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|S-KLASSE,MERCEDES,S-KLASSE,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|SPRINTER,MERCEDES,SPRINTER,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|V-KLASSE,MERCEDES,V-KLASSE,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MERCEDES|VITO,MERCEDES,VITO,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MERCEDES|VL,MERCEDES,VL,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MG ROEWE|4 URBAN,MG ROEWE,4 URBAN,,,model not in seed (name excluded from mg-mg4) (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MG ROEWE|5,MG ROEWE,5,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MG ROEWE|CYBERSTER,MG ROEWE,CYBERSTER,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MG ROEWE|IM5,MG ROEWE,IM5,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MG ROEWE|IM6,MG ROEWE,IM6,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MG ROEWE|MARVEL,MG ROEWE,MARVEL,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MG ROEWE|S5,MG ROEWE,S5,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:MG ROEWE|S6,MG ROEWE,S6,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:MINI|MINI,MINI,MINI,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:NISSAN|ARIYA,NISSAN,ARIYA,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:NISSAN|INTERSTAR,NISSAN,INTERSTAR,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:NISSAN|MICRA,NISSAN,MICRA,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:NISSAN|TOWNSTAR,NISSAN,TOWNSTAR,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:OPEL|ASTRA,OPEL,ASTRA,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:OPEL|COMBO,OPEL,COMBO,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:OPEL|FRONTERA,OPEL,FRONTERA,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:OPEL|GRANDLAND X,OPEL,GRANDLAND X,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:OPEL|MOKKA,OPEL,MOKKA,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:OPEL|MOVANO,OPEL,MOVANO,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:OPEL|VIVARO,OPEL,VIVARO,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:OPEL|ZAFIRA LIFE,OPEL,ZAFIRA LIFE,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:PEUGEOT|3008,PEUGEOT,3008,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:PEUGEOT|308,PEUGEOT,308,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:PEUGEOT|408,PEUGEOT,408,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:PEUGEOT|5008,PEUGEOT,5008,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:PEUGEOT|BOXER,PEUGEOT,BOXER,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:PEUGEOT|EXPERT,PEUGEOT,EXPERT,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:PEUGEOT|RIFTER,PEUGEOT,RIFTER,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:POLESTAR|3,POLESTAR,3,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:POLESTAR|4,POLESTAR,4,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:POLESTAR|5,POLESTAR,5,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:RENAULT|KANGOO,RENAULT,KANGOO,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:RENAULT|MASTER,RENAULT,MASTER,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:RENAULT|R4,RENAULT,R4,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:RENAULT|R5,RENAULT,R5,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:RENAULT|SCENIC,RENAULT,SCENIC,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:RENAULT|TRAFIC,RENAULT,TRAFIC,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:RENAULT|TWINGO,RENAULT,TWINGO,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:RENAULT|ZOE,RENAULT,ZOE,,,year 2025 outside every generation of renault-zoe (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:SKODA|ELROQ,SKODA,ELROQ,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:SKODA|EPIQ,SKODA,EPIQ,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:SKODA|PEAQ,SKODA,PEAQ,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:SMART|1,SMART,1,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:SMART|3,SMART,3,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:SMART|5,SMART,5,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:SMART|FORFOUR,SMART,FORFOUR,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:SMART|FORTWO,SMART,FORTWO,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:TESLA|MODEL X,TESLA,MODEL X,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VOLVO|90,VOLVO,90,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VOLVO|C40,VOLVO,C40,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:VOLVO|ES90,VOLVO,ES90,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VOLVO|EX30,VOLVO,EX30,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:VOLVO|EX60,VOLVO,EX60,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VOLVO|EX90,VOLVO,EX90,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:VOLVO|XC60,VOLVO,XC60,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VW|GOLF,VW,GOLF,,,year 2025 outside every generation of volkswagen-e-golf (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VW|ID. BUZZ,VW,ID. BUZZ,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VW|ID.7,VW,ID.7,,,model not in seed (2x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:VW|POLO,VW,POLO,,,model not in seed (1x)
+kba-fz10,fz10_2026_10:YTD 2026-01..10:VW|T-CROSS,VW,T-CROSS,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VW|TIGUAN,VW,TIGUAN,,,model not in seed (1x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VW|TRANSPORTER,VW,TRANSPORTER,,,model not in seed (2x)
+kba-fz10,fz10_2025_12:YTD 2025-01..12:VW|UP,VW,UP,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/audi.json#bb860940-5974-40b9-8858-8f06159c2e92,Audi,50,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/audi.json#b297de72-827b-429f-85ca-dad99e51f12f,Audi,55,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/audi.json#f1f9e903-142e-486f-a2bf-ac30d523aa82,Audi,A6 Avant e-tron,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#0962462b-34d5-4b00-becf-1a1a4be68709,Audi,A6 Avant e-tron performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#12aec4b8-620a-4daf-863f-4a78169ae7b5,Audi,A6 Avant e-tron quattro,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#6e50ee19-233b-4324-914e-8e44662b9d13,Audi,A6 Sportback e-tron,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#8ad2b7ba-0b74-478e-8353-e9247cb09240,Audi,A6 Sportback e-tron performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#4c2c01f1-81ea-4c26-bc26-8d57ab2dbc33,Audi,A6 Sportback e-tron quattro,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#c945af76-3df3-4f30-bc19-a3b4b1d83be9,Audi,e-tron GT quattro,,,model not in seed (name excluded from audi-e-tron) (1x)
+kilowatt-openev,data/v2/models/audi.json#72539c24-2a60-48be-976e-7b309db2f579,Audi,e-tron GT RS,,,model not in seed (name excluded from audi-e-tron) (1x)
+kilowatt-openev,data/v2/models/audi.json#47a273c3-54de-456f-a2f1-92c246aea3f1,Audi,e-tron GT RS performance,,,model not in seed (name excluded from audi-e-tron) (1x)
+kilowatt-openev,data/v2/models/audi.json#1cc5ae76-c065-4330-b08a-79c2323afc98,Audi,e-tron GT S,,,model not in seed (name excluded from audi-e-tron) (1x)
+kilowatt-openev,data/v2/models/audi.json#685585ca-e8ca-4c42-81fd-fc0b5996e4a3,Audi,etron,,,"attach-only: tie between audi-e-tron-q8-55, audi-e-tron-q8-quattro in audi-e-tron-q8 (1x)"
+kilowatt-openev,data/v2/models/audi.json#bf30bc91-c95d-43bf-aba8-8a2ad8f48a85,Audi,etron 35,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-ge (1x)"
+kilowatt-openev,data/v2/models/audi.json#b8011aff-b32d-4427-b0b1-dba3131766d5,Audi,etron 40,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-ge (1x)"
+kilowatt-openev,data/v2/models/audi.json#5b43a58f-64c0-4c6f-bf84-87c17492447a,Audi,etron 45,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-q8 (1x)"
+kilowatt-openev,data/v2/models/audi.json#231b2a4e-b41d-428d-b416-d46fa583466a,Audi,etron 45,,,"attach-only: tie between audi-e-tron-ge-50, audi-e-tron-ge-55 in audi-e-tron-ge (1x)"
+kilowatt-openev,data/v2/models/audi.json#2f6a6d3c-0c7e-44a6-8d8b-c925a270385b,Audi,etron sportback,,,"attach-only: tie between audi-e-tron-q8-55-sportback, audi-e-tron-q8-quattro-sportback in audi-e-tron-q8 (1x)"
+kilowatt-openev,data/v2/models/audi.json#1bc9503b-a552-0342-80fc-8249b7e8ffd0,Audi,GT,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/audi.json#7b1c3e1c-9557-4c97-91a0-36fbf66516ea,Audi,gt quattro,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#8423c5ad-2dba-4990-8656-25c15031a8ed,Audi,gt rs,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#103ea134-544e-a2a4-b7e3-ef0d25fa5bb9,Audi,Q4 e-tron,,,"attach-only: tie between audi-q4-e-tron-gen1-40, audi-q4-e-tron-gen1-50, audi-q4-e-tron-gen1-quattro in audi-q4-e-tron-gen1 (1x)"
+kilowatt-openev,data/v2/models/audi.json#04baeaa4-6bfc-4700-a553-20748aab54be,Audi,Q4 Sportback e-tron,,,"attach-only: tie between audi-q4-e-tron-gen1-50-quattro, audi-q4-e-tron-gen1-50-sportback, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (2x)"
+kilowatt-openev,data/v2/models/audi.json#d5d31894-1a64-4c91-8ed0-066cc5744f8b,Audi,Q4 Sportback e-tron 45,,,"attach-only: tie between audi-q4-e-tron-gen1-50-sportback, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (1x)"
+kilowatt-openev,data/v2/models/audi.json#10299648-b518-4050-a174-0bb0df5f72fc,Audi,Q6 e-tron,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/audi.json#7cff223c-ff32-4d90-a5ca-4612e4fe7f52,Audi,Q6 e-tron Sportback,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#40a2f001-0b95-4ca8-9471-321b5c0d52df,Audi,Q6 e-tron Sportback performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#7b2957ec-f139-4e32-a768-343fad7c5de3,Audi,Q6 e-tron Sportback quattro,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#9b04a7f1-82e6-4d62-8372-e9578524c9a2,Audi,s,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/audi.json#82395464-7ec5-4235-88c7-aab31fbebcab,Audi,s sportback,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/audi.json#1fc09086-9853-4d79-b317-3b1281e5902c,Audi,S6 Avant e-tron,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#24d45d42-9357-42ac-8354-32e2412afe30,Audi,S6 Sportback e-tron,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#a35202cb-3209-44e9-9974-e306a408dea9,Audi,sportback 50,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/audi.json#81ec5eab-3590-4e4e-9cad-72449183cbfd,Audi,sportback 55,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#1fbd3517-7258-4772-bbec-19e7eecd8d9a,Audi,sportbacketron 35,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#e92a2805-150c-46cd-b68c-e62552251f9b,Audi,sportbacketron 40,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#cb46e201-11c1-4f9f-b008-52fa76ac97af,Audi,sportbacketron 45,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/audi.json#a2c69407-876c-41b5-96c8-e61020bafb5e,Audi,sportbacketron 50,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#663ff6d3-318e-4bbb-ab92-65f4cb75d8c7,Audi,sportbacketron 55,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#2184579a-c5f0-bf61-1331-f68260b58c96,Audi,SQ6 e-tron,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#4eae3008-b4d0-4d7d-9abd-826d21906c5c,Audi,SQ6 e-tron Sportback,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/audi.json#4e07cf56-819a-4c04-a6a4-d26fddefe947,Audi,SQ8 e-tron,,,"attach-only: tie between audi-e-tron-q8-55, audi-e-tron-q8-quattro in audi-e-tron-q8 (1x)"
+kilowatt-openev,data/v2/models/audi.json#6cd3fde1-d17d-410c-9798-d80c88bf193e,Audi,SQ8 e-tron Sportback,,,"attach-only: tie between audi-e-tron-q8-55-sportback, audi-e-tron-q8-quattro-sportback in audi-e-tron-q8 (1x)"
+kilowatt-openev,data/v2/models/bmw.json#5347361e-df01-4e53-8ddf-e715d38255a6,BMW,120 ah,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#9885b268-a64e-4ce5-8264-36ab91501356,BMW,edrive20,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/bmw.json#9eef1637-1bad-4531-a77a-a5ea40358bdd,BMW,edrive35,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#727220d3-8aaf-4ca2-ac12-b0198cd1f615,BMW,edrive40,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#58b94748-abe3-4447-a67c-60e087817e23,BMW,edrive40 sedan,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#32662a64-30dc-4385-9a95-e876a5d65472,BMW,edrive50,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#6d9fbcce-c1dd-4768-bdb5-8bf2d33c7cff,BMW,i5,,,model not in seed (5x)
+kilowatt-openev,data/v2/models/bmw.json#61859eed-97dd-4910-adad-62f2ab711cfd,BMW,i5 xDrive40 Touring,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#100a6579-45ee-f20f-2d50-8149f0f873a3,BMW,i7,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/bmw.json#582da553-f32d-4675-bb60-44f3ad06cdad,BMW,iX,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/bmw.json#08ac3b4b-cd57-485c-aa5d-8455ae8c5b38,BMW,iX M70 xDrive,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#aa16f915-7fee-4683-9d5a-9f7c18ffcf40,BMW,iX xDrive45,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#6b5ef66f-099d-4b2d-8854-c584bfcaa255,BMW,iX xDrive60,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#edb4f12d-c8aa-3cb2-6c95-bb48c9f40d4f,BMW,iX1,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#365ecacc-014b-4aa5-b93c-012182778916,BMW,iX1 eDrive20,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#3e4af0ab-6489-487c-a08c-1b37ce8ee84c,BMW,iX2 eDrive20,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#c6e173f3-4b0b-418c-a2f6-d80f7b8917d7,BMW,iX2 xDrive30,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#555c0b5b-ba1e-741a-27e0-dee32087e2a2,BMW,iX3,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/bmw.json#fbae9c10-0b19-450c-9ce1-1482acc11b77,BMW,m50,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#474b9b54-e9f3-4f3a-8451-201bf8d4470a,BMW,m60,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#6cfe71f4-5ea2-4734-9f60-1555ac0d326e,BMW,m60 xdrive sedan,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#417963b5-ba9d-4bd1-87bd-d7bb377c33e5,BMW,m70 xdrive,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#fc1cc847-a941-41ff-9429-d37ced446848,BMW,xdrive30,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/bmw.json#e1dc2f23-6e26-45c7-b1cf-1b7d7417ff06,BMW,xdrive40,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#7c97c5ec-9bea-4e55-83be-93afbe8f0b53,BMW,xdrive40 sedan,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#7a31c926-e922-4dbe-bc20-ae4049432eb7,BMW,xdrive50,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/bmw.json#62ced2ab-7803-4c87-b220-0ad161fcafe9,BMW,xdrive60,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/byd.json#86af5836-55f8-473a-a1dd-aabe159856c0,BYD,3,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/byd.json#d0abdb70-fa96-4b3e-89fb-5a84107c040d,BYD,44.,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/byd.json#b8f8e4bd-4b1b-4afe-9a80-133e58e253a1,BYD,60.,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/byd.json#7f742bcc-1fa0-4b90-a407-f019a0317445,BYD,82.,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/byd.json#d5ad08a1-03c4-4d7c-8df5-72d8618fac36,BYD,ATTO 3,,,"attach-only: tie between byd-atto-3-gen1-60kwh, byd-atto-3-gen1-extended-range in byd-atto-3-gen1 (1x)"
+kilowatt-openev,data/v2/models/byd.json#1a97f551-c5ef-ec82-3bc0-95ae32cedd88,BYD,Dolphin,,,model not in seed (6x)
+kilowatt-openev,data/v2/models/byd.json#1031fd4c-0241-43a6-afea-f8cdebb6ecc4,BYD,flagship,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/byd.json#801fc1e2-b73c-fcb7-0321-6e27b3c2d234,BYD,HAN,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/byd.json#1af288ad-76d7-da19-60c3-a183e2e5ba76,BYD,Seal,,,model not in seed (5x)
+kilowatt-openev,data/v2/models/byd.json#7c7fb7d2-a1e4-4de7-b82e-95baf4f43be1,BYD,SEAL U 87 kWh Design,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/byd.json#73eb170d-dc3d-e4bb-1552-1f65a0843d16,BYD,TANG,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/byd.json#164de895-3bec-4e7e-ae7d-e964f3c08e40,BYD,u 71.,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#b5a79ec8-d893-405b-8053-296bec05f58e,Citroën,54kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#8517dc9c-c0d3-4d79-9e15-2cccd3d5fbcb,Citroën,C-Zero,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/citroen.json#85775695-743e-482d-9fcd-c2ec2cf00e14,Citroën,combi m,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/citroen.json#5465545a-fd26-4126-9193-33070bb9760d,Citroën,combi xl,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/citroen.json#76385029-18a0-4111-8549-846ea2f59ddb,Citroën,combi xs,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#b32249a4-c9d6-4a2b-81fa-87097f212e62,Citroën,E-Berlingo,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#ce5232bc-8651-4804-bea6-30c9dcdcbdec,Citroën,e-Berlingo M 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#6eb8f457-e2c7-4ddd-9827-99dad6ff821e,Citroën,E-Berlingo Multispace,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#d0d90cf3-404c-48a2-b352-f83f560fba9b,Citroën,e-Berlingo XL 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#067cd58d-aa06-4ed4-b0e8-36ac348b3a47,Citroën,e-C3,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#01353cfc-25c2-41cd-9071-1979bba3af03,Citroën,e-C3 Aircross,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#0e8d1287-fac4-4815-ab4a-be11f64edcd1,Citroën,e-Jumpy Combi M 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#b49f1512-462d-40a0-b3d1-7fc42cbf3c76,Citroën,e-Jumpy Combi M 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#f4e91220-9c44-425b-a0d5-4866ac4ea1d7,Citroën,e-Jumpy Combi XL 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#1c660aa7-3660-47c1-a195-0aad5d19ab84,Citroën,e-Jumpy Combi XL 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#29f7e318-5f8e-4a14-9fe4-c354a03bbb84,Citroën,e-Jumpy Combi XS 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#eb9521ed-5c1b-4a3b-92de-76dc49f98aef,Citroën,e-SpaceTourer M 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#14f2e71a-a54e-4978-bb2b-7889441fbc0e,Citroën,e-SpaceTourer M 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#b1f790b0-2797-4a83-a8e9-d7bc48da32c4,Citroën,e-SpaceTourer XL 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#ec83bb8c-b98c-481c-97f5-5e6f4241f00b,Citroën,e-SpaceTourer XL 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#2bf9762d-0e09-44ac-852f-6f67ed5f9335,Citroën,e-SpaceTourer XS 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/citroen.json#09ed5346-a145-4121-9ceb-4bb9eb257acb,Citroën,m,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/citroen.json#5255e80d-3bca-4510-a351-cacb4414310a,Citroën,x,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/citroen.json#c8c9788b-e78f-48eb-8b0b-362be4755300,Citroën,xl,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/citroen.json#e6ad3a10-48f8-4226-bbad-2bc899b597f0,Citroën,xs,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/cupra.json#d9b4f513-1d12-46f4-9dd0-bced19805297,CUPRA,150kw-,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/cupra.json#66b048ee-7143-4a3f-ba88-1b1be1dc488d,CUPRA,170kw-,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/cupra.json#b06fed90-c43e-4a4d-b30e-329190a1c01b,CUPRA,endurance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/cupra.json#4c02abfc-7c75-f5ee-ec01-ccc3da0b60c9,CUPRA,Tavascan,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/cupra.json#b3dc025c-86e3-4dc2-b92f-134d9b79b26a,CUPRA,Tavascan VZ,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/dacia.json#e341009f-9b2f-4532-98d1-d9bf7d1ff713,Dacia,electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/dacia.json#d9cae4fe-0a67-4d21-abee-b5837ef733d8,Dacia,electric 45,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/dacia.json#344f3ae2-b3b1-4083-bacb-97efafe2ba84,Dacia,electric 65 extreme,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/dacia.json#db0f0c27-ec80-7479-a5ff-ca8fef1adb1b#dc_curve,Dacia,Spring Electric,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in dacia-spring-gen1 (1x)"
+kilowatt-openev,data/v2/models/fiat.json#538be4cc-b539-4c13-bf61-fdeae5aa8333,Fiat,3+1,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/fiat.json#55dcbaf7-e28f-254c-9b39-409b5fdd8947,Fiat,600e,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/fiat.json#b54c6c6c-9033-42fc-b85b-540e0604abf9,Fiat,cabrio,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/fiat.json#4b22bd00-15c6-448b-9ebb-4b5a6da57b07,Fiat,E-Ulysse L2 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/fiat.json#1c804ccf-72fb-49c7-9a0e-ca0c7a663bef,Fiat,E-Ulysse L2 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/fiat.json#4f788c25-1cf9-4772-bf6c-dcec5a49df42,Fiat,E-Ulysse L3 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/fiat.json#999bf31d-a129-4081-8496-507214f4f3f4,Fiat,E-Ulysse L3 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/fiat.json#76e810fd-df36-43f9-aa0b-152cbb3e8f16,Fiat,Grande Panda,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/fiat.json#d5f83217-02c7-44e0-bb51-fc97f0c27733,Fiat,hatchback,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/fiat.json#1e75cfef-c9b1-4f2d-99b3-5b90197d6256,Fiat,l2,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/fiat.json#902ea7a7-f6a7-4024-a1e7-cbbdb1966758,Fiat,l3,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/ford.json#cfcc8774-9626-454b-a3c8-3c009ad240ce,Ford,Capri Extended Range AWD,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/ford.json#a85ff817-5358-4092-928e-b5518e64a30d,Ford,Capri Extended Range RWD,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/ford.json#2549345e-fdf2-43e4-ba96-1f7643100056,Ford,Capri Standard Range RWD,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/ford.json#b075897d-5450-4749-9db8-2e62e014bcd1,Ford,Explorer Extended Range AWD,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/ford.json#d44abee9-5e05-4438-984c-d35bbab84c1b,Ford,Explorer Extended Range RWD,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/ford.json#99e0abb4-782c-4a54-bd3e-5f287aed0afb,Ford,Explorer Standard Range RWD,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/ford.json#6cd5ba89-6523-4bca-9423-ea92227a8b8d,Ford,Focus electric,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/ford.json#82087c97-f3d1-468c-b2ea-27e7493f96ca,Ford,mach-e er,,,"attach-only: tie between ford-mustang-mach-e-gen1-gt, ford-mustang-mach-e-gen1-premium in ford-mustang-mach-e-gen1 (1x)"
+kilowatt-openev,data/v2/models/ford.json#af570127-584a-4fc1-92e1-21193a2d35ab,Ford,mach-e er rwd,,,"attach-only: tie between ford-mustang-mach-e-gen1-gt, ford-mustang-mach-e-gen1-premium in ford-mustang-mach-e-gen1 (1x)"
+kilowatt-openev,data/v2/models/ford.json#5f539340-fd07-4203-bda3-173677ba3ffc,Ford,mach-e sr rwd,,,"attach-only: tie between ford-mustang-mach-e-gen1-er-rwd, ford-mustang-mach-e-gen1-sr-rwd in ford-mustang-mach-e-gen1 (2x)"
+kilowatt-openev,data/v2/models/ford.json#13eb81e6-536c-42e5-b996-ad41cf948d25,Ford,Mustang Mach-E SR RWD,,,"attach-only: tie between ford-mustang-mach-e-gen1-er-rwd, ford-mustang-mach-e-gen1-sr-rwd in ford-mustang-mach-e-gen1 (1x)"
+kilowatt-openev,data/v2/models/ford.json#1f679d9e-ca47-4cb0-b86f-f9f96dbddb29,Ford,Puma Gen-E,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/honda.json#f5ae893b-28dc-4302-8f18-57cdbc4dbf8e,Honda,advance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/honda.json#5bfa9a87-7b35-4e3a-bd3f-dc2ac55e184b,Honda,e,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in honda-e-gen1 (1x)"
+kilowatt-openev,data/v2/models/honda.json#89ef5a3e-dd5c-af06-ada1-50a5d1abdada,Honda,e:Ny1,,,model not in seed (name excluded from honda-e) (1x)
+kilowatt-openev,data/v2/models/hyundai.json#95134e29-f10d-4f9f-bc1c-82c521be183d,Hyundai,5 long range,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/hyundai.json#9390ea3e-642d-49e3-969d-2249d1a430e9,Hyundai,5 long range 2wd,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/hyundai.json#0ffb84fb-64a0-4037-8060-17a9037bd016,Hyundai,5 n,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#8e7d5173-1bc6-47bf-8467-067ed66a0df3,Hyundai,5 project 45,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#6dd59782-19b5-4ad6-b974-778425f0c0e1,Hyundai,5 standard range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#138615dd-41e0-4b25-9178-a8aa80011549,Hyundai,5 standard range 2wd,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#757a6759-bb9f-4fe6-9cc1-6aa90f858b62,Hyundai,6 long range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#43e5be03-74f8-4686-9437-1d7e04df59fc,Hyundai,6 long range 2wd,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#4dd44dba-266f-4307-9604-fa6b594c48a2,Hyundai,6 standard range 2wd,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#897abe0e-e57c-4932-a6f6-8c263d944e83,Hyundai,electric,,,model not in seed (7x)
+kilowatt-openev,data/v2/models/hyundai.json#ae97d97d-2783-43e0-84fd-e059ec54aac0,Hyundai,INSTER Long Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#f6b6f37b-91fd-4caf-84d5-daca24ef4b02,Hyundai,INSTER Standard Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/hyundai.json#c576bee8-8066-4174-bc69-5fe9f2e666ee#dc_curve,Hyundai,Ioniq,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-electric-gen1 (2x)"
+kilowatt-openev,data/v2/models/hyundai.json#b58bc94d-d929-ad71-d95b-08b877bf76ba,Hyundai,IONIQ 5,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-5-gen1 (3x)"
+kilowatt-openev,data/v2/models/hyundai.json#21442a76-9bde-4723-b35e-3c6179d20b36,Hyundai,Kona Electric 48 kWh,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-sx2 (1x)"
+kilowatt-openev,data/v2/models/jaguar.json#ff3cf596-c04b-4dd2-a27d-deaf0ececc22,Jaguar,ev320,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/jaguar.json#68c4e955-9d79-416f-9f92-c0b307df02e9,Jaguar,ev400,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/jaguar.json#755da8dd-f3d7-48de-a92a-bee65c5e6201#dc_curve,Jaguar,i-Pace,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in jaguar-i-pace-x590 (1x)"
+kilowatt-openev,data/v2/models/kia.json#87fdf805-7ee6-42b9-9db1-d69a05fb5fac,Kia,39.,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#a70e902d-fcab-40b9-bb67-b08263fd9c89,Kia,39kwh,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/kia.json#6bf5bf7b-78c1-4247-9282-dc4e8661e2ed,Kia,64kwh,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/kia.json#1185531d-2415-495e-a15e-12bfd099795e,Kia,76.,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#11fcc296-3ece-4259-a88a-c57f7ab55653,Kia,99.,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/kia.json#bc1886a4-b170-4a6b-af0d-8428d0b6ca9e,Kia,ev,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#7a854fa3-b6c3-4b62-b1aa-7e9123930000,Kia,EV3 Long Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#e0c30316-9d27-4f93-8416-95d4be30a67d,Kia,EV4 Hatchback Long Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#7ec5e8d4-171c-4493-ad67-8601bb397a20,Kia,EV4 Hatchback Standard Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#72028bf3-4620-4a10-b6fe-3a1f9a494c47,Kia,EV4 Sedan Long Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#c1b5c426-96e2-410f-a34a-39e74e58677c,Kia,EV4 Sedan Standard Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#c4cb4ee0-da24-03fd-41e6-9909394617a5,Kia,EV9,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/kia.json#9dbb6ca7-be6f-40f7-b5ac-e32763b50446,Kia,EV9 76.1 kWh RWD,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#f7cb07a5-156c-40d6-a4e4-fbe69e803477,Kia,EV9 99.8 kWh AWD GT-Line,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#3ba53997-2996-49a9-a5b9-2d2ceab595ad,Kia,gt,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#eb468782-c1d9-4214-91b1-d92284d2b811,Kia,long range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#c6bd16f8-ec66-4ae5-8603-531bee73b77a,Kia,long range 2wd,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/kia.json#bc318a9b-d468-c4f5-17d2-09ad143e453a,Kia,Niro EV,,,"ambiguous-generation: 2022 is shared by kia-niro-ev-de, kia-niro-ev-sg2; no name/battery evidence (1x)"
+kilowatt-openev,data/v2/models/kia.json#8235146f-8349-46ed-b7a3-dd1b88169426,Kia,standard range 2wd,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#89666c9e-dab5-4f22-abac-beb0aa1c78d7,Mercedes,200 standard,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#a0bd5a2f-0283-4923-bee8-1879848149d3,Mercedes,250,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/mercedes.json#54e200bd-6308-480f-b096-3b84b38e9a27,Mercedes,250 extra-long,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#c353518d-0bcf-4cad-ac71-043bb124808c,Mercedes,250 long,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#496cdb3c-1b54-4e54-8c54-bf2db78f4a1c,Mercedes,250+,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#213b923f-1751-494e-9061-8701ef476850,Mercedes,300,,,model not in seed (5x)
+kilowatt-openev,data/v2/models/mercedes.json#e376f1bc-61bf-4c53-b9aa-a0c734aca504,Mercedes,300 extra-long,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#05e6e7f8-9fa7-49de-aa43-e0ff02c7abbe,Mercedes,300 long,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#4481f790-0c16-490b-a0c9-c6002030d9c5,Mercedes,350,,,model not in seed (6x)
+kilowatt-openev,data/v2/models/mercedes.json#9013dd03-0cb9-485a-b255-b7042298c075,Mercedes,350+,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#03257e23-bb58-47d8-8cf7-0556e90d7c07,Mercedes,400,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#b8c6e510-766b-4f05-845b-d33c24f4b40f,Mercedes,450,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#c6642b67-79c9-433e-b953-c3876887aef5,Mercedes,450+,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#470fde3a-f80f-45fd-970c-23ea27d84171,Mercedes,500,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#ae6895f8-7fe1-463d-a43f-8988f641a27a,Mercedes,580,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#465614c8-b1ad-4f6f-9a8f-75bb525736dc,Mercedes,amg 43,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#ecfd8cef-9c6d-4211-aab1-9cd7f8674bac,Mercedes,amg 53,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#94766af6-063d-4516-9775-2246a3a01d1d,Mercedes,B 250e,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#71cc8552-391f-49b0-b106-2202fa222161,Mercedes,B-Klasse,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#976be64e-a7d0-4ac1-b488-65ec5cafba71,Mercedes,CLA,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#252bc870-b9cf-7729-362a-ffc48dc486f5,Mercedes,EQB,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/mercedes.json#998cbadb-1318-4405-9df2-8ae243b18c37,Mercedes,EQE,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/mercedes.json#045fc120-bfb5-7dd7-04fa-f21456f0730a,Mercedes,EQS,,,model not in seed (19x)
+kilowatt-openev,data/v2/models/mercedes.json#6bbd3cdd-2b11-43cd-85b9-4556937f9f82,Mercedes,EQV,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#5ca66d3a-8a33-48f5-a0b9-d8bbf25a6e24,Mercedes,eVito,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#01c982f2-355e-462f-9a4a-c578fc4371fe,Mercedes,G 580,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#79177de0-f825-447f-80e0-f6a2d1a46423,Mercedes,suv 300,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#941dd6c2-daee-418a-b2e8-09236f9bb4fe,Mercedes,suv 350,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#b01dfaf7-e106-4e32-831c-fa1a45b57dce,Mercedes,suv 350+,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#c06cac0c-d8b2-4adf-b2a4-3c373450c878,Mercedes,suv 450,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#786de0ba-bd05-4ccf-83b7-a1ebc90ddffe,Mercedes,suv 450+,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#2303827e-7e61-4073-8575-e111f9dc193a,Mercedes,suv 500,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#4768e132-a290-42f5-a50b-caae2e5cb23a,Mercedes,suv 580,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mercedes.json#f1b54619-1aad-4ef0-a6e6-183166744672,Mercedes,suv amg 43,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#0f497d45-6c2c-45be-8e30-d8806684f0b2,Mercedes,suv amg 53,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#c5ae7311-cd35-4a15-ba30-8dbc6ae54fed,Mercedes,suv maybach 680,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mercedes.json#b6e48812-caa5-463a-ba6f-2c4dd4db8b9f,Mercedes,tourer extra-long,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/mercedes.json#78c1b443-2a75-43fc-9e00-444150fe505a,Mercedes,tourer long,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/mg.json#be4b4e93-f47a-49a5-97d3-d223c8a9fe70,MG,Cyberster GT,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#d1ebdb9f-3f87-4eb3-bca9-9f70a0d6bf31,MG,Cyberster Trophy,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#192a394b-488c-4691-9038-1ba8d6ef97c1,MG,electric,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/mg.json#65d3550e-1040-4c9c-9915-7b7d9b93b9b7,MG,electric long range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#ae6d3bcb-c598-4fad-8675-becf7c87e2d4,MG,electric standard range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#888fed05-ae54-448e-bfe2-4728eba4eb7c,MG,electric xpower,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#4d83b382-e3c6-405f-b1e1-8194e12005a6,MG,ev,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mg.json#e129a076-6118-4ca2-87e1-4b21a6d71a90,MG,ev long range,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mg.json#eb366418-9b18-40e0-aa6b-0b2757e49b9e,MG,ev standard range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#7d16f3cc-37cb-344a-cfd7-a08f4fc596f0,MG,Marvel R,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mg.json#309b3ac7-47b3-4642-a9b3-092e936b321f,MG,MG5 Electric Long Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#a6d64e17-2175-45c9-92a9-28e153f6a6ff,MG,MG5 Electric Standard Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#c1fda7bf-9307-03c9-86c1-0350de0994cb,MG,MG5 EV,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/mg.json#4e806985-4c53-4eb2-b37c-3915bf38918b,MG,MGS5  EV 49 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#0dcbac8d-3ae2-4af3-891d-f510e49afac5,MG,MGS5  EV 64 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mg.json#375e2c9e-f726-46ad-8fcc-3e3b6e5c5051,MG,r,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mg.json#7da9d7cf-332c-fea0-2876-fb81f47933b2,MG,ZS EV,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mg-zs-ev-gen1 (2x)"
+kilowatt-openev,data/v2/models/mini.json#0eafc7e9-bbdd-4893-860b-b8f3b8388133,Mini,Aceman,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/mini.json#3a50ddc0-c42d-4bf2-9bdb-48db144a5bcb,Mini,Cooper,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/mini.json#0b755450-ceea-4370-99de-30ea8e1bef20,Mini,Cooper E,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mini-cooper-se-f56 (1x)"
+kilowatt-openev,data/v2/models/mini.json#3c71fe88-1c2d-4ccf-a2a8-c99f6c53e207,Mini,Cooper SE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mini-cooper-se-f56 (1x)"
+kilowatt-openev,data/v2/models/mini.json#d8c11860-a582-4784-9e58-d29e94a67fc2,Mini,Cooper SE,,,"attach-only: tie between mini-cooper-se-f56-cooper-se, mini-cooper-se-f56-se in mini-cooper-se-f56 (1x)"
+kilowatt-openev,data/v2/models/mini.json#ed659e92-1167-48bc-9216-e7af77662ee5,Mini,Cooper SE Convertible,,,"attach-only: tie between mini-cooper-se-f56-cooper-se, mini-cooper-se-f56-se in mini-cooper-se-f56 (1x)"
+kilowatt-openev,data/v2/models/mini.json#1b30c350-78e2-4414-821f-4797d917508c,Mini,Countryman,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/mini.json#ba47b777-a9b7-4fc5-8e0f-5ea84a47121b,Mini,Countryman E,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mini.json#e49041a3-e2d3-45d4-bb7d-5d952bd8f7b2,Mini,se,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/mini.json#9e09fe3e-f22f-4e01-bfac-682911c25d28,Mini,se all4,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/mini.json#2bbee053-47b9-469f-9105-e0032cbdc2ea,Mini,se convertible,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#b2b28b58-9624-49a0-8f1d-7af7d2119240,Nissan,63kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#be610dfc-609c-4e40-9231-132dc0945f21,Nissan,87kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#1241ed45-6289-0c6d-9093-4ab9da6ca608,Nissan,Ariya,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/nissan.json#018ec1b8-025e-408d-923a-4a6972091ed4,Nissan,Ariya e-4ORCE 87kWh - 225 kW,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#75d7a9d6-6076-4f1f-87af-8ee6a6354a9e,Nissan,Ariya e-4ORCE 87kWh - 290 kW,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#7a95ba58-d482-4dee-b4d8-854dc76b65ae,Nissan,Ariya e-4ORCE 87kWh - 320 kW Nismo,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#d3631ffd-f675-4ddd-8a1f-2bcf653f2ee5,Nissan,e+,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/nissan.json#5c03d7f6-6deb-4289-87ab-9d3a49751955,Nissan,e-4orce,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/nissan.json#2644bfd3-a593-4276-bb1f-c8965e33797e,Nissan,e-NV 200,,,model not in seed (6x)
+kilowatt-openev,data/v2/models/nissan.json#7b889dac-4cda-4435-a414-b7965de5c9d7,Nissan,e-NV200,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/nissan.json#c83ca112-e008-4329-9739-72f8e3a61245,Nissan,e-NV200 Evalia,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#a7772da3-50d2-4c51-987a-f71670abd7d1,Nissan,ev passenger,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#38b06018-71f0-4ad9-9fc1-480b1b3cf345,Nissan,Townstar EV Passenger,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/nissan.json#30d073cd-6b7d-458e-9832-c24ee6cd146a,Nissan,Townstar EV Passenger L2,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#91b69192-c83a-4bb6-ad28-c7224b52a51f,Opel / Vauxhall,50kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#5b614e3f-72f7-4c28-bcbb-ea1dd48852a7,Opel / Vauxhall,54kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#ab0fda31-8a5c-4a1d-b9c3-460d1e3b26e5,Opel / Vauxhall,Ampera-e,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#22b4e77d-c44f-4972-8094-301d6f7eb526,Opel / Vauxhall,combi l,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/opel.json#291a1a08-2b63-4bcf-b0a9-f7e3d79466bb,Opel / Vauxhall,combi m,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/opel.json#4be1e627-e3c0-47ae-ae89-44c1ac3df08c,Opel / Vauxhall,combi s,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#53d07b75-5d85-4eb4-8eb1-7bdd2411e86f,Opel / Vauxhall,Corsa-e,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in opel-corsa-e-f (1x)"
+kilowatt-openev,data/v2/models/opel.json#90bedcf8-8f8b-42e5-94b6-b2eeadb8e4fd,Opel / Vauxhall,electric,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/opel.json#33f1ab02-6612-42ec-a1fa-c65971599cd6,Opel / Vauxhall,life,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#5f7c2576-d0fc-4203-9f68-25a1cc9a05ae,Opel / Vauxhall,life l,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/opel.json#ea9119ac-1d0a-4b71-84af-67614f1c1731,Opel / Vauxhall,life m,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/opel.json#270dd2f9-27e5-462a-8e07-6a5d3d226894,Opel / Vauxhall,life s,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#641d572b-49cb-4876-b5fb-7140ed6d8f15,Opel / Vauxhall,life xl,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#ded613d2-f6d8-424a-a428-0f22336be2fd,Opel / Vauxhall,Mokka-e,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/opel.json#0efeb141-5ba5-401e-a28c-2d39070315be,Opel / Vauxhall,sports tourer electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#32169454-4adc-4fd4-b4e7-ccf35c84f023,Peugeot,50kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#62fcf058-feb8-4dbf-8ca0-e7421fbf8267,Peugeot,51kwh,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#613102c0-80cf-43df-9ce1-8c15b947b02e,Peugeot,54kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#2c522087-c714-488c-9b6a-f92d63019d22,Peugeot,73kwh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#bedd5cce-2e21-4509-9b4d-5bf824468eed,Peugeot,73kwh dual motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#66986860-d7f3-41f5-99dc-f6a88f2896b5,Peugeot,97kwh long range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#50e2574f-761c-4cf2-9977-ca14e5443f4c,Peugeot,combi compact,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#2dffe255-0142-4215-8deb-e51601b2509b,Peugeot,combi long,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#f04dbf31-5780-473f-867f-3cce583d55ec,Peugeot,combi standard,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#cef093ee-add7-4f9d-bf29-b484f36a4bca,Peugeot,compact,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#72695d36-29c4-4726-8ca8-5333fb3f9865,Peugeot,e-2008,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in peugeot-e-2008-p24 (4x)"
+kilowatt-openev,data/v2/models/peugeot.json#926efa33-4c55-43df-80f3-4b8d2d65a00a#dc_curve,Peugeot,e-208,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in peugeot-e-208-p21 (2x)"
+kilowatt-openev,data/v2/models/peugeot.json#b3cc5188-7397-1d8c-aa4f-01219bb6c792,Peugeot,e-3008,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#c017a9e7-136e-4417-9d67-34c23176230d,Peugeot,e-3008 73 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#67a0155f-1e43-477c-ba92-0990a4d3c875,Peugeot,e-3008 97 kWh Long Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#6717cf3f-cf4b-401b-9280-caa4bee8be4b,Peugeot,e-308,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#8317fb78-fa67-4ebd-8567-1d7f1ad16cd8,Peugeot,e-308 SW,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#96bfbf8a-002b-4d95-9b7a-d15727787608,Peugeot,e-408 58 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#bc53f413-a9b9-45da-8af6-521c4b6b0235,Peugeot,e-5008 73 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#11b25a85-4f21-4a7c-98d2-025639fcc0cf,Peugeot,e-5008 73 kWh Dual Motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#40ce641c-a183-4c33-9270-0f358705645d,Peugeot,e-5008 97 kWh Long Range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#35acc9cb-95e7-b6de-5f64-a35089e3315a,Peugeot,E-Expert,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#12fa953c-24ec-4b5d-9310-060b49f5a859,Peugeot,e-Expert Combi Compact 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#f87a9281-d7f4-47dc-9dab-9ee85a9fa2c5,Peugeot,e-Expert Combi Long 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#9c0fd4b2-e0d6-4fa8-9ac6-cea4c1051494,Peugeot,e-Expert Combi Long 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#262b7ab9-9dbe-49b5-a3b3-e1766c307a2b,Peugeot,e-Expert Combi Standard 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#8bf0df83-d81a-4626-a731-d24792224a45,Peugeot,e-Expert Combi Standard 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#0079aec6-e65f-be1a-9a15-cb28ff6a2edd,Peugeot,e-Partner,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#f6bcc16d-fc3f-464b-bf7b-49c6e3378faf,Peugeot,e-Rifter Long 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#f79dd895-5348-4bb4-938f-9573026b489f,Peugeot,e-Rifter M 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#8a17417a-36ed-405b-bfb7-a7742afd87a9,Peugeot,e-Rifter Standard 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#d9c6a912-b7fb-4a71-a3cd-f3030ca9e2d2,Peugeot,e-Rifter XL 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#04980813-ec12-1047-40ea-4c6c44b60171,Peugeot,E-Traveller,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/peugeot.json#fca5d551-bfdb-4fcf-9ab7-f7978678ff59,Peugeot,e-Traveller Compact 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#c73895f9-0675-4893-88e3-4fda9926e102,Peugeot,e-Traveller L2 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#3f211093-53bb-4b1a-bdbd-b1659a6775f5,Peugeot,e-Traveller L2 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#ea47d238-9eb0-4ee6-8fcb-7fc94b56dfdf,Peugeot,e-Traveller L3 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#6f58af11-b5ec-472b-ba57-25a71d89750c,Peugeot,e-Traveller L3 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#f82da320-fbb2-4ca5-af7e-785d54dd2bf9,Peugeot,e-Traveller Long 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#036e6741-2643-460f-b6ab-0ecf1a281dac,Peugeot,e-Traveller Long 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#c290b499-c9a5-476d-bd08-c162ac326bee,Peugeot,e-Traveller Standard 50 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#9719e8fd-41c1-48aa-9b55-67ddb91b78fa,Peugeot,e-Traveller Standard 75 kWh,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#28b61ff5-734a-412e-9241-dec4c27d1a38,Peugeot,I-on,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#b53ea80a-d536-44f7-9612-d1f9268b0ae3,Peugeot,iOn,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#ad8b4ad6-9424-4b31-9c7c-2fe0cc3555f4,Peugeot,long,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/peugeot.json#e60a8ec6-a6dd-46ae-846a-35cb57f1d8e3,Peugeot,Partner,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#c8bdf356-3c32-4242-82a7-a8863607424a,Peugeot,Partner Tepee,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/peugeot.json#911d1404-0962-4cd8-a674-5d6b61609a1d,Peugeot,standard,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/peugeot.json#45ef619a-1f24-4e47-a61a-c58169ade50e,Peugeot,suv,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/peugeot.json#00a17b72-7a7d-4132-8c13-14a59512bb7e,Peugeot,sw,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/polestar.json#abc46582-74f1-4edf-9bd9-4d9b0d17013b,Polestar,3 Long Range Dual motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/polestar.json#e5d99af0-35a9-483c-bd3f-49bb87b7c585,Polestar,3 Long Range Performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/polestar.json#11474075-8844-4649-812f-4ea0cb88188c,Polestar,3 Long Range Single motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/polestar.json#101f8da3-5caa-eb02-037a-b414a5ac8a45,Polestar,4,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/polestar.json#dfca95b7-5b5f-450a-ba82-268a7f97160e,Polestar,long range,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/polestar.json#a8e37f35-a97e-425d-a035-7d8d210fe140,Polestar,long range dual motor,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/polestar.json#d25c2658-5661-41f0-81b6-390871cf2f99,Polestar,long range single motor,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/polestar.json#ed3df6d6-4661-4d2a-8a0a-93edc30372a6,Polestar,standard range single motor,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/renault.json#f1987e38-6616-4fe8-bdbd-6135f954caac,Renault,4 E-Tech 40kWh 120hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#af7b1ae7-fe86-4548-9219-bad34dbcae86,Renault,4 E-Tech 52kWh 150hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#53cae930-8a60-40cb-8062-3fd1f4fdd078,Renault,5 E-Tech,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/renault.json#5836781f-5412-4b04-955c-4a2cb4f0d32d,Renault,e-tech electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#ec967c25-7eaf-4eb7-b829-690ed0870e3f,Renault,e-tech ev40 130hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#05ce5fff-af21-4f9d-8a78-dd39b7e058b2,Renault,e-tech ev60 130hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#206c5f4e-5c56-4771-ada7-9114084dfa59,Renault,e-tech ev60 170hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#41a62864-722c-4ed2-9a9d-bd3caf40c4bc,Renault,e-tech ev60 220hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#743a943b-4182-4abd-a677-8446b835a7c5,Renault,e-tech ev87 220hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#84abba88-8c4e-468e-852e-675d09d30497,Renault,electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#f4a87894-a919-4b16-995a-ec48a7da7dce,Renault,grand e-tech electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#7330268f-f92e-402f-b401-ac78f37b6516,Renault,Kangoo E-Tech Electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#79da8e71-f1fb-49d4-bbd9-0734a9388ab9,Renault,Kangoo Grand E-Tech Electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#2491b711-0440-4a1a-ba06-2db17fe33b64,Renault,Kangoo Maxi ZE,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#20f77b9c-5fea-41a2-b1c7-55d630bfc993,Renault,Kangoo Maxi ZE 33,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#1c13fba9-2c09-4be1-b5c6-aecd2b253afb,Renault,Kangoo ZE,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#11828f12-d7df-41a9-9b58-9367de77c5f0,Renault,q90,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#96627666-aa94-4f54-b62b-bdd22ae9bc9a,Renault,r90,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#5de7571c-a9e6-2847-9920-014a123f980b,Renault,Scenic,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/renault.json#884da45a-5607-46e3-9974-d3d57cb15194,Renault,Scenic E-Tech EV60 170hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#b122370e-85a7-44c2-9531-9bec0a8f85f2,Renault,Scenic E-Tech EV87 220hp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#32024ea9-ff23-4abd-a13b-7f2732d81bfc,Renault,Twingo Electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#46e4f46b-09d3-4beb-8649-f7a7f670bb45,Renault,Twingo Z.E.,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#b9c44745-45c7-4645-8cb2-73963b24af34,Renault,ze40 r110,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#c6a4e887-c335-4e6e-9346-b9c6640ed11d,Renault,ze50 r110,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#323d844a-6845-426d-9afd-96b22c7c71f6,Renault,ze50 r135,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/renault.json#9666138c-1d24-4fa8-9083-0ffba09ab1ef,Renault,Zoe,,,"attach-only: tie between renault-zoe-ph1-q210, renault-zoe-ph1-r240 in renault-zoe-ph1 (2x)"
+kilowatt-openev,data/v2/models/skoda.json#2d867f57-3c8d-443c-874f-1836d100bd28,Skoda,85x,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#28231795-37f7-4cec-b0cd-aed44b474369,Skoda,CITIGOe iV,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/skoda.json#339435bb-2b25-45d4-91cf-8271aaf25516,Skoda,coupe 60,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#422b7e3d-7cee-4083-bce0-9e499cf1e210,Skoda,coupe 85,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#08eb0427-0305-4fba-a528-0af536c1babc,Skoda,coupe 85x,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#514c2c60-15d5-47c2-a346-64c5c9083969,Skoda,coupe iv 60,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#cb336e48-dd22-4022-9e1f-3a33258648a1,Skoda,coupe iv 80,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#4e12736a-963d-4eff-8419-3df67b14d7ea,Skoda,coupe iv 80x,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#07f6978a-997d-4b9a-b7af-323ddd9a9461,Skoda,coupe iv rs,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#2e0ceb00-7345-40a2-9608-b26cdddd7103,Skoda,coupe rs,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#3568f6a2-06e9-437b-be27-e93f21e529b0,Skoda,Elroq,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/skoda.json#cdda9d0c-0c6b-400a-b2b3-ed69cdde18ac,Skoda,Enyaq,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in skoda-enyaq-gen1 (1x)"
+kilowatt-openev,data/v2/models/skoda.json#93728022-b25a-4385-863b-efa610ca0f35,Skoda,Enyaq,,,"attach-only: tie between skoda-enyaq-gen1-80x, skoda-enyaq-gen1-85, skoda-enyaq-gen1-rs in skoda-enyaq-gen1 (1x)"
+kilowatt-openev,data/v2/models/skoda.json#a0da502a-5e68-4dc7-949d-754f397a7809,Skoda,Enyaq Coupe,,,"attach-only: tie between skoda-enyaq-gen1-80x, skoda-enyaq-gen1-85, skoda-enyaq-gen1-rs in skoda-enyaq-gen1 (1x)"
+kilowatt-openev,data/v2/models/skoda.json#ff261470-8556-4051-afec-c049abd5fe6a,Skoda,Enyaq iV,,,"attach-only: tie between skoda-enyaq-gen1-60, skoda-enyaq-gen1-80 in skoda-enyaq-gen1 (1x)"
+kilowatt-openev,data/v2/models/skoda.json#d2fd2689-1c85-4702-a964-697715939586,Skoda,Enyaq iV 50,,,"attach-only: tie between skoda-enyaq-gen1-60, skoda-enyaq-gen1-80 in skoda-enyaq-gen1 (1x)"
+kilowatt-openev,data/v2/models/skoda.json#49e1116d-bfa0-4821-aee7-479b59cb70da,Skoda,iv,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#b70be6bf-1656-4e85-9b55-edc29ad90c22,Skoda,iv 50,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#cf0249f0-5d1a-4e44-8de1-30cb7bc62957,Skoda,iv 60,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#5cab1484-6a23-4819-a6db-f77bc37e74d4,Skoda,iv 80,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#09929dff-cebe-49a4-be8b-b6615f17c0b4,Skoda,iv 80x,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/skoda.json#a9e3268e-2b4e-46a9-b326-580e5f738ee0,Skoda,iv rs,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#9a8e280a-5f21-9a8d-0f82-9623f72f1ae0,smart,#1,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#9f31eb55-a879-49ea-bbbd-c6f81b2a9eab,smart,#1 Brabus,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#722eca8b-c407-4ccd-bde0-722f331d243a,smart,#1 Premium,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#f361d0f6-7d0c-484a-b46c-a445b00a8644,smart,#1 Pro,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#7b8a8b63-5b87-48dc-a921-b6b2c9348915,smart,#1 Pro+,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#d9815311-3ed7-4ac8-a860-99c22177dd20,smart,#1 Pulse,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#91b0b879-2d1d-10ef-ca7c-45c45991b4c4,smart,#3,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/smart.json#474f02fc-bea6-461a-bf02-a54a7b2ac898,smart,#3 Premium,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#8a2df956-eb5c-401d-9944-91199ec6c47b,smart,#5 Premium,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#0720da11-25f4-4e74-9324-bc2eca611d0e,smart,#5 Pro,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#4416a83a-9121-4da5-99e6-b4f7be052167,smart,#5 Pro+,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#5373bd8f-2558-408d-9901-47aeac5d3769,smart,#5 Pulse,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#e62405a3-6147-4594-b173-51757a7dae56,smart,#5 Summit Edition,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#ea3d0666-c2c2-47ad-b1b3-2c15435a90fc,smart,brabus,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#490a59d9-e4ec-4716-99e8-6e7b38a6923c,smart,forfour,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/smart.json#1443881c-8094-4eec-b5bf-59741b790371,smart,ForFour Electric,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#c8ebb855-2d9e-4007-a4e7-0733d6f53e1e,smart,ForFour Electric Drive,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/smart.json#6a3a76f6-a0d0-41ff-afc9-5ad2f0879b4d,smart,forfour EQ,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#e4c4213b-6346-4c07-bbdd-2698f7314838,smart,fortwo cabrio,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/smart.json#27fdfc4a-2159-43d0-b368-0444a3873f76,smart,fortwo coupe,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/smart.json#fb8b55ba-e20b-4d0a-81bd-3053830faa71,smart,ForTwo Electric,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#00c9be9e-e266-494f-a990-7769325e52a8,smart,premium,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#633f8fd1-dea0-4789-8230-693141a6b649,smart,pro,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#e01d4301-2fa0-47b6-bc23-9651fcf13ffb,smart,pro+,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/smart.json#698db25a-107f-4a40-b776-9b798f99b9af,smart,pulse,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#cc612db3-643d-435d-946a-d8a0a397fb51,Tesla,3,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/tesla.json#02f746ce-7cb0-4ea6-9848-a61aa2c33120,Tesla,3 long range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#8fcdaebc-49b0-4794-b355-2bd448ec02b7,Tesla,3 long range dual motor,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/tesla.json#c890e0d4-6d23-4601-b4d6-e3ebc45ccb2c,Tesla,3 long range rwd,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#e91fb713-4055-428a-a1e4-e9d03ad34c71,Tesla,3 standard range plus,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/tesla.json#940289f8-78cd-4b44-a465-158b7235c26b,Tesla,3 standard range plus lfp,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#7de25a64-e9fa-484f-bf99-d02b02cfb17d#dc_curve,Tesla,Model 3,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-3-gen1 (3x)"
+kilowatt-openev,data/v2/models/tesla.json#0551e45d-a5f5-4b78-b119-092b1b63a6bb#dc_curve,Tesla,Model S,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (4x)"
+kilowatt-openev,data/v2/models/tesla.json#0551e45d-a5f5-4b78-b119-092b1b63a6bb,Tesla,Model S,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-facelift (2x)"
+kilowatt-openev,data/v2/models/tesla.json#30bd829a-f36c-4ce3-8348-2dba1e76fcae,Tesla,Model S,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-gen1 (8x)"
+kilowatt-openev,data/v2/models/tesla.json#0a663bbf-3b87-4e7a-bd7a-3e9c39961a2b,Tesla,Model S,,,year 2012 outside every generation of tesla-model-s (5x)
+kilowatt-openev,data/v2/models/tesla.json#0dbd2773-e317-4c3c-9989-b33b1f2f1bc2,Tesla,Model X,,,model not in seed (25x)
+kilowatt-openev,data/v2/models/tesla.json#3012e28f-2dc0-4b2b-9bab-2fe03279b082,Tesla,Model Y,,,"attach-only: tie between tesla-model-y-gen1-long-range, tesla-model-y-gen1-long-range-rwd in tesla-model-y-gen1 (2x)"
+kilowatt-openev,data/v2/models/tesla.json#aade3809-159e-415d-a9ce-e5633a173fb8,Tesla,Model Y,,,year 2020 outside every generation of tesla-model-y (2x)
+kilowatt-openev,data/v2/models/tesla.json#0620ba23-8f0e-1a09-f96d-4fa691c84a54,Tesla,Roadster,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#03455c0c-7e7c-4b23-8a3d-92dd8b4f84ba,Tesla,s,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/tesla.json#312c7e3b-e2cc-4b74-8d2f-785e8e12cc49,Tesla,s dual motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#5323b8e6-9dd2-4c32-a110-562e2c4ddbf8,Tesla,s long range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#007a34f0-ebda-4516-b60a-e4aabdc7f0f3,Tesla,s long range plus,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#0341abc1-2b08-44c0-ab1e-6841a7c70de0,Tesla,s plaid,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#cdcdeed7-c39e-4a1c-b62e-1ae17c33f265,Tesla,s standard range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#9e7ca4a1-c601-43e4-bdac-e7d3ac84c9a2,Tesla,x,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/tesla.json#5e7111bd-b20e-4bad-b9fd-2ac592de6fb0,Tesla,x dual motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#d3530b47-48cc-4622-a7b3-ff0309cae2bb,Tesla,x long range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#7763e553-2fb8-4f1c-9d0e-b7bb9cdc9171,Tesla,x long range plus,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#d80fd320-0899-4bd8-a2ed-8ac3b0334733,Tesla,x ludicrous,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#99b1516f-7b7f-43a0-a965-3812ac253a23,Tesla,x plaid,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#ded4839c-d09c-48ae-8081-5ad7bdd12cc0,Tesla,x standard range,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/tesla.json#87c36ffb-c4e4-488e-9c91-e483c60ef543,Tesla,y,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/tesla.json#14433632-4b0c-4e31-bc06-a17fa490ac49,Tesla,y long range dual motor,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/volkswagen.json#0c7c7597-02b5-4a43-99de-e6f11dd3c240,Volkswagen,1st,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volkswagen.json#5e90cf3f-d580-435d-a1a5-a9d693f238cc,Volkswagen,buzz pro,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volkswagen.json#a0347619-a7fe-4dd2-be4e-3ef615783481,Volkswagen,e-up,,,model not in seed (5x)
+kilowatt-openev,data/v2/models/volkswagen.json#e2c9ad51-5b34-4436-83ef-84bc0e8720b7,Volkswagen,e-Up!,,,model not in seed (5x)
+kilowatt-openev,data/v2/models/volkswagen.json#f148e14d-c3b6-40c1-b2a9-2c28302b274f,Volkswagen,gtx,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/volkswagen.json#7c904ba6-da95-4d3e-a154-c1aabd7c6cc6,Volkswagen,ID. Buzz,,,model not in seed (5x)
+kilowatt-openev,data/v2/models/volkswagen.json#a3568004-5350-923a-9e4e-f85678d0746c#dc_curve,Volkswagen,ID.3,,,"attach-only: tie between volkswagen-id3-gen1-pro, volkswagen-id3-gen1-pro-s in volkswagen-id3-gen1 (1x)"
+kilowatt-openev,data/v2/models/volkswagen.json#98e0dab7-f4ed-4739-8051-6599a9e23437,Volkswagen,ID.4,,,year 2020 outside every generation of volkswagen-id4 (1x)
+kilowatt-openev,data/v2/models/volkswagen.json#3abda7a5-f1b0-ca54-27d2-e7c9728fc25c,Volkswagen,ID.5,,,model not in seed (7x)
+kilowatt-openev,data/v2/models/volkswagen.json#10610d1a-c08a-b88c-7be4-7e90f4fb0e46,Volkswagen,ID.7,,,model not in seed (7x)
+kilowatt-openev,data/v2/models/volkswagen.json#08a54ce3-82b9-d3a1-ce3b-3c6f52fe851c,Volkswagen,ID.Buzz,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/volkswagen.json#26684383-82ed-4455-9cf4-46b9ec4403c7,Volkswagen,pro,,,model not in seed (7x)
+kilowatt-openev,data/v2/models/volkswagen.json#c77886d6-37b6-4ca6-9f34-8a2fff248b5e,Volkswagen,pro 4motion,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/volkswagen.json#662f20c6-555e-4254-a2c8-e0a6f72270e6,Volkswagen,pro s,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/volkswagen.json#4f154661-67ed-48b1-a08f-3aad531b9646,Volkswagen,pro s-4 seats,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/volkswagen.json#3eb07e21-b015-4b93-a8cf-f6aa2b563e08,Volkswagen,pro s-5 seats,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volkswagen.json#855f100d-31f8-490e-9b06-163b0ce11ef2,Volkswagen,pure,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/volvo.json#685aa15b-e3f3-da7c-f230-c3ed16414fee,Volvo,C40,,,model not in seed (3x)
+kilowatt-openev,data/v2/models/volvo.json#aee1ea2c-c9f0-44fa-9f5f-da7bfcf730ab,Volvo,C40 Recharge Pure Electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#cd63310e-1045-4ff5-a9d3-ae75afdb40ad,Volvo,C40 Recharge Twin Pure Electric,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#547c3b9b-34b4-4f24-aab8-0265ea7763cf,Volvo,EC40 Single Motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#e4213868-7c3a-4d95-a3cc-54d82d5bb65c,Volvo,EC40 Single Motor ER,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#bf3fd314-4ae8-4ae0-93fc-ce45493c4019,Volvo,EC40 Twin Motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#eee026fe-4a71-4a3f-90ca-2ec0aa980b2f,Volvo,EC40 Twin Motor Performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#bef80595-f231-4bc9-b174-ec7851b41a67,Volvo,ES90 Single Motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#73c432ec-a0e5-4d9a-add9-2212ea1d773e,Volvo,ES90 Twin Motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#65119b95-d501-4329-b2aa-883e1ccb15c0,Volvo,ES90 Twin Motor Performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#12bf535a-a2fb-55cf-cd1a-4433104a0108,Volvo,EX30,,,model not in seed (4x)
+kilowatt-openev,data/v2/models/volvo.json#ccfdee94-3bb5-4d68-97ab-375ac5a3ef77,Volvo,EX30 Cross Country,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#01c96493-f9ae-4a9f-9bc8-78cf8857e8e6,Volvo,EX30 Twin Motor Performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#6d511b8a-447a-b34b-a514-4f93fbc04c76,Volvo,EX90,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#b9f0cebb-e900-4e9e-bc85-121134f26701,Volvo,EX90 Twin Motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#0264f0d9-61fc-4f0a-96d4-979978c71ad7,Volvo,EX90 Twin Motor Performance,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#238194ef-0943-4661-823b-83a02014970f,Volvo,p8 awd recharge,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#68b5d90d-e44f-4441-b0ae-267a28daa6e5,Volvo,recharge pure electric,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/volvo.json#b3ebf92b-8806-4472-a6fd-5c27a1081438,Volvo,recharge single motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#ca710efd-e593-401c-be4a-78512846bdfb,Volvo,recharge single motor er,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#85355f77-1b2d-44f8-89a0-eb3e5c8948a7,Volvo,recharge twin motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#07943307-23d5-4e6e-98c0-c56778733b74,Volvo,recharge twin pure electric,,,model not in seed (2x)
+kilowatt-openev,data/v2/models/volvo.json#663545fc-8649-4ab4-a142-cd680890e076,Volvo,single motor,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#df275576-1094-4373-9c17-6e0604ec49b3,Volvo,single motor er,,,model not in seed (1x)
+kilowatt-openev,data/v2/models/volvo.json#6ce04892-256b-4549-990c-39e3d68a86d1,Volvo,twin motor,,,model not in seed (3x)
 openev,src/audi/a6_e_tron/base.json+src/audi/a6_e_tron/2024/a6_e_tron.json,Audi,A6 e-tron,,,model not in seed (4x)
 openev,src/audi/e_tron_gt/base.json+src/audi/e_tron_gt/2023/e_tron_gt.json,Audi,e-tron GT,,,model not in seed (name excluded from audi-e-tron) (6x)
 openev,src/audi/q6_e_tron/base.json+src/audi/q6_e_tron/2024/q6_e_tron.json,Audi,Q6 e-tron,,,model not in seed (5x)
@@ -634,7 +1440,6 @@ rdw,m9d7-ebf2:CITROEN|C3|2016,CITROEN,C3,,,model not in seed (2x)
 rdw,m9d7-ebf2:CITROEN|C3 AIRCROSS|2026,CITROEN,C3 AIRCROSS,,,model not in seed (1x)
 rdw,m9d7-ebf2:CITROEN|C5 AIRCROSS|2025,CITROEN,C5 AIRCROSS,,,model not in seed (2x)
 rdw,m9d7-ebf2:CITROEN|CITROEN C1|2010,CITROEN,CITROEN C1,,,model not in seed (2x)
-rdw,m9d7-ebf2:CITROEN|CITROEN C4|2020,CITROEN,CITROEN C4,,,model not in seed (2x)
 rdw,m9d7-ebf2:CITROEN|E-BERLINGO|2021,CITROEN,E-BERLINGO,,,model not in seed (10x)
 rdw,m9d7-ebf2:CITROEN|E-BERLINGO VAN|2022,CITROEN,E-BERLINGO VAN,,,model not in seed (2x)
 rdw,m9d7-ebf2:CITROEN|E-C3|2024,CITROEN,E-C3,,,model not in seed (4x)
@@ -994,179 +1799,31 @@ rdw,m9d7-ebf2:TESLA|MODEL S PERFORMANCE+|2012,TESLA,MODEL S PERFORMANCE+,,,year 
 rdw,m9d7-ebf2:TESLA|MODEL X|2017,TESLA,MODEL X,,,model not in seed (14x)
 rdw,m9d7-ebf2:TESLA|MODEL X  P100D|2018,TESLA,MODEL X  P100D,,,model not in seed (1x)
 rdw,m9d7-ebf2:TESLA|MODEL X90D|2017,TESLA,MODEL X90D,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA|MODEL Y|2020,TESLA,MODEL Y,,,year 2020 outside every generation of tesla-model-y (1x)
-rdw,m9d7-ebf2:TESLA|ROADSTER|2010,TESLA,ROADSTER,,,model not in seed (5x)
-rdw,m9d7-ebf2:TESLA|ROADSTER SPORT|2010,TESLA,ROADSTER SPORT,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA|S 75 D|2018,TESLA,S 75 D,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA|TESLA MODEL X|2020,TESLA,TESLA MODEL X,,,model not in seed (2x)
-rdw,m9d7-ebf2:TESLA|TESLA RAODSTER|2010,TESLA,TESLA RAODSTER,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA|TESLA ROADSTER|2010,TESLA,TESLA ROADSTER,,,model not in seed (2x)
-rdw,m9d7-ebf2:TESLA|TYPE 001|2010,TESLA,TYPE 001,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA|VIO EUROPE MODEL 3|2020,TESLA,VIO EUROPE MODEL 3,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA|Y|2022,TESLA,Y,,,model not in seed (3x)
-rdw,m9d7-ebf2:TESLA MOTORS|90X|2016,TESLA MOTORS,90X,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA MOTORS|MODEL 3|2018,TESLA MOTORS,MODEL 3,,,year 2018 outside every generation of tesla-model-3 (1x)
-rdw,m9d7-ebf2:TESLA MOTORS|MODEL S|2016,TESLA MOTORS,MODEL S,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
-rdw,m9d7-ebf2:TESLA MOTORS|MODEL S 90 D|2016,TESLA MOTORS,MODEL S 90 D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
-rdw,m9d7-ebf2:TESLA MOTORS|MODEL X|2016,TESLA MOTORS,MODEL X,,,model not in seed (6x)
-rdw,m9d7-ebf2:TESLA MOTORS|MODEL X PLAID|2022,TESLA MOTORS,MODEL X PLAID,,,model not in seed (1x)
-rdw,m9d7-ebf2:TESLA MOTORS|MODEL Y|2020,TESLA MOTORS,MODEL Y,,,year 2020 outside every generation of tesla-model-y (1x)
-rdw,m9d7-ebf2:TESLA MOTORS|TESLA MODEL 3|2018,TESLA MOTORS,TESLA MODEL 3,,,year 2018 outside every generation of tesla-model-3 (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ABT E-CADDY|2020,VOLKSWAGEN,ABT E-CADDY,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ABT E-CARAVELL 6.1|2021,VOLKSWAGEN,ABT E-CARAVELL 6.1,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ABT E-CARAVELLE 6.1|2020,VOLKSWAGEN,ABT E-CARAVELLE 6.1,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ABT E-TRANSPORTER|2020,VOLKSWAGEN,ABT E-TRANSPORTER,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ABT E-TRANSPORTER 6.1|2020,VOLKSWAGEN,ABT E-TRANSPORTER 6.1,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ARTEON|2018,VOLKSWAGEN,ARTEON,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ATLAS|2018,VOLKSWAGEN,ATLAS,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|BEETLE|2016,VOLKSWAGEN,BEETLE,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|BEETLE CABRIOLET|2018,VOLKSWAGEN,BEETLE CABRIOLET,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|CADDY|2010,VOLKSWAGEN,CADDY,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|CALIFORNIA|2017,VOLKSWAGEN,CALIFORNIA,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|California 6.1|2021,VOLKSWAGEN,California 6.1,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|CARAVELLE|2025,VOLKSWAGEN,CARAVELLE,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|CRAFTER|2010,VOLKSWAGEN,CRAFTER,,,model not in seed (8x)
-rdw,m9d7-ebf2:VOLKSWAGEN|E BORA|2019,VOLKSWAGEN,E BORA,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|E-GOLF|2017,VOLKSWAGEN,E-GOLF,,,"ambiguous-generation: 2017 is shared by volkswagen-e-golf-mk7, volkswagen-e-golf-mk75; no name/battery evidence (1x)"
-rdw,m9d7-ebf2:VOLKSWAGEN|E-VENTJE|2025,VOLKSWAGEN,E-VENTJE,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|EVENTJE|2024,VOLKSWAGEN,EVENTJE,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2017,VOLKSWAGEN,GOLF,,,"ambiguous-generation: 2017 is shared by volkswagen-e-golf-mk7, volkswagen-e-golf-mk75; no name/battery evidence (1x)"
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2010,VOLKSWAGEN,GOLF,,,year 2010 outside every generation of volkswagen-e-golf (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2011,VOLKSWAGEN,GOLF,,,year 2011 outside every generation of volkswagen-e-golf (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2012,VOLKSWAGEN,GOLF,,,year 2012 outside every generation of volkswagen-e-golf (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF|2021,VOLKSWAGEN,GOLF,,,year 2021 outside every generation of volkswagen-e-golf (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|Golf 1.6|2014,VOLKSWAGEN,Golf 1.6,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF E|2016,VOLKSWAGEN,GOLF E,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|GOLF GTI|2017,VOLKSWAGEN,GOLF GTI,,,model not in seed (1x)
-rdw,"m9d7-ebf2:VOLKSWAGEN|GOLF, 1,4 TSI|2010",VOLKSWAGEN,"GOLF, 1,4 TSI",,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID BUZZ PRO LR 210 KW|2024,VOLKSWAGEN,ID BUZZ PRO LR 210 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ|2022,VOLKSWAGEN,ID. BUZZ,,,model not in seed (5x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ  150 KW|2023,VOLKSWAGEN,ID. BUZZ  150 KW,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ  MODIFIED PARTITION WALL|2024,VOLKSWAGEN,ID. BUZZ  MODIFIED PARTITION WALL,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ 150 KW|2022,VOLKSWAGEN,ID. BUZZ 150 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ 150KW|2023,VOLKSWAGEN,ID. BUZZ 150KW,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ CARGO|2023,VOLKSWAGEN,ID. BUZZ CARGO,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ CARGO 150 KW|2022,VOLKSWAGEN,ID. BUZZ CARGO 150 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ CARGO MODIFIED PARTITION WALL|2022,VOLKSWAGEN,ID. BUZZ CARGO MODIFIED PARTITION WALL,,,model not in seed (5x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ GTX KR 250 KW|2025,VOLKSWAGEN,ID. BUZZ GTX KR 250 KW,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ GTX LR 250 KW|2024,VOLKSWAGEN,ID. BUZZ GTX LR 250 KW,,,model not in seed (4x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ MODIFIED PARTITION WALL|2024,VOLKSWAGEN,ID. BUZZ MODIFIED PARTITION WALL,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ PRO 150 KW|2022,VOLKSWAGEN,ID. BUZZ PRO 150 KW,,,model not in seed (4x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ PRO KR 210 KW|2024,VOLKSWAGEN,ID. BUZZ PRO KR 210 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ PRO LR 210 KW|2024,VOLKSWAGEN,ID. BUZZ PRO LR 210 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ PURE KR 125 KW|2025,VOLKSWAGEN,ID. BUZZ PURE KR 125 KW,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. BUZZ.|2023,VOLKSWAGEN,ID. BUZZ.,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. CROSS 155KW|2026,VOLKSWAGEN,ID. CROSS 155KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. POLO 155KW|2026,VOLKSWAGEN,ID. POLO 155KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID. POLO 99KW|2026,VOLKSWAGEN,ID. POLO 99KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.4 PRO 150 KW|2020,VOLKSWAGEN,ID.4 PRO 150 KW,,,year 2020 outside every generation of volkswagen-id4 (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.5 GTX 220 KW|2022,VOLKSWAGEN,ID.5 GTX 220 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.5 GTX 250KW|2024,VOLKSWAGEN,ID.5 GTX 250KW,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.5 PRO 128 KW|2022,VOLKSWAGEN,ID.5 PRO 128 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.5 PRO 150 KW|2022,VOLKSWAGEN,ID.5 PRO 150 KW,,,model not in seed (4x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.5 PRO 210KW|2024,VOLKSWAGEN,ID.5 PRO 210KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.5 PURE 125KW|2025,VOLKSWAGEN,ID.5 PURE 125KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.6 CROZZ|2023,VOLKSWAGEN,ID.6 CROZZ,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.6 PRO|2023,VOLKSWAGEN,ID.6 PRO,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 GTX|2025,VOLKSWAGEN,ID.7 GTX,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 PRO|2024,VOLKSWAGEN,ID.7 PRO,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 PRO 210KW|2023,VOLKSWAGEN,ID.7 PRO 210KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 PRO S|2024,VOLKSWAGEN,ID.7 PRO S,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 PURE|2026,VOLKSWAGEN,ID.7 PURE,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 TOURER GTX|2024,VOLKSWAGEN,ID.7 TOURER GTX,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 TOURER PRO|2024,VOLKSWAGEN,ID.7 TOURER PRO,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 TOURER PRO S|2024,VOLKSWAGEN,ID.7 TOURER PRO S,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.7 TOURER PURE|2026,VOLKSWAGEN,ID.7 TOURER PURE,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ|2025,VOLKSWAGEN,ID.BUZZ,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ  210 KW|2025,VOLKSWAGEN,ID.BUZZ  210 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ  PRO 210 KW|2025,VOLKSWAGEN,ID.BUZZ  PRO 210 KW,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ  PRO 4MOTION|2025,VOLKSWAGEN,ID.BUZZ  PRO 4MOTION,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ 4MOTION KR 250 KW|2026,VOLKSWAGEN,ID.BUZZ 4MOTION KR 250 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ 4MOTION LR 250 KW|2026,VOLKSWAGEN,ID.BUZZ 4MOTION LR 250 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ CARGO PRO 210 KW|2025,VOLKSWAGEN,ID.BUZZ CARGO PRO 210 KW,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ CARGO PRO 4MOTION|2025,VOLKSWAGEN,ID.BUZZ CARGO PRO 4MOTION,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ CARGO PURE 125 KW|2025,VOLKSWAGEN,ID.BUZZ CARGO PURE 125 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ PRO 210 KW|2025,VOLKSWAGEN,ID.BUZZ PRO 210 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ PRO 4MOTION|2025,VOLKSWAGEN,ID.BUZZ PRO 4MOTION,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ PRO KR 210 KW|2026,VOLKSWAGEN,ID.BUZZ PRO KR 210 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ PRO LR 210 KW|2026,VOLKSWAGEN,ID.BUZZ PRO LR 210 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID.BUZZ PURE KR 140 KW|2026,VOLKSWAGEN,ID.BUZZ PURE KR 140 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID6 CROZZ|2022,VOLKSWAGEN,ID6 CROZZ,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|ID7 TOURER GTX|2025,VOLKSWAGEN,ID7 TOURER GTX,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|IDBUZZ PRO KR|2026,VOLKSWAGEN,IDBUZZ PRO KR,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|JETTA|2011,VOLKSWAGEN,JETTA,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|MULTIVAN|2017,VOLKSWAGEN,MULTIVAN,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|PASSAT|2012,VOLKSWAGEN,PASSAT,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|PASSAT VARIANT|2017,VOLKSWAGEN,PASSAT VARIANT,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|POLO|2011,VOLKSWAGEN,POLO,,,model not in seed (5x)
-rdw,m9d7-ebf2:VOLKSWAGEN|SHARAN|2012,VOLKSWAGEN,SHARAN,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|TIGUAN|2010,VOLKSWAGEN,TIGUAN,,,model not in seed (7x)
-rdw,m9d7-ebf2:VOLKSWAGEN|TOUAREG|2016,VOLKSWAGEN,TOUAREG,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|TOURAN|2011,VOLKSWAGEN,TOURAN,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|TRANSPORTER|2025,VOLKSWAGEN,TRANSPORTER,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLKSWAGEN|TRANSPORTER CARAVELLE|2025,VOLKSWAGEN,TRANSPORTER CARAVELLE,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|UP|2013,VOLKSWAGEN,UP,,,model not in seed (6x)
-rdw,m9d7-ebf2:VOLKSWAGEN|UP !|2016,VOLKSWAGEN,UP !,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|UP!|2015,VOLKSWAGEN,UP!,,,model not in seed (11x)
-rdw,m9d7-ebf2:VOLKSWAGEN|VENTJE|2023,VOLKSWAGEN,VENTJE,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLKSWAGEN|VENTJE ID|2026,VOLKSWAGEN,VENTJE ID,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|VENTJE ID BUZZ|2025,VOLKSWAGEN,VENTJE ID BUZZ,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|VENTJE T7|2026,VOLKSWAGEN,VENTJE T7,,,model not in seed (1x)
-rdw,"m9d7-ebf2:VOLKSWAGEN|VOLKSWAGEN, VW ID.3|2020",VOLKSWAGEN,"VOLKSWAGEN, VW ID.3",,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLKSWAGEN|VW ID. BUZZ PRO 150 KW|2023,VOLKSWAGEN,VW ID. BUZZ PRO 150 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|C40|2021,VOLVO,C40,,,model not in seed (5x)
-rdw,m9d7-ebf2:VOLVO|C70|2010,VOLVO,C70,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|EC40|2024,VOLVO,EC40,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLVO|ES90|2025,VOLVO,ES90,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLVO|EX30|2023,VOLVO,EX30,,,model not in seed (4x)
-rdw,m9d7-ebf2:VOLVO|EX30 CROSS COUNTRY|2025,VOLVO,EX30 CROSS COUNTRY,,,model not in seed (2x)
-rdw,m9d7-ebf2:VOLVO|EX60|2026,VOLVO,EX60,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|EX90|2024,VOLVO,EX90,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLVO|S40|2010,VOLVO,S40,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|S60|2012,VOLVO,S60,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|STATION WAGON|2017,VOLVO,STATION WAGON,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|SUV|2025,VOLVO,SUV,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|V40|2013,VOLVO,V40,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLVO|V40 T3|2016,VOLVO,V40 T3,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|V50|2011,VOLVO,V50,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|V60|2012,VOLVO,V60,,,model not in seed (4x)
-rdw,m9d7-ebf2:VOLVO|V70|2014,VOLVO,V70,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|V90|2018,VOLVO,V90,,,model not in seed (3x)
-rdw,m9d7-ebf2:VOLVO|V90 CROSS COUNTRY|2020,VOLVO,V90 CROSS COUNTRY,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|XC 40|2022,VOLVO,XC 40,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|XC40|2018,VOLVO,XC40,,,model not in seed (8x)
-rdw,m9d7-ebf2:VOLVO|XC40 T5 AWD|2019,VOLVO,XC40 T5 AWD,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|XC40 TWIN78AWD SPORT|2023,VOLVO,XC40 TWIN78AWD SPORT,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|XC60|2012,VOLVO,XC60,,,model not in seed (6x)
-rdw,m9d7-ebf2:VOLVO|XC60 T6|2014,VOLVO,XC60 T6,,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|XC70 D5 AWD|2015,VOLVO,XC70 D5 AWD,,,model not in seed (1x)
-rdw,"m9d7-ebf2:VOLVO|XC70, D5 AWD|2011",VOLVO,"XC70, D5 AWD",,,model not in seed (1x)
-rdw,m9d7-ebf2:VOLVO|XC90|2010,VOLVO,XC90,,,model not in seed (7x)
-rdw,m9d7-ebf2:VOLVO|XC90 T6|2015,VOLVO,XC90 T6,,,model not in seed (1x)
-rdw,m9d7-ebf2:VW|ABT E-TRANSPORTER|2020,VW,ABT E-TRANSPORTER,,,model not in seed (1x)
-rdw,m9d7-ebf2:VW|GOLF|2017,VW,GOLF,,,"ambiguous-generation: 2017 is shared by volkswagen-e-golf-mk7, volkswagen-e-golf-mk75; no name/battery evidence (1x)"
-rdw,m9d7-ebf2:VW|ID. BUZZ PRO 150 KW|2022,VW,ID. BUZZ PRO 150 KW,,,model not in seed (3x)
-rdw,m9d7-ebf2:VW|ID.4 PRO 150 KW|2020,VW,ID.4 PRO 150 KW,,,year 2020 outside every generation of volkswagen-id4 (1x)
-rdw,m9d7-ebf2:VW|ID.5 PRO 128 KW|2022,VW,ID.5 PRO 128 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VW|ID.5 PRO 150 KW|2022,VW,ID.5 PRO 150 KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:VW|ID.7 TOURER GTX|2025,VW,ID.7 TOURER GTX,,,model not in seed (1x)
-rdw,m9d7-ebf2:VW|UP!|2017,VW,UP!,,,model not in seed (5x)
 eea,(summary),"VOLKSWAGEN, VW",,,,make not in seed: 115 records
 rdw,(summary),PORSCHE,,,,make not in seed: 92 records
 rdw,(summary),TOYOTA,,,,make not in seed: 74 records
 eea,(summary),PORSCHE,,,,make not in seed: 67 records
 openev,(summary),NIO,,,,make not in seed: 65 records
+kilowatt-openev,(summary),PORSCHE,,,,make not in seed: 52 records
+dft-veh,(summary),PORSCHE,,,,make not in seed: 39 records
 openev,(summary),CHEVROLET,,,,make not in seed: 38 records
 openev,(summary),VINFAST,,,,make not in seed: 34 records
+dft-veh,(summary),TOYOTA,,,,make not in seed: 33 records
 openev,(summary),ZEEKR,,,,make not in seed: 32 records
 openev,(summary),GAC AION,,,,make not in seed: 31 records
 openev,(summary),XPENG,,,,make not in seed: 31 records
+kilowatt-openev,(summary),TOYOTA,,,,make not in seed: 27 records
 rdw,(summary),XPENG,,,,make not in seed: 27 records
 rdw,(summary),NIO,,,,make not in seed: 26 records
+dft-veh,(summary),DS,,,,make not in seed: 25 records
+ademe,(summary),PORSCHE,,,,make not in seed: 24 records
 openev,(summary),LAND ROVER,,,,make not in seed: 24 records
 openev,(summary),RIVIAN,,,,make not in seed: 24 records
+kilowatt-openev,(summary),NIO,,,,make not in seed: 23 records
 openev,(summary),LEAPMOTOR,,,,make not in seed: 23 records
+dft-veh,(summary),LEXUS,,,,make not in seed: 22 records
 openev,(summary),CHERY,,,,make not in seed: 22 records
+dft-veh,(summary),LOTUS,,,,make not in seed: 20 records
 eea,(summary),TOYOTA,,,,make not in seed: 20 records
 openev,(summary),PORSCHE,,,,make not in seed: 20 records
 rdw,(summary),LEXUS,,,,make not in seed: 20 records
@@ -1187,6 +1844,7 @@ eea,(summary),LEXUS,,,,make not in seed: 16 records
 rdw,(summary),MAZDA,,,,make not in seed: 16 records
 rdw,(summary),SERES,,,,make not in seed: 15 records
 eea,(summary),MASERATI,,,,make not in seed: 14 records
+kilowatt-openev,(summary),XPENG,,,,make not in seed: 14 records
 openev,(summary),GENESIS,,,,make not in seed: 14 records
 openev,(summary),LEXUS,,,,make not in seed: 14 records
 rdw,(summary),MITSUBISHI,,,,make not in seed: 14 records
@@ -1196,189 +1854,48 @@ eea,(summary),LEAPMOTOR,,,,make not in seed: 13 records
 openev,(summary),GWM,,,,make not in seed: 13 records
 openev,(summary),LUCID,,,,make not in seed: 13 records
 rdw,(summary),LUCID MOTORS,,,,make not in seed: 13 records
+dft-veh,(summary),GENESIS,,,,make not in seed: 12 records
 openev,(summary),CADILLAC,,,,make not in seed: 12 records
 openev,(summary),NAMMI,,,,make not in seed: 12 records
 openev,(summary),VOYAH,,,,make not in seed: 12 records
 rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 12 records
 rdw,(summary),SEAT,,,,make not in seed: 12 records
+dft-veh,(summary),MAZDA,,,,make not in seed: 11 records
 eea,(summary),LUCID MOTORS,,,,make not in seed: 11 records
+kilowatt-openev,(summary),DS,,,,make not in seed: 11 records
+kilowatt-openev,(summary),LUCID,,,,make not in seed: 11 records
+kilowatt-openev,(summary),ZEEKR,,,,make not in seed: 11 records
 openev,(summary),LOTUS,,,,make not in seed: 11 records
 rdw,(summary),FAW,,,,make not in seed: 11 records
 rdw,(summary),LEAPMOTOR,,,,make not in seed: 11 records
 rdw,(summary),MASERATI,,,,make not in seed: 11 records
 rdw,(summary),ZEEKR,,,,make not in seed: 11 records
+dft-veh,(summary),ALPINE,,,,make not in seed: 10 records
 eea,(summary),"HYUNDAI, GENESIS",,,,make not in seed: 10 records
+kba-fz10,(summary),NIO,,,,make not in seed: 10 records
+kilowatt-openev,(summary),GENESIS,,,,make not in seed: 10 records
+dft-veh,(summary),ORA,,,,make not in seed: 9 records
 eea,(summary),LOTUS,,,,make not in seed: 9 records
 eea,(summary),MAZDA,,,,make not in seed: 9 records
 eea,(summary),ROLLS-ROYCE,,,,make not in seed: 9 records
+kilowatt-openev,(summary),GWM,,,,make not in seed: 9 records
+kilowatt-openev,(summary),LOTUS,,,,make not in seed: 9 records
 openev,(summary),FERRARI,,,,make not in seed: 9 records
 openev,(summary),IM MOTORS,,,,make not in seed: 9 records
 openev,(summary),RISING AUTO,,,,make not in seed: 9 records
 rdw,(summary),LOTUS,,,,make not in seed: 9 records
 rdw,(summary),SUBARU,,,,make not in seed: 9 records
 rdw,(summary),VOYAH,,,,make not in seed: 9 records
+dft-veh,(summary),LAND ROVER,,,,make not in seed: 8 records
 eea,(summary),ABARTH,,,,make not in seed: 8 records
 eea,(summary),JEEP,,,,make not in seed: 8 records
 eea,(summary),MAXUS,,,,make not in seed: 8 records
+kba-fz10,(summary),LEAPMOTOR,,,,make not in seed: 8 records
+kba-fz10,(summary),XPENG,,,,make not in seed: 8 records
+kilowatt-openev,(summary),ABARTH,,,,make not in seed: 8 records
+kilowatt-openev,(summary),FISKER,,,,make not in seed: 8 records
 rdw,(summary),SSANGYONG,,,,make not in seed: 8 records
-eea,(summary),ALPINE,,,,make not in seed: 7 records
-eea,(summary),FAW,,,,make not in seed: 7 records
-eea,(summary),GEELY,,,,make not in seed: 7 records
-eea,(summary),XIAOMI,,,,make not in seed: 7 records
-eea,(summary),ZEEKR,,,,make not in seed: 7 records
-openev,(summary),ROEWE,,,,make not in seed: 7 records
-openev,(summary),YANGWANG,,,,make not in seed: 7 records
-rdw,(summary),DFSK,,,,make not in seed: 7 records
-rdw,(summary),FORD-CNG-TECHNIK,,,,make not in seed: 7 records
-rdw,(summary),THINK,,,,make not in seed: 7 records
-rdw,(summary),YUEDA-HUMAN HORIZONS,,,,make not in seed: 7 records
-eea,(summary),CADILLAC,,,,make not in seed: 6 records
-eea,(summary),VINFAST,,,,make not in seed: 6 records
-openev,(summary),DONGFENG,,,,make not in seed: 6 records
-openev,(summary),DS AUTOMOBILES,,,,make not in seed: 6 records
-openev,(summary),HIPHI,,,,make not in seed: 6 records
-openev,(summary),HONGQI,,,,make not in seed: 6 records
-openev,(summary),KARMA AUTOMOTIVE,,,,make not in seed: 6 records
-rdw,(summary),ABARTH,,,,make not in seed: 6 records
-rdw,(summary),AIWAYS,,,,make not in seed: 6 records
-rdw,(summary),CADILLAC,,,,make not in seed: 6 records
-rdw,(summary),FISKER,,,,make not in seed: 6 records
-rdw,(summary),M.A.N.,,,,make not in seed: 6 records
-eea,(summary),OMODA,,,,make not in seed: 5 records
-eea,(summary),SSANGYONG,,,,make not in seed: 5 records
-eea,(summary),SUBARU,,,,make not in seed: 5 records
-eea,(summary),VOYAH,,,,make not in seed: 5 records
-openev,(summary),FANGCHENGBAO,,,,make not in seed: 5 records
-rdw,(summary),CHRYSLER,,,,make not in seed: 5 records
-rdw,(summary),GEELY,,,,make not in seed: 5 records
-rdw,(summary),GREAT WALL MOTOR COMPANY,,,,make not in seed: 5 records
-rdw,(summary),JAC,,,,make not in seed: 5 records
-rdw,(summary),KG MOBILITY,,,,make not in seed: 5 records
-rdw,(summary),MAN,,,,make not in seed: 5 records
-rdw,(summary),RIVIAN,,,,make not in seed: 5 records
-rdw,(summary),ROLLS ROYCE,,,,make not in seed: 5 records
-rdw,(summary),VINFAST,,,,make not in seed: 5 records
-eea,(summary),ALFA ROMEO,,,,make not in seed: 4 records
-eea,(summary),DONGFENG,,,,make not in seed: 4 records
-eea,(summary),GREAT WALL MOTOR CO. LTD.,,,,make not in seed: 4 records
-eea,(summary),KG MOBILITY,,,,make not in seed: 4 records
-eea,(summary),LANCIA,,,,make not in seed: 4 records
-eea,(summary),SERES,,,,make not in seed: 4 records
-eea,(summary),SUZUKI,,,,make not in seed: 4 records
-openev,(summary),MASERATI,,,,make not in seed: 4 records
-openev,(summary),MITSUBISHI,,,,make not in seed: 4 records
-openev,(summary),RIMAC,,,,make not in seed: 4 records
-openev,(summary),ROLLS-ROYCE,,,,make not in seed: 4 records
-rdw,(summary),ALFA ROMEO,,,,make not in seed: 4 records
-rdw,(summary),ALPINE,,,,make not in seed: 4 records
-rdw,(summary),DONGFENG,,,,make not in seed: 4 records
-rdw,(summary),HYMER,,,,make not in seed: 4 records
-rdw,(summary),LAND ROVER,,,,make not in seed: 4 records
-rdw,(summary),MIA,,,,make not in seed: 4 records
-rdw,(summary),SUZUKI,,,,make not in seed: 4 records
-eea,(summary),AIWAYS,,,,make not in seed: 3 records
-eea,(summary),DFSK,,,,make not in seed: 3 records
-eea,(summary),"DFSK, SERES, SOKON",,,,make not in seed: 3 records
-eea,(summary),FISKER,,,,make not in seed: 3 records
-eea,(summary),LYNK&CO,,,,make not in seed: 3 records
-eea,(summary),MITSUBISHI,,,,make not in seed: 3 records
-openev,(summary),AUTOMOBILI PININFARINA,,,,make not in seed: 3 records
-openev,(summary),FARADAY FUTURE,,,,make not in seed: 3 records
-openev,(summary),M-HERO,,,,make not in seed: 3 records
-openev,(summary),MCLAREN,,,,make not in seed: 3 records
-rdw,(summary),AION,,,,make not in seed: 3 records
-rdw,(summary),DEEPAL,,,,make not in seed: 3 records
-rdw,(summary),DODGE,,,,make not in seed: 3 records
-rdw,(summary),E.GO,,,,make not in seed: 3 records
-rdw,(summary),HUMMER,,,,make not in seed: 3 records
-rdw,(summary),JAECOO,,,,make not in seed: 3 records
-rdw,(summary),LANCIA,,,,make not in seed: 3 records
-rdw,(summary),MICRO-VETT,,,,make not in seed: 3 records
-rdw,(summary),ROLLS-ROYCE,,,,make not in seed: 3 records
-rdw,(summary),ZELFBOUW,,,,make not in seed: 3 records
-eea,(summary),CHANGAN MAZDA,,,,make not in seed: 2 records
-eea,(summary),DEEPAL,,,,make not in seed: 2 records
-eea,(summary),EXLANTIX,,,,make not in seed: 2 records
-eea,(summary),FORTHING,,,,make not in seed: 2 records
-eea,(summary),GENESIS,,,,make not in seed: 2 records
-eea,(summary),JAC,,,,make not in seed: 2 records
-eea,(summary),JAECOO,,,,make not in seed: 2 records
-eea,(summary),LUCI MOTORS (USA),,,,make not in seed: 2 records
-eea,(summary),"MG, ROEWE",,,,make not in seed: 2 records
-eea,(summary),MOKE,,,,make not in seed: 2 records
-eea,(summary),RIMAC,,,,make not in seed: 2 records
-eea,(summary),ROLLS ROYCE,,,,make not in seed: 2 records
-eea,(summary),SKYWELL,,,,make not in seed: 2 records
-eea,(summary),SKYWORTH,,,,make not in seed: 2 records
-eea,(summary),SWM,,,,make not in seed: 2 records
-eea,(summary),TOGG,,,,make not in seed: 2 records
-rdw,(summary),DETROIT ELECTRIC,,,,make not in seed: 2 records
-rdw,(summary),E GO,,,,make not in seed: 2 records
-rdw,(summary),FAW-VOLKSWAGEN,,,,make not in seed: 2 records
-rdw,(summary),G.M.C.,,,,make not in seed: 2 records
-rdw,(summary),GMC,,,,make not in seed: 2 records
-rdw,(summary),LI AUTO,,,,make not in seed: 2 records
-rdw,(summary),LYNK&CO,,,,make not in seed: 2 records
-rdw,(summary),MELEX,,,,make not in seed: 2 records
-rdw,(summary),MOKE,,,,make not in seed: 2 records
-rdw,(summary),OMODA,,,,make not in seed: 2 records
-rdw,(summary),POESSL,,,,make not in seed: 2 records
-rdw,(summary),RIMAC,,,,make not in seed: 2 records
-rdw,(summary),SKYWELL,,,,make not in seed: 2 records
-rdw,(summary),STELLA,,,,make not in seed: 2 records
-rdw,(summary),THE LONDON TAXI COMPANY,,,,make not in seed: 2 records
-rdw,(summary),TOGG,,,,make not in seed: 2 records
-rdw,(summary),XIAOMI,,,,make not in seed: 2 records
-eea,(summary),AION,,,,make not in seed: 1 records
-eea,(summary),AUDI SPORT,,,,make not in seed: 1 records
-eea,(summary),BAYER.MOT.WERKE-BMW,,,,make not in seed: 1 records
-eea,(summary),BMW AG,,,,make not in seed: 1 records
-eea,(summary),CASELANI,,,,make not in seed: 1 records
-eea,(summary),CHERY,,,,make not in seed: 1 records
-eea,(summary),"CHERY, JAECOO",,,,make not in seed: 1 records
-eea,(summary),CHINA FIRST (RC),,,,make not in seed: 1 records
-eea,(summary),DAYUN,,,,make not in seed: 1 records
-eea,(summary),DFSK MOTOR CO. LTD,,,,make not in seed: 1 records
-eea,(summary),DODGE,,,,make not in seed: 1 records
-eea,(summary),E.GO,,,,make not in seed: 1 records
-eea,(summary),FIREFLY,,,,make not in seed: 1 records
-eea,(summary),GMC,,,,make not in seed: 1 records
-eea,(summary),LYNK & CO,,,,make not in seed: 1 records
-eea,(summary),MOKE INTERNATIONAL LIMITED,,,,make not in seed: 1 records
-eea,(summary),ONVO,,,,make not in seed: 1 records
-eea,(summary),"SERES, DFSK, SOKON, AITO",,,,make not in seed: 1 records
-eea,(summary),YANGWANG,,,,make not in seed: 1 records
-eea,(summary),YUEDA-HUMAN HORIZONS,,,,make not in seed: 1 records
-eea,(summary),"ZHIDOU, ZD, ELARIS",,,,make not in seed: 1 records
-rdw,(summary),ABT E-LINE GMBH,,,,make not in seed: 1 records
-rdw,(summary),ADRIA,,,,make not in seed: 1 records
-rdw,(summary),AIXAM,,,,make not in seed: 1 records
-rdw,(summary),ASTON MARTIN,,,,make not in seed: 1 records
-rdw,(summary),ATLAS TECHNOLOGIES,,,,make not in seed: 1 records
-rdw,(summary),BD,,,,make not in seed: 1 records
-rdw,(summary),BLUECAR,,,,make not in seed: 1 records
-rdw,(summary),BUERSTNER,,,,make not in seed: 1 records
-rdw,(summary),CHANGAN,,,,make not in seed: 1 records
-rdw,(summary),CHEVROLET-AIRSTREAM,,,,make not in seed: 1 records
-rdw,(summary),DAIHATSU,,,,make not in seed: 1 records
-rdw,(summary),GERMAN E-CARS,,,,make not in seed: 1 records
-rdw,(summary),GRUAU,,,,make not in seed: 1 records
-rdw,(summary),HAN,,,,make not in seed: 1 records
-rdw,(summary),HENDRIKUS,,,,make not in seed: 1 records
-rdw,(summary),INDUSAUTO,,,,make not in seed: 1 records
-rdw,(summary),INEOS,,,,make not in seed: 1 records
-rdw,(summary),JAGUAR LAND ROVER,,,,make not in seed: 1 records
-rdw,(summary),JINGDEZHEN CHANGHE,,,,make not in seed: 1 records
-rdw,(summary),KARMANN MOBIL,,,,make not in seed: 1 records
-rdw,(summary),MC LAREN,,,,make not in seed: 1 records
-rdw,(summary),MERCURY,,,,make not in seed: 1 records
-rdw,(summary),MK,,,,make not in seed: 1 records
-rdw,(summary),MK SPORTSCARS,,,,make not in seed: 1 records
-rdw,(summary),MW MOTORS SRO,,,,make not in seed: 1 records
-rdw,(summary),ORA,,,,make not in seed: 1 records
-rdw,(summary),POSSL,,,,make not in seed: 1 records
-rdw,(summary),SAAB,,,,make not in seed: 1 records
-rdw,(summary),STYLEVAN,,,,make not in seed: 1 records
-rdw,(summary),VOLKSWAGEN/ZIMNY,,,,make not in seed: 1 records
-rdw,(summary),WM MOTOR MANUFACTURING WM,,,,make not in seed: 1 records
-rdw,(summary),ZOTYE,,,,make not in seed: 1 records
+dft-veh,(summary),ABARTH,,,,make not in seed: 7 records
+dft-veh,(summary),JEEP,,,,make not in seed: 7 records
+dft-veh,(summary),MAXUS,,,,make not in seed: 7 records
+*,(summary),(other makes),,,,make not in seed: 777 records

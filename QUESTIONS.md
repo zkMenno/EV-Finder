@@ -215,6 +215,21 @@ The About page (`/[country]/about`) builds its credits from the release's `sourc
 
 **Answer:**
 
+### Q-051 · KBA model series read as BEV models · match (kba-fz10) / seed · builder · 2026-11-15
+KBA FZ10 rows are Marke × Modellreihe, shared with ICE cars; only the BEV column is used. **Defaults** (source-scoped aliases in `data/seed/models.yaml`, valid for `kba-fz10` only, each with a note in the release provenance): `BMW 4ER` → i4, `AUDI Q4` → Q4 e-tron, `AUDI Q8` → Q8 e-tron, `MERCEDES GLA` → EQA, `SEAT BORN` → Cupra Born, `VW ID.4, ID.5` → ID.4 (the seed has no ID.5; the note says the count includes it). Cross-check against EEA DE 2025: i4 11,680 vs 11,690, Q4 11,776 vs 11,752, EQA 9,687 vs 9,682, Born 18,847 vs 18,811, so these readings hold. **`MINI MINI` is not mapped:** KBA has one series for every MINI, and its 2025 BEV count (15,495) is 2.4× EEA's Cooper SE/E count (6,570), so it includes the Aceman / Countryman E; it goes to unmatched.csv. A KBA year that two generations share without evidence (e.g. Model 3 2024) is counted at model level, with a note; a year outside every generation (KBA 2025 `VW GOLF` BEV: the e-Golf ended in 2020) goes to review. OK, or should MINI map anyway with a "may include" note?
+
+**Answer:**
+
+### Q-052 · ADEME and KilowattApp only add to existing variants · match / merge · builder · 2026-11-15
+Their names never equal OpenEV/seed names (ADEME "e-208 (57Kw)", KilowattApp "LR"), so letting them create variants would duplicate rows. **Default:** "attach-only": a record joins one existing variant of its generation (same name, else the generation's only variant, else the single best on battery kWh / power kW / WLTP / shared name words; ties and no-evidence go to unmatched.csv with the reason). ADEME has no year, so multi-generation models (Model 3, Zoe, Niro, Soul, 500e) need battery evidence to pick a generation, else review. Result tonight: 24 ADEME records attached → FR prices on **7** variants (EV6 ×3, EQA ×2, 500e 42 kWh, Leaf ZE1); 357 KilowattApp records attached → **51** variants with a KilowattApp curve. The ADEME "(57Kw)"-style figure is nominal power, so it is (rightly) never matched to peak power. ADEME prices are current list prices but sit on variants whose specs come from the earliest model year (e.g. EQA 250 vs ADEME's 250+ facelift; the spec differences are in conflicts.csv). OK, or should ADEME create its own (FR-only) rows?
+
+**Answer:**
+
+### Q-053 · `registrations`: levels, periods and provenance shape · release · builder · 2026-11-15
+**Defaults:** one `RegistrationCount` per source × country × period, never summed across sources, periods or kinds. RDW: `fleet`, generation level, period = RDW fetch date (snapshot), same number as `registered_count_nl`. DfT: `fleet`, period `2026-Q2`, matched on the DfT "Model" column (GenModel "HYUNDAI IONIQ" also holds Ioniq 5/6/9 and "AUDI E-TRON" the e-tron GT); no year, so a model's count repeats on every generation (`level: model`; `generation` for one-generation models). KBA: `new_registrations`, period `2025-01..12` / `2026-01..10`. EEA: `new_registrations`, period `2025`. Provenance: one entry per country, key `registrations.<CC>`, listing every source and fact id, with a note per count. This roughly doubles `catalogue.json` (1.9 → 3.1 MB raw, 92 → 143 KB gzip; budget 300 KB). Also: KilowattApp is treated as a BEV-only source (it holds only electric cars), so bare names like "Ioniq" match. OK, or prefer per-source provenance keys (`registrations.DE.kba-fz10`) or dropping fact ids from count provenance to save size?
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15
