@@ -45,17 +45,23 @@ wall_to_battery: 0.88
 
 # How a reference figure at ~20 °C splits over the road bands, per body class, relative to
 # the WLTP combined figure (battery basis, aux included). Rung wltp-ratio. 🟡
+# Calibrated 2026-11-15 to EPA adjusted city/highway figures (public domain) so the two rungs
+# agree (T-035 back-test, A-30): EPA city / (WLTP x old ratio) = 1.26 median, highway 1.31,
+# n = 50 variants. In-sample: the back-test shows the fit, not out-of-sample accuracy.
+# Motorway = rural x epa_motorway_over_highway (same drag step as the measured rung).
+# Pre-calibration ratios were town 0.88 / rural 0.95 / motorway 1.32 (default).
 wltp_band_ratio:
-  default: {town: 0.88, rural: 0.95, motorway: 1.32}
-  suv: {town: 0.90, rural: 0.97, motorway: 1.38}
-  van: {town: 0.92, rural: 1.00, motorway: 1.45}
-  sports: {town: 0.88, rural: 0.95, motorway: 1.28}
+  default: {town: 1.11, rural: 1.24, motorway: 1.46}
+  suv: {town: 1.13, rural: 1.27, motorway: 1.55}
+  van: {town: 1.16, rural: 1.31, motorway: 1.65}
+  sports: {town: 1.11, rural: 1.24, motorway: 1.44}
 # Body -> ratio key (catalogue `body` values); anything else uses `default`.
 body_class: {suv: suv, crossover: suv, van: van, mpv: van, coupe: sports, roadster: sports}
 
 # EPA label values (5-cycle adjusted, from the wall): city -> town, highway -> rural.
-# Motorway = highway x this factor (77 -> 120 km/h, drag ~ v²). Rung measured / physics.
-epa_motorway_over_highway: {default: 1.30, suv: 1.36, van: 1.42, sports: 1.26}
+# Adjusted highway already reflects ~100-110 km/h driving (US06 share); motorway (120 km/h)
+# = highway x this factor (drag ~ 60 % of losses at that speed, ~v²). Rung physics.
+epa_motorway_over_highway: {default: 1.18, suv: 1.22, van: 1.26, sports: 1.16}
 
 # Uncertainty band (P10..P90) as a share of the cell value, per rung.
 spread: {measured: 0.10, platform: 0.14, physics: 0.16, wltp-ratio: 0.20}

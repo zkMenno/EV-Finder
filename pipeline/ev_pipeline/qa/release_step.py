@@ -39,6 +39,19 @@ def _previous(data_dir: Path, n: int) -> tuple[dict[str, Any] | None, dict[str, 
     return cat, prev_bt
 
 
+def _previous_qa_section(data_dir: Path, n: int, key: str) -> dict[str, Any] | None:
+    releases = data_dir / "releases"
+    nums = sorted(
+        int(p.name)
+        for p in (releases.iterdir() if releases.is_dir() else [])
+        if p.is_dir() and p.name.isdigit() and int(p.name) < n
+    )
+    qa = releases / str(nums[-1]) / "qa.json" if nums else None
+    if qa is None or not qa.exists():
+        return None
+    return json.loads(qa.read_text(encoding="utf-8")).get(key)
+
+
 def registration_order(data_dir: Path) -> tuple[str, ...]:
     path = data_dir / "field_sources.yaml"
     if not path.exists():
@@ -61,6 +74,16 @@ def finish_release(
     backtest = release_backtest(data_dir, registry.releasable, prev_bt)
     doc = qa_document(catalogue, checks, backtest)
     doc["top40"] = top40_section(catalogue, data_dir)  # report only (ADDENDUM-6 P5)
+    # T-035: proxy back-test on licence-clean EPA figures; report only, never blocks.
+    from ev_pipeline.backtest.epa import epa_backtest
+
+    doc["backtest_epa"] = epa_backtest(
+        catalogue,
+        facts,
+        data_dir,
+        registry.releasable,
+        _previous_qa_section(data_dir, int(catalogue["release"]), "backtest_epa"),
+    )
     if doc["status"] == "fail":
         review = data_dir / "review"
         review.mkdir(parents=True, exist_ok=True)
