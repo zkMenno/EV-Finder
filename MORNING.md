@@ -79,3 +79,14 @@ _(at the end of the run)_
 | A5.5 release QA | done | blocking checks pass; flags EV6 77 kWh AWD usable 80 > gross 77.4 (data bug); 0 of top-40 have 2+ agreeing sources on all headline fields |
 | A5.6 security baseline | partial | done: Actions least privilege + pinned SHAs, audit job (warn only), safe fetch (host allowlist, SSRF guard, size caps); web nonce CSP + staff guard running; server items for WS4 in audits/A-02 |
 | A5.7 back-test skeleton | done | leave-one-out on synthetic fixtures; skipped on real data (no licence-cleared tests yet) |
+
+## Bottomless backlog
+| # | Item | Status | Notes |
+|---|---|---|---|
+| 5 | Seed coverage gaps | done | `data/review/coverage-gaps.md`: seed covers 62% of NL/UK fleet, 39% of DE 2025; top-20 missing models listed |
+| 8 | Test depth (pipeline) | done | derive/release/qa/opendata/backtest 100% line coverage; 673 tests |
+| 1 | Glossary sweep | running | |
+| 6 | Source-scoped aliases | running | |
+| 7 | EEA as corroboration | running | |
+| — | RDW WLTP + catalogue price (from item 5) | running | |
+
