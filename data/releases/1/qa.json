@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T03:09:41+00:00",
+ "generated_at": "2026-11-15T03:24:24+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -9,12 +9,12 @@
    "title": "Provenance completeness",
    "blocking": true,
    "status": "pass",
-   "summary": "5696 values checked; 0 problem(s)",
+   "summary": "5719 values checked; 0 problem(s)",
    "details": {
-    "values_checked": 5696,
-    "dated_by_fact": 5665,
+    "values_checked": 5719,
+    "dated_by_fact": 5688,
     "dated_by_source": 31,
-    "facts_checked": 15443,
+    "facts_checked": 40338,
     "errors": [],
     "error_count": 0
    }
@@ -24,7 +24,7 @@
    "title": "Licence gate re-check",
    "blocking": true,
    "status": "pass",
-   "summary": "12 sources, 15443 facts; 0 problem(s)",
+   "summary": "13 sources, 40338 facts; 0 problem(s)",
    "details": {
     "sources": [
      "ademe",
@@ -37,20 +37,22 @@
      "openev",
      "rdw",
      "rdw-defects",
+     "rdw-tgk",
      "seed-manual",
      "wikidata"
     ],
     "values_per_source": {
-     "ademe": 89,
+     "ademe": 93,
      "dft-veh": 244,
      "eea": 944,
-     "fueleconomy": 215,
+     "fueleconomy": 209,
      "kba-fz10": 233,
-     "kilowatt-openev": 1194,
-     "model-estimate": 1714,
-     "openev": 2452,
-     "rdw": 1398,
-     "seed-manual": 1839
+     "kilowatt-openev": 1186,
+     "model-estimate": 1674,
+     "openev": 2384,
+     "rdw": 1373,
+     "rdw-tgk": 695,
+     "seed-manual": 1844
     },
     "errors": [],
     "error_count": 0
@@ -136,7 +138,7 @@
       "segment": "J-medium",
       "field": "wltp_range_km",
       "value": 320.0,
-      "p1": 328.45,
+      "p1": 328.71,
       "p99": 719.0
      },
      {
@@ -144,15 +146,15 @@
       "segment": "J-medium",
       "field": "dc_km_per_10min",
       "value": 39.5,
-      "p1": 41.11,
-      "p99": 209.06
+      "p1": 41.13,
+      "p99": 208.65
      },
      {
       "variant_id": "byd-atto-3-gen1-standard-range",
       "segment": "J-medium",
       "field": "real_range_km",
       "value": 256.0,
-      "p1": 263.28,
+      "p1": 263.38,
       "p99": 560.8
      },
      {
@@ -160,7 +162,7 @@
       "segment": "J-medium",
       "field": "dc_km_per_20min",
       "value": 79.0,
-      "p1": 82.22,
+      "p1": 82.27,
       "p99": 387.2
      },
      {
@@ -271,9 +273,9 @@
       "variant_id": "renault-scenic-e-tech-gen1-60-kwh",
       "segment": "J-medium",
       "field": "ac_km_per_h",
-      "value": 166.0,
-      "p1": 39.9,
-      "p99": 138.84
+      "value": 138.3,
+      "p1": 39.94,
+      "p99": 130.42
      },
      {
       "variant_id": "tesla-model-y-juniper-long-range-awd",
@@ -288,8 +290,8 @@
       "segment": "J-medium",
       "field": "dc_km_per_10min",
       "value": 237.9,
-      "p1": 41.11,
-      "p99": 209.06
+      "p1": 41.13,
+      "p99": 208.65
      },
      {
       "variant_id": "tesla-model-y-juniper-long-range-awd",
@@ -312,8 +314,8 @@
       "segment": "J-medium",
       "field": "ac_km_per_h",
       "value": 37.1,
-      "p1": 39.9,
-      "p99": 138.84
+      "p1": 39.94,
+      "p99": 130.42
      },
      {
       "variant_id": "volkswagen-e-golf-mk7-24kwh",
@@ -369,7 +371,7 @@
       "field": "consumption_kwh_100km",
       "value": 24.0,
       "p1": 11.0,
-      "p99": 22.81
+      "p99": 22.15
      },
      {
       "variant_id": "volvo-xc40-recharge-gen1-base",
@@ -377,7 +379,7 @@
       "field": "consumption_motorway_kwh_100km",
       "value": 31.2,
       "p1": 14.3,
-      "p99": 29.66
+      "p99": 28.79
      }
     ],
     "reference": "this release",
@@ -407,7 +409,7 @@
     "target": 0.8,
     "share_two_plus_by_field": {
      "battery_kwh_net": 0.15,
-     "wltp_range_km": 0.075,
+     "wltp_range_km": 0.15,
      "real_range_km": 0.0,
      "ac_kw": 0.25,
      "dc_peak_kw": 0.125,
@@ -430,7 +432,8 @@
        "wltp_range_km": {
         "covered": false,
         "missing": 4,
-        "one": 3
+        "one": 2,
+        "two_plus": 1
        },
        "real_range_km": {
         "covered": false,
@@ -468,9 +471,9 @@
         "two_plus": 1
        },
        "wltp_range_km": {
-        "covered": false,
-        "one": 5,
-        "two_plus": 1,
+        "covered": true,
+        "one": 2,
+        "two_plus": 4,
         "missing": 1
        },
        "real_range_km": {
@@ -1031,7 +1034,7 @@
        "wltp_range_km": {
         "covered": true,
         "two_plus": 3,
-        "missing": 1
+        "one": 1
        },
        "real_range_km": {
         "covered": false,
@@ -1180,8 +1183,8 @@
        },
        "wltp_range_km": {
         "covered": false,
-        "one": 3,
-        "two_plus": 1
+        "one": 2,
+        "two_plus": 2
        },
        "real_range_km": {
         "covered": false,
@@ -1218,14 +1221,14 @@
        },
        "wltp_range_km": {
         "covered": false,
-        "missing": 3,
-        "one": 1,
+        "missing": 2,
+        "one": 2,
         "two_plus": 1
        },
        "real_range_km": {
         "covered": false,
-        "missing": 3,
-        "estimate": 2
+        "missing": 2,
+        "estimate": 3
        },
        "ac_kw": {
         "covered": false,
@@ -1242,8 +1245,8 @@
        },
        "dc_km_per_20min": {
         "covered": false,
-        "missing": 3,
-        "estimate": 2
+        "missing": 2,
+        "estimate": 3
        }
       }
      },
@@ -1260,8 +1263,9 @@
        },
        "wltp_range_km": {
         "covered": false,
-        "one": 5,
-        "missing": 3
+        "one": 4,
+        "missing": 3,
+        "two_plus": 1
        },
        "real_range_km": {
         "covered": false,
@@ -1532,12 +1536,11 @@
        "wltp_range_km": {
         "covered": false,
         "one": 4,
-        "missing": 1
+        "two_plus": 1
        },
        "real_range_km": {
         "covered": false,
-        "estimate": 4,
-        "missing": 1
+        "estimate": 5
        },
        "ac_kw": {
         "covered": false,
@@ -1553,8 +1556,7 @@
        },
        "dc_km_per_20min": {
         "covered": false,
-        "estimate": 4,
-        "missing": 1
+        "estimate": 5
        }
       }
      },
@@ -1609,9 +1611,9 @@
         "two_plus": 2
        },
        "wltp_range_km": {
-        "covered": false,
+        "covered": true,
         "missing": 3,
-        "one": 4
+        "two_plus": 4
        },
        "real_range_km": {
         "covered": false,
@@ -1650,9 +1652,8 @@
         "one": 2
        },
        "wltp_range_km": {
-        "covered": false,
-        "one": 1,
-        "two_plus": 1
+        "covered": true,
+        "two_plus": 2
        },
        "real_range_km": {
         "covered": false,
@@ -1810,14 +1811,12 @@
        },
        "wltp_range_km": {
         "covered": false,
-        "one": 3,
-        "missing": 1,
+        "one": 4,
         "two_plus": 2
        },
        "real_range_km": {
         "covered": false,
-        "estimate": 5,
-        "missing": 1
+        "estimate": 6
        },
        "ac_kw": {
         "covered": false,
@@ -1835,8 +1834,7 @@
        },
        "dc_km_per_20min": {
         "covered": false,
-        "estimate": 5,
-        "missing": 1
+        "estimate": 6
        }
       }
      },
@@ -2075,11 +2073,11 @@
     "could_fill": "openev (2023+), kilowatt-openev; owner tests (permission pending)"
    },
    "wltp_range_km": {
-    "two_plus": 3,
-    "one": 25,
+    "two_plus": 6,
+    "one": 23,
     "estimate": 1,
-    "none": 11,
-    "share_two_plus": 0.075,
+    "none": 10,
+    "share_two_plus": 0.15,
     "meets_target": false,
     "could_fill": "openev, ademe (FR line-up), rdw fuel table (adapter live, Q-068), eea per type (adapter extension)"
    },
@@ -2113,8 +2111,8 @@
    "real_range_km": {
     "two_plus": 0,
     "one": 0,
-    "estimate": 32,
-    "none": 8,
+    "estimate": 33,
+    "none": 7,
     "share_two_plus": 0.0,
     "meets_target": false,
     "could_fill": "real-world tests (permission pending); model-estimate only"
@@ -2262,7 +2260,7 @@
     "variants_in_release": 7,
     "levels": {
      "battery_kwh_net": "one",
-     "wltp_range_km": "one",
+     "wltp_range_km": "two_plus",
      "ac_kw": "one",
      "dc_peak_kw": "one",
      "dc_avg_10_80_kw": "estimate",
@@ -2730,11 +2728,11 @@
     "variants_in_release": 5,
     "levels": {
      "battery_kwh_net": "one",
-     "wltp_range_km": "none",
+     "wltp_range_km": "one",
      "ac_kw": "one",
      "dc_peak_kw": "one",
      "dc_avg_10_80_kw": "estimate",
-     "real_range_km": "none",
+     "real_range_km": "estimate",
      "price_new.NL": "none",
      "price_new.DE": "none",
      "price_new.FR": "none",
@@ -3042,7 +3040,7 @@
     "variants_in_release": 7,
     "levels": {
      "battery_kwh_net": "one",
-     "wltp_range_km": "one",
+     "wltp_range_km": "two_plus",
      "ac_kw": "one",
      "dc_peak_kw": "one",
      "dc_avg_10_80_kw": "estimate",
@@ -3120,7 +3118,7 @@
     "variants_in_release": 5,
     "levels": {
      "battery_kwh_net": "two_plus",
-     "wltp_range_km": "one",
+     "wltp_range_km": "two_plus",
      "ac_kw": "two_plus",
      "dc_peak_kw": "two_plus",
      "dc_avg_10_80_kw": "estimate",
@@ -3284,15 +3282,16 @@
    "model-estimate",
    "openev",
    "rdw",
+   "rdw-tgk",
    "seed-manual"
   ],
   "withheld": {},
   "files": {
-   "ATTRIBUTION.md": 4187,
+   "ATTRIBUTION.md": 4407,
    "LICENSE": 715,
-   "README.md": 14155,
-   "variants.csv": 1090408,
-   "variants.json": 2094361
+   "README.md": 14164,
+   "variants.csv": 1092302,
+   "variants.json": 2096075
   }
  }
 }

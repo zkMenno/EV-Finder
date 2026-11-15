@@ -61,6 +61,10 @@ DIRECT_FIELDS = (
     "seats",
     "voltage_nominal_v",
     "voltage_max_v",
+    # Decision 023: own columns; never used to fill WLTP or kerb weight.
+    "nedc_range_km",
+    "wltp_range_km_worst",
+    "mass_running_order_kg",
 )
 ID_FIELDS = ("chemistry_id", "cooling_id", "cell_format")
 ROW_FLOAT_ORDER = (
@@ -568,7 +572,15 @@ def _finish_row(
         row["dc_curve_status"] = w.extra["dc_curve_status"]
     if "dc_peak_kw_is_claim" in w.extra and row.get("dc_peak_kw") is not None:
         row["dc_peak_kw_is_claim"] = bool(w.extra["dc_peak_kw_is_claim"])
-    for f in ("epa_range_km", "voltage_nominal_v", "voltage_max_v", "charger_400v_kw"):
+    for f in (
+        "epa_range_km",
+        "voltage_nominal_v",
+        "voltage_max_v",
+        "charger_400v_kw",
+        "nedc_range_km",
+        "wltp_range_km_worst",
+        "mass_running_order_kg",
+    ):
         if values.get(f) is not None:
             row[f] = values[f]
     for f in ID_FIELDS:

@@ -120,7 +120,7 @@ MATCH_ON_VARIANT_NAME = frozenset({"dft-veh"})
 
 # Sources that only add facts to variants made by other sources (see 9 above).
 # rdw: registration names never define variants (Q-068); fueleconomy: US market names.
-ATTACH_ONLY_SOURCES = frozenset({"ademe", "kilowatt-openev", "rdw", "fueleconomy"})
+ATTACH_ONLY_SOURCES = frozenset({"ademe", "kilowatt-openev", "rdw", "fueleconomy", "rdw-tgk"})
 
 # Fields a source emits that we do not use, with the reason (counted in the run log).
 IGNORED_FIELDS: dict[str, dict[str, str]] = {

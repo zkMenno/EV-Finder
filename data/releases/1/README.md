@@ -1,14 +1,14 @@
 # EV Finder catalogue release 1
 
-Generated 2026-11-15T03:09:41+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
+Generated 2026-11-15T03:24:24+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
 
 ## Counts
 
 - Variants (rows): 244
 - Generations with rows: 75 of 81 in the seed
-- Facts: 15443
-- Quality tiers: single-source 225, sourced 19
-- Real-range rungs: body-ratio 201, none 43
+- Facts: 40338
+- Quality tiers: single-source 219, sourced 25
+- Real-range rungs: body-ratio 204, none 40
 - Changes vs previous: +244 / -0 / ~0
 
 ## Sources and licences
@@ -25,6 +25,7 @@ Generated 2026-11-15T03:09:41+00:00 by `ev release`. Data licence: CC BY 4.0 (se
 | openev (Open EV Data) | CDLA-Permissive-2.0 | Contains data from OpenEV Data (open-ev-data-dataset), CDLA-Permissive-2.0. |
 | rdw (RDW Open Data) | CC0-1.0 | Bron: RDW Open Data (opendata.rdw.nl), CC0. |
 | rdw-defects (RDW Open Data: Geconstateerde Gebreken (APK defects)) | CC0-1.0 | Bron: RDW Open Data (opendata.rdw.nl), CC0. |
+| rdw-tgk (RDW Open Data: type-approval register (TGK)) | CC0-1.0 | Bron: RDW Open Data (opendata.rdw.nl), CC0. |
 | seed-manual (EV Finder seed (hand-entered, unchecked)) | CC-BY-4.0 | EV Finder contributors |
 | wikidata (Wikidata) | CC0-1.0 | Wikidata (wikidata.org), CC0. |
 
@@ -40,6 +41,7 @@ Generated 2026-11-15T03:09:41+00:00 by `ev release`. Data licence: CC BY 4.0 (se
 - Contains data from Open EV Data (https://github.com/open-ev-data/open-ev-data-dataset), licensed CDLA-Permissive-2.0. Contains data from OpenEV Data (open-ev-data-dataset), CDLA-Permissive-2.0.
 - Contains data from RDW Open Data (https://opendata.rdw.nl/d/8ys7-d773), licensed CC0-1.0. Bron: RDW Open Data (opendata.rdw.nl), CC0.
 - Contains data from RDW Open Data: Geconstateerde Gebreken (APK defects) (https://opendata.rdw.nl/d/a34c-vvps), licensed CC0-1.0. Bron: RDW Open Data (opendata.rdw.nl), CC0.
+- Contains data from RDW Open Data: type-approval register (TGK) (https://opendata.rdw.nl/d/gr7t-qfnb), licensed CC0-1.0. Bron: RDW Open Data (opendata.rdw.nl), CC0.
 - Contains data from EV Finder seed (hand-entered, unchecked), licensed CC-BY-4.0. EV Finder contributors
 - Contains data from Wikidata (https://www.wikidata.org/), licensed CC0-1.0. Wikidata (wikidata.org), CC0.
 

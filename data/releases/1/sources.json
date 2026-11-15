@@ -1,7 +1,7 @@
 {
  "schema": "release-sources/v1",
  "release": 1,
- "generated_at": "2026-11-15T03:09:41+00:00",
+ "generated_at": "2026-11-15T03:24:24+00:00",
  "sources": {
   "ademe": {
    "id": "ademe",
@@ -100,6 +100,16 @@
    "name": "RDW Open Data: APK defects (Geconstateerde Gebreken)",
    "licence": "CC0-1.0",
    "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "rdw-tgk": {
+   "id": "rdw-tgk",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "RDW Open Data: type-approval register (TGK)",
+   "licence": "CC0-1.0",
+   "cadence": "weekly",
    "registry_status": "active",
    "in_catalogue": true
   },

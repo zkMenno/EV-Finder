@@ -253,6 +253,13 @@ CANONICAL_UNITS: dict[str, str] = {
     "voltage_max_v": "V",
     "warranty_years": "years",
     "warranty_km": "km",
+    # Decision 023: separate fields, never used to fill WLTP / kerb weight / peak power.
+    "nedc_range_km": "km",
+    "nedc_consumption_kwh_100km": "kWh/100km",
+    "wltp_range_km_worst": "km",
+    "wltp_consumption_kwh_100km_worst": "kWh/100km",
+    "mass_running_order_kg": "kg",
+    "power_30min_kw": "kW",
     # id-valued fields (Decision 010): values are taxonomy ids, unit "id".
     "chemistry_id": "id",
     "cooling_id": "id",

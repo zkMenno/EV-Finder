@@ -32,6 +32,9 @@ from ev_pipeline.merge.policy import DEFAULT_POLICY, FieldPolicy, Policies
 
 MAJORITY_MIN = 3
 NOT_INDEPENDENT = frozenset({"seed-manual", "model-estimate"})
+# Sources that copy the same origin count once towards "N sources agree" (Q-087):
+# RDW's per-plate WLTP values come from the RDW type approvals (rdw-tgk).
+SAME_ORIGIN: dict[str, str] = {"rdw-tgk": "rdw"}
 
 _CONF_RANK = {"low": 0, "medium": 1, "high": 2}
 
@@ -136,7 +139,11 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
     for f in agreeing:
         if f.source_id not in source_ids:
             source_ids.append(f.source_id)
-    independent = {f.source_id for f in agreeing if f.source_id not in NOT_INDEPENDENT}
+    independent = {
+        SAME_ORIGIN.get(f.source_id, f.source_id)
+        for f in agreeing
+        if f.source_id not in NOT_INDEPENDENT
+    }
     confidence = "high" if len(independent) >= 2 else _conf(winner)
     return Merged(
         value=winner.fact.value,

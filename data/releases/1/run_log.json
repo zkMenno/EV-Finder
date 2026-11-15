@@ -1,6 +1,6 @@
 {
  "step": "release",
- "at": "2026-11-15T03:09:41+00:00",
+ "at": "2026-11-15T03:24:24+00:00",
  "inputs": [
   {
    "path": "data/seed/models.yaml",
@@ -40,6 +40,11 @@
    "path": "data/staging/openev.records.jsonl",
    "records": 1229,
    "modified": "2026-11-14T23:53:47+00:00"
+  },
+  {
+   "path": "data/staging/rdw-tgk.records.jsonl",
+   "records": 8513,
+   "modified": "2026-11-15T03:22:09+00:00"
   },
   {
    "path": "data/staging/rdw.records.jsonl",
@@ -128,7 +133,7 @@
   "release": 1,
   "rows": 244,
   "generations_with_rows": 75,
-  "facts": 15443,
+  "facts": 40338,
   "sources": [
    "ademe",
    "dft-veh",
@@ -140,10 +145,11 @@
    "openev",
    "rdw",
    "rdw-defects",
+   "rdw-tgk",
    "seed-manual",
    "wikidata"
   ],
-  "matched_records": 8128,
+  "matched_records": 10660,
   "excluded_records": {},
   "count_only_spec_records_skipped": {},
   "match_flags": {
@@ -163,7 +169,8 @@
    "ademe": 48,
    "fueleconomy": 587,
    "kilowatt-openev": 426,
-   "rdw": 1216
+   "rdw": 1216,
+   "rdw-tgk": 2532
   },
   "ignored_fields": {
    "fueleconomy:consumption_kwh_100km": 540,
@@ -299,18 +306,18 @@
     ]
    }
   ],
-  "unmatched_records": 11538,
-  "unmatched_seed_makes": 7925,
+  "unmatched_records": 17519,
+  "unmatched_seed_makes": 13207,
   "validation_problems": 3,
-  "conflicts": 1694,
+  "conflicts": 9184,
   "gated_sources": {},
   "real_range_rungs": {
-   "body-ratio": 201,
-   "none": 43
+   "body-ratio": 204,
+   "none": 40
   },
   "quality_tiers": {
-   "single-source": 225,
-   "sourced": 19
+   "single-source": 219,
+   "sourced": 25
   },
   "optional_taxonomy_rows": {
    "bidi_modes": 4,
@@ -417,8 +424,8 @@
     }
    }
   },
-  "catalogue_json_bytes": 6196165,
-  "catalogue_json_gzip_bytes": 357776,
+  "catalogue_json_bytes": 7603603,
+  "catalogue_json_gzip_bytes": 454751,
   "diff": {
    "rows_previous": 0,
    "rows": 244,

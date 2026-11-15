@@ -24,9 +24,9 @@ fields:
   dc_avg_10_80_kw:   {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {pct: 5}, merge: median,
                       note: "Derived from the curve when present; maker figures labelled 'claim'."}
   dc_minutes_10_80:  {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {abs: 2, unit: min}, merge: median}
-  wltp_range_km:     {primary: [eea, rdw], fallbacks: [maker-docs, openev, ademe, seed-manual], tolerance: {pct: 2}, merge: priority,
+  wltp_range_km:     {primary: [eea, rdw], fallbacks: [rdw-tgk, maker-docs, openev, ademe, seed-manual], tolerance: {pct: 2}, merge: priority,
                       note: "ADEME holds the best case (highest range) of each WLTP interpolation family."}
-  consumption_kwh_100km: {primary: [eea, rdw], fallbacks: [maker-docs, openev, ademe, seed-manual], tolerance: {pct: 3}, merge: priority,
+  consumption_kwh_100km: {primary: [eea, rdw], fallbacks: [rdw-tgk, maker-docs, openev, ademe, seed-manual], tolerance: {pct: 3}, merge: priority,
                       note: "ADEME holds the best case (lowest consumption) of each WLTP family."}
   epa_range_km:      {primary: [fueleconomy], fallbacks: [openev, seed-manual], tolerance: {pct: 2}, merge: priority}
   real_range_summer_km:   {primary: [nyland, naf], fallbacks: [adac, edmunds, insideevs, consumer-reports, model-estimate], tolerance: {pct: 5}, merge: median}
@@ -47,3 +47,12 @@ fields:
   accel_0_100_s:     {primary: [maker-docs], fallbacks: [openev, seed-manual], tolerance: {abs: 0.2, unit: s}, merge: priority}
   heat_pump:         {primary: [maker-docs], fallbacks: [openev], merge: priority}
   warranty:          {primary: [maker-docs], fallbacks: [], merge: newest}
+  # Decision 023 (R-08): type-approval values from RDW TGK; never fill WLTP / kerb weight / peak power.
+  nedc_range_km:     {primary: [rdw-tgk], fallbacks: [maker-docs, seed-manual], tolerance: {pct: 2}, merge: priority}
+  nedc_consumption_kwh_100km: {primary: [rdw-tgk], fallbacks: [maker-docs], tolerance: {pct: 3}, merge: priority}
+  wltp_range_km_worst: {primary: [rdw-tgk], fallbacks: [], tolerance: {pct: 2}, merge: priority}
+  wltp_consumption_kwh_100km_worst: {primary: [rdw-tgk], fallbacks: [], tolerance: {pct: 3}, merge: priority}
+  mass_running_order_kg: {primary: [rdw-tgk], fallbacks: [], tolerance: {pct: 1}, merge: priority}
+  power_30min_kw:    {primary: [rdw-tgk], fallbacks: [], tolerance: {pct: 2}, merge: priority}
+  height_mm:         {primary: [rdw-tgk], fallbacks: [openev, seed-manual], tolerance: {abs: 10, unit: mm}, merge: priority}
+  top_speed_kmh:     {primary: [rdw-tgk], fallbacks: [openev, kilowatt-openev, seed-manual], tolerance: {pct: 2}, merge: priority}

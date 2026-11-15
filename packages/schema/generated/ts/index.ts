@@ -58,7 +58,7 @@ export type QualityTier = "checked" | "sourced" | "single-source";
 export type RealRangeRung =
   "owner-data" | "exact-test" | "sibling-variant" | "brand-body-drivetrain-ratio" | "body-ratio";
 /**
- * Fact field names. Enum-valued facts are checked at release time, not here (an if/then on Fact breaks the generated TS type): iso15118_20_support → Iso15118Support (yes/no/not-disclosed, default not-disclosed, never inferred); heat_pump → HeatPumpFitment; drag_coefficient → Cd 0-1. Units: frontal_area_m2 m², kerb_mass_kg kg (EU mass in running order), wheel_size_in = rim diameter code. Usable battery is battery_kwh_net (no separate usable_kwh field).
+ * Fact field names. Enum-valued facts are checked at release time, not here (an if/then on Fact breaks the generated TS type): iso15118_20_support → Iso15118Support (yes/no/not-disclosed, default not-disclosed, never inferred); heat_pump → HeatPumpFitment; drag_coefficient → Cd 0-1. Units: frontal_area_m2 m², kerb_mass_kg kg (kerb weight without driver; mass in running order is mass_running_order_kg, Decision 023), wheel_size_in = rim diameter code. Usable battery is battery_kwh_net (no separate usable_kwh field).
  *
  * This interface was referenced by `EvSchema`'s JSON-Schema
  * via the `definition` "FactField".

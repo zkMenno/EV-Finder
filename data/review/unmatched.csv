@@ -1804,12 +1804,18 @@ um-f477515a30,open,fueleconomy,(summary),LUCID,,,,make not in seed: 72 records
 um-ceed4d7465,open,eea,(summary),NIO,,,,make not in seed: 65 records
 um-a831d18b2d,open,openev,(summary),NIO,,,,make not in seed: 65 records
 um-6e131f841a,open,rdw,(summary),XPENG,,,,make not in seed: 63 records
+um-20773f673d,open,rdw-tgk,(summary),LOTUS,,,,make not in seed: 59 records
 um-77ed158052,open,fueleconomy,(summary),CHEVROLET,,,,make not in seed: 58 records
 um-f8683bc4d6,open,eea,(summary),DS,,,,make not in seed: 57 records
+um-3e9546e7c3,open,rdw-tgk,(summary),ZEEKR,,,,make not in seed: 55 records
+um-a0faadd98c,open,rdw-tgk,(summary),NIO,,,,make not in seed: 50 records
+um-2b64dcf015,open,rdw-tgk,(summary),LUCID MOTORS,,,,make not in seed: 48 records
+um-3ff7bafb5b,open,rdw-tgk,(summary),XPENG,,,,make not in seed: 48 records
 um-7e120bae98,open,eea,(summary),LEXUS,,,,make not in seed: 47 records
 um-7030893d97,open,rdw,(summary),NIO,,,,make not in seed: 47 records
 um-21808a72c9,open,rdw,(summary),ZEEKR,,,,make not in seed: 45 records
 um-0bab8c6f75,open,eea,(summary),XPENG,,,,make not in seed: 44 records
+um-10b3205d4f,open,rdw-tgk,(summary),DS,,,,make not in seed: 44 records
 um-470058ebb0,open,openev,(summary),CHEVROLET,,,,make not in seed: 38 records
 um-60e4a36ec5,open,rdw,(summary),LEAPMOTOR,,,,make not in seed: 38 records
 um-039e030f38,open,fueleconomy,(summary),CADILLAC,,,,make not in seed: 37 records
@@ -1830,8 +1836,11 @@ um-f884ae1eed,open,eea,(summary),LEAPMOTOR,,,,make not in seed: 26 records
 um-504a615e78,open,fueleconomy,(summary),LEXUS,,,,make not in seed: 26 records
 um-8d37ad4b85,open,dft-veh,(summary),DS,,,,make not in seed: 25 records
 um-0606449c11,open,eea,(summary),MASERATI,,,,make not in seed: 25 records
+um-9e2afa7a40,open,rdw-tgk,(summary),GENESIS,,,,make not in seed: 25 records
+um-94a64c73a3,open,rdw-tgk,(summary),LEXUS,,,,make not in seed: 25 records
 um-ec0fa4ff70,open,openev,(summary),LAND ROVER,,,,make not in seed: 24 records
 um-39c11ad666,open,openev,(summary),RIVIAN,,,,make not in seed: 24 records
+um-15d45c94f7,open,rdw-tgk,(summary),DS AUTOMOBILES,,,,make not in seed: 24 records
 um-98a05de2c2,open,eea,(summary),DFSK,,,,make not in seed: 23 records
 um-85cd14c318,open,fueleconomy,(summary),DODGE,,,,make not in seed: 23 records
 um-c145ec0ca9,open,fueleconomy,(summary),GMC,,,,make not in seed: 23 records
@@ -1847,6 +1856,7 @@ um-44ae8d30ae,open,eea,(summary),ROLLS-ROYCE,,,,make not in seed: 21 records
 um-901e9c0f3a,open,rdw,(summary),MITSUBISHI,,,,make not in seed: 21 records
 um-50d1ea7ea9,open,dft-veh,(summary),LOTUS,,,,make not in seed: 20 records
 um-f7430e7f3b,open,fueleconomy,(summary),SUBARU,,,,make not in seed: 20 records
+um-ae4897cd17,open,rdw-tgk,(summary),ALPINE,,,,make not in seed: 20 records
 um-7f4c90d003,open,eea,(summary),FAW,,,,make not in seed: 19 records
 um-1858aa5f66,open,eea,(summary),SERES,,,,make not in seed: 19 records
 um-215a5f5975,open,kba-fz10,(summary),NIO,,,,make not in seed: 19 records
@@ -1855,6 +1865,7 @@ um-9513abd170,open,rdw,(summary),CHEVROLET,,,,make not in seed: 19 records
 um-cc8d4f9697,open,rdw,(summary),GENESIS,,,,make not in seed: 19 records
 um-91ac26ac20,open,rdw,(summary),SEAT,,,,make not in seed: 19 records
 um-06ad4565f2,open,rdw,(summary),SUBARU,,,,make not in seed: 19 records
+um-d3716f6b9a,open,rdw-tgk,(summary),LEAPMOTOR,,,,make not in seed: 19 records
 um-3d26b4909a,open,eea,(summary),VINFAST,,,,make not in seed: 18 records
 um-d37ef7414c,open,openev,(summary),CHANGAN,,,,make not in seed: 18 records
 um-c27e0e03e1,open,openev,(summary),TATA MOTORS,,,,make not in seed: 18 records
@@ -1868,34 +1879,23 @@ um-fa54079cb3,open,eea,(summary),JEEP,,,,make not in seed: 16 records
 um-79a6ed42e8,open,fueleconomy,(summary),ROLLS-ROYCE,,,,make not in seed: 16 records
 um-66f0ab755e,open,rdw,(summary),AIWAYS,,,,make not in seed: 16 records
 um-386ec72a77,open,rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 16 records
+um-2c29908d44,open,rdw-tgk,(summary),SUBARU,,,,make not in seed: 15 records
 um-6efb6b0ec5,open,fueleconomy,(summary),MASERATI,,,,make not in seed: 14 records
 um-0955cadb88,open,kilowatt-openev,(summary),XPENG,,,,make not in seed: 14 records
 um-455949d936,open,openev,(summary),GENESIS,,,,make not in seed: 14 records
 um-e1514ae08f,open,openev,(summary),LEXUS,,,,make not in seed: 14 records
+um-f81aac6b7b,open,rdw-tgk,(summary),FAW,,,,make not in seed: 14 records
+um-8ae384d72a,open,rdw-tgk,(summary),JEEP,,,,make not in seed: 14 records
 um-0ac3f03907,open,fueleconomy,(summary),VINFAST,,,,make not in seed: 13 records
 um-24fb6e2c3b,open,kba-fz10,(summary),DS,,,,make not in seed: 13 records
 um-f7becf0543,open,openev,(summary),GWM,,,,make not in seed: 13 records
 um-73af0159cf,open,openev,(summary),LUCID,,,,make not in seed: 13 records
 um-43d945a229,open,rdw,(summary),DONGFENG,,,,make not in seed: 13 records
+um-d60fd8d14e,open,rdw-tgk,(summary),ABARTH,,,,make not in seed: 13 records
+um-5ca9399362,open,rdw-tgk,(summary),ALFA ROMEO,,,,make not in seed: 13 records
+um-76e2d060f5,open,rdw-tgk,(summary),MAZDA,,,,make not in seed: 13 records
+um-7ed7cc8f61,open,rdw-tgk,(summary),MITSUBISHI,,,,make not in seed: 13 records
 um-b92725e839,open,dft-veh,(summary),GENESIS,,,,make not in seed: 12 records
 um-8b21ba242f,open,eea,(summary),GEELY,,,,make not in seed: 12 records
 um-b22ebcc35e,open,eea,(summary),SEAT,,,,make not in seed: 12 records
-um-cc946dab41,open,eea,(summary),VOYAH,,,,make not in seed: 12 records
-um-e741697867,open,openev,(summary),CADILLAC,,,,make not in seed: 12 records
-um-c5d82403ed,open,openev,(summary),NAMMI,,,,make not in seed: 12 records
-um-7f2008fbf6,open,openev,(summary),VOYAH,,,,make not in seed: 12 records
-um-52f23fe9ba,open,rdw,(summary),MASERATI,,,,make not in seed: 12 records
-um-67a1140de1,open,dft-veh,(summary),MAZDA,,,,make not in seed: 11 records
-um-37d9bc6e3b,open,eea,(summary),ALPINE,,,,make not in seed: 11 records
-um-45927c7c23,open,eea,(summary),ZEEKR,,,,make not in seed: 11 records
-um-f9fc3c32a1,open,kba-fz10,(summary),LEXUS,,,,make not in seed: 11 records
-um-dcd294a207,open,kba-fz10,(summary),XPENG,,,,make not in seed: 11 records
-um-7dc38d527d,open,kilowatt-openev,(summary),DS,,,,make not in seed: 11 records
-um-4fa556a524,open,kilowatt-openev,(summary),LUCID,,,,make not in seed: 11 records
-um-0dd71e08ce,open,kilowatt-openev,(summary),ZEEKR,,,,make not in seed: 11 records
-um-8052130171,open,openev,(summary),LOTUS,,,,make not in seed: 11 records
-um-b3eea9228e,open,rdw,(summary),ALFA ROMEO,,,,make not in seed: 11 records
-um-78ad6bbcc8,open,rdw,(summary),ALPINE,,,,make not in seed: 11 records
-um-dfe1e70a39,open,rdw,(summary),LYNK&CO,,,,make not in seed: 11 records
-um-041ba557f3,open,rdw,(summary),VOYAH,,,,make not in seed: 11 records
-um-19716af3e1,open,*,(summary),(other makes),,,,make not in seed: 1135 records
+um-19716af3e1,open,*,(summary),(other makes),,,,make not in seed: 1525 records

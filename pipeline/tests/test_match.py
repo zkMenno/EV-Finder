@@ -815,3 +815,13 @@ def test_fueleconomy_is_attach_only_and_never_sets_wltp_consumption() -> None:
 
     assert "fueleconomy" in matcher.ATTACH_ONLY_SOURCES
     assert "consumption_kwh_100km" in matcher.IGNORED_FIELDS["fueleconomy"]
+
+
+def test_rdw_tgk_is_attach_only_and_shares_origin_with_rdw() -> None:
+    """Q-087: type approvals never create variants, and RDW plate values copied from them
+    don't count as a second independent source."""
+    from ev_pipeline.match import matcher
+    from ev_pipeline.merge import merge
+
+    assert "rdw-tgk" in matcher.ATTACH_ONLY_SOURCES
+    assert merge.SAME_ORIGIN["rdw-tgk"] == "rdw"
