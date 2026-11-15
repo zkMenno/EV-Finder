@@ -2,8 +2,13 @@
 
 Chat: https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS
 
-## State
-Open PRs (merge order): **#22 T-080 hero** → **#23 T-067 Suggested sort** and **#29 T-092 hero used prices** (both stacked on #22; retarget to main after) · **#25 T-090 /data page** · **#28 T-091 parked flags** (#25 and #28 both touch e2e/a11y.spec.ts: second one needs a small merge). #24 T-045 merged.
+## State (14:35 UTC)
+All WS2 PRs green on their heads, none merged yet except #24 (T-045) and #25 (T-090). Merge order:
+1. **#22 T-080 hero** (main)
+2. then retarget to main and merge: **#23 T-067** (Suggested sort + owner's note), **#29 T-092** (hero used price per build year), **#36 T-093** (hero /learn links, travel-map texture, DE/FR/ES/IT hero strings)
+3. **#37 T-094** (variant page used price by build year, stacked on #29)
+4. **#28 T-091** (parked features behind flags; independent)
+After each merge, merge main into the remaining branches (resolver: JSON dictionaries by key, inboxes keep both sides) and start CI with workflow_dispatch.
 
 ## Decisions made
 - Decision 055 (hero above Explore at /{country}/{lang}/, presets/gates never drop a car for missing data, rule units). 053/054 were taken by WS0 for Dependabot.
@@ -11,7 +16,8 @@ Open PRs (merge order): **#22 T-080 hero** → **#23 T-067 Suggested sort** and 
 - Parked features (T-091): `PARKED=1` or one flag each; parked e2e run with `E2E_PARKED=1` against a `PARKED=1` build.
 
 ## Open threads
-- Asked WS0: is the model-page "Owner's note" (T-067) launch? /learn shows 5 articles, launch names 3 (WS3 index.yaml).
+- Owner's note built in #23 (T-067 lists it as launch). Asked WS0: /learn shows 5 articles, launch names 3 (WS3 index.yaml).
+- When WS1's T-069 publishes `shortlist_score` (schema from #30), consider reading it instead of browser scoring; keep browser scoring for re-ranking by budget.
 - Asked WS1: winter range field in PublishedVariant (cards say "In winter: not known yet"); list used_prices.json in the manifest.
 - Asked WS3: `unit:` on dc-speed rules (daily-driver/runabout read as km per 20 min).
 - UX: hero scene copied into apps/web/src/assets/illustrations (Docker image has no public/); the `evs-tex--map` texture isn't used (the app doesn't load bundle.css).
