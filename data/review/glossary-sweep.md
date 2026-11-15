@@ -192,7 +192,7 @@ Scanned: `apps/web/src` (Explore.tsx, spec-diff.ts `SPEC_FIELDS`, SpecValue, mod
 ## Taxonomy rows that are terms
 
 - `bidi_modes` v2l / v2h / v2g / v2b, `bidi_protocols` iso15118-20 / chademo, `connector_types` ccs2 / chademo: the glossary rows use the **same id**, so a UI can link straight from the row id to `/learn/<id>`.
-- `connector_types` **`type2`** ↔ glossary **`type-2`** (Q-061 asked for the hyphen; Decision 019 style). See Q-062.
+- `connector_types` **`type2`** ↔ glossary **`type-2`** (Q-061 asked for the hyphen; Decision 019 style). See Q-063.
 - `bidi_status`, `bidi_caveats`, `bidi_routes`, `charging_metrics`, `charging_definitions`, `power_bands` carry their own `label` + `short`, so they need no glossary row. They can point to one through `glossary_id`, which the validator already checks. That field is in the WS3 / coordinator lane and was not set tonight.
 - Non-EU plugs (`type1-j1772`, `ccs1`, `nacs-j3400`, `gbt-*`): still missing on purpose. They are parked or outside Europe, and the row's own `short` is enough.
 - C-rate and cell supplier (Nerd, spec §4): still missing. There are no fields or data yet.

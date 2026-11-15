@@ -279,7 +279,7 @@ No answer needed unless you disagree. With the `MG Motor` make alias, OpenEV's M
 
 **Answer:**
 
-### Q-062 · Glossary sweep: id and label choices · addendum 5 backlog 1 · content/data builder · 2026-11-15
+### Q-063 · Glossary sweep: id and label choices · addendum 5 backlog 1 · content/data builder · 2026-11-15
 No answer needed unless you disagree. The glossary now has 88 terms: 39 were added, EN complete, NL label and short. All Q-061 ids exist, so part (4) of Q-061 is done. The full map is in `data/review/glossary-sweep.md`. **Defaults taken:** (1) The glossary id is `type-2`, as Q-061 asked, but the connector row is `type2`. Both are kept, and no taxonomy id was renamed. All other plug and two-way rows (`ccs2`, `chademo`, `v2l`, `v2h`, `v2g`, `v2b`, `iso15118-20`) use the same id in both places. (2) The "Weight" field became the term `kerb-weight`, with the plain label "Weight". It doesn't say whether a driver is included, because sources define weight differently and we don't record which definition each one uses. (3) A new `battery-capacity` term is offered for the "Battery" column (the label problem from Q-024). Switching to it is up to the web builder. (4) The validator now fails if a glossary id equals a `/learn` article slug, or if a `[[id]]` marker in `content/learn` doesn't resolve.
 
 **Answer:**
