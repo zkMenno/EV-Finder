@@ -14,3 +14,4 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS1 (3rd) | Data pipeline: profile-field QA (START §3 item 6), T-070 proposal; duplicate T-069 attempt dropped | https://claude.ai/code/session_01JuyZEVhQ5YoL1CBr1spLiB | 2026-11-15 |
 | WS0 (picks) | Imported Menno's "New Car" sheet, derived shortlist rules (Decision 038, R-32, T-066–T-069) | https://claude.ai/code/session_01JuyZEWbo1V6yWS63cn8SAL | 2026-11-15 |
 | UX (2nd) | Solarpunk x EV round, illustration system, then variant finder designs | https://claude.ai/code/session_01JuyZEUvhzXr417bwk7FHpM | 2026-11-15 |
+| WS3 | Catalogue curation: T-068 seed gaps, T-031 heat pump, finance_profiles, T-081 price samples, T-041, /learn pages, glossary | https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr | 2026-11-15 |
