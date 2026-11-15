@@ -602,4 +602,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Agents can no longer lock a version fresher than Dependabot accepts, so this failure can't come back. Urgent security fixes that are under 3 days old go in `minimumReleaseAgeExclude` with a comment.
 
+## Decision 053: Hero on top of the landing page; profile filters never drop a car for missing data
+
+**Status:** Accepted (WS2, 2026-11-15; T-080)
+**Date:** 2026-11-15
+
+**Context:** Decision 051 makes the three-step hero the landing page, while Explore (and every e2e test and internal link) already lives at `/{country}/{lang}/`. Release 1 has no used prices and no winter-range field, and many cars miss boot or mass values.
+
+**Decision:** The hero sits at the top of `/{country}/{lang}/` and Explore follows under `#explore` (same URL, no redirects). The hero's refine filters are Explore's filters and URL params (new: `seats`, `ac`, `ymin`/`ymax`, `make`/`xmake`); the two components stay in step through a browser event. Ranking runs in the browser from `src/config/shortlist-rules.generated.json`, built from `data/editorial/shortlist_rules.yaml` (rows only, no evidence or sheet values). A profile's filter presets and gates exclude a car only on a known value; a missing value passes and is shown as "not known yet" (the visitor's own refine filters stay strict, as in Explore). A car without a price stays in the list, marked, unless a known price is over budget. Units in the rules: a factor whose `sheet_field` is `dc_km_per_h` reads `dc_km_per_20min × 3`; efficiency reads Wh/km; other DC factors (daily driver, runabout) read km per 20 min. Winter range shows "not known yet" until the release publishes it.
+
+**Consequences:** No URL changes, nothing hidden for lack of data. WS3 should state units on each rule row (`unit:`) to remove the DC ambiguity; WS1/WS0 to publish a winter range field and used price bands, which the hero picks up without code changes.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
