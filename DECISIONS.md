@@ -239,4 +239,26 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Slightly more files, far fewer overwrites and no human relay. AGENTS.md's role table still holds; workstreams are the long-running chats that fill those roles.
 
+## Decision 015: Language and country both in the URL path
+
+**Status:** Accepted (WS0, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** The SEO plan (docs/growth/seo-plan.md) needs one crawlable URL per country × language for hreflang across six languages and five launch countries. The prototype picks language from request headers, which also blocks static model pages (Q-033/Q-034).
+
+**Decision:** URLs are `/{country}/{lang}/…` (e.g. `/nl/nl/`, `/be/fr/`, `/uk/en/`). Each country has a default language; `/{country}/` redirects to it. Headers only suggest a language on the first visit (a banner, not a redirect loop). Every page emits hreflang for all its country × language pairs plus `x-default`. The language choice is remembered but never overrides an explicit URL.
+
+**Consequences:** Model pages can be static per country × language, which resolves Q-033/Q-034. Five countries × six languages = up to 30 variants per page; the sitemap lists only the pairs we serve (a country's own languages + English) until translations are reviewed.
+
+## Decision 016: Open data release ships at launch
+
+**Status:** Accepted (Menno, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** The launch plan proposes the CC BY 4.0 dataset (catalogue + our real-range and charging figures) as the launch hook (Show HN, press, AI-search citations). It was tagged Next.
+
+**Decision:** The open dataset is part of launch: each numbered release publishes a downloadable CC BY 4.0 bundle (CSV + JSON) with release number, date, licence and per-source attribution, only from sources that passed the licence gate (Decision 009). ODbL-derived values stay out.
+
+**Consequences:** The licence gate and attribution file must be complete before launch; WS1 adds the bundle to the release job, WS2 a /data page.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
