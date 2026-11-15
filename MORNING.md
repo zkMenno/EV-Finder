@@ -99,7 +99,7 @@ _(at the end of the run)_
 | A7.1 decision clash | done | overnight schema decision renumbered 019 → 020 (main's 019 = Variant finder) |
 | A7.2 task numbers | done | overnight task files start at T-050 |
 | A7.3 T-044 VariantClue + LookalikeGroup schema | done | + ClueType taxonomy row; release checks left for T-047 (WS1), clue_types validator for T-046 (WS3) |
-| A6 P1–P4 refresh, snapshots, rollback/diff, source health, weekly data-refresh workflow | running | |
+| A6 P1–P4 refresh, snapshots, rollback/diff, source health, weekly data-refresh workflow | done | `ev refresh`: 7 sources in 288 s first run (RDW 267 s), unchanged sources skipped via git HEAD / HTTP 304; peak memory 223 MB (+122 MB git); rollback/diff/list tested; drift fails closed per source; weekly PR workflow needs a GitHub setting (Q-079) |
 | A6 P5 top-40 initial dataset + Wikidata | done | `data/seed/top40.yaml` from RDW (2018–24) + DfT fleet; 8 of the top 40 missing from the seed (EX30, iX1, iX3, Mokka-e, EQB, Taycan, iX, Explorer); top-40 coverage: only NL/DE registrations reach 80% two-source; Wikidata corroborates years for 5 models |
 | A6 P6 RDW defects, fueleconomy.gov, charging stats (EAFO, BNetzA, DfT) | done (staging) | RDW defects 1,469 counts (aggregates, plates never stored); EPA 1,684 BEVs (attach-only, consumption ignored: not WLTP); BNetzA 218,113 points 1 Oct 2026; DfT 121,171 chargers 1 Jul 2026; EAFO blocked (third-party data, Q-077); DVSA skipped. Release integration = T-059 |
 | A6 P7 manual facts path + review ids | done | `data/manual/<topic>/*.yaml` with URL + date + quote required; source `manual` blocked until Q-008; review CSVs get `review_id` + `status`, decisions kept in `data/review/status.yaml` |
