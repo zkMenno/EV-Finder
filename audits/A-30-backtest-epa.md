@@ -115,3 +115,11 @@ rule that rules out variants whose "standard/long range" token or battery class 
 the EPA model text, plus model-year → generation checks for US model years that lag the EU
 generation (Mini). Until then these few rows inflate the range error; the median is robust
 to them.
+
+**Update (same day, PR `fix/epa-range-class`):** a range-class rule now keeps EPA rows that
+say "Long Range" / "Standard Range" off the other pack class (split at the biggest step in the
+generation's pack sizes, only when that step is ≥ 10 %). Tried on today's staging: EV6 58 kWh
+loses the two Long Range rows (they move to the 77 kWh car), Ioniq 5 58 kWh loses its Long
+Range row, Model Y RWD and Model S 75D gain their Standard Range rows; nothing else moves.
+Mini J01 (US model year lag) and the Kona SX2 row (its 36.5 kWh battery looks wrong in the
+release itself) are still open.
