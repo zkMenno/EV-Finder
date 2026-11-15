@@ -496,14 +496,14 @@ SPEC_FIELDS = {
 }
 # Which source could fill a gap per field (pointers, not values; status per data/sources.yaml).
 FILLERS: dict[str, str] = {
-    "battery_kwh_net": "openev (2023+), kilowatt-openev; nyland (waiting)",
+    "battery_kwh_net": "openev (2023+), kilowatt-openev; owner tests (permission pending)",
     "wltp_range_km": "openev, ademe (FR line-up), rdw fuel table (adapter live, Q-068), "
     "eea per type (adapter extension)",
     "ac_kw": "openev, kilowatt-openev",
     "dc_peak_kw": "openev, kilowatt-openev; fastned (waiting)",
     "dc_avg_10_80_kw": "openev 10-80 % time; kilowatt-openev curves (estimated); "
-    "fastned / nyland (waiting)",
-    "real_range_km": "nyland / naf / spritmonitor (waiting_permission); model-estimate only",
+    "fastned / owner tests (permission pending)",
+    "real_range_km": "real-world tests (permission pending); model-estimate only",
     "price_new.NL": "rdw catalogusprijs (imported)",
     "price_new.DE": "openev (2023+); maker-docs (blocked, Q-008)",
     "price_new.FR": "ademe (current line-up)",

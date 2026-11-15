@@ -10,7 +10,7 @@ Needs Python 3.12+ and [uv](https://docs.astral.sh/uv/). From `pipeline/`:
 
 ```sh
 uv sync                                   # runtime + dev tools (CI: uv sync --locked --all-extras --dev)
-uv run ev --help                          # subcommands: version, fetch, normalise, release
+uv run ev --help                          # version, fetch, normalise, release, refresh, sources, …
 uv run pytest -q                          # all tests, no network (~680 tests, a few seconds)
 uv run ruff check . && uv run ruff format --check .
 ```
@@ -44,6 +44,78 @@ uv run ev release                                     # writes data/releases/<n>
 
 Heavy fetches (DfT ~65 MB, OpenEV clone) belong on your machine or a temporary box, not on the
 shared server (Decision 006).
+
+## Keeping data fresh
+
+One command does the whole loop for every source that is due (cadence in `data/sources.yaml`):
+
+```sh
+uv run ev refresh --dry-run      # what would run, plus cheap "changed?" probes; writes nothing
+uv run ev refresh                # fetch → snapshot → fingerprint → normalise → release → QA
+uv run ev refresh --sources rdw,ademe   # just these, now (ignores cadence)
+uv run ev refresh --force        # every refreshable source, now
+uv run ev sources check          # one table: status, last success / change, records, fingerprint
+```
+
+**What happens per source** (`ev_pipeline/refresh/runner.py`):
+
+1. **Probe.** Git sources: `git ls-remote` vs the last commit. HTTP sources: a conditional
+   `HEAD` per URL when the last fetch had ETag / Last-Modified (`304` = unchanged). An adapter
+   can add its own check (`probe_unchanged`). Unchanged → done, nothing downloaded.
+2. **Fetch** with the adapter's own `fetch_cmd()` (safe client, streaming). Every response's
+   URL, status, ETag and Last-Modified are recorded without touching the adapter
+   (`snapshot/recording.py` wraps `net.safe_client` during the fetch).
+3. **Snapshot** of `data/raw/<dir>/` into the store (content hash per file and per tree).
+   Same hash as the accepted data → unchanged, nothing else runs.
+4. **Fingerprint** (column names / key paths and types). A column or file group that was
+   there before and is gone **fails closed**: raw is restored from the snapshot, staging is
+   untouched, an item goes to `data/review/source-health.csv`. New columns are only reported.
+5. **Normalise.** If it fails, or yields under half the previous records, the old staging file
+   is put back (and a review item is written for the drop).
+
+A release is built only if some source brought new data, and published only if the catalogue
+actually changed, no source of the latest release lost its staging file, and blocking QA
+passes. Each run writes `data/runs/<timestamp>.json` (per step: seconds, outcome, rows,
+peak memory) and updates `data/runs/sources-state.json`. Exit code: `0` ok, `1` the release
+failed (see `data/review/qa.md`), `3` a source failed or drifted (its previous data is kept).
+
+**After a refresh, check** `data/releases/<n>/qa.md` (blocking checks must say pass; read the
+flagged items), `uv run ev release diff <n-1> <n>` (what changed, with examples), and
+`uv run ev sources check` (any `drift`, `failed` or `rows_dropped`).
+
+**Undo:**
+
+```sh
+uv run ev release list                 # releases, QA status, which one is latest
+uv run ev release rollback --to 3      # latest -> 3 (atomic; refuses releases without passed QA)
+uv run ev release diff 3 latest --json # machine-readable diff
+```
+
+Rollback deletes nothing; the next release still takes the highest number + 1.
+
+**Schema drift or a big drop, after you checked the review item:**
+`uv run ev sources accept <id>` re-fetches that source and accepts its new shape.
+
+**Snapshot store** (`snapshot/store.py`): `SNAPSHOT_BACKEND=local` (default) keeps blobs and
+manifests in `$SNAPSHOT_DIR` (default `data/snapshots/`, git-ignored). `SNAPSHOT_BACKEND=s3`
+(Scaleway, `S3_*` env vars) has the same interface but is **not built yet**: it raises a clear
+error. Until then, copy `data/snapshots/` to object storage by hand if you need off-machine
+history.
+
+**Memory:** the 2026-11-15 run of all seven open sources peaked at 223 MB (git children
+122 MB), well inside the 1 GB `ev-jobs` limit (Decision 006). RDW is the slow one (~4.5 min:
+paged queries with a 1 s pause); the others take 1–6 s each.
+
+**Automatic updates:** `.github/workflows/data-refresh.yml` runs `ev refresh --force` every
+Monday 03:17 UTC (and on demand, optionally with a source list). When a new release passes QA
+it opens a pull request "Data release N" with only `data/releases/N/` and `latest`; merge it to
+publish, or close it. Raw data, snapshots and run logs never leave the runner. Sources that need
+a key are skipped. Later, on the server, the same command runs as a pg-boss job (Decision 021).
+
+**For adapter builders:** nothing to change for `ev refresh`. Optional one-liners: call
+`snapshot.recording.record_client(client, recorder)` if you build clients outside
+`net.safe_client`; add `probe_unchanged` when a cheaper change check exists (RDW: compare the
+dataset's `rowsUpdatedAt` from the view metadata instead of re-running 40 paged queries).
 
 ## Steps
 
@@ -81,7 +153,7 @@ variants and never create rows. Everything else in `sources.yaml` is either not 
 
 **Numbering:** plain integers counting up from 1 (Decision 008): the next release is the
 highest existing `data/releases/<n>/` + 1. `data/releases/latest` holds the current number.
-**Rollback:** write an older number into `latest`.
+**Rollback:** `uv run ev release rollback --to <n>` (see "Keeping data fresh").
 
 **A release folder** `data/releases/<n>/` contains:
 
@@ -93,6 +165,8 @@ highest existing `data/releases/<n>/` + 1. `data/releases/latest` holds the curr
 | `coverage.md` | how many rows have each field, and from which source |
 | `qa.json`, `qa.md` | release QA (R-05 §1): blocking checks plus review items, and the `backtest` section (scores the real-range ladder on `data/backtest/*.jsonl`; `skipped` when there are none) |
 | `README.md`, `run_log.json` | counts, licences, attribution; inputs, outputs, outcome |
+| `sources.json` | health per source: status, last success, last change, "as of" date, records vs previous, schema fingerprint (staff page, Nerd mode) |
+| `refresh.json` | only in releases made by `ev refresh`: per-source status and time, peak memory |
 | `open/` | CC BY 4.0 open-data bundle (Decision 016): `variants.csv`, `variants.json`, `ATTRIBUTION.md`, `LICENSE`, `README.md`. Only gate-passed, non-ODbL sources; `<field>_sources` / `<field>_confidence` per value. Brand from `EV_BRAND_NAME`. |
 
 Registration counts sit per country, source and period (`fleet` or `new_registrations`) and are
@@ -150,6 +224,9 @@ python3 -I data/taxonomy/validate_taxonomy.py                 # add --self-test 
    - `normalise_cmd(from_fixtures)` writing staging via `_common.write_records` and logging with
      `_common.log_step`. Retrieval date comes from `_fetch.json`, so re-runs are stable.
    - Add the id to `SOURCES` in `ev_pipeline/cli.py`.
+   - Optional, for `ev refresh`: `REQUIRES_ENV = ["MY_API_KEY"]` (skipped when unset) and
+     `probe_unchanged(client, previous_fetch_meta) -> bool | None`, a cheap "did it change?"
+     check (see "Keeping data fresh").
 4. **Fixture:** a small, licence-clean sample plus `_fetch.json` in
    `tests/fixtures/<id_with_underscores>/`. No permission-pending data in fixtures.
 5. **Tests:** `tests/test_source_<id>.py` on the fixture; fetch tested with

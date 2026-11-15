@@ -311,4 +311,19 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** All additions are optional, so release 1 still validates. Details in Q-054.
 
+## Decision 021: Data refresh runs from the CLI now; pg-boss schedules it once the database exists
+
+**Status:** Proposed (provisional, overnight prototype 1, addendum 6 P1–P4)
+**Date:** 2026-11-15
+
+**Context:** The update loop is the heart of the product, but there is no database yet, so the pg-boss scheduling of Decisions 003/006 cannot run. Data still has to stay fresh, cheap and undoable.
+
+**Decision:**
+- One command, `ev refresh [--sources …] [--dry-run]`, runs every due source (cadence from `data/sources.yaml`): probe → fetch → snapshot → schema fingerprint → normalise → release → blocking QA. It is scheduled by GitHub Actions (`.github/workflows/data-refresh.yml`, weekly + manual) that opens a "Data release N" PR with only the release folder; on the server, the same command later becomes a pg-boss job (nightly window, 1 GB, Decision 006) without code changes.
+- Raw fetches go to a content-addressed snapshot store (`$SNAPSHOT_DIR`, local now; S3-compatible behind the same interface, env vars only, not built yet). Unchanged sources (same hash, HTTP 304, same git commit) cost one probe and publish nothing.
+- Per-source health (`data/releases/<n>/sources.json`): last success, last change, records vs previous, schema fingerprint. A breaking fingerprint change or a > 50 % record drop fails closed for that source (previous data kept, review item in `data/review/source-health.csv`) until `ev sources accept <id>`.
+- `data/releases/latest` switches atomically (temp file + rename) and only after blocking QA passes; `ev release rollback --to <n>` and `ev release diff <a> <b>` undo and explain.
+
+**Consequences:** No database or server needed for fresh data. The workflow's PRs don't start CI by themselves (GITHUB_TOKEN limit) and need the repo setting that lets Actions open PRs (Q-079). When pg-boss arrives, the job calls `ev refresh` and the snapshot backend switches to S3 by env var.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

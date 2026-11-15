@@ -352,6 +352,11 @@ No answer needed unless you disagree. Defect counts cover cars first registered 
 
 **Answer:**
 
+### Q-079 · Weekly data refresh: let GitHub Actions open "Data release N" pull requests? · ADDENDUM-6 P4 · pipeline builder · 2026-11-15
+One settings switch for you, no cost. `.github/workflows/data-refresh.yml` runs every Monday (and on demand), refreshes the open sources and opens a PR with only the new release folder and its QA report. **To make it work:** GitHub → repo Settings → Actions → General → tick "Allow GitHub Actions to create and approve pull requests". **Good to know:** PRs opened by the workflow's own token don't start CI by themselves; close and reopen the PR (one click) to run CI before you merge. Later option: a small GitHub App token so CI starts on its own (no cost, a bit of setup). **Default until you answer:** the workflow runs; if the setting is off, the PR step fails and the run's summary page still shows what changed. Also open: the S3 snapshot backend (Scaleway) is an interface only tonight; raw snapshots stay on the machine that runs the refresh (Decision 021).
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

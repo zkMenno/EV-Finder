@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T02:07:14+00:00",
+ "generated_at": "2026-11-15T02:11:57+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -2047,7 +2047,7 @@
     "none": 8,
     "share_two_plus": 0.075,
     "meets_target": false,
-    "could_fill": "openev (2023+), kilowatt-openev; nyland (waiting)"
+    "could_fill": "openev (2023+), kilowatt-openev; owner tests (permission pending)"
    },
    "wltp_range_km": {
     "two_plus": 1,
@@ -2083,7 +2083,7 @@
     "none": 8,
     "share_two_plus": 0.0,
     "meets_target": false,
-    "could_fill": "openev 10-80 % time; kilowatt-openev curves (estimated); fastned / nyland (waiting)"
+    "could_fill": "openev 10-80 % time; kilowatt-openev curves (estimated); fastned / owner tests (permission pending)"
    },
    "real_range_km": {
     "two_plus": 0,
@@ -2092,7 +2092,7 @@
     "none": 20,
     "share_two_plus": 0.0,
     "meets_target": false,
-    "could_fill": "nyland / naf / spritmonitor (waiting_permission); model-estimate only"
+    "could_fill": "real-world tests (permission pending); model-estimate only"
    },
    "price_new.NL": {
     "two_plus": 0,

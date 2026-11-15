@@ -4,6 +4,8 @@ Per source (each step timed, with the process's peak memory so far):
 
 1. **probe**: if the source has staging data and the previous fetch left validators (ETag /
    Last-Modified, or a git commit), ask upstream whether anything changed. Unchanged: stop.
+   An adapter may offer its own cheap check, `probe_unchanged(client, previous_fetch_meta)`
+   returning True / False / None (unknown); it is tried first.
 2. **fetch**: the adapter's own `fetch_cmd()` (allowlisted `net.safe_client`, streaming),
    with every HTTP response's status, ETag and Last-Modified recorded.
 3. **snapshot**: the raw folder goes into the snapshot store (content-addressed). Same
@@ -156,8 +158,33 @@ class Deps:
 # --- per source ---------------------------------------------------------------------------
 
 
-def _probe(ps: PlannedSource, entry: dict[str, Any], deps: Deps) -> ProbeResult:
+def _probe(
+    ps: PlannedSource, entry: dict[str, Any], deps: Deps, store: SnapshotStore
+) -> ProbeResult:
     mod = ps.adapter
+    hook = getattr(mod, "probe_unchanged", None)
+    if callable(hook):
+        # Optional adapter hook: probe_unchanged(client, previous_fetch_meta) -> bool | None
+        # (e.g. RDW: compare the dataset's rowsUpdatedAt instead of 40 paged queries).
+        manifest = find_manifest(store, ps.id, str(entry.get("content_hash")))
+        if manifest is not None and manifest.meta:
+            client = None
+            try:
+                client = deps.client_factory(ps.id)
+                verdict = hook(client, manifest.meta)
+            except Exception as exc:  # a probe may never break a refresh
+                verdict = None
+                detail = f"adapter probe failed: {type(exc).__name__}"
+            else:
+                detail = "adapter probe"
+            finally:
+                close = getattr(client, "close", None)
+                if callable(close):
+                    close()
+            if verdict is True:
+                return ProbeResult("unchanged", detail)
+            if verdict is False:
+                return ProbeResult("changed", detail)
     repo = getattr(mod, "REPO_URL", None)
     if repo and entry.get("commit"):
         return probe_git(str(repo), str(entry["commit"]), deps.git_runner)
@@ -218,7 +245,7 @@ def _refresh_source(
     # 1. probe
     t = time.monotonic()
     if staging.exists() and entry.get("content_hash") and not accept:
-        pr = _probe(ps, entry, deps)
+        pr = _probe(ps, entry, deps, store)
         run.step("probe", t, pr.status, detail=pr.detail)
         if pr.status == "unchanged":
             run.status, run.message = "unchanged", pr.detail
@@ -452,6 +479,19 @@ def write_run_log(data_dir: Path, log: dict[str, Any], started: datetime) -> Pat
     return path
 
 
+def _published_sources(data_dir: Path) -> set[str] | None:
+    """Source ids cited by the latest release (None: no release yet, so every planned source
+    must have staging data). A new source that never shipped does not block a release."""
+    from ev_pipeline.health.state import latest_release
+
+    n = latest_release(data_dir)
+    path = data_dir / "releases" / str(n) / "catalogue.json" if n else None
+    if path is None or not path.exists():
+        return None
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    return {str(src.get("id")) for src in doc.get("sources") or []}
+
+
 def _release(
     data_dir: Path,
     state: dict[str, dict[str, Any]],
@@ -465,17 +505,18 @@ def _release(
 
     if not any(r.changed for r in runs):
         return {"outcome": "skipped", "reason": "no source brought new data"}
+    published = _published_sources(data_dir)
     missing = [
         ps.id
         for ps in planned
         if ps.adapter is not None
-        and ps.action != "skip"
+        and (published is None or ps.id in published)
         and not (data_dir / "staging" / f"{ps.id}.records.jsonl").exists()
     ]
     if missing:
         return {
             "outcome": "skipped",
-            "reason": "no staging data for " + ", ".join(missing) + " (a release without a"
+            "reason": "no staging data for " + ", ".join(missing) + " (a release that loses a"
             " whole source is never published)",
         }
     t = time.monotonic()

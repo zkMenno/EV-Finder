@@ -1,0 +1,130 @@
+name: Data refresh
+
+# Weekly data refresh (addendum 6 P4, Decision 021): runs `ev refresh` against the live open
+# sources and, when the catalogue changed and blocking QA passed, opens a pull request
+# "Data release N" that contains only data/releases/N/ (catalogue, QA report qa.md/qa.json,
+# sources.json, refresh.json, open-data bundle) and the data/releases/latest pointer.
+# Raw downloads, snapshots, staging and run logs stay on the runner (all git-ignored).
+#
+# Not a test: tests never touch the network. No secrets: sources that need an API key
+# (adapter REQUIRES_ENV) are skipped. Third-party actions are pinned to commit SHAs (same
+# pins as ci.yml; Dependabot bumps them). The PR is opened with the GitHub CLI that ships on
+# the runner, so no extra third-party action is needed.
+#
+# Repo setting needed once: Settings → Actions → General → "Allow GitHub Actions to create and
+# approve pull requests". PRs opened with GITHUB_TOKEN do not start CI on their own; close and
+# reopen the PR (or push to it) to run CI before merging.
+
+on:
+  schedule:
+    - cron: "17 3 * * 1" # Mondays 03:17 UTC, outside the busy CI hours
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "Comma-separated source ids (empty = every refreshable source)"
+        required: false
+        default: ""
+
+permissions: {}
+
+concurrency:
+  group: data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write # push the data-release-N branch
+      pull-requests: write # open or update the PR
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          working-directory: pipeline
+      - name: Install
+        working-directory: pipeline
+        run: uv sync --locked
+
+      - name: Refresh live sources
+        id: refresh
+        working-directory: pipeline
+        env:
+          SOURCES: ${{ inputs.sources }}
+          SNAPSHOT_DIR: ${{ runner.temp }}/snapshots
+          EV_RUNS_DIR: ${{ runner.temp }}/runs
+        run: |
+          before=$(cat ../data/releases/latest 2>/dev/null || echo none)
+          args=(--force)
+          if [ -n "$SOURCES" ]; then args=(--sources "$SOURCES"); fi
+          set +e
+          uv run ev refresh "${args[@]}"
+          code=$?
+          set -e
+          log=$(ls -t "$EV_RUNS_DIR"/2*.json 2>/dev/null | head -1)
+          [ -n "$log" ] && cp "$log" "$RUNNER_TEMP/refresh.json"
+          after=$(cat ../data/releases/latest 2>/dev/null || echo none)
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "before=$before" >> "$GITHUB_OUTPUT"
+          if [ "$after" != "$before" ] && [ -d "../data/releases/$after" ]; then
+            echo "release=$after" >> "$GITHUB_OUTPUT"
+          fi
+          uv run ev sources check || true
+
+      - name: Job summary
+        if: always()
+        env:
+          RELEASE: ${{ steps.refresh.outputs.release }}
+        run: |
+          {
+            echo "## Data refresh"
+            echo
+            echo '```'
+            jq -r '.sources[] | "\(.id)\t\(.status)\t\(.seconds)s\t\(.message)"' "$RUNNER_TEMP/refresh.json" || true
+            jq -r '"release: \(.release.outcome) \(.release.release // "") \(.release.reason // "")", "peak memory MB: \(.peak_rss_mb)"' "$RUNNER_TEMP/refresh.json" || true
+            echo '```'
+            if [ -n "$RELEASE" ]; then cat "data/releases/$RELEASE/qa.md"; fi
+            if [ -f data/review/qa.md ] && [ -z "$RELEASE" ]; then echo "### QA (not published)"; cat data/review/qa.md; fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open the "Data release N" pull request
+        if: steps.refresh.outputs.release != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE: ${{ steps.refresh.outputs.release }}
+          BEFORE: ${{ steps.refresh.outputs.before }}
+        run: |
+          branch="data-release-$RELEASE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          # Only the new release folder and the latest pointer; nothing else is staged.
+          git add -- "data/releases/$RELEASE" data/releases/latest
+          git commit -m "Data release $RELEASE" -m "Automatic weekly refresh (data-refresh.yml, Decision 021)."
+          git push --force origin "HEAD:refs/heads/$branch"
+          {
+            echo "Automatic data refresh. Check the QA report below, then merge to publish."
+            echo
+            echo "Roll back after merging: \`cd pipeline && uv run ev release rollback --to $BEFORE\`."
+            echo
+            echo '```'
+            (cd pipeline && uv run ev release diff "$BEFORE" "$RELEASE") || true
+            echo '```'
+            echo
+            cat "data/releases/$RELEASE/qa.md"
+          } > "$RUNNER_TEMP/pr-body.md"
+          if gh pr view "$branch" --json state -q .state 2>/dev/null | grep -q OPEN; then
+            gh pr edit "$branch" --title "Data release $RELEASE" --body-file "$RUNNER_TEMP/pr-body.md"
+          else
+            gh pr create --base "${GITHUB_REF_NAME}" --head "$branch" \
+              --title "Data release $RELEASE" --body-file "$RUNNER_TEMP/pr-body.md"
+          fi
+
+      - name: Fail if a source or the release failed
+        if: steps.refresh.outputs.code != '0'
+        env:
+          CODE: ${{ steps.refresh.outputs.code }}
+        run: |
+          echo "::error::ev refresh exited $CODE (1 = release failed, 3 = a source failed or drifted; previous data kept)"
+          exit 1

@@ -180,6 +180,9 @@ data/cache/
 data/staging/
 # Local-only cache for permission-pending sources (e.g. the Bjørn Nyland sheet)
 data/local/
+# Raw snapshot store and refresh run logs / source state (ev refresh, Decision 021)
+data/snapshots/
+data/runs/
 pipeline/.venv/
 
 # --- Web test output ---

@@ -655,3 +655,42 @@ def test_cli_sources_check_and_refresh_dry_run(
     assert rows["nyland"]["due"] == "skip"
     assert main(["refresh", "--dry-run", "--sources", "fake"]) == 0
     assert "would_fetch" in capsys.readouterr().out
+
+
+def test_adapter_probe_hook(data_dir: Path) -> None:
+    fake = FakeAdapter()
+    _run(fake)
+    calls: list[dict] = []
+
+    def probe_unchanged(client: Any, meta: dict) -> bool:
+        calls.append(meta)
+        return True
+
+    fake.probe_unchanged = probe_unchanged  # type: ignore[attr-defined]
+    deps = _deps(fake, NOW + timedelta(days=8), client_factory=lambda sid: None)
+    _, log = refresh(RefreshOptions(release=False), deps)
+    assert _status(log)["status"] == "unchanged" and fake.fetches == 1
+    assert calls[0]["url"] == f"https://{HOST}/data.csv"
+
+    def broken(client: Any, meta: dict) -> bool:
+        raise RuntimeError("x")
+
+    fake.probe_unchanged = broken  # type: ignore[attr-defined]
+    _, log = _run(fake, NOW + timedelta(days=16))
+    assert _status(log)["status"] == "unchanged" and fake.fetches == 2  # fell back to hash
+
+
+def test_new_source_without_staging_does_not_block_release(data_dir: Path) -> None:
+    fake, other = FakeAdapter(), FakeAdapter("other")
+    other.fetch_rc = 1
+    (data_dir / "sources.yaml").write_text(
+        REGISTRY + "  - {id: other, name: O, licence: CC0-1.0, cadence: weekly, status: active}\n"
+    )
+    rel = data_dir / "releases" / "1"
+    rel.mkdir(parents=True)
+    (rel / "catalogue.json").write_text(json.dumps({"release": 1, "sources": [{"id": "fake"}]}))
+    (data_dir / "releases" / "latest").write_text("1\n")
+    deps = Deps(find=lambda s: {"fake": fake, "other": other}.get(s), now=lambda: NOW)
+    _, log = refresh(RefreshOptions(), deps)
+    # Guard passed (`other` never shipped); the build itself fails here: no seed in this dir.
+    assert log["release"]["outcome"] == "failed" and "seed" in log["release"]["reason"]
