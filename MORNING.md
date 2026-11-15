@@ -85,7 +85,7 @@ _(at the end of the run)_
 |---|---|---|---|
 | 5 | Seed coverage gaps | done | `data/review/coverage-gaps.md`: seed covers 62% of NL/UK fleet, 39% of DE 2025; top-20 missing models listed |
 | 8 | Test depth (pipeline) | done | derive/release/qa/opendata/backtest 100% line coverage; 673 tests |
-| 1 | Glossary sweep | running | |
+| 1 | Glossary sweep | done (data), wiring queued | 49 → 88 terms; ~35 UI labels need their ⓘ wired (list in `data/review/glossary-sweep.md`) |
 | 6 | Source-scoped aliases | done (on) | +80 matched records; EEA VW make alias places +62,301 registrations; no record moved to a wrong model; MG4 trim duplicates (Q-062) |
 | 7 | EEA as corroboration | done (off) | with the flag on, sourced rows 2 → 6, but EEA averages blend variants, so it stays off (Q-019) |
 | — | RDW WLTP + catalogue price (from item 5) | running | |
