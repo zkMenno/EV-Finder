@@ -1,0 +1,120 @@
+{
+  "brand_id": "9771afb8-9e25-4ae6-a5b3-b2a5b9f363f0",
+  "brand_name": "Hyundai",
+  "models": [
+    {
+      "id": "b58bc94d-d929-ad71-d95b-08b877bf76ba",
+      "brand": "Hyundai",
+      "vehicle_type": "car",
+      "brand_id": "9771afb8-9e25-4ae6-a5b3-b2a5b9f363f0",
+      "model": "IONIQ 5",
+      "release_year": 2021,
+      "variant": "Long Range 2WD",
+      "usable_battery_size": 74,
+      "ac_charger": {
+        "usable_phases": 3,
+        "ports": [
+          "type2"
+        ],
+        "max_power": 11
+      },
+      "dc_charger": {
+        "ports": [
+          "ccs"
+        ],
+        "max_power": 233,
+        "charging_curve": [
+          {
+            "percentage": 0,
+            "power": 210
+          },
+          {
+            "percentage": 46,
+            "power": 233
+          },
+          {
+            "percentage": 47,
+            "power": 175
+          },
+          {
+            "percentage": 48,
+            "power": 175
+          },
+          {
+            "percentage": 60,
+            "power": 175
+          },
+          {
+            "percentage": 70,
+            "power": 150
+          },
+          {
+            "percentage": 72,
+            "power": 110
+          },
+          {
+            "percentage": 84,
+            "power": 110
+          },
+          {
+            "percentage": 100,
+            "power": 10
+          }
+        ],
+        "is_default_charging_curve": false
+      },
+      "energy_consumption": {
+        "average_consumption": 18.5
+      },
+      "charging_voltage": 800
+    },
+    {
+      "brand": "Hyundai",
+      "model": "Kona Electric 48 kWh",
+      "variant": "",
+      "release_year": 2023,
+      "range": 295,
+      "id": "21442a76-9bde-4723-b35e-3c6179d20b36",
+      "brand_id": "9771afb8-9e25-4ae6-a5b3-b2a5b9f363f0",
+      "usable_battery_size": 48.4,
+      "energy_consumption": {
+        "average_consumption": 16.4,
+        "range": 295
+      },
+      "ac_charger": {
+        "usable_phases": 3,
+        "ports": [
+          "type2"
+        ],
+        "max_power": 11
+      },
+      "dc_charger": {
+        "ports": [
+          "ccs"
+        ],
+        "max_power": 75,
+        "is_default_charging_curve": false,
+        "charging_curve": [
+          {
+            "percentage": 0,
+            "power": 75
+          },
+          {
+            "percentage": 50,
+            "power": 75
+          },
+          {
+            "percentage": 80,
+            "power": 37.5
+          },
+          {
+            "percentage": 100,
+            "power": 15
+          }
+        ]
+      },
+      "vehicle_type": "car",
+      "charging_voltage": 400
+    }
+  ]
+}

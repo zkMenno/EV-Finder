@@ -200,6 +200,16 @@ For BEVs ADEME fills only "Puissance nominale électrique", the rated 30-minute 
 
 **Answer:**
 
+### Q-047 · KilowattApp curves: provenance and likely ev-database.org origin · sources (kilowatt-openev) · builder · 2026-11-15
+Upstream docs do not say how curves were obtained (no "measured" anywhere); its own tool generates template curves (`lib/vehicle_creator/charging_details.rb`). 22 records carry `url: https://ev-database.org/...` and `_manually_fixed_fields`, and the suggest form proposes ev-database.org as a source, so some values were probably taken from ev-database.org (no open licence). **Default:** import under the repo's MIT-with-attribution licence as a low-priority fallback; all curves `estimated`, confidence low; specs medium. Is that acceptable given rule 2 ("derived, not copied"), or should `kilowatt-openev` curves stay out of public releases until checked?
+
+**Answer:**
+
+### Q-048 · KilowattApp data-quality rules (judgement calls) · sources (kilowatt-openev) · builder · 2026-11-15
+**Defaults applied** (all counted in the run log): (1) only `vehicle_type: car` (32 motorbikes, 7 microcars incl. Twizy/Microlino skipped); (2) DC max_power exactly equal to usable kWh is treated as a 1C placeholder: no `dc_peak_kw`, no curve (567 cars, e.g. Model 3 2023 "57.5 kW", Leaf 2022 "39 kW"); (3) unflagged curves with one of two exact generic shapes (0/50/80/100 % at 1.0/1.0/0.6/0.3 or 1.0/1.0/0.5/0.2 of peak) are dropped like default curves (292); (4) AC > 43 kW dropped (10), consumption outside 10–40 kWh/100km dropped (2, e.g. DS 3 Crossback 81.1). (5) Cycle of `average_consumption` is undocumented (kWh/100km; maybe WLTP, maybe an ev-database-style real figure); emitted as `consumption_kwh_100km`, but `field_sources.yaml` does not list kilowatt-openev for that field anyway. OK?
+
+**Answer:**
+
 ## Closed
 
 ### Q-038 · Two different "Open EV Data" datasets · coordinator · 2026-11-15

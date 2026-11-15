@@ -18,6 +18,7 @@ Last run: 2026-11-15 (UTC; the run log shows 2026-11-14T23:5x, just before midni
 | `kba-fz10` | KBA FZ10 new registrations by make and model series | https://www.kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html | **dl-de/by-2-0**: Impressum sheet of each file, "Nutzungsbedingungen: © Kraftfahrt-Bundesamt, Flensburg / Datenlizenz Deutschland - Namensnennung - Version 2.0" | © Kraftfahrt-Bundesamt, Flensburg. Datenlizenz Deutschland – Namensnennung – Version 2.0 (FZ10, Neuzulassungen nach Marken und Modellreihen). | New BEV registrations in DE ("mit Elektroantrieb (BEV)" column) per Marke × Modellreihe, **year-to-date**: Jan–Oct 2026 (`fz10_2026_10`) and the full year 2025 (`fz10_2025_12`). Year = data year. Confidence high. | **Live**: two .xlsx downloads (Nov 2026 file not out yet, so Oct 2026 is newest) | 423 records (2026: 221, 2025: 202). BEV 2026 Jan–Oct 695,069 emitted + 3,161 "SONSTIGE" = 698,230 = KBA grand total; 2025: 540,884 + 4,258 = 545,142. Fixture: 30 |
 | `dft-veh` | DfT vehicle licensing statistics, df_VEH0120_UK | https://www.gov.uk/government/statistical-data-sets/vehicle-licensing-statistics-data-files | **OGL-UK-3.0**: gov.uk page footer "All content is available under the Open Government Licence v3.0, except where otherwise stated" (no exception for these files) | Contains public sector information licensed under the Open Government Licence v3.0 (Department for Transport, vehicle licensing statistics). | Licensed (not SORN) battery-electric **cars** in the UK fleet at the end of the newest quarter (2026 Q2), per Make × GenModel × Model (model = GenModel, variant_name = DVLA Model). Fleet stock, so year is empty. Confidence high. | **Live**: URL resolved via the gov.uk content API; UK file 41 MB in about 2 s | 1,551 records (312 GenModels), 2,015,027 cars; 1,941 more in "MODEL MISSING" rows dropped (total 2,016,968). Fixture: 30 |
 | `ademe` | ADEME – Car Labelling | https://data.ademe.fr/datasets/ademe-car-labelling | **Licence-Ouverte-2.0**: data-fair metadata `license.title = "Licence Ouverte / Open Licence"` (etalab link) | ADEME – Car Labelling, Licence Ouverte | `Energie = ELECTRIC` rows: best-case WLTP consumption (kWh/100km) and range (km), mass without driver (kg) per Marque × Modèle × Description commerciale; FR list price (EUR) as separate records. No power (nominal only), no year. Confidence medium. | **Live**: one CSV (1.1 MB) | 134 BEV rows → 79 distinct versions → 158 records (79 spec + 79 price). Fixture: 62 |
+| `kilowatt-openev` | Open EV Data (KilowattApp) | https://github.com/KilowattApp/open-ev-data | **MIT-with-attribution**: repo `LICENSE`, "MIT License with Attribution Requirement", Copyright (c) 2024 Tijs Teulings; clause 2 requires clear and visible attribution | Open EV Data (https://github.com/KilowattApp/open-ev-data) | Fallback specs per car: usable kWh, AC kW, DC peak kW, average consumption (kWh/100km), confidence medium. DC curves (SoC %, kW) as separate `#dc_curve` records, status `estimated`, confidence low. Default, template and placeholder curves dropped. **Visible attribution required on the web About/credits page.** | **Live**: `git clone --depth 1` at commit `32d7dc59` (upstream data dated 2025-04-12), v2 format | 1,321 vehicles (1,282 cars) → 1,427 records (1,282 spec + 145 curves). Curves: 145 kept, 407 default, 292 template, 438 placeholder dropped. Fixture: 14 vehicles → 17 records |
 
 ## Notes per source
 
@@ -73,3 +74,16 @@ vide" = "Masse OM" − 75 kg on every electric row, so it excludes the driver. T
 only 134 BEV rows and many look old (ZOE, Honda e, e-Niro, Corsa-e 57 kW): treat it as a
 partial snapshot, not the current French market. Makes are written `B.M.W.` and `M.G.`;
 some descriptions are double-encoded UTF-8 and are repaired.
+
+**kilowatt-openev.** Attribution is a licence condition, not a courtesy: the web
+About/credits page must show "Open EV Data (https://github.com/KilowattApp/open-ev-data)"
+(clause 2 of the LICENSE), and the copyright notice + licence text must ship with any copy
+of the data (clause 1). `fetch` refuses to import if the LICENSE no longer contains the
+attribution clause. We read `data/v2/` (same 1,321 vehicles and ids as v1 `ev-data.json`).
+Upstream does not document how curves were obtained and its tool generates template curves,
+so nothing is `measured`; some records point at ev-database.org (Q-047). Dropped:
+`is_default_charging_curve: true` curves; unflagged curves shaped exactly like the two
+generic templates; DC data where max_power equals usable kWh (a 1C placeholder on 567 cars);
+AC > 43 kW; consumption outside 10–40 kWh/100km; motorbikes and microcars (Q-048).
+`charging_voltage` (400/800) is an architecture label, not a nominal voltage, so it is not
+emitted as `voltage_nominal_v`; no schema field holds it yet.
