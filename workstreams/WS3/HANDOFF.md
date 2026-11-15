@@ -9,7 +9,7 @@ Session: https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr. Next chat: "Re
 | T-031 heat pump (launch part) | #32 | 16 cited heat_pump generation facts in data/manual/heat-pump/; temperature_bands + heater_types taxonomy with 6-language labels (Decision 059). |
 | T-041 listing templates | #33 | Patterns checked from indexed URLs + Menno's La Centrale links; tap checklist workstreams/WS3/T-041-checklist.md. One WS2 test line. |
 | T-100 glossary sweep | #34 | 10 hero/profile terms; used-price text matches T-081. |
-| T-082 batteries + health /learn | (this branch) | EN + NL, plus DE/FR/ES/IT drafts for batteries-health, winter-range (T-039) and charging-2026 (T-027). |
+| T-082 batteries + health /learn | #35 | EN + NL, plus DE/FR/ES/IT drafts for batteries-health, winter-range (T-039) and charging-2026 (T-027). |
 
 ## Waiting on Menno
 - T-041: tap the 22 links in the checklist, say which fail. Then set `verified: true` + date.
