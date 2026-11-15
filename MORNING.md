@@ -70,10 +70,10 @@ _(at the end of the run)_
 | A4 T-030 Trip fit schema | done | |
 | A4 T-024 charging taxonomies + country links | running | |
 | A4 T-019 bidi taxonomies (coordinator half) | running | |
-| A4 T-026 charging link-out block | running | |
-| A4 T-036 Trip fit quick check (flag, fixture matrix) | running | |
-| A5.1 country + language URLs | queued | after the web builder finishes |
-| A5.2 price modes | data running, UI queued | |
+| A4 T-026 charging link-out block | done | Explore, learn and model pages; plain ABRP link; UTM tag (Q-056) |
+| A4 T-036 Trip fit quick check (flag, fixture matrix) | done | behind `TRIP_FIT=1`; fixture matrix + 20 towns typed from memory, labelled PROVISIONAL; keep off in production (Q-055) |
+| A5.1 country + language URLs | running | |
+| A5.2 price modes | running (data + UI) | |
 | A5.3 open data bundle | running | |
 | A5.4 /learn drafts | running | |
 | A5.5 release QA | running | |
