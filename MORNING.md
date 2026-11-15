@@ -71,13 +71,13 @@ Research (all on the branch): R-02 launch countries, R-06 future markets, R-07 E
 - **EAFO and maker documents:** blocked on licences (Q-077, Q-008).
 
 ## 5. Questions for Menno (most important first, max 7)
-1. **Q-008** · Can single facts cited from maker documents (spec sheets, price lists) go into public releases? Unlocks prices, boot space, warranty and the hand-entered facts path.
-2. **Q-037** · RDW's notice says reusers may not state the data comes from RDW. How should we label it? (Interim: "Dutch vehicle register (RDW open data, CC0)".)
-3. **Q-036** · RVO is CC BY-SA (share-alike). Keep it as a cross-check only, or ask RVO for permission?
-4. **Q-047 / Q-059** · Some KilowattApp values may come from ev-database.org, and its MIT data sits inside our CC BY bundle. Keep, limit, or drop?
-5. **Q-077** · Email the Commission (DG MOVE) to reuse EAFO data?
-6. **Q-079** · Tick the GitHub setting so the weekly data PR can open (see section 0).
-7. **Q-002 / Q-003** · Confirm pnpm + uv, and require PRs with green CI on `main`.
+1. **Q-015 (A-05 F5)** · About 1,000 published values come only from the hand-entered seed, written from model knowledge with no source fetched. They are labelled low confidence, but that clashes with "never invent data". Keep them (labelled "unchecked") until sourced data replaces them, or hide them from public pages and the open bundle? My default for tonight: keep, labelled.
+2. **Q-008** · Can single facts cited from maker documents (spec sheets, price lists) go into public releases? Unlocks prices, boot space, warranty and the hand-entered facts path.
+3. **Q-037** · RDW's notice says reusers may not state the data comes from RDW. How should we label it? (Interim: "Dutch vehicle register (RDW open data, CC0)".)
+4. **Q-036** · RVO is CC BY-SA (share-alike). Keep it as a cross-check only, or ask RVO for permission?
+5. **Q-047 / Q-059** · Some KilowattApp values may come from ev-database.org, and its MIT data sits inside our CC BY bundle. Keep, limit, or drop?
+6. **Q-077** · Email the Commission (DG MOVE) to reuse EAFO data?
+7. **Q-079** · Tick the GitHub setting so the weekly data PR can open (see section 0).
 
 All 70+ open questions are in [QUESTIONS.md](QUESTIONS.md); most only record a default and need no answer.
 
@@ -127,6 +127,7 @@ All 70+ open questions are in [QUESTIONS.md](QUESTIONS.md); most only record a d
 | — | R-08 + RDW TGK (pre-2020 specs, T-052) | done | RDW type approvals (CC0) cover 96.5% of NL BEVs incl. all 17 pre-2020 targets; NEDC, worst-case WLTP and running-order mass are separate fields (Decision 023); WLTP now on 178 rows, 25 rows reach "sourced" (was 2); older cars like Zoe ph1 still need aliases to attach |
 | — | T-061 web: Known issues, EPA, year badge, charging | done | defect rates per first-registration year vs all EVs of that year; "EPA range (US test)" never mixed with WLTP; Wikidata year badge; `/{country}/{lang}/charging` with hand-written SVG charts for DE + UK |
 | — | Type approvals on pre-2020 rows | done | NEDC on 39 rows (was 22), running-order mass 128 (was 88), WLTP 196 (was 178); only unique fits attach, ties to review (Decision 024, Q-089); conflicts 8,531 → 5,062 as same-source versions became spread |
+| — | Fresh review A-05 | done, fixes running | 2 critical found: RDW year-blended records landed on base trims (e.g. EX30 base 475 km WLTP), and the staff password check could be skipped with a `Purpose: prefetch` header. Both being fixed with tests, plus 4 high (localhost in sitemap/canonical, RDW NEDC = WLTP copies, …) |
 | 10 | Proposed tasks | done | T-051–T-060 on BOARD under "Proposed by overnight 1" |
 | — | Seed quality (MG4 dupes, year evidence, shared years) | done | MG4 8 → 6 rows; ID.4 starts 2020 and Soul SK3 ends 2024 (RDW counts in notes); 10,413 NL cars in shared years now counted at model level instead of dropped; new BMW i3 in RDW/EEA not invented (Q-065) |
 | — | RDW WLTP + catalogue price (from item 5) | done | 56 variants get an RDW WLTP figure, 25 an NL price (catalogusprijs incl. VAT + BPM); wide-spread groups dropped; WLTP from a 10% plate sample (no joins possible) |
