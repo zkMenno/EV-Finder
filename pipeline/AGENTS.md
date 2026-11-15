@@ -11,8 +11,10 @@ pipeline/
   ev_pipeline/
     cli.py                `ev <subcommand>`; add yours in build_parser()
     schema_models.py      GENERATED from packages/schema; never edit (ruff skips it)
+    net.py                safe HTTP client (host allowlist from data/sources.yaml, SSRF guard, caps)
     sources/<name>/       one folder per source adapter
-    merge/  derive/  release/   one folder per pipeline stage
+    match/  merge/  derive/  release/   one folder per pipeline stage
+    qa/  opendata/  backtest/           release QA, CC BY bundle, real-range back-test
   tests/
     fixtures/<name>/      small, licence-clean samples per source
     test_*.py
@@ -33,8 +35,8 @@ Source adapters live at `pipeline/ev_pipeline/sources/<name>/` (this supersedes 
    re-running with the same inputs gives the same outputs.
 4. **Licences stay separate.** Record each source's licence and attribution; never mix
    ODbL inputs into CC BY outputs.
-5. **Raw data is not committed.** Raw fetches go to `data/cache/` (git-ignored) or object
-   storage. Permission-pending sources (e.g. the Bjørn Nyland sheet) go to `data/local/`
+5. **Raw data is not committed.** Raw fetches go to `data/raw/<source>/` (git-ignored) or
+   object storage. HTTP fetches use `net.safe_client(source_id)`; never build a bare `httpx.Client`. Permission-pending sources (e.g. the Bjørn Nyland sheet) go to `data/local/`
    only (git-ignored) and never into fixtures or releases until permission is logged.
 6. **Types come from `packages/schema`.** Don't hand-write models that the schema defines.
 7. **Metric units internally** (km, kWh, Wh/km, kW, °C, €).

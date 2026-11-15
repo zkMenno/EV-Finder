@@ -2,7 +2,7 @@
 
 Backlog item 5 of `workstreams/OVERNIGHT/ADDENDUM-5.md`. Written 2026-11-15 by an overnight data-review agent. Read-only review: no code, seed or data was changed.
 
-**Inputs:** `data/seed/{models,variants,platforms,battery_packs,variant_links}.yaml`, `data/releases/1/{catalogue.json,coverage.md}`, `data/review/unmatched.csv`, `data/staging/*.records.jsonl` (for the counts), `data/sources.yaml`, `research/R-02`, `R-03` (both files), `R-04` (Europe expansion), `docs/spec/source-matrix.md`.
+**Inputs:** `data/seed/{models,variants,platforms,battery_packs,variant_links}.yaml`, `data/releases/1/{catalogue.json,coverage.md}`, `data/review/unmatched.csv`, `data/staging/*.records.jsonl` (for the counts), `data/sources.yaml`, `research/R-02`, `R-06` (future markets), `R-07` (Europe expansion), `docs/spec/source-matrix.md`.
 
 **No values from memory.** Every count below comes from the staged records behind release 1. Where this file says a source "could fill" a gap, that is a pointer to a source, not a value.
 
@@ -51,7 +51,7 @@ Backlog item 5 of `workstreams/OVERNIGHT/ADDENDUM-5.md`. Written 2026-11-15 by a
 | `adac`, `euroncap`, `edmunds`, `insideevs`, `consumer-reports`, `aviloo`, `recurrent` | blocked ⛔ | real range, battery health | No open licence |
 | used-price sources | **not in registry** | used asking prices per country | Source matrix: partner feeds (layer 1), free indices (Autotrader RPI, AutoScout24 AGPI, Indicata) for trends. Layer 3 sampling stays off (R-03 legal brief) |
 
-R-03 (future markets) and R-04 (Europe expansion) add no source for NL/DE/FR/BE/UK. Their only overlap is EEA, which R-04 says to widen to more countries.
+R-06 (future markets) and R-07 (Europe expansion) add no source for NL/DE/FR/BE/UK. Their only overlap is EEA, which R-07 says to widen to more countries.
 
 ## Gaps shared by every seed model
 

@@ -5,7 +5,17 @@
 
 EV Finder runs on the shared AppInfra server next to GardenLayer and Dungeon Tracker
 (Decision 006): the server's Caddy in front, the shared Postgres behind a private network,
-and images built in GitHub Actions (Decision 005).
+and images built in GitHub Actions (Decision 005). Limits per service are fixed by Decision 006
+and listed in [`AGENTS.md`](AGENTS.md); agents never apply anything to the server.
+
+Check the files locally (no server needed; both pass on 2026-11-15), from the repo root:
+
+```sh
+docker compose -f infra/deploy/compose.ev.yml --profile jobs config --no-env-resolution -q
+docker run --rm -v "$PWD/infra/deploy/ev.caddy:/f:ro" caddy:2 caddy adapt --config /f --validate
+```
+
+(The Caddy check logs failed health probes to `ev-web:3000`; that's expected without the containers.)
 
 ## Files
 
@@ -54,7 +64,8 @@ Assumes SSH access to the server and the usual AppInfra layout. Each 🟡 needs 
 8. **Hook up Caddy:** add `import /srv/ev/ev.caddy` to the main Caddyfile, then
    `caddy validate` and reload the way AppInfra normally does.
 9. **Smoke test:** `curl -sI https://<domain>/health` returns 200 with the security headers;
-   `/nl` loads; `/data/catalogue-<n>.json` has `Cache-Control: … immutable`.
+   `/nl/nl/` loads (URLs are `/{country}/{lang}/…`, Decision 015; `/` and `/nl/` answer with a
+   307 redirect to it); `/data/catalogue-<n>.json` has `Cache-Control: … immutable`.
 10. **Add the watchdog entry** for `https://<domain>/health` in AppInfra.
 11. **Nightly jobs** (🟡 window to confirm, Q-001). Until pg-boss scheduling exists, a host
     timer runs the one-shot container inside 00:30–02:30 UTC, for example a systemd timer with

@@ -1,122 +1,192 @@
 # EV Finder pipeline
 
-Python jobs that turn open sources into numbered catalogue releases. Agent rules: `AGENTS.md`.
+Python jobs that turn open sources into numbered catalogue releases. Agent rules:
+[`AGENTS.md`](AGENTS.md). Source list: [`data/SOURCES.md`](../data/SOURCES.md) (human) and
+[`data/sources.yaml`](../data/sources.yaml) (machine registry, coordinator-owned).
 
-## Run the pipeline
+## Quick start
 
-From `pipeline/`:
+Needs Python 3.12+ and [uv](https://docs.astral.sh/uv/). From `pipeline/`:
 
 ```sh
-uv sync                               # install runtime + dev tools
-
-# 1. Sources -> data/staging/<source>.records.jsonl (network; T-004 adapters)
-uv run ev fetch openev && uv run ev normalise openev
-uv run ev fetch rdw    && uv run ev normalise rdw
-uv run ev fetch eea    && uv run ev normalise eea
-#    offline, from the recorded samples instead:
-#    uv run ev normalise openev --from-fixtures   (same for rdw, eea)
-
-# 2. Match, merge, derive, validate, publish
-uv run ev release --dry-run           # compute everything, print the summary, write nothing
-uv run ev release                     # write data/releases/<n>/ and data/releases/latest
-
-# Checks
-uv run pytest && uv run ruff check . && uv run ruff format --check .
+uv sync                                   # runtime + dev tools (CI: uv sync --locked --all-extras --dev)
+uv run ev --help                          # subcommands: version, fetch, normalise, release
+uv run pytest -q                          # all tests, no network (~680 tests, a few seconds)
+uv run ruff check . && uv run ruff format --check .
 ```
 
-`EV_DATA_DIR=/some/dir uv run ev release` runs against another data folder (same layout).
+Fallback without uv: `pip install -e ".[dev]"`.
+
+### Offline run on the recorded samples
+
+`normalise --from-fixtures` reads `tests/fixtures/<source>/` and **overwrites**
+`data/staging/<source>.records.jsonl`. To keep the real staging data, point `EV_DATA_DIR` at a
+scratch copy (same layout as `data/`):
+
+```sh
+export EV_DATA_DIR=$(mktemp -d)
+cp -r ../data/{seed,taxonomy,releases,sources.yaml,field_sources.yaml} "$EV_DATA_DIR"/
+for s in openev rdw eea dft-veh kba-fz10 ademe kilowatt-openev nyland; do
+  uv run ev normalise "$s" --from-fixtures
+done
+uv run ev release --dry-run               # computes everything, prints the summary, writes nothing
+```
+
+(`nyland` writes to `local/nyland/`, never to `staging/`; see below.)
+
+### Real run (network)
+
+```sh
+uv run ev fetch rdw && uv run ev normalise rdw        # same for each source id
+uv run ev release --dry-run                           # check the summary and diff first
+uv run ev release                                     # writes data/releases/<n>/ and data/releases/latest
+```
+
+Heavy fetches (DfT ~65 MB, OpenEV clone) belong on your machine or a temporary box, not on the
+shared server (Decision 006).
+
+## Steps
+
+| Step | Command / code | What it does |
+|---|---|---|
+| Fetch | `ev fetch <src>`, `sources/<src>/adapter.py` | Downloads raw data to `data/raw/<src>/` (git-ignored) plus `_fetch.json` (time, query, licence text seen). Some adapters refuse to run if the licence text changed (EEA, KBA). |
+| Normalise | `ev normalise <src>` | Raw → `data/staging/<src>.records.jsonl`, one `SourceRecord` per line (`ev_pipeline/records.py`), each with its `Source` and licence. Appends to `data/staging/runlog.jsonl`. |
+| Match | `ev_pipeline/match/` | Places records on the seed (`data/seed/models.yaml`): name normalisation, aliases and excludes, generation by year, variant id `<generation>-<slug(name)>`, year bands when WLTP moves >5 % or DC peak >10 %. Unplaced records → `unmatched.csv`. |
+| Merge | `ev_pipeline/merge/` | Per-field policy from `data/field_sources.yaml` (priority / median / newest), else majority → priority → earliest model year → recency. Values outside tolerance → `conflicts.csv`, never averaged. |
+| Derive | `ev_pipeline/derive/` | Consumption, charge-curve maths, motorway km per 10/20 min, real-range ladder, era, tier, pack inheritance, voltage class. Provisional constants are documented at the top of `derive/metrics.py`. |
+| Release | `ev release`, `ev_pipeline/release/`, `qa/`, `opendata/`, `backtest/` | Range checks, licence gate, schema checks, QA, numbering, diff, coverage, open-data bundle, files. |
+
+## Sources
+
+Active and imported (details, exact licence text and attribution lines in
+[`data/SOURCES.md`](../data/SOURCES.md)):
+
+| id | What | Licence |
+|---|---|---|
+| `openev` | Specs and DE prices (Open EV Data) | CDLA-Permissive-2.0 |
+| `kilowatt-openev` | Fallback specs, DC curves (all `estimated`); attach-only | MIT with attribution (visible credit required) |
+| `rdw` | NL registered BEV fleet | CC0-1.0 |
+| `eea` | New BEV registrations NL/DE/FR/BE (counts only; spec averages are not facts, Q-039) | CC BY 4.0 |
+| `kba-fz10` | DE new registrations, year-to-date | dl-de/by-2-0 |
+| `dft-veh` | UK licensed BEV fleet at quarter end | OGL-UK-3.0 |
+| `ademe` | FR list prices, best-case WLTP, mass; attach-only | Licence Ouverte 2.0 |
+| `seed-manual` | Hand-entered seed variants (`data/seed/variants.yaml`), low confidence | CC BY 4.0 |
+| `nyland` | Real-world tests; **permission pending, never released** | none |
+
+Attach-only sources (`ATTACH_ONLY_SOURCES` in `match/matcher.py`) add facts to existing
+variants and never create rows. Everything else in `sources.yaml` is either not imported yet or
+`blocked` / `waiting_permission`.
+
+## Releases
+
+**Numbering:** plain integers counting up from 1 (Decision 008): the next release is the
+highest existing `data/releases/<n>/` + 1. `data/releases/latest` holds the current number.
+**Rollback:** write an older number into `latest`.
+
+**A release folder** `data/releases/<n>/` contains:
+
+| File | What |
+|---|---|
+| `catalogue.json` | schema `Catalogue`, one wide row per variant (compact, numbers to 1 decimal). The web app reads this. |
+| `catalogue.parquet`, `facts.parquet` | the same rows flat; every merged fact with its provenance |
+| `diff.json` | added / removed / changed vs the previous release |
+| `coverage.md` | how many rows have each field, and from which source |
+| `qa.json`, `qa.md` | release QA (R-05 §1): blocking checks plus review items, and the `backtest` section (scores the real-range ladder on `data/backtest/*.jsonl`; `skipped` when there are none) |
+| `README.md`, `run_log.json` | counts, licences, attribution; inputs, outputs, outcome |
+| `open/` | CC BY 4.0 open-data bundle (Decision 016): `variants.csv`, `variants.json`, `ATTRIBUTION.md`, `LICENSE`, `README.md`. Only gate-passed, non-ODbL sources; `<field>_sources` / `<field>_confidence` per value. Brand from `EV_BRAND_NAME`. |
+
+Registration counts sit per country, source and period (`fleet` or `new_registrations`) and are
+never added across sources, periods or kinds.
+
+**Fails closed.** Nothing is written when: a row or fact breaks the JSON Schema or the generated
+Pydantic models; a number lacks provenance; an excluded, non-active or ODbL source shows up; a
+taxonomy/platform/pack id is unknown; or `data/sources.yaml` is missing. A blocking QA failure
+writes `data/review/qa.{json,md}` instead.
+
+**Licence gate** (`release/gate.py`): only `status: active` sources with a named, confirmed
+licence (or `permission: written`) pass. `none`, `unknown` and "(to confirm)" licences fail.
+
+### Review files (`data/review/`, rewritten by each release)
+
+- `unmatched.csv`: records we could not place, with the reason (other makes summarised).
+- `validation.csv`: values dropped (out of range, bad unit).
+- `conflicts.csv`: values outside the field tolerance of the winner.
+
+`coverage-gaps.md` there is a hand-written review note, not pipeline output.
 
 ### What `ev release` reads
 
-| Path | What | Required |
-|---|---|---|
-| `data/seed/models.yaml` | Make → Model → Generation seed; `name_aliases`, `name_excludes` ("e-tron GT" is not an e-tron), `bev_only_aliases` (bare names like `KONA`, used for BEV-only sources: rdw, eea, kba-fz10, dft-veh, ademe, kilowatt-openev) and `source_aliases` (names valid for one source only, e.g. KBA `4ER` = i4, with an optional note) for matching | yes |
-| `data/staging/*.records.jsonl` | one `SourceRecord` per line (`ev_pipeline/records.py`) | no |
-| `data/seed/variants.yaml` | hand-entered variants, source `seed-manual` | no |
-| `data/sources.yaml` | licence gate: only `status: active` with a named, confirmed licence (or `permission: written`) is released | **yes*** |
-| `data/field_sources.yaml` | per-field source order, tolerance and merge mode | no |
-| `data/taxonomy/*.yaml`, `data/seed/{platforms,battery_packs,variant_links}.yaml` | Decision 010 platforms, packs, voltage | no |
+| Path | Required |
+|---|---|
+| `data/seed/models.yaml` (Make → Model → Generation, aliases, excludes, `bev_only_aliases`, `source_aliases`) | yes |
+| `data/sources.yaml` (licence gate) | yes |
+| `data/staging/*.records.jsonl` | no |
+| `data/seed/variants.yaml`, `platforms.yaml`, `battery_packs.yaml`, `variant_links.yaml` | no |
+| `data/field_sources.yaml`, `data/taxonomy/*.yaml` | no |
 
-\* Without `sources.yaml` the release fails (fail closed). Licences that are `none`/`unknown` or still
-"(to confirm)" never pass unless the source has `permission: written`. `nyland` never reaches a
-release, whatever the registry says. EEA records are used for registration counts only; its
-registration-weighted spec averages are not facts (Q-039).
-
-New sources (2026-11-15): **kba-fz10** (DE new registrations, year-to-date), **dft-veh** (UK
-fleet at quarter end; matched on its "Model" column, since GenModels like "HYUNDAI IONIQ" are
-coarse), **ademe** (FR list prices, best-case WLTP, mass) and **kilowatt-openev** (specs and
-DC curves, all `estimated`). ADEME and KilowattApp are *attach-only*: they add facts to existing
-variants and never create rows; records they cannot place go to unmatched.csv with the reason
-(Q-052). KilowattApp's `consumption_kwh_100km` is not used (not a WLTP figure, Q-048).
-
-### What it writes
-
-- `data/releases/<n>/catalogue.json`: schema `Catalogue` (compact JSON, numbers to 1 decimal),
-  `catalogue.parquet` (same rows, flat), `facts.parquet` (every fact merged in), `diff.json`
-  (vs the previous release), `coverage.md`, `README.md` (counts, licences, attribution),
-  `run_log.json` (inputs, outputs, outcome).
-- `qa.json` + `qa.md`: release QA (R-05 §1, `ev_pipeline/qa/`). Provenance and licence gate are
-  blocking (a failure publishes nothing and writes `data/review/qa.{json,md}`); diff vs the
-  previous release, outliers and impossible values, and top-40 coverage go to review. The
-  `backtest` section (`ev_pipeline/backtest/`, T-035) scores the real-range ladder
-  leave-one-out on `data/backtest/*.jsonl` (fixture rows and gated sources left out).
-- `open/`: the CC BY 4.0 open data bundle (Decision 016, `ev_pipeline/opendata/`):
-  `variants.csv`, `variants.json`, `ATTRIBUTION.md`, `LICENSE`, `README.md`. Only gate-passed,
-  non-ODbL sources; `<field>_sources` / `<field>_confidence` per value, `seed_manual_fields`
-  flags hand-entered values. Brand from `EV_BRAND_NAME`.
-- Each row's `registrations` holds official counts per country, one per source and period:
-  `fleet` (RDW NL, DfT UK) or `new_registrations` (KBA DE, EEA NL/DE/FR/BE); `level: model`
-  when the count is for the whole model (DfT has no year), repeated on every generation.
-  Counts are never added across sources, periods or kinds. Provenance key:
-  `registrations.<country>`. `registered_count_nl` stays (= the RDW NL fleet).
-- `data/releases/latest`: the newest release number. Roll back by writing an older number.
-- `data/review/unmatched.csv` (records we could not place; other makes summarised),
-  `validation.csv` (values dropped: out of range, bad unit), `conflicts.csv` (values outside
-  the field tolerance of the winner; never averaged in).
-
-A release fails, and writes nothing, when any row or fact breaks the JSON Schema or the
-generated Pydantic models, a number lacks provenance, an excluded or non-active source shows up,
-an ODbL source is present, a taxonomy/platform/pack id is unknown, or `data/sources.yaml` is missing.
-
-### Stages (code)
-
-| Stage | Code | Rules |
-|---|---|---|
-| Match | `ev_pipeline/match/` | normalise names, seed aliases and excludes, generation by year (shared years by variant-name/battery evidence, else newer, else `ambiguous-generation` to review), variant id `<generation>-<slug(name)>`, year bands `<variant>-<year>` when WLTP moves >5% or DC peak >10% |
-| Merge | `ev_pipeline/merge/` | field policy (priority / median / newest) or default majority → priority → earliest model year → recency; confidence and conflicts |
-| Derive | `ev_pipeline/derive/` | consumption, charging curve maths, motorway km in 10/20 min, real-range ladder, era, tier, pack inheritance, voltage class |
-| Release | `ev_pipeline/release/` | range checks, licence gate, schema checks, numbering, diff, coverage, files |
-
-All provisional constants (body ratios, default charge curve, motorway factor, net/gross) are
-documented at the top of `ev_pipeline/derive/metrics.py`.
-
-## Test coverage (overnight)
-
-Measured 2026-11-15 on branch `proto/overnight-1`; full suite 524 -> 672 tests, all green.
-Overall package coverage 94% -> 96% (the rest is mostly source adapters' network paths and
-`match/`, which another builder is editing).
-
-| Module | Before | After |
-|---|---|---|
-| `derive/rows.py` | 93% | 100% |
-| `derive/links.py` | 97% | 100% |
-| `derive/metrics.py` | 99% | 100% |
-| `release/build.py` | 96% | 100% |
-| `release/validate.py` | 96% | 100% |
-| `release/gate.py` | 98% | 100% |
-| `release/taxonomy.py` | 96% | 100% |
-| `qa/checks.py` | 98% | 100% |
-| `qa/release_step.py` | 98% | 100% |
-| `qa/report.py` | 97% | 100% |
-| `opendata/bundle.py` | 99% | 100% |
-| `backtest/harness.py` | 98% | 100% |
-| `net.py` | 90% | 98% (gzip flush-tail cap, lines 268-271, not reachable with a test stream) |
-
-The edge-case tests live in `tests/test_*_edges.py` (derive, release, qa, opendata, net,
-backtest) and use small synthetic fixtures only; no network. Run coverage with
-(pytest-cov is pulled in for the run only; it is not a project dependency):
+Check the seed and taxonomy files by hand (needs PyYAML), from the repo root:
 
 ```sh
-cd pipeline
+python3 -I data/seed/validate_seed.py data/seed/models.yaml   # add --self-test to check the validator
+python3 -I data/seed/validate_variants.py
+python3 -I data/taxonomy/validate_taxonomy.py                 # add --self-test likewise
+```
+
+## Adding a source
+
+1. **Licence first.** Find the exact licence text and attribution line. No open licence and no
+   written permission: stop and ask in `QUESTIONS.md`. ODbL never goes into a release.
+2. **Registry** (coordinator edits it; ask in `QUESTIONS.md` or the WS0 inbox): an entry in
+   `data/sources.yaml` with `id`, `name`, `owner`, exact `licence`, `access`, `cadence`,
+   `status`, **`hosts`** (every host the fetcher may contact) and `terms`; a row in
+   `data/SOURCES.md`.
+3. **Adapter** at `ev_pipeline/sources/<id_with_underscores>/adapter.py`, following an existing
+   one (`rdw` is the simplest):
+   - `NAME` and `SOURCE` (schema `Source` with licence and attribution);
+   - `fetch(client, target) -> int` and `normalise(raw_dir, retrieved_at) -> list[SourceRecord]`
+     as pure functions;
+   - `fetch_cmd(client=None)` building its client with `net.safe_client(NAME)`, writing
+     `_fetch.json`, catching `httpx.HTTPError`;
+   - `normalise_cmd(from_fixtures)` writing staging via `_common.write_records` and logging with
+     `_common.log_step`. Retrieval date comes from `_fetch.json`, so re-runs are stable.
+   - Add the id to `SOURCES` in `ev_pipeline/cli.py`.
+4. **Fixture:** a small, licence-clean sample plus `_fetch.json` in
+   `tests/fixtures/<id_with_underscores>/`. No permission-pending data in fixtures.
+5. **Tests:** `tests/test_source_<id>.py` on the fixture; fetch tested with
+   `httpx.MockTransport`. No network.
+6. **Field rules:** add the id to the right fields in `data/field_sources.yaml`. If the source is
+   BEV-only, or needs attach-only or per-source aliases, say so in the PR (seed and
+   `match/matcher.py` live in other lanes).
+7. Run `normalise --from-fixtures` and `release --dry-run` on a scratch `EV_DATA_DIR` and check
+   `unmatched.csv` and the diff.
+
+## Safe fetch rules (`ev_pipeline/net.py`)
+
+Every HTTP fetch goes through `net.safe_client(source_id)`, which on every request and redirect:
+
+- allows only `https` on the default port to hosts listed under that source's `hosts:`
+  (`*.example.org` = subdomains only); IP literals and user info refused;
+- resolves the host once, requires every address to be public, and connects to that checked
+  address (no DNS rebinding);
+- enforces timeouts, a total time budget and a size cap (also after gzip decoding). Stream large
+  files with `client.stream(...)`;
+- ignores environment proxies, and never puts URL paths or queries in error messages.
+
+Git-cloned sources (`openev`, `kilowatt-openev`) don't go through `net.py`; their `hosts:` entry
+records the egress. Respect robots.txt and site terms; never scrape marketplaces (Decision 004).
+
+## Nyland exclusion
+
+The Bjørn Nyland sheet is permission-pending. Its URL lives only in the `NYLAND_SHEET_CSV_URL`
+env var. `fetch` and `normalise` write to `data/local/nyland/` (git-ignored), never to
+`data/staging/`. The matcher drops `nyland` (`EXCLUDED_SOURCES`) and the release gate refuses it
+whatever `sources.yaml` says. Tests use an invented CSV only.
+
+## Coverage
+
+```sh
 uv run --with pytest-cov pytest --cov=ev_pipeline --cov-report=term-missing -q
 ```
+
+pytest-cov is pulled in for the run only; it is not a project dependency. On 2026-11-15: 680
+tests, 96 % overall (the gaps are mostly adapters' network paths and `match/`).

@@ -50,7 +50,7 @@ Release 1: **199 variants** across 55 generations of the 40 seed models.
 
 Honest caveats: 🟡 every real-range and DC figure is an **estimate** tonight (ratio model, default or unverified curves). 🔴 About half of all numbers rest only on the hand-entered seed (low confidence). Coverage per field: `data/releases/1/coverage.md`.
 
-Research (all on the branch): R-02 launch countries, R-03 future markets, R-04 European expansion.
+Research (all on the branch): R-02 launch countries, R-06 future markets, R-07 European expansion.
 
 ## 4. Not done, and why
 _(filled in at the end of the run)_
