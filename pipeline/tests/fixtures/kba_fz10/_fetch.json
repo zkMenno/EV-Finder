@@ -1,0 +1,12 @@
+{
+  "fetched_at": "2026-11-15T01:40:00+00:00",
+  "page": "https://www.kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html",
+  "files": [
+    {
+      "file": "fz10_2026_10.xlsx",
+      "url": "https://www.kba.de/SharedDocs/Downloads/DE/Statistik/Fahrzeuge/FZ10/fz10_2026_10.xlsx?__blob=publicationFile",
+      "licence_line": "Datenlizenz Deutschland - Namensnennung - Version 2.0"
+    }
+  ],
+  "note": "Recorded sample: sheets Deckblatt, Impressum and FZ 10.1 with makes ALFA ROMEO, BYD, TESLA, VW, XPENG, ZEEKR, the SONSTIGE ZUSAMMEN subtotal and the grand-total row, cells unchanged. © Kraftfahrt-Bundesamt, Flensburg, dl-de/by-2-0."
+}

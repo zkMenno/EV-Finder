@@ -1,0 +1,8 @@
+{
+  "fetched_at": "2026-11-15T01:35:00+00:00",
+  "content_api": "https://www.gov.uk/api/content/government/statistical-data-sets/vehicle-licensing-statistics-data-files",
+  "url": "https://assets.publishing.service.gov.uk/media/6aad4b12086ce7c57b8186f3/df_VEH0120_UK.csv",
+  "file": "df_VEH0120_UK.csv",
+  "licence_basis": "gov.uk: 'All content is available under the Open Government Licence v3.0, except where otherwise stated'",
+  "note": "Recorded sample: 67 unchanged rows of df_VEH0120_UK (all TESLA MODEL 3/Y battery-electric car rows, some Leaf/EV6/ID3, non-BEV, LGV, MODEL MISSING and fuel-cell rows). Contains public sector information licensed under the Open Government Licence v3.0."
+}
