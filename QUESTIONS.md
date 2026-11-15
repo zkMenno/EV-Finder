@@ -8,6 +8,11 @@ Format: `Q-NNN` · task id (if any) · who asked · date.
 
 ## Open
 
+### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15 ★ most urgent
+From about 01:05 the coordinator's push clone was on `main`, so syncs pushed `main` as well as `proto/overnight-1`. Both now point to 660427d (CI green; nothing deploys from `main` yet). **Default:** leave `main` alone (force-push is forbidden by AGENTS.md and blocked by the ruleset) and keep working on the branch only. **Fix for Menno:** briefly allow force-push on `main`, run `git push --force-with-lease=main:660427d origin 319468c:main`, re-enable protection, then open the draft PR.
+
+**Answer:**
+
 ### Q-001 · Server capacity · coordinator · 2026-11-15
 Does the AppInfra server have room for EV Finder? Partly answered (see Decision 006): CAX31, 16 GB, shared with GardenLayer and Dungeon Tracker; fits on paper while Cahier stays off. Still needed from the "EV Finder capacity check" chat: real `docker stats`, free disk, existing job timers (to confirm the 00:30–02:30 UTC window), and off-site backup status.
 
