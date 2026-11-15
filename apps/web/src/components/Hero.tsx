@@ -764,8 +764,8 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   if (!pick.price) price = t("hero.card.priceUnknown");
   else if (pick.price.kind === "new") price = t("hero.card.priceNew", { amount: r.money(pick.price.amount) });
   else if (pick.price.low !== null && pick.price.high !== null)
-    price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high) });
-  else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount) });
+    price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high), country: COUNTRIES[props.country].name });
+  else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount), country: COUNTRIES[props.country].name });
   const priceNote = pick.price?.estimate ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate") : null;
 
   return (
