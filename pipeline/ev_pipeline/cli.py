@@ -24,6 +24,9 @@ SOURCES = [
     "eafo",
     "bnetza",
     "dft-charging",
+    "geonames",
+    "meteostat",
+    "era5-land",
 ]
 
 # Extra subcommands live in their own modules so builders never need to edit this file.

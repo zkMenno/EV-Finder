@@ -77,6 +77,7 @@ GROUPING = "merk|handelsbenaming|jaar"
 GROUPS_FILE = "groups.json"
 CODES_FILE = "codes.json"
 OUT_SUFFIX = ".defects.jsonl"
+STAGING_SUFFIX = OUT_SUFFIX  # refresh runner: where normalise writes (T-025)
 
 BEV_WHERE = (
     "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL "
@@ -91,7 +92,7 @@ SOURCE = {
     "name": "RDW Open Data: Geconstateerde Gebreken (APK defects)",
     "url": f"{BASE_URL}/d/{DEFECTS}",
     "licence": LICENCE,
-    "attribution": "Bron: RDW Open Data (opendata.rdw.nl), CC0.",
+    "attribution": "Dutch open vehicle register (opendata.rdw.nl), CC0.",
 }
 SAMPLE_RULE = (
     f"BEV proxy ({BEV_WHERE}) AND {SAMPLE_WHERE} (deterministic ~10% plate sample), "

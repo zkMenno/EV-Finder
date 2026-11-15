@@ -57,6 +57,7 @@ from ev_pipeline.refresh.plan import (
     plan,
     raw_dir_name,
     registry_entries,
+    staging_file,
 )
 from ev_pipeline.snapshot.probe import ProbeResult, probe_git, probe_http
 from ev_pipeline.snapshot.recording import recording
@@ -238,7 +239,7 @@ def _refresh_source(
 ) -> None:
     mod = ps.adapter
     assert mod is not None
-    staging = data_dir / "staging" / f"{ps.id}.records.jsonl"
+    staging = staging_file(data_dir, ps.id, mod)
     raw = data_dir / "raw" / raw_dir_name(mod)
     accept = ps.id in opts.accept
 
@@ -485,8 +486,10 @@ def _published_sources(data_dir: Path) -> set[str] | None:
     from ev_pipeline.health.state import latest_release
 
     n = latest_release(data_dir)
-    path = data_dir / "releases" / str(n) / "catalogue.json" if n else None
-    if path is None or not path.exists():
+    from ev_pipeline.release.publish import local_catalogue
+
+    path = local_catalogue(data_dir, n) if n else None  # T-064: fetched by manifest if needed
+    if path is None:
         return None
     doc = json.loads(path.read_text(encoding="utf-8"))
     return {str(src.get("id")) for src in doc.get("sources") or []}
@@ -511,7 +514,7 @@ def _release(
         for ps in planned
         if ps.adapter is not None
         and (published is None or ps.id in published)
-        and not (data_dir / "staging" / f"{ps.id}.records.jsonl").exists()
+        and not staging_file(data_dir, ps.id, ps.adapter).exists()
     ]
     if missing:
         return {

@@ -178,7 +178,7 @@ TGK_QUERIES = {
     },
 }
 
-ATTRIBUTION = "Bron: RDW Open Data (opendata.rdw.nl), CC0."
+ATTRIBUTION = "Dutch open vehicle register (opendata.rdw.nl), CC0."
 SOURCE = Source(
     id=NAME,
     name="RDW Open Data: type-approval register (TGK)",

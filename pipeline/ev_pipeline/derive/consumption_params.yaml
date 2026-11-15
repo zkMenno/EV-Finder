@@ -1,0 +1,72 @@
+# Consumption model parameters (T-033, trip-fit spec §5). EVERY value here is an estimate:
+# engineering defaults, not fitted to licensed test data yet (Nyland/NAF/ADAC wait for
+# permission). Cells built from them say rung + confidence, and the release labels the whole
+# matrix `estimate: true`. Replace a value by fitting it, then change `confidence` and cite.
+#
+# If data/taxonomy/temperature_bands.yaml or heater_types.yaml exist (WS3), their rows win
+# over the defaults below (same ids).
+schema: consumption-params/v1
+model_version: "0.1"
+
+# Road bands: average speed the cell is computed at (km/h). Country speed profiles adjust
+# trips in the browser later; the matrix is per band.
+band_speed_kmh: {town: 32, rural: 75, motorway: 120}
+
+# Temperature bands (ids match apps/web/src/fixtures/consumption-matrix.sample.json).
+temperature_bands:
+  - {id: t1, label: {en: "-5 °C and colder"}, min_c: null, max_c: -5, representative_c: -10, order: 1}
+  - {id: t2, label: {en: "-5 to 0 °C"}, min_c: -5, max_c: 0, representative_c: -2.5, order: 2}
+  - {id: t3, label: {en: "0 to 5 °C"}, min_c: 0, max_c: 5, representative_c: 2.5, order: 3}
+  - {id: t4, label: {en: "5 to 15 °C"}, min_c: 5, max_c: 15, representative_c: 10, order: 4}
+  - {id: t5, label: {en: "15 °C and warmer"}, min_c: 15, max_c: null, representative_c: 20, order: 5}
+
+# Heating: cabin + battery heating power grows linearly below `comfort_c` (W per °C below),
+# divided by a heat-pump COP where fitted. Time-based, so it costs more per km in town.
+heating:
+  comfort_c: 18
+  resistive_w_per_c: 110      # ~3.1 kW at -10 °C (🟡 order of magnitude, typical cabin heaters)
+  cop: {resistive: 1.0, heat-pump: 2.0, unknown: 1.33}
+  # A/C above this temperature (W per °C above), same for all heater types.
+  cooling_from_c: 24
+  cooling_w_per_c: 60
+# Base auxiliary load (lights, electronics, pumps), always on.
+aux_w: 300
+# Traction losses rise in the cold (denser air, stiffer tyres, battery resistance):
+# factor = 1 + traction_per_c x (20 - T) for T < 20.
+traction_per_c: 0.004
+
+heater_types:
+  - {id: heat-pump, label: {en: Heat pump}, warm_up_kwh: 1.2, confidence: low}
+  - {id: resistive, label: {en: Resistive heater}, warm_up_kwh: 2.0, confidence: low}
+  - {id: unknown, label: {en: Not known}, warm_up_kwh: 1.6, confidence: low}
+
+# Charging losses: WLTP and EPA figures are measured from the wall; trips use battery energy.
+wall_to_battery: 0.88
+
+# How a reference figure at ~20 °C splits over the road bands, per body class, relative to
+# the WLTP combined figure (battery basis, aux included). Rung wltp-ratio. 🟡
+# Calibrated 2026-11-15 to EPA adjusted city/highway figures (public domain) so the two rungs
+# agree (T-035 back-test, A-30): EPA city / (WLTP x old ratio) = 1.26 median, highway 1.31,
+# n = 50 variants. In-sample: the back-test shows the fit, not out-of-sample accuracy.
+# Motorway = rural x epa_motorway_over_highway (same drag step as the measured rung).
+# Pre-calibration ratios were town 0.88 / rural 0.95 / motorway 1.32 (default).
+wltp_band_ratio:
+  default: {town: 1.11, rural: 1.24, motorway: 1.46}
+  suv: {town: 1.13, rural: 1.27, motorway: 1.55}
+  van: {town: 1.16, rural: 1.31, motorway: 1.65}
+  sports: {town: 1.11, rural: 1.24, motorway: 1.44}
+# Body -> ratio key (catalogue `body` values); anything else uses `default`.
+body_class: {suv: suv, crossover: suv, van: van, mpv: van, coupe: sports, roadster: sports}
+
+# EPA label values (5-cycle adjusted, from the wall): city -> town, highway -> rural.
+# Adjusted highway already reflects ~100-110 km/h driving (US06 share); motorway (120 km/h)
+# = highway x this factor (drag ~ 60 % of losses at that speed, ~v²). Rung physics.
+epa_motorway_over_highway: {default: 1.18, suv: 1.22, van: 1.26, sports: 1.16}
+
+# Uncertainty band (P10..P90) as a share of the cell value, per rung.
+spread: {measured: 0.10, platform: 0.14, physics: 0.16, wltp-ratio: 0.20}
+confidence: {measured: medium, platform: low, physics: low, wltp-ratio: low}
+
+# Trip extras (spec §5), all estimates.
+climb_regen_recovery: 0.6
+drivetrain_efficiency: 0.88

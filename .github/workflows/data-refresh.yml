@@ -2,8 +2,9 @@ name: Data refresh
 
 # Weekly data refresh (addendum 6 P4, Decision 021): runs `ev refresh` against the live open
 # sources and, when the catalogue changed and blocking QA passed, opens a pull request
-# "Data release N" that contains only data/releases/N/ (catalogue, QA report qa.md/qa.json,
-# sources.json, refresh.json, open-data bundle) and the data/releases/latest pointer.
+# "Data release N" that contains data/releases/N/manifest.json + the small files (QA report,
+# coverage, diff) and the data/releases/latest pointer; the release files themselves are
+# uploaded as assets of the GitHub Release data-v<N> (T-064, Decision 035).
 # Raw downloads, snapshots, staging and run logs stay on the runner (all git-ignored).
 #
 # Not a test: tests never touch the network. No secrets: sources that need an API key
@@ -147,7 +148,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write # push the data-release-N branch
+      contents: write # push the data-release-N branch, create the data-v<N> release (T-064)
       pull-requests: write # open or update the PR
       actions: read # download this run's artifact
     steps:
@@ -173,6 +174,17 @@ jobs:
           cp "$in/latest" data/releases/latest
           cp "$in/pr-body.md" "$RUNNER_TEMP/pr-body.md"
 
+      # T-064 (Decision 035): the big release files go to the GitHub Release data-v<N> (checked
+      # against manifest.json); git gets only manifest.json + the small files that .gitignore
+      # keeps. Re-runs replace the assets of an UNMERGED release only. Shell + jq + gh only.
+      - name: Upload the release files (GitHub Release assets)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE: ${{ needs.refresh.outputs.release }}
+        run: |
+          [ -f "data/releases/$RELEASE/manifest.json" ] || { echo "::error::manifest.json missing"; exit 1; }
+          pipeline/scripts/gh-publish-release.sh "data/releases/$RELEASE" --replace-unmerged
+
       - name: Open the "Data release N" pull request
         env:
           GH_TOKEN: ${{ github.token }}
@@ -182,7 +194,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git switch -c "$branch"
-          # Only the new release folder and the latest pointer; nothing else is staged.
+          # Only the new release folder and the latest pointer; nothing else is staged. .gitignore
+          # keeps the release's big files out (they are Release assets now, T-064).
           git add -- "data/releases/$RELEASE" data/releases/latest
           git commit -m "Data release $RELEASE" -m "Automatic weekly refresh (data-refresh.yml, Decision 021)."
           # Token as a one-off header for this push only (same mechanism actions/checkout uses).

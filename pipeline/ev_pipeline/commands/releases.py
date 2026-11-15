@@ -31,6 +31,7 @@ from ev_pipeline.release.build import (
 )
 
 SHOW = 15
+QA_FILES = frozenset({"catalogue.json", "facts.parquet", "charging_stats.json"})
 ROLLBACK_OK = frozenset({"pass", "review"})  # qa/report.overall_status values that may serve
 
 
@@ -50,9 +51,14 @@ def _resolve(data_dir: Path, ref: str) -> int:
 
 
 def _catalogue(data_dir: Path, n: int) -> dict[str, Any]:
-    path = data_dir / "releases" / str(n) / "catalogue.json"
-    if not path.exists():
-        raise ReleaseOpError(f"release {n} has no catalogue.json ({path.parent.name}/ missing?)")
+    from ev_pipeline.release.publish import PublishError, local_catalogue
+
+    try:
+        path = local_catalogue(data_dir, n)  # T-064: fetched by manifest if needed
+    except PublishError as e:
+        raise ReleaseOpError(f"release {n} files unavailable: {e}") from e
+    if path is None:
+        raise ReleaseOpError(f"release {n} has no catalogue.json ({n}/ missing?)")
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -73,6 +79,13 @@ def rollback(data_dir: Path, to: int) -> dict[str, Any]:
     releases = data_dir / "releases"
     if to not in existing_releases(releases):
         raise ReleaseOpError(f"release {to} does not exist in {releases.name}/")
+    from ev_pipeline.release.publish import PublishError, ensure_local
+
+    try:
+        # T-064: the files the QA re-check reads are fetched and verified first.
+        ensure_local(data_dir, to, only=QA_FILES)
+    except PublishError as e:
+        raise ReleaseOpError(f"release {to} files unavailable: {e}") from e
     _catalogue(data_dir, to)
     qa = qa_status(data_dir, to)
     if qa not in ROLLBACK_OK:
@@ -176,10 +189,15 @@ def list_releases(data_dir: Path) -> list[dict[str, Any]]:
     out = []
     for n in existing_releases(data_dir / "releases"):
         row: dict[str, Any] = {"release": n, "latest": n == cur, "qa": qa_status(data_dir, n)}
+        man = data_dir / "releases" / str(n) / "manifest.json"
         try:
-            cat = _catalogue(data_dir, n)
-            row.update(generated_at=cat.get("generated_at"), rows=len(cat.get("rows") or []))
-        except (ReleaseOpError, json.JSONDecodeError):
+            if man.exists():  # T-064: no download just to list
+                m = json.loads(man.read_text(encoding="utf-8"))
+                row.update(generated_at=m.get("generated_at"), rows=m["counts"]["rows"])
+            else:
+                cat = _catalogue(data_dir, n)
+                row.update(generated_at=cat.get("generated_at"), rows=len(cat.get("rows") or []))
+        except (ReleaseOpError, json.JSONDecodeError, KeyError):
             row.update(generated_at=None, rows=None)
         out.append(row)
     return out
@@ -228,12 +246,104 @@ def cmd_list(args: argparse.Namespace) -> int:
     return 0
 
 
+# --- package / publish / fetch (T-064, Decision 035) ----------------------------------------
+
+
+def _release_dir(data_dir: Path, ref: str) -> Path:
+    return data_dir / "releases" / str(_resolve(data_dir, ref))
+
+
+def cmd_package(args: argparse.Namespace) -> int:
+    from ev_pipeline.release.publish import PublishError, load_config, package
+
+    data_dir = default_data_dir()
+    try:
+        m = package(_release_dir(data_dir, args.n), load_config(data_dir))
+    except (ReleaseOpError, PublishError) as exc:
+        print(f"package: {exc}")
+        return 1
+    c = m["counts"]
+    print(f"release {m['release']}: {c['files']} files, {c['bytes']} bytes -> manifest.json")
+    return 0
+
+
+def cmd_publish(args: argparse.Namespace) -> int:
+    from ev_pipeline.release.build import REPO_ROOT
+    from ev_pipeline.release.publish import (
+        PublishError,
+        committed_in_git,
+        load_config,
+        package,
+        publisher_for,
+        verify,
+    )
+
+    data_dir = default_data_dir()
+    try:
+        cfg = load_config(data_dir)
+        rdir = _release_dir(data_dir, args.n)
+        m = package(rdir, cfg)
+        problems = verify(rdir, m)
+        if problems:
+            raise PublishError("; ".join(problems[:5]))
+        replace = bool(args.replace)
+        if replace and committed_in_git(REPO_ROOT, rdir, args.git_ref):
+            raise PublishError(
+                f"release {m['release']} already has a manifest on {args.git_ref}; "
+                "a merged release never changes"
+            )
+        out = Path(args.out) if args.out else None
+        outcome = publisher_for(cfg, target=args.target, out_dir=out).publish(
+            rdir, m, replace=replace
+        )
+    except (ReleaseOpError, PublishError) as exc:
+        print(f"publish: {exc}")
+        return 1
+    print(f"release {m['release']}: {outcome} ({m['storage']['tag']})")
+    return 0
+
+
+def cmd_fetch(args: argparse.Namespace) -> int:
+    from ev_pipeline.release.publish import PublishError, fetch, load_config
+
+    data_dir = default_data_dir()
+    try:
+        only = frozenset(x for x in (args.only or "").split(",") if x) or None
+        stats = fetch(_release_dir(data_dir, args.n), load_config(data_dir), only=only)
+    except (ReleaseOpError, PublishError) as exc:
+        print(f"fetch: {exc}")
+        return 1
+    print(f"release {args.n}: {stats['downloaded']} downloaded, {stats['kept']} already ok")
+    return 0
+
+
+def cmd_verify(args: argparse.Namespace) -> int:
+    from ev_pipeline.release.publish import PublishError, read_manifest, verify
+
+    data_dir = default_data_dir()
+    try:
+        rdir = _release_dir(data_dir, args.n)
+        m = read_manifest(rdir)
+        if m is None:
+            raise PublishError("no manifest.json")
+        problems = verify(rdir, m, only_present=args.present_only)
+    except (ReleaseOpError, PublishError) as exc:
+        print(f"verify: {exc}")
+        return 2
+    for p in problems:
+        print(p)
+    print("ok" if not problems else f"{len(problems)} problem(s)")
+    return 0 if not problems else 1
+
+
 def register(sub: argparse._SubParsersAction) -> None:
     rel = sub.choices.get("release")
     if rel is None:
         rel = sub.add_parser("release", help="build or manage catalogue releases")
     actions = rel.add_subparsers(
-        dest="release_action", required=False, metavar="{rollback,diff,list}"
+        dest="release_action",
+        required=False,
+        metavar="{rollback,diff,list,package,publish,fetch,verify}",
     )
     p = actions.add_parser("rollback", help="point data/releases/latest at an older release")
     p.add_argument("--to", type=int, required=True, help="release number")
@@ -246,3 +356,21 @@ def register(sub: argparse._SubParsersAction) -> None:
     p = actions.add_parser("list", help="releases, QA status, which one is latest")
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_list)
+    p = actions.add_parser("package", help="per-generation split + manifest.json (T-064)")
+    p.add_argument("n", help="release number or 'latest'")
+    p.set_defaults(func=cmd_package)
+    p = actions.add_parser("publish", help="upload a release's files (GitHub Release assets)")
+    p.add_argument("n", help="release number or 'latest'")
+    p.add_argument("--target", choices=["github", "dir"], help="default: publish.yaml target")
+    p.add_argument("--out", help="directory for --target dir")
+    p.add_argument("--replace", action="store_true", help="replace an UNMERGED release's assets")
+    p.add_argument("--git-ref", default="origin/main", help="ref that marks a release merged")
+    p.set_defaults(func=cmd_publish)
+    p = actions.add_parser("fetch", help="download a release's files by its manifest")
+    p.add_argument("n", help="release number or 'latest'")
+    p.add_argument("--only", help="comma-separated paths (a trailing / = a folder); default all")
+    p.set_defaults(func=cmd_fetch)
+    p = actions.add_parser("verify", help="check local release files against manifest.json")
+    p.add_argument("n", help="release number or 'latest'")
+    p.add_argument("--present-only", action="store_true", help="skip files not on disk")
+    p.set_defaults(func=cmd_verify)

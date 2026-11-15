@@ -1,0 +1,18 @@
+# Format of data/manual/charging/<name>.yaml (T-025). WS3 writes these; the release reads them.
+# One file per source. Invented numbers: this is a test fixture, never a release input.
+schema: manual-charging/v1
+source_id: eafo                  # a data/sources.yaml id; the licence gate decides
+stats:
+  # A ChargingStat without `entered_by` (set to staff) and, if you like, without `id`.
+  - country: BE
+    region: null                 # null = whole country
+    period_end: 2026-09-30       # as-of date of the figure
+    metric_id: public-points     # data/taxonomy charging_metrics id
+    power_band_id: null          # data/taxonomy power_bands id; null = all bands
+    value: 12345
+    unit: count
+    definition_id: be-eafo-point # charging_definitions id belonging to this source
+    confidence: medium
+    retrieved_at: 2026-11-15
+    source_url: https://alternative-fuels-observatory.ec.europa.eu/  # required
+    source_label: "Total recharging points"                        # optional, Nerd mode

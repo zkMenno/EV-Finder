@@ -72,12 +72,15 @@ from ev_pipeline.qa.pack_guard import fill_winning_values, guard_usable_vs_pack
 from ev_pipeline.qa.value_guard import citation_values, run_guards
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
-from ev_pipeline.release.charging_stats import build_charging_stats
+from ev_pipeline.release.charging_stats import REVIEW_COLUMNS as CHARGING_REVIEW_COLUMNS
+from ev_pipeline.release.charging_stats import REVIEW_FILE as CHARGING_REVIEW_FILE
+from ev_pipeline.release.charging_stats import build_charging_stats, charging_review_rows
 from ev_pipeline.release.gate import MISSING_REGISTRY, load_registry
 from ev_pipeline.release.taxonomy import load_optional_taxonomy, optional_taxonomy_errors
 from ev_pipeline.release.validate import (
     ROW_NUMBER_FIELDS,
     ReleaseError,
+    _schema,
     check_fact_ranges,
     enum_fact_errors,
     excluded_source_errors,
@@ -119,6 +122,14 @@ class ReleaseResult:
     # T-059: charging_stats.json (None = not shipped) and the run-log lines of the sections.
     charging_stats: dict[str, Any] | None = None
     sections: dict[str, Any] = field(default_factory=dict)
+    # T-025: charging figures for review (big step, fall, revision, gone since last release).
+    charging_review: list[dict[str, str]] = field(default_factory=list)
+    # T-034: towns + January climate per country (towns/<cc>.json), empty = not shipped.
+    towns: dict[str, dict[str, Any]] = field(default_factory=dict)
+    # T-033: per-variant consumption matrix (consumption_matrix.json), None = not shipped.
+    consumption: dict[str, Any] | None = None
+    # T-062: retired variant ids -> successor (or None); never loses an entry.
+    retired_ids: dict[str, str | None] = field(default_factory=dict)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -460,12 +471,34 @@ def build_release(
         sources.setdefault(links.source["id"], links.source)
         catalogue["sources"] = [sources[k] for k in sorted(sources)]
     charging = build_charging_stats(
-        data_dir / "staging", registry, catalogue.get("taxonomy"), n, catalogue["generated_at"]
+        data_dir / "staging",
+        registry,
+        catalogue.get("taxonomy"),
+        n,
+        catalogue["generated_at"],
+        manual_dir=data_dir / "manual" / "charging",  # T-025: staff figures, WS3 writes
     )
     inputs += charging.inputs
+    from ev_pipeline.release.towns import build_towns
+
+    towns = build_towns(data_dir / "staging", registry, n, catalogue["generated_at"])
+    inputs += towns.inputs
     facts = [_fact_dict(mf) for mf in all_facts]
     pfacts = pack_facts(links)
     facts += pfacts
+    from ev_pipeline.derive.consumption import build_matrix
+
+    matrix = build_matrix(
+        rows,
+        facts,
+        data_dir / "staging",
+        registry.releasable,
+        {s["id"]: s for s in catalogue["sources"]},
+        n,
+        catalogue["generated_at"],
+        taxonomy_dir=data_dir / "taxonomy",
+    )
+    inputs += matrix.inputs
 
     for inp in inputs:
         inp["path"] = log_path(inp["path"], data_dir)
@@ -487,8 +520,45 @@ def build_release(
     prev_nums = [x for x in existing_releases(data_dir / "releases") if x < n]
     if prev_nums:
         prev_path = data_dir / "releases" / str(prev_nums[-1]) / "catalogue.json"
+        if not prev_path.exists() and (prev_path.parent / "manifest.json").exists():
+            # T-064: the previous release lives outside git; fetch it by manifest so the diff
+            # (and the >15 % / drop review rules) compare against real data, never nothing.
+            from ev_pipeline.release.publish import PublishError, ensure_local
+
+            try:
+                ensure_local(
+                    data_dir,
+                    prev_nums[-1],
+                    only=frozenset({"catalogue.json", CHARGING_STATS_FILE, "retired_ids.json"}),
+                )
+            except PublishError as e:
+                raise ReleaseError(f"previous release {prev_nums[-1]} unavailable: {e}") from e
         if prev_path.exists():
             prev = json.loads(prev_path.read_text(encoding="utf-8"))
+    prev_charging = None
+    if prev_nums:
+        cs_path = data_dir / "releases" / str(prev_nums[-1]) / CHARGING_STATS_FILE
+        if cs_path.exists():
+            prev_charging = json.loads(cs_path.read_text(encoding="utf-8"))
+    from ev_pipeline.release.retired import FILE_NAME as RETIRED_FILE
+    from ev_pipeline.release.retired import compute_retired, has_catalogue_field, load_hand_kept
+
+    prev_retired: dict[str, str | None] = dict((prev or {}).get("retired_ids") or {})
+    if prev_nums:
+        rp = data_dir / "releases" / str(prev_nums[-1]) / RETIRED_FILE
+        if rp.exists():
+            prev_retired.update(json.loads(rp.read_text(encoding="utf-8")).get("retired_ids") or {})
+    try:
+        hand_kept = load_hand_kept(data_dir / "seed")
+    except ValueError as e:
+        raise ReleaseError(str(e)) from e
+    retired = compute_retired(
+        prev, prev_retired, {str(r["variant_id"]) for r in catalogue["rows"]}, hand_kept
+    )
+    if retired.ids and has_catalogue_field(_schema()):
+        catalogue["retired_ids"] = retired.ids
+    charging_review = charging_review_rows(prev_charging if prev_nums else None, charging.document)
+    charging.log["review_rows"] = len(charging_review)
     diff = compute_diff(prev, catalogue)
     unmatched = unmatched_rows(result)
     res = ReleaseResult(
@@ -507,11 +577,18 @@ def build_release(
         taxonomy_tables=optional.counts(),
         taxonomy_held_back=optional.held_back,
         charging_stats=charging.document,
+        charging_review=charging_review,
+        retired_ids=retired.ids,
+        towns=towns.documents,
+        consumption=matrix.document,
         sections={
             "epa_range_km": epa_summary(rows),
             "generation_years": years.log,
             "known_issues": known.log,
             "charging_stats": charging.log,
+            "towns": towns.log,
+            "consumption_matrix": matrix.log,
+            "retired_ids": retired.log,
             "pack_links": link_coverage(link_report),
         },
     )
@@ -594,6 +671,14 @@ def conflict_rows(merged: dict[str, dict[str, Merged]]) -> list[dict[str, Any]]:
                     }
                 )
     return out
+
+
+def write_csv(path: Path, columns: list[str], rows: list[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=columns)
+        w.writeheader()
+        w.writerows(rows)
 
 
 def write_conflicts(path: Path, rows: list[dict[str, Any]]) -> None:
@@ -702,6 +787,28 @@ def sections_md(sections: dict[str, Any]) -> list[str]:
     for name, f in sorted((cs.get("files") or {}).items()):
         state = f"gated: {f['gated']}" if f.get("gated") else f"{f['shipped']} rows shipped"
         lines.append(f"- **Charging stats** `{name}`: {f['rows_in']} rows in, {state}.")
+    cm = sections.get("consumption_matrix") or {}
+    if cm.get("status") == "shipped":
+        rungs = ", ".join(f"{k} {v}" for k, v in (cm.get("cells_by_rung") or {}).items())
+        lines.append(
+            f"- **Consumption matrix** (Trip fit, all estimates): {cm['variants']} variants"
+            f" ({cm['variants_skipped']} without a WLTP or test figure), cells by rung: {rungs};"
+            f" {cm['tests_used']} tests; {cm['gzip_bytes'] / 1024:.0f} KB gzip."
+        )
+    tw = sections.get("towns") or {}
+    if tw.get("status") == "shipped":
+        n_towns = sum(v for k, v in tw.items() if k.startswith("towns "))
+        lines.append(
+            f"- **Towns + climate** (GeoNames, Meteostat): {n_towns} towns,"
+            f" {tw.get('with climate', 0)} with January climate"
+            f" ({tw.get('climate without P10', 0)} without P10),"
+            f" {tw.get('no station in range', 0)} without a station in range."
+        )
+    if cs.get("review_rows"):
+        lines.append(
+            f"- **Charging stats to review**: {cs['review_rows']} figures (step over 15 %, fall,"
+            " revision or gone since the last release) in `data/review/charging_changes.csv`."
+        )
     return lines
 
 
@@ -889,6 +996,31 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
             json.dumps(res.charging_stats, separators=(",", ":"), ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
+    if res.retired_ids and "retired_ids" not in res.catalogue:  # T-062, until the schema has it
+        from ev_pipeline.release.retired import FILE_NAME as RETIRED_FILE
+
+        (tmp / RETIRED_FILE).write_text(
+            json.dumps(
+                {"release": res.release, "generated_at": res.catalogue["generated_at"],
+                 "retired_ids": dict(sorted(res.retired_ids.items()))},
+                indent=1, ensure_ascii=False,
+            ) + "\n",
+            encoding="utf-8",
+        )  # fmt: skip
+    if res.consumption is not None:  # T-033: static JSON for the Trip fit browser model
+        from ev_pipeline.derive.consumption import FILE_NAME as MATRIX_FILE
+
+        (tmp / MATRIX_FILE).write_text(
+            json.dumps(res.consumption, separators=(",", ":"), ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+    if res.towns:  # T-034: one file per country, loaded on demand by the trip module
+        (tmp / "towns").mkdir()
+        for cc, doc in sorted(res.towns.items()):
+            (tmp / "towns" / f"{cc}.json").write_text(
+                json.dumps(doc, separators=(",", ":"), ensure_ascii=False) + "\n",
+                encoding="utf-8",
+            )
     for name, doc in (_default_extras(res, data_dir) if extras is None else extras).items():
         if "/" in name or name.startswith("."):
             raise ReleaseError(f"bad extra file name: {name!r}")
@@ -900,6 +1032,14 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
     from ev_pipeline.qa.release_step import finish_release
 
     finish_release(res.catalogue, res.facts, tmp, data_dir)
+    # T-064: per-generation split + manifest.json (sizes, sha256) before the folder goes live.
+    from ev_pipeline.release.publish import PublishError, load_config, package
+
+    try:
+        package(tmp, load_config(data_dir))
+    except PublishError as e:
+        shutil.rmtree(tmp)
+        raise ReleaseError(f"packaging failed: {e}") from e
     tmp.rename(final)
     write_latest(releases, res.release)
     review = data_dir / "review"
@@ -907,6 +1047,7 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
     write_unmatched(review / "unmatched.csv", res.unmatched_rows)
     write_validation(review / "validation.csv", res.problems)
     write_conflicts(review / "conflicts.csv", res.conflicts)
+    write_csv(review / CHARGING_REVIEW_FILE, CHARGING_REVIEW_COLUMNS, res.charging_review)
     annotate_review_dir(
         review, previous_status, date.fromisoformat(res.catalogue["generated_at"][:10])
     )

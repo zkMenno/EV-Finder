@@ -1026,6 +1026,34 @@ NO_POWER_MATCH = "no variant with matching power"
 AMBIGUOUS_EVIDENCE = "ambiguous evidence"
 
 
+# A-30 follow-up: a record whose own text says "Long Range" / "Standard Range" may only attach
+# to a candidate above / below the biggest step in the pool's known pack sizes (EPA rows
+# carry no kWh, so a US Long Range row could land on the EU 58 kWh car). It only rules out
+# candidates of the other half; unknown-battery candidates stay. One pack size = no rule.
+RANGE_CLASS_SOURCES = frozenset({"fueleconomy"})
+RANGE_CLASS_TOKENS = {"longrange": "max", "extendedrange": "max", "standardrange": "min"}
+NO_RANGE_CLASS_MATCH = "no variant with the named range class"
+RANGE_CLASS_GAP = 0.10
+
+
+def range_class_pool(rec: SourceRecord, pool: list[_Candidate]) -> tuple[list[_Candidate], str]:
+    """(pool, applied class) for RANGE_CLASS_SOURCES; class "" = rule not applied."""
+    toks = set(_joined_tokens(f"{rec.model} {rec.variant_name or ''}"))
+    cls = {RANGE_CLASS_TOKENS[t] for t in toks if t in RANGE_CLASS_TOKENS}
+    if len(cls) != 1:
+        return pool, ""
+    sizes = sorted({max(c.kwh) for c in pool if c.kwh})
+    # Split the pack sizes at their biggest step, and only when that step is a real class gap
+    # (>= RANGE_CLASS_GAP): 75 vs 79 kWh are both "long range" (Model Y), 63 vs 77 are not.
+    gaps = [(b / a, a, b) for a, b in zip(sizes, sizes[1:], strict=False)]
+    if not gaps or max(gaps)[0] < 1 + RANGE_CLASS_GAP:
+        return pool, ""
+    _, low, high = max(gaps)
+    if cls == {"max"}:
+        return [c for c in pool if not c.kwh or max(c.kwh) >= high], "max"
+    return [c for c in pool if not c.kwh or max(c.kwh) <= low], "min"
+
+
 def power_close(a: float, b: float) -> bool:
     """Q-086 tolerance: within 2 % of the larger figure or 3 kW, whichever is larger."""
     return abs(a - b) <= max(POWER_GATE_ABS_KW, POWER_GATE_REL * max(abs(a), abs(b)))
@@ -1159,6 +1187,13 @@ def attach_records(
                 kw = ", ".join(f"{p:g}" for p in sorted(power))
                 result.unmatched.append(
                     _unmatched(rec, f"attach-only: {NO_POWER_MATCH} ({kw} kW) in {where}")
+                )
+                continue
+        if sid in RANGE_CLASS_SOURCES:
+            pool, rclass = range_class_pool(rec, pool)
+            if rclass and not pool:
+                result.unmatched.append(
+                    _unmatched(rec, f"attach-only: {NO_RANGE_CLASS_MATCH} in {where}")
                 )
                 continue
         rk = battery_figures(rec)

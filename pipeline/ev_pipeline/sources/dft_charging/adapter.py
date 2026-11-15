@@ -42,12 +42,14 @@ from typing import Any
 import httpx
 
 from ev_pipeline import net
+from ev_pipeline.release.gate import RELEASABLE_STATUSES
 from ev_pipeline.sources import _common as c
 from ev_pipeline.sources.dft_charging import ods
 from ev_pipeline.sources.eafo import charging_stats as cs
 
 NAME = "dft-charging"
 DIR = "dft_charging"
+STAGING_SUFFIX = ".charging_stats.jsonl"  # refresh runner: where normalise writes (T-025)
 SOURCE_ID = "dft-ev-charging-infrastructure"  # taxonomy source id
 CONTENT_API = (
     "https://www.gov.uk/api/content/government/statistical-data-sets/"
@@ -299,7 +301,7 @@ def normalise_cmd(from_fixtures: bool) -> int:
             "source": NAME,
             "taxonomy_source_id": SOURCE_ID,
             "status": status,
-            "releasable": status == "active",
+            "releasable": status in RELEASABLE_STATUSES,
             "licence": LICENCE,
             "attribution": ATTRIBUTION,
             "download": {

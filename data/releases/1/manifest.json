@@ -1,0 +1,714 @@
+{
+ "schema": "ev-release-manifest/1",
+ "release": 1,
+ "generated_at": "2026-11-15T06:58:53+00:00",
+ "packaged_at": "2026-11-15T09:30:36+00:00",
+ "storage": {
+  "kind": "github",
+  "repo": "zkMenno/EV-Finder",
+  "tag": "data-v1",
+  "download_url": "https://github.com/zkMenno/EV-Finder/releases/download/data-v1/{asset}"
+ },
+ "counts": {
+  "rows": 226,
+  "generations": 81,
+  "files": 98,
+  "bytes": 20775624
+ },
+ "qa": {
+  "status": "review",
+  "blocking_failures": 0
+ },
+ "split": {
+  "index": "catalogue/index.json",
+  "generation": "catalogue/generations/{generation_id}.json"
+ },
+ "files": [
+  {
+   "path": "README.md",
+   "asset": "README.md",
+   "bytes": 5913,
+   "sha256": "71fa9d122faad36a84e8ea58b628eb1a8e94e3c4cba6d00f343f744c46b7f68f",
+   "in_git": true
+  },
+  {
+   "path": "catalogue/generations/audi-a6-e-tron-gen1.json",
+   "asset": "catalogue.generations.audi-a6-e-tron-gen1.json",
+   "bytes": 52161,
+   "sha256": "33b7a3ab6c15d43862d0db296fe827a5a781333d4ae754b3571be80251a44175",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/audi-e-tron-ge.json",
+   "asset": "catalogue.generations.audi-e-tron-ge.json",
+   "bytes": 194200,
+   "sha256": "8292988e6cabedaaaeda97c7bd0e7d18871371dc10e028bfd75c97d75a748db1",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/audi-e-tron-q8.json",
+   "asset": "catalogue.generations.audi-e-tron-q8.json",
+   "bytes": 266189,
+   "sha256": "cdca24626cbccd53590704ea3e700fc490d8487cca108305d1f0a44ad81bc106",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/audi-q4-e-tron-gen1.json",
+   "asset": "catalogue.generations.audi-q4-e-tron-gen1.json",
+   "bytes": 234076,
+   "sha256": "166368c07c48472d39e544075bb78a3750a611a9c7fd68f813d57c28bbe115c4",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/audi-q6-e-tron-gen1.json",
+   "asset": "catalogue.generations.audi-q6-e-tron-gen1.json",
+   "bytes": 94919,
+   "sha256": "684df8524b2fdc71a1afa314e71c7f948bc6a1651b736bb94f8ac4bba67e689f",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/bmw-i3-i01.json",
+   "asset": "catalogue.generations.bmw-i3-i01.json",
+   "bytes": 144355,
+   "sha256": "494d5508e6dcb95b4b67550d90791b34c2b16f42d77a52d2001c088133f4c5cf",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/bmw-i4-g26.json",
+   "asset": "catalogue.generations.bmw-i4-g26.json",
+   "bytes": 208796,
+   "sha256": "5a7ea0804f3db65ca85d6e38f8825dbeeee75c372e702ba6b4f7c9ab61f9ae87",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/bmw-i5-gen1.json",
+   "asset": "catalogue.generations.bmw-i5-gen1.json",
+   "bytes": 175958,
+   "sha256": "8d918e1642f6e610b6c6b17b0762b777eb139d411e892a4fcaacdb41106e97b2",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/bmw-ix-gen1.json",
+   "asset": "catalogue.generations.bmw-ix-gen1.json",
+   "bytes": 138423,
+   "sha256": "fd6a646324e715752caa4da8e02ded95fbb56f2f5c1185ccc40e1bcbdd137992",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/bmw-ix1-gen1.json",
+   "asset": "catalogue.generations.bmw-ix1-gen1.json",
+   "bytes": 84531,
+   "sha256": "3abdec986be347c9498167810e86b1c96c9f2b07fedc727a97419bbbfd81aab9",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/bmw-ix3-gen1.json",
+   "asset": "catalogue.generations.bmw-ix3-gen1.json",
+   "bytes": 38120,
+   "sha256": "d3150a21b028e490610cce06763da1ebec7cc640bea0ceaf52f1ffbfd0953e29",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/bmw-ix3-gen2.json",
+   "asset": "catalogue.generations.bmw-ix3-gen2.json",
+   "bytes": 237,
+   "sha256": "ac0ad50fb0a227ca0f15ad4757930166b6261be5370c90881ac5db5fea07a878",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/byd-atto-3-gen1.json",
+   "asset": "catalogue.generations.byd-atto-3-gen1.json",
+   "bytes": 73207,
+   "sha256": "e29906792d49fa49d4bec61b027bff950410504a902ba9a805a6c3ba0237d373",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/citroen-e-c4-c41.json",
+   "asset": "catalogue.generations.citroen-e-c4-c41.json",
+   "bytes": 72254,
+   "sha256": "be62315699d48c9686066b3867dc5158af6b76add657719a3b278a98f7290218",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/cupra-born-gen1.json",
+   "asset": "catalogue.generations.cupra-born-gen1.json",
+   "bytes": 179561,
+   "sha256": "d122dc8b17e78d8719add294aa378d3f41f58122c672372687d30af117b80ee9",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/cupra-tavascan-gen1.json",
+   "asset": "catalogue.generations.cupra-tavascan-gen1.json",
+   "bytes": 32673,
+   "sha256": "bd147f25ec88be08bf74a514891a4bf3b7210b51cc51a47bc80ff36c37378f63",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/dacia-spring-gen1.json",
+   "asset": "catalogue.generations.dacia-spring-gen1.json",
+   "bytes": 105573,
+   "sha256": "4e1bc90736637619ea60fc8a5cfc11d2ab7c8ad270aabd247ac086cceafb5600",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/fiat-500e-312.json",
+   "asset": "catalogue.generations.fiat-500e-312.json",
+   "bytes": 12986,
+   "sha256": "3fc283740f106831527be1d82122583dafc000a50b7ab218235e14fb71a52bc8",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/fiat-500e-332.json",
+   "asset": "catalogue.generations.fiat-500e-332.json",
+   "bytes": 182892,
+   "sha256": "7340acf94b3f5aca69941015aff6782c98b763958c7e9414b2d02111fa8b31b6",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/ford-explorer-gen1.json",
+   "asset": "catalogue.generations.ford-explorer-gen1.json",
+   "bytes": 16974,
+   "sha256": "b3d5428ef3b3e87f0c9dba53d815952ef83ee0d6b1bf7c3f1278b43f3cf22efb",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/ford-mustang-mach-e-gen1.json",
+   "asset": "catalogue.generations.ford-mustang-mach-e-gen1.json",
+   "bytes": 190477,
+   "sha256": "f8b2ddddc6a38dfe28015a122e8aa736451ab2490b881890150ab1798b860e30",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/ford-puma-gen-e-gen1.json",
+   "asset": "catalogue.generations.ford-puma-gen-e-gen1.json",
+   "bytes": 10264,
+   "sha256": "b5948e4032dffa5cc0e8cd0f7ce3962e2d3b9d0db74179b7e2959c80ea72db98",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/honda-e-gen1.json",
+   "asset": "catalogue.generations.honda-e-gen1.json",
+   "bytes": 22857,
+   "sha256": "9b317ced7cf0fb56a5fc07b74143c2e18860ee946f97c73d01ff47db83dc20c6",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/hyundai-inster-gen1.json",
+   "asset": "catalogue.generations.hyundai-inster-gen1.json",
+   "bytes": 253,
+   "sha256": "e10db4fd6ba6e05e2cf95ff2a7fb87ace8ea7c4736ff47f01347d6e13b62b491",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/hyundai-ioniq-5-gen1.json",
+   "asset": "catalogue.generations.hyundai-ioniq-5-gen1.json",
+   "bytes": 186423,
+   "sha256": "6477347437c7c050ef6c8f71a5b87b3055ffe31f3361d349e93c233dddc85cf9",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/hyundai-ioniq-6-gen1.json",
+   "asset": "catalogue.generations.hyundai-ioniq-6-gen1.json",
+   "bytes": 104187,
+   "sha256": "7b9bf93003b1710154365cfa8be39bbd13ab7a550af25084727082a4ff2c7efc",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/hyundai-ioniq-electric-gen1.json",
+   "asset": "catalogue.generations.hyundai-ioniq-electric-gen1.json",
+   "bytes": 44020,
+   "sha256": "87211dc20b3382f64070e8785df95236f42d7364e06636ea6d9af9ddf8feb410",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/hyundai-kona-electric-os.json",
+   "asset": "catalogue.generations.hyundai-kona-electric-os.json",
+   "bytes": 67191,
+   "sha256": "ed7cc680ecc17e3ee8180bebad56406e89fa65ccb9c7428eb3e497b14f6c8924",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/hyundai-kona-electric-sx2.json",
+   "asset": "catalogue.generations.hyundai-kona-electric-sx2.json",
+   "bytes": 47936,
+   "sha256": "083ab23b40484a6fdc61468a172ee19f251fd6400a54099043ba3c6864b824c5",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/jaguar-i-pace-x590.json",
+   "asset": "catalogue.generations.jaguar-i-pace-x590.json",
+   "bytes": 37367,
+   "sha256": "829ce1a9446692d56b2b8e92b58591ea87a1adc1a6636ef2b100f7d73f906575",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/kia-ev3-gen1.json",
+   "asset": "catalogue.generations.kia-ev3-gen1.json",
+   "bytes": 229,
+   "sha256": "48a49ab072cf0a6992a9efed388adacecd7206c9601605ba3973444a2d7932e7",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/kia-ev6-gen1.json",
+   "asset": "catalogue.generations.kia-ev6-gen1.json",
+   "bytes": 85565,
+   "sha256": "6d6b4d28e57b3d4234d73c6e5a2f41569da1924a83ed48d62b5f05e9c170c395",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/kia-niro-ev-de.json",
+   "asset": "catalogue.generations.kia-niro-ev-de.json",
+   "bytes": 58887,
+   "sha256": "fe2146dd698a2cdf141f3b889de57f9613dbb0bf6488a7fb4d274e3dcd06815a",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/kia-niro-ev-sg2.json",
+   "asset": "catalogue.generations.kia-niro-ev-sg2.json",
+   "bytes": 22066,
+   "sha256": "405366b2fd716299f4a944262b4d3bea6513a3e2635f6d634a32dc2271d5793d",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/kia-soul-ev-ps.json",
+   "asset": "catalogue.generations.kia-soul-ev-ps.json",
+   "bytes": 18776,
+   "sha256": "f7a4a3f9a0beb285e379de90ee4a17d43fc26f183ef1cf3a4afd0312f5fafc63",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/kia-soul-ev-sk3.json",
+   "asset": "catalogue.generations.kia-soul-ev-sk3.json",
+   "bytes": 49689,
+   "sha256": "856a88a49c5017a6d36dd285eb9743a392f8d168b87c0268a414470deec5f40e",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mercedes-cla-gen1.json",
+   "asset": "catalogue.generations.mercedes-cla-gen1.json",
+   "bytes": 23909,
+   "sha256": "a8dd8c39c08f65d98b1b0700f2a7676edf531b1f7df6c4dca494e3ee8c724d39",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mercedes-eqa-h243.json",
+   "asset": "catalogue.generations.mercedes-eqa-h243.json",
+   "bytes": 157689,
+   "sha256": "48f314394c321df95cb297e18e5d7da67e13f3e2280ac08103475fb377f4d547",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mercedes-eqb-gen1.json",
+   "asset": "catalogue.generations.mercedes-eqb-gen1.json",
+   "bytes": 162255,
+   "sha256": "ae929ee70aaa89e83b09bf603ace083be730aa77d692be675ce138c73596ef9c",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mercedes-eqb-glb.json",
+   "asset": "catalogue.generations.mercedes-eqb-glb.json",
+   "bytes": 251,
+   "sha256": "95c2de367ab67d584cff5df67dd84e800d347e37e9d0cb16a430c12caeb38fff",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mercedes-eqc-n293.json",
+   "asset": "catalogue.generations.mercedes-eqc-n293.json",
+   "bytes": 29766,
+   "sha256": "f2e36fb5b87ab7f4a73171d175db6e646460676d06ae39c7950e4d069a3d6958",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mg-mg4-gen1.json",
+   "asset": "catalogue.generations.mg-mg4-gen1.json",
+   "bytes": 116313,
+   "sha256": "f36d849030dfe1c468cbd8e3f1a2d42f749a15fa653b63779d0e2fd5d9da2494",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mg-zs-ev-gen1.json",
+   "asset": "catalogue.generations.mg-zs-ev-gen1.json",
+   "bytes": 62030,
+   "sha256": "b5f34c9eab23a0c7fb0f6dd904848f20b2d299fcfa302f3e0c0aec2e832dce25",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mini-cooper-se-f56.json",
+   "asset": "catalogue.generations.mini-cooper-se-f56.json",
+   "bytes": 30380,
+   "sha256": "6e97d800d0d77867ce16aea911888c211c5fcc3b65573a497567efed3332cff2",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/mini-cooper-se-j01.json",
+   "asset": "catalogue.generations.mini-cooper-se-j01.json",
+   "bytes": 23500,
+   "sha256": "0ca72055afe049bd6542220c5551905bcc7778138a36a5f131af1638310e0a72",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/nissan-leaf-gen3.json",
+   "asset": "catalogue.generations.nissan-leaf-gen3.json",
+   "bytes": 264,
+   "sha256": "55fa8c499fd3ce08b22d320f949c569f0223acc04ca89035687e534e5cc0287c",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/nissan-leaf-ze0.json",
+   "asset": "catalogue.generations.nissan-leaf-ze0.json",
+   "bytes": 33535,
+   "sha256": "16fa257685901dc6b43f5adff80f81d1cd432dae91a34bb926874f7548f5c1d5",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/nissan-leaf-ze1.json",
+   "asset": "catalogue.generations.nissan-leaf-ze1.json",
+   "bytes": 116131,
+   "sha256": "17865653d3bdc6116f5d9ccb38c339c4c45b45903705238f52ede914902837ba",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/opel-corsa-e-f.json",
+   "asset": "catalogue.generations.opel-corsa-e-f.json",
+   "bytes": 63542,
+   "sha256": "2542e097cf4cf437becac2ffb7457d8b67630ef9144ea109581fd1fd83f50834",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/opel-mokka-gen1.json",
+   "asset": "catalogue.generations.opel-mokka-gen1.json",
+   "bytes": 1947,
+   "sha256": "436432930b7ad0dde25c649f6b05784398e548c0bd912cc665a46f1ead390546",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/peugeot-e-2008-p24.json",
+   "asset": "catalogue.generations.peugeot-e-2008-p24.json",
+   "bytes": 71654,
+   "sha256": "1accc245ac93402814fd8c26c3620e3806cfcd56bef0cae732c28139df0640ef",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/peugeot-e-208-p21.json",
+   "asset": "catalogue.generations.peugeot-e-208-p21.json",
+   "bytes": 97943,
+   "sha256": "21ccf1230336371d2c0a2c30854a2a5cb56b709d0e0054ef17b30e84c398f511",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/polestar-2-gen1.json",
+   "asset": "catalogue.generations.polestar-2-gen1.json",
+   "bytes": 203432,
+   "sha256": "72724d3f28204eb6121a763f8e988e1d7b11f3726dab6770d53058996d5092aa",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/porsche-macan-electric-gen1.json",
+   "asset": "catalogue.generations.porsche-macan-electric-gen1.json",
+   "bytes": 44803,
+   "sha256": "3eea13794b6df0ae0bbdbb845219203084867c86f1a1e5549a4e3a935b4b9daa",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/porsche-taycan-gen1.json",
+   "asset": "catalogue.generations.porsche-taycan-gen1.json",
+   "bytes": 289053,
+   "sha256": "560955c29744c96361dd151258de2dbf81ca7110f1db3d0664957cca70e2993f",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/renault-5-e-tech-gen1.json",
+   "asset": "catalogue.generations.renault-5-e-tech-gen1.json",
+   "bytes": 60395,
+   "sha256": "0bc9a339b04b47be4b317a4fc6790199bfe24a5b15cdf08f6d87349b0f5a0bd3",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/renault-megane-e-tech-gen1.json",
+   "asset": "catalogue.generations.renault-megane-e-tech-gen1.json",
+   "bytes": 68758,
+   "sha256": "bafd9326d8a018ac458f091c5e08297018e421424300ba5a9a6f4525521f17e8",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/renault-scenic-e-tech-gen1.json",
+   "asset": "catalogue.generations.renault-scenic-e-tech-gen1.json",
+   "bytes": 49320,
+   "sha256": "3c7483fc01ec2a6dcf9ecb49aac1a1a247da14cc1b383c9e8be3c5df47003090",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/renault-zoe-ph1.json",
+   "asset": "catalogue.generations.renault-zoe-ph1.json",
+   "bytes": 69481,
+   "sha256": "3c7d393fcb5b030a33e5aed0465de4c492f93f1c34f6d9db47b5e9209712f591",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/renault-zoe-ph2.json",
+   "asset": "catalogue.generations.renault-zoe-ph2.json",
+   "bytes": 63374,
+   "sha256": "6be16116cb3b3d5029a9a67bf31137398f7658969ccee9e8ae6c1ee36d9f2e2a",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/skoda-elroq-gen1.json",
+   "asset": "catalogue.generations.skoda-elroq-gen1.json",
+   "bytes": 30734,
+   "sha256": "f2bce71bb62b1f0a83b8343a9cd46ad047bec6fd9cbcb8b4fb8f2b95be4ea3f5",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/skoda-enyaq-gen1.json",
+   "asset": "catalogue.generations.skoda-enyaq-gen1.json",
+   "bytes": 343654,
+   "sha256": "1a303ed7502f116eddf9064c2f06b0b33d558c9960814b35ee9c90987a64ec1f",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/smart-eq-fortwo-451.json",
+   "asset": "catalogue.generations.smart-eq-fortwo-451.json",
+   "bytes": 11976,
+   "sha256": "72dbeefab82464d7e5128888fc85ab48f38dd4fd6cb72a949541aa9e8127a71b",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/smart-eq-fortwo-453.json",
+   "asset": "catalogue.generations.smart-eq-fortwo-453.json",
+   "bytes": 48836,
+   "sha256": "c2f40a670b6583cad1549dad76fb33a347a6ed5b3e635ab8e29efc1ae1b4909b",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/tesla-model-3-gen1.json",
+   "asset": "catalogue.generations.tesla-model-3-gen1.json",
+   "bytes": 97942,
+   "sha256": "ae2e11ef9ac295a453c87c1f4dd1eda565eea0b236a038102cc17f29b8f04b48",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/tesla-model-3-highland.json",
+   "asset": "catalogue.generations.tesla-model-3-highland.json",
+   "bytes": 84687,
+   "sha256": "69963271bfa1afa53c44e9edd2aa7ba36a14533b890d36b4ad728cb4559177c7",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/tesla-model-s-facelift.json",
+   "asset": "catalogue.generations.tesla-model-s-facelift.json",
+   "bytes": 95242,
+   "sha256": "e2aeb4587e7f0b2d3ec63e914c343a335e0e1401cfe598ef7956289a5151ab0c",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/tesla-model-s-gen1.json",
+   "asset": "catalogue.generations.tesla-model-s-gen1.json",
+   "bytes": 44630,
+   "sha256": "6dd70b1d45e56d4318c51df3f7c0402452e301817f969e972aef2df242600614",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/tesla-model-s-palladium.json",
+   "asset": "catalogue.generations.tesla-model-s-palladium.json",
+   "bytes": 73509,
+   "sha256": "5d0e10f973fa51adb5d247d55cf8619df29fbbbde52ac2cc8f0b07e4e3492594",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/tesla-model-y-gen1.json",
+   "asset": "catalogue.generations.tesla-model-y-gen1.json",
+   "bytes": 141081,
+   "sha256": "15b2a532bd423f9d803028739450275cfcdfbbc224890665e396f9fdd5708313",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/tesla-model-y-juniper.json",
+   "asset": "catalogue.generations.tesla-model-y-juniper.json",
+   "bytes": 48877,
+   "sha256": "51a2b4c323c044666841bcc5d4a523dbea476fccf1b41a1acb9e9e110ea53138",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/toyota-bz4x-gen1.json",
+   "asset": "catalogue.generations.toyota-bz4x-gen1.json",
+   "bytes": 76492,
+   "sha256": "c6219379e5d6d2fc00d0685ecf4cf6d1f0645b31e94279dc5ebeb4457682c875",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volkswagen-e-golf-mk7.json",
+   "asset": "catalogue.generations.volkswagen-e-golf-mk7.json",
+   "bytes": 19808,
+   "sha256": "20f265029d56acd887ebd5b1b2042149e7fadbb9c997ba5cb62e5eca1b39a856",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volkswagen-e-golf-mk75.json",
+   "asset": "catalogue.generations.volkswagen-e-golf-mk75.json",
+   "bytes": 35499,
+   "sha256": "3e7570402c2d46a2ddaa132c4da6ef144bf64c6954b76c93b70ea8f517b8a353",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volkswagen-id-buzz-gen1.json",
+   "asset": "catalogue.generations.volkswagen-id-buzz-gen1.json",
+   "bytes": 90626,
+   "sha256": "d0034e3d097212d875d7b786725bc13c215dfa2ca6994593b4e395f3d277a6ba",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volkswagen-id3-gen1.json",
+   "asset": "catalogue.generations.volkswagen-id3-gen1.json",
+   "bytes": 325982,
+   "sha256": "dfc47740ae6cd7183870703ba8b503dcaa26cfc76a2dc45dbb04a34cc94c3cef",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volkswagen-id4-gen1.json",
+   "asset": "catalogue.generations.volkswagen-id4-gen1.json",
+   "bytes": 219634,
+   "sha256": "ca2c7e842ba8f4f1e1b83ce54ddcff55be2ebf67814e7d648a72111fe4ce715a",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volkswagen-id7-gen1.json",
+   "asset": "catalogue.generations.volkswagen-id7-gen1.json",
+   "bytes": 73630,
+   "sha256": "fe7e42fb77df1eae1e7cfcf5695bd982061219caa06991835067ed594e9c925c",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volvo-ex30-gen1.json",
+   "asset": "catalogue.generations.volvo-ex30-gen1.json",
+   "bytes": 115318,
+   "sha256": "5bd921f27b1c25efa3660f82908092f7695fe33dfdb0744ccfbc32524579c25c",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volvo-xc40-recharge-ex40.json",
+   "asset": "catalogue.generations.volvo-xc40-recharge-ex40.json",
+   "bytes": 38952,
+   "sha256": "d6121011b6098ab994e225b84594d0e8d7d7c5d0f62a53ab132d76ecbc7083c5",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/generations/volvo-xc40-recharge-gen1.json",
+   "asset": "catalogue.generations.volvo-xc40-recharge-gen1.json",
+   "bytes": 93227,
+   "sha256": "005a0bfb558b527ec9b0ac8ddef7c1e8a3b754128d40ffc1e35c05ab922d0771",
+   "in_git": false
+  },
+  {
+   "path": "catalogue/index.json",
+   "asset": "catalogue.index.json",
+   "bytes": 1035777,
+   "sha256": "ea96bb17b08160f1795e304c39c7ad129f6150bf073180d8f9540e2939242c75",
+   "in_git": false
+  },
+  {
+   "path": "catalogue.json",
+   "asset": "catalogue.json",
+   "bytes": 7356157,
+   "sha256": "7fca373384b34ab48201358215614a6703382a68df56c30155f2cba218709b9e",
+   "in_git": false
+  },
+  {
+   "path": "catalogue.parquet",
+   "asset": "catalogue.parquet",
+   "bytes": 271186,
+   "sha256": "0e5d59ee8f54d53a3249f36e40e78203dd84d0f0da0bf477000dea2aa1dd6b24",
+   "in_git": false
+  },
+  {
+   "path": "charging_stats.json",
+   "asset": "charging_stats.json",
+   "bytes": 1477889,
+   "sha256": "f53a802595daaeaee490e456d6b2a46d13f4b8fe67cdc1a32566c51dd0a35c5e",
+   "in_git": false
+  },
+  {
+   "path": "coverage.md",
+   "asset": "coverage.md",
+   "bytes": 8949,
+   "sha256": "d89683ce7e8e843bee49c6f2ebd5c8a85ad6aeea656b40630d1d2a371c3361c8",
+   "in_git": true
+  },
+  {
+   "path": "diff.json",
+   "asset": "diff.json",
+   "bytes": 7410,
+   "sha256": "1ee4b41af36bfdd2e6d5fdddf95b7a4631cb71d4aa6e9cce187e4fcfac3d0dca",
+   "in_git": true
+  },
+  {
+   "path": "facts.parquet",
+   "asset": "facts.parquet",
+   "bytes": 347175,
+   "sha256": "be773434b9ef87aa3fe3835588d5b909d342bcf03c38d0ea7d6cc122093efb3b",
+   "in_git": false
+  },
+  {
+   "path": "open/ATTRIBUTION.md",
+   "asset": "open.ATTRIBUTION.md",
+   "bytes": 4407,
+   "sha256": "5666f3cfa39011d4c4766d6d668ea7185152a4e8de52de17bd998e34af7ea7e6",
+   "in_git": false
+  },
+  {
+   "path": "open/LICENSE",
+   "asset": "open.LICENSE",
+   "bytes": 715,
+   "sha256": "b26c4cb1cd6d6f24e572d6819a1e2963a322823284a2f66ce46d2b7c8a8104e3",
+   "in_git": false
+  },
+  {
+   "path": "open/README.md",
+   "asset": "open.README.md",
+   "bytes": 14164,
+   "sha256": "877f5b577a580d5a727b32d3412fd68f4b3e56e718c9a30fa6c22027062dfb30",
+   "in_git": false
+  },
+  {
+   "path": "open/variants.csv",
+   "asset": "open.variants.csv",
+   "bytes": 1006962,
+   "sha256": "4e9ccfe914e4484bb36d749b7ee44ef01713105026f65aee96f73f412537b629",
+   "in_git": false
+  },
+  {
+   "path": "open/variants.json",
+   "asset": "open.variants.json",
+   "bytes": 1936777,
+   "sha256": "67a56d9addc655861838dab1e063a1adfaba7aee52e788ddaa2112a3282b80c7",
+   "in_git": false
+  },
+  {
+   "path": "qa.json",
+   "asset": "qa.json",
+   "bytes": 73588,
+   "sha256": "a93f8aece64e10c48da1d0cfbe664fc5bf639cd845dbdf6181427eca33abc750",
+   "in_git": true
+  },
+  {
+   "path": "qa.md",
+   "asset": "qa.md",
+   "bytes": 1058,
+   "sha256": "840888f8d130312300d4df7d9088cc711f2d0a103ca26dd1401e93880cad8dfd",
+   "in_git": true
+  },
+  {
+   "path": "run_log.json",
+   "asset": "run_log.json",
+   "bytes": 19112,
+   "sha256": "41c518abf76b0234acb747c9fc9e5c8ad907d8aa4054c082f45d8c7a11743f93",
+   "in_git": false
+  },
+  {
+   "path": "sources.json",
+   "asset": "sources.json",
+   "bytes": 4052,
+   "sha256": "beb3c7cdc1df732e58baaea488d36300a410dd7eb2e7f8dd7ef5647efe5aa27c",
+   "in_git": false
+  }
+ ]
+}

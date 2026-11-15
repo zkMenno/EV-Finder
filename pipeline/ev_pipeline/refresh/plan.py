@@ -24,6 +24,8 @@ from typing import Any
 
 import yaml
 
+from ev_pipeline.release.gate import RELEASABLE_STATUSES
+
 CADENCE_DAYS: dict[str, float] = {
     "hourly": 1 / 24,
     "daily": 1,
@@ -61,6 +63,16 @@ def find_adapter(source_id: str) -> ModuleType | None:
     if not (hasattr(mod, "fetch_cmd") and hasattr(mod, "normalise_cmd")):
         return None
     return mod
+
+
+DEFAULT_STAGING_SUFFIX = ".records.jsonl"
+
+
+def staging_file(data_dir: Path, source_id: str, mod: ModuleType | None) -> Path:
+    """The staging file a source's normalise writes. Adapters whose output is not
+    SourceRecords declare `STAGING_SUFFIX` (charging stats, RDW defects; T-025)."""
+    suffix = str(getattr(mod, "STAGING_SUFFIX", None) or DEFAULT_STAGING_SUFFIX)
+    return data_dir / "staging" / f"{source_id}{suffix}"
 
 
 def raw_dir_name(mod: ModuleType) -> str:
@@ -107,7 +119,7 @@ def plan(
         if only and sid not in only:
             continue
         cad = e.get("cadence")
-        if e.get("status") != "active":
+        if e.get("status") not in RELEASABLE_STATUSES:
             if only:
                 out.append(PlannedSource(sid, cad, "skip", f"status {e.get('status')}"))
             continue
@@ -123,7 +135,7 @@ def plan(
         if missing:
             out.append(PlannedSource(sid, cad, "skip", f"needs {', '.join(missing)}", mod, e))
             continue
-        action, reason = _due(sid, cad, state.get(sid) or {}, now, data_dir)
+        action, reason = _due(sid, cad, state.get(sid) or {}, now, data_dir, mod)
         if force or only:
             action, reason = "run", ("forced" if force else "named on the command line")
         out.append(PlannedSource(sid, cad, action, reason, mod, e))
@@ -131,9 +143,14 @@ def plan(
 
 
 def _due(
-    sid: str, cadence: str | None, entry: dict[str, Any], now: datetime, data_dir: Path
+    sid: str,
+    cadence: str | None,
+    entry: dict[str, Any],
+    now: datetime,
+    data_dir: Path,
+    mod: ModuleType | None = None,
 ) -> tuple[str, str]:
-    if not (data_dir / "staging" / f"{sid}.records.jsonl").exists():
+    if not staging_file(data_dir, sid, mod).exists():
         return "run", "no staging file"
     last = entry.get("last_checked")
     if not last:

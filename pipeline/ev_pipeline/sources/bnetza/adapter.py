@@ -43,11 +43,13 @@ import httpx
 import openpyxl
 
 from ev_pipeline import net
+from ev_pipeline.release.gate import RELEASABLE_STATUSES
 from ev_pipeline.sources import _common as c
 from ev_pipeline.sources.eafo import charging_stats as cs
 
 NAME = "bnetza"
 DIR = "bnetza"
+STAGING_SUFFIX = ".charging_stats.jsonl"  # refresh runner: where normalise writes (T-025)
 SOURCE_ID = "bnetza-ladesaeulenregister"  # taxonomy source id
 PAGE_URL = (
     "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/"
@@ -348,7 +350,7 @@ def normalise_cmd(from_fixtures: bool) -> int:
             "source": NAME,
             "taxonomy_source_id": SOURCE_ID,
             "status": status,
-            "releasable": status == "active",
+            "releasable": status in RELEASABLE_STATUSES,
             "licence": LICENCE,
             "attribution": ATTRIBUTION,
             "download": {

@@ -1,0 +1,39 @@
+# Where published releases live (Decision 035, T-064). Read by `ev release package/publish/fetch`
+# and by apps/web/scripts/fetch-release.mjs (through each release's manifest.json).
+#
+# Git keeps only the files listed under `in_git` (small, reviewable) plus manifest.json. Every
+# other release file is uploaded as an asset and fetched by sha256 when needed.
+# A new storage target (Scaleway object storage, WS4) is a new block here + a publisher class.
+
+target: github
+
+github:
+  repo: zkMenno/EV-Finder
+  tag: "data-v{n}"
+  # Public download URL of one asset; {repo}, {tag} and {asset} are filled in.
+  download_url: "https://github.com/{repo}/releases/download/{tag}/{asset}"
+  # Hosts a download may touch (github.com redirects to the asset CDN). SSRF guard allowlist.
+  download_hosts:
+    - github.com
+    - objects.githubusercontent.com
+    - release-assets.githubusercontent.com
+
+# Small files that stay in git next to manifest.json (PR review, rollback checks).
+in_git:
+  - README.md
+  - qa.md
+  - qa.json
+  - coverage.md
+  - diff.json
+  - retired_ids.json
+
+# Per-generation split (page speed): one index plus one file per generation.
+split:
+  index: catalogue/index.json
+  generation: "catalogue/generations/{generation_id}.json"
+  # Row keys that only the per-generation files carry (the heavy part).
+  row_keys_detail_only:
+    - provenance
+
+# Upper bound for one downloaded file (bytes). A bigger file is refused, not truncated.
+max_file_bytes: 200000000

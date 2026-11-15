@@ -155,6 +155,46 @@ variants and never create rows. Everything else in `sources.yaml` is either not 
 highest existing `data/releases/<n>/` + 1. `data/releases/latest` holds the current number.
 **Rollback:** `uv run ev release rollback --to <n>` (see "Keeping data fresh").
 
+### Releases live outside git (T-064, Decision 035)
+
+Git keeps only `data/releases/<n>/manifest.json` plus the small files listed under `in_git`
+in `data/releases/publish.yaml` (README, QA report, coverage, diff). Every other file
+(catalogue, parquet, charging stats, open bundle, the per-generation split) is an asset of the
+GitHub Release `data-v<n>`. `.gitignore` keeps the big files out; a test keeps `.gitignore`
+and `in_git` in step.
+
+```sh
+uv run ev release package 1     # per-generation split + manifest.json (ev release does this too)
+uv run ev release verify 1      # local files vs manifest (size + sha256)
+uv run ev release fetch latest  # download what git doesn't hold; every file sha256-checked
+uv run ev release publish 1 --target dir --out /tmp/store   # local mirror (tests, inspection)
+uv run ev release publish 1     # GitHub Release data-v1 via `gh` (needs GH_TOKEN, contents: write)
+```
+
+- **manifest.json:** release number, dates, QA summary, storage (`data-v<n>`, download URL),
+  counts, and every file with path, asset name, bytes, sha256 and `in_git`.
+- **Per-generation split:** `catalogue/index.json` (all rows without `provenance`, taxonomy,
+  sources; `generation_files` maps each generation id to its file) and
+  `catalogue/generations/<generation_id>.json` (that generation, its full rows, its known
+  issues). `catalogue.json` stays as the full file. `package` refuses a split that doesn't
+  round-trip to `catalogue.json`.
+- **Who uploads:** the weekly `data-refresh.yml` uploads assets when it opens the "Data release
+  N" PR (re-runs replace an unmerged release only); `data-publish.yml` runs when a manifest
+  lands on main (normally "unchanged") or by hand for a release still in git. Both use
+  `pipeline/scripts/gh-publish-release.sh` (shell + jq + gh, no pipeline code in the write job).
+  A release that has a manifest on main is never changed.
+- **Who downloads:** the web build (`apps/web/scripts/fetch-release.mjs`, runs first in
+  `pnpm build`/`dev`; `CATALOGUE_SOURCE=auto|manifest|local`), CI `data-qa`
+  (`ev release fetch latest`), and the pipeline itself when it needs an older release (diff
+  for the next release, rollback, `ev refresh`). A failed or wrong download is an error, never
+  "no previous release".
+- **Rollback** is unchanged: `ev release rollback --to <n>` points `latest` at an earlier
+  release; its files are fetched and checked first, then the QA re-check runs. The web
+  build after that fetches release n by its manifest. To preview without switching:
+  `CATALOGUE_RELEASE=<n> node apps/web/scripts/fetch-release.mjs`.
+- **Unmerged release PR closed?** Delete its GitHub Release (`gh release delete data-v<n>
+  --cleanup-tag`) or let the next refresh replace it; the number is reused.
+
 **A release folder** `data/releases/<n>/` contains:
 
 | File | What |
@@ -268,6 +308,57 @@ uv run --with pytest-cov pytest --cov=ev_pipeline --cov-report=term-missing -q
 
 pytest-cov is pulled in for the run only; it is not a project dependency. On 2026-11-15: 680
 tests, 96 % overall (the gaps are mostly adapters' network paths and `match/`).
+
+## Charging statistics (T-025, Decision 012)
+
+Aggregates only, never point data. Three loaders (`ev fetch|normalise eafo|bnetza|dft-charging`)
+write `data/staging/<id>.charging_stats.jsonl` + `.meta.json`; `ev refresh` runs them on their
+cadence (adapters declare `STAGING_SUFFIX`, so the runner checks the right staging file).
+Measured 2026-11-15 (live): each fetch + normalise under 90 MB peak and under 5 s.
+
+- **Gate:** a file ships only when its source passes the licence gate (`active`, or
+  `active_pending_confirmation` for EAFO, Decision 037) and its meta says `releasable: true`.
+- **Manual figures:** `data/manual/charging/<name>.yaml` (WS3 writes), format in
+  `tests/fixtures/manual/charging/example.yaml`: `schema: manual-charging/v1`, `source_id`,
+  `stats:` rows like ChargingStat without `entered_by` (set to `staff`); `source_url`
+  required. A manual copy of a downloaded figure is dropped (the download wins).
+- **Review, not block:** `data/review/charging_changes.csv` lists figures that grew more than
+  15 % a month (compound, so yearly series compare fairly), fell, were revised, or vanished
+  since the previous release. The first release of a series checks its whole history once.
+
+## Towns and climate (T-034, Trip fit)
+
+`ev fetch|normalise geonames` then `ev fetch|normalise meteostat` (order matters: Meteostat
+picks stations near the towns). The release writes `towns/<country>.json` per launch country:
+towns (GeoNames cities5000, names in our six languages, coordinates rounded to ~1 km), the
+stations they use, and `provenance` for both. Climate per station, 1991–2020: monthly means of
+daily mean temperature, January mean, and P10 = 10th percentile of January daily means.
+
+- A town takes the nearest station within 60 km and 250 m of its elevation, preferring one
+  with a P10; no interpolation. Live 2026-11-15: 7,654 towns, 7,203 with climate (FR and
+  rural UK have gaps), 10 without P10. Fetch ≈ 2 min, 1,000 stations tried, < 200 MB RAM.
+- Meteostat is CC BY 4.0 (its own redistribution, R-27); credit "Meteostat and its data
+  providers"; confidence medium. ERA5-Land (primary, Decision 036) is a stub until the CDS key
+  arrives (`CDSAPI_KEY`, WS4); `ev refresh` skips it until then.
+
+## Consumption matrix (T-032, T-033, Trip fit)
+
+`consumption_matrix.json` in each release: per variant 3 road bands × 5 temperature bands
+(Wh/km, battery basis), with rung, confidence and a P10–P90 band per cell. `estimate: true`:
+all parameters in `ev_pipeline/derive/consumption_params.yaml` are engineering defaults until
+licensed tests can fit them (WS3 taxonomy rows for temperature bands / heater types win).
+
+- Tests (T-032): `ev normalise fueleconomy` also writes
+  `staging/fueleconomy.consumption_tests.jsonl` (EPA city → town, highway → rural; label
+  values from the wall). A test reaches a variant through the release fact of the same
+  source record. Nyland / NAF / ADAC stay out until permission (Decision 004 / 009).
+- Ladder per band: `measured` (own test) → `physics` (motorway from the EPA highway figure ×
+  a drag factor) → `wltp-ratio` (WLTP combined × body-class ratio). No estimate-only WLTP
+  input: a variant without a sourced WLTP figure or tests is skipped.
+- Temperature: traction × (1 + k·(20 − T)) + (aux + heating ÷ COP + A/C) ÷ speed, so cold
+  costs more per km in town. Heat pump `option` → two cell sets.
+- Live 2026-11-15 on release 1: 198 variants (28 skipped), 770 measured / 385 physics /
+  1,815 wltp-ratio cells, 1.3 MB raw, 57 KB gzip.
 
 ## Manual facts and the review queue
 

@@ -3,7 +3,8 @@
 Fails closed (T-006 review):
 - No data/sources.yaml -> the release FAILS (`ReleaseError` in build_release); nothing is
   released on the strength of a missing registry.
-- A source is releasable only when the registry lists it with `status: active` AND either a
+- A source is releasable only when the registry lists it with `status: active` (or
+  `active_pending_confirmation`, Decision 037) AND either a
   named, confirmed licence or `permission: written` (explicit written permission, logged).
 - A licence that is empty, "none", "unknown", "n/a" or still marked "(to confirm)" is not a
   named licence. That matches data/sources.yaml: "(to confirm)" licences stay blocked until
@@ -25,6 +26,9 @@ import yaml
 from ev_pipeline.match.matcher import EXCLUDED_SOURCES
 
 _NO_LICENCE = {"", "none", "unknown", "n/a"}
+# Statuses that may reach a release. `active_pending_confirmation` (Decision 037): in use
+# now, credited, reuse terms being confirmed in writing; a "no" removes it next release.
+RELEASABLE_STATUSES = frozenset({"active", "active_pending_confirmation"})
 WRITTEN_PERMISSION = "written"
 MISSING_REGISTRY = "no data/sources.yaml (licence registry missing; release blocked)"
 
@@ -73,7 +77,7 @@ class Registry:
         entry = self.sources.get(source_id)
         if entry is None:
             return "not in data/sources.yaml"
-        if entry.status != "active":
+        if entry.status not in RELEASABLE_STATUSES:
             return f"status {entry.status}"
         if entry.permission == WRITTEN_PERMISSION:
             return None

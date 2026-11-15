@@ -195,3 +195,15 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# --- Published releases (T-064, Decision 035) ---
+# Release files live in GitHub Release assets (tag data-v<n>); git keeps manifest.json and the
+# small files listed under `in_git` in data/releases/publish.yaml (a test keeps both in step).
+data/releases/[0-9]*/*
+!data/releases/[0-9]*/manifest.json
+!data/releases/[0-9]*/README.md
+!data/releases/[0-9]*/qa.md
+!data/releases/[0-9]*/qa.json
+!data/releases/[0-9]*/coverage.md
+!data/releases/[0-9]*/diff.json
+!data/releases/[0-9]*/retired_ids.json
