@@ -20,17 +20,19 @@ The pipeline (WS1) validates and releases what you write; the web app (WS2) rend
 - Validate seed changes with `data/seed/validate_seed.py` and `validate_variants.py` before every PR.
 - One task = one branch (`t-0NN-slug`) = one PR. Never push to `main`.
 
-## 3. Task list (in order; skip blocked ones, come back later)
-1. **Overnight leftovers**: after WS0 merges `proto/overnight-1`, read `MORNING.md`, then clear `data/review/unmatched.csv` items that need seed aliases once Q-021 is answered (default meanwhile: source-scoped aliases proposal in your INBOX reply to WS0).
-2. **T-019** bidi taxonomy rows: bidi_modes, routes, protocols, caveats, status, connector_types, bidi_equipment, and EU ChargingPort rows for the top-40 used models (WS1 wires validation). Needs T-018.
-3. **T-021** /learn "Plugs and bidirectional charging", incl. "Buying a wallbox from 2027" (ISO 15118-20 is the protocol, not bidirectional hardware).
-4. **T-024** charging taxonomies + `country_charging_links` for NL, DE, FR, BE, UK (max five links per country, order per spec).
-5. **T-027 (content half)** /learn "Charging in 2026: what's changed" in six languages.
-6. **T-031** Trip fit seed: `speed_profiles` per launch country, `usage_profiles` weights, `heater_types`, `heat_pump` (standard / option / none / not disclosed) for the top-40 used models.
-7. **T-029** `abrp_typecode` for the top-40 used models (format research first; linking permission goes to WS5).
-8. **T-039** /learn "Winter range explained".
-9. **T-041** verify every "See listings" search template in `config/countries/` by hand-checked URL pattern (Q-028); mark `verified: true` with date.
-10. **T-042** verify the 🔴 items in `research/R-01-bidirectional-and-connectors.md` (Kia EV2 V2G, BYD Dolphin bundle, Ford Explorer V2G, older Teslas at J3400 sites, bidirectional over NACS) and car-side ISO 15118-20 support per maker.
+## 3. Task list (updated 2026-11-15 11:00 by WS0 for the strict launch scope, Decision 051; in order, skip blocked ones)
+**Read `docs/spec/launch-scope.md` first.** Only tasks tagged Launch on BOARD.md; anything else needs Menno's yes. Built work for parked features stays behind feature flags, off by default.
+
+1. **T-068** seed gaps for the owner's picks (so the shortlist rules can score them).
+2. **T-031** heat pump per variant for the top 40 (import research/R-21's table; ~20 models still open: cite or leave not-disclosed).
+3. **finance_profiles** rows for T-043 from research/R-20 (ECB MIR series ids; NL blank; defaults 48 months / 10 % labelled).
+4. **T-081 manual price samples** in `data/manual/prices/*.yaml` (aggregates by hand from public pages with URL + date; never scrape; Decision 004) for the top 40 per launch country, to calibrate WS1's model.
+5. **T-041** verify "See listings" templates for the five countries.
+6. /learn launch pages: **T-039** winter range, **T-027** charging in 2026, **T-082** batteries + used battery health (EN + NL reviewed; DE/FR/ES/IT marked review: needed).
+7. Glossary sweep: every Explore column, filter, hero step and profile has a tooltip in EN + NL.
+Parked (don't start): T-019/T-021 bidi rows and page, T-024 charging links, T-029 ABRP codes, T-042, T-046 clues.
+
+**Numbers you may use without asking:** decisions 057–061, tasks T-100–T-109. Fetch `main` before numbering anything.
 
 ## 4. Definition of done (per task)
 Acceptance criteria ticked · validators pass · every new fact cited · EN complete and other languages present (or marked) · PR opened · handoff notes in the task file · STATUS.md updated · WS1/WS2 told in their INBOX what they can now use.

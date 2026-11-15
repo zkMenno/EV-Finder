@@ -22,18 +22,18 @@ Schema change needed? Append to `workstreams/WS0/INBOX.md` with the exact fields
 - One task = one branch (`t-0NN-slug`) = one PR, CI green before review. Never push to `main`.
 - Don't invent data. "Not disclosed" is a real value. Uncertain → review queue (`data/review/`).
 
-## 3. Task list (updated 2026-11-15 10:30 by WS0, after overnight PR #1 merged; in order, skip blocked ones)
-Overnight 1 built a lot: read `MORNING.md` and the handoff notes in each task file before you start. Claim a task by writing your name + date in its Status line; set `review` when your PR is open.
-1. **T-064** releases out of git (Decision 035), ≈2 h. Release files to GitHub Release assets (tag `data-v<n>`) from a workflow with least-privilege `contents: write`; repo keeps `data/releases/<n>/manifest.json` + a tiny fixture release; web build fetches by manifest and checks sha256 (agree the loader change with WS2 via its INBOX, or make the change behind `CATALOGUE_SOURCE=manifest` so WS2 can review); split the catalogue per generation; rollback documented. CI release cap back to 5 MB when done (ask WS0 in its INBOX; WS0 owns `.github/`).
-2. **T-025** finish charging stats, ≈1.5 h. Loaders exist (see handoff notes). Open: EAFO now allowed (Decision 037: `active_pending_confirmation`, credit line in the decision), manual YAML path `data/manual/charging/*.yaml`, release diff (>15 % change or any drop → review), wire into `ev refresh`. Answer Q-075/Q-076 defaults yourself if they're engineering choices and log them.
-3. **Decision 036/037 housekeeping**, ≈20 min: update `data/sources.yaml` (EAFO, RDW attribution wording, ERA5-Land primary climate, Washington DOL internal-only, ECB MIR finance series ids from research/R-20).
-4. **T-034** climate normals, ≈1 h: Meteostat bulk normals (CC BY 4.0, no key) for launch-country towns from GeoNames now; ERA5-Land loader stubbed behind an env key (Copernicus CDS key arrives via WS4, Q-093).
-5. **T-032 + T-033** consumption tests + model, ≈2 h: licence-clean inputs only (WLTP from EEA/ADEME, EPA city/highway from fueleconomy.gov, physics rung from mass/Cd/frontal area where cited); Bjørn Nyland/NAF stay `waiting_permission`. Output the per-variant matrix (3 road bands × 5 temperature bands, rung + confidence) as static JSON in the release so WS2 can swap out T-036's fixture.
-6. **T-035** back-test harness on real inputs where licence-clean; report in `qa.json` and `audits/` (number from WS0's INBOX, or use A-30–A-39).
-7. **T-051 part 2**: the remaining top-20 models from `data/review/coverage-gaps.md` (ID.7, Elroq, EV3, Q6 e-tron, …), from staged source data only.
-8. If time remains: T-062 (retired ids) and T-063 (AC optional charger) if their handoff notes are still empty; then research R-21/R-22 gap follow-ups that WS3 asked for in your INBOX.
+## 3. Task list (updated 2026-11-15 11:00 by WS0 for the strict launch scope, Decision 051; in order, skip blocked ones)
+**Read `docs/spec/launch-scope.md` first.** Only tasks tagged Launch on BOARD.md; anything else needs Menno's yes. Built work for parked features stays behind feature flags, off by default.
 
-**Numbers you may use without asking** (to avoid clashes): decisions 040–049, tasks T-070–T-079, research R-40–R-44, audits A-30–A-34. Fetch `main` before numbering anything.
+1. Open PRs: answer WS0 review notes on #4–#13 if any appear in your INBOX.
+2. **T-069** shortlist scores per variant and profile in the release (reads `data/editorial/shortlist_rules.yaml`; unknown factors neutral and listed). Needs T-066 types from WS0; build on the YAML meanwhile.
+3. **T-081** used price band per variant, build year and country (method in the task: list price × depreciation curve calibrated on free indices + manual samples; labelled estimate; P25–P75 with counts). This is what the hero's budget filter needs.
+4. **T-056** free price indices (terms first) as T-081 calibration input.
+5. **T-063** AC optional charger field (if not done), then T-065 data side once WS0 lands the schema.
+6. Winter range quality: rerun T-035 on the calibrated matrix, report per profile-relevant field (winter range, DC km in 20 min) in qa.json.
+7. Open data bundle: check it only contains licence-gated fields and ships with each release (Decision 016).
+
+**Numbers you may use without asking:** decisions 040–049, tasks T-070–T-079, research R-40–R-44, audits A-30–A-34. Fetch `main` before numbering anything.
 
 ## 4. Definition of done (per task)
 Acceptance criteria ticked · tests for every data rule and bug · CI green · PR opened with the template filled · handoff notes in the task file · coverage report regenerated if the release changed · STATUS.md updated · anything another lane needs written to its INBOX.
