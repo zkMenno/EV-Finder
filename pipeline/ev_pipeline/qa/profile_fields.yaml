@@ -1,0 +1,17 @@
+# START §3 item 6: quality report for the fields the usage profiles lean on (qa.json
+# `profile_fields`). Report only, never blocks. Definitions match the shortlist scorer
+# (T-069, pipeline/ev_pipeline/derive/shortlist_params.yaml) so both read the same numbers.
+schema: profile-fields-qa/v1
+
+# Winter range = usable kWh / blended consumption in the winter band; mild = same at 20 °C.
+winter_temperature_band: t1        # -10 °C, ev-database "cold" basis (T-069)
+mild_temperature_band: t5          # 20 °C reference
+road_mix: {town: 0.3, rural: 0.3, motorway: 0.4}
+# heat_pump unknown -> the matrix "unknown" heater; option -> the worse (resistive) cells.
+heater_preference: [heat-pump, unknown, resistive]
+
+# Catalogue figure vs the calibrated matrix: flag a variant when they differ by more than this.
+consistency_tolerance: 0.10
+# Leave-one-model-out: a body class needs this many other models to keep its own multiplier,
+# otherwise the band-wide multiplier is used.
+oos_min_models_per_class: 5

@@ -123,3 +123,18 @@ describe("EPA range (T-061)", () => {
     expect(DIFF_KEYS).not.toContain("epa_range_km");
   });
 });
+
+describe("variantDeltas (T-045)", () => {
+  it("lists only fields both variants have that changed, in timeline order", async () => {
+    const { variantDeltas } = await import("./spec-diff");
+    const a = { variant_id: "a", variant_name: "58 kWh", battery_kwh_net: 58, real_range_km: 330, dc_km_per_20min: 150, power_kw: 150 };
+    const b = { variant_id: "b", variant_name: "77 kWh", battery_kwh_net: 77.4, real_range_km: 400, dc_km_per_20min: 150, power_kw: null };
+    const out = variantDeltas([a, b] as unknown as Parameters<typeof variantDeltas>[0]);
+    expect(out).toHaveLength(1);
+    expect(out[0]!.items).toEqual([
+      { field: "battery_kwh_net", delta: 19.4 },
+      { field: "real_range_km", delta: 70 },
+    ]);
+    expect(variantDeltas([a] as unknown as Parameters<typeof variantDeltas>[0])).toEqual([]);
+  });
+});
