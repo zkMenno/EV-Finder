@@ -33,6 +33,13 @@ _Last updated: 2026-11-15 (overnight prototype 1, branch `proto/overnight-1`)_
 - T-016 perf-budget (coordinator, `audits/`)
 - T-017 security-pass (coordinator, `audits/`)
 
+### Wave 5 — Bidirectional + plugs (added 2026-11-15, Decision 011, docs/spec/bidirectional-and-connectors.md)
+- T-018 schema-bidi-connectors (coordinator, `packages/schema`)
+- T-019 taxonomy-seed-bidi (WS3/WS1, `data/`) — after T-018
+- T-020 web-bidi-filters (WS2, `apps/web`) — wave 6, after T-019
+- T-021 learn-bidi-plugs (WS3, `content/`)
+- T-022 us-ports-nacs (parked to phase 4)
+
 ## Blocked
 - _nothing_
 

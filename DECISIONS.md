@@ -175,4 +175,23 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** The catalogue JSON ships the taxonomy tables, which adds a few KB. Most pack facts tonight come from hand-entered seed data (confidence low) or are `not-disclosed`.
 
+---
+
+## Decision 011: Bidirectional charging and plug standards as country-aware, conditional facts
+
+**Status:** Accepted (WS0, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Menno asked for filters on which cars support V2G/V2H, which work with the EU 2027 protocol, and with which caveats; plus CCS/NACS filters for the US. Research R-01: from 1 Jan 2027 AFIR (Delegated Regulation (EU) 2025/656) requires ISO 15118-20 on every new or renovated EU charging point, private ones included, but that is a protocol duty, not a bidirectional-hardware duty. Whether a car can actually do V2H/V2G depends on software version, battery size, build date, wallbox route (AC vs expensive DC box), energy contract and country. US ports switch from CCS1 to NACS by model year.
+
+**Decision:**
+- New taxonomies: `bidi_modes`, `bidi_routes`, `bidi_protocols`, `bidi_caveats`, `bidi_status`, `connector_types`, `bidi_equipment` (data rows, per-language strings).
+- New entities `BidiCapability` (per variant or platform, with per-country status and conditions) and `ChargingPort` (per variant, market and model year). New variant Fact `iso15118_20_support` (default `not_disclosed`, never inferred).
+- Filters default to "live in your selected country". Conditional eligibility is shown as conditions, never as a plain tick. Caveats come from the taxonomy, never free text.
+- Copy rule: never say new 2027 chargers "are bidirectional"; say they "speak the standard that allows it".
+- Bidi facts expire: older than 90 days shows "may be out of date".
+- Phasing in docs/spec/bidirectional-and-connectors.md §4 (schema + EU ports + learn section Core 1; bidi filters Core 2; US ports/NACS Next).
+
+**Consequences:** More rows per variant and a monthly re-check job for bidi facts. Most cars will show "not offered" or "not disclosed" for ISO 15118-20 at first, which is honest.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
