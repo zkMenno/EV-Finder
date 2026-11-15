@@ -1,0 +1,232 @@
+"""`ev release rollback --to <n>`, `ev release diff <a> <b>`, `ev release list` (addendum 6 P2).
+
+These hang under the existing `ev release` command (plain `ev release [--dry-run]` still
+builds a release). `latest` is a one-line file holding the current release number; it is
+switched atomically (temp file + rename, `release.build.write_latest`), so the web app always
+reads a whole number.
+
+Rollback only points `latest` at an existing, QA-passed release (its `qa.json` exists and is
+not `fail`). Nothing is deleted: the newer folders stay, and the next `ev release` still takes
+the highest number + 1.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from collections import Counter
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+from ev_pipeline.health.state import latest_release, runs_dir
+from ev_pipeline.release.build import (
+    compute_diff,
+    default_data_dir,
+    existing_releases,
+    write_latest,
+)
+
+SHOW = 15
+
+
+class ReleaseOpError(RuntimeError):
+    pass
+
+
+def _resolve(data_dir: Path, ref: str) -> int:
+    if ref == "latest":
+        n = latest_release(data_dir)
+        if n is None:
+            raise ReleaseOpError("data/releases/latest is missing or not a number")
+        return n
+    if not ref.isdigit():
+        raise ReleaseOpError(f"not a release number: {ref!r}")
+    return int(ref)
+
+
+def _catalogue(data_dir: Path, n: int) -> dict[str, Any]:
+    path = data_dir / "releases" / str(n) / "catalogue.json"
+    if not path.exists():
+        raise ReleaseOpError(f"release {n} has no catalogue.json ({path.parent.name}/ missing?)")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def qa_status(data_dir: Path, n: int) -> str:
+    path = data_dir / "releases" / str(n) / "qa.json"
+    if not path.exists():
+        return "missing"
+    try:
+        return str(json.loads(path.read_text(encoding="utf-8")).get("status") or "unknown")
+    except json.JSONDecodeError:
+        return "unreadable"
+
+
+# --- rollback ----------------------------------------------------------------------------
+
+
+def rollback(data_dir: Path, to: int) -> dict[str, Any]:
+    releases = data_dir / "releases"
+    if to not in existing_releases(releases):
+        raise ReleaseOpError(f"release {to} does not exist in {releases.name}/")
+    _catalogue(data_dir, to)
+    qa = qa_status(data_dir, to)
+    if qa in ("fail", "missing", "unreadable"):
+        raise ReleaseOpError(f"release {to} has QA status {qa!r}; refusing to make it latest")
+    before = latest_release(data_dir)
+    write_latest(releases, to)
+    entry = {
+        "step": "release_rollback",
+        "at": datetime.now(UTC).replace(microsecond=0).isoformat(),
+        "from": before,
+        "to": to,
+        "qa_status": qa,
+    }
+    d = runs_dir(data_dir)
+    d.mkdir(parents=True, exist_ok=True)
+    with (d / "releases.jsonl").open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(entry) + "\n")
+    return entry
+
+
+# --- diff --------------------------------------------------------------------------------
+
+
+def diff_summary(a: dict[str, Any], b: dict[str, Any]) -> dict[str, Any]:
+    d = compute_diff(a, b)
+    fields: Counter[str] = Counter()
+    for changes in d["changed"].values():
+        fields.update(list(changes))
+    sa = {s["id"] for s in a.get("sources") or []}
+    sb = {s["id"] for s in b.get("sources") or []}
+    examples = []
+    for vid, changes in list(d["changed"].items())[:SHOW]:
+        for f, ch in list(changes.items())[:3]:
+            examples.append({"variant_id": vid, "field": f, "old": ch["old"], "new": ch["new"]})
+    return {
+        "from": a.get("release"),
+        "to": b.get("release"),
+        "generated_at": {"from": a.get("generated_at"), "to": b.get("generated_at")},
+        "counts": d["counts"],
+        "changed_fields": dict(fields.most_common()),
+        "sources_added": sorted(sb - sa),
+        "sources_removed": sorted(sa - sb),
+        "examples": examples,
+        "diff": d,
+    }
+
+
+def _short(v: Any) -> str:
+    text = json.dumps(v, ensure_ascii=False) if not isinstance(v, str) else v
+    return text if len(text) <= 40 else text[:37] + "..."
+
+
+def diff_text(s: dict[str, Any]) -> str:
+    c = s["counts"]
+    lines = [
+        f"Release {s['from']} -> {s['to']}",
+        f"  generated {s['generated_at']['from']} -> {s['generated_at']['to']}",
+        f"  variants {c['rows_previous']} -> {c['rows']}: +{c['added']} added, "
+        f"-{c['removed']} removed, {c['changed']} changed",
+    ]
+    d = s["diff"]
+    for label, ids in (("added", d["added"]), ("removed", d["removed"])):
+        if ids:
+            more = f" (+{len(ids) - SHOW} more)" if len(ids) > SHOW else ""
+            lines.append(f"  {label}: " + ", ".join(ids[:SHOW]) + more)
+    if s["changed_fields"]:
+        lines.append("  changed fields (variants):")
+        for f, n in list(s["changed_fields"].items())[:20]:
+            lines.append(f"    {f:<32} {n}")
+    if s["sources_added"] or s["sources_removed"]:
+        lines.append(
+            f"  sources: +{', '.join(s['sources_added']) or '-'}"
+            f" / -{', '.join(s['sources_removed']) or '-'}"
+        )
+    if s["examples"]:
+        lines.append("  examples:")
+        for e in s["examples"][:10]:
+            lines.append(
+                f"    {e['variant_id']} {e['field']}: {_short(e['old'])} -> {_short(e['new'])}"
+            )
+    return "\n".join(lines)
+
+
+# --- list --------------------------------------------------------------------------------
+
+
+def list_releases(data_dir: Path) -> list[dict[str, Any]]:
+    cur = latest_release(data_dir)
+    out = []
+    for n in existing_releases(data_dir / "releases"):
+        row: dict[str, Any] = {"release": n, "latest": n == cur, "qa": qa_status(data_dir, n)}
+        try:
+            cat = _catalogue(data_dir, n)
+            row.update(generated_at=cat.get("generated_at"), rows=len(cat.get("rows") or []))
+        except (ReleaseOpError, json.JSONDecodeError):
+            row.update(generated_at=None, rows=None)
+        out.append(row)
+    return out
+
+
+# --- commands ----------------------------------------------------------------------------
+
+
+def cmd_rollback(args: argparse.Namespace) -> int:
+    data_dir = default_data_dir()
+    try:
+        entry = rollback(data_dir, args.to)
+    except ReleaseOpError as exc:
+        print(f"rollback refused: {exc}")
+        return 1
+    print(f"latest: {entry['from']} -> {entry['to']} (QA {entry['qa_status']})")
+    return 0
+
+
+def cmd_diff(args: argparse.Namespace) -> int:
+    data_dir = default_data_dir()
+    try:
+        a, b = (_catalogue(data_dir, _resolve(data_dir, r)) for r in (args.a, args.b))
+    except ReleaseOpError as exc:
+        print(f"diff: {exc}")
+        return 1
+    s = diff_summary(a, b)
+    if args.json:
+        print(json.dumps(s, indent=1, ensure_ascii=False))
+    else:
+        print(diff_text(s))
+    return 0
+
+
+def cmd_list(args: argparse.Namespace) -> int:
+    rows = list_releases(default_data_dir())
+    if args.json:
+        print(json.dumps(rows, indent=1))
+        return 0
+    print(f"{'release':>7}  {'latest':<6}  {'qa':<6}  {'rows':>6}  generated")
+    for r in rows:
+        print(
+            f"{r['release']:>7}  {'*' if r['latest'] else '':<6}  {r['qa']:<6}  "
+            f"{r['rows'] if r['rows'] is not None else '-':>6}  {r['generated_at'] or '-'}"
+        )
+    return 0
+
+
+def register(sub: argparse._SubParsersAction) -> None:
+    rel = sub.choices.get("release")
+    if rel is None:
+        rel = sub.add_parser("release", help="build or manage catalogue releases")
+    actions = rel.add_subparsers(
+        dest="release_action", required=False, metavar="{rollback,diff,list}"
+    )
+    p = actions.add_parser("rollback", help="point data/releases/latest at an older release")
+    p.add_argument("--to", type=int, required=True, help="release number")
+    p.set_defaults(func=cmd_rollback)
+    p = actions.add_parser("diff", help="what changed between two releases")
+    p.add_argument("a", help="release number or 'latest'")
+    p.add_argument("b", help="release number or 'latest'")
+    p.add_argument("--json", action="store_true", help="machine-readable output")
+    p.set_defaults(func=cmd_diff)
+    p = actions.add_parser("list", help="releases, QA status, which one is latest")
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(func=cmd_list)

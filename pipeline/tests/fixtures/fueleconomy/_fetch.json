@@ -1,0 +1,10 @@
+{
+  "fetched_at": "2026-11-15T01:59:06+00:00",
+  "url": "https://www.fueleconomy.gov/feg/epadata/vehicles.csv.zip",
+  "file": "vehicles.csv.zip",
+  "bytes": 2228192,
+  "last_modified": "Wed, 04 Nov 2026 14:31:23 GMT",
+  "licence": "US-Government-Public-Domain",
+  "licence_basis": "No licence on the download page. data.gov record 'www.fueleconomy.gov' (publisher EPA) links the EPA Data License: 'all data produced by the U.S EPA is by default in the public domain' (17 U.S.C. 105), https://edg.epa.gov/EPA_Data_License.htm",
+  "fixture_note": "Recorded 2026-11-15: 97 of 50647 rows (BEVs of 7 makes plus PHEV/FCV/petrol rows for the filter), unzipped."
+}

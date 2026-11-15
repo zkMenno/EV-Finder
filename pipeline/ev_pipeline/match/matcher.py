@@ -106,15 +106,16 @@ BEV_FILTERED_SOURCES = frozenset({"rdw", "eea", "kba-fz10", "dft-veh", "ademe", 
 MATCH_ON_VARIANT_NAME = frozenset({"dft-veh"})
 
 # Sources that only add facts to variants made by other sources (see 9 above).
-ATTACH_ONLY_SOURCES = frozenset(
-    {"ademe", "kilowatt-openev", "rdw"}
-)  # rdw: registration names never define variants (Q-068)
+# rdw: registration names never define variants (Q-068); fueleconomy: US market names.
+ATTACH_ONLY_SOURCES = frozenset({"ademe", "kilowatt-openev", "rdw", "fueleconomy"})
 
 # Fields a source emits that we do not use, with the reason (counted in the run log).
 IGNORED_FIELDS: dict[str, dict[str, str]] = {
     # Our consumption_kwh_100km is a WLTP figure (motorway = x 1.30, AC km/h); KilowattApp's
     # "energy_consumption" is an app average of unknown cycle (Q-048 item 5).
     "kilowatt-openev": {"consumption_kwh_100km": "not a WLTP figure"},
+    # EPA consumption is measured on the US test cycle, not WLTP (Q-075).
+    "fueleconomy": {"consumption_kwh_100km": "EPA cycle, not WLTP"},
 }
 
 # What a source's registration count is (RegistrationCount.kind).

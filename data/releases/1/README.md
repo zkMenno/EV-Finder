@@ -1,14 +1,14 @@
 # EV Finder catalogue release 1
 
-Generated 2026-11-15T01:56:36+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
+Generated 2026-11-15T02:07:14+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
 
 ## Counts
 
 - Variants (rows): 197
 - Generations with rows: 55 of 56 in the seed
-- Facts: 8434
+- Facts: 8846
 - Quality tiers: single-source 184, sourced 13
-- Real-range rungs: body-ratio 126, none 71
+- Real-range rungs: body-ratio 140, none 57
 - Changes vs previous: +197 / -0 / ~0
 
 ## Sources and licences
@@ -18,6 +18,7 @@ Generated 2026-11-15T01:56:36+00:00 by `ev release`. Data licence: CC BY 4.0 (se
 | ademe (ADEME – Car Labelling) | Licence-Ouverte-2.0 | ADEME – Car Labelling, Licence Ouverte |
 | dft-veh (DfT vehicle licensing statistics: df_VEH0120 (licensed vehicles by make and model)) | OGL-UK-3.0 | Contains public sector information licensed under the Open Government Licence v3.0 (Department for Transport, vehicle licensing statistics). |
 | eea (EEA CO2 monitoring of new cars (Reg. 2019/631)) | CC-BY-4.0 | Contains data from the European Environment Agency, CO2 emissions from new passenger cars (Regulation (EU) 2019/631). Copyright holder: Directorate-General for Climate Action (DG CLIMA). CC BY 4.0. |
+| fueleconomy (fueleconomy.gov vehicles dataset (US DOE / EPA)) | US-Government-Public-Domain | Data from fueleconomy.gov (U.S. Department of Energy and U.S. Environmental Protection Agency), public domain. |
 | kba-fz10 (KBA FZ10 new registrations by make and model series) | dl-de/by-2-0 | © Kraftfahrt-Bundesamt, Flensburg. Datenlizenz Deutschland – Namensnennung – Version 2.0 (FZ10, Neuzulassungen nach Marken und Modellreihen). |
 | kilowatt-openev (Open EV Data (KilowattApp)) | MIT-with-attribution | Open EV Data (https://github.com/KilowattApp/open-ev-data) |
 | model-estimate (EV Finder estimate models) | CC-BY-4.0 | EV Finder estimate models |
@@ -30,6 +31,7 @@ Generated 2026-11-15T01:56:36+00:00 by `ev release`. Data licence: CC BY 4.0 (se
 - Contains data from ADEME – Car Labelling (https://data.ademe.fr/datasets/ademe-car-labelling), licensed Licence-Ouverte-2.0. ADEME – Car Labelling, Licence Ouverte
 - Contains data from DfT vehicle licensing statistics: df_VEH0120 (licensed vehicles by make and model) (https://www.gov.uk/government/statistical-data-sets/vehicle-licensing-statistics-data-files), licensed OGL-UK-3.0. Contains public sector information licensed under the Open Government Licence v3.0 (Department for Transport, vehicle licensing statistics).
 - Contains data from EEA CO2 monitoring of new cars (Reg. 2019/631) (https://www.eea.europa.eu/en/datahub/datahubitem-view/fa8b1229-3db6-495d-b18e-9c9b3267c02b), licensed CC-BY-4.0. Contains data from the European Environment Agency, CO2 emissions from new passenger cars (Regulation (EU) 2019/631). Copyright holder: Directorate-General for Climate Action (DG CLIMA). CC BY 4.0.
+- Contains data from fueleconomy.gov vehicles dataset (US DOE / EPA) (https://www.fueleconomy.gov/feg/download.shtml), licensed US-Government-Public-Domain. Data from fueleconomy.gov (U.S. Department of Energy and U.S. Environmental Protection Agency), public domain.
 - Contains data from KBA FZ10 new registrations by make and model series (https://www.kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html), licensed dl-de/by-2-0. © Kraftfahrt-Bundesamt, Flensburg. Datenlizenz Deutschland – Namensnennung – Version 2.0 (FZ10, Neuzulassungen nach Marken und Modellreihen).
 - Contains data from Open EV Data (KilowattApp) (https://github.com/KilowattApp/open-ev-data), licensed MIT-with-attribution. Open EV Data (https://github.com/KilowattApp/open-ev-data)
 - Contains data from EV Finder estimate models, licensed CC-BY-4.0.

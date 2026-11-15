@@ -1,0 +1,25 @@
+{
+  "fetched_at": "2026-11-15T02:04:05+00:00",
+  "content_api": "https://www.gov.uk/api/content/government/statistical-data-sets/electric-vehicle-charging-infrastructure-statistics-data-tables-evci",
+  "page": "https://www.gov.uk/government/statistical-data-sets/electric-vehicle-charging-infrastructure-statistics-data-tables-evci",
+  "files": {
+    "evci0101": {
+      "url": "https://assets.publishing.service.gov.uk/media/6a8ed778df4246cf45e4654d/evci0101_2026-07_EV_chargers_by_region_and_country_UK.ods",
+      "name": "evci0101_2026-07_EV_chargers_by_region_and_country_UK.ods",
+      "bytes": 27595,
+      "sha256": "028ea166ca95fdae51f8f94fd9f4af85a2bcbc3c8bcd05dda03bb31ff4f6d49d"
+    },
+    "evci0201": {
+      "url": "https://assets.publishing.service.gov.uk/media/6a8ed7e53b22fb169dc18e1d/evci0201_2026-07_EV_chargers_by_power_band_UK.ods",
+      "name": "evci0201_2026-07_EV_chargers_by_power_band_UK.ods",
+      "bytes": 7619,
+      "sha256": "6f2c880c11863c12444aa7a983da918e55aa9e78dfd480c1ac216ce581254720"
+    }
+  },
+  "licence": "OGL-UK-3.0",
+  "licence_basis": "Release page: 'This publication is licensed under the terms of the Open Government Licence v3.0 except where otherwise stated'; no third-party marking on the EVCI tables.",
+  "attribution": "Contains public sector information licensed under the Open Government Licence v3.0 (Department for Transport, EV charging infrastructure statistics; data collated by Zapmap).",
+  "public_updated_at": "2026-08-27T09:30:03+01:00",
+  "title": "Electric vehicle charging infrastructure statistics: data tables (EVCI)",
+  "fixture_note": "Recorded 2026-11-15 (release 1 July 2026). evci0201.ods unchanged; evci0101.ods rewritten with the Notes sheet and the machine-readable sheet for UK, England, Scotland and London only (112 rows). OGL v3.0."
+}

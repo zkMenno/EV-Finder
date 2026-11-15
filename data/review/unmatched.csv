@@ -688,6 +688,340 @@ um-4e34e50792,open,eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|ES90|2
 um-07d9a50e72,open,eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30|2025,VOLVO,EX30,,,model not in seed (4x)
 um-d6e7684ead,open,eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX30 CROSS COUNTRY|2025,VOLVO,EX30 CROSS COUNTRY,,,model not in seed (4x)
 um-ef2481a98c,open,eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|VOLVO|EX90|2025,VOLVO,EX90,,,model not in seed (4x)
+um-cb8498c7d7,open,fueleconomy,vehicles.csv:id=50366;market=us,Audi,A6 e-tron,,,model not in seed (1x)
+um-6420f5aa7f,open,fueleconomy,vehicles.csv:id=50367;market=us,Audi,A6 e-tron quattro,,,model not in seed (1x)
+um-d7073bd0d8,open,fueleconomy,vehicles.csv:id=50368;market=us,Audi,A6 e-tron quattro ultra,,,model not in seed (1x)
+um-bec41c0431,open,fueleconomy,vehicles.csv:id=50369;market=us,Audi,A6 e-tron ultra,,,model not in seed (1x)
+um-eb1db9cc25,open,fueleconomy,vehicles.csv:id=41393;market=us,Audi,e-tron,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-ge (2x)"
+um-aa2773af70,open,fueleconomy,vehicles.csv:id=44776;market=us,Audi,e-tron GT,,,model not in seed (name excluded from audi-e-tron) (3x)
+um-896fa07029,open,fueleconomy,vehicles.csv:id=44920;market=us,Audi,e-tron quattro,,,"attach-only: tie between audi-e-tron-ge-50, audi-e-tron-ge-55 in audi-e-tron-ge (1x)"
+um-3f345c24ae,open,fueleconomy,vehicles.csv:id=45985;market=us,Audi,e-tron S (20 inch wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-q8 (1x)"
+um-22794c45a9,open,fueleconomy,vehicles.csv:id=46614;market=us,Audi,e-tron S (21/22 inch wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-q8 (1x)"
+um-de7f88ffe4,open,fueleconomy,vehicles.csv:id=45986;market=us,Audi,e-tron S Sportback (20 inch wheels),,,"attach-only: tie between audi-e-tron-q8-50-sportback, audi-e-tron-q8-55-sportback, audi-e-tron-q8-quattro-sportback in audi-e-tron-q8 (1x)"
+um-95557d2544,open,fueleconomy,vehicles.csv:id=46615;market=us,Audi,e-tron S Sportback (21/22 inch wheels),,,"attach-only: tie between audi-e-tron-q8-50-sportback, audi-e-tron-q8-55-sportback, audi-e-tron-q8-quattro-sportback in audi-e-tron-q8 (1x)"
+um-53a13ed87a,open,fueleconomy,vehicles.csv:id=42674;market=us,Audi,e-tron Sportback,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-ge (2x)"
+um-ffb4dd582d,open,fueleconomy,vehicles.csv:id=44921;market=us,Audi,e-tron Sportback quattro,,,"attach-only: tie between audi-e-tron-ge-50, audi-e-tron-ge-55 in audi-e-tron-ge (1x)"
+um-2528f917f6,open,fueleconomy,vehicles.csv:id=48296;market=us,Audi,Q4 45 e-tron,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (2x)"
+um-280828da2a,open,fueleconomy,vehicles.csv:id=45983;market=us,Audi,Q4 e-tron,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (1x)"
+um-26d32c1a51,open,fueleconomy,vehicles.csv:id=45989;market=us,Audi,Q4 e-tron Sportback,,,"attach-only: tie between audi-q4-e-tron-gen1-40-sportback, audi-q4-e-tron-gen1-50-sportback, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (1x)"
+um-8abde2b285,open,fueleconomy,vehicles.csv:id=46912;market=us,Audi,Q4 Sportback 50 e-tron quattro,,,"attach-only: tie between audi-q4-e-tron-gen1-50-quattro, audi-q4-e-tron-gen1-50-sportback, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (1x)"
+um-31d38ceeed,open,fueleconomy,vehicles.csv:id=48683;market=us,Audi,Q6 e-tron (19 inch wheels),,,model not in seed (1x)
+um-ab144e3a28,open,fueleconomy,vehicles.csv:id=48684;market=us,Audi,Q6 e-tron (20 inch wheels),,,model not in seed (1x)
+um-a277212f3c,open,fueleconomy,vehicles.csv:id=50376;market=us,Audi,Q6 e-tron quattro (19 inch Tires),,,model not in seed (1x)
+um-9bc48c563a,open,fueleconomy,vehicles.csv:id=48297;market=us,Audi,Q6 e-tron quattro (19 inch wheels),,,model not in seed (1x)
+um-0484c51918,open,fueleconomy,vehicles.csv:id=50377;market=us,Audi,Q6 e-tron quattro (20 inch Tires),,,model not in seed (1x)
+um-d4e7d3fa3d,open,fueleconomy,vehicles.csv:id=48298;market=us,Audi,Q6 e-tron quattro (20 inch wheels),,,model not in seed (1x)
+um-c5fde050c8,open,fueleconomy,vehicles.csv:id=50378;market=us,Audi,Q6 e-tron SB quattro (20 inch Tires),,,model not in seed (1x)
+um-699e83bfe6,open,fueleconomy,vehicles.csv:id=48685;market=us,Audi,Q6 e-tron ultra,,,model not in seed (1x)
+um-025ed3a1a4,open,fueleconomy,vehicles.csv:id=50379;market=us,Audi,Q6 Sportback e-tron quattro,,,model not in seed (1x)
+um-2f5d82e358,open,fueleconomy,vehicles.csv:id=48686;market=us,Audi,Q6 Sportback e-tron quattro (19 inch wheels),,,model not in seed (1x)
+um-0b8af84f7d,open,fueleconomy,vehicles.csv:id=48687;market=us,Audi,Q6 Sportback e-tron quattro (20 inch wheels),,,model not in seed (1x)
+um-8fc71eeb29,open,fueleconomy,vehicles.csv:id=44783;market=us,Audi,RS e-tron GT,,,model not in seed (3x)
+um-a41ab82bf8,open,fueleconomy,vehicles.csv:id=48993;market=us,Audi,RS e-tron GT Performance,,,model not in seed (3x)
+um-4abb09f531,open,fueleconomy,vehicles.csv:id=48688;market=us,Audi,S e-tron GT (20 inch wheels),,,model not in seed (3x)
+um-ef0102d927,open,fueleconomy,vehicles.csv:id=48689;market=us,Audi,S e-tron GT (21 inch wheels),,,model not in seed (3x)
+um-2d5753518f,open,fueleconomy,vehicles.csv:id=50370;market=us,Audi,S6 e-tron (20 inch wheels),,,model not in seed (1x)
+um-69a99b59ea,open,fueleconomy,vehicles.csv:id=50371;market=us,Audi,S6 e-tron (21 inch wheels),,,model not in seed (1x)
+um-7ef28befb7,open,fueleconomy,vehicles.csv:id=48303;market=us,Audi,SQ6 e-tron,,,model not in seed (1x)
+um-5ddcfeda7d,open,fueleconomy,vehicles.csv:id=50380;market=us,Audi,SQ6 e-tron (20 inch Tires),,,model not in seed (1x)
+um-3fa26d0758,open,fueleconomy,vehicles.csv:id=50381;market=us,Audi,SQ6 e-tron (21 inch Tires),,,model not in seed (1x)
+um-cc27e87fd8,open,fueleconomy,vehicles.csv:id=48690;market=us,Audi,SQ6 Sportback e-tron,,,model not in seed (1x)
+um-12d63fff24,open,fueleconomy,vehicles.csv:id=50382;market=us,Audi,SQ6 Sportback e-tron (20 inch Tires),,,model not in seed (1x)
+um-ab33f68496,open,fueleconomy,vehicles.csv:id=50383;market=us,Audi,SQ6 Sportback e-tron (21 inch Tires),,,model not in seed (1x)
+um-804136452c,open,fueleconomy,vehicles.csv:id=47441;market=us,Audi,SQ8 e-tron (20 inch wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-q8 (2x)"
+um-40c7615458,open,fueleconomy,vehicles.csv:id=47442;market=us,Audi,SQ8 e-tron (21/22 inch wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-q8 (2x)"
+um-7acc293a31,open,fueleconomy,vehicles.csv:id=47443;market=us,Audi,SQ8 Sportback e-tron (20 inch wheels),,,"attach-only: tie between audi-e-tron-q8-50-sportback, audi-e-tron-q8-55-sportback, audi-e-tron-q8-quattro-sportback in audi-e-tron-q8 (2x)"
+um-43bf6d77f8,open,fueleconomy,vehicles.csv:id=47444;market=us,Audi,SQ8 Sportback e-tron (21/22 inch wheels),,,"attach-only: tie between audi-e-tron-q8-50-sportback, audi-e-tron-q8-55-sportback, audi-e-tron-q8-quattro-sportback in audi-e-tron-q8 (2x)"
+um-4ef68d7db1,open,fueleconomy,vehicles.csv:id=32276;market=us,BMW,Active E,,,model not in seed (1x)
+um-f7329b2e8f,open,fueleconomy,vehicles.csv:id=41054;market=us,BMW,i3,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i3-i01 (3x)"
+um-dd43386edb,open,fueleconomy,vehicles.csv:id=39854;market=us,BMW,i3 (94Ah),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i3-i01 (1x)"
+um-f6823fa0a5,open,fueleconomy,vehicles.csv:id=51011;market=us,BMW,i3 50 xDrive Sedan (19 inch All-Season Tires),,,year 2027 outside every generation of bmw-i3 (1x)
+um-e6e65a0051,open,fueleconomy,vehicles.csv:id=51012;market=us,BMW,i3 50 xDrive Sedan (20 inch All-Season Tires),,,year 2027 outside every generation of bmw-i3 (1x)
+um-5419f3dc5c,open,fueleconomy,vehicles.csv:id=51013;market=us,BMW,i3 50 xDrive Sedan (20 inch Summer Tires),,,year 2027 outside every generation of bmw-i3 (1x)
+um-1b3c184fe6,open,fueleconomy,vehicles.csv:id=51014;market=us,BMW,i3 50 xDrive Sedan (21 inch Summer Tires),,,year 2027 outside every generation of bmw-i3 (1x)
+um-0f3e3484b5,open,fueleconomy,vehicles.csv:id=35207;market=us,BMW,i3 BEV,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i3-i01 (3x)"
+um-f60a2cfbdd,open,fueleconomy,vehicles.csv:id=50190;market=us,BMW,i4 M60 xDrive Gran Coupe (19 inch Wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i4-g26 (1x)"
+um-2c3655b82a,open,fueleconomy,vehicles.csv:id=50191;market=us,BMW,i4 M60 xDrive Gran Coupe (20 inch Wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i4-g26 (1x)"
+um-9b0996a106,open,fueleconomy,vehicles.csv:id=46923;market=us,BMW,i5 eDrive40 Sedan (19 inch Wheels),,,model not in seed (4x)
+um-67f81a1555,open,fueleconomy,vehicles.csv:id=46924;market=us,BMW,i5 eDrive40 Sedan (20 inch Wheels),,,model not in seed (4x)
+um-5d6ffd73cb,open,fueleconomy,vehicles.csv:id=46925;market=us,BMW,i5 eDrive40 Sedan (21 inch Wheels),,,model not in seed (4x)
+um-b66df975e2,open,fueleconomy,vehicles.csv:id=46926;market=us,BMW,i5 M60 xDrive Sedan (19 inch Wheels),,,model not in seed (4x)
+um-54c16dc969,open,fueleconomy,vehicles.csv:id=46927;market=us,BMW,i5 M60 xDrive Sedan (20 inch Wheels),,,model not in seed (4x)
+um-057c7a6a23,open,fueleconomy,vehicles.csv:id=46928;market=us,BMW,i5 M60 xDrive Sedan (21 inch Wheels),,,model not in seed (4x)
+um-451763ba81,open,fueleconomy,vehicles.csv:id=48322;market=us,BMW,i5 xDrive40 Sedan (19 inch Wheels),,,model not in seed (3x)
+um-8313ef6d40,open,fueleconomy,vehicles.csv:id=48323;market=us,BMW,i5 xDrive40 Sedan (20 inch Wheels),,,model not in seed (3x)
+um-3a9b7cdcf4,open,fueleconomy,vehicles.csv:id=48324;market=us,BMW,i5 xDrive40 Sedan (21 inch Wheels),,,model not in seed (3x)
+um-0314a96507,open,fueleconomy,vehicles.csv:id=46929;market=us,BMW,i7 eDrive50 Sedan (19 inch Wheels),,,model not in seed (3x)
+um-75e582068d,open,fueleconomy,vehicles.csv:id=46930;market=us,BMW,i7 eDrive50 Sedan (20 inch Wheels),,,model not in seed (3x)
+um-e92c6b5d33,open,fueleconomy,vehicles.csv:id=46931;market=us,BMW,i7 eDrive50 Sedan (21 inch Wheels),,,model not in seed (3x)
+um-cac0144ca6,open,fueleconomy,vehicles.csv:id=46932;market=us,BMW,i7 M70 xDrive Sedan (20 inch Wheels),,,model not in seed (3x)
+um-07672bc363,open,fueleconomy,vehicles.csv:id=46933;market=us,BMW,i7 M70 xDrive Sedan (21 inch Wheels),,,model not in seed (3x)
+um-9ce216c07c,open,fueleconomy,vehicles.csv:id=50604;market=us,BMW,i7 xDrive50 Sedan (20 inch All-Season Tires),,,model not in seed (1x)
+um-b680a0a0ae,open,fueleconomy,vehicles.csv:id=50840;market=us,BMW,i7 xDrive50 Sedan (20 inch Summer Tires),,,model not in seed (1x)
+um-19a3e773ce,open,fueleconomy,vehicles.csv:id=50605;market=us,BMW,i7 xDrive50 Sedan (21 inch All-Season Tires),,,model not in seed (1x)
+um-c1a25891bb,open,fueleconomy,vehicles.csv:id=50606;market=us,BMW,i7 xDrive50 Sedan (21 inch Summer Tires),,,model not in seed (1x)
+um-8fa39a68a0,open,fueleconomy,vehicles.csv:id=45993;market=us,BMW,i7 xDrive60 Sedan (19 inch wheels),,,model not in seed (4x)
+um-9242731f3b,open,fueleconomy,vehicles.csv:id=50607;market=us,BMW,i7 xDrive60 Sedan (20 inch All-Season Tires),,,model not in seed (1x)
+um-299f5b43c0,open,fueleconomy,vehicles.csv:id=50608;market=us,BMW,i7 xDrive60 Sedan (20 inch Summer Tires),,,model not in seed (1x)
+um-c7bfafec7a,open,fueleconomy,vehicles.csv:id=45994;market=us,BMW,i7 xDrive60 Sedan (20 inch wheels),,,model not in seed (4x)
+um-439a2c782d,open,fueleconomy,vehicles.csv:id=50609;market=us,BMW,i7 xDrive60 Sedan (21 inch All-Season Tires),,,model not in seed (1x)
+um-b422e72991,open,fueleconomy,vehicles.csv:id=50610;market=us,BMW,i7 xDrive60 Sedan (21 inch Summer Tires),,,model not in seed (1x)
+um-f739cdce8e,open,fueleconomy,vehicles.csv:id=45995;market=us,BMW,i7 xDrive60 Sedan (21 inch wheels),,,model not in seed (3x)
+um-923bd6963e,open,fueleconomy,vehicles.csv:id=48332;market=us,BMW,i7 xDrive60 Sedan (21inch wheels),,,model not in seed (1x)
+um-1ee820605c,open,fueleconomy,vehicles.csv:id=45326;market=us,BMW,iX M60 (21 inch wheels),,,model not in seed (3x)
+um-e0c45b4e47,open,fueleconomy,vehicles.csv:id=45327;market=us,BMW,iX M60 (22 inch wheels),,,model not in seed (3x)
+um-03defa6e89,open,fueleconomy,vehicles.csv:id=49627;market=us,BMW,iX M70 (21 inch Wheels),,,model not in seed (1x)
+um-749d1da0f6,open,fueleconomy,vehicles.csv:id=49628;market=us,BMW,iX M70 (22 inch Wheels),,,model not in seed (1x)
+um-d9197cdb09,open,fueleconomy,vehicles.csv:id=49629;market=us,BMW,iX M70 (23 inch Wheels),,,model not in seed (1x)
+um-37c3b1b538,open,fueleconomy,vehicles.csv:id=46939;market=us,BMW,iX xDrive40 (20 inch Wheels),,,model not in seed (2x)
+um-787ad947dc,open,fueleconomy,vehicles.csv:id=46940;market=us,BMW,iX xDrive40 (21 inch Wheels),,,model not in seed (2x)
+um-7c3a44c0a2,open,fueleconomy,vehicles.csv:id=46941;market=us,BMW,iX xDrive40 (22 inch Wheels),,,model not in seed (2x)
+um-5f5d1836cb,open,fueleconomy,vehicles.csv:id=49619;market=us,BMW,iX xDrive45 (20 inch Wheels),,,model not in seed (1x)
+um-b1471eb374,open,fueleconomy,vehicles.csv:id=49620;market=us,BMW,iX xDrive45 (21 inch Wheels),,,model not in seed (1x)
+um-4265e73e2e,open,fueleconomy,vehicles.csv:id=49621;market=us,BMW,iX xDrive45 (22 inch Wheels),,,model not in seed (1x)
+um-00ebaffedc,open,fueleconomy,vehicles.csv:id=49622;market=us,BMW,iX xDrive45 (23 inch Wheels),,,model not in seed (1x)
+um-f50f48eee5,open,fueleconomy,vehicles.csv:id=45135;market=us,BMW,iX xDrive50 (20 inch wheels),,,model not in seed (4x)
+um-f3beadc5df,open,fueleconomy,vehicles.csv:id=45136;market=us,BMW,iX xDrive50 (21 inch wheels),,,model not in seed (4x)
+um-519adc0498,open,fueleconomy,vehicles.csv:id=45137;market=us,BMW,iX xDrive50 (22 inch wheels),,,model not in seed (4x)
+um-39290517a8,open,fueleconomy,vehicles.csv:id=49623;market=us,BMW,iX xDrive60 (20 inch Wheels),,,model not in seed (1x)
+um-0770fb6109,open,fueleconomy,vehicles.csv:id=49624;market=us,BMW,iX xDrive60 (21 inch Wheels),,,model not in seed (1x)
+um-58008f545b,open,fueleconomy,vehicles.csv:id=49625;market=us,BMW,iX xDrive60 (22 inch Wheels),,,model not in seed (1x)
+um-e012205af5,open,fueleconomy,vehicles.csv:id=49626;market=us,BMW,iX xDrive60 (23 inch Wheels),,,model not in seed (1x)
+um-ca08e2b5e6,open,fueleconomy,vehicles.csv:id=50384;market=us,BMW,iX3 50 xDrive (20 inch All-Season Tires),,,model not in seed (1x)
+um-03e8ba3208,open,fueleconomy,vehicles.csv:id=50385;market=us,BMW,iX3 50 xDrive (20 inch Summer Tires),,,model not in seed (1x)
+um-a0e404a14c,open,fueleconomy,vehicles.csv:id=50386;market=us,BMW,iX3 50 xDrive (21 inch All-Season Tires),,,model not in seed (1x)
+um-ada93e0c47,open,fueleconomy,vehicles.csv:id=50611;market=us,BMW,iX3 50 xDrive (21 inch Summer Tires),,,model not in seed (1x)
+um-212cac5d63,open,fueleconomy,vehicles.csv:id=50387;market=us,BMW,iX3 50 xDrive (22 inch Summer Tires),,,model not in seed (1x)
+um-9b7b49dee0,open,fueleconomy,vehicles.csv:id=51015;market=us,BMW,iX4 50 xDrive (20 inch All-Season Tires),,,model not in seed (1x)
+um-980e636f90,open,fueleconomy,vehicles.csv:id=51016;market=us,BMW,iX4 50 xDrive (20 inch Summer Tires),,,model not in seed (1x)
+um-f9ff5694fc,open,fueleconomy,vehicles.csv:id=51017;market=us,BMW,iX4 50 xDrive (21 inch All-Season Tires),,,model not in seed (1x)
+um-53bc663923,open,fueleconomy,vehicles.csv:id=51018;market=us,BMW,iX4 50 xDrive (21 inch Summer Tires),,,model not in seed (1x)
+um-ab04d1d408,open,fueleconomy,vehicles.csv:id=51019;market=us,BMW,iX4 50 xDrive (22 inch Summer Tires),,,model not in seed (1x)
+um-bf918bfeb7,open,fueleconomy,vehicles.csv:id=51020;market=us,BMW,iX5 60 xDrive (21 inch Summer Tires),,,model not in seed (1x)
+um-b0935ef240,open,fueleconomy,vehicles.csv:id=51021;market=us,BMW,iX5 60 xDrive (22 inch All-Season Tires),,,model not in seed (1x)
+um-49e26f0dbf,open,fueleconomy,vehicles.csv:id=51022;market=us,BMW,iX5 60 xDrive (22 inch Summer Tires),,,model not in seed (1x)
+um-008b473ff3,open,fueleconomy,vehicles.csv:id=33383;market=us,BYD,e6,,,model not in seed (7x)
+um-136af604ba,open,fueleconomy,vehicles.csv:id=17330;market=us,Ford,Explorer USPS Electric,,,model not in seed (2x)
+um-f00bd5dccd,open,fueleconomy,vehicles.csv:id=45318;market=us,Ford,F-150 Lightning 4WD,,,model not in seed (3x)
+um-4cbbcef56b,open,fueleconomy,vehicles.csv:id=48705;market=us,Ford,F-150 Lightning 4WD ER1,,,model not in seed (1x)
+um-c03ecc9ffe,open,fueleconomy,vehicles.csv:id=49077;market=us,Ford,F-150 Lightning 4WD ER2,,,model not in seed (1x)
+um-d9ad3cf664,open,fueleconomy,vehicles.csv:id=45317;market=us,Ford,F-150 Lightning 4WD Extended Range,,,model not in seed (3x)
+um-0421d59487,open,fueleconomy,vehicles.csv:id=48706;market=us,Ford,F-150 Lightning 4WD PRO ER1,,,model not in seed (1x)
+um-5ff4ffaae1,open,fueleconomy,vehicles.csv:id=48707;market=us,Ford,F-150 Lightning 4WD SR,,,model not in seed (1x)
+um-8922d3ad35,open,fueleconomy,vehicles.csv:id=45316;market=us,Ford,F-150 Lightning Platinum 4WD,,,model not in seed (4x)
+um-1f6f0d7409,open,fueleconomy,vehicles.csv:id=47820;market=us,Ford,F-150 Lightning PRO 4WD Extended Range,,,model not in seed (1x)
+um-15405cc122,open,fueleconomy,vehicles.csv:id=32278;market=us,Ford,Focus Electric,,,model not in seed (7x)
+um-e0e256d1a1,open,fueleconomy,vehicles.csv:id=45141;market=us,Ford,Mustang Mach-E CAL RT 1 ER RWD,,,"attach-only: tie between ford-mustang-mach-e-gen1-er-rwd, ford-mustang-mach-e-gen1-sr-rwd in ford-mustang-mach-e-gen1 (1x)"
+um-c6e43d7d94,open,fueleconomy,vehicles.csv:id=47827;market=us,Ford,Mustang Mach-E Rally,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in ford-mustang-mach-e-gen1 (3x)"
+um-8bbfb85e55,open,fueleconomy,vehicles.csv:id=43604;market=us,Ford,Mustang Mach-E RWD,,,"attach-only: tie between ford-mustang-mach-e-gen1-er-rwd, ford-mustang-mach-e-gen1-sr-rwd in ford-mustang-mach-e-gen1 (6x)"
+um-f703288204,open,fueleconomy,vehicles.csv:id=43683;market=us,Ford,Mustang Mach-E RWD California Route 1,,,"attach-only: tie between ford-mustang-mach-e-gen1-er-rwd, ford-mustang-mach-e-gen1-sr-rwd in ford-mustang-mach-e-gen1 (1x)"
+um-ad2c65c854,open,fueleconomy,vehicles.csv:id=46985;market=us,Ford,Mustang Mach-E RWD LFP,,,"attach-only: tie between ford-mustang-mach-e-gen1-er-rwd, ford-mustang-mach-e-gen1-sr-rwd in ford-mustang-mach-e-gen1 (1x)"
+um-fbb8b5a943,open,fueleconomy,vehicles.csv:id=30971;market=us,Ford,Ranger Pickup 2WD,,,model not in seed (5x)
+um-dbd92b8f5d,open,fueleconomy,vehicles.csv:id=17329;market=us,Ford,Th!nk,,,model not in seed (1x)
+um-72152a1ce9,open,fueleconomy,vehicles.csv:id=39191;market=us,Honda,Clarity EV,,,model not in seed (3x)
+um-a39fccaf70,open,fueleconomy,vehicles.csv:id=30975;market=us,Honda,EV Plus,,,model not in seed (2x)
+um-095e594761,open,fueleconomy,vehicles.csv:id=33265;market=us,Honda,Fit EV,,,model not in seed (2x)
+um-80fe393f7b,open,fueleconomy,vehicles.csv:id=47829;market=us,Honda,Prologue AWD Elite,,,model not in seed (3x)
+um-00f4c3aaf7,open,fueleconomy,vehicles.csv:id=47830;market=us,Honda,Prologue AWD Touring,,,model not in seed (3x)
+um-925856a0b6,open,fueleconomy,vehicles.csv:id=47828;market=us,Honda,Prologue FWD,,,model not in seed (3x)
+um-920453d724,open,fueleconomy,vehicles.csv:id=50647;market=us,Hyundai,Ioniq 6 N,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-6-gen1 (1x)"
+um-87e00d9247,open,fueleconomy,vehicles.csv:id=49662;market=us,Hyundai,Ioniq 9 AWD,,,model not in seed (2x)
+um-5aaccdd4ab,open,fueleconomy,vehicles.csv:id=49663;market=us,Hyundai,Ioniq 9 AWD Performance,,,model not in seed (2x)
+um-9f747bdbf4,open,fueleconomy,vehicles.csv:id=49661;market=us,Hyundai,Ioniq 9 RWD,,,model not in seed (2x)
+um-7b3c2de00f,open,fueleconomy,vehicles.csv:id=38431;market=us,Hyundai,Ioniq Electric,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-electric-gen1 (5x)"
+um-e48e893052,open,fueleconomy,vehicles.csv:id=46000;market=us,Hyundai,Kona Electric,,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (1x)"
+um-2ea0df4704,open,fueleconomy,vehicles.csv:id=40585;market=us,Hyundai,Kona Electric,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-os (4x)"
+um-c51bd6a9ab,open,fueleconomy,vehicles.csv:id=48357;market=us,Hyundai,Kona Electric (17 inch Wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-sx2 (1x)"
+um-216b81d34e,open,fueleconomy,vehicles.csv:id=48358;market=us,Hyundai,Kona Electric (19 inch Wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-sx2 (1x)"
+um-861ceab37a,open,fueleconomy,vehicles.csv:id=50648;market=us,Kia,EV3 Long Range AWD,,,model not in seed (1x)
+um-14e850f4ca,open,fueleconomy,vehicles.csv:id=50649;market=us,Kia,EV3 Long Range FWD,,,model not in seed (1x)
+um-dafb28815a,open,fueleconomy,vehicles.csv:id=50650;market=us,Kia,EV3 Long Range GT AWD,,,model not in seed (1x)
+um-8aaad908de,open,fueleconomy,vehicles.csv:id=50651;market=us,Kia,EV3 Standard Range FWD,,,model not in seed (1x)
+um-0862e160b4,open,fueleconomy,vehicles.csv:id=49669;market=us,Kia,EV9 GT,,,model not in seed (1x)
+um-5e17c750b6,open,fueleconomy,vehicles.csv:id=47452;market=us,Kia,EV9 Long Range AWD,,,model not in seed (4x)
+um-fa2f935835,open,fueleconomy,vehicles.csv:id=47453;market=us,Kia,EV9 Long Range AWD GT-Line,,,model not in seed (4x)
+um-cfabee8b72,open,fueleconomy,vehicles.csv:id=47450;market=us,Kia,EV9 Long Range RWD,,,model not in seed (4x)
+um-83f13a683b,open,fueleconomy,vehicles.csv:id=47451;market=us,Kia,EV9 Standard Range RWD,,,model not in seed (4x)
+um-ab40af5976,open,fueleconomy,vehicles.csv:id=44445;market=us,Kia,Niro Electric,,,"ambiguous-generation: 2022 is shared by kia-niro-ev-de, kia-niro-ev-sg2; no name/battery evidence (1x)"
+um-60fd78983d,open,fueleconomy,vehicles.csv:id=41060;market=us,Kia,Niro Electric,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-niro-ev-de (3x)"
+um-c39f4e0321,open,fueleconomy,vehicles.csv:id=40768;market=us,Kia,Soul Electric,,,"ambiguous-generation: 2019 is shared by kia-soul-ev-ps, kia-soul-ev-sk3; no name/battery evidence (1x)"
+um-1d1f595568,open,fueleconomy,vehicles.csv:id=35601;market=us,Kia,Soul Electric,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-soul-ev-ps (4x)"
+um-5ca7bfb8a6,open,fueleconomy,vehicles.csv:id=43412;market=us,Kia,Soul Electric,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-soul-ev-sk3 (1x)"
+um-162d13dd31,open,fueleconomy,vehicles.csv:id=47457;market=us,Mercedes-Benz,AMG EQE 4matic Plus,,,model not in seed (3x)
+um-8dce8abbd7,open,fueleconomy,vehicles.csv:id=46971;market=us,Mercedes-Benz,AMG EQE 4matic Plus (SUV),,,model not in seed (3x)
+um-27a2cbb5d5,open,fueleconomy,vehicles.csv:id=46330;market=us,Mercedes-Benz,AMG EQS 4matic Plus,,,model not in seed (3x)
+um-bef0f64c41,open,fueleconomy,vehicles.csv:id=51046;market=us,Mercedes-Benz,AMG GT 55 4dr Coupe,,,model not in seed (1x)
+um-1db27391c9,open,fueleconomy,vehicles.csv:id=51047;market=us,Mercedes-Benz,AMG GT 63 4dr Coupe,,,model not in seed (1x)
+um-79b6649ef6,open,fueleconomy,vehicles.csv:id=35247;market=us,Mercedes-Benz,B-Class Electric Drive,,,model not in seed (2x)
+um-eaacbe1b80,open,fueleconomy,vehicles.csv:id=36997;market=us,Mercedes-Benz,B250e,,,model not in seed (2x)
+um-86b94070ed,open,fueleconomy,vehicles.csv:id=50030;market=us,Mercedes-Benz,CLA250 Plus with EQ Tech,,,model not in seed (2x)
+um-95d5da1b8f,open,fueleconomy,vehicles.csv:id=50031;market=us,Mercedes-Benz,CLA250 Plus with EQ Tech (R22),,,model not in seed (2x)
+um-1641981799,open,fueleconomy,vehicles.csv:id=50032;market=us,Mercedes-Benz,CLA350 4matic with EQ Tech,,,model not in seed (2x)
+um-bdc9e9ab4a,open,fueleconomy,vehicles.csv:id=47844;market=us,Mercedes-Benz,EQB 250 Plus,,,model not in seed (2x)
+um-3fa3db60ae,open,fueleconomy,vehicles.csv:id=46331;market=us,Mercedes-Benz,EQB 300 4matic,,,model not in seed (3x)
+um-61aecaa50e,open,fueleconomy,vehicles.csv:id=46332;market=us,Mercedes-Benz,EQB 350 4matic,,,model not in seed (3x)
+um-8fc8d73b32,open,fueleconomy,vehicles.csv:id=49680;market=us,Mercedes-Benz,EQE 320 4matic,,,model not in seed (1x)
+um-6700ac0d05,open,fueleconomy,vehicles.csv:id=49685;market=us,Mercedes-Benz,EQE 320 4matic (SUV),,,model not in seed (2x)
+um-0cf9e7fb36,open,fueleconomy,vehicles.csv:id=49679;market=us,Mercedes-Benz,EQE 320 Plus,,,model not in seed (1x)
+um-05fa2b0b38,open,fueleconomy,vehicles.csv:id=49684;market=us,Mercedes-Benz,EQE 320 Plus (SUV),,,model not in seed (2x)
+um-68ef462af9,open,fueleconomy,vehicles.csv:id=47458;market=us,Mercedes-Benz,EQE 350 4matic,,,model not in seed (2x)
+um-b16312c713,open,fueleconomy,vehicles.csv:id=47848;market=us,Mercedes-Benz,EQE 350 4matic (SUV),,,model not in seed (2x)
+um-a08aa6d14c,open,fueleconomy,vehicles.csv:id=47459;market=us,Mercedes-Benz,EQE 350 Plus,,,model not in seed (2x)
+um-6ba4c8d4a8,open,fueleconomy,vehicles.csv:id=47846;market=us,Mercedes-Benz,EQE 350 Plus (SUV),,,model not in seed (2x)
+um-a0238f4747,open,fueleconomy,vehicles.csv:id=47460;market=us,Mercedes-Benz,EQE 500 4matic,,,model not in seed (2x)
+um-d64dba5038,open,fueleconomy,vehicles.csv:id=47849;market=us,Mercedes-Benz,EQE 500 4matic (SUV),,,model not in seed (2x)
+um-396d232961,open,fueleconomy,vehicles.csv:id=49688;market=us,Mercedes-Benz,EQS 400 4matic (SUV),,,model not in seed (2x)
+um-0e6333eaeb,open,fueleconomy,vehicles.csv:id=46009;market=us,Mercedes-Benz,EQS 450 4matic,,,model not in seed (4x)
+um-a6e99ed9c5,open,fueleconomy,vehicles.csv:id=46010;market=us,Mercedes-Benz,EQS 450 4matic (SUV),,,model not in seed (3x)
+um-64c7dcfb45,open,fueleconomy,vehicles.csv:id=44785;market=us,Mercedes-Benz,EQS 450 Plus,,,model not in seed (4x)
+um-52d83e86a4,open,fueleconomy,vehicles.csv:id=46011;market=us,Mercedes-Benz,EQS 450 Plus (SUV),,,model not in seed (3x)
+um-d329f7b6f8,open,fueleconomy,vehicles.csv:id=50852;market=us,Mercedes-Benz,EQS 500 4matic,,,model not in seed (1x)
+um-a73cd29bf9,open,fueleconomy,vehicles.csv:id=49689;market=us,Mercedes-Benz,EQS 550 4matic (SUV),,,model not in seed (2x)
+um-053f70c78a,open,fueleconomy,vehicles.csv:id=45023;market=us,Mercedes-Benz,EQS 580 4matic,,,model not in seed (5x)
+um-f9214ba0ff,open,fueleconomy,vehicles.csv:id=46012;market=us,Mercedes-Benz,EQS 580 4matic (SUV),,,model not in seed (3x)
+um-2a06a50dfc,open,fueleconomy,vehicles.csv:id=47465;market=us,Mercedes-Benz,EQS 680 4matic Maybach (SUV),,,model not in seed (4x)
+um-ef32db5242,open,fueleconomy,vehicles.csv:id=48717;market=us,Mercedes-Benz,G 580 with EQ Technology,,,model not in seed (3x)
+um-a599720c1c,open,fueleconomy,vehicles.csv:id=50855;market=us,Mercedes-Benz,GLC400 4matic electric,,,model not in seed (1x)
+um-5f8eea1794,open,fueleconomy,vehicles.csv:id=50856;market=us,Mercedes-Benz,GLC400 4matic electric (ST),,,model not in seed (1x)
+um-81cf707aaf,open,fueleconomy,vehicles.csv:id=42508;market=us,MINI,Cooper SE Hardtop 2 door,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mini-cooper-se-f56 (4x)"
+um-f1ef85dd87,open,fueleconomy,vehicles.csv:id=48398;market=us,MINI,Countryman SE ALL4 (18 inch Wheels),,,model not in seed (3x)
+um-49d78b03a6,open,fueleconomy,vehicles.csv:id=48399;market=us,MINI,Countryman SE ALL4 (19 inch Wheels),,,model not in seed (3x)
+um-646c485ee8,open,fueleconomy,vehicles.csv:id=30978;market=us,MINI,MiniE,,,year 2008 outside every generation of mini-cooper-se (1x)
+um-2158ac725c,open,fueleconomy,vehicles.csv:id=16423;market=us,Nissan,Altra EV,,,model not in seed (1x)
+um-5458ff6e8b,open,fueleconomy,vehicles.csv:id=48718;market=us,Nissan,ARIYA e-4ORCE 63kWh,,,model not in seed (2x)
+um-619d5af6bd,open,fueleconomy,vehicles.csv:id=50225;market=us,Nissan,ARIYA e-4ORCE 87kWh,,,model not in seed (1x)
+um-8baa3e78d3,open,fueleconomy,vehicles.csv:id=46989;market=us,Nissan,ARIYA ENG Plus/EVO Plus e-4ORCE 87kWh,,,model not in seed (1x)
+um-3769ce130b,open,fueleconomy,vehicles.csv:id=46990;market=us,Nissan,ARIYA ENGAGE e-4ORCE 63kWh,,,model not in seed (2x)
+um-b018570f20,open,fueleconomy,vehicles.csv:id=46013;market=us,Nissan,ARIYA ENGAGE FWD 63kWh,,,model not in seed (2x)
+um-d8eb1f53a8,open,fueleconomy,vehicles.csv:id=47855;market=us,Nissan,ARIYA ENGAGE+/EVOLVE+ e-4ORCE 87kWh,,,model not in seed (2x)
+um-1bebfa3c47,open,fueleconomy,vehicles.csv:id=46014;market=us,Nissan,ARIYA EVO Plus/EMP Plus/PRM FWD 87kWh,,,model not in seed (1x)
+um-82c2b49c44,open,fueleconomy,vehicles.csv:id=48720;market=us,Nissan,ARIYA EVOLVE+ FWD 87kWh,,,model not in seed (1x)
+um-f349bfda0c,open,fueleconomy,vehicles.csv:id=47856;market=us,Nissan,ARIYA EVOLVE+/EMPOWER+ FWD 87kWh,,,model not in seed (1x)
+um-d17d172dee,open,fueleconomy,vehicles.csv:id=48721;market=us,Nissan,ARIYA FWD 63kWh,,,model not in seed (2x)
+um-d3c6dbabcf,open,fueleconomy,vehicles.csv:id=50227;market=us,Nissan,ARIYA FWD 87kWh,,,model not in seed (1x)
+um-61edaae9ba,open,fueleconomy,vehicles.csv:id=46991;market=us,Nissan,ARIYA PLAT Plus e-4ORCE 87kWh 19,,,model not in seed (1x)
+um-bd07379efe,open,fueleconomy,vehicles.csv:id=46992;market=us,Nissan,ARIYA PLAT Plus e-4ORCE 87kWh 20,,,model not in seed (1x)
+um-b413c4e503,open,fueleconomy,vehicles.csv:id=47857;market=us,Nissan,ARIYA PLATINUM+ e-4ORCE 87kWh 19in. Wheels,,,model not in seed (3x)
+um-4325ab001a,open,fueleconomy,vehicles.csv:id=47858;market=us,Nissan,ARIYA PLATINUM+ e-4ORCE 87kWh 20in. Wheels,,,model not in seed (2x)
+um-922de61730,open,fueleconomy,vehicles.csv:id=46015;market=us,Nissan,ARIYA VENTURE Plus FWD 87kWh,,,model not in seed (2x)
+um-5c32911b67,open,fueleconomy,vehicles.csv:id=17331;market=us,Nissan,Hyper-Mini,,,model not in seed (1x)
+um-40ad169443,open,fueleconomy,vehicles.csv:id=48400;market=us,Nissan,LEAF,,,"ambiguous-generation: 2025 is shared by nissan-leaf-ze1, nissan-leaf-gen3; no name/battery evidence (1x)"
+um-c4b3e4621a,open,fueleconomy,vehicles.csv:id=30979;market=us,Nissan,Leaf,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in nissan-leaf-ze0 (6x)"
+um-18fcb89d6a,open,fueleconomy,vehicles.csv:id=49974;market=us,Nissan,LEAF 75kWh (18 inch alloy Wheels),,,no variant in nissan-leaf-gen3 to attach to (1x)
+um-6d89337c59,open,fueleconomy,vehicles.csv:id=49975;market=us,Nissan,LEAF 75kWh (18 inch steel Wheels),,,no variant in nissan-leaf-gen3 to attach to (1x)
+um-3621e84443,open,fueleconomy,vehicles.csv:id=49976;market=us,Nissan,LEAF 75kWh (19 inch Wheels),,,no variant in nissan-leaf-gen3 to attach to (1x)
+um-157f767c79,open,fueleconomy,vehicles.csv:id=48401;market=us,Nissan,LEAF SV,,,"ambiguous-generation: 2025 is shared by nissan-leaf-ze1, nissan-leaf-gen3; no name/battery evidence (1x)"
+um-458c7213b7,open,fueleconomy,vehicles.csv:id=43294;market=us,Polestar,2,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in polestar-2-gen1 (1x)"
+um-b27449e2ec,open,fueleconomy,vehicles.csv:id=45752;market=us,Polestar,2 BST edition,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in polestar-2-gen1 (1x)"
+um-862b0b536a,open,fueleconomy,vehicles.csv:id=44928;market=us,Polestar,2 Single Motor,,,"attach-only: tie between polestar-2-gen1-long-range-single-motor, polestar-2-gen1-standard-range-single-motor in polestar-2-gen1 (2x)"
+um-be186df1a2,open,fueleconomy,vehicles.csv:id=46978;market=us,Polestar,2 Single Motor (19 Inch Wheels),,,"attach-only: tie between polestar-2-gen1-long-range-single-motor, polestar-2-gen1-standard-range-single-motor in polestar-2-gen1 (2x)"
+um-7adbbf4696,open,fueleconomy,vehicles.csv:id=46979;market=us,Polestar,2 Single Motor (20 Inch Wheels),,,"attach-only: tie between polestar-2-gen1-long-range-single-motor, polestar-2-gen1-standard-range-single-motor in polestar-2-gen1 (2x)"
+um-e314a81971,open,fueleconomy,vehicles.csv:id=48408;market=us,Polestar,3 Long Range Dual Motor (20 Inch Wheels),,,model not in seed (1x)
+um-d2228016da,open,fueleconomy,vehicles.csv:id=48409;market=us,Polestar,3 Long Range Dual Motor (21 Inch Wheels),,,model not in seed (2x)
+um-e1651794d4,open,fueleconomy,vehicles.csv:id=48410;market=us,Polestar,3 Long Range Dual Motor (22 Inch Wheels),,,model not in seed (2x)
+um-0484e0e522,open,fueleconomy,vehicles.csv:id=48411;market=us,Polestar,3 Long Range Dual Motor Performance Pack,,,model not in seed (2x)
+um-57b47cbaea,open,fueleconomy,vehicles.csv:id=48724;market=us,Polestar,3 Long Range Single Motor (20 Inch Wheels),,,model not in seed (2x)
+um-12b0072595,open,fueleconomy,vehicles.csv:id=48725;market=us,Polestar,3 Long Range Single Motor (21 Inch Wheels),,,model not in seed (2x)
+um-3234b581ee,open,fueleconomy,vehicles.csv:id=48726;market=us,Polestar,3 Long Range Single Motor (22 Inch Wheels),,,model not in seed (1x)
+um-9b7f92345e,open,fueleconomy,vehicles.csv:id=48412;market=us,Polestar,4 Long Range Dual Motor,,,model not in seed (2x)
+um-deca4929af,open,fueleconomy,vehicles.csv:id=50035;market=us,Polestar,4 Long Range Dual Motor Performance,,,model not in seed (1x)
+um-2ad62d8b87,open,fueleconomy,vehicles.csv:id=48407;market=us,Polestar,4 Long Range Single Motor,,,model not in seed (2x)
+um-25cc455240,open,fueleconomy,vehicles.csv:id=31064;market=us,smart,fortwo electric drive cabriolet,,,year 2011 outside every generation of smart-eq-fortwo (1x)
+um-ef411f073c,open,fueleconomy,vehicles.csv:id=36860;market=us,smart,fortwo electric drive convertible,,,year 2016 outside every generation of smart-eq-fortwo (1x)
+um-2b93ac482b,open,fueleconomy,vehicles.csv:id=31065;market=us,smart,fortwo electric drive coupe,,,year 2011 outside every generation of smart-eq-fortwo (1x)
+um-6c6bcad8ea,open,fueleconomy,vehicles.csv:id=36861;market=us,smart,fortwo electric drive coupe,,,year 2016 outside every generation of smart-eq-fortwo (1x)
+um-da1afba50d,open,fueleconomy,vehicles.csv:id=49123;market=us,Tesla,Cybertruck AWD,,,model not in seed (2x)
+um-1467cfee20,open,fueleconomy,vehicles.csv:id=50460;market=us,Tesla,Cybertruck Dual Motor AWD,,,model not in seed (1x)
+um-6e79abd60d,open,fueleconomy,vehicles.csv:id=49152;market=us,Tesla,Cybertruck Long Range,,,model not in seed (1x)
+um-e53e0d7be2,open,fueleconomy,vehicles.csv:id=49153;market=us,Tesla,Cybertruck Long Range (20in Cyber wheels),,,model not in seed (2x)
+um-91b15a1b59,open,fueleconomy,vehicles.csv:id=39769;market=us,Tesla,Model 3 Long Range,,,year 2017 outside every generation of tesla-model-3 (1x)
+um-39a53e0763,open,fueleconomy,vehicles.csv:id=39836;market=us,Tesla,Model 3 Long Range,,,year 2018 outside every generation of tesla-model-3 (1x)
+um-76fecedf98,open,fueleconomy,vehicles.csv:id=40385;market=us,Tesla,Model 3 Long Range  AWD,,,year 2018 outside every generation of tesla-model-3 (1x)
+um-3190537f35,open,fueleconomy,vehicles.csv:id=40386;market=us,Tesla,Model 3 Long Range  AWD Performance,,,year 2018 outside every generation of tesla-model-3 (1x)
+um-a003d1004b,open,fueleconomy,vehicles.csv:id=41056;market=us,Tesla,Model 3 Mid Range,,,year 2018 outside every generation of tesla-model-3 (1x)
+um-f8cf3c0178,open,fueleconomy,vehicles.csv:id=50037;market=us,Tesla,Model 3 Premium AWD,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-3-highland (2x)"
+um-3f5cf89d0d,open,fueleconomy,vehicles.csv:id=50038;market=us,Tesla,Model 3 Premium RWD,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-3-highland (2x)"
+um-1e0e7b9acd,open,fueleconomy,vehicles.csv:id=47909;market=us,Tesla,Model 3 RWD,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-3-highland (2x)"
+um-9ae456d7bc,open,fueleconomy,vehicles.csv:id=50251;market=us,Tesla,Model 3 Standard RWD,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-3-highland (1x)"
+um-5ee32e7b13,open,fueleconomy,vehicles.csv:id=45014;market=us,Tesla,Model S,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-palladium (5x)"
+um-9a52a07c60,open,fueleconomy,vehicles.csv:id=32557;market=us,Tesla,Model S,,,year 2012 outside every generation of tesla-model-s (1x)
+um-9a30bcdd52,open,fueleconomy,vehicles.csv:id=33612;market=us,Tesla,Model S (40 kW-hr battery pack),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-gen1 (2x)"
+um-7feb77d0d1,open,fueleconomy,vehicles.csv:id=38170;market=us,Tesla,Model S (60 kW-hr battery pack),,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-c6c8ca8981,open,fueleconomy,vehicles.csv:id=38170;market=us#battery,Tesla,Model S (60 kW-hr battery pack),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-facelift (3x)"
+um-11ce6c52ef,open,fueleconomy,vehicles.csv:id=37233;market=us,Tesla,Model S (70 kW-hr battery pack),,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-35b208f78e,open,fueleconomy,vehicles.csv:id=37233;market=us#battery,Tesla,Model S (70 kW-hr battery pack),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-gen1 (1x)"
+um-f435825274,open,fueleconomy,vehicles.csv:id=37421;market=us,Tesla,Model S (75 kW-hr battery pack),,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-82c5eefa88,open,fueleconomy,vehicles.csv:id=37234;market=us,Tesla,Model S (85 kW-hr battery pack),,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-b4d1639a87,open,fueleconomy,vehicles.csv:id=37235;market=us,Tesla,Model S (90 kW-hr battery pack),,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-f0851900cf,open,fueleconomy,vehicles.csv:id=37235;market=us#battery,Tesla,Model S (90 kW-hr battery pack),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-facelift (1x)"
+um-dfeac67c6b,open,fueleconomy,vehicles.csv:id=37236;market=us,Tesla,Model S (90 kW-hr battery pack),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-gen1 (1x)"
+um-6c0d496e0d,open,fueleconomy,vehicles.csv:id=38171;market=us,Tesla,Model S AWD - 60D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-7026c502be,open,fueleconomy,vehicles.csv:id=38171;market=us#battery,Tesla,Model S AWD - 60D,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-facelift (3x)"
+um-6b833005e0,open,fueleconomy,vehicles.csv:id=37238;market=us,Tesla,Model S AWD - 70D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-11e35a663a,open,fueleconomy,vehicles.csv:id=36126;market=us,Tesla,Model S AWD - 70D,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-gen1 (3x)"
+um-51cbfc0e5b,open,fueleconomy,vehicles.csv:id=37422;market=us,Tesla,Model S AWD - 75D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-c688471234,open,fueleconomy,vehicles.csv:id=37239;market=us,Tesla,Model S AWD - 85D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-ea6858e4c2,open,fueleconomy,vehicles.csv:id=37240;market=us,Tesla,Model S AWD - 90D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-cf2f55d5f1,open,fueleconomy,vehicles.csv:id=38172;market=us,Tesla,Model S AWD - P100D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-8f676a81a5,open,fueleconomy,vehicles.csv:id=37241;market=us,Tesla,Model S AWD - P85D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-12770155d7,open,fueleconomy,vehicles.csv:id=37242;market=us,Tesla,Model S AWD - P90D,,,"ambiguous-generation: 2016 is shared by tesla-model-s-gen1, tesla-model-s-facelift; no name/battery evidence (1x)"
+um-f3120957f6,open,fueleconomy,vehicles.csv:id=44069;market=us,Tesla,Model S Plaid (21inch wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-s-facelift (1x)"
+um-ffa62e61d4,open,fueleconomy,vehicles.csv:id=45020;market=us,Tesla,Model X,,,model not in seed (5x)
+um-edf54bc1bf,open,fueleconomy,vehicles.csv:id=39842;market=us,Tesla,Model X 100D,,,model not in seed (4x)
+um-afd8dcc65b,open,fueleconomy,vehicles.csv:id=39841;market=us,Tesla,Model X 75D,,,model not in seed (4x)
+um-dad415d5ed,open,fueleconomy,vehicles.csv:id=39831;market=us,Tesla,Model X AWD - 100D,,,model not in seed (2x)
+um-73857f6e2f,open,fueleconomy,vehicles.csv:id=38173;market=us,Tesla,Model X AWD - 60D,,,model not in seed (4x)
+um-23b813a4b8,open,fueleconomy,vehicles.csv:id=37423;market=us,Tesla,Model X AWD - 75D,,,model not in seed (4x)
+um-dc2cc7fc4a,open,fueleconomy,vehicles.csv:id=36979;market=us,Tesla,Model X AWD - 90D,,,model not in seed (4x)
+um-dc588aa3f2,open,fueleconomy,vehicles.csv:id=38500;market=us,Tesla,Model X AWD - P100D,,,model not in seed (4x)
+um-3506b6f390,open,fueleconomy,vehicles.csv:id=36980;market=us,Tesla,Model X AWD - P90D,,,model not in seed (4x)
+um-0ef0bf0d8c,open,fueleconomy,vehicles.csv:id=41514;market=us,Tesla,Model X Long Range,,,model not in seed (2x)
+um-404e814f4f,open,fueleconomy,vehicles.csv:id=43413;market=us,Tesla,Model X Long Range Plus,,,model not in seed (2x)
+um-7b1a5fc935,open,fueleconomy,vehicles.csv:id=39843;market=us,Tesla,Model X P100D,,,model not in seed (4x)
+um-481b77fd63,open,fueleconomy,vehicles.csv:id=42287;market=us,Tesla,Model X Performance (20in Wheels),,,model not in seed (2x)
+um-02f0144437,open,fueleconomy,vehicles.csv:id=41515;market=us,Tesla,Model X Performance (22in Wheels),,,model not in seed (3x)
+um-c941926fed,open,fueleconomy,vehicles.csv:id=49746;market=us,Tesla,Model X Plaid,,,model not in seed (1x)
+um-e94d1a8ff3,open,fueleconomy,vehicles.csv:id=45021;market=us,Tesla,Model X Plaid (20 inch wheels),,,model not in seed (2x)
+um-1dc3f342b6,open,fueleconomy,vehicles.csv:id=47916;market=us,Tesla,Model X Plaid (20in wheels),,,model not in seed (2x)
+um-beba10fde6,open,fueleconomy,vehicles.csv:id=45022;market=us,Tesla,Model X Plaid (22 inch wheels),,,model not in seed (2x)
+um-cec4a5d32e,open,fueleconomy,vehicles.csv:id=47917;market=us,Tesla,Model X Plaid (22in wheels),,,model not in seed (2x)
+um-c19d7c12a4,open,fueleconomy,vehicles.csv:id=42289;market=us,Tesla,Model X Standard Range,,,model not in seed (1x)
+um-f3b8c90bdf,open,fueleconomy,vehicles.csv:id=50862;market=us,Tesla,Model Y L (20in Wheels),,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in tesla-model-y-juniper (1x)"
+um-b6d9439966,open,fueleconomy,vehicles.csv:id=42916;market=us,Tesla,Model Y Long Range AWD,,,year 2020 outside every generation of tesla-model-y (1x)
+um-1f919601bb,open,fueleconomy,vehicles.csv:id=42474;market=us,Tesla,Model Y Performance AWD,,,year 2020 outside every generation of tesla-model-y (1x)
+um-68d1a665f2,open,fueleconomy,vehicles.csv:id=42816;market=us,Tesla,Model Y Performance AWD (21in Wheels),,,year 2020 outside every generation of tesla-model-y (1x)
+um-b4715193b0,open,fueleconomy,vehicles.csv:id=38549;market=us,Volkswagen,e-Golf,,,"ambiguous-generation: 2017 is shared by volkswagen-e-golf-mk7, volkswagen-e-golf-mk75; no name/battery evidence (1x)"
+um-2160934a3d,open,fueleconomy,vehicles.csv:id=48444;market=us,Volkswagen,ID. Buzz,,,model not in seed (1x)
+um-3cf6e2e7d8,open,fueleconomy,vehicles.csv:id=48445;market=us,Volkswagen,ID. Buzz 4motion,,,model not in seed (1x)
+um-4954369b98,open,fueleconomy,vehicles.csv:id=46032;market=us,Volkswagen,ID.4,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in volkswagen-id4-gen1 (4x)"
+um-903901eb96,open,fueleconomy,vehicles.csv:id=43557;market=us,Volkswagen,ID.4 1st,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in volkswagen-id4-gen1 (1x)"
+um-7026f09ac7,open,fueleconomy,vehicles.csv:id=49988;market=us,Volkswagen,ID.4 AWD,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in volkswagen-id4-gen1 (1x)"
+um-4ba9d24a36,open,fueleconomy,vehicles.csv:id=46037;market=us,Volkswagen,ID.4 S,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in volkswagen-id4-gen1 (3x)"
+um-f6588daa97,open,fueleconomy,vehicles.csv:id=46980;market=us,Volvo,C40 Recharge,,,model not in seed (1x)
+um-caf7ec0927,open,fueleconomy,vehicles.csv:id=44929;market=us,Volvo,C40 Recharge twin,,,model not in seed (3x)
+um-41ead9da28,open,fueleconomy,vehicles.csv:id=48448;market=us,Volvo,EC40,,,model not in seed (2x)
+um-6d9c0ac1c8,open,fueleconomy,vehicles.csv:id=48446;market=us,Volvo,EC40 Twin,,,model not in seed (2x)
+um-df7f03c048,open,fueleconomy,vehicles.csv:id=49990;market=us,Volvo,EX30 Cross Country (18 Inch Wheels),,,model not in seed (1x)
+um-97b6fd4113,open,fueleconomy,vehicles.csv:id=49991;market=us,Volvo,EX30 Cross Country (19 Inch Wheels),,,model not in seed (1x)
+um-787dd32975,open,fueleconomy,vehicles.csv:id=49989;market=us,Volvo,EX30 Single motor extended range,,,model not in seed (1x)
+um-c9c7c55235,open,fueleconomy,vehicles.csv:id=48449;market=us,Volvo,EX30 Single Motor extended range (18 Inch Wheels),,,model not in seed (1x)
+um-df80ceb35a,open,fueleconomy,vehicles.csv:id=48450;market=us,Volvo,EX30 Single Motor extended range (19/20 Inch Wheels),,,model not in seed (1x)
+um-61a9240865,open,fueleconomy,vehicles.csv:id=49992;market=us,Volvo,EX30 Twin Performance,,,model not in seed (1x)
+um-a6996d9b11,open,fueleconomy,vehicles.csv:id=48775;market=us,Volvo,EX30 Twin Performance (19 Inch Wheels),,,model not in seed (1x)
+um-edaa1bd73a,open,fueleconomy,vehicles.csv:id=48776;market=us,Volvo,EX30 Twin Performance (20 Inch Wheels),,,model not in seed (1x)
+um-4e9964a35a,open,fueleconomy,vehicles.csv:id=50696;market=us,Volvo,EX60 P10 AWD electric,,,model not in seed (1x)
+um-292a66a6b2,open,fueleconomy,vehicles.csv:id=50873;market=us,Volvo,EX60 P10 AWD electric (22 Inch Wheels),,,model not in seed (1x)
+um-c9ff6e6885,open,fueleconomy,vehicles.csv:id=50874;market=us,Volvo,EX60 P6 electric,,,model not in seed (1x)
+um-ffba68136b,open,fueleconomy,vehicles.csv:id=50697;market=us,Volvo,EX60 P6 electric (22 Inch Wheels),,,model not in seed (1x)
+um-81f58d52ab,open,fueleconomy,vehicles.csv:id=50254;market=us,Volvo,EX90,,,model not in seed (2x)
+um-4fcd539a35,open,fueleconomy,vehicles.csv:id=50255;market=us,Volvo,EX90 (21 Inch Wheels),,,model not in seed (2x)
+um-adf0246b77,open,fueleconomy,vehicles.csv:id=50256;market=us,Volvo,EX90 Twin Motor,,,model not in seed (2x)
+um-c4478d5171,open,fueleconomy,vehicles.csv:id=48777;market=us,Volvo,EX90 Twin Motor (20 and 22 Inch Wheels),,,model not in seed (1x)
+um-041683c6bb,open,fueleconomy,vehicles.csv:id=48778;market=us,Volvo,EX90 Twin Motor (21 Inch Wheels),,,model not in seed (3x)
+um-82e9629341,open,fueleconomy,vehicles.csv:id=50258;market=us,Volvo,EX90 Twin Motor Performance,,,model not in seed (2x)
+um-59282b6bc6,open,fueleconomy,vehicles.csv:id=48780;market=us,Volvo,EX90 Twin Motor Performance (20 and 22 Inch Wheels),,,model not in seed (1x)
+um-1231d75483,open,fueleconomy,vehicles.csv:id=48779;market=us,Volvo,EX90 Twin Motor Performance (21 Inch Wheels),,,model not in seed (3x)
+um-f3fcb75476,open,fueleconomy,vehicles.csv:id=43295;market=us,Volvo,XC40 AWD BEV,,,model not in seed (1x)
 um-2ca549c3dd,open,kba-fz10,fz10_2026_10:YTD 2026-01..10:AUDI|A2,AUDI,A2,,,model not in seed (1x)
 um-898e5bcfe0,open,kba-fz10,fz10_2025_12:YTD 2025-01..12:AUDI|A6,AUDI,A6,,,model not in seed (2x)
 um-0a3acf6bce,open,kba-fz10,fz10_2025_12:YTD 2025-01..12:AUDI|E-TRON GT,AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (2x)
@@ -1465,349 +1799,21 @@ um-6ebbff7d8a,open,rdw,m9d7-ebf2:BMW|535d xDrive|2016,BMW,535d xDrive,,,model no
 um-33a952b9ec,open,rdw,m9d7-ebf2:BMW|730LD|2010,BMW,730LD,,,model not in seed (1x)
 um-438d74f502,open,rdw,m9d7-ebf2:BMW|EDRIVE40|2024,BMW,EDRIVE40,,,model not in seed (1x)
 um-935e844566,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I3 50 XDRIVE|2026#consumption_kwh_100km,BMW,I3 50 XDRIVE,,,year 2026 outside every generation of bmw-i3 (4x)
-um-d1faf78684,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I4 M60 XDRIVE|2026#consumption_kwh_100km,BMW,I4 M60 XDRIVE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i4-g26 (1x)"
-um-557603ee8f,open,rdw,m9d7-ebf2:BMW|I5 E-DRIVE 40|2024,BMW,I5 E-DRIVE 40,,,model not in seed (1x)
-um-4390c9792f,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|i5 eDrive40|2023#wltp_range_km,BMW,i5 eDrive40,,,model not in seed (7x)
-um-01117c57f5,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I5 M60 XDRIVE|2023#consumption_kwh_100km,BMW,I5 M60 XDRIVE,,,model not in seed (9x)
-um-053d428703,open,rdw,m9d7-ebf2:BMW|I5 XDRIVE40|2024,BMW,I5 XDRIVE40,,,model not in seed (6x)
-um-214b38e95d,open,rdw,m9d7-ebf2:BMW|I7 50 XDRIVE|2026,BMW,I7 50 XDRIVE,,,model not in seed (1x)
-um-8df846ec2c,open,rdw,m9d7-ebf2:BMW|I7 60 XDRIVE|2026,BMW,I7 60 XDRIVE,,,model not in seed (1x)
-um-872c224444,open,rdw,m9d7-ebf2:BMW|I7 EDRIVE50|2023,BMW,I7 EDRIVE50,,,model not in seed (11x)
-um-aaa9b9b421,open,rdw,m9d7-ebf2:BMW|I7 M70 XDRIVE|2023,BMW,I7 M70 XDRIVE,,,model not in seed (5x)
-um-fd7cf1fce7,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I7 XDRIVE60|2022#consumption_kwh_100km,BMW,I7 XDRIVE60,,,model not in seed (14x)
-um-59abbf153a,open,rdw,m9d7-ebf2:BMW|IX M60|2022,BMW,IX M60,,,model not in seed (12x)
-um-5510280f0c,open,rdw,m9d7-ebf2:BMW|IX M70 XDRIVE|2025,BMW,IX M70 XDRIVE,,,model not in seed (2x)
-um-4a02beadb8,open,rdw,m9d7-ebf2:BMW|IX XDRIVE|2023,BMW,IX XDRIVE,,,model not in seed (1x)
-um-03aad5e9a4,open,rdw,m9d7-ebf2:BMW|IX XDRIVE 50|2023,BMW,IX XDRIVE 50,,,model not in seed (1x)
-um-4c5e3b656f,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX XDRIVE40|2021#consumption_kwh_100km,BMW,IX XDRIVE40,,,model not in seed (20x)
-um-fab861325a,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX XDRIVE45|2025#consumption_kwh_100km,BMW,IX XDRIVE45,,,model not in seed (4x)
-um-9d6cc0533f,open,rdw,m9d7-ebf2:BMW|IX XDRIVE50|2021,BMW,IX XDRIVE50,,,model not in seed (15x)
-um-eab3e45f4f,open,rdw,m9d7-ebf2:BMW|IX XDRIVE60|2025,BMW,IX XDRIVE60,,,model not in seed (2x)
-um-43ed3dfb80,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2023#consumption_kwh_100km,BMW,IX1 EDRIVE20,,,model not in seed (16x)
-um-a3c0d87b75,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 XDRIVE30|2022#consumption_kwh_100km,BMW,IX1 XDRIVE30,,,model not in seed (18x)
-um-812a2ad7b8,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX2 EDRIVE20|2024#consumption_kwh_100km,BMW,IX2 EDRIVE20,,,model not in seed (8x)
-um-91af2ba494,open,rdw,m9d7-ebf2:BMW|IX2 XDRIVE30|2023,BMW,IX2 XDRIVE30,,,model not in seed (13x)
-um-0af06e906e,open,rdw,m9d7-ebf2:BMW|IX3|2020,BMW,IX3,,,model not in seed (26x)
-um-83200e3ca8,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX3 40|2026#wltp_range_km,BMW,IX3 40,,,model not in seed (2x)
-um-5dca9a076e,open,rdw,m9d7-ebf2:BMW|IX3 50 XDRIVE|2026,BMW,IX3 50 XDRIVE,,,model not in seed (1x)
-um-d7777ba95a,open,rdw,m9d7-ebf2:BMW|IX3-40|2026,BMW,IX3-40,,,model not in seed (1x)
-um-6b076f7508,open,rdw,m9d7-ebf2:BMW|M340i Xdrive|2021,BMW,M340i Xdrive,,,model not in seed (1x)
-um-bfaeaaec2f,open,rdw,m9d7-ebf2:BMW|X1|2017,BMW,X1,,,model not in seed (2x)
-um-f4e5278596,open,rdw,m9d7-ebf2:BMW|X1 sDrive20i|2020,BMW,X1 sDrive20i,,,model not in seed (1x)
-um-b99b562713,open,rdw,m9d7-ebf2:BMW|X3|2013,BMW,X3,,,model not in seed (3x)
-um-73f1a63ba2,open,rdw,m9d7-ebf2:BMW|X3 xDrive20i|2020,BMW,X3 xDrive20i,,,model not in seed (1x)
-um-56ab64e5ac,open,rdw,m9d7-ebf2:BMW|X5|2017,BMW,X5,,,model not in seed (3x)
-um-76bc74fcd7,open,rdw,m9d7-ebf2:BMW|X6 M50I|2020,BMW,X6 M50I,,,model not in seed (1x)
-um-d8d0c2ff56,open,rdw,m9d7-ebf2:BMW I|I REIHE|2013,BMW I,I REIHE,,,model not in seed (4x)
-um-0adecac910,open,rdw,m9d7-ebf2:BMW I|I SERIES|2018,BMW I,I SERIES,,,model not in seed (2x)
-um-a2bfe20cec,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW I|I3|2018#consumption_kwh_100km,BMW I,I3,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i3-i01 (11x)"
-um-31202619d9,open,rdw,m9d7-ebf2:BMW I|SERIE 1|2016,BMW I,SERIE 1,,,model not in seed (1x)
-um-218047d9bb,open,rdw,m9d7-ebf2:BYD|ATTO 2|2025,BYD,ATTO 2,,,model not in seed (3x)
-um-4ba8d3149d,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BYD|ATTO 3|2022#consumption_kwh_100km,BYD,ATTO 3,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in byd-atto-3-gen1 (6x)"
-um-9440ed84e3,open,rdw,m9d7-ebf2:BYD|BYD ATTO 2|2024,BYD,BYD ATTO 2,,,model not in seed (9x)
-um-77d646023d,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BYD|BYD DOLPHIN|2023#consumption_kwh_100km,BYD,BYD DOLPHIN,,,model not in seed (13x)
-um-dd563f71d4,open,rdw,m9d7-ebf2:BYD|BYD DOLPHIN COMFORT|2024,BYD,BYD DOLPHIN COMFORT,,,model not in seed (1x)
-um-b217e15a54,open,rdw,m9d7-ebf2:BYD|BYD DOLPHIN DESIGN|2024,BYD,BYD DOLPHIN DESIGN,,,model not in seed (1x)
-um-751f8a39c8,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BYD|BYD DOLPHIN SURF|2025#consumption_kwh_100km,BYD,BYD DOLPHIN SURF,,,model not in seed (8x)
-um-19865c64a9,open,rdw,m9d7-ebf2:BYD|BYD DOLPHINSURF|2025,BYD,BYD DOLPHINSURF,,,model not in seed (1x)
-um-cf7b4cbd03,open,rdw,m9d7-ebf2:BYD|BYD E6|2012,BYD,BYD E6,,,model not in seed (2x)
-um-cf5668a26e,open,rdw,m9d7-ebf2:BYD|BYD E6H|2018,BYD,BYD E6H,,,model not in seed (1x)
-um-9a569ad407,open,rdw,m9d7-ebf2:BYD|BYD HAN|2024,BYD,BYD HAN,,,model not in seed (1x)
-um-c2a8d14a6e,open,rdw,m9d7-ebf2:BYD|BYD SEAL|2023,BYD,BYD SEAL,,,model not in seed (6x)
-um-88d42fbec3,open,rdw,m9d7-ebf2:BYD|BYD SEAL U|2023,BYD,BYD SEAL U,,,model not in seed (10x)
-um-1e019c9ccc,open,rdw,m9d7-ebf2:BYD|BYD SEAL U DM|2026,BYD,BYD SEAL U DM,,,model not in seed (1x)
-um-13cf05d678,open,rdw,m9d7-ebf2:BYD|BYD SEALION 7|2024,BYD,BYD SEALION 7,,,model not in seed (6x)
-um-7254406d16,open,rdw,m9d7-ebf2:BYD|DENZA Z9GT EV|2026,BYD,DENZA Z9GT EV,,,model not in seed (1x)
-um-4c5e753d36,open,rdw,m9d7-ebf2:BYD|DOLPHIN|2023,BYD,DOLPHIN,,,model not in seed (2x)
-um-a4e281d45c,open,rdw,m9d7-ebf2:BYD|DOLPHIN COMFORT|2024,BYD,DOLPHIN COMFORT,,,model not in seed (1x)
-um-91ff375e9a,open,rdw,m9d7-ebf2:BYD|DOLPHIN SURF|2026,BYD,DOLPHIN SURF,,,model not in seed (1x)
-um-608cfcdbb2,open,rdw,m9d7-ebf2:BYD|DOLPIN SURF COMFORT|2026,BYD,DOLPIN SURF COMFORT,,,model not in seed (1x)
-um-22608cee18,open,rdw,m9d7-ebf2:BYD|E6|2014,BYD,E6,,,model not in seed (1x)
-um-1fd07fc7f6,open,rdw,m9d7-ebf2:BYD|E6H|2017,BYD,E6H,,,model not in seed (1x)
-um-48c9c7949b,open,rdw,m9d7-ebf2:BYD|E6Y|2014,BYD,E6Y,,,model not in seed (1x)
-um-ceb2ee5970,open,rdw,m9d7-ebf2:BYD|HAN|2022,BYD,HAN,,,model not in seed (5x)
-um-967e428a61,open,rdw,m9d7-ebf2:BYD|HAN EV|2024,BYD,HAN EV,,,model not in seed (2x)
-um-731e5fc612,open,rdw,m9d7-ebf2:BYD|HCE|2021,BYD,HCE,,,model not in seed (1x)
-um-ea9b31dc32,open,rdw,m9d7-ebf2:BYD|SEAGULL|2023,BYD,SEAGULL,,,model not in seed (1x)
-um-09a02d5aed,open,rdw,m9d7-ebf2:BYD|SEAL|2023,BYD,SEAL,,,model not in seed (2x)
-um-38373e8ef0,open,rdw,m9d7-ebf2:BYD|SEAL U|2024,BYD,SEAL U,,,model not in seed (2x)
-um-df6c0055f9,open,rdw,m9d7-ebf2:BYD|SEALION 7|2026,BYD,SEALION 7,,,model not in seed (1x)
-um-1de093b102,open,rdw,m9d7-ebf2:BYD|TANG|2023,BYD,TANG,,,model not in seed (1x)
-um-692994a576,open,rdw,m9d7-ebf2:BYD|TANG EV|2021,BYD,TANG EV,,,model not in seed (11x)
-um-de3492bd4d,open,rdw,m9d7-ebf2:BYD|YUAN|2018,BYD,YUAN,,,model not in seed (1x)
-um-b614712d27,open,rdw,m9d7-ebf2:CITROEN|BERLINGO|2017,CITROEN,BERLINGO,,,model not in seed (10x)
-um-208c8ce770,open,rdw,m9d7-ebf2:CITROEN|BOXER|2025,CITROEN,BOXER,,,model not in seed (1x)
-um-af565f706e,open,rdw,m9d7-ebf2:CITROEN|C-ZERO|2011,CITROEN,C-ZERO,,,model not in seed (17x)
-um-25884d124e,open,rdw,m9d7-ebf2:CITROEN|C3|2016,CITROEN,C3,,,model not in seed (2x)
-um-00b91d1d68,open,rdw,m9d7-ebf2:CITROEN|C3 AIRCROSS|2026,CITROEN,C3 AIRCROSS,,,model not in seed (1x)
-um-21dbf021a1,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CITROEN|C5 AIRCROSS|2025#consumption_kwh_100km,CITROEN,C5 AIRCROSS,,,model not in seed (6x)
-um-a15aa03173,open,rdw,m9d7-ebf2:CITROEN|CITROEN C1|2010,CITROEN,CITROEN C1,,,model not in seed (2x)
-um-d054976316,open,rdw,m9d7-ebf2:CITROEN|E-BERLINGO|2021,CITROEN,E-BERLINGO,,,model not in seed (12x)
-um-cf86dcd805,open,rdw,m9d7-ebf2:CITROEN|E-BERLINGO VAN|2022,CITROEN,E-BERLINGO VAN,,,model not in seed (2x)
-um-dca0314c8d,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CITROEN|E-C3|2024#consumption_kwh_100km,CITROEN,E-C3,,,model not in seed (11x)
-um-a416923bf6,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CITROEN|E-C3 AIRCROSS|2025#consumption_kwh_100km,CITROEN,E-C3 AIRCROSS,,,model not in seed (7x)
-um-60047a1c3e,open,rdw,m9d7-ebf2:CITROEN|E-MEHARI|2016,CITROEN,E-MEHARI,,,model not in seed (5x)
-um-9c79e17d4b,open,rdw,m9d7-ebf2:CITROEN|JUMPER|2023,CITROEN,JUMPER,,,model not in seed (5x)
-um-8b21b95f3e,open,rdw,m9d7-ebf2:CITROEN|JUMPY|2020,CITROEN,JUMPY,,,model not in seed (18x)
-um-6bbc8fe27f,open,rdw,m9d7-ebf2:CITROEN|Jumpy Spacetoourer|2020,CITROEN,Jumpy Spacetoourer,,,model not in seed (1x)
-um-ad29753758,open,rdw,m9d7-ebf2:CITROEN|JUMPY SPACETOURER|2020,CITROEN,JUMPY SPACETOURER,,,model not in seed (20x)
-um-eb476f4db0,open,rdw,m9d7-ebf2:CITROEN|JUMPY SPACETOURER AMF-BRUNS|2024,CITROEN,JUMPY SPACETOURER AMF-BRUNS,,,model not in seed (1x)
-um-8eb8ca693e,open,rdw,m9d7-ebf2:CITROEN|SPACETOURER|2020,CITROEN,SPACETOURER,,,model not in seed (10x)
-um-579b64bc60,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|RAVAL 155KW|2026#consumption_kwh_100km,CUPRA,RAVAL 155KW,,,model not in seed (4x)
-um-3a3bf941bc,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|RAVAL 166KW|2026#consumption_kwh_100km,CUPRA,RAVAL 166KW,,,model not in seed (4x)
-um-084c44d4b8,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|RAVAL 99KW|2026#consumption_kwh_100km,CUPRA,RAVAL 99KW,,,model not in seed (3x)
-um-87941df7af,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|TAVASCAN|2024#consumption_kwh_100km,CUPRA,TAVASCAN,,,model not in seed (9x)
-um-fb521e2b9b,open,rdw,m9d7-ebf2:DACIA|DOKKER|2013,DACIA,DOKKER,,,model not in seed (1x)
-um-e37ec3ec04,open,rdw,m9d7-ebf2:DACIA|Lodgy|2013,DACIA,Lodgy,,,model not in seed (1x)
-um-c154a95bcd,open,rdw,m9d7-ebf2:DACIA|Sandero|2019,DACIA,Sandero,,,model not in seed (1x)
-um-316b3496af,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:DACIA|SPRING|2022#consumption_kwh_100km,DACIA,SPRING,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in dacia-spring-gen1 (6x)"
-um-4eb0d13a94,open,rdw,m9d7-ebf2:DACIA|SPRING|2020,DACIA,SPRING,,,year 2020 outside every generation of dacia-spring (1x)
-um-e5c93956c6,open,rdw,m9d7-ebf2:FIAT|124 SPIDER|2017,FIAT,124 SPIDER,,,model not in seed (1x)
-um-0faf9bc56b,open,rdw,m9d7-ebf2:FIAT|500|2011,FIAT,500,,,year 2011 outside every generation of fiat-500e (1x)
-um-e3974a551f,open,rdw,m9d7-ebf2:FIAT|500X|2017,FIAT,500X,,,model not in seed (1x)
-um-b5e211f16e,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FIAT|600|2023#consumption_kwh_100km,FIAT,600,,,model not in seed (14x)
-um-d403f98501,open,rdw,m9d7-ebf2:FIAT|600E|2025,FIAT,600E,,,model not in seed (1x)
-um-e3e88b1b92,open,rdw,m9d7-ebf2:FIAT|DOBLO|2016,FIAT,DOBLO,,,model not in seed (1x)
-um-50e5d83f1f,open,rdw,m9d7-ebf2:FIAT|DUCATO|2019,FIAT,DUCATO,,,model not in seed (3x)
-um-79d5308ce8,open,rdw,m9d7-ebf2:FIAT|E SCUDO|2025,FIAT,E SCUDO,,,model not in seed (1x)
-um-5edfca7086,open,rdw,m9d7-ebf2:FIAT|E-DOBLO|2023,FIAT,E-DOBLO,,,model not in seed (1x)
-um-b6cfa09d4b,open,rdw,m9d7-ebf2:FIAT|FCA (MEX)|2014,FIAT,FCA (MEX),,,model not in seed (1x)
-um-c5c698301f,open,rdw,m9d7-ebf2:FIAT|FIAT 500|2010,FIAT,FIAT 500,,,year 2010 outside every generation of fiat-500e (1x)
-um-0d397e1121,open,rdw,m9d7-ebf2:FIAT|FIAT 500|2012,FIAT,FIAT 500,,,year 2012 outside every generation of fiat-500e (1x)
-um-8e320e4bcb,open,rdw,m9d7-ebf2:FIAT|FIAT 500 1.4 16V|2010,FIAT,FIAT 500 1.4 16V,,,model not in seed (1x)
-um-2716a348de,open,rdw,m9d7-ebf2:FIAT|FIAT DUCATO|2021,FIAT,FIAT DUCATO,,,model not in seed (8x)
-um-3fc6cc4d95,open,rdw,m9d7-ebf2:FIAT|FIAT PANDA|2010,FIAT,FIAT PANDA,,,model not in seed (1x)
-um-9fbd21d596,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FIAT|PANDA|2025#consumption_kwh_100km,FIAT,PANDA,,,model not in seed (8x)
-um-4c7d2995ea,open,rdw,m9d7-ebf2:FIAT|SCUDO|2011,FIAT,SCUDO,,,model not in seed (5x)
-um-ff61acacab,open,rdw,m9d7-ebf2:FIAT|ULYSSE|2022,FIAT,ULYSSE,,,model not in seed (5x)
-um-38db2271af,open,rdw,m9d7-ebf2:FIAT|ULYSSE TRIPIOD|2022,FIAT,ULYSSE TRIPIOD,,,model not in seed (1x)
-um-732528a26e,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FIAT|ULYSSE TRIPOD|2022#consumption_kwh_100km,FIAT,ULYSSE TRIPOD,,,model not in seed (8x)
-um-01d0f154b5,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FORD|CAPRI|2024#consumption_kwh_100km,FORD,CAPRI,,,model not in seed (7x)
-um-fbd74f4d0c,open,rdw,m9d7-ebf2:FORD|CX740L|2024,FORD,CX740L,,,model not in seed (2x)
-um-5a47c5979c,open,rdw,m9d7-ebf2:FORD|CX740S|2024,FORD,CX740S,,,model not in seed (2x)
-um-8101fd458e,open,rdw,m9d7-ebf2:FORD|Edge|2018,FORD,Edge,,,model not in seed (1x)
-um-77fbea78d5,open,rdw,m9d7-ebf2:FORD|ESCAPE|2010,FORD,ESCAPE,,,model not in seed (2x)
-um-20ca5d0c0e,open,rdw,m9d7-ebf2:FORD|EXPLORER|2010,FORD,EXPLORER,,,model not in seed (7x)
-um-09c3500bd8,open,rdw,m9d7-ebf2:FORD|F-150 LIGHTNING|2023,FORD,F-150 LIGHTNING,,,model not in seed (1x)
-um-2d6e89cb9f,open,rdw,m9d7-ebf2:FORD|FIESTA|2012,FORD,FIESTA,,,model not in seed (4x)
-um-e2c828b27d,open,rdw,m9d7-ebf2:FORD|FOCUS|2011,FORD,FOCUS,,,model not in seed (4x)
-um-f862d7d58f,open,rdw,m9d7-ebf2:FORD|FOCUS ELECTRIC|2018,FORD,FOCUS ELECTRIC,,,model not in seed (1x)
-um-7b8790be3b,open,rdw,m9d7-ebf2:FORD|FUSION|2013,FORD,FUSION,,,model not in seed (2x)
-um-e1c916f84b,open,rdw,m9d7-ebf2:FORD|GALAXY|2019,FORD,GALAXY,,,model not in seed (1x)
-um-7c6a13ea00,open,rdw,m9d7-ebf2:FORD|GRAND C-MAX|2013,FORD,GRAND C-MAX,,,model not in seed (2x)
-um-08d575eb94,open,rdw,m9d7-ebf2:FORD|KUGA|2016,FORD,KUGA,,,model not in seed (1x)
-um-73bc408bb1,open,rdw,m9d7-ebf2:FORD|MONDEO|2011,FORD,MONDEO,,,model not in seed (3x)
-um-3c85f6cb82,open,rdw,m9d7-ebf2:FORD|MUSTANG|2013,FORD,MUSTANG,,,model not in seed (4x)
-um-8432b4bd09,open,rdw,m9d7-ebf2:FORD|MUSTANG GT|2010,FORD,MUSTANG GT,,,model not in seed (3x)
-um-7902b6395c,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FORD|MUSTANG MACH-E|2021#consumption_kwh_100km,FORD,MUSTANG MACH-E,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in ford-mustang-mach-e-gen1 (4x)"
-um-ea50017f3a,open,rdw,m9d7-ebf2:FORD|MUSTANG MACH-E|2020,FORD,MUSTANG MACH-E,,,year 2020 outside every generation of ford-mustang-mach-e (2x)
-um-e655830685,open,rdw,m9d7-ebf2:FORD|PUMA|2020,FORD,PUMA,,,model not in seed (5x)
-um-c2a7456467,open,rdw,m9d7-ebf2:FORD|RANGER|2018,FORD,RANGER,,,model not in seed (2x)
-um-86d109bfa8,open,rdw,m9d7-ebf2:FORD|S-MAX|2013,FORD,S-MAX,,,model not in seed (1x)
-um-51db3192cd,open,rdw,m9d7-ebf2:FORD|TOURNEO COURIER|2025,FORD,TOURNEO COURIER,,,model not in seed (3x)
-um-e4f9458fd7,open,rdw,m9d7-ebf2:FORD|TOURNEO CUSTOM|2024,FORD,TOURNEO CUSTOM,,,model not in seed (5x)
-um-b19946300d,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FORD|TRANSIT|2022#consumption_kwh_100km,FORD,TRANSIT,,,model not in seed (13x)
-um-13cbb887cd,open,rdw,m9d7-ebf2:FORD|TRANSIT CUSTOM|2024,FORD,TRANSIT CUSTOM,,,model not in seed (8x)
-um-33ff47ab4c,open,rdw,m9d7-ebf2:FORD|TRANSIT ECUSTOM|2026,FORD,TRANSIT ECUSTOM,,,model not in seed (2x)
-um-5e7ba4c556,open,rdw,m9d7-ebf2:FORD|TRANSIT/TOURNEO|2011,FORD,TRANSIT/TOURNEO,,,model not in seed (1x)
-um-f59a506e54,open,rdw,m9d7-ebf2:HONDA|CIVIC|2015,HONDA,CIVIC,,,model not in seed (2x)
-um-3159818e49,open,rdw,m9d7-ebf2:HONDA|CR-V|2020,HONDA,CR-V,,,model not in seed (2x)
-um-eb2388d55b,open,rdw,m9d7-ebf2:HONDA|CRV|2019,HONDA,CRV,,,model not in seed (1x)
-um-b6051ad230,open,rdw,m9d7-ebf2:HONDA|E:NY1|2023,HONDA,E:NY1,,,model not in seed (name excluded from honda-e) (8x)
-um-53455e622c,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HONDA|HONDA E|2020#consumption_kwh_100km,HONDA,HONDA E,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in honda-e-gen1 (3x)"
-um-47f65b7fbf,open,rdw,m9d7-ebf2:HONDA|HR-V 1.5 e-HEV|2022,HONDA,HR-V 1.5 e-HEV,,,model not in seed (1x)
-um-153695dea6,open,rdw,m9d7-ebf2:HONDA|JAZZ|2015,HONDA,JAZZ,,,model not in seed (2x)
-um-d65c45295a,open,rdw,m9d7-ebf2:HONDA|ODYSSEY|2010,HONDA,ODYSSEY,,,model not in seed (5x)
-um-0ca804efde,open,rdw,m9d7-ebf2:HONDA|PILOT|2015,HONDA,PILOT,,,model not in seed (2x)
-um-3cd937fdb2,open,rdw,m9d7-ebf2:HYUNDAI|ELANTRA GT|2016,HYUNDAI,ELANTRA GT,,,model not in seed (1x)
-um-fc32329cb6,open,rdw,m9d7-ebf2:HYUNDAI|GENESIS GV60|2022,HYUNDAI,GENESIS GV60,,,model not in seed (2x)
-um-05f308cba1,open,rdw,m9d7-ebf2:HYUNDAI|GENESIS GV70|2022,HYUNDAI,GENESIS GV70,,,model not in seed (2x)
-um-5bb6bfb759,open,rdw,m9d7-ebf2:HYUNDAI|I10|2017,HYUNDAI,I10,,,model not in seed (1x)
-um-8bc53647af,open,rdw,m9d7-ebf2:HYUNDAI|I20|2013,HYUNDAI,I20,,,model not in seed (1x)
-um-62c7c367bc,open,rdw,m9d7-ebf2:HYUNDAI|I30|2010,HYUNDAI,I30,,,model not in seed (1x)
-um-691da9ae02,open,rdw,m9d7-ebf2:HYUNDAI|INSTER|2024,HYUNDAI,INSTER,,,model not in seed (6x)
-um-89192cd734,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ|2019#consumption_kwh_100km,HYUNDAI,IONIQ,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-electric-gen1 (3x)"
-um-c537107e73,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ 3|2026#consumption_kwh_100km,HYUNDAI,IONIQ 3,,,model not in seed (4x)
-um-e1daffa184,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ 9|2025#consumption_kwh_100km,HYUNDAI,IONIQ 9,,,model not in seed (6x)
-um-953a9696b6,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ6|2025#wltp_range_km,HYUNDAI,IONIQ6,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-6-gen1 (4x)"
-um-f1bf0b3813,open,rdw,m9d7-ebf2:HYUNDAI|IX35|2014,HYUNDAI,IX35,,,model not in seed (5x)
-um-b91193cbab,open,rdw,m9d7-ebf2:HYUNDAI|IX35 FCEV|2016,HYUNDAI,IX35 FCEV,,,model not in seed (1x)
-um-65f2afd4d3,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA|2023#consumption_kwh_100km,HYUNDAI,KONA,,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (2x)"
-um-8c08ebc00f,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA|2018#consumption_kwh_100km,HYUNDAI,KONA,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-os (13x)"
-um-d40f2bec20,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA|2024#consumption_kwh_100km,HYUNDAI,KONA,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-sx2 (1x)"
-um-6d2ab11ce2,open,rdw,"8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA, KAUAI|2023#consumption_kwh_100km",HYUNDAI,"KONA, KAUAI",,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (1x)"
-um-ad76cbd821,open,rdw,"8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA, KAUAI|2021#consumption_kwh_100km",HYUNDAI,"KONA, KAUAI",,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-os (4x)"
-um-320bacd256,open,rdw,"8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA, KAUAI|2026#consumption_kwh_100km",HYUNDAI,"KONA, KAUAI",,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-sx2 (1x)"
-um-f9aeb3c3fb,open,rdw,m9d7-ebf2:HYUNDAI|NEXO|2018,HYUNDAI,NEXO,,,model not in seed (12x)
-um-c90d11a7b7,open,rdw,m9d7-ebf2:HYUNDAI|SANTA FE|2012,HYUNDAI,SANTA FE,,,model not in seed (1x)
-um-91580eab9e,open,rdw,m9d7-ebf2:HYUNDAI|SANTA FE SPORT|2014,HYUNDAI,SANTA FE SPORT,,,model not in seed (1x)
-um-21bf00c386,open,rdw,m9d7-ebf2:HYUNDAI|SUV|2025,HYUNDAI,SUV,,,model not in seed (1x)
-um-6d7df2cb68,open,rdw,m9d7-ebf2:HYUNDAI|TUCSON|2015,HYUNDAI,TUCSON,,,model not in seed (4x)
-um-d1b5de9483,open,rdw,m9d7-ebf2:HYUNDAI|TUCSON FUEL CELL|2017,HYUNDAI,TUCSON FUEL CELL,,,model not in seed (1x)
-um-54dc2ed823,open,rdw,m9d7-ebf2:HYUNDAI|TUCSON IX35|2012,HYUNDAI,TUCSON IX35,,,model not in seed (1x)
-um-3f7ed75688,open,rdw,m9d7-ebf2:JAGUAR|E-PACE|2021,JAGUAR,E-PACE,,,model not in seed (1x)
-um-4f0f5ba5db,open,rdw,m9d7-ebf2:JAGUAR|F-PACE|2019,JAGUAR,F-PACE,,,model not in seed (1x)
-um-d8483947a0,open,rdw,m9d7-ebf2:JAGUAR|F-Type|2021,JAGUAR,F-Type,,,model not in seed (1x)
-um-caba70090c,open,rdw,m9d7-ebf2:JAGUAR|JAGUAR I-PACE|2025,JAGUAR,JAGUAR I-PACE,,,year 2025 outside every generation of jaguar-i-pace (1x)
-um-527641bd9d,open,rdw,m9d7-ebf2:JAGUAR|XE 180d|2020,JAGUAR,XE 180d,,,model not in seed (1x)
-um-cbbd77c9b6,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV2|2026#consumption_kwh_100km,KIA,EV2,,,model not in seed (2x)
-um-2598eecdf6,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV3|2024#consumption_kwh_100km,KIA,EV3,,,model not in seed (6x)
-um-d70c07b896,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV4|2025#wltp_range_km,KIA,EV4,,,model not in seed (4x)
-um-1ba3d725fc,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV5|2025#consumption_kwh_100km,KIA,EV5,,,model not in seed (7x)
-um-edab57526c,open,rdw,m9d7-ebf2:KIA|EV5 PLUS|2026,KIA,EV5 PLUS,,,model not in seed (1x)
-um-98b193ccbd,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV6|2021#consumption_kwh_100km,KIA,EV6,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-ev6-gen1 (8x)"
-um-7f8991997e,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV9|2023#consumption_kwh_100km,KIA,EV9,,,model not in seed (10x)
-um-fd705e62ab,open,rdw,m9d7-ebf2:KIA|K5|2021,KIA,K5,,,model not in seed (1x)
-um-18abf4f343,open,rdw,m9d7-ebf2:KIA|NERO|2020,KIA,NERO,,,model not in seed (1x)
-um-2580741a28,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|NIRO|2022#consumption_kwh_100km,KIA,NIRO,,,"ambiguous-generation: 2022 is shared by kia-niro-ev-de, kia-niro-ev-sg2; no name/battery evidence (3x)"
-um-3e41731e0f,open,rdw,m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|NIRO|2018#price_new:NL,KIA,NIRO,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-niro-ev-de (8x)"
-um-9da3f67026,open,rdw,m9d7-ebf2:KIA|Niro|2017,KIA,Niro,,,year 2017 outside every generation of kia-niro-ev (1x)
-um-0bcf470d0e,open,rdw,m9d7-ebf2:KIA|OPTIMA|2015,KIA,OPTIMA,,,model not in seed (1x)
-um-8002cfbd3f,open,rdw,m9d7-ebf2:KIA|PV5|2025,KIA,PV5,,,model not in seed (4x)
-um-d95357b59a,open,rdw,m9d7-ebf2:KIA|SORENTO|2015,KIA,SORENTO,,,model not in seed (1x)
-um-a02f92247b,open,rdw,m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|SOUL|2014#price_new:NL,KIA,SOUL,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-soul-ev-ps (3x)"
-um-1f30092947,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|SOUL|2020#consumption_kwh_100km,KIA,SOUL,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-soul-ev-sk3 (13x)"
-um-a4e577ecf9,open,rdw,m9d7-ebf2:KIA|SOUL|2025,KIA,SOUL,,,year 2025 outside every generation of kia-soul-ev (1x)
-um-97fd1c84eb,open,rdw,m9d7-ebf2:KIA|SPORTAGE|2011,KIA,SPORTAGE,,,model not in seed (3x)
-um-9fc89c6169,open,rdw,m9d7-ebf2:MERCEDES-BENZ|A 160|2010,MERCEDES-BENZ,A 160,,,model not in seed (1x)
-um-c740107f85,open,rdw,m9d7-ebf2:MERCEDES-BENZ|A180|2013,MERCEDES-BENZ,A180,,,model not in seed (1x)
-um-aeef3fd5be,open,rdw,m9d7-ebf2:MERCEDES-BENZ|A180d|2022,MERCEDES-BENZ,A180d,,,model not in seed (1x)
-um-d6b654857a,open,rdw,m9d7-ebf2:MERCEDES-BENZ|AMG EQE 43 4MATIC|2022,MERCEDES-BENZ,AMG EQE 43 4MATIC,,,model not in seed (4x)
-um-b730ff8fb7,open,rdw,m9d7-ebf2:MERCEDES-BENZ|AMG EQE 53 4MATIC+|2022,MERCEDES-BENZ,AMG EQE 53 4MATIC+,,,model not in seed (5x)
-um-a6381cb404,open,rdw,m9d7-ebf2:MERCEDES-BENZ|AMG EQS 53 4MATIC+|2022,MERCEDES-BENZ,AMG EQS 53 4MATIC+,,,model not in seed (4x)
-um-8308909ae8,open,rdw,m9d7-ebf2:MERCEDES-BENZ|B|2015,MERCEDES-BENZ,B,,,model not in seed (1x)
-um-505902d9b7,open,rdw,m9d7-ebf2:MERCEDES-BENZ|B 250 E|2015,MERCEDES-BENZ,B 250 E,,,model not in seed (4x)
-um-35361f8e59,open,rdw,m9d7-ebf2:MERCEDES-BENZ|B180|2011,MERCEDES-BENZ,B180,,,model not in seed (1x)
-um-dbe058ca02,open,rdw,m9d7-ebf2:MERCEDES-BENZ|C 200 4MATIC|2015,MERCEDES-BENZ,C 200 4MATIC,,,model not in seed (1x)
-um-f286ef8986,open,rdw,m9d7-ebf2:MERCEDES-BENZ|C 200 D|2019,MERCEDES-BENZ,C 200 D,,,model not in seed (1x)
-um-301cd39e38,open,rdw,m9d7-ebf2:MERCEDES-BENZ|C 220 CDI|2013,MERCEDES-BENZ,C 220 CDI,,,model not in seed (1x)
-um-17d5b1e83f,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|C 400 4MATIC ELECTRIC|2026#consumption_kwh_100km,MERCEDES-BENZ,C 400 4MATIC ELECTRIC,,,model not in seed (4x)
-um-8bdf586bb2,open,rdw,m9d7-ebf2:MERCEDES-BENZ|C200|2011,MERCEDES-BENZ,C200,,,model not in seed (1x)
-um-da4312c3f6,open,rdw,m9d7-ebf2:MERCEDES-BENZ|C220 CDI|2012,MERCEDES-BENZ,C220 CDI,,,model not in seed (1x)
-um-426a9c28fb,open,rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 180|2020,MERCEDES-BENZ,CLA 180,,,model not in seed (1x)
-um-318cbdfbe1,open,rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 180 D|2016,MERCEDES-BENZ,CLA 180 D,,,model not in seed (1x)
-um-c58ea48c35,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|CLA 200|2026#consumption_kwh_100km,MERCEDES-BENZ,CLA 200,,,model not in seed (3x)
-um-4f206f3a08,open,rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 220|2019,MERCEDES-BENZ,CLA 220,,,model not in seed (1x)
-um-bf1548ebf2,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|CLA 250|2026#consumption_kwh_100km,MERCEDES-BENZ,CLA 250,,,model not in seed (4x)
-um-42329a2877,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|CLA 250+|2025#consumption_kwh_100km,MERCEDES-BENZ,CLA 250+,,,model not in seed (7x)
-um-9f036bdc40,open,rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 350 4MATIC|2025,MERCEDES-BENZ,CLA 350 4MATIC,,,model not in seed (4x)
-um-857feaeae8,open,rdw,m9d7-ebf2:MERCEDES-BENZ|CLA250+ BUSINESS EDITION|2026,MERCEDES-BENZ,CLA250+ BUSINESS EDITION,,,model not in seed (1x)
-um-7ccd0d037a,open,rdw,m9d7-ebf2:MERCEDES-BENZ|E 200 CDI|2013,MERCEDES-BENZ,E 200 CDI,,,model not in seed (1x)
-um-246ff4edfc,open,rdw,m9d7-ebf2:MERCEDES-BENZ|E 350 BLUETEC|2014,MERCEDES-BENZ,E 350 BLUETEC,,,model not in seed (1x)
-um-c7d4cc11f3,open,rdw,m9d7-ebf2:MERCEDES-BENZ|E 350 CDI|2013,MERCEDES-BENZ,E 350 CDI,,,model not in seed (1x)
-um-31278bb2f6,open,rdw,m9d7-ebf2:MERCEDES-BENZ|E CITAN TOURER|2024,MERCEDES-BENZ,E CITAN TOURER,,,model not in seed (1x)
-um-06e33d25c9,open,rdw,m9d7-ebf2:MERCEDES-BENZ|E200|2016,MERCEDES-BENZ,E200,,,model not in seed (1x)
-um-d663d6ef70,open,rdw,m9d7-ebf2:MERCEDES-BENZ|E220d|2020,MERCEDES-BENZ,E220d,,,model not in seed (1x)
-um-b6e1e70dbc,open,rdw,m9d7-ebf2:MERCEDES-BENZ|E350|2018,MERCEDES-BENZ,E350,,,model not in seed (1x)
-um-10d220981d,open,rdw,m9d7-ebf2:MERCEDES-BENZ|ECITAN TOURER|2024,MERCEDES-BENZ,ECITAN TOURER,,,model not in seed (1x)
-um-d5faad41d8,open,rdw,m9d7-ebf2:MERCEDES-BENZ|ELECTRIC DRIVE|2015,MERCEDES-BENZ,ELECTRIC DRIVE,,,model not in seed (4x)
-um-cd40d6dbec,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQA 250|2020,MERCEDES-BENZ,EQA 250,,,year 2020 outside every generation of mercedes-eqa (1x)
-um-0baf1c88d2,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250|2022#consumption_kwh_100km,MERCEDES-BENZ,EQB 250,,,model not in seed (7x)
-um-8b67203078,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250+|2023#consumption_kwh_100km,MERCEDES-BENZ,EQB 250+,,,model not in seed (7x)
-um-990a303907,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 300 4MATIC|2021,MERCEDES-BENZ,EQB 300 4MATIC,,,model not in seed (10x)
-um-0f6ed857d3,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 350 4MATIC|2021,MERCEDES-BENZ,EQB 350 4MATIC,,,model not in seed (8x)
-um-0fdc60f1a3,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQC 400 4MATIC|2024,MERCEDES-BENZ,EQC 400 4MATIC,,,year 2024 outside every generation of mercedes-eqc (1x)
-um-1a7c19da5f,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQC 400 4MATIC|2025,MERCEDES-BENZ,EQC 400 4MATIC,,,year 2025 outside every generation of mercedes-eqc (1x)
-um-953d9b746f,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQE 300|2022#wltp_range_km,MERCEDES-BENZ,EQE 300,,,model not in seed (10x)
-um-f39c49a9b9,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQE 350|2022#consumption_kwh_100km,MERCEDES-BENZ,EQE 350,,,model not in seed (7x)
-um-61b86dfae9,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQE 350 4MATIC|2023#consumption_kwh_100km,MERCEDES-BENZ,EQE 350 4MATIC,,,model not in seed (8x)
-um-18b7b9709c,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 350+|2022,MERCEDES-BENZ,EQE 350+,,,model not in seed (5x)
-um-b14653b5d6,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 500 4MATIC|2022,MERCEDES-BENZ,EQE 500 4MATIC,,,model not in seed (6x)
-um-bef54d81e8,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQS  450+|2021,MERCEDES-BENZ,EQS  450+,,,model not in seed (1x)
-um-03a24d3c58,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQS 350|2022#consumption_kwh_100km,MERCEDES-BENZ,EQS 350,,,model not in seed (10x)
-um-8c28c39156,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 400|2026,MERCEDES-BENZ,EQS 400,,,model not in seed (1x)
-um-3a29aa578e,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 450 4MATIC|2022,MERCEDES-BENZ,EQS 450 4MATIC,,,model not in seed (5x)
-um-8505f5bbfa,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQS 450+|2021#wltp_range_km,MERCEDES-BENZ,EQS 450+,,,model not in seed (14x)
-um-0f783a1fde,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 500 4MATIC|2023,MERCEDES-BENZ,EQS 500 4MATIC,,,model not in seed (4x)
-um-e510dd89ae,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 580 4MATIC|2021,MERCEDES-BENZ,EQS 580 4MATIC,,,model not in seed (8x)
-um-ec82a2adf6,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQS-KLASSE|2021,MERCEDES-BENZ,EQS-KLASSE,,,model not in seed (1x)
-um-a7a856aeaf,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQS450+|2022,MERCEDES-BENZ,EQS450+,,,model not in seed (1x)
-um-ae4aa1fdfd,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EQT|2023,MERCEDES-BENZ,EQT,,,model not in seed (5x)
-um-6611c7f825,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQV|2020#consumption_kwh_100km,MERCEDES-BENZ,EQV,,,model not in seed (19x)
-um-6373467c82,open,rdw,m9d7-ebf2:MERCEDES-BENZ|ESPRINTER|2020,MERCEDES-BENZ,ESPRINTER,,,model not in seed (5x)
-um-d5fe2de2f5,open,rdw,m9d7-ebf2:MERCEDES-BENZ|EVITO|2020,MERCEDES-BENZ,EVITO,,,model not in seed (1x)
-um-357679e307,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EVITO TOURER|2019#consumption_kwh_100km,MERCEDES-BENZ,EVITO TOURER,,,model not in seed (31x)
-um-2712af7e13,open,rdw,m9d7-ebf2:MERCEDES-BENZ|G 580|2024,MERCEDES-BENZ,G 580,,,model not in seed (4x)
-um-bebdc408b4,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GL450|2013,MERCEDES-BENZ,GL450,,,model not in seed (1x)
-um-627ce580be,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLA 180|2015,MERCEDES-BENZ,GLA 180,,,model not in seed (1x)
-um-1fbd44096c,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLA 200|2016,MERCEDES-BENZ,GLA 200,,,model not in seed (2x)
-um-33d941d45c,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLA 250+|2026,MERCEDES-BENZ,GLA 250+,,,model not in seed (2x)
-um-63f6a2d22d,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLB 200|2026,MERCEDES-BENZ,GLB 200,,,model not in seed (1x)
-um-85ea52369a,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLB 250|2026#consumption_kwh_100km,MERCEDES-BENZ,GLB 250,,,model not in seed (4x)
-um-597b31a415,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLB 250+|2026#consumption_kwh_100km,MERCEDES-BENZ,GLB 250+,,,model not in seed (3x)
-um-7a8b338a16,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLB 350 4MATIC|2026,MERCEDES-BENZ,GLB 350 4MATIC,,,model not in seed (1x)
-um-714f645fec,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLC 250 ELECTRIC|2026#consumption_kwh_100km,MERCEDES-BENZ,GLC 250 ELECTRIC,,,model not in seed (3x)
-um-f904bec57a,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLC 300 4MATIC ELECTRIC|2026,MERCEDES-BENZ,GLC 300 4MATIC ELECTRIC,,,model not in seed (1x)
-um-3f2a1df147,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLC 400 4MATIC|2026,MERCEDES-BENZ,GLC 400 4MATIC,,,model not in seed (1x)
-um-c3fb6207a0,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLC 400 4MATIC WITH EQ TE|2026#consumption_kwh_100km,MERCEDES-BENZ,GLC 400 4MATIC WITH EQ TE,,,model not in seed (3x)
-um-99dd6c6abf,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLC400 4 MATIC / EQ TE|2026,MERCEDES-BENZ,GLC400 4 MATIC / EQ TE,,,model not in seed (1x)
-um-aa4842f065,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLK220|2015,MERCEDES-BENZ,GLK220,,,model not in seed (1x)
-um-6b01f34eb8,open,rdw,m9d7-ebf2:MERCEDES-BENZ|GLS 450|2018,MERCEDES-BENZ,GLS 450,,,model not in seed (1x)
-um-2e792c5895,open,rdw,m9d7-ebf2:MERCEDES-BENZ|MAYBACH EQS 680|2024,MERCEDES-BENZ,MAYBACH EQS 680,,,model not in seed (3x)
-um-cf402b68fe,open,rdw,m9d7-ebf2:MERCEDES-BENZ|ML 63 AMG|2015,MERCEDES-BENZ,ML 63 AMG,,,model not in seed (1x)
-um-48c9f9251f,open,rdw,m9d7-ebf2:MERCEDES-BENZ|SLC 200|2020,MERCEDES-BENZ,SLC 200,,,model not in seed (1x)
-um-423cd06273,open,rdw,m9d7-ebf2:MERCEDES-BENZ|SPRINTER|2014,MERCEDES-BENZ,SPRINTER,,,model not in seed (1x)
-um-903e746e19,open,rdw,m9d7-ebf2:MERCEDES-BENZ|VIANO|2011,MERCEDES-BENZ,VIANO,,,model not in seed (1x)
-um-d46ab38283,open,rdw,m9d7-ebf2:MG|CYBERSTER|2024,MG,CYBERSTER,,,model not in seed (2x)
-um-45d5f0e345,open,rdw,m9d7-ebf2:MG|IM 5|2026,MG,IM 5,,,model not in seed (1x)
-um-e88d9c0bd3,open,rdw,m9d7-ebf2:MG|IM 6|2026,MG,IM 6,,,model not in seed (2x)
-um-4901e9e5e4,open,rdw,m9d7-ebf2:MG|IM6|2026,MG,IM6,,,model not in seed (1x)
-um-254db0ba66,open,rdw,m9d7-ebf2:MG|MG 5 EV|2021,MG,MG 5 EV,,,model not in seed (1x)
-um-440e7e59a3,open,rdw,m9d7-ebf2:MG|MG CYBERSTER|2024,MG,MG CYBERSTER,,,model not in seed (7x)
-um-a6e5a8eecc,open,rdw,m9d7-ebf2:MG|MG MARVEL R ELECTRIC|2021,MG,MG MARVEL R ELECTRIC,,,model not in seed (16x)
-um-af2599e541,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG S5 EV|2025#consumption_kwh_100km,MG,MG S5 EV,,,model not in seed (8x)
-um-c0c2e19b0f,open,rdw,m9d7-ebf2:MG|MG S6 EV|2026,MG,MG S6 EV,,,model not in seed (1x)
-um-8e4d0d9727,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG ZS EV|2019#consumption_kwh_100km,MG,MG ZS EV,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mg-zs-ev-gen1 (16x)"
-um-331eed3a99,open,rdw,m9d7-ebf2:MG|MG3 FORM Sport|2017,MG,MG3 FORM Sport,,,model not in seed (1x)
-um-476c38c0d8,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG4 ELECTRIC|2023#consumption_kwh_100km,MG,MG4 ELECTRIC,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mg-mg4-gen1 (5x)"
-um-05d1df44fd,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG4 ELECTRIC|2026#wltp_range_km,MG,MG4 ELECTRIC,,,"attach-only: tie between mg-mg4-gen1-long-range, mg-mg4-gen1-standard-long-range in mg-mg4-gen1 (1x)"
-um-c0e3162d54,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG4 EV URBAN|2026#consumption_kwh_100km,MG,MG4 EV URBAN,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mg-mg4-gen1 (2x)"
-um-d3a74ceab6,open,rdw,m9d7-ebf2:MG|MG5 ELECTRIC|2021,MG,MG5 ELECTRIC,,,model not in seed (15x)
-um-479199dd43,open,rdw,m9d7-ebf2:MG|MGS5 EV|2026,MG,MGS5 EV,,,model not in seed (1x)
-um-27b267a592,open,rdw,m9d7-ebf2:MG|ZS1|2019,MG,ZS1,,,model not in seed (1x)
-um-670ccbe5fb,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|ACEMAN E|2024#consumption_kwh_100km,MINI,ACEMAN E,,,model not in seed (9x)
-um-f6f1cea5e0,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|ACEMAN SE|2024#consumption_kwh_100km,MINI,ACEMAN SE,,,model not in seed (9x)
-um-de689d5f5e,open,rdw,m9d7-ebf2:MINI|COOPER|2012,MINI,COOPER,,,model not in seed (3x)
-um-f25422112a,open,rdw,m9d7-ebf2:MINI|COOPER S|2022,MINI,COOPER S,,,model not in seed (1x)
-um-9db52e46b8,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|COOPER SE|2020#consumption_kwh_100km,MINI,COOPER SE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mini-cooper-se-f56 (7x)"
-um-698ece979c,open,rdw,m9d7-ebf2:MINI|COOPER SE|2019,MINI,COOPER SE,,,year 2019 outside every generation of mini-cooper-se (1x)
-um-2538925ef8,open,rdw,m9d7-ebf2:MINI|COUNTRYMAN|2013,MINI,COUNTRYMAN,,,model not in seed (2x)
-um-4a77cba088,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|COUNTRYMAN E|2024#wltp_range_km,MINI,COUNTRYMAN E,,,model not in seed (5x)
-um-b039349743,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|COUNTRYMAN SE ALL4|2024#consumption_kwh_100km,MINI,COUNTRYMAN SE ALL4,,,model not in seed (13x)
-um-956f66d599,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|JCW ACEMAN E|2025#consumption_kwh_100km,MINI,JCW ACEMAN E,,,model not in seed (4x)
-um-a1b09dc35e,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|JCW E|2025#consumption_kwh_100km,MINI,JCW E,,,model not in seed (5x)
-um-2ca650fca4,open,rdw,m9d7-ebf2:MINI|MINI|2011,MINI,MINI,,,model not in seed (1x)
-um-21490b98e2,open,rdw,m9d7-ebf2:NISSAN|ARIYA|2023,NISSAN,ARIYA,,,model not in seed (2x)
-um-530c120c02,open,rdw,m9d7-ebf2:NISSAN|ARIYA  EVOLVE+|2023,NISSAN,ARIYA  EVOLVE+,,,model not in seed (1x)
-um-4f5fdb3d44,open,rdw,m9d7-ebf2:NISSAN|ARIYA  EVOLVE+ E-40RCE|2023,NISSAN,ARIYA  EVOLVE+ E-40RCE,,,model not in seed (1x)
-um-3e472bf653,open,rdw,m9d7-ebf2:NISSAN|E-NV200|2017,NISSAN,E-NV200,,,model not in seed (3x)
-um-b504358a8d,open,rdw,m9d7-ebf2:NISSAN|ELECTRIQUE VISIA|2014,NISSAN,ELECTRIQUE VISIA,,,model not in seed (1x)
-um-f9b08e4e94,open,rdw,m9d7-ebf2:NISSAN|MICRA|2020,NISSAN,MICRA,,,model not in seed (1x)
-um-d4a1594110,open,rdw,m9d7-ebf2:NISSAN|NISSAN ARIYA|2022,NISSAN,NISSAN ARIYA,,,model not in seed (9x)
-um-eaef71e57e,open,rdw,m9d7-ebf2:NISSAN|NISSAN E-NV200|2014,NISSAN,NISSAN E-NV200,,,model not in seed (24x)
-um-65eb640a0d,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:NISSAN|NISSAN LEAF|2026#consumption_kwh_100km,NISSAN,NISSAN LEAF,,,no variant in nissan-leaf-gen3 to attach to (1x)
-um-ee7ef5ad64,open,rdw,m9d7-ebf2:NISSAN|NISSAN MICRA|2025,NISSAN,NISSAN MICRA,,,model not in seed (4x)
-um-2101460cdc,open,rdw,m9d7-ebf2:NISSAN|NISSAN QASHQAI|2016,NISSAN,NISSAN QASHQAI,,,model not in seed (1x)
-um-2e1d4a0f4c,open,rdw,m9d7-ebf2:NISSAN|QASHQAI|2011,NISSAN,QASHQAI,,,model not in seed (1x)
-um-b1a8f5e933,open,rdw,m9d7-ebf2:NISSAN|TOWNSTAR|2023,NISSAN,TOWNSTAR,,,model not in seed (4x)
-um-c258fcd793,open,rdw,m9d7-ebf2:NISSAN|X-TRAIL|2017,NISSAN,X-TRAIL,,,model not in seed (1x)
-um-4de7f7a6bf,open,rdw,m9d7-ebf2:OPEL|AMPERA E|2017,OPEL,AMPERA E,,,model not in seed (1x)
-um-92e53e6cfb,open,rdw,m9d7-ebf2:OPEL|AMPERA-E|2017,OPEL,AMPERA-E,,,model not in seed (14x)
-um-6ee17565df,open,rdw,m9d7-ebf2:OPEL|AMPERA-E EV|2018,OPEL,AMPERA-E EV,,,model not in seed (1x)
-um-2ed0450a55,open,rdw,m9d7-ebf2:OPEL|ASTRA|2010,OPEL,ASTRA,,,model not in seed (16x)
-um-035cbf6f67,open,rdw,m9d7-ebf2:OPEL|Astra Sports Tourer|2018,OPEL,Astra Sports Tourer,,,model not in seed (12x)
-um-557c742206,open,rdw,m9d7-ebf2:OPEL|Astra+|2020,OPEL,Astra+,,,model not in seed (1x)
-um-f6700f0424,open,rdw,m9d7-ebf2:OPEL|COMBO-E LIFE|2021,OPEL,COMBO-E LIFE,,,model not in seed (10x)
-um-7d17773445,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:OPEL|CORSA|2020#consumption_kwh_100km,OPEL,CORSA,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in opel-corsa-e-f (12x)"
+um-38488af3ee,open,fueleconomy,(summary),RIVIAN,,,,make not in seed: 187 records
+um-d1a95f143e,open,fueleconomy,(summary),PORSCHE,,,,make not in seed: 126 records
 um-28a982ea76,open,rdw,(summary),PORSCHE,,,,make not in seed: 119 records
 um-814e1d6eb3,open,rdw,(summary),TOYOTA,,,,make not in seed: 109 records
+um-f477515a30,open,fueleconomy,(summary),LUCID,,,,make not in seed: 72 records
 um-8b2ed5478c,open,eea,(summary),PORSCHE,,,,make not in seed: 67 records
 um-a831d18b2d,open,openev,(summary),NIO,,,,make not in seed: 65 records
+um-77ed158052,open,fueleconomy,(summary),CHEVROLET,,,,make not in seed: 58 records
 um-27d86289b3,open,kilowatt-openev,(summary),PORSCHE,,,,make not in seed: 52 records
 um-7030893d97,open,rdw,(summary),NIO,,,,make not in seed: 41 records
 um-0b62be58a1,open,dft-veh,(summary),PORSCHE,,,,make not in seed: 39 records
+um-648a0a1ff6,open,fueleconomy,(summary),TOYOTA,,,,make not in seed: 38 records
 um-470058ebb0,open,openev,(summary),CHEVROLET,,,,make not in seed: 38 records
 um-6e131f841a,open,rdw,(summary),XPENG,,,,make not in seed: 38 records
+um-039e030f38,open,fueleconomy,(summary),CADILLAC,,,,make not in seed: 37 records
 um-60e4a36ec5,open,rdw,(summary),LEAPMOTOR,,,,make not in seed: 36 records
 um-9d1cf2e871,open,rdw,(summary),MAZDA,,,,make not in seed: 35 records
 um-12b504b836,open,openev,(summary),VINFAST,,,,make not in seed: 34 records
@@ -1817,13 +1823,17 @@ um-747e6c1f7e,open,openev,(summary),ZEEKR,,,,make not in seed: 32 records
 um-dcf2870eb7,open,openev,(summary),GAC AION,,,,make not in seed: 31 records
 um-5cf320bc23,open,openev,(summary),XPENG,,,,make not in seed: 31 records
 um-f67b94b9fd,open,rdw,(summary),JEEP,,,,make not in seed: 31 records
+um-e3e187ea7b,open,fueleconomy,(summary),GENESIS,,,,make not in seed: 27 records
 um-b3dfea8de1,open,kilowatt-openev,(summary),TOYOTA,,,,make not in seed: 27 records
+um-504a615e78,open,fueleconomy,(summary),LEXUS,,,,make not in seed: 26 records
 um-614560168a,open,rdw,(summary),LEXUS,,,,make not in seed: 26 records
 um-21808a72c9,open,rdw,(summary),ZEEKR,,,,make not in seed: 26 records
 um-8d37ad4b85,open,dft-veh,(summary),DS,,,,make not in seed: 25 records
 um-a7120c4024,open,ademe,(summary),PORSCHE,,,,make not in seed: 24 records
 um-ec0fa4ff70,open,openev,(summary),LAND ROVER,,,,make not in seed: 24 records
 um-39c11ad666,open,openev,(summary),RIVIAN,,,,make not in seed: 24 records
+um-85cd14c318,open,fueleconomy,(summary),DODGE,,,,make not in seed: 23 records
+um-c145ec0ca9,open,fueleconomy,(summary),GMC,,,,make not in seed: 23 records
 um-f524993272,open,kilowatt-openev,(summary),NIO,,,,make not in seed: 23 records
 um-4f6ff3e44d,open,openev,(summary),LEAPMOTOR,,,,make not in seed: 23 records
 um-62a7b9354c,open,rdw,(summary),SERES,,,,make not in seed: 23 records
@@ -1832,6 +1842,7 @@ um-15b36da75b,open,openev,(summary),CHERY,,,,make not in seed: 22 records
 um-901e9c0f3a,open,rdw,(summary),MITSUBISHI,,,,make not in seed: 21 records
 um-50d1ea7ea9,open,dft-veh,(summary),LOTUS,,,,make not in seed: 20 records
 um-7a25331b9e,open,eea,(summary),TOYOTA,,,,make not in seed: 20 records
+um-f7430e7f3b,open,fueleconomy,(summary),SUBARU,,,,make not in seed: 20 records
 um-fbbd32bc64,open,openev,(summary),PORSCHE,,,,make not in seed: 20 records
 um-ceed4d7465,open,eea,(summary),NIO,,,,make not in seed: 19 records
 um-edc8d4fa6d,open,openev,(summary),GEELY,,,,make not in seed: 19 records
@@ -1844,11 +1855,13 @@ um-0bab8c6f75,open,eea,(summary),XPENG,,,,make not in seed: 17 records
 um-e74cb6c3e8,open,rdw,(summary),MAXUS,,,,make not in seed: 17 records
 um-91ac26ac20,open,rdw,(summary),SEAT,,,,make not in seed: 17 records
 um-7e120bae98,open,eea,(summary),LEXUS,,,,make not in seed: 16 records
+um-79a6ed42e8,open,fueleconomy,(summary),ROLLS-ROYCE,,,,make not in seed: 16 records
 um-66f0ab755e,open,rdw,(summary),AIWAYS,,,,make not in seed: 16 records
 um-386ec72a77,open,rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 15 records
 um-0f0b2b538d,open,rdw,(summary),LUCID MOTORS,,,,make not in seed: 15 records
 um-06ad4565f2,open,rdw,(summary),SUBARU,,,,make not in seed: 15 records
 um-0606449c11,open,eea,(summary),MASERATI,,,,make not in seed: 14 records
+um-6efb6b0ec5,open,fueleconomy,(summary),MASERATI,,,,make not in seed: 14 records
 um-0955cadb88,open,kilowatt-openev,(summary),XPENG,,,,make not in seed: 14 records
 um-455949d936,open,openev,(summary),GENESIS,,,,make not in seed: 14 records
 um-e1514ae08f,open,openev,(summary),LEXUS,,,,make not in seed: 14 records
@@ -1856,6 +1869,7 @@ um-75a69d7496,open,rdw,(summary),FAW,,,,make not in seed: 14 records
 um-f8683bc4d6,open,eea,(summary),DS,,,,make not in seed: 13 records
 um-12f7f4e092,open,eea,(summary),DS AUTOMOBILES,,,,make not in seed: 13 records
 um-f884ae1eed,open,eea,(summary),LEAPMOTOR,,,,make not in seed: 13 records
+um-0ac3f03907,open,fueleconomy,(summary),VINFAST,,,,make not in seed: 13 records
 um-f7becf0543,open,openev,(summary),GWM,,,,make not in seed: 13 records
 um-73af0159cf,open,openev,(summary),LUCID,,,,make not in seed: 13 records
 um-43d945a229,open,rdw,(summary),DONGFENG,,,,make not in seed: 13 records
@@ -1884,18 +1898,4 @@ um-2cd5ccc4f7,open,eea,(summary),MAZDA,,,,make not in seed: 9 records
 um-44ae8d30ae,open,eea,(summary),ROLLS-ROYCE,,,,make not in seed: 9 records
 um-de7a99cc8d,open,kilowatt-openev,(summary),GWM,,,,make not in seed: 9 records
 um-dc5e6d2620,open,kilowatt-openev,(summary),LOTUS,,,,make not in seed: 9 records
-um-fff862a7d2,open,openev,(summary),FERRARI,,,,make not in seed: 9 records
-um-653ff89893,open,openev,(summary),IM MOTORS,,,,make not in seed: 9 records
-um-7b7f6d9a63,open,openev,(summary),RISING AUTO,,,,make not in seed: 9 records
-um-17a767c78c,open,dft-veh,(summary),LAND ROVER,,,,make not in seed: 8 records
-um-0d67f56c2c,open,eea,(summary),ABARTH,,,,make not in seed: 8 records
-um-fa54079cb3,open,eea,(summary),JEEP,,,,make not in seed: 8 records
-um-3b09183da2,open,eea,(summary),MAXUS,,,,make not in seed: 8 records
-um-0d0d272beb,open,kba-fz10,(summary),LEAPMOTOR,,,,make not in seed: 8 records
-um-dcd294a207,open,kba-fz10,(summary),XPENG,,,,make not in seed: 8 records
-um-df86b16c04,open,kilowatt-openev,(summary),ABARTH,,,,make not in seed: 8 records
-um-3c2f09537f,open,kilowatt-openev,(summary),FISKER,,,,make not in seed: 8 records
-um-78ad6bbcc8,open,rdw,(summary),ALPINE,,,,make not in seed: 8 records
-um-2b57d0644b,open,rdw,(summary),GEELY,,,,make not in seed: 8 records
-um-d03894c24f,open,rdw,(summary),LANCIA,,,,make not in seed: 8 records
-um-19716af3e1,open,*,(summary),(other makes),,,,make not in seed: 780 records
+um-19716af3e1,open,*,(summary),(other makes),,,,make not in seed: 930 records

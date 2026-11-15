@@ -124,6 +124,7 @@ def test_release_end_to_end(data_dir: Path) -> None:
         "qa.json",  # release QA (R-05 §1)
         "qa.md",
         "run_log.json",
+        "sources.json",  # source health per source (addendum 6 P3)
     ]
     assert (data_dir / "releases" / "latest").read_text().strip() == "1"
     raw = (out / "catalogue.json").read_bytes()

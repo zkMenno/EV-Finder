@@ -807,3 +807,11 @@ def test_rdw_spec_records_never_create_variants() -> None:
     from ev_pipeline.match import matcher
 
     assert "rdw" in matcher.ATTACH_ONLY_SOURCES
+
+
+def test_fueleconomy_is_attach_only_and_never_sets_wltp_consumption() -> None:
+    """Q-075: EPA figures are a US cross-check; they never create variants or set WLTP fields."""
+    from ev_pipeline.match import matcher
+
+    assert "fueleconomy" in matcher.ATTACH_ONLY_SOURCES
+    assert "consumption_kwh_100km" in matcher.IGNORED_FIELDS["fueleconomy"]

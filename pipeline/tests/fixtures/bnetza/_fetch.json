@@ -1,0 +1,12 @@
+{
+  "fetched_at": "2026-11-15T02:02:29+00:00",
+  "page": "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/Ladesaeulenkarte/start.html",
+  "url": "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/_DL/Ladesaeuleninfrastruktur.xlsx?__blob=publicationFile&v=37",
+  "file": "Ladesaeuleninfrastruktur.xlsx",
+  "bytes": 382929,
+  "sha256": "4a278a1d731bb60db0629852052f940e436e11334b35491db1b1e5b80c02a0f1",
+  "licence": "CC-BY-4.0",
+  "attribution": "Bundesnetzagentur.de",
+  "licence_text_seen": "it der Daten wird ausgeschlossen. Die Daten sind durch eine Creative Commons Namensnennung 4.0 International Lizenz lizenziert. Daten, die unter der Lizenz CC BY 4.0 stehen, dürfen unter einer Namensnennung geteilt, vervielfältigt und bearbeitet werden. Als Namensnennung für Daten dieser Internetseite ist Bundesnetzage",
+  "fixture_note": "Recorded 2026-11-15 (Stand 01.10.2026), trimmed: sheets 3.1, 3.2, 4.1, 4.2, quarters 2017-01-01, 2026-04-01, 2026-07-01, 2026-10-01. CC BY 4.0, Bundesnetzagentur.de."
+}
