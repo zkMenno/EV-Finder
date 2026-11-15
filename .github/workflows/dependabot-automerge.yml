@@ -1,6 +1,6 @@
 name: Dependabot auto-merge
 
-# Standing rule for Dependabot PRs (Decision 038, Menno 2026-11-15):
+# Standing rule for Dependabot PRs (Decision 039, Menno 2026-11-15):
 # - every update in the PR is a patch or minor, and every check on its head commit is green
 #   → squash-merge it, pinned to that commit;
 # - any major update (or a PR whose update types can't be read) → label `dependabot-major` and
@@ -66,7 +66,7 @@ jobs:
             labels=$(gh api "repos/$REPO/issues/$pr/labels" --jq '.[].name')
             if ! echo "$labels" | grep -qx dependabot-major; then
               gh api -X POST "repos/$REPO/issues/$pr/labels" -f 'labels[]=dependabot-major' >/dev/null
-              gh api -X POST "repos/$REPO/issues/$pr/comments" -f body="Contains a major update (or update types I couldn't read): not auto-merged. The coordinator chat reviews the breaking changes and merges (Decision 038)." >/dev/null
+              gh api -X POST "repos/$REPO/issues/$pr/comments" -f body="Contains a major update (or update types I couldn't read): not auto-merged. The coordinator chat reviews the breaking changes and merges (Decision 039)." >/dev/null
             fi
             exit 0
           fi
