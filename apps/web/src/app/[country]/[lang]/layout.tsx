@@ -115,6 +115,10 @@ export default async function SiteLayout({ children, params }: Props) {
             >
               {t("footer.about")}
             </Link>
+            {" · "}
+            <Link href={`${base}/data`} className="text-blue-800 underline underline-offset-2 hover:text-blue-950" data-testid="footer-data">
+              {t("footer.data")}
+            </Link>
           </p>
         </footer>
         <CompareTray base={base} dict={dict} />

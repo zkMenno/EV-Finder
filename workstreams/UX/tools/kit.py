@@ -83,16 +83,15 @@ def road_winding(t, P, w0=46, w1=6):
     N = len(pts)
     seg = lambda col, add: "".join(f'<line x1="{pts[i][0]:.1f}" y1="{pts[i][1]:.1f}" x2="{pts[i+1][0]:.1f}" y2="{pts[i+1][1]:.1f}" stroke="{col}" stroke-width="{w0-(w0-w1)*i/N+add:.1f}" stroke-linecap="round"/>' for i in range(N-1))
     d = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts[:int(N*.85)])
-    return seg(t["line"], 4) + seg(t["road"], 0) + f'<path d="{d}" stroke="{t["line"]}" stroke-width="1.8" fill="none" stroke-dasharray="8 8"/>'
+    return seg(t["line"], 4) + seg(t["road"], 0)
 
 def road_straight(t, w=200):
     return (f'<rect x="0" y="0" width="{w}" height="26" fill="{t["road"]}" {st(t)}/>'
-            f'<line x1="8" y1="13" x2="{w-8}" y2="13" stroke="{t["line"]}" stroke-width="1.8" stroke-dasharray="8 8"/>')
+            '')
 
 def road_bend(t):
     return (f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{t["line"]}" stroke-width="30"/>'
-            f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{t["road"]}" stroke-width="26"/>'
-            f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{t["line"]}" stroke-width="1.8" stroke-dasharray="8 8"/>')
+            f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{t["road"]}" stroke-width="26"/>')
 
 # ---- composed scene (the B+C hero) ----
 def scene(t, rich, night=False):

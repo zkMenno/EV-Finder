@@ -22,6 +22,7 @@ export function pagePaths(cat: Catalogue): string[] {
     // Parked features (Decision 051) are only listed when switched on.
     ...(parkedEnabled("rankings") ? ["/top", ...RANKING_IDS.map((l) => `/top/${l}`)] : []),
     "/about",
+    "/data",
     ...(parkedEnabled("chargingPages") ? ["/charging"] : []),
     "/learn",
     ...articles().map((a) => `/learn/${a.slug}`),

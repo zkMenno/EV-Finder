@@ -72,7 +72,6 @@ def city_scene(t, rich, night=False):
     # street: pavement, tram line, road
     s += f'<rect x="-10" y="286" width="410" height="26" fill="{H[2]}" {st(t)}/>'
     s += f'<rect x="-10" y="312" width="410" height="60" fill="{t["road"]}" {st(t)}/>'
-    s += f'<path d="M-10 342 H400" stroke="{t["line"]}" stroke-width="1.8" stroke-dasharray="8 8"/>'
     s += f'<path d="M-10 384 H400 M-10 392 H400" stroke="{t["line"]}" stroke-width="1.5"/>'
     s += f'<rect x="-10" y="372" width="410" height="40" fill="none"/>'
     s += f'<g transform="translate(40 351)">{tram(t)}</g>'

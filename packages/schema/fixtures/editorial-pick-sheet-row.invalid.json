@@ -1,0 +1,23 @@
+{
+  "tab": "EVs top tier",
+  "row": 4,
+  "section": "Primary car picks",
+  "group": "A-Tier",
+  "make": "Kia",
+  "model": "EV6",
+  "model_year": 2024,
+  "variant": "Long Range 2WD (V1.2)",
+  "seed_model_id": "kia-ev6",
+  "seed_generation_id": "kia-ev6-gen1",
+  "in_seed": true,
+  "evdb_car_id": 3028,
+  "tier": 1.1,
+  "verdict": "shortlist",
+  "favourite": true,
+  "flags": ["love"],
+  "notes": "Regen flippers + i-Pedal",
+  "sheet_values": {
+    "use": "public",
+    "boot_l": 490.0
+  }
+}
