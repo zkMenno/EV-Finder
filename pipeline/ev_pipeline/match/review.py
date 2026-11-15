@@ -10,6 +10,8 @@ from ev_pipeline.match.matcher import (
     AMBIGUOUS_EVIDENCE,
     NO_BATTERY_MATCH,
     NO_POWER_MATCH,
+    NO_SEED_POWER_MATCH,
+    SOURCE_HOLD,
     TGK_MISFIT,
     TGK_TIE,
     MatchResult,
@@ -20,8 +22,16 @@ UNMATCHED_COLUMNS = ["source_id", "record_key", "make", "model", "variant_name",
 MAX_ROWS = 1900  # brief: keep the file under 2000 rows
 # Reasons listed before the rest, so the row cap never cuts them (Q-086: RDW records the
 # power gate held back sort after most sources and were cut entirely; battery-gate
-# records, TGK ties and misfits likewise).
-PRIORITY_REASONS = (NO_POWER_MATCH, NO_BATTERY_MATCH, AMBIGUOUS_EVIDENCE, TGK_TIE, TGK_MISFIT)
+# records, TGK ties and misfits likewise; source holds and the seed power gate too).
+PRIORITY_REASONS = (
+    NO_POWER_MATCH,
+    NO_BATTERY_MATCH,
+    AMBIGUOUS_EVIDENCE,
+    TGK_TIE,
+    TGK_MISFIT,
+    SOURCE_HOLD,
+    NO_SEED_POWER_MATCH,
+)
 
 
 def _priority(row: UnmatchedRow) -> int:

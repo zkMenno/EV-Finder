@@ -4,22 +4,11 @@
 # withholds a lone-source value it contradicts (qa/value_guard.guard_contradicted).
 # Every value below was read on the page named, on the date given. Confidence: medium when the
 # page names the exact version, low otherwise (see notes).
+# Megane 40 kWh and Audi Q4 entries removed 2026-11-15: those rows were merged or held (Decision 033);
+# the Megane citation lives on the seed variant -ev40, the Q4 records go to review.
 schema: manual-facts/v1
 entered_by: pipeline-builder (agent)
 facts:
-  # --- Renault Megane E-Tech 40 kWh (OpenEV "40 kWh", 2023-2025): OpenEV DC 130 ---------------
-  - variant_id: renault-megane-e-tech-gen1-40-kwh
-    field: dc_peak_kw
-    value: 85
-    unit: kW
-    source_url: https://www.renault.ie/electric-vehicles/megane-e-tech-electric/electric-faq.html
-    source_name: "Renault Ireland, Megane E-Tech electric FAQ"
-    retrieved: 2026-11-15
-    quote: "Standard Charge and Boost Charge versions with the 40 kWh battery are equipped with a DC fast charger providing a maximum power peak of 85 kW."
-    locator: "FAQ 'Is quick charging an option?'; same page, charging table footnote (3): 'up to 85 kW on a 40 kWh battery and 130 kW on a 60 kWh battery'"
-    confidence: medium
-    notes: "Same figure on renault.ie/cars/megane-e-tech-electric/charging-solutions.html. Row duplicates seed renault-megane-e-tech-gen1-ev40 (which already shows 85)."
-
   # --- Renault 5 E-Tech 40 kWh (OpenEV "40 kWh", 2024-2025): OpenEV DC 100 ------------------
   - variant_id: renault-5-e-tech-gen1-40-kwh
     field: dc_peak_kw
@@ -134,60 +123,3 @@ facts:
     locator: "p. 14, 'The most important technical data', EQB 350 4MATIC column: Usable battery capacity kWh 66.5 (one column for five- and seven-seat)"
     confidence: medium
 
-  # --- Audi Q4 Sportback 40 e-tron (OpenEV "40 Sportback", 2023-2025): OpenEV usable 48 kWh ---
-  - variant_id: audi-q4-e-tron-gen1-40-sportback
-    field: battery_kwh_net
-    value: 59
-    unit: kWh
-    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1289/file_de/e7569fdc713339d07f82a0da5cede7357ea4eae2/TD-Audi-Q4-Sportback-40-e-tron-150kW_250508.pdf
-    source_name: "Audi MediaCenter, technical data 'Audi Q4 Sportback 40 e-tron 150 kW' (file dated 2025-05-08, German)"
-    retrieved: 2026-11-15
-    quote: "Batterie-Kapazität brutto / netto in kWh 63 / 59"
-    confidence: low
-    notes: "Low: this is the MY2025 Sportback 40 e-tron (59 kWh net, DC 165 kW, 8.1 s); the 2021-23 40 e-tron had 77 kWh net (Audi tech data 'Audi Q4 e-tron 40 150 kW', media.audi.com Estonia, 82 / 77), and the row spans 2023-2025. Neither is 48. The row's other figures (125 kW, 9.0 s, WLTP 348) match the Sportback 35 (Audi tech data, 125 kW, 9.0 s, WLTP 349-314), so the row looks mis-modelled."
-
-  # --- Audi Q4 "50" / "50 Sportback" (OpenEV, RWD, 2023-2025): power 150, 0-100 8.5 -----------
-  - variant_id: audi-q4-e-tron-gen1-50
-    field: power_kw
-    value: 220
-    unit: kW
-    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline_info_Q4_e-tron.pdf
-    source_name: "Audi technical data 'Audi Q4 e-tron 50 quattro 220 kW', program for Germany, status 05/12/21 (Audi Estonia, media.audi.com)"
-    retrieved: 2026-11-15
-    quote: "Peak electrical output in kW (PS) 220 (299)"
-    locator: "p. 5, Engine / electrics; same page: Drive type All-wheel drive, battery gross / net 82 / 76.6 kWh"
-    confidence: low
-    notes: "Low: names the 2021 Q4 e-tron 50 quattro; the OpenEV row is called '50' with RWD, 150 kW and 8.5 s, which are the Q4 40 e-tron's figures (same PDF, p. 3: 150 kW, rear-wheel drive, 8.5 s). Row looks mis-modelled; drivetrain can't be cited as a number."
-  - variant_id: audi-q4-e-tron-gen1-50
-    field: accel_0_100_s
-    value: 6.2
-    unit: s
-    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline_info_Q4_e-tron.pdf
-    source_name: "Audi technical data 'Audi Q4 e-tron 50 quattro 220 kW', program for Germany, status 05/12/21 (Audi Estonia, media.audi.com)"
-    retrieved: 2026-11-15
-    quote: "Electrical acceleration, 0-100 km/h (62.1 mph) in s 6.2"
-    locator: "p. 5, Performance / acoustics"
-    confidence: low
-    notes: "Low: see power_kw above."
-  - variant_id: audi-q4-e-tron-gen1-50-sportback
-    field: power_kw
-    value: 220
-    unit: kW
-    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline%20info_Q4%20e-tron%20Sportback.pdf
-    source_name: "Audi technical data 'Audi Q4 e-tron Sportback 50 quattro 220 kW', program for Germany, status 05/10/21 (Audi Estonia, media.audi.com)"
-    retrieved: 2026-11-15
-    quote: "Peak electrical output in kW (PS) 220 (299)"
-    locator: "p. 3, Engine / electrics; same page: Drive type All-wheel drive, battery gross / net 82 / 76.6 kWh"
-    confidence: low
-    notes: "Low: names the 2021 Sportback 50 quattro; the OpenEV row '50 Sportback' is RWD with 150 kW and 8.5 s (Q4 40 e-tron figures). Row looks mis-modelled."
-  - variant_id: audi-q4-e-tron-gen1-50-sportback
-    field: accel_0_100_s
-    value: 6.2
-    unit: s
-    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline%20info_Q4%20e-tron%20Sportback.pdf
-    source_name: "Audi technical data 'Audi Q4 e-tron Sportback 50 quattro 220 kW', program for Germany, status 05/10/21 (Audi Estonia, media.audi.com)"
-    retrieved: 2026-11-15
-    quote: "Electrical acceleration, 0-100 km/h (62.1 mph) in s 6.2"
-    locator: "p. 3, Performance / acoustics"
-    confidence: low
-    notes: "Low: see power_kw above."

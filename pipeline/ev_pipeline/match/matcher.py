@@ -32,6 +32,20 @@
    tolerance of the seed-manual variant it would join (by name, `source_names`, or because its
    `<generation_id>-<slug>` id equals the seed variant's id: OpenEV "Q4 e-tron 40" MY2023+
    at 48 kWh vs the seed "40 e-tron" at 77 kWh) goes to review instead of merging.
+   Seed power gate: a record that would join a seed-manual variant through `source_names`
+   (an alias, not its own name) and whose power_kw (or "<n> kW" in its name) is more than
+   5 % from every power figure of that variant goes to review ("power contradicts the seed
+   variant"); unknown power on either side rules nothing out. Same-name and same-id joins
+   are not power-gated (a later model year may get a stronger motor: Enyaq 60 132 -> 150 kW
+   becomes a year band, see below).
+   A `source_names` entry may be year-scoped (`{name: Base, years: [2024, null]}`): the name
+   then joins that seed variant only for records of those model years, so one source name
+   can mean different seed variants by year (OpenEV e-208 "Base": 50 kWh to MY2023, 51 kWh
+   from MY2024). Two variants may share a name only with non-overlapping years.
+   Source holds (`source_holds` in variants.yaml): records of a named source, variant name,
+   generation and model-year span go to review with the hold's reason before any variant is
+   made or joined (OpenEV Q4 e-tron MY2024-25 records repeat MY2023 figures under names
+   that fit no MY2024+ car). A hold never sets or changes a value.
    Year bands (`split_year_bands`): when a variant's records for a later model year differ from
    its earliest year by more than WLTP 5% or DC peak 10%, that is a real change, so the later
    years become their own variant `<variant_id>-<first year>` (the earliest band keeps the
@@ -126,11 +140,15 @@ from ev_pipeline.match.seed import (
     SeedGeneration,
     SeedModel,
     SourceAlias,
+    SourceHold,
+    YearSpan,
     model_alias_keys,
     model_bev_only_keys,
     model_exclude_tokens,
     model_scoped_alias_keys,
     model_source_alias_keys,
+    span_covers,
+    spans_overlap,
 )
 from ev_pipeline.records import SourceRecord, SpecValue
 from ev_pipeline.schema_models import ChargeCurve, Fact, FactField, Id
@@ -240,6 +258,12 @@ BATTERY_GATE_REL = 0.15
 # older packs (e-Golf 24.2 gross / 20.5 net, i3 22 / 18.8): 20 % across bases.
 BATTERY_GATE_CROSS_REL = 0.20
 NO_BATTERY_MATCH = "battery contradicts the seed variant"
+# Seed power gate (main pass, see 4 above): a record joining a seed-manual variant through a
+# `source_names` alias whose power differs from the seed's by more than 5 % is another car.
+SEED_POWER_GATE_REL = 0.05
+NO_SEED_POWER_MATCH = "power contradicts the seed variant"
+# `source_holds` in variants.yaml (see 4 above): records sent to review by name and year.
+SOURCE_HOLD = "source hold"
 # Year-band split thresholds (relative difference to the band's first year).
 BAND_THRESHOLDS: dict[str, float] = {"wltp_range_km": 0.05, "dc_peak_kw": 0.10}
 _KWH_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*-?\s*kwh", re.IGNORECASE)
@@ -297,16 +321,23 @@ class VariantInfo:
     source_ids: set[str] = field(default_factory=set)
     # Q-062: names other sources use for this variant (seed-manual `source_names`).
     source_names: dict[str, set[str]] = field(default_factory=dict)
+    # Year-scoped source names: (source id, name key) -> model years the name means this car.
+    source_name_years: dict[tuple[str, str], YearSpan] = field(default_factory=dict)
 
-    def named(self, source_id: str, name: str | None) -> bool:
-        """True when `name` is this variant's name or one of `source_id`'s names for it.
+    def named(self, source_id: str, name: str | None, year: int | None = None) -> bool:
+        """True when `name` is this variant's name or one of `source_id`'s names for it
+        (a year-scoped source name only for a record of those model years).
 
         A record without a variant name names no variant (A-05 F1): it is never an exact
         match for a variant called "base" (RDW year groups and EPA rows blend every trim)."""
         k = key(name or "")
         if not k:
             return False
-        return k == key(self.name) or k in self.source_names.get(source_id, set())
+        if k == key(self.name):
+            return True
+        if k not in self.source_names.get(source_id, set()):
+            return False
+        return span_covers(self.source_name_years.get((source_id, k)), year)
 
 
 @dataclass
@@ -358,6 +389,13 @@ class MatchResult:
     year_records: list[SourceRecord] = field(default_factory=list)
     # Battery gate: seed-manual variant id -> its battery figures (net, gross, cited, name).
     seed_kwh: dict[str, set[tuple[float, str]]] = field(default_factory=dict)
+    # Seed power gate: seed-manual variant id -> its power_kw figures (spec or cited).
+    seed_power: dict[str, set[float]] = field(default_factory=dict)
+    # Seed-manual variants that a source record joined through a `source_names` alias, and
+    # the record keys of the seed's own records (variant + cited): `split_year_bands` does
+    # not let those seed facts anchor a year band on such a variant.
+    aliased: set[str] = field(default_factory=set)
+    seed_record_keys: set[str] = field(default_factory=set)
 
 
 def priority_of(source_id: str) -> int:
@@ -523,6 +561,20 @@ def battery_contradicts(rec: set[tuple[float, str]], seed: set[tuple[float, str]
     if not rec or not seed:
         return False
     return not any(battery_close(a, b) for a in rec for b in seed)
+
+
+def _source_name_vid(
+    targets: list[tuple[YearSpan | None, str]] | None, year: int | None
+) -> str | None:
+    """The seed-manual variant a source name means for a record of this model year."""
+    for span, vid in targets or []:
+        if span_covers(span, year):
+            return vid
+    return None
+
+
+def _num_text(values: set[float]) -> str:
+    return "/".join(f"{v:g}" for v in sorted(values))
 
 
 def _kwh_text(values: set[tuple[float, str]]) -> str:
@@ -704,11 +756,13 @@ def match_records(
     generation_kwh: dict[str, set[float]] | None = None,
     scoped_aliases: bool | None = None,
     eea_corroboration: bool | None = None,
+    holds: list[SourceHold] | None = None,
 ) -> MatchResult:
     """`generation_kwh`: optional battery sizes per generation (e.g. from battery_packs.yaml
     via variant_links.yaml), used as evidence for shared-year records. `scoped_aliases`:
     None = env EV_SCOPED_ALIASES / default (see `scoped_aliases_enabled`); `eea_corroboration`
-    likewise (EV_EEA_CORROBORATION, `eea_corroboration_enabled`)."""
+    likewise (EV_EEA_CORROBORATION, `eea_corroboration_enabled`). `holds`: `source_holds`
+    from variants.yaml (records that go to review by name and model year)."""
     result = MatchResult()
     scoped = scoped_aliases_enabled(scoped_aliases)
     result.scoped_aliases = scoped
@@ -718,8 +772,10 @@ def match_records(
     evidence = build_evidence(records, seed, manual, generation_kwh, scoped)
     # (generation_id, variant name key) -> variant id
     variant_ids: dict[tuple[str, str], str] = {}
-    # Q-062: (generation_id, source id, variant name key) -> seed-manual variant id
-    source_name_ids: dict[tuple[str, str, str], str] = {}
+    # Q-062: (generation_id, source id, variant name key) -> [(model years or None = all,
+    # seed-manual variant id)]; year-scoped names may point one name at several variants.
+    source_name_ids: dict[tuple[str, str, str], list[tuple[YearSpan | None, str]]] = {}
+    holds = holds or []
 
     for mv in manual:
         if mv.record.source.id.root in EXCLUDED_SOURCES:
@@ -734,12 +790,16 @@ def match_records(
         variant_ids[(gen.id, key(mv.name))] = mv.id
         for sid_, keys in mv.source_names.items():
             for k in keys:
-                prev = source_name_ids.setdefault((gen.id, sid_, k), mv.id)
-                if prev != mv.id:
-                    raise ValueError(f"source_names: {sid_} {k!r} on {prev} and {mv.id}")
+                span = mv.source_name_years.get((sid_, k))
+                targets = source_name_ids.setdefault((gen.id, sid_, k), [])
+                for prev_span, prev in targets:
+                    if prev != mv.id and spans_overlap(prev_span, span):
+                        raise ValueError(f"source_names: {sid_} {k!r} on {prev} and {mv.id}")
+                targets.append((span, mv.id))
         info = result.variants.setdefault(mv.id, VariantInfo(mv.id, gen.id, mv.name))
         for sid_, keys in mv.source_names.items():
             info.source_names.setdefault(sid_, set()).update(keys)
+        info.source_name_years.update(mv.source_name_years)
         if mv.year_start is not None:
             info.years.add(int(mv.year_start))
         if mv.year_end is not None:
@@ -748,9 +808,13 @@ def match_records(
             info.open_end = True
         for rec in mv.records:  # the variant's own record, then one per cited value
             _add_spec_facts(rec, gen, mv.id, info, result)
+            result.seed_record_keys.add(rec.record_key)
         kwhs = set().union(*(battery_figures(r, mv.name) for r in mv.records))
         if kwhs:
             result.seed_kwh[mv.id] = kwhs
+        power = set().union(*(_spec_num(r, "power_kw") for r in mv.records))
+        if power:
+            result.seed_power[mv.id] = power
         result.matched_records += 1
 
     ordered = sorted(
@@ -806,12 +870,18 @@ def match_records(
         if gen is None:
             result.unmatched.append(_unmatched(rec, why))
             continue
+        hold = next((h for h in holds if h.holds(gen.id, sid, rec.variant_name, rec.year)), None)
+        if hold is not None:
+            result.unmatched.append(_unmatched(rec, f"{SOURCE_HOLD}: {hold.reason}"))
+            continue
         if sid in ATTACH_ONLY_SOURCES:
             deferred.append((rec, gen))
             continue
         name = rec.variant_name or "base"
         vkey = (gen.id, key(name) or "base")
-        vid = source_name_ids.get((gen.id, sid, vkey[1])) or variant_ids.get(vkey)
+        vid = _source_name_vid(source_name_ids.get((gen.id, sid, vkey[1])), rec.year)
+        aliased = vid is not None
+        vid = vid or variant_ids.get(vkey)
         new_vid = vid is None
         if vid is None:
             vid = f"{gen.id}-{slug(name) or 'base'}"
@@ -826,8 +896,20 @@ def match_records(
                 )
             )
             continue
+        rp, sp = record_power(rec), result.seed_power.get(vid, set())
+        if aliased and rp and sp and not _close_rel(rp, sp, SEED_POWER_GATE_REL):
+            # Seed power gate (see 4 above): same name or alias, different motor.
+            result.unmatched.append(
+                _unmatched(
+                    rec,
+                    f"{NO_SEED_POWER_MATCH} {vid} ({_num_text(rp)} vs {_num_text(sp)} kW)",
+                )
+            )
+            continue
         if new_vid:
             variant_ids[vkey] = vid
+        if aliased:
+            result.aliased.add(vid)
         info = result.variants.setdefault(vid, VariantInfo(vid, gen.id, rec.variant_name or "Base"))
         if rec.year is not None:
             info.years.add(rec.year)
@@ -1102,7 +1184,7 @@ def attach_records(
                 # The gate only rules out: "within tolerance" is no evidence for what is left
                 # (Model S "70" at 69 kWh is not the "60" just because the "85" is out).
                 need_evidence = True
-        exact = [c for c in pool if result.variants[c.root].named(sid, rec_name)]
+        exact = [c for c in pool if result.variants[c.root].named(sid, rec_name, rec.year)]
         if len(exact) == 1:
             chosen, why = exact[0], ""
         elif sid in TGK_EVIDENCE_SOURCES:
@@ -1553,16 +1635,25 @@ def split_year_bands(result: MatchResult) -> None:
     first year by more than 5%, or whose DC peak differs by more than 10%, starts a new band.
     Facts without a year stay in the first band. The first band keeps the variant id; later
     bands get `<variant_id>-<first year>` and the name "<name> (<first year>+)". Each split is
-    recorded in `result.year_bands` (written to the run log)."""
+    recorded in `result.year_bands` (written to the run log).
+
+    On a seed-manual variant that a source joined through a `source_names` alias, the seed's
+    own facts (variant record and cited values) don't anchor bands: the alias says the
+    source's records are this car, so a seed-vs-source difference is a disagreement for merge
+    (conflicts.csv), not a model-year change. Bands then come from the source's own years only;
+    the seed facts stay in the first band. Same-name and same-id joins keep the seed anchor."""
     by_variant: dict[str, list[MatchedFact]] = {}
     for mf in result.spec_facts:
         by_variant.setdefault(mf.fact.subject_id.root, []).append(mf)
     for vid in sorted(by_variant):
         facts = by_variant[vid]
-        years = sorted({mf.year for mf in facts if mf.year is not None})
+        banding = facts
+        if vid in result.aliased:
+            banding = [mf for mf in facts if mf.fact.source_record not in result.seed_record_keys]
+        years = sorted({mf.year for mf in banding if mf.year is not None})
         if len(years) < 2:
             continue
-        per_year = {y: _band_values([mf for mf in facts if mf.year == y]) for y in years}
+        per_year = {y: _band_values([mf for mf in banding if mf.year == y]) for y in years}
         bands: list[list[int]] = [[years[0]]]
         anchor = per_year[years[0]]
         reasons: list[str] = []

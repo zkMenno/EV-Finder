@@ -1,34 +1,34 @@
 # Coverage, release 1
 
-245 variants. Share of variants per field (count in brackets). 'estimate only' = our model or ratio, no source; derived values count by their weakest input.
+226 variants. Share of variants per field (count in brackets). 'estimate only' = our model or ratio, no source; derived values count by their weakest input.
 
 | Field | 2+ agreeing sources | 1 source | estimate only | missing |
 |---|---|---|---|---|
-| battery_kwh_net | 21% (52) | 73% (179) | 2% (6) | 3% (8) |
-| wltp_range_km | 30% (73) | 51% (124) | 0% (0) | 20% (48) |
-| epa_range_km | 0% (0) | 43% (105) | 0% (0) | 57% (140) |
-| consumption_kwh_100km | 4% (9) | 57% (140) | 26% (63) | 13% (33) |
-| ac_kw | 27% (66) | 71% (173) | 0% (0) | 2% (6) |
-| dc_peak_kw | 18% (45) | 73% (180) | 0% (0) | 8% (20) |
-| dc_avg_10_80_kw | 0% (0) | 0% (0) | 93% (228) | 7% (17) |
-| ac_km_per_h | 2% (6) | 58% (143) | 25% (62) | 14% (34) |
-| dc_km_per_10min | 0% (0) | 0% (0) | 82% (202) | 18% (43) |
-| real_range_km | 0% (0) | 0% (0) | 88% (216) | 12% (29) |
-| power_kw | 0% (0) | 88% (215) | 0% (0) | 12% (30) |
-| accel_0_100_s | 0% (0) | 54% (132) | 0% (0) | 46% (113) |
-| boot_l | 0% (0) | 51% (126) | 0% (0) | 49% (119) |
-| length_mm | 22% (53) | 76% (187) | 0% (0) | 2% (5) |
-| weight_kg | 2% (5) | 52% (127) | 0% (0) | 46% (113) |
-| towing_kg | 0% (0) | 28% (69) | 0% (0) | 72% (176) |
-| seats | 27% (65) | 73% (180) | 0% (0) | 0% (0) |
-| registered_count_nl | 0% (0) | 100% (245) | 0% (0) | 0% (0) |
-| dc_minutes_10_80 | 0% (0) | 0% (0) | 90% (220) | 10% (25) |
-| dc_km_per_20min | 0% (0) | 0% (0) | 82% (202) | 18% (43) |
-| dc_peak_held_min | 0% (0) | 0% (0) | 90% (220) | 10% (25) |
-| consumption_motorway_kwh_100km | 0% (0) | 0% (0) | 87% (212) | 13% (33) |
-| voltage_nominal_v | 0% (0) | 15% (36) | 0% (0) | 85% (209) |
-| voltage_max_v | 0% (0) | 0% (0) | 0% (0) | 100% (245) |
-| charger_400v_kw | 0% (0) | 5% (12) | 0% (0) | 95% (233) |
+| battery_kwh_net | 24% (55) | 70% (158) | 3% (6) | 3% (7) |
+| wltp_range_km | 31% (70) | 50% (114) | 0% (0) | 19% (42) |
+| epa_range_km | 0% (0) | 44% (100) | 0% (0) | 56% (126) |
+| consumption_kwh_100km | 4% (9) | 58% (131) | 26% (58) | 12% (28) |
+| ac_kw | 32% (72) | 65% (148) | 0% (0) | 3% (6) |
+| dc_peak_kw | 22% (50) | 69% (156) | 0% (0) | 9% (20) |
+| dc_avg_10_80_kw | 0% (0) | 0% (0) | 92% (209) | 8% (17) |
+| ac_km_per_h | 3% (7) | 59% (133) | 25% (57) | 13% (29) |
+| dc_km_per_10min | 0% (0) | 0% (0) | 83% (188) | 17% (38) |
+| real_range_km | 0% (0) | 0% (0) | 90% (203) | 10% (23) |
+| power_kw | 0% (0) | 88% (199) | 0% (0) | 12% (27) |
+| accel_0_100_s | 0% (0) | 57% (129) | 0% (0) | 43% (97) |
+| boot_l | 0% (0) | 53% (119) | 0% (0) | 47% (107) |
+| length_mm | 26% (59) | 72% (163) | 0% (0) | 2% (4) |
+| weight_kg | 2% (5) | 54% (121) | 0% (0) | 44% (100) |
+| towing_kg | 0% (0) | 31% (69) | 0% (0) | 69% (157) |
+| seats | 31% (69) | 69% (157) | 0% (0) | 0% (0) |
+| registered_count_nl | 0% (0) | 100% (226) | 0% (0) | 0% (0) |
+| dc_minutes_10_80 | 0% (0) | 0% (0) | 89% (202) | 11% (24) |
+| dc_km_per_20min | 0% (0) | 0% (0) | 83% (188) | 17% (38) |
+| dc_peak_held_min | 0% (0) | 0% (0) | 89% (202) | 11% (24) |
+| consumption_motorway_kwh_100km | 0% (0) | 0% (0) | 88% (198) | 12% (28) |
+| voltage_nominal_v | 0% (0) | 15% (35) | 0% (0) | 85% (191) |
+| voltage_max_v | 0% (0) | 0% (0) | 0% (0) | 100% (226) |
+| charger_400v_kw | 0% (0) | 5% (12) | 0% (0) | 95% (214) |
 
 ## Battery pack and platform links
 
@@ -36,14 +36,13 @@ Per row: linked in data/seed/variant_links.yaml, linked by rule (same generation
 
 | Link | variant_links.yaml | rule | missing |
 |---|---|---|---|
-| battery_pack_id | 51% (124) | 24% (58) | 26% (63) |
-| platform_id | 61% (150) | 23% (57) | 16% (38) |
+| battery_pack_id | 55% (124) | 18% (40) | 27% (62) |
+| platform_id | 66% (150) | 17% (38) | 17% (38) |
 
-Rows missing a link (63):
+Rows missing a link (62):
 
 - `audi-a6-e-tron-gen1-avant`: platform: no link in this generation; pack: no pack linked in this generation
 - `audi-a6-e-tron-gen1-sportback`: platform: no link in this generation; pack: no pack linked in this generation
-- `audi-q4-e-tron-gen1-40-sportback`: pack: variant has no usable kWh to compare
 - `audi-q6-e-tron-gen1-quattro`: platform: no link in this generation; pack: no pack linked in this generation
 - `audi-q6-e-tron-gen1-quattro-sportback`: platform: no link in this generation; pack: no pack linked in this generation
 - `audi-q6-e-tron-gen1-sq6`: platform: no link in this generation; pack: no pack linked in this generation
@@ -107,7 +106,7 @@ Rows missing a link (63):
 
 ## Other sections
 
-- **EPA range** (`epa_range_km`, compared with EPA figures only): 105 variants; 0 with 2+ agreeing sources, of which 0 through fueleconomy.gov.
+- **EPA range** (`epa_range_km`, compared with EPA figures only): 100 variants; 0 with 2+ agreeing sources, of which 0 through fueleconomy.gov.
 - **Generation years vs Wikidata** (corroboration only, +/-1 year): 12 generations checked, 10 corroborated; 11 of 13 years agree.
 - **Known issues** (RDW APK defects, NL): 55 generations, 171 first-registration-year cohorts (46 marked few reports), 22 defect codes.
 - **Charging stats** `bnetza`: 2720 rows in, 2720 rows shipped.

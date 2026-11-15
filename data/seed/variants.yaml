@@ -412,21 +412,38 @@ variants:
     id: renault-megane-e-tech-gen1-ev40
     name: "EV40 (40 kWh)"
     years: [2022, 2024]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "40 kWh" (38 net / 40 gross, 96 kW, MY2023-25).
+    source_names:
+      openev: ["40 kWh"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 40
       ac_kw: 7.4
-      dc_peak_kw: 85
       power_kw: 96
       boot_l: 440
       length_mm: 4200
       seats: 5
+    cited:
+      dc_peak_kw:
+        value: 85
+        source_url: https://www.renault.ie/electric-vehicles/megane-e-tech-electric/electric-faq.html
+        source_name: "Renault Ireland, Megane E-Tech electric FAQ"
+        retrieved: 2026-11-15
+        quote: "Standard Charge and Boost Charge versions with the 40 kWh battery are equipped with a DC fast charger providing a maximum power peak of 85 kW."
+        locator: "FAQ 'Is quick charging an option?'; footnote (3): 'up to 85 kW on a 40 kWh battery and 130 kW on a 60 kWh battery'"
+        confidence: medium
+        notes: "Re-read 2026-11-15 for the dedup of OpenEV row renault-megane-e-tech-gen1-40-kwh (OpenEV DC 130), which now joins this variant; same figure as the A-06 manual entry on that old row id."
     notes: "WLTP roughly 300 km. AC 7.4 kW standard, 22 kW optional on some trims. Availability per market varied."
     confidence: low
   - generation_id: renault-megane-e-tech-gen1
     id: renault-megane-e-tech-gen1-ev60
     name: "EV60 (60 kWh)"
     years: [2022, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (57 net / 60 gross, 160 kW, MY2023-25).
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 60
@@ -475,6 +492,10 @@ variants:
     id: nissan-leaf-ze1-40kwh
     name: "40 kWh"
     years: [2018, 2025]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (40 kWh, 110 kW, MY2023-24).
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 39
@@ -1123,6 +1144,10 @@ variants:
     id: peugeot-e-208-p21-50kwh
     name: "50 kWh / 100 kW"
     years: [2019, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" up to MY2023 (46 net / 50 gross, 100 kW); from MY2024 it is the 51 kWh car.
+    source_names:
+      openev: [{name: "Base", years: [null, 2023]}]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 50
@@ -1139,6 +1164,10 @@ variants:
     id: peugeot-e-208-p21-51kwh
     name: "51 kWh / 115 kW"
     years: [2023, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" from MY2024 (50 net / 54 gross, 115 kW).
+    source_names:
+      openev: [{name: "Base", years: [2024, null]}]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 51
@@ -1155,6 +1184,10 @@ variants:
     id: peugeot-e-2008-p24-50kwh
     name: "50 kWh / 100 kW"
     years: [2020, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" up to MY2023 (46 net / 50 gross, 100 kW); from MY2024 it is the 54 kWh car.
+    source_names:
+      openev: [{name: "Base", years: [null, 2023]}]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 50
@@ -1171,6 +1204,10 @@ variants:
     id: peugeot-e-2008-p24-54kwh
     name: "54 kWh / 115 kW"
     years: [2023, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" from MY2024 (50 net / 54 gross, 115 kW).
+    source_names:
+      openev: [{name: "Base", years: [2024, null]}]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 54
@@ -1217,6 +1254,10 @@ variants:
     id: citroen-e-c4-c41-50kwh
     name: "50 kWh / 100 kW"
     years: [2020, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (46 net / 50 gross, 100 kW, MY2023-25; also its e-C4 X records).
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 50
@@ -1277,6 +1318,11 @@ variants:
     id: fiat-500e-332-42kwh
     name: "42 kWh"
     years: [2020, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (37.3 net / 42 gross, 87 kW, MY2023-25). Its trims Icon / La Prima / Pop are
+    # the same figures but stay rows of their own until trims vs variants is decided.
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 42
@@ -1382,6 +1428,10 @@ variants:
     id: cupra-born-gen1-58kwh
     name: "58 kWh"
     years: [2021, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (58 net / 62 gross, 150 kW, MY2023-25).
+    source_names:
+      openev: ["Base"]
     drivetrain: rwd
     specs:
       battery_kwh_net: 58
@@ -1755,6 +1805,10 @@ variants:
     id: jaguar-i-pace-x590-ev400
     name: "EV400"
     years: [2018, 2024]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (84.7 net / 90 gross, 294 kW, MY2023-24).
+    source_names:
+      openev: ["Base"]
     drivetrain: awd
     specs:
       battery_kwh_gross: 90
@@ -1888,6 +1942,11 @@ variants:
     id: byd-atto-3-gen1-60kwh
     name: "60.5 kWh"
     years: [2022, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Extended Range" (MY2025: 60.48 kWh, 150 kW, DC 88). Its MY2023-24 "Standard Range Extended
+    # Range" (60 kWh, 150 kW) is left as its own row: DC 70 there is the 49.9 kWh car's figure.
+    source_names:
+      openev: ["Extended Range"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 60.5
@@ -2008,6 +2067,10 @@ variants:
     id: mini-cooper-se-f56-cooper-se
     name: "Cooper SE"
     years: [2020, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "SE" (28.9 / 32.6 kWh, 135 kW, MY2023).
+    source_names:
+      openev: ["SE"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 28.9
@@ -2021,3 +2084,21 @@ variants:
       seats: 4
     notes: "32.6 kWh gross (about 28.9 usable). WLTP roughly 225-235 km."
     confidence: low
+
+# Source holds: source records that go to review (data/review/unmatched.csv) with the reason
+# below instead of making or joining a row (see ev_pipeline/match/matcher.py, 4). For records
+# that fit no real variant of their model years, or whose figures a maker document contradicts
+# across the board. A hold never sets or changes a value.
+source_holds:
+  - generation_id: audi-q4-e-tron-gen1
+    source: openev
+    names: ["40", "40 Sportback", "50", "50 Sportback", "quattro", "quattro Sportback"]
+    reason: >-
+      OpenEV's Q4 e-tron file is mis-modelled. Its names are one step off: MY2023 "40" / "40
+      Sportback" carry the 35's figures (125 kW, 9.0 s), "50" / "50 Sportback" the 40's (RWD,
+      150 kW, 8.5 s; a 50 is always quattro), "quattro" the 50 quattro's (220 kW, 6.2 s). Its
+      usable battery is about 4 kWh low on every trim (48 / 73 vs Audi 51.5 / 77 / 76.6), and
+      MY2024-25 records repeat MY2023 unchanged although that lineup changed (45 and 55
+      quattro). Audi technical data 'Audi Q4 e-tron 35 / 40 / 50 quattro', program for Germany,
+      status 04-05/2021 (media.audi.com, Audi Estonia), read 2026-11-15. Joining them to the seed
+      35 / 40 / 50 quattro would replace correct seed figures with these; review instead.

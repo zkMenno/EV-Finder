@@ -82,6 +82,9 @@ class SeedModel:
 
 ALIAS_MATCH_MODES = ("exact", "prefix")
 
+# Model-year span (start, end); either bound None = open.
+YearSpan = tuple[int | None, int | None]
+
 
 @dataclass(frozen=True)
 class SourceAlias:
@@ -295,6 +298,10 @@ class ManualVariant:
     # `cited:` values (field -> value + its own public source URL, retrieval date and
     # confidence): one record each, so every cited value carries its own provenance.
     cited_records: list[SourceRecord] = field(default_factory=list)
+    # Year-scoped source names (`{name: Base, years: [2024, null]}`): (source id, name key)
+    # -> the model years that name means this variant. Names not listed here mean it in
+    # every year. Lets one source name ("Base") join different seed variants by model year.
+    source_name_years: dict[tuple[str, str], YearSpan] = field(default_factory=dict)
 
     @property
     def records(self) -> list[SourceRecord]:
@@ -373,11 +380,53 @@ def parse_cited(
     return out, problems
 
 
-def parse_source_names(raw: Any, vid: str) -> dict[str, set[str]]:
-    """`source_names` of one seed-manual variant -> source id -> normalised name keys."""
+def parse_year_span(raw: Any, where: str) -> YearSpan:
+    """`[start, end]` with either bound null (open). Raises ValueError on anything else."""
+    if (
+        not isinstance(raw, list)
+        or len(raw) != 2
+        or not all(y is None or (isinstance(y, int) and not isinstance(y, bool)) for y in raw)
+        or raw == [None, None]
+    ):
+        raise ValueError(f"{where}: years must be [start, end] (one bound may be null)")
+    start, end = raw
+    if start is not None and end is not None and end < start:
+        raise ValueError(f"{where}: years end before start")
+    return (start, end)
+
+
+def span_covers(span: YearSpan | None, year: int | None) -> bool:
+    """True when `span` (None = every year) includes `year`. A record without a year fits only
+    an unscoped name: a scoped name is a claim about model years we can't check."""
+    if span is None:
+        return True
+    if year is None:
+        return False
+    start, end = span
+    return (start is None or start <= year) and (end is None or year <= end)
+
+
+def spans_overlap(a: YearSpan | None, b: YearSpan | None) -> bool:
+    if a is None or b is None:
+        return True
+    lo = max(x for x in (a[0], b[0], -(10**6)) if x is not None)
+    hi = min(x for x in (a[1], b[1], 10**6) if x is not None)
+    return lo <= hi
+
+
+def parse_source_name_entries(
+    raw: Any, vid: str
+) -> tuple[dict[str, set[str]], dict[tuple[str, str], YearSpan]]:
+    """`source_names` of one seed-manual variant -> (source id -> normalised name keys,
+    (source id, name key) -> year span for the year-scoped entries).
+
+    An entry is a name, or `{name, years: [start, end]}` (either bound null) when the source
+    uses that name for this car only in those model years (OpenEV e-208 "Base" is the 50 kWh
+    car up to MY2023 and the 51 kWh car from MY2024)."""
     out: dict[str, set[str]] = {}
+    years: dict[tuple[str, str], YearSpan] = {}
     if raw is None:
-        return out
+        return out, years
     if not isinstance(raw, dict):
         raise ValueError(f"{vid}: source_names must map source ids to lists of names")
     for keys, names in raw.items():
@@ -385,12 +434,91 @@ def parse_source_names(raw: Any, vid: str) -> dict[str, set[str]]:
         if not sids or not isinstance(names, list):
             raise ValueError(f"{vid}: bad source_names entry {keys!r}: {names!r}")
         for n in names:
+            span: YearSpan | None = None
+            if isinstance(n, dict):
+                extra = set(n) - {"name", "years", "note"}
+                if extra or "name" not in n:
+                    raise ValueError(f"{vid}: source_names entry {n!r}: keys name, years, note")
+                if "years" in n:
+                    span = parse_year_span(n["years"], f"{vid}: source_names {n['name']!r}")
+                n = n["name"]
             k = key(str(n))
             if not k:
                 raise ValueError(f"{vid}: empty name in source_names for {keys}")
             for sid in sids:
+                if k in out.get(sid, set()):
+                    raise ValueError(f"{vid}: source name {sid} {n!r} listed twice")
                 out.setdefault(sid, set()).add(k)
+                if span is not None:
+                    years[(sid, k)] = span
+    return out, years
+
+
+def parse_source_names(raw: Any, vid: str) -> dict[str, set[str]]:
+    """`source_names` of one seed-manual variant -> source id -> normalised name keys."""
+    return parse_source_name_entries(raw, vid)[0]
+
+
+@dataclass(frozen=True)
+class SourceHold:
+    """`source_holds` in variants.yaml: records of one source, with one of these variant names,
+    in one generation and model-year span, go to review with `reason` instead of making or
+    joining a row. For source records whose figures fit no real variant of those years (OpenEV
+    Q4 e-tron MY2024-25 records repeat the MY2023 lineup). Never sets or changes a value."""
+
+    generation_id: str
+    source_id: str
+    name_key: str
+    years: YearSpan | None
+    reason: str
+
+    def holds(self, generation_id: str, source_id: str, name: str | None, year: int | None) -> bool:
+        return (
+            generation_id == self.generation_id
+            and source_id == self.source_id
+            and key(name or "") == self.name_key
+            and span_covers(self.years, year)
+        )
+
+
+def parse_source_holds(data: dict[str, Any]) -> list[SourceHold]:
+    """Top-level `source_holds:` of variants.yaml. Raises ValueError on a malformed entry."""
+    out: list[SourceHold] = []
+    raw = data.get("source_holds")
+    if raw is None:
+        return out
+    if not isinstance(raw, list):
+        raise ValueError("source_holds must be a list")
+    for i, h in enumerate(raw):
+        where = f"source_holds[{i}]"
+        if not isinstance(h, dict):
+            raise ValueError(f"{where}: must be a mapping")
+        extra = set(h) - {"generation_id", "source", "names", "years", "reason"}
+        if extra:
+            raise ValueError(f"{where}: unknown keys {sorted(extra)}")
+        gid, sid, names, reason = (
+            h.get("generation_id"),
+            h.get("source"),
+            h.get("names"),
+            h.get("reason"),
+        )
+        if not isinstance(gid, str) or not isinstance(sid, str) or not gid or not sid:
+            raise ValueError(f"{where}: needs generation_id and source")
+        if not isinstance(reason, str) or not reason.strip():
+            raise ValueError(f"{where}: needs a reason")
+        if not isinstance(names, list) or not names:
+            raise ValueError(f"{where}: names must be a non-empty list")
+        span = parse_year_span(h["years"], where) if "years" in h else None
+        for n in names:
+            k = key(str(n))
+            if not k:
+                raise ValueError(f"{where}: empty name")
+            out.append(SourceHold(gid, sid, k, span, reason.strip()))
     return out
+
+
+def load_source_holds(path: Path) -> list[SourceHold]:
+    return parse_source_holds(yaml.safe_load(path.read_text(encoding="utf-8")) or {})
 
 
 def parse_manual_variants(
@@ -441,6 +569,7 @@ def parse_manual_variants(
                     problems.append(f"{vid}: {f.value} is both in specs and cited; cited wins")
                     del specs[f]
         conf = v.get("confidence", "low")
+        names, name_years = parse_source_name_entries(v.get("source_names"), vid)
         record = SourceRecord(
             source=source,
             record_key=vid,
@@ -462,8 +591,9 @@ def parse_manual_variants(
                 year_start=years[0],
                 year_end=years[1] if len(years) > 1 else None,
                 record=record,
-                source_names=parse_source_names(v.get("source_names"), vid),
+                source_names=names,
                 cited_records=cited,
+                source_name_years=name_years,
             )
         )
     return out, problems

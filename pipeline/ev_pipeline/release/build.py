@@ -56,7 +56,14 @@ from ev_pipeline.match.matcher import (
     registration_entries,
 )
 from ev_pipeline.match.review import unmatched_rows, write_unmatched
-from ev_pipeline.match.seed import ManualVariant, Seed, load_manual_variants, load_seed
+from ev_pipeline.match.seed import (
+    ManualVariant,
+    Seed,
+    SourceHold,
+    load_manual_variants,
+    load_seed,
+    load_source_holds,
+)
 from ev_pipeline.merge.corroborate import apply_corroboration
 from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, has_citation, merge_variant_facts
@@ -277,12 +284,14 @@ def build_release(
         raise ReleaseError(f"seed not found: {seed_path}")
     seed = load_seed(seed_path)
     manual: list[ManualVariant] = []
+    holds: list[SourceHold] = []
     problems: list[Problem] = []
     records, inputs, parse_problems = load_staging(data_dir / "staging")
     problems += parse_problems
     variants_path = data_dir / "seed" / "variants.yaml"
     if variants_path.exists():
         manual, manual_problems = load_manual_variants(variants_path)
+        holds = load_source_holds(variants_path)
         problems += [Problem("seed", "seed-manual", "", "", "", "", "", p) for p in manual_problems]
         inputs.append(
             {"path": str(variants_path), "records": len(manual), "modified": _mtime(variants_path)}
@@ -315,7 +324,7 @@ def build_release(
     hand_facts = list(hand.facts)
 
     links = load_links(data_dir)
-    result = match_records(records, seed, manual, generation_pack_kwh(links, manual))
+    result = match_records(records, seed, manual, generation_pack_kwh(links, manual), holds=holds)
     problems += result.problems
     hand_matched, hand_problems = attach_manual_facts(hand_facts, result, seed)
     result.spec_facts += hand_matched

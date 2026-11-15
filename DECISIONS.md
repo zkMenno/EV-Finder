@@ -483,4 +483,20 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** withheld: Mégane 40 kWh DC 130, R5 40 kWh DC 100, ID.3 Pro 2023 DC 135, EQA/EQB 60 kWh, Q4 40 Sportback 48 kWh, Q4 50 power/0–100, Zoe R90 AC 11. Zoe Q210/R240 usable 23.3 → 22. Five charging averages capped. Open: the OpenEV "Q4 50" rows are really Q4 40 data (drivetrain still RWD) and need restructuring.
 
+## Decision 033: Source rows that copy a seed variant merge into it; known-wrong source naming is held for review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** OpenEV/KilowattApp created rows that duplicated seed variants (e.g. Mégane "40 kWh" = EV40), and OpenEV's Audi Q4 names are one step off (its "50" is a Q4 40).
+
+**Decision:**
+- Duplicates join the seed variant through variant-level `source_names`, which may be year-scoped (`{name, years}`; overlaps are an error). Seed facts no longer start a year band on aliased variants.
+- Seed power gate on alias joins: a joined record more than 5% off the seed's power goes to review.
+- `source_holds` in `variants.yaml` sends a source's records to review by name, generation and years, with a reason (today: all 18 OpenEV Q4 records).
+- Release 1 was never published (`previous_release: null`), so the 19 removed ids need no redirect. Before the first public release, the catalogue gets a `retired_ids` → successor map so later merges never 404 (schema + web task).
+- Equipment trims with identical specs (Fiat 500e Icon/La Prima, Dacia Spring trims) stay unmerged until the product spec says whether trims get rows.
+
+**Consequences:** 245 → 226 rows. Merged rows now follow merge policy, so some uncited seed values were replaced by source values; a few need a cited check (MG4 Standard DC 135, Mégane EV40 AC 22, Cupra Born 58 DC 135).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

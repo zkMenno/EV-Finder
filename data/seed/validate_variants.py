@@ -159,8 +159,9 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
     find_price_keys(variants_doc, "$", errors)
 
     seen: set[str] = set()
-    # source_names (Q-062): (generation, source, normalised name) -> variant id; must be unique.
-    named: dict[tuple[str, str, str], str] = {}
+    # source_names (Q-062): (generation, source, normalised name) -> [(years, variant id)];
+    # one name may sit on two variants only with non-overlapping year spans.
+    named: dict[tuple[str, str, str], list[tuple[Any, str]]] = {}
     for i, v in enumerate(variants):
         where = f"variants[{i}]"
         if not isinstance(v, dict):
@@ -203,17 +204,22 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
                     sids = [x.strip() for x in str(keys).split(",") if x.strip()]
                     if not sids or not all(ID_RE.match(x) for x in sids):
                         errors.append(f"{where}: source_names key {keys!r} must be source ids")
-                    if not isinstance(names, list) or not names or not all(
-                        isinstance(n, str) and n.strip() for n in names
-                    ):
+                    entries = [name_entry(n, f"{where}: source_names[{keys}]", errors)
+                               for n in names] if isinstance(names, list) else []
+                    if not entries or any(e is None for e in entries):
                         errors.append(f"{where}: source_names[{keys}] must be non-empty names")
                         continue
                     for sid in sids:
-                        for n in names:
+                        for n, span in entries:  # type: ignore[misc]
                             nk = re.sub(r"[^a-z0-9]", "", n.lower())
-                            prev = named.setdefault((str(gid), sid, nk), str(vid))
-                            if prev != vid:
-                                errors.append(f"{where}: source name {sid} {n!r} also on {prev}")
+                            others = named.setdefault((str(gid), sid, nk), [])
+                            for prev_span, prev in others:
+                                if spans_overlap(prev_span, span):
+                                    errors.append(
+                                        f"{where}: source name {sid} {n!r} also on {prev}"
+                                        + (" (years overlap)" if prev != vid else "")
+                                    )
+                            others.append((span, str(vid)))
 
         years = v.get("years")
         if not (isinstance(years, list) and len(years) == 2 and isinstance(years[0], int)
@@ -258,6 +264,75 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
             errors.append(f"{where}: battery_kwh_net > battery_kwh_gross")
         if specs.get("seats") is not None and not isinstance(specs.get("seats"), int):
             errors.append(f"{where}: seats must be an integer")
+    return errors + validate_holds(variants_doc, gens)
+
+
+def year_span(raw: Any, where: str, errors: list[str]) -> tuple[Any, Any] | None:
+    """`[start, end]`, one bound may be null; None (and an error) when malformed."""
+    ok = (isinstance(raw, list) and len(raw) == 2 and raw != [None, None]
+          and all(y is None or (isinstance(y, int) and not isinstance(y, bool)) for y in raw))
+    if not ok:
+        errors.append(f"{where}: years must be [start, end] (one bound may be null)")
+        return None
+    if raw[0] is not None and raw[1] is not None and raw[1] < raw[0]:
+        errors.append(f"{where}: years end before start")
+        return None
+    return (raw[0], raw[1])
+
+
+def spans_overlap(a: Any, b: Any) -> bool:
+    if a is None or b is None:
+        return True
+    lo = max(x for x in (a[0], b[0], -(10**6)) if x is not None)
+    hi = min(x for x in (a[1], b[1], 10**6) if x is not None)
+    return lo <= hi
+
+
+def name_entry(n: Any, where: str, errors: list[str]) -> tuple[str, Any] | None:
+    """A source name: a string, or {name, years: [start, end], note} (year-scoped)."""
+    if isinstance(n, str) and n.strip():
+        return (n, None)
+    if isinstance(n, dict) and isinstance(n.get("name"), str) and n["name"].strip():
+        extra = set(n) - {"name", "years", "note"}
+        if extra:
+            errors.append(f"{where}: unknown keys {sorted(extra)} in {n!r}")
+            return None
+        if "years" not in n:
+            return (n["name"], None)
+        span = year_span(n["years"], f"{where} {n['name']!r}", errors)
+        return None if span is None else (n["name"], span)
+    return None
+
+
+def validate_holds(doc: dict[str, Any], gens: dict[str, tuple[int, int | None]]) -> list[str]:
+    """Top-level `source_holds`: records sent to review by source, name and model years."""
+    errors: list[str] = []
+    holds = doc.get("source_holds")
+    if holds is None:
+        return errors
+    if not isinstance(holds, list):
+        return ["source_holds must be a list"]
+    allowed = {"generation_id", "source", "names", "years", "reason"}
+    for i, h in enumerate(holds):
+        where = f"source_holds[{i}]"
+        if not isinstance(h, dict):
+            errors.append(f"{where}: must be a mapping")
+            continue
+        if set(h) - allowed:
+            errors.append(f"{where}: unknown keys {sorted(set(h) - allowed)}")
+        if h.get("generation_id") not in gens:
+            errors.append(f"{where}: generation_id {h.get('generation_id')!r} not in models.yaml")
+        if not isinstance(h.get("source"), str) or not ID_RE.match(h["source"]):
+            errors.append(f"{where}: source must be a source id")
+        names = h.get("names")
+        if not isinstance(names, list) or not names or not all(
+            isinstance(n, str) and n.strip() for n in names
+        ):
+            errors.append(f"{where}: names must be a non-empty list of names")
+        if not isinstance(h.get("reason"), str) or not h["reason"].strip():
+            errors.append(f"{where}: needs a reason")
+        if "years" in h:
+            year_span(h["years"], where, errors)
     return errors
 
 
