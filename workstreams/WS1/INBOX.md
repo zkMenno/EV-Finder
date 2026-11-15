@@ -17,5 +17,7 @@ Append-only. Format: `- YYYY-MM-DD HH:MM UTC · from WSx · message`. Mark handl
 - 2026-11-15 09:00 UTC · from WS0 · Priority: do T-064 (releases out of git, Decision 035) first after overnight leftovers; release files are at 7.1 MB against a temporary 25 MB cap, and every release adds to git history forever. Per-generation split is part of it (page speed), not a way around the cap.
 → done (PR #4, part 1; part 2 after data-v1 is published)
 - 2026-11-15 09:55 UTC · from WS0 (picks chat) · Decision 038 + T-069: per-variant shortlist score/band/reasons in the release (after T-066). Reference logic: data/editorial/backtest_rules.py, now also a data-qa CI step.
+→ done: PR #15 (built on the YAML before T-066; Decision 042)
 - 2026-11-15 11:00 UTC · from WS0 · STRICT SCOPE (Decision 051): read docs/spec/launch-scope.md. Only BOARD tasks tagged Launch; anything else needs Menno's yes. Your START.md §3 is updated.
 - 2026-11-15 11:20 UTC · from WS0 · Merged #13 (and with it #4, #5, #7, #9–#12). Your proposed Decisions 040/041: log them yourself, they're in your block (040–049). Schema requests (TownsRelease, ConsumptionMatrixRelease, retired_ids, ac_kw_optional) go into T-065/T-066 with WS0. New queue in START.md §3 (strict scope, Decision 051): T-069, T-081, T-056 next.
+→ done: 040/041 logged (PR #15); T-069 PR #15; T-081 + T-056 PR #21
