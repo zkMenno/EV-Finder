@@ -1,0 +1,71 @@
+# T-069: how the pipeline reads data/editorial/shortlist_rules.yaml (WS3 owns the rules; WS1 owns
+# this file). Everything here is a bridge until the rules carry the same info themselves (T-066):
+# then delete the matching block.
+schema: shortlist-params/v1
+model_version: "0.1"
+
+# Where the rules live. First existing path wins (T-066 moves them into data/taxonomy).
+rules_paths:
+  - taxonomy/shortlist_rules.yaml
+  - editorial/shortlist_rules.yaml
+
+# Derived numbers the rules need but the catalogue doesn't carry (computed from the consumption
+# matrix, same release). Labelled estimates.
+#   winter = the -10 °C band (ev-database's "cold" basis that Menno's thresholds come from)
+#   mild   = the 20 °C band; "real" efficiency = mean of winter and mild (ev-database combined basis)
+#   road mix = share of km per road band for one "mixed" figure
+derived:
+  winter_temperature_band: t1
+  mild_temperature_band: t5
+  road_mix: {town: 0.3, rural: 0.3, motorway: 0.4}
+  # heat_pump unknown → the matrix "unknown" heater row; option → the worse (no heat pump) row
+  heater_preference: [heat-pump, unknown, resistive]
+
+# Which value a rule row reads, by row id. Rows not listed read their own `field`.
+# winter-range factors and the road-tripper winter gate mean a winter figure (their labels and
+# reasons say "winter"); the daily / runabout gates say "real range" and keep real_range_km.
+field_overrides:
+  winter-range: winter_range_km
+  winter-range-floor: winter_range_km
+  efficiency: real_wh_km
+
+# Basis bridge: the rule thresholds were set on ev-database's numbers (Menno's sheet); our fields are
+# computed on our own, harsher basis. A factor/gate reads value x scale, so thresholds stay his.
+# Fitted 2026-11-15 on release 1 (median of sheet / ours over picks matched to a released variant;
+# internal calibration, sheet values never published). Refit when the consumption matrix or the
+# DC curve model changes. Tesla Model Y LR gen1 is an outlier on every field (catalogue issue).
+basis_scale:
+  dc_km_per_20min: 1.42    # n=15, 0.86-1.9 (ours is km added in 20 min on our motorway basis)
+  winter_range_km: 1.24    # n=15, 1.12-1.38
+  real_wh_km: 1.155         # n=13, 1.0-1.34
+
+# Units of a row's poor / great / min when they differ from the field's own unit.
+# road-tripper DC rows are written in km per hour (Menno's unit); the field is km per 20 min.
+row_units:
+  road-tripper:
+    dc-speed: km_per_h
+    dc-not-terrible: km_per_h
+unit_factors:            # multiply the field value by this to get the row's unit
+  km_per_h: 3
+  wh_km_from_kwh_100km: 10
+
+# Category fields → 0..1 (null = unknown). Mirrors the rule notes.
+categories:
+  heat_pump: {standard: 1.0, option: 0.6, none: 0.0}          # not-disclosed → unknown
+  cooling_id: {liquid: 1.0, refrigerant: 0.8, air: 0.0, passive: 0.0}
+
+# EU "mass in running order" includes a 75 kg driver; kerb mass = MRO - 75 when kerb is missing.
+mro_driver_kg: 75
+too_big:
+  kerb_mass_kg: 2300
+  width_mm: 1950
+
+# Reason thresholds: a factor at or above `strength` is listed as a plus, at or below `weakness`
+# as a minus (largest weighted effect first, at most `max_reasons` each).
+reasons: {strength: 0.75, weakness: 0.25, max_reasons: 3}
+
+# Combinations shipped per variant: trip profile x charging x home area.
+combos:
+  trip_profiles: [road-tripper, daily-driver, runabout]
+  charging: [home, kerbside-charger]
+  home_areas: [suburban, urban, rural]   # suburban = no modifier; key omits it

@@ -591,4 +591,37 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Trip fit routes, charging pages, bidi filters, variant clue box/finder, lease figures, accounts, alerts and rankings pages wait. Supersedes the phase tags in earlier decisions where they conflict (e.g. Decision 017: only the loan estimate ships; Decision 019: only differences-only ships).
 
+## Decision 040: Charging stats defaults (closes Q-075 / Q-076)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** T-025 needed rules for source ids, unmatched values and dates in charging statistics; Menno did not need to decide these.
+
+**Decision:** (1) Charging stats keep the taxonomy id as `source_id`; `data/sources.yaml` lists it in `aliases`; the release ships `source_aliases`. (2) Values with no taxonomy id (power band, metric) are skipped and counted, never forced into a nearby band. (3) EAFO year rows are dated 31 December; the newest row is the last day of the file's month. (4) Release diff: growth over 15 % a month (compound), any fall, revisions and vanished series go to `data/review/charging_changes.csv`. Review only, never blocks a release.
+
+**Consequences:** Taxonomy gaps go to WS3 as rows. Q-075 and Q-076 can close.
+
+## Decision 041: Climate per town and the consumption reference basis
+
+**Status:** Accepted (WS1 engineering default, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** T-034 and T-033 needed a cold-day definition, a town → weather-station rule and one basis for the consumption matrix.
+
+**Decision:** (1) P10 = 10th percentile of January daily mean temperature, 1991–2020 (R-27 §6). (2) A town takes the nearest station within 60 km and 250 m elevation, preferring one with a P10; no interpolation. ERA5-Land replaces this as primary once the CDS key lands. (3) Consumption matrix: reference at 20 °C on battery basis (wall × 0.88); EPA 5-cycle adjusted values count as measured town/rural references; motorway from EPA highway × body drag factor; WLTP × body ratio otherwise; never from an estimate-only WLTP. Parameters live in `pipeline/ev_pipeline/derive/consumption_params.yaml`; every cell is an estimate.
+
+**Consequences:** Trip fit and the shortlist read winter figures from the matrix, not from WLTP.
+
+## Decision 042: Shortlist scores ship as an editorial release file with a basis bridge
+
+**Status:** Accepted (WS1 engineering default, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** T-069 scores every variant with `data/editorial/shortlist_rules.yaml` before the T-066 schema exists. The rule thresholds were set on ev-database's numbers in Menno's sheet; our own winter range, real efficiency and DC km-per-20-min run on a harsher basis (median sheet/ours on 13–15 matched picks: winter ×1.24, Wh/km ×1.155, DC ×1.42).
+
+**Decision:** (1) Scores ship as `shortlist_scores.json` in each release (labelled editorial + estimate, CC BY 4.0), 18 combinations per variant: road-tripper / daily-driver / runabout × home or kerbside charging × town / city / countryside, with 0..1 factor values so the app can re-weight add-ons. (2) A per-field `basis_scale` in `pipeline/ev_pipeline/derive/shortlist_params.yaml` maps our values onto the rules' basis before thresholds apply; Menno's thresholds stay as written and the sheet values stay internal. (3) Winter factors and the road-tripper winter gate read the matrix's −10 °C mixed figure; unknown values score 0.5 and are listed; over half the weight unknown → `not-enough-data`. (4) The back-test against the owner's picks is reported in the release README, not a gate.
+
+**Consequences:** Refit the scales when the consumption or DC curve model changes. When T-066 lands, the field and unit mapping in the params file moves into the rules rows and the file becomes typed.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
