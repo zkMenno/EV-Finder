@@ -1,4 +1,69 @@
 review_id,status,source_id,record_key,make,model,variant_name,year,reason
+um-b9866b1c95,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|A6 AV E-TRON|2025|GH|ABD7PCH1|HE1HE1G1Z02RT011A190GAAEM0FSC,AUDI,A6 AV E-TRON,,,attach-only: no variant with matching power (210 kW) in audi-a6-e-tron-gen1 (5x)
+um-ee7d9d4cd4,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|A6 AV E-TRON PERFORMANCE|2025|GH|ABM21AH1|HE1HE1G1Z02RT011A200GAAEM0FSC,AUDI,A6 AV E-TRON PERFORMANCE,,,attach-only: no variant with matching power (270 kW) in audi-a6-e-tron-gen1 (3x)
+um-c39da0331b,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|A6 AV E-TRON QUATTRO|2025|GH|ABM19AQ1|QE1QE1G1Z05RT011B210GAAEM0FLC,AUDI,A6 AV E-TRON QUATTRO,,,attach-only: no variant with matching power (315 kW) in audi-a6-e-tron-gen1 (1x)
+um-5e8a6b0881,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|A6 SB E-TRON|2025|GH|SBD7PCH1|HE1HE1G1Z02RT011A190GAAEM0FSC,AUDI,A6 SB E-TRON,,,attach-only: no variant with matching power (210 kW) in audi-a6-e-tron-gen1 (3x)
+um-65977075a9,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|A6 SB E-TRON PERFORMANCE|2026#wltp_range_km,AUDI,A6 SB E-TRON PERFORMANCE,,,"attach-only: ambiguous evidence: WLTP fits audi-a6-e-tron-gen1-avant, audi-a6-e-tron-gen1-sportback in audi-a6-e-tron-gen1 (1x)"
+um-cc6d46e4ec,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|A6 SB E-TRON PERFORMANCE|2025|GH|SBM21AH1|HE1HE1G1Z02RT011A200GAAEM0FSC,AUDI,A6 SB E-TRON PERFORMANCE,,,attach-only: no variant with matching power (270 kW) in audi-a6-e-tron-gen1 (2x)
+um-43af134d9e,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 45 E-TRON|2024#wltp_range_km,AUDI,Q4 45 E-TRON,,,"attach-only: ambiguous evidence: WLTP fits audi-q4-e-tron-gen1-50, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (3x)"
+um-a10ef1390b,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q4 45 E-TRON|2023|FZ|XBL1RQ1|QE1QE1G1Z03RT011A200GAAEM0,AUDI,Q4 45 E-TRON,,,attach-only: no variant with matching power (195 kW) in audi-q4-e-tron-gen1 (1x)
+um-a653ff06ef,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q4 45 E-TRON|2024|FZ|XBD7PAH1|HE1HE1G1Z03RT011A210GAAEM1,AUDI,Q4 45 E-TRON,,,attach-only: no variant with matching power (210 kW) in audi-q4-e-tron-gen1 (5x)
+um-874cd9ced3,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 55 E-TRON|2024#wltp_range_km,AUDI,Q4 55 E-TRON,,,"attach-only: ambiguous evidence: WLTP fits audi-q4-e-tron-gen1-quattro, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (1x)"
+um-ee13c81120,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q4 E-TRON PERFORMANCE|2026|FZ|XBD7PDH1|HE1HE1G1Z03RT010GAAEM0LE,AUDI,Q4 E-TRON PERFORMANCE,,,attach-only: no variant with matching power (210 kW) in audi-q4-e-tron-gen1 (1x)
+um-0c5ac3b5f3,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q4 SPORTBACK 45 E-TRON|2024|FZ|SBD7PAH1|HE1HE1G1Z03RT021A190GAAEM1,AUDI,Q4 SPORTBACK 45 E-TRON,,,attach-only: no variant with matching power (210 kW) in audi-q4-e-tron-gen1 (3x)
+um-8d7fb65499,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q6 SB E-TRON|2025|GF|SBM0BAH1|HE1HE1G1Z02RT061B200GAAEM0FLC,AUDI,Q6 SB E-TRON,,,attach-only: no variant with matching power (185 kW) in audi-q6-e-tron-gen1 (3x)
+um-17ca0db38c,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q6 SB E-TRON PERFORMANCE|2026|GF|SBDU4AH1|HE1HE1G1Z02RT050GAAEM0FLCE,AUDI,Q6 SB E-TRON PERFORMANCE,,,attach-only: no variant with matching power (225 kW) in audi-q6-e-tron-gen1 (1x)
+um-f73d27707e,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q6 SUV E-TRON|2025|GF|XBM0BAH1|HE1HE1G1Z02RT011A180GAAEM0FSC,AUDI,Q6 SUV E-TRON,,,attach-only: no variant with matching power (185 kW) in audi-q6-e-tron-gen1 (12x)
+um-283627626b,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q6 SUV E-TRON PERFORMANCE|2024|GF|XBDU4AH1|HE1HE1G1Z02RT011A190GAAEM0FSS,AUDI,Q6 SUV E-TRON PERFORMANCE,,,attach-only: no variant with matching power (225 kW) in audi-q6-e-tron-gen1 (13x)
+um-901c89fb13,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q8 50 E-TRON|2023|GE|XBL1IAQ1|QE1QE1G1Z01RT11A190GAAEM0,AUDI,Q8 50 E-TRON,,,attach-only: no variant with matching power (250 kW) in audi-e-tron-q8 (2x)
+um-33ce6431ad,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|I4 M60 XDRIVE|2025|G4C|71HD|0AW5000B,BMW,I4 M60 XDRIVE,,,attach-only: no variant with matching power (442 kW) in bmw-i4-g26 (2x)
+um-23e98ae573,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|IX XDRIVE45|2026|BMWI-N|41CF|0AA5A000,BMW,IX XDRIVE45,,,attach-only: no variant with matching power (300 kW) in bmw-ix-gen1 (1x)
+um-2187dce3c2,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|IX XDRIVE60|2025|BMWI-N|51CF|0AA5A000,BMW,IX XDRIVE60,,,attach-only: no variant with matching power (400 kW) in bmw-ix-gen1 (1x)
+um-1a2c6c1266,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|IX1 EDRIVE20|2024|U1X|71EG|0AB50800,BMW,IX1 EDRIVE20,,,attach-only: no variant with matching power (150 kW) in bmw-ix1-gen1 (2x)
+um-17c743a07a,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW|IX1 XDRIVE30|2025|U1X|61EF|0AB50000,BMW,IX1 XDRIVE30,,,attach-only: no variant with matching power (225 kW) in bmw-ix1-gen1 (3x)
+um-8323fc8cd0,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BYD|ATTO 3|2022#wltp_range_km,BYD,ATTO 3,,,"attach-only: ambiguous evidence: WLTP fits byd-atto-3-gen1-extended-range, byd-atto-3-gen1-standard-range-extended-range in byd-atto-3-gen1 (4x)"
+um-ad4837a227,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:BYD|ATTO 3 EVO|2026|SC2E|M2R1C,BYD,ATTO 3 EVO,,,attach-only: no variant with matching power (230 kW) in byd-atto-3-gen1 (1x)
+um-e343e29cff,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:BYD|ATTO 3 EVO|2026|SC2E|M2D1C,BYD,ATTO 3 EVO,,,attach-only: no variant with matching power (330 kW) in byd-atto-3-gen1 (1x)
+um-a5788647bf,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:DACIA|SPRING|2021#wltp_range_km,DACIA,SPRING,,,"attach-only: ambiguous evidence: WLTP fits dacia-spring-gen1-essential, dacia-spring-gen1-essential-comfort, dacia-spring-gen1-essential-extreme in dacia-spring-gen1 (5x)"
+um-519b377659,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:FORD|EXPLORER|2025|DRP|C0DA1RX,FORD,EXPLORER,,,attach-only: no variant with matching power (125 kW) in ford-explorer-gen1 (2x)
+um-b7b4920d34,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:FORD|EXPLORER|2026|DRP|EJDA1RX,FORD,EXPLORER,,,attach-only: no variant with matching power (140 kW) in ford-explorer-gen1 (1x)
+um-789837ef36,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:FORD|EXPLORER|2024|DRP|EHDA1RX,FORD,EXPLORER,,,attach-only: no variant with matching power (150 kW) in ford-explorer-gen1 (2x)
+um-d57b869233,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:FORD|EXPLORER|2025|DRP|C1DA1RX,FORD,EXPLORER,,,attach-only: no variant with matching power (210 kW) in ford-explorer-gen1 (2x)
+um-7d8a081eb9,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:FORD|PUMA|2026|J2K|C0JA12X|5AZANNBLFAX,FORD,PUMA,,,attach-only: no variant with matching power (124 kW) in ford-puma-gen-e-gen1 (2x)
+um-415dd084c6,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:HYUNDAI|KONA|2024|SX2E|F5E12,HYUNDAI,KONA,,,attach-only: no variant with matching power (115 kW) in hyundai-kona-electric-sx2 (2x)
+um-6a41100d35,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:HYUNDAI|KONA|2024|SX2E|F5E22|E11BZ1,HYUNDAI,KONA,,,attach-only: no variant with matching power (160 kW) in hyundai-kona-electric-sx2 (5x)
+um-56f3af0aec,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:MERCEDES-BENZ|CLA 200|2026|MMCLAE|120DA0,MERCEDES-BENZ,CLA 200,,,attach-only: no variant with matching power (165 kW) in mercedes-cla-gen1 (1x)
+um-31094d29e7,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:MERCEDES-BENZ|CLA 250+|2026|MMCLAE|1301A0,MERCEDES-BENZ,CLA 250+,,,attach-only: no variant with matching power (200 kW) in mercedes-cla-gen1 (2x)
+um-a8970831a8,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG4 ELECTRIC|2026#wltp_range_km,MG,MG4 ELECTRIC,,,"attach-only: ambiguous evidence: WLTP fits mg-mg4-gen1-long-range, mg-mg4-gen1-standard-long-range in mg-mg4-gen1 (1x)"
+um-afe5e8a7f9,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:MG|MG4 EV URBAN|2026|AH4E|AB1EE|NAOF5LGEAA,MG,MG4 EV URBAN,,,attach-only: no variant with matching power (110 kW) in mg-mg4-gen1 (1x)
+um-4d93b671b3,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:MG|MG4 EV URBAN|2026|AH4E|AB1EE|NAOF5LGEGC,MG,MG4 EV URBAN,,,attach-only: no variant with matching power (118 kW) in mg-mg4-gen1 (1x)
+um-616e3d78b3,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:MINI|COOPER E|2024|JM1|11GC|0AW40700,MINI,COOPER E,,,attach-only: no variant with matching power (135 kW) in mini-cooper-se-j01 (1x)
+um-c0c528b2dd,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:MINI|COOPER SE|2024|FML2E|11DJ,MINI,COOPER SE,,,attach-only: no variant with matching power (135 kW) in mini-cooper-se-j01 (1x)
+um-1d8471845b,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:PORSCHE|TAYCAN|2021|Y1A|JA12|1040000,PORSCHE,TAYCAN,,,attach-only: no variant with matching power (240 kW) in porsche-taycan-gen1 (2x)
+um-f7ecc80885,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:PORSCHE|TAYCAN|2021|Y1A|JA12|1041000,PORSCHE,TAYCAN,,,attach-only: no variant with matching power (280 kW) in porsche-taycan-gen1 (3x)
+um-1e0a0b63ec,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:PORSCHE|TAYCAN 4|2021|Y1A|CA22|1041000,PORSCHE,TAYCAN 4,,,attach-only: no variant with matching power (280 kW) in porsche-taycan-gen1 (1x)
+um-0ad7f41252,open,rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:RENAULT|ZOE|2023#wltp_range_km,RENAULT,ZOE,,,"attach-only: ambiguous evidence: WLTP fits renault-zoe-ph2-r110, renault-zoe-ph2-r135 in renault-zoe-ph2 (2x)"
+um-9d469b77a9,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:SKODA|ELROQ 60|2026|NY|VABLXXXXEEJEM2AX2|S0PE1MH003V01AA,SKODA,ELROQ 60,,,attach-only: no variant with matching power (140 kW) in skoda-elroq-gen1 (1x)
+um-fb932b38ec,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:SKODA|ELROQ 85|2025|NY|ABLEDFAD7PX2|D0PE1MP001N01BA,SKODA,ELROQ 85,,,attach-only: no variant with matching power (210 kW) in skoda-elroq-gen1 (3x)
+um-3070d50c42,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL 3|2024|003|H5LR,TESLA,MODEL 3,,,attach-only: no variant with matching power (235 kW) in tesla-model-3-highland (5x)
+um-72d853a274,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:TESLA|MODEL 3|2024|003|H5LD|PKP2S5T2W,TESLA,MODEL 3,,,attach-only: no variant with matching power (461 kW) in tesla-model-3-highland (3x)
+um-40dcb6fd2d,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL S|2022|004|SB1T,TESLA,MODEL S,,,attach-only: no variant with matching power (314 kW) in tesla-model-s-palladium (1x)
+um-0eb987c3ed,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL S|2023|004|SB1D,TESLA,MODEL S,,,attach-only: no variant with matching power (504 kW) in tesla-model-s-palladium (2x)
+um-c3f7ce917b,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL Y|2025|003|Y6LR,TESLA,MODEL Y,,,attach-only: no variant with matching power (220 kW) in tesla-model-y-juniper (6x)
+um-531b2d61e6,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL Y|2025|005|Y7CR,TESLA,MODEL Y,,,attach-only: no variant with matching power (235 kW) in tesla-model-y-juniper (1x)
+um-5cda0a63b3,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL Y|2025|003|Y5LR,TESLA,MODEL Y,,,attach-only: no variant with matching power (255 kW) in tesla-model-y-juniper (7x)
+um-f8c8730ea7,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL Y|2025|003|Y5LD,TESLA,MODEL Y,,,attach-only: no variant with matching power (378 kW) in tesla-model-y-juniper (7x)
+um-d6b2806ff1,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TESLA|MODEL Y|2026|003|YS5MA,TESLA,MODEL Y,,,attach-only: no variant with matching power (385 kW) in tesla-model-y-juniper (3x)
+um-e527a46b23,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:TESLA|MODEL Y|2026|003|YS5MA|KP4S5T3X,TESLA,MODEL Y,,,attach-only: no variant with matching power (461 kW) in tesla-model-y-juniper (2x)
+um-f79c3a306b,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TOYOTA|TOYOTA BZ4X|2025|EAM1(M)|XEAM11(W),TOYOTA,TOYOTA BZ4X,,,attach-only: no variant with matching power (167 kW) in toyota-bz4x-gen1 (1x)
+um-ccb60e09f5,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TOYOTA|TOYOTA BZ4X TOURING|2026|EAM1X(M)|XEAM12(W),TOYOTA,TOYOTA BZ4X TOURING,,,attach-only: no variant with matching power (167 kW) in toyota-bz4x-gen1 (1x)
+um-35eb0d2ec9,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:TOYOTA|TOYOTA BZ4X TOURING|2026|EAM1X(M)|XEAM17(W),TOYOTA,TOYOTA BZ4X TOURING,,,attach-only: no variant with matching power (334 kW) in toyota-bz4x-gen1 (1x)
+um-396c5d5e77,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:VOLKSWAGEN|ID. BUZZ PRO KR 210 KW|2025|EB|AFECNAD7PX2|N3000QPE1MP002A55,VOLKSWAGEN,ID. BUZZ PRO KR 210 KW,,,attach-only: no variant with matching power (210 kW) in volkswagen-id-buzz-gen1 (1x)
+um-f0d246127e,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:VOLKSWAGEN|ID.7 TOURER GTX|2026|ED|ACX1EDJ8AX1,VOLKSWAGEN,ID.7 TOURER GTX,,,attach-only: no variant with matching power (250 kW) in volkswagen-id7-gen1 (1x)
+um-361ea3bfca,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:VOLVO|EX30|2026|2|2ZG6,VOLVO,EX30,,,attach-only: no variant with matching power (110 kW) in volvo-ex30-gen1 (2x)
+um-2931fc4600,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:VOLVO|EX40|2024|X|XZEH,VOLVO,EX40,,,attach-only: no variant with matching power (185 kW) in volvo-xc40-recharge-ex40 (3x)
+um-bbf5264301,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:VOLVO|EX40|2024|X|XZEY,VOLVO,EX40,,,attach-only: no variant with matching power (325 kW) in volvo-xc40-recharge-ex40 (3x)
+um-c1b93be2ed,open,rdw,m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:VOLVO|XC40|2024|X|XZEH,VOLVO,XC40,,,attach-only: no variant with matching power (185 kW) in volvo-xc40-recharge-ex40 (1x)
 um-f8712b3e9d,open,ademe,ademe-car-labelling:AUDI|E-TRON GT|RS e-tron GT quattro (598ch),AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (4x)
 um-b83d091ee2,open,ademe,ademe-car-labelling:CITROEN|BERLINGO|e-BERLINGO M (57Kw),CITROEN,BERLINGO,,,model not in seed (4x)
 um-1f10e329eb,open,ademe,ademe-car-labelling:CITROEN|C4|e-C4 (57Kw),CITROEN,C4,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in citroen-e-c4-c41 (2x)"
@@ -1734,100 +1799,35 @@ um-72e427ef66,open,kilowatt-openev,data/v2/models/mini.json#1b30c350-78e2-4414-8
 um-23302c6133,open,kilowatt-openev,data/v2/models/mini.json#ba47b777-a9b7-4fc5-8e0f-5ea84a47121b,Mini,Countryman E,,,model not in seed (1x)
 um-e2f3be6271,open,kilowatt-openev,data/v2/models/mini.json#e49041a3-e2d3-45d4-bb7d-5d952bd8f7b2,Mini,se,,,model not in seed (2x)
 um-bb0a7c1c34,open,kilowatt-openev,data/v2/models/mini.json#9e09fe3e-f22f-4e01-bfac-682911c25d28,Mini,se all4,,,model not in seed (1x)
-um-fb5c6321fd,open,kilowatt-openev,data/v2/models/mini.json#2bbee053-47b9-469f-9105-e0032cbdc2ea,Mini,se convertible,,,model not in seed (1x)
-um-08456293b7,open,kilowatt-openev,data/v2/models/nissan.json#b2b28b58-9624-49a0-8f1d-7af7d2119240,Nissan,63kwh,,,model not in seed (1x)
-um-b518f5d578,open,kilowatt-openev,data/v2/models/nissan.json#be610dfc-609c-4e40-9231-132dc0945f21,Nissan,87kwh,,,model not in seed (1x)
-um-0038795ea9,open,kilowatt-openev,data/v2/models/nissan.json#1241ed45-6289-0c6d-9093-4ab9da6ca608,Nissan,Ariya,,,model not in seed (4x)
-um-6fc0f11016,open,kilowatt-openev,data/v2/models/nissan.json#018ec1b8-025e-408d-923a-4a6972091ed4,Nissan,Ariya e-4ORCE 87kWh - 225 kW,,,model not in seed (1x)
-um-325d7ad765,open,kilowatt-openev,data/v2/models/nissan.json#75d7a9d6-6076-4f1f-87af-8ee6a6354a9e,Nissan,Ariya e-4ORCE 87kWh - 290 kW,,,model not in seed (1x)
-um-efcbdf669f,open,kilowatt-openev,data/v2/models/nissan.json#7a95ba58-d482-4dee-b4d8-854dc76b65ae,Nissan,Ariya e-4ORCE 87kWh - 320 kW Nismo,,,model not in seed (1x)
-um-69254a9036,open,kilowatt-openev,data/v2/models/nissan.json#d3631ffd-f675-4ddd-8a1f-2bcf653f2ee5,Nissan,e+,,,model not in seed (2x)
-um-710afddafb,open,kilowatt-openev,data/v2/models/nissan.json#5c03d7f6-6deb-4289-87ab-9d3a49751955,Nissan,e-4orce,,,model not in seed (2x)
-um-fc2120ab2d,open,kilowatt-openev,data/v2/models/nissan.json#2644bfd3-a593-4276-bb1f-c8965e33797e,Nissan,e-NV 200,,,model not in seed (6x)
-um-eaa1a15cd6,open,kilowatt-openev,data/v2/models/nissan.json#7b889dac-4cda-4435-a414-b7965de5c9d7,Nissan,e-NV200,,,model not in seed (2x)
-um-d1c3907b72,open,kilowatt-openev,data/v2/models/nissan.json#c83ca112-e008-4329-9739-72f8e3a61245,Nissan,e-NV200 Evalia,,,model not in seed (1x)
-um-67e536b8b0,open,kilowatt-openev,data/v2/models/nissan.json#a7772da3-50d2-4c51-987a-f71670abd7d1,Nissan,ev passenger,,,model not in seed (1x)
-um-c211322e07,open,kilowatt-openev,data/v2/models/nissan.json#38b06018-71f0-4ad9-9fc1-480b1b3cf345,Nissan,Townstar EV Passenger,,,model not in seed (1x)
-um-37e63da457,open,kilowatt-openev,data/v2/models/nissan.json#30d073cd-6b7d-458e-9832-c24ee6cd146a,Nissan,Townstar EV Passenger L2,,,model not in seed (1x)
-um-2efe2a6eb7,open,kilowatt-openev,data/v2/models/opel.json#91b69192-c83a-4bb6-ad28-c7224b52a51f,Opel / Vauxhall,50kwh,,,model not in seed (1x)
-um-02550603ad,open,kilowatt-openev,data/v2/models/opel.json#5b614e3f-72f7-4c28-bcbb-ea1dd48852a7,Opel / Vauxhall,54kwh,,,model not in seed (1x)
-um-d1eaa896c6,open,kilowatt-openev,data/v2/models/opel.json#ab0fda31-8a5c-4a1d-b9c3-460d1e3b26e5,Opel / Vauxhall,Ampera-e,,,model not in seed (1x)
-um-7a15aff92f,open,kilowatt-openev,data/v2/models/opel.json#22b4e77d-c44f-4972-8094-301d6f7eb526,Opel / Vauxhall,combi l,,,model not in seed (2x)
-um-889629b6bb,open,kilowatt-openev,data/v2/models/opel.json#291a1a08-2b63-4bcf-b0a9-f7e3d79466bb,Opel / Vauxhall,combi m,,,model not in seed (2x)
-um-403c463e7a,open,kilowatt-openev,data/v2/models/opel.json#4be1e627-e3c0-47ae-ae89-44c1ac3df08c,Opel / Vauxhall,combi s,,,model not in seed (1x)
-um-5f85165973,open,kilowatt-openev,data/v2/models/opel.json#53d07b75-5d85-4eb4-8eb1-7bdd2411e86f,Opel / Vauxhall,Corsa-e,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in opel-corsa-e-f (1x)"
-um-3e2e7a705d,open,kilowatt-openev,data/v2/models/opel.json#90bedcf8-8f8b-42e5-94b6-b2eeadb8e4fd,Opel / Vauxhall,electric,,,model not in seed (3x)
-um-8e18d1fc44,open,kilowatt-openev,data/v2/models/opel.json#33f1ab02-6612-42ec-a1fa-c65971599cd6,Opel / Vauxhall,life,,,model not in seed (1x)
-um-44f66c33d3,open,kilowatt-openev,data/v2/models/opel.json#5f7c2576-d0fc-4203-9f68-25a1cc9a05ae,Opel / Vauxhall,life l,,,model not in seed (2x)
-um-1e34643fbe,open,kilowatt-openev,data/v2/models/opel.json#ea9119ac-1d0a-4b71-84af-67614f1c1731,Opel / Vauxhall,life m,,,model not in seed (2x)
-um-126b0a4585,open,kilowatt-openev,data/v2/models/opel.json#270dd2f9-27e5-462a-8e07-6a5d3d226894,Opel / Vauxhall,life s,,,model not in seed (1x)
-um-ca0975cf61,open,kilowatt-openev,data/v2/models/opel.json#641d572b-49cb-4876-b5fb-7140ed6d8f15,Opel / Vauxhall,life xl,,,model not in seed (1x)
-um-f6c03b003c,open,kilowatt-openev,data/v2/models/opel.json#ded613d2-f6d8-424a-a428-0f22336be2fd,Opel / Vauxhall,Mokka-e,,,no variant in opel-mokka-gen1 to attach to (1x)
-um-d5b229dbf7,open,kilowatt-openev,data/v2/models/opel.json#0efeb141-5ba5-401e-a28c-2d39070315be,Opel / Vauxhall,sports tourer electric,,,model not in seed (1x)
-um-a848c6bd63,open,kilowatt-openev,data/v2/models/peugeot.json#32169454-4adc-4fd4-b4e7-ccf35c84f023,Peugeot,50kwh,,,model not in seed (1x)
-um-4f0a5e58e3,open,kilowatt-openev,data/v2/models/peugeot.json#62fcf058-feb8-4dbf-8ca0-e7421fbf8267,Peugeot,51kwh,,,model not in seed (2x)
-um-74b96f833e,open,kilowatt-openev,data/v2/models/peugeot.json#613102c0-80cf-43df-9ce1-8c15b947b02e,Peugeot,54kwh,,,model not in seed (1x)
-um-a718e24b67,open,kilowatt-openev,data/v2/models/peugeot.json#2c522087-c714-488c-9b6a-f92d63019d22,Peugeot,73kwh,,,model not in seed (1x)
-um-0bfb5e2257,open,kilowatt-openev,data/v2/models/peugeot.json#bedd5cce-2e21-4509-9b4d-5bf824468eed,Peugeot,73kwh dual motor,,,model not in seed (1x)
-um-49df4b7bef,open,kilowatt-openev,data/v2/models/peugeot.json#66986860-d7f3-41f5-99dc-f6a88f2896b5,Peugeot,97kwh long range,,,model not in seed (1x)
-um-b138752885,open,kilowatt-openev,data/v2/models/peugeot.json#50e2574f-761c-4cf2-9977-ca14e5443f4c,Peugeot,combi compact,,,model not in seed (1x)
-um-541f38c7fc,open,kilowatt-openev,data/v2/models/peugeot.json#2dffe255-0142-4215-8deb-e51601b2509b,Peugeot,combi long,,,model not in seed (2x)
-um-72d34780f0,open,kilowatt-openev,data/v2/models/peugeot.json#f04dbf31-5780-473f-867f-3cce583d55ec,Peugeot,combi standard,,,model not in seed (2x)
-um-c87e148d1f,open,kilowatt-openev,data/v2/models/peugeot.json#cef093ee-add7-4f9d-bf29-b484f36a4bca,Peugeot,compact,,,model not in seed (1x)
-um-e4584006fb,open,kilowatt-openev,data/v2/models/peugeot.json#72695d36-29c4-4726-8ca8-5333fb3f9865,Peugeot,e-2008,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in peugeot-e-2008-p24 (4x)"
-um-d3501153ba,open,kilowatt-openev,data/v2/models/peugeot.json#926efa33-4c55-43df-80f3-4b8d2d65a00a#dc_curve,Peugeot,e-208,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in peugeot-e-208-p21 (2x)"
-um-3976619dbd,open,kilowatt-openev,data/v2/models/peugeot.json#b3cc5188-7397-1d8c-aa4f-01219bb6c792,Peugeot,e-3008,,,model not in seed (2x)
-um-fe334bd88e,open,kilowatt-openev,data/v2/models/peugeot.json#c017a9e7-136e-4417-9d67-34c23176230d,Peugeot,e-3008 73 kWh,,,model not in seed (1x)
-um-489e9379de,open,kilowatt-openev,data/v2/models/peugeot.json#67a0155f-1e43-477c-ba92-0990a4d3c875,Peugeot,e-3008 97 kWh Long Range,,,model not in seed (1x)
-um-0c59364318,open,kilowatt-openev,data/v2/models/peugeot.json#6717cf3f-cf4b-401b-9280-caa4bee8be4b,Peugeot,e-308,,,model not in seed (1x)
-um-2b8d0af9b9,open,kilowatt-openev,data/v2/models/peugeot.json#8317fb78-fa67-4ebd-8567-1d7f1ad16cd8,Peugeot,e-308 SW,,,model not in seed (1x)
-um-086239958c,open,kilowatt-openev,data/v2/models/peugeot.json#96bfbf8a-002b-4d95-9b7a-d15727787608,Peugeot,e-408 58 kWh,,,model not in seed (1x)
-um-bccf6b279a,open,kilowatt-openev,data/v2/models/peugeot.json#bc53f413-a9b9-45da-8af6-521c4b6b0235,Peugeot,e-5008 73 kWh,,,model not in seed (1x)
-um-5eebd88da6,open,kilowatt-openev,data/v2/models/peugeot.json#11b25a85-4f21-4a7c-98d2-025639fcc0cf,Peugeot,e-5008 73 kWh Dual Motor,,,model not in seed (1x)
-um-1e8a45e491,open,kilowatt-openev,data/v2/models/peugeot.json#40ce641c-a183-4c33-9270-0f358705645d,Peugeot,e-5008 97 kWh Long Range,,,model not in seed (1x)
-um-2fc77f8a2f,open,kilowatt-openev,data/v2/models/peugeot.json#35acc9cb-95e7-b6de-5f64-a35089e3315a,Peugeot,E-Expert,,,model not in seed (2x)
-um-8d987ca079,open,kilowatt-openev,data/v2/models/peugeot.json#12fa953c-24ec-4b5d-9310-060b49f5a859,Peugeot,e-Expert Combi Compact 50 kWh,,,model not in seed (1x)
-um-a7ff4f4b86,open,kilowatt-openev,data/v2/models/peugeot.json#f87a9281-d7f4-47dc-9dab-9ee85a9fa2c5,Peugeot,e-Expert Combi Long 50 kWh,,,model not in seed (1x)
-um-9e2bf57595,open,kilowatt-openev,data/v2/models/peugeot.json#9c0fd4b2-e0d6-4fa8-9ac6-cea4c1051494,Peugeot,e-Expert Combi Long 75 kWh,,,model not in seed (1x)
-um-f2fb0eb0b5,open,kilowatt-openev,data/v2/models/peugeot.json#262b7ab9-9dbe-49b5-a3b3-e1766c307a2b,Peugeot,e-Expert Combi Standard 50 kWh,,,model not in seed (1x)
-um-53c9d3405c,open,kilowatt-openev,data/v2/models/peugeot.json#8bf0df83-d81a-4626-a731-d24792224a45,Peugeot,e-Expert Combi Standard 75 kWh,,,model not in seed (1x)
-um-f79da835da,open,kilowatt-openev,data/v2/models/peugeot.json#0079aec6-e65f-be1a-9a15-cb28ff6a2edd,Peugeot,e-Partner,,,model not in seed (2x)
-um-3934a2fce2,open,kilowatt-openev,data/v2/models/peugeot.json#f6bcc16d-fc3f-464b-bf7b-49c6e3378faf,Peugeot,e-Rifter Long 50 kWh,,,model not in seed (1x)
-um-96bf655860,open,kilowatt-openev,data/v2/models/peugeot.json#f79dd895-5348-4bb4-938f-9573026b489f,Peugeot,e-Rifter M 50 kWh,,,model not in seed (1x)
-um-5fbf769225,open,kilowatt-openev,data/v2/models/peugeot.json#8a17417a-36ed-405b-bfb7-a7742afd87a9,Peugeot,e-Rifter Standard 50 kWh,,,model not in seed (1x)
-um-69d30693c2,open,kilowatt-openev,data/v2/models/peugeot.json#d9c6a912-b7fb-4a71-a3cd-f3030ca9e2d2,Peugeot,e-Rifter XL 50 kWh,,,model not in seed (1x)
-um-a72dae0b5f,open,kilowatt-openev,data/v2/models/peugeot.json#04980813-ec12-1047-40ea-4c6c44b60171,Peugeot,E-Traveller,,,model not in seed (4x)
-um-d3648777da,open,kilowatt-openev,data/v2/models/peugeot.json#fca5d551-bfdb-4fcf-9ab7-f7978678ff59,Peugeot,e-Traveller Compact 50 kWh,,,model not in seed (1x)
-um-24d6313f9c,open,kilowatt-openev,data/v2/models/peugeot.json#c73895f9-0675-4893-88e3-4fda9926e102,Peugeot,e-Traveller L2 50 kWh,,,model not in seed (1x)
 um-38488af3ee,open,fueleconomy,(summary),RIVIAN,,,,make not in seed: 187 records
 um-f477515a30,open,fueleconomy,(summary),LUCID,,,,make not in seed: 72 records
 um-ceed4d7465,open,eea,(summary),NIO,,,,make not in seed: 65 records
 um-a831d18b2d,open,openev,(summary),NIO,,,,make not in seed: 65 records
+um-6e131f841a,open,rdw,(summary),XPENG,,,,make not in seed: 63 records
 um-77ed158052,open,fueleconomy,(summary),CHEVROLET,,,,make not in seed: 58 records
 um-f8683bc4d6,open,eea,(summary),DS,,,,make not in seed: 57 records
 um-7e120bae98,open,eea,(summary),LEXUS,,,,make not in seed: 47 records
+um-7030893d97,open,rdw,(summary),NIO,,,,make not in seed: 47 records
+um-21808a72c9,open,rdw,(summary),ZEEKR,,,,make not in seed: 45 records
 um-0bab8c6f75,open,eea,(summary),XPENG,,,,make not in seed: 44 records
-um-7030893d97,open,rdw,(summary),NIO,,,,make not in seed: 41 records
 um-470058ebb0,open,openev,(summary),CHEVROLET,,,,make not in seed: 38 records
-um-6e131f841a,open,rdw,(summary),XPENG,,,,make not in seed: 38 records
+um-60e4a36ec5,open,rdw,(summary),LEAPMOTOR,,,,make not in seed: 38 records
 um-039e030f38,open,fueleconomy,(summary),CADILLAC,,,,make not in seed: 37 records
-um-60e4a36ec5,open,rdw,(summary),LEAPMOTOR,,,,make not in seed: 36 records
+um-44422b2021,open,rdw,(summary),DS,,,,make not in seed: 36 records
 um-9d1cf2e871,open,rdw,(summary),MAZDA,,,,make not in seed: 35 records
 um-12b504b836,open,openev,(summary),VINFAST,,,,make not in seed: 34 records
 um-2cd5ccc4f7,open,eea,(summary),MAZDA,,,,make not in seed: 33 records
-um-44422b2021,open,rdw,(summary),DS,,,,make not in seed: 33 records
 um-747e6c1f7e,open,openev,(summary),ZEEKR,,,,make not in seed: 32 records
 um-d07337f793,open,eea,(summary),AIWAYS,,,,make not in seed: 31 records
 um-dcf2870eb7,open,openev,(summary),GAC AION,,,,make not in seed: 31 records
 um-5cf320bc23,open,openev,(summary),XPENG,,,,make not in seed: 31 records
 um-f67b94b9fd,open,rdw,(summary),JEEP,,,,make not in seed: 31 records
+um-614560168a,open,rdw,(summary),LEXUS,,,,make not in seed: 31 records
 um-3c4cd2c0a0,open,eea,(summary),SSANGYONG,,,,make not in seed: 28 records
 um-f3c5897ac0,open,eea,(summary),LUCID MOTORS,,,,make not in seed: 27 records
 um-e3e187ea7b,open,fueleconomy,(summary),GENESIS,,,,make not in seed: 27 records
 um-f884ae1eed,open,eea,(summary),LEAPMOTOR,,,,make not in seed: 26 records
 um-504a615e78,open,fueleconomy,(summary),LEXUS,,,,make not in seed: 26 records
-um-614560168a,open,rdw,(summary),LEXUS,,,,make not in seed: 26 records
-um-21808a72c9,open,rdw,(summary),ZEEKR,,,,make not in seed: 26 records
 um-8d37ad4b85,open,dft-veh,(summary),DS,,,,make not in seed: 25 records
 um-0606449c11,open,eea,(summary),MASERATI,,,,make not in seed: 25 records
 um-ec0fa4ff70,open,openev,(summary),LAND ROVER,,,,make not in seed: 24 records
@@ -1853,25 +1853,25 @@ um-215a5f5975,open,kba-fz10,(summary),NIO,,,,make not in seed: 19 records
 um-edc8d4fa6d,open,openev,(summary),GEELY,,,,make not in seed: 19 records
 um-9513abd170,open,rdw,(summary),CHEVROLET,,,,make not in seed: 19 records
 um-cc8d4f9697,open,rdw,(summary),GENESIS,,,,make not in seed: 19 records
+um-91ac26ac20,open,rdw,(summary),SEAT,,,,make not in seed: 19 records
+um-06ad4565f2,open,rdw,(summary),SUBARU,,,,make not in seed: 19 records
 um-3d26b4909a,open,eea,(summary),VINFAST,,,,make not in seed: 18 records
 um-d37ef7414c,open,openev,(summary),CHANGAN,,,,make not in seed: 18 records
 um-c27e0e03e1,open,openev,(summary),TATA MOTORS,,,,make not in seed: 18 records
 um-eb2ede2312,open,eea,(summary),SUBARU,,,,make not in seed: 17 records
+um-75a69d7496,open,rdw,(summary),FAW,,,,make not in seed: 17 records
+um-0f0b2b538d,open,rdw,(summary),LUCID MOTORS,,,,make not in seed: 17 records
 um-e74cb6c3e8,open,rdw,(summary),MAXUS,,,,make not in seed: 17 records
-um-91ac26ac20,open,rdw,(summary),SEAT,,,,make not in seed: 17 records
 um-0d67f56c2c,open,eea,(summary),ABARTH,,,,make not in seed: 16 records
 um-12f7f4e092,open,eea,(summary),DS AUTOMOBILES,,,,make not in seed: 16 records
 um-fa54079cb3,open,eea,(summary),JEEP,,,,make not in seed: 16 records
 um-79a6ed42e8,open,fueleconomy,(summary),ROLLS-ROYCE,,,,make not in seed: 16 records
 um-66f0ab755e,open,rdw,(summary),AIWAYS,,,,make not in seed: 16 records
-um-386ec72a77,open,rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 15 records
-um-0f0b2b538d,open,rdw,(summary),LUCID MOTORS,,,,make not in seed: 15 records
-um-06ad4565f2,open,rdw,(summary),SUBARU,,,,make not in seed: 15 records
+um-386ec72a77,open,rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 16 records
 um-6efb6b0ec5,open,fueleconomy,(summary),MASERATI,,,,make not in seed: 14 records
 um-0955cadb88,open,kilowatt-openev,(summary),XPENG,,,,make not in seed: 14 records
 um-455949d936,open,openev,(summary),GENESIS,,,,make not in seed: 14 records
 um-e1514ae08f,open,openev,(summary),LEXUS,,,,make not in seed: 14 records
-um-75a69d7496,open,rdw,(summary),FAW,,,,make not in seed: 14 records
 um-0ac3f03907,open,fueleconomy,(summary),VINFAST,,,,make not in seed: 13 records
 um-24fb6e2c3b,open,kba-fz10,(summary),DS,,,,make not in seed: 13 records
 um-f7becf0543,open,openev,(summary),GWM,,,,make not in seed: 13 records
@@ -1895,7 +1895,7 @@ um-4fa556a524,open,kilowatt-openev,(summary),LUCID,,,,make not in seed: 11 recor
 um-0dd71e08ce,open,kilowatt-openev,(summary),ZEEKR,,,,make not in seed: 11 records
 um-8052130171,open,openev,(summary),LOTUS,,,,make not in seed: 11 records
 um-b3eea9228e,open,rdw,(summary),ALFA ROMEO,,,,make not in seed: 11 records
+um-78ad6bbcc8,open,rdw,(summary),ALPINE,,,,make not in seed: 11 records
+um-dfe1e70a39,open,rdw,(summary),LYNK&CO,,,,make not in seed: 11 records
 um-041ba557f3,open,rdw,(summary),VOYAH,,,,make not in seed: 11 records
-um-0879fd51ae,open,dft-veh,(summary),ALPINE,,,,make not in seed: 10 records
-um-2c10836b48,open,eea,(summary),CADILLAC,,,,make not in seed: 10 records
-um-19716af3e1,open,*,(summary),(other makes),,,,make not in seed: 1125 records
+um-19716af3e1,open,*,(summary),(other makes),,,,make not in seed: 1135 records

@@ -6,17 +6,30 @@ import csv
 from collections import Counter
 from pathlib import Path
 
-from ev_pipeline.match.matcher import MatchResult, UnmatchedRow
+from ev_pipeline.match.matcher import (
+    AMBIGUOUS_EVIDENCE,
+    NO_POWER_MATCH,
+    MatchResult,
+    UnmatchedRow,
+)
 
 UNMATCHED_COLUMNS = ["source_id", "record_key", "make", "model", "variant_name", "year", "reason"]
 MAX_ROWS = 1900  # brief: keep the file under 2000 rows
+# Reasons listed before the rest, so the row cap never cuts them (Q-086: RDW records the
+# power gate held back sort after most sources and were cut entirely).
+PRIORITY_REASONS = (NO_POWER_MATCH, AMBIGUOUS_EVIDENCE)
+
+
+def _priority(row: UnmatchedRow) -> int:
+    return 0 if any(p in row.reason for p in PRIORITY_REASONS) else 1
 
 
 def unmatched_rows(result: MatchResult, max_rows: int = MAX_ROWS) -> list[UnmatchedRow]:
     """Detail rows for makes in the seed, then one summary row per other (source, make).
 
     If the detail rows alone would pass `max_rows`, they collapse to one row per
-    (source, make, model, reason) with the record count in the reason.
+    (source, make, model, reason) with the record count in the reason. Rows with a
+    PRIORITY_REASONS reason come first, so the cap cuts other rows before them.
     """
     detail = sorted(
         result.unmatched, key=lambda r: (r.source_id, r.make.upper(), r.model.upper(), r.year)
@@ -35,6 +48,7 @@ def unmatched_rows(result: MatchResult, max_rows: int = MAX_ROWS) -> list[Unmatc
             )
             for k, n in sorted(groups.items())
         ]
+    detail.sort(key=_priority)  # stable: keeps the order above within each group
     rows = detail[: max_rows - min(len(others), 100)]
     room = max_rows - len(rows)
     if len(others) > room:

@@ -1,14 +1,14 @@
 # EV Finder catalogue release 1
 
-Generated 2026-11-15T02:49:07+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
+Generated 2026-11-15T03:09:41+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
 
 ## Counts
 
 - Variants (rows): 244
 - Generations with rows: 75 of 81 in the seed
-- Facts: 14757
-- Quality tiers: single-source 228, sourced 16
-- Real-range rungs: body-ratio 187, none 57
+- Facts: 15443
+- Quality tiers: single-source 225, sourced 19
+- Real-range rungs: body-ratio 201, none 43
 - Changes vs previous: +244 / -0 / ~0
 
 ## Sources and licences

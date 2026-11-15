@@ -1,0 +1,83 @@
+{
+  "fetched_at": "2026-11-15T03:17:04+00:00",
+  "url": "https://opendata.rdw.nl/resource/gr7t-qfnb.json",
+  "datasets": {
+    "m9d7-ebf2": {
+      "url": "https://opendata.rdw.nl/resource/m9d7-ebf2.json",
+      "dataset_name": "Open Data RDW: Gekentekende_voertuigen",
+      "dataset_rows_updated_at": 1794641309,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    },
+    "gr7t-qfnb": {
+      "url": "https://opendata.rdw.nl/resource/gr7t-qfnb.json",
+      "dataset_name": "Open Data RDW: TGK Energiebron Uitvoering",
+      "dataset_rows_updated_at": 1794712380,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    },
+    "byxc-wwua": {
+      "url": "https://opendata.rdw.nl/resource/byxc-wwua.json",
+      "dataset_name": "Open Data RDW: TGK Basis Uitvoering",
+      "dataset_rows_updated_at": 1794712379,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    },
+    "x5v3-sewk": {
+      "url": "https://opendata.rdw.nl/resource/x5v3-sewk.json",
+      "dataset_name": "Open Data RDW: TGK Handelsbenaming Fabrikant",
+      "dataset_rows_updated_at": 1794712381,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    }
+  },
+  "versions_query": {
+    "$select": "typegoedkeuringsnummer, variant, uitvoering, merk, handelsbenaming, min(datum_eerste_toelating) AS first, max(datum_eerste_toelating) AS last, count(*) AS n",
+    "$where": "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101 AND typegoedkeuringsnummer IS NOT NULL",
+    "$group": "typegoedkeuringsnummer, variant, uitvoering, merk, handelsbenaming",
+    "$order": "typegoedkeuringsnummer, variant, uitvoering, merk, handelsbenaming"
+  },
+  "tgk_queries": {
+    "gr7t-qfnb": {
+      "$select": "typegoedkeuringsnummer, codevarianttgk, codeuitvoeringtgk, volgnummerrevisieuitvoering, volgnummeraandrijving, volgnummerenergiebron, codeenergiebron, elektrischeactieradiusnedc, elekverbruikgecombineerdnedc, actieradiusvolledigelekwltpogr, actieradiusvolledigelekwltpbgr, verbruikvolledigelekwltpogr, verbruikvolledigelekwltpbgr, maximumvermogen30minogr, maximumvermogen30minbgr, maximumconstructiesnelheidogr, maximumconstructiesnelheidbgr",
+      "$order": "typegoedkeuringsnummer, codeuitvoeringtgk, volgnummerrevisieuitvoering, volgnummeraandrijving, volgnummerenergiebron"
+    },
+    "byxc-wwua": {
+      "$select": "typegoedkeuringsnummer, codevarianttgk, codeuitvoeringtgk, volgnummerrevisieuitvoering, begindatumrevisieuitvoering, einddatumrevisieuitvoering, voertuigcategorie, lengteondergrens, lengtebovengrens, breedteondergrens, breedtebovengrens, hoogteondergrens, hoogtebovengrens, wielbasisondergrens, wielbasisbovengrens, massarijklaarondergrens, massarijklaarbovengrens, massaledigondergrens, massaledigbovengrens, aantalzitplaatsenondergrens, aantalzitplaatsenbovengrens, maxconstructiesnelheidahwogr, maxconstructiesnelheidahwbgr",
+      "$order": "typegoedkeuringsnummer, codeuitvoeringtgk, volgnummerrevisieuitvoering"
+    },
+    "x5v3-sewk": {
+      "$select": "typegoedkeuringsnummer, codevariantgk, codeuitvoeringtgk, volgnummerrevisieuitvoering, handelsbenamingfabrikant",
+      "$order": "typegoedkeuringsnummer, codeuitvoeringtgk, volgnummerrevisieuitvoering, handelsbenamingfabrikant"
+    }
+  },
+  "batch_tans": 80,
+  "version_groups": 10851,
+  "versions": 9470,
+  "tans": 1799,
+  "tgk_requests": 69,
+  "tgk_rows_fetched": {
+    "gr7t-qfnb": 83094,
+    "byxc-wwua": 73338,
+    "x5v3-sewk": 161411
+  },
+  "tgk_rows_kept": {
+    "gr7t-qfnb": 13944,
+    "byxc-wwua": 10663,
+    "x5v3-sewk": 22724
+  },
+  "note": "Grouped plate query only (no plates). TGK rows kept for NL BEV versions. FIXTURE: a hand-picked subset of the 2026-11-15 fetch (see tests).",
+  "fixture_versions": 16
+}

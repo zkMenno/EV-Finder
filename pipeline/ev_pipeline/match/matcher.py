@@ -63,6 +63,19 @@
    the record lacks); a tie or no evidence goes to review. Year bands of one variant count
    as one candidate; the record's year then picks the band. A record without a year uses
    battery/name evidence to pick the generation, else goes to review.
+   Power gate (Q-086, POWER_GATE_SOURCES): when such a record carries power evidence (RDW
+   writes its median kW as variant_name "<kW> kW"; a power_kw spec counts too), candidates
+   whose known power_kw (seed-manual or any merged source) differs by more than
+   max(2 %, 3 kW) are ruled out. Candidates that match the power are preferred; with none,
+   only candidates of unknown power stay, and one of them needs positive evidence (kWh,
+   WLTP, name words) to be chosen. No candidate left -> review, reason
+   "no variant with matching power". Year bands whose own power contradicts the record are
+   skipped when the year picks the band. For these sources a tie whose only evidence is
+   WLTP within tolerance of 2+ candidates goes to review ("ambiguous evidence") instead of
+   the fewest-words tie-break. Price is not used as evidence (list prices move by trim and
+   year). Only RDW is gated for now (2026-11-15: gating ADEME and KilowattApp too would
+   send 28 + 27 more records to review, not yet checked one by one; ADEME's "(57Kw)" in
+   names may not be peak power).
 
 Nothing here decides values: that is merge's job.
 """
@@ -806,6 +819,25 @@ _KW_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*kw(?!h)", re.IGNORECASE)
 POWER_TOLERANCE = 0.02
 WLTP_TOLERANCE = 0.02
 
+# Q-086 power gate (see 9 above). The absolute floor keeps rounding of small motors
+# (RDW 100 kW vs a 102 kW maker figure) from counting as a contradiction.
+POWER_GATE_SOURCES = frozenset({"rdw"})
+POWER_GATE_REL = 0.02
+POWER_GATE_ABS_KW = 3.0
+NO_POWER_MATCH = "no variant with matching power"
+AMBIGUOUS_EVIDENCE = "ambiguous evidence"
+
+
+def power_close(a: float, b: float) -> bool:
+    """Q-086 tolerance: within 2 % of the larger figure or 3 kW, whichever is larger."""
+    return abs(a - b) <= max(POWER_GATE_ABS_KW, POWER_GATE_REL * max(abs(a), abs(b)))
+
+
+def record_power(rec: SourceRecord) -> set[float]:
+    """Power evidence of a record: "<kW> kW" in its variant name, or a power_kw spec."""
+    power = {float(m.group(1).replace(",", ".")) for m in _KW_RE.finditer(rec.variant_name or "")}
+    return power | _spec_num(rec, "power_kw")
+
 
 def _numbers(mfs: list[MatchedFact], fname: str) -> set[float]:
     out: set[float] = set()
@@ -884,41 +916,78 @@ def attach_records(
                 )
             )
         rec_name = rec.variant_name or ""
-        exact = [c for c in cands if result.variants[c.root].named(sid, rec_name)]
+        gated = sid in POWER_GATE_SOURCES
+        pool, need_evidence = cands, False
+        power = record_power(rec) if gated else set()
+        if power:
+            pool, need_evidence = _power_pool(power, cands)
+            if not pool:
+                kw = ", ".join(f"{p:g}" for p in sorted(power))
+                result.unmatched.append(
+                    _unmatched(rec, f"attach-only: {NO_POWER_MATCH} ({kw} kW) in {gen.id}")
+                )
+                continue
+        exact = [c for c in pool if result.variants[c.root].named(sid, rec_name)]
         if len(exact) == 1:
             chosen, why = exact[0], ""
-        elif len(cands) == 1:
-            chosen, why = cands[0], ""  # the generation's only variant
+        elif len(pool) == 1 and not need_evidence:
+            chosen, why = pool[0], ""  # the generation's only variant, or the only power match
         else:
-            chosen, why = _best_candidate(rec, cands, drop)
+            chosen, why = _best_candidate(rec, pool, drop, strict=gated)
         if chosen is None:
             result.unmatched.append(_unmatched(rec, f"attach-only: {why} in {gen.id}"))
             continue
-        vid = _band_for_year(chosen.members, rec.year, result)
+        members = chosen.members
+        if power and len(members) > 1:
+            # A year band whose own power contradicts the record is not its band (an RDW
+            # 2024 e-208 at 100 kW is the old 50 kWh car, not the 115 kW 2024 band).
+            fits = [
+                v
+                for v in members
+                if not (vp := _numbers(facts_of.get(v, []), "power_kw"))
+                or any(power_close(p, q) for p in power for q in vp)
+            ]
+            members = fits or members
+        vid = _band_for_year(members, rec.year, result)
         _add_spec_facts(rec, gen, vid, result.variants[vid], result)
         result.attached[sid] += 1
         result.matched_records += 1
 
 
+def _power_pool(power: set[float], cands: list[_Candidate]) -> tuple[list[_Candidate], bool]:
+    """Q-086: (candidates left after the power gate, whether the pick needs other evidence).
+    Power matches win; otherwise only candidates of unknown power stay (unconfirmed)."""
+    matching = [c for c in cands if any(power_close(p, q) for p in power for q in c.power)]
+    if matching:
+        return matching, False
+    return [c for c in cands if not c.power], True
+
+
 def _best_candidate(
-    rec: SourceRecord, cands: list[_Candidate], drop: set[str]
+    rec: SourceRecord, cands: list[_Candidate], drop: set[str], strict: bool = False
 ) -> tuple[_Candidate | None, str]:
+    """`strict` (POWER_GATE_SOURCES): a tie whose only evidence is WLTP goes to review."""
     words = _distinct_tokens(rec.variant_name, drop) | _distinct_tokens(rec.model, drop)
     kwh = record_kwh(rec)
-    power = {float(m.group(1).replace(",", ".")) for m in _KW_RE.finditer(rec.variant_name or "")}
-    power |= _spec_num(rec, "power_kw")
+    power = record_power(rec)
     wltp = _spec_num(rec, "wltp_range_km")
-    scored: list[tuple[int, _Candidate]] = []
+    scored: list[tuple[int, int, _Candidate]] = []  # (score, score without name words, c)
     for c in cands:
-        score = len(words & c.name_tokens)
-        score += 2 if any(abs(a - b) <= KWH_TOLERANCE for a in kwh for b in c.kwh) else 0
-        score += 2 if _close_rel(power, c.power, POWER_TOLERANCE) else 0
-        score += 1 if _close_rel(wltp, c.wltp, WLTP_TOLERANCE) else 0
-        scored.append((score, c))
-    top = max(s for s, _ in scored)
+        numeric = 2 if any(abs(a - b) <= KWH_TOLERANCE for a in kwh for b in c.kwh) else 0
+        if strict:
+            numeric += 2 if any(power_close(p, q) for p in power for q in c.power) else 0
+        else:
+            numeric += 2 if _close_rel(power, c.power, POWER_TOLERANCE) else 0
+        numeric += 1 if _close_rel(wltp, c.wltp, WLTP_TOLERANCE) else 0
+        scored.append((len(words & c.name_tokens) + numeric, numeric, c))
+    top = max(s for s, _, _ in scored)
     if top == 0:
         return None, "no variant evidence (name, kWh, kW, WLTP)"
-    best = [c for s, c in scored if s == top]
+    best = [c for s, _, c in scored if s == top]
+    if strict and len(best) > 1 and all(s == n == 1 for s, n, c in scored if c in best):
+        # Only WLTP within tolerance, for 2+ candidates: the name-length tie-break below
+        # would be a guess (Q-086).
+        return None, f"{AMBIGUOUS_EVIDENCE}: WLTP fits " + ", ".join(c.root for c in best)
     if len(best) > 1:
         # Same evidence: the variant whose name has the fewest words the record lacks.
         extra = {c.root: len(c.name_tokens - words) for c in best}

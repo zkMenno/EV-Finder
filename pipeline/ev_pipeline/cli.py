@@ -19,6 +19,7 @@ SOURCES = [
     "kilowatt-openev",
     "wikidata",
     "rdw-defects",
+    "rdw-tgk",
     "fueleconomy",
     "eafo",
     "bnetza",
