@@ -39,6 +39,7 @@ import json
 import re
 import sys
 from collections.abc import Callable
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -159,7 +160,11 @@ LINK_KEYS = {
     "uncertain",
     "notes",
     "class_override_note",
+    "cited",
 }
+# T-060: keys a link may cite (data/seed/README.md `cited:` format) and the cited-value keys.
+LINK_CITED_KEYS = {"platform_id", "battery_pack_id"}
+CITED_VALUE_KEYS = {"value", "source_url", "source_name", "retrieved", "quote", "locator", "confidence", "notes"}
 SEED_FILE_KEYS = {
     "platforms": {"source", "confidence", "platforms"},
     "packs": {"source", "confidence", "packs", "notes"},
@@ -168,6 +173,49 @@ SEED_FILE_KEYS = {
 CAPACITY_TOLERANCE = 0.06  # 6 %: variant kWh vs pack kWh, warning only
 
 Data = dict[str, Any]
+
+
+def release_generation(variant_id: str, generations: set[str]) -> str | None:
+    """T-060: the generation a release variant id (`<generation_id>-<slug>`) belongs to, using
+    the longest matching generation id; None when no generation id prefixes it."""
+    best = None
+    for gid in generations:
+        if variant_id.startswith(gid + "-") and len(variant_id) > len(gid) + 1:
+            if best is None or len(gid) > len(best):
+                best = gid
+    return best
+
+
+def check_link_cited(tag: str, link: dict[str, Any], cited: Any, err: Any) -> None:
+    """T-060: `cited:` on a variant link, per data/seed/README.md: field -> {value, source_url
+    (https), source_name, retrieved (date), quote and/or locator, confidence[, notes]}; the
+    value must be the link's own value for that key."""
+    if not isinstance(cited, dict) or not cited:
+        err(f"{tag} cited must be a non-empty mapping")
+        return
+    for key, c in cited.items():
+        where = f"{tag} cited.{key}"
+        if key not in LINK_CITED_KEYS:
+            err(f"{where}: only {sorted(LINK_CITED_KEYS)} can be cited")
+            continue
+        if not isinstance(c, dict):
+            err(f"{where} must be a mapping")
+            continue
+        extra = set(c) - CITED_VALUE_KEYS
+        if extra:
+            err(f"{where} unexpected keys {sorted(extra)}")
+        if c.get("value") != link.get(key):
+            err(f"{where} value {c.get('value')!r} differs from the link's {key} {link.get(key)!r}")
+        if not str(c.get("source_url") or "").startswith("https://"):
+            err(f"{where} source_url must be https")
+        if not str(c.get("source_name") or "").strip():
+            err(f"{where} source_name missing")
+        if not isinstance(c.get("retrieved"), date):
+            err(f"{where} retrieved must be a date (YYYY-MM-DD)")
+        if not (c.get("quote") or c.get("locator")):
+            err(f"{where} needs a quote and/or locator")
+        if c.get("confidence") not in ("low", "medium", "high"):
+            err(f"{where} confidence must be low, medium or high")
 
 
 def load_yaml(path: Path) -> Any:
@@ -693,6 +741,7 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
                 generations.add(gen["id"])
     gens_with_variants = {v.get("generation_id") for v in variants.values()}
 
+    release_ids_seen: set[str] = set()
     linked_variants: dict[str, int] = {}
     linked_gens: set[str] = set()
     used_platforms: set[str] = set()
@@ -708,13 +757,28 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
             err(f"{tag} unexpected keys {sorted(extra)}")
         if bool(vid) == bool(gid):
             err(f"{tag} needs exactly one of variant_id / generation_id")
+        release_id = False
         if vid:
             if vid not in variants:
-                err(f"{tag} variant_id does not exist in variants.yaml")
+                # T-060: a release variant id (OpenEV/KilowattApp variant, not in variants.yaml)
+                # is `<generation_id>-<slug>`; such a link needs a pack or a platform and
+                # leaves voltage / charger_400v optional (the platform class then applies).
+                gen_of_vid = release_generation(vid, generations)
+                if gen_of_vid is None:
+                    err(
+                        f"{tag} variant_id is neither in variants.yaml nor a release id"
+                        " (<generation_id>-<slug>)"
+                    )
+                else:
+                    release_id = True
+                    release_ids_seen.add(vid)
             linked_variants[vid] = linked_variants.get(vid, 0) + 1
             if "battery_pack_options" in link:
                 err(f"{tag} battery_pack_options is only for generation-level defaults")
-            if "battery_pack_id" not in link:
+            if release_id:
+                if "battery_pack_id" not in link and "platform_id" not in link:
+                    err(f"{tag} release-id link needs battery_pack_id or platform_id")
+            elif "battery_pack_id" not in link:
                 err(f"{tag} battery_pack_id missing")
         if gid:
             if gid not in generations:
@@ -726,10 +790,19 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
             if gid in linked_gens:
                 err(f"{tag} duplicate generation-level link")
             linked_gens.add(gid)
-            if "battery_pack_id" not in link and not link.get("battery_pack_options"):
-                err(f"{tag} needs battery_pack_id or battery_pack_options")
+            if (
+                "battery_pack_id" not in link
+                and not link.get("battery_pack_options")
+                and "platform_id" not in (link.get("cited") or {})
+            ):
+                err(f"{tag} needs battery_pack_id or battery_pack_options (or a cited platform_id)")
+        cited = link.get("cited")
+        if cited is not None:
+            check_link_cited(tag, link, cited, err)
         pid = link.get("platform_id")
-        if pid not in platforms:
+        if pid is None and release_id:
+            pass
+        elif pid not in platforms:
             err(f"{tag} platform_id {pid!r} does not exist")
         else:
             used_platforms.add(pid)
@@ -749,7 +822,10 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
         if link.get("uncertain") and not link.get("notes") and not link.get("class_override_note"):
             err(f"{tag} uncertain: true needs a note saying what is in doubt")
 
+        platform_only = gid and "platform_id" in (link.get("cited") or {}) and not pack_ids
         volt = link.get("voltage")
+        if volt is None and (release_id or platform_only):
+            continue  # nothing more to check without voltage / charger_400v
         if volt is None:
             err(f"{tag} voltage missing")
             volt = {}
@@ -912,6 +988,21 @@ def self_test(base: Data, schema: Schema) -> int:
     def m_variant(d: Data) -> None:
         d["links_doc"]["links"].pop(0)
 
+    def m_release_unknown(d: Data) -> None:
+        d["links_doc"]["links"].append({"variant_id": "no-such-generation-base", "platform_id": "vw-meb"})
+
+    def m_release_empty(d: Data) -> None:
+        gid = d["variants_doc"]["variants"][0]["generation_id"]
+        d["links_doc"]["links"].append({"variant_id": f"{gid}-t060-test", "notes": "x"})
+
+    def m_cited_value(d: Data) -> None:
+        link = next(x for x in d["links_doc"]["links"] if x.get("cited"))
+        link["cited"]["platform_id"]["value"] = "some-other-platform"
+
+    def m_cited_http(d: Data) -> None:
+        link = next(x for x in d["links_doc"]["links"] if x.get("cited"))
+        link["cited"]["platform_id"]["source_url"] = "http://example.org/"
+
     def m_native(d: Data) -> None:
         d["links_doc"]["links"][0]["charger_400v"] = {"mode": "booster", "kw": 50}
 
@@ -1000,6 +1091,10 @@ def self_test(base: Data, schema: Schema) -> int:
         ("bad cell format (schema)", m_cell, "hexagonal"),
         ("unknown platform", m_platform, "platform_id"),
         ("variant without link", m_variant, "has no link"),
+        ("release id without generation", m_release_unknown, "nor a release id"),
+        ("cited value differs from link", m_cited_value, "differs from the link's platform_id"),
+        ("cited source not https", m_cited_http, "source_url must be https"),
+        ("release-id link without pack or platform", m_release_empty, "needs battery_pack_id or platform_id"),
         ("400 V car not native", m_native, "must have charger_400v.mode native"),
         ("class mismatch without override", m_override, "add class_override_note"),
         ("voltage class gap", m_gap, "gap or overlap"),

@@ -439,4 +439,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Zoe Q90 43 kW, R110 22 kW, R240 22 kW, e-Golf 36 kWh 7.2 kW. Zoe Q210 and R90 still show 11 kW until a source names those motors (low-confidence citations can't win).
 
+## Decision 030: Pack and platform links can be filled by rule within a generation
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** T-060: many release rows (from OpenEV and KilowattApp) had no battery pack or platform, because `variant_links.yaml` only knew seed ids.
+
+**Decision:**
+- `variant_links.yaml` accepts release variant ids; its links always win.
+- A row gets a platform when every link in its generation names the same platform.
+- A row gets a pack when its usable kWh fits exactly one pack already linked in its generation (within 6%, never above the pack's gross). The link's provenance records the rule and the gap. Ambiguous or misfitting rows stay unlinked with a reason in coverage.md.
+
+**Consequences:** packs 123 → 181 rows, platforms 140 → 206 of 244. Links more than 5% off (Model 3/Y Highland/Juniper, Q4 50, Q8 55, Ioniq 6 Standard, Leaf e+) are flagged for a reviewer.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

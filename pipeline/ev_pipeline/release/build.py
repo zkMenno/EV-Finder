@@ -34,10 +34,12 @@ import pyarrow.parquet as pq
 
 from ev_pipeline.derive.known_issues import build_known_issues, read_defects
 from ev_pipeline.derive.links import (
+    apply_rule_links,
     catalogue_parts,
     finish_voltage,
     id_errors,
     inherited_for,
+    link_coverage,
     load_links,
     pack_facts,
 )
@@ -182,6 +184,12 @@ def generation_pack_kwh(links: Any, manual: list[ManualVariant]) -> dict[str, se
     for vid, link in links.by_variant.items():
         add(gen_of.get(vid), link)
     return out
+
+
+def _merged_number(merged: dict[str, Any], field: str) -> float | None:
+    mg = merged.get(field)
+    v = getattr(mg, "value", None)
+    return float(v) if isinstance(v, int | float) and not isinstance(v, bool) else None
 
 
 def _mtime(path: Path) -> str:
@@ -339,6 +347,13 @@ def build_release(
 
     n = release or next_release_number(data_dir / "releases")
     inputs += [{"path": p} for p in links.inputs]
+    # T-060: rows the file leaves without a pack or platform get one by rule (same generation,
+    # capacity fit); everything else is reported in coverage.md and the run log.
+    link_report = apply_rule_links(
+        links,
+        {vid: info.generation_id for vid, info in result.variants.items()},
+        {vid: _merged_number(merged.get(vid, {}), "battery_kwh_net") for vid in result.variants},
+    )
     inherited = {
         vid: inherited_for(
             links,
@@ -475,6 +490,7 @@ def build_release(
             "generation_years": years.log,
             "known_issues": known.log,
             "charging_stats": charging.log,
+            "pack_links": link_coverage(link_report),
         },
     )
     raw = catalogue_bytes(catalogue)
@@ -603,8 +619,34 @@ def coverage_md(res: ReleaseResult) -> str:
     for f, c in coverage(rows).items():
         cells = [f"{100 * c[b] / n:.0f}% ({c[b]})" for b in COVERAGE_BUCKETS]
         lines.append(f"| {f} | " + " | ".join(cells) + " |")
+    lines += pack_links_md(res.sections.get("pack_links"))
     lines += sections_md(res.sections)
     return "\n".join(lines) + "\n"
+
+
+def pack_links_md(cov: dict[str, Any] | None) -> list[str]:
+    """coverage.md lines for battery pack / platform links per row (T-060)."""
+    if not cov:
+        return []
+    n = cov["rows"] or 1
+    lines = [
+        "",
+        "## Battery pack and platform links",
+        "",
+        "Per row: linked in data/seed/variant_links.yaml, linked by rule (same generation;"
+        " for packs, usable kWh fits exactly one of the generation's packs), or missing.",
+        "",
+        "| Link | variant_links.yaml | rule | missing |",
+        "|---|---|---|---|",
+    ]
+    for key in ("battery_pack_id", "platform_id"):
+        c = cov[key]
+        cells = [f"{100 * c[b] / n:.0f}% ({c[b]})" for b in ("file", "rule", "missing")]
+        lines.append(f"| {key} | " + " | ".join(cells) + " |")
+    if cov["unlinked"]:
+        lines += ["", f"Rows missing a link ({len(cov['unlinked'])}):", ""]
+        lines += [f"- `{u['variant_id']}`: {u['reason']}" for u in cov["unlinked"]]
+    return lines
 
 
 def sections_md(sections: dict[str, Any]) -> list[str]:

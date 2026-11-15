@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T05:07:50+00:00",
+ "generated_at": "2026-11-15T05:27:59+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -9,10 +9,10 @@
    "title": "Provenance completeness",
    "blocking": true,
    "status": "pass",
-   "summary": "5708 values checked; 0 problem(s)",
+   "summary": "5711 values checked; 0 problem(s)",
    "details": {
-    "values_checked": 5708,
-    "dated_by_fact": 5677,
+    "values_checked": 5711,
+    "dated_by_fact": 5680,
     "dated_by_source": 31,
     "facts_checked": 40116,
     "errors": [],
@@ -52,7 +52,7 @@
      "openev": 2481,
      "rdw": 1230,
      "rdw-tgk": 1059,
-     "seed-manual": 1839
+     "seed-manual": 2045
     },
     "errors": [],
     "error_count": 0
@@ -3268,8 +3268,8 @@
    "ATTRIBUTION.md": 4407,
    "LICENSE": 715,
    "README.md": 14164,
-   "variants.csv": 1091765,
-   "variants.json": 2095778
+   "variants.csv": 1099236,
+   "variants.json": 2102007
   }
  }
 }

@@ -18,3 +18,9 @@ A variant may carry `cited:` values next to its unchecked `specs`: `field: {valu
 Each cited value must come from a public page (https), name the date it was read, and set its confidence honestly; a field is either in `specs` or in `cited`, never both.
 The pipeline turns each one into its own `seed-manual` record, so the published fact carries that URL and retrieval date instead of the file date.
 Only add a cited value when a manufacturer or official source states it; if none is found, leave the field out and note it.
+
+## variant_links.yaml (T-060)
+
+Links are keyed by a seed variant id, a generation id, or a **release variant id** (an OpenEV/KilowattApp variant that is not in `variants.yaml`, shaped `<generation_id>-<slug>`). A release-id link needs `battery_pack_id` or `platform_id`; `voltage` and `charger_400v` are optional there (the platform's class then applies).
+A generation default may name only a platform when that platform is cited: `cited: {platform_id: {value, source_url, source_name, retrieved, quote and/or locator, confidence, notes}}`, same rules as cited variant values; the release row then carries that URL and date in its `platform_id` provenance.
+Rows the file leaves without a pack or platform are filled by rule in the pipeline (`ev_pipeline/derive/links.py`, `apply_rule_links`): the platform when every link of the generation names the same one; the pack when the row's own usable kWh fits exactly one pack linked in the same generation (within 6 %, never above the pack's gross). Anything else stays empty and is listed with its reason in the release `coverage.md`. File links always beat rule links.
