@@ -1,8 +1,8 @@
 # Open EV catalogue, release 1
 
 - Release: 1
-- Date: 2026-11-15 (generated 2026-11-15T01:37:26+00:00)
-- Variants: 199
+- Date: 2026-11-15 (generated 2026-11-15T01:49:57+00:00)
+- Variants: 197
 - Sources: ademe, dft-veh, eea, kba-fz10, kilowatt-openev, model-estimate, openev, rdw, seed-manual
 - Licence: CC BY 4.0 (LICENSE); third-party credits in ATTRIBUTION.md
 
@@ -145,6 +145,10 @@ Please also keep the credits in ATTRIBUTION.md when you redistribute the data.
 | `price_new_fr_currency` |  | ISO 4217 currency of the price |
 | `price_new_fr_sources` |  | Source id(s) behind the value; see ATTRIBUTION.md |
 | `price_new_fr_confidence` |  | high | medium | low | estimate (our model, no direct source) |
+| `price_new_nl` | currency | New list price, NL |
+| `price_new_nl_currency` |  | ISO 4217 currency of the price |
+| `price_new_nl_sources` |  | Source id(s) behind the value; see ATTRIBUTION.md |
+| `price_new_nl_confidence` |  | high | medium | low | estimate (our model, no direct source) |
 | `reg_be_fleet` | vehicles | Official count, BE, cars on the road (newest period) |
 | `reg_be_fleet_period` |  | Period of the count (date, quarter, year or month range) |
 | `reg_be_fleet_level` |  | generation | model (count covers the whole model) |

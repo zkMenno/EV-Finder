@@ -540,6 +540,7 @@ eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|COUNTRYMAN SE ALL4|2025,MI
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|JCW ACEMAN E|2025,MINI,JCW ACEMAN E,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|MINI|JCW E|2025,MINI,JCW E,,,model not in seed (4x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN ARIYA|2025,NISSAN,NISSAN ARIYA,,,model not in seed (4x)
+eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|NISSAN LEAF|2025,NISSAN,NISSAN LEAF,,,"ambiguous-generation: 2025 is shared by nissan-leaf-ze1, nissan-leaf-gen3; no name/battery evidence (1x)"
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|NISSAN MICRA|2025,NISSAN,NISSAN MICRA,,,model not in seed (3x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:DE|NISSAN|SAKURA|2025,NISSAN,SAKURA,,,model not in seed (1x)
 eea,[CO2Emission].[latest].[co2cars_2025Pv31]:BE|NISSAN|TOWNSTAR|2025,NISSAN,TOWNSTAR,,,model not in seed (4x)
@@ -1052,7 +1053,6 @@ kilowatt-openev,data/v2/models/mg.json#4d83b382-e3c6-405f-b1e1-8194e12005a6,MG,e
 kilowatt-openev,data/v2/models/mg.json#e129a076-6118-4ca2-87e1-4b21a6d71a90,MG,ev long range,,,model not in seed (2x)
 kilowatt-openev,data/v2/models/mg.json#eb366418-9b18-40e0-aa6b-0b2757e49b9e,MG,ev standard range,,,model not in seed (1x)
 kilowatt-openev,data/v2/models/mg.json#7d16f3cc-37cb-344a-cfd7-a08f4fc596f0,MG,Marvel R,,,model not in seed (2x)
-kilowatt-openev,data/v2/models/mg.json#3eeb9402-b4af-2db7-6c0a-93490753db61,MG,MG4 EV,,,"attach-only: tie between mg-mg4-gen1-long-range, mg-mg4-gen1-standard-long-range in mg-mg4-gen1 (1x)"
 kilowatt-openev,data/v2/models/mg.json#309b3ac7-47b3-4642-a9b3-092e936b321f,MG,MG5 Electric Long Range,,,model not in seed (1x)
 kilowatt-openev,data/v2/models/mg.json#a6d64e17-2175-45c9-92a9-28e153f6a6ff,MG,MG5 Electric Standard Range,,,model not in seed (1x)
 kilowatt-openev,data/v2/models/mg.json#c1fda7bf-9307-03c9-86c1-0350de0994cb,MG,MG5 EV,,,model not in seed (4x)
@@ -1269,7 +1269,6 @@ kilowatt-openev,data/v2/models/volkswagen.json#e2c9ad51-5b34-4436-83ef-84bc0e872
 kilowatt-openev,data/v2/models/volkswagen.json#f148e14d-c3b6-40c1-b2a9-2c28302b274f,Volkswagen,gtx,,,model not in seed (3x)
 kilowatt-openev,data/v2/models/volkswagen.json#7c904ba6-da95-4d3e-a154-c1aabd7c6cc6,Volkswagen,ID. Buzz,,,model not in seed (5x)
 kilowatt-openev,data/v2/models/volkswagen.json#a3568004-5350-923a-9e4e-f85678d0746c#dc_curve,Volkswagen,ID.3,,,"attach-only: tie between volkswagen-id3-gen1-pro, volkswagen-id3-gen1-pro-s in volkswagen-id3-gen1 (1x)"
-kilowatt-openev,data/v2/models/volkswagen.json#98e0dab7-f4ed-4739-8051-6599a9e23437,Volkswagen,ID.4,,,year 2020 outside every generation of volkswagen-id4 (1x)
 kilowatt-openev,data/v2/models/volkswagen.json#3abda7a5-f1b0-ca54-27d2-e7c9728fc25c,Volkswagen,ID.5,,,model not in seed (7x)
 kilowatt-openev,data/v2/models/volkswagen.json#10610d1a-c08a-b88c-7be4-7e90f4fb0e46,Volkswagen,ID.7,,,model not in seed (7x)
 kilowatt-openev,data/v2/models/volkswagen.json#08a54ce3-82b9-d3a1-ce3b-3c6f52fe851c,Volkswagen,ID.Buzz,,,model not in seed (2x)
@@ -1387,14 +1386,15 @@ rdw,m9d7-ebf2:AUDI|A4 SEDAN|2011,AUDI,A4 SEDAN,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|A5|2012,AUDI,A5,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|A6|2015,AUDI,A6,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|A6 AV E-TRON|2025,AUDI,A6 AV E-TRON,,,model not in seed (2x)
-rdw,m9d7-ebf2:AUDI|A6 AV E-TRON PERFORMANCE|2025,AUDI,A6 AV E-TRON PERFORMANCE,,,model not in seed (2x)
-rdw,m9d7-ebf2:AUDI|A6 AV E-TRON QUATTRO|2025,AUDI,A6 AV E-TRON QUATTRO,,,model not in seed (2x)
+rdw,m9d7-ebf2:AUDI|A6 AV E-TRON PERFORMANCE|2025,AUDI,A6 AV E-TRON PERFORMANCE,,,model not in seed (4x)
+rdw,m9d7-ebf2:AUDI|A6 AV E-TRON QUATTRO|2025,AUDI,A6 AV E-TRON QUATTRO,,,model not in seed (4x)
 rdw,m9d7-ebf2:AUDI|A6 AVANT|2017,AUDI,A6 AVANT,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|A6 SB E-TRON|2025,AUDI,A6 SB E-TRON,,,model not in seed (2x)
-rdw,m9d7-ebf2:AUDI|A6 SB E-TRON PERFORMANCE|2025,AUDI,A6 SB E-TRON PERFORMANCE,,,model not in seed (2x)
+rdw,m9d7-ebf2:AUDI|A6 SB E-TRON PERFORMANCE|2025,AUDI,A6 SB E-TRON PERFORMANCE,,,model not in seed (3x)
 rdw,m9d7-ebf2:AUDI|A6 SB E-TRON QUATTRO|2025,AUDI,A6 SB E-TRON QUATTRO,,,model not in seed (3x)
 rdw,m9d7-ebf2:AUDI|AUDI A3|2011,AUDI,AUDI A3,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|AUDI A4|2012,AUDI,AUDI A4,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|AUDI E-TRON|2019#consumption_kwh_100km,AUDI,AUDI E-TRON,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-e-tron-ge (4x)"
 rdw,m9d7-ebf2:AUDI|AUDI E-TRON|2018,AUDI,AUDI E-TRON,,,year 2018 outside every generation of audi-e-tron (1x)
 rdw,m9d7-ebf2:AUDI|AUDI E-TRON GT|2021,AUDI,AUDI E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (1x)
 rdw,m9d7-ebf2:AUDI|AUDI Q4 50 E-TR0N QU|2021,AUDI,AUDI Q4 50 E-TR0N QU,,,model not in seed (1x)
@@ -1402,33 +1402,42 @@ rdw,m9d7-ebf2:AUDI|AUDI Q6 E-TRON|2024,AUDI,AUDI Q6 E-TRON,,,model not in seed (
 rdw,m9d7-ebf2:AUDI|AUDI RS E-TRON GT QU|2021,AUDI,AUDI RS E-TRON GT QU,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|AUDI SQ6 E-TRON|2024,AUDI,AUDI SQ6 E-TRON,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|E-TRON|2018,AUDI,E-TRON,,,year 2018 outside every generation of audi-e-tron (1x)
-rdw,m9d7-ebf2:AUDI|E-TRON GT|2021,AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (9x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|E-TRON GT|2021#consumption_kwh_100km,AUDI,E-TRON GT,,,model not in seed (name excluded from audi-e-tron) (19x)
 rdw,m9d7-ebf2:AUDI|E-TRON GT QUATTRO|2021,AUDI,E-TRON GT QUATTRO,,,model not in seed (name excluded from audi-e-tron) (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|E-TRON S SPORTBACK|2023#consumption_kwh_100km,AUDI,E-TRON S SPORTBACK,,,"attach-only: tie between audi-e-tron-q8-50-sportback, audi-e-tron-q8-55-sportback, audi-e-tron-q8-quattro-sportback in audi-e-tron-q8 (2x)"
 rdw,m9d7-ebf2:AUDI|Q 5|2011,AUDI,Q 5,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q3|2013,AUDI,Q3,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 45 E-TRON|2022#consumption_kwh_100km,AUDI,Q4 45 E-TRON,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (6x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 55 E-TRON|2024#consumption_kwh_100km,AUDI,Q4 55 E-TRON,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (1x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 E-TRON|2026#consumption_kwh_100km,AUDI,Q4 E-TRON,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (2x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 E-TRON PERFORMANCE|2026#consumption_kwh_100km,AUDI,Q4 E-TRON PERFORMANCE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (2x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 SB E-TRON|2026#consumption_kwh_100km,AUDI,Q4 SB E-TRON,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (3x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 SB E-TRON PERFORMANCE|2026#consumption_kwh_100km,AUDI,Q4 SB E-TRON PERFORMANCE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in audi-q4-e-tron-gen1 (3x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 SPORTBACK 45 E-TRON|2025#wltp_range_km,AUDI,Q4 SPORTBACK 45 E-TRON,,,"attach-only: tie between audi-q4-e-tron-gen1-40-sportback, audi-q4-e-tron-gen1-50, audi-q4-e-tron-gen1-50-sportback, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (1x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 SPORTBACK 45 E-TRON|2024#consumption_kwh_100km,AUDI,Q4 SPORTBACK 45 E-TRON,,,"attach-only: tie between audi-q4-e-tron-gen1-40-sportback, audi-q4-e-tron-gen1-50-sportback, audi-q4-e-tron-gen1-quattro-sportback in audi-q4-e-tron-gen1 (3x)"
 rdw,m9d7-ebf2:AUDI|Q5|2010,AUDI,Q5,,,model not in seed (3x)
 rdw,m9d7-ebf2:AUDI|Q5 3.2 FSI|2013,AUDI,Q5 3.2 FSI,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q5 S LINE|2013,AUDI,Q5 S LINE,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q6 E-TRON QUATRO|2025,AUDI,Q6 E-TRON QUATRO,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|Q6 SB E-TRON|2025,AUDI,Q6 SB E-TRON,,,model not in seed (2x)
-rdw,m9d7-ebf2:AUDI|Q6 SB E-TRON PERFORMANCE|2025,AUDI,Q6 SB E-TRON PERFORMANCE,,,model not in seed (2x)
-rdw,m9d7-ebf2:AUDI|Q6 SB E-TRON QUATTRO|2025,AUDI,Q6 SB E-TRON QUATTRO,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q6 SB E-TRON|2025#consumption_kwh_100km,AUDI,Q6 SB E-TRON,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q6 SB E-TRON PERFORMANCE|2025#consumption_kwh_100km,AUDI,Q6 SB E-TRON PERFORMANCE,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q6 SB E-TRON QUATTRO|2025#consumption_kwh_100km,AUDI,Q6 SB E-TRON QUATTRO,,,model not in seed (6x)
 rdw,m9d7-ebf2:AUDI|Q6 SUV E-TRON|2024,AUDI,Q6 SUV E-TRON,,,model not in seed (3x)
-rdw,m9d7-ebf2:AUDI|Q6 SUV E-TRON PERFORMANCE|2024,AUDI,Q6 SUV E-TRON PERFORMANCE,,,model not in seed (4x)
-rdw,m9d7-ebf2:AUDI|Q6 SUV E-TRON QUATTRO|2024,AUDI,Q6 SUV E-TRON QUATTRO,,,model not in seed (4x)
+rdw,m9d7-ebf2:AUDI|Q6 SUV E-TRON PERFORMANCE|2024,AUDI,Q6 SUV E-TRON PERFORMANCE,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q6 SUV E-TRON QUATTRO|2024#consumption_kwh_100km,AUDI,Q6 SUV E-TRON QUATTRO,,,model not in seed (11x)
 rdw,m9d7-ebf2:AUDI|Q6 SUV ETRON|2026,AUDI,Q6 SUV ETRON,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q6 SUV ETRON QUATTRO|2025,AUDI,Q6 SUV ETRON QUATTRO,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|Q7|2017,AUDI,Q7,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|Q8|2023,AUDI,Q8,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|Q8E|2024,AUDI,Q8E,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|RS E-TRON GT|2021,AUDI,RS E-TRON GT,,,model not in seed (9x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|RS E-TRON GT|2021#consumption_kwh_100km,AUDI,RS E-TRON GT,,,model not in seed (13x)
 rdw,m9d7-ebf2:AUDI|RS E-TRON GT PERFORMANCE|2025,AUDI,RS E-TRON GT PERFORMANCE,,,model not in seed (2x)
 rdw,m9d7-ebf2:AUDI|RS3|2018,AUDI,RS3,,,model not in seed (1x)
-rdw,m9d7-ebf2:AUDI|S E-TRON GT|2024,AUDI,S E-TRON GT,,,model not in seed (3x)
-rdw,m9d7-ebf2:AUDI|S6 AV E-TRON|2024,AUDI,S6 AV E-TRON,,,model not in seed (3x)
-rdw,m9d7-ebf2:AUDI|S6 SB E-TRON|2025,AUDI,S6 SB E-TRON,,,model not in seed (2x)
+rdw,m9d7-ebf2:AUDI|S E-TRON GT|2024,AUDI,S E-TRON GT,,,model not in seed (5x)
+rdw,m9d7-ebf2:AUDI|S6 AV E-TRON|2024,AUDI,S6 AV E-TRON,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|S6 SB E-TRON|2025#consumption_kwh_100km,AUDI,S6 SB E-TRON,,,model not in seed (4x)
 rdw,m9d7-ebf2:AUDI|SQ6 SB E-TRON|2025,AUDI,SQ6 SB E-TRON,,,model not in seed (2x)
-rdw,m9d7-ebf2:AUDI|SQ6 SUV E-TRON|2024,AUDI,SQ6 SUV E-TRON,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|SQ6 SUV E-TRON|2024#consumption_kwh_100km,AUDI,SQ6 SUV E-TRON,,,model not in seed (10x)
 rdw,m9d7-ebf2:AUDI|SQ6 SUV ETRON|2025,AUDI,SQ6 SUV ETRON,,,model not in seed (1x)
 rdw,m9d7-ebf2:AUDI|SQ8 SPORTBACK E-TRON|2026,AUDI,SQ8 SPORTBACK E-TRON,,,year 2026 outside every generation of audi-e-tron (1x)
 rdw,m9d7-ebf2:BMW|1-serie|2011,BMW,1-serie,,,model not in seed (1x)
@@ -1455,30 +1464,31 @@ rdw,m9d7-ebf2:BMW|535D|2016,BMW,535D,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|535d xDrive|2016,BMW,535d xDrive,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|730LD|2010,BMW,730LD,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|EDRIVE40|2024,BMW,EDRIVE40,,,model not in seed (1x)
-rdw,m9d7-ebf2:BMW|I3 50 XDRIVE|2026,BMW,I3 50 XDRIVE,,,year 2026 outside every generation of bmw-i3 (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I3 50 XDRIVE|2026#consumption_kwh_100km,BMW,I3 50 XDRIVE,,,year 2026 outside every generation of bmw-i3 (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I4 M60 XDRIVE|2026#consumption_kwh_100km,BMW,I4 M60 XDRIVE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i4-g26 (1x)"
 rdw,m9d7-ebf2:BMW|I5 E-DRIVE 40|2024,BMW,I5 E-DRIVE 40,,,model not in seed (1x)
-rdw,m9d7-ebf2:BMW|I5 EDRIVE40|2023,BMW,I5 EDRIVE40,,,model not in seed (6x)
-rdw,m9d7-ebf2:BMW|I5 M60 XDRIVE|2023,BMW,I5 M60 XDRIVE,,,model not in seed (6x)
-rdw,m9d7-ebf2:BMW|I5 XDRIVE40|2024,BMW,I5 XDRIVE40,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|i5 eDrive40|2023#wltp_range_km,BMW,i5 eDrive40,,,model not in seed (7x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I5 M60 XDRIVE|2023#consumption_kwh_100km,BMW,I5 M60 XDRIVE,,,model not in seed (9x)
+rdw,m9d7-ebf2:BMW|I5 XDRIVE40|2024,BMW,I5 XDRIVE40,,,model not in seed (6x)
 rdw,m9d7-ebf2:BMW|I7 50 XDRIVE|2026,BMW,I7 50 XDRIVE,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|I7 60 XDRIVE|2026,BMW,I7 60 XDRIVE,,,model not in seed (1x)
-rdw,m9d7-ebf2:BMW|I7 EDRIVE50|2023,BMW,I7 EDRIVE50,,,model not in seed (4x)
+rdw,m9d7-ebf2:BMW|I7 EDRIVE50|2023,BMW,I7 EDRIVE50,,,model not in seed (11x)
 rdw,m9d7-ebf2:BMW|I7 M70 XDRIVE|2023,BMW,I7 M70 XDRIVE,,,model not in seed (5x)
-rdw,m9d7-ebf2:BMW|I7 XDRIVE60|2022,BMW,I7 XDRIVE60,,,model not in seed (8x)
-rdw,m9d7-ebf2:BMW|IX M60|2022,BMW,IX M60,,,model not in seed (7x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I7 XDRIVE60|2022#consumption_kwh_100km,BMW,I7 XDRIVE60,,,model not in seed (14x)
+rdw,m9d7-ebf2:BMW|IX M60|2022,BMW,IX M60,,,model not in seed (12x)
 rdw,m9d7-ebf2:BMW|IX M70 XDRIVE|2025,BMW,IX M70 XDRIVE,,,model not in seed (2x)
 rdw,m9d7-ebf2:BMW|IX XDRIVE|2023,BMW,IX XDRIVE,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|IX XDRIVE 50|2023,BMW,IX XDRIVE 50,,,model not in seed (1x)
-rdw,m9d7-ebf2:BMW|IX XDRIVE40|2021,BMW,IX XDRIVE40,,,model not in seed (10x)
-rdw,m9d7-ebf2:BMW|IX XDRIVE45|2025,BMW,IX XDRIVE45,,,model not in seed (2x)
-rdw,m9d7-ebf2:BMW|IX XDRIVE50|2021,BMW,IX XDRIVE50,,,model not in seed (9x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX XDRIVE40|2021#consumption_kwh_100km,BMW,IX XDRIVE40,,,model not in seed (20x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX XDRIVE45|2025#consumption_kwh_100km,BMW,IX XDRIVE45,,,model not in seed (4x)
+rdw,m9d7-ebf2:BMW|IX XDRIVE50|2021,BMW,IX XDRIVE50,,,model not in seed (15x)
 rdw,m9d7-ebf2:BMW|IX XDRIVE60|2025,BMW,IX XDRIVE60,,,model not in seed (2x)
-rdw,m9d7-ebf2:BMW|IX1 EDRIVE20|2023,BMW,IX1 EDRIVE20,,,model not in seed (7x)
-rdw,m9d7-ebf2:BMW|IX1 XDRIVE30|2022,BMW,IX1 XDRIVE30,,,model not in seed (8x)
-rdw,m9d7-ebf2:BMW|IX2 EDRIVE20|2024,BMW,IX2 EDRIVE20,,,model not in seed (4x)
-rdw,m9d7-ebf2:BMW|IX2 XDRIVE30|2023,BMW,IX2 XDRIVE30,,,model not in seed (6x)
-rdw,m9d7-ebf2:BMW|IX3|2020,BMW,IX3,,,model not in seed (10x)
-rdw,m9d7-ebf2:BMW|IX3 40|2026,BMW,IX3 40,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 EDRIVE20|2023#consumption_kwh_100km,BMW,IX1 EDRIVE20,,,model not in seed (16x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX1 XDRIVE30|2022#consumption_kwh_100km,BMW,IX1 XDRIVE30,,,model not in seed (18x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX2 EDRIVE20|2024#consumption_kwh_100km,BMW,IX2 EDRIVE20,,,model not in seed (8x)
+rdw,m9d7-ebf2:BMW|IX2 XDRIVE30|2023,BMW,IX2 XDRIVE30,,,model not in seed (13x)
+rdw,m9d7-ebf2:BMW|IX3|2020,BMW,IX3,,,model not in seed (26x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|IX3 40|2026#wltp_range_km,BMW,IX3 40,,,model not in seed (2x)
 rdw,m9d7-ebf2:BMW|IX3 50 XDRIVE|2026,BMW,IX3 50 XDRIVE,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|IX3-40|2026,BMW,IX3-40,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW|M340i Xdrive|2021,BMW,M340i Xdrive,,,model not in seed (1x)
@@ -1490,21 +1500,23 @@ rdw,m9d7-ebf2:BMW|X5|2017,BMW,X5,,,model not in seed (3x)
 rdw,m9d7-ebf2:BMW|X6 M50I|2020,BMW,X6 M50I,,,model not in seed (1x)
 rdw,m9d7-ebf2:BMW I|I REIHE|2013,BMW I,I REIHE,,,model not in seed (4x)
 rdw,m9d7-ebf2:BMW I|I SERIES|2018,BMW I,I SERIES,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW I|I3|2018#consumption_kwh_100km,BMW I,I3,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in bmw-i3-i01 (11x)"
 rdw,m9d7-ebf2:BMW I|SERIE 1|2016,BMW I,SERIE 1,,,model not in seed (1x)
-rdw,m9d7-ebf2:BYD|ATTO 2|2025,BYD,ATTO 2,,,model not in seed (2x)
-rdw,m9d7-ebf2:BYD|BYD ATTO 2|2024,BYD,BYD ATTO 2,,,model not in seed (3x)
-rdw,m9d7-ebf2:BYD|BYD DOLPHIN|2023,BYD,BYD DOLPHIN,,,model not in seed (4x)
+rdw,m9d7-ebf2:BYD|ATTO 2|2025,BYD,ATTO 2,,,model not in seed (3x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BYD|ATTO 3|2022#consumption_kwh_100km,BYD,ATTO 3,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in byd-atto-3-gen1 (6x)"
+rdw,m9d7-ebf2:BYD|BYD ATTO 2|2024,BYD,BYD ATTO 2,,,model not in seed (9x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BYD|BYD DOLPHIN|2023#consumption_kwh_100km,BYD,BYD DOLPHIN,,,model not in seed (13x)
 rdw,m9d7-ebf2:BYD|BYD DOLPHIN COMFORT|2024,BYD,BYD DOLPHIN COMFORT,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|BYD DOLPHIN DESIGN|2024,BYD,BYD DOLPHIN DESIGN,,,model not in seed (1x)
-rdw,m9d7-ebf2:BYD|BYD DOLPHIN SURF|2025,BYD,BYD DOLPHIN SURF,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BYD|BYD DOLPHIN SURF|2025#consumption_kwh_100km,BYD,BYD DOLPHIN SURF,,,model not in seed (8x)
 rdw,m9d7-ebf2:BYD|BYD DOLPHINSURF|2025,BYD,BYD DOLPHINSURF,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|BYD E6|2012,BYD,BYD E6,,,model not in seed (2x)
 rdw,m9d7-ebf2:BYD|BYD E6H|2018,BYD,BYD E6H,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|BYD HAN|2024,BYD,BYD HAN,,,model not in seed (1x)
-rdw,m9d7-ebf2:BYD|BYD SEAL|2023,BYD,BYD SEAL,,,model not in seed (4x)
-rdw,m9d7-ebf2:BYD|BYD SEAL U|2023,BYD,BYD SEAL U,,,model not in seed (4x)
+rdw,m9d7-ebf2:BYD|BYD SEAL|2023,BYD,BYD SEAL,,,model not in seed (6x)
+rdw,m9d7-ebf2:BYD|BYD SEAL U|2023,BYD,BYD SEAL U,,,model not in seed (10x)
 rdw,m9d7-ebf2:BYD|BYD SEAL U DM|2026,BYD,BYD SEAL U DM,,,model not in seed (1x)
-rdw,m9d7-ebf2:BYD|BYD SEALION 7|2024,BYD,BYD SEALION 7,,,model not in seed (3x)
+rdw,m9d7-ebf2:BYD|BYD SEALION 7|2024,BYD,BYD SEALION 7,,,model not in seed (6x)
 rdw,m9d7-ebf2:BYD|DENZA Z9GT EV|2026,BYD,DENZA Z9GT EV,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|DOLPHIN|2023,BYD,DOLPHIN,,,model not in seed (2x)
 rdw,m9d7-ebf2:BYD|DOLPHIN COMFORT|2024,BYD,DOLPHIN COMFORT,,,model not in seed (1x)
@@ -1514,45 +1526,46 @@ rdw,m9d7-ebf2:BYD|E6|2014,BYD,E6,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|E6H|2017,BYD,E6H,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|E6Y|2014,BYD,E6Y,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|HAN|2022,BYD,HAN,,,model not in seed (5x)
-rdw,m9d7-ebf2:BYD|HAN EV|2024,BYD,HAN EV,,,model not in seed (1x)
+rdw,m9d7-ebf2:BYD|HAN EV|2024,BYD,HAN EV,,,model not in seed (2x)
 rdw,m9d7-ebf2:BYD|HCE|2021,BYD,HCE,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|SEAGULL|2023,BYD,SEAGULL,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|SEAL|2023,BYD,SEAL,,,model not in seed (2x)
 rdw,m9d7-ebf2:BYD|SEAL U|2024,BYD,SEAL U,,,model not in seed (2x)
 rdw,m9d7-ebf2:BYD|SEALION 7|2026,BYD,SEALION 7,,,model not in seed (1x)
 rdw,m9d7-ebf2:BYD|TANG|2023,BYD,TANG,,,model not in seed (1x)
-rdw,m9d7-ebf2:BYD|TANG EV|2021,BYD,TANG EV,,,model not in seed (6x)
+rdw,m9d7-ebf2:BYD|TANG EV|2021,BYD,TANG EV,,,model not in seed (11x)
 rdw,m9d7-ebf2:BYD|YUAN|2018,BYD,YUAN,,,model not in seed (1x)
-rdw,m9d7-ebf2:CITROEN|BERLINGO|2017,CITROEN,BERLINGO,,,model not in seed (7x)
+rdw,m9d7-ebf2:CITROEN|BERLINGO|2017,CITROEN,BERLINGO,,,model not in seed (10x)
 rdw,m9d7-ebf2:CITROEN|BOXER|2025,CITROEN,BOXER,,,model not in seed (1x)
-rdw,m9d7-ebf2:CITROEN|C-ZERO|2011,CITROEN,C-ZERO,,,model not in seed (11x)
+rdw,m9d7-ebf2:CITROEN|C-ZERO|2011,CITROEN,C-ZERO,,,model not in seed (17x)
 rdw,m9d7-ebf2:CITROEN|C3|2016,CITROEN,C3,,,model not in seed (2x)
 rdw,m9d7-ebf2:CITROEN|C3 AIRCROSS|2026,CITROEN,C3 AIRCROSS,,,model not in seed (1x)
-rdw,m9d7-ebf2:CITROEN|C5 AIRCROSS|2025,CITROEN,C5 AIRCROSS,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CITROEN|C5 AIRCROSS|2025#consumption_kwh_100km,CITROEN,C5 AIRCROSS,,,model not in seed (6x)
 rdw,m9d7-ebf2:CITROEN|CITROEN C1|2010,CITROEN,CITROEN C1,,,model not in seed (2x)
-rdw,m9d7-ebf2:CITROEN|E-BERLINGO|2021,CITROEN,E-BERLINGO,,,model not in seed (10x)
+rdw,m9d7-ebf2:CITROEN|E-BERLINGO|2021,CITROEN,E-BERLINGO,,,model not in seed (12x)
 rdw,m9d7-ebf2:CITROEN|E-BERLINGO VAN|2022,CITROEN,E-BERLINGO VAN,,,model not in seed (2x)
-rdw,m9d7-ebf2:CITROEN|E-C3|2024,CITROEN,E-C3,,,model not in seed (4x)
-rdw,m9d7-ebf2:CITROEN|E-C3 AIRCROSS|2025,CITROEN,E-C3 AIRCROSS,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CITROEN|E-C3|2024#consumption_kwh_100km,CITROEN,E-C3,,,model not in seed (11x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CITROEN|E-C3 AIRCROSS|2025#consumption_kwh_100km,CITROEN,E-C3 AIRCROSS,,,model not in seed (7x)
 rdw,m9d7-ebf2:CITROEN|E-MEHARI|2016,CITROEN,E-MEHARI,,,model not in seed (5x)
-rdw,m9d7-ebf2:CITROEN|JUMPER|2023,CITROEN,JUMPER,,,model not in seed (3x)
-rdw,m9d7-ebf2:CITROEN|JUMPY|2020,CITROEN,JUMPY,,,model not in seed (7x)
+rdw,m9d7-ebf2:CITROEN|JUMPER|2023,CITROEN,JUMPER,,,model not in seed (5x)
+rdw,m9d7-ebf2:CITROEN|JUMPY|2020,CITROEN,JUMPY,,,model not in seed (18x)
 rdw,m9d7-ebf2:CITROEN|Jumpy Spacetoourer|2020,CITROEN,Jumpy Spacetoourer,,,model not in seed (1x)
-rdw,m9d7-ebf2:CITROEN|JUMPY SPACETOURER|2020,CITROEN,JUMPY SPACETOURER,,,model not in seed (7x)
+rdw,m9d7-ebf2:CITROEN|JUMPY SPACETOURER|2020,CITROEN,JUMPY SPACETOURER,,,model not in seed (20x)
 rdw,m9d7-ebf2:CITROEN|JUMPY SPACETOURER AMF-BRUNS|2024,CITROEN,JUMPY SPACETOURER AMF-BRUNS,,,model not in seed (1x)
-rdw,m9d7-ebf2:CITROEN|SPACETOURER|2020,CITROEN,SPACETOURER,,,model not in seed (7x)
-rdw,m9d7-ebf2:CUPRA|RAVAL 155KW|2026,CUPRA,RAVAL 155KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:CUPRA|RAVAL 166KW|2026,CUPRA,RAVAL 166KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:CUPRA|RAVAL 99KW|2026,CUPRA,RAVAL 99KW,,,model not in seed (1x)
-rdw,m9d7-ebf2:CUPRA|TAVASCAN|2024,CUPRA,TAVASCAN,,,model not in seed (3x)
+rdw,m9d7-ebf2:CITROEN|SPACETOURER|2020,CITROEN,SPACETOURER,,,model not in seed (10x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|RAVAL 155KW|2026#consumption_kwh_100km,CUPRA,RAVAL 155KW,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|RAVAL 166KW|2026#consumption_kwh_100km,CUPRA,RAVAL 166KW,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|RAVAL 99KW|2026#consumption_kwh_100km,CUPRA,RAVAL 99KW,,,model not in seed (3x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:CUPRA|TAVASCAN|2024#consumption_kwh_100km,CUPRA,TAVASCAN,,,model not in seed (9x)
 rdw,m9d7-ebf2:DACIA|DOKKER|2013,DACIA,DOKKER,,,model not in seed (1x)
 rdw,m9d7-ebf2:DACIA|Lodgy|2013,DACIA,Lodgy,,,model not in seed (1x)
 rdw,m9d7-ebf2:DACIA|Sandero|2019,DACIA,Sandero,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:DACIA|SPRING|2022#consumption_kwh_100km,DACIA,SPRING,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in dacia-spring-gen1 (6x)"
 rdw,m9d7-ebf2:DACIA|SPRING|2020,DACIA,SPRING,,,year 2020 outside every generation of dacia-spring (1x)
 rdw,m9d7-ebf2:FIAT|124 SPIDER|2017,FIAT,124 SPIDER,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|500|2011,FIAT,500,,,year 2011 outside every generation of fiat-500e (1x)
 rdw,m9d7-ebf2:FIAT|500X|2017,FIAT,500X,,,model not in seed (1x)
-rdw,m9d7-ebf2:FIAT|600|2023,FIAT,600,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FIAT|600|2023#consumption_kwh_100km,FIAT,600,,,model not in seed (14x)
 rdw,m9d7-ebf2:FIAT|600E|2025,FIAT,600E,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|DOBLO|2016,FIAT,DOBLO,,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|DUCATO|2019,FIAT,DUCATO,,,model not in seed (3x)
@@ -1562,19 +1575,19 @@ rdw,m9d7-ebf2:FIAT|FCA (MEX)|2014,FIAT,FCA (MEX),,,model not in seed (1x)
 rdw,m9d7-ebf2:FIAT|FIAT 500|2010,FIAT,FIAT 500,,,year 2010 outside every generation of fiat-500e (1x)
 rdw,m9d7-ebf2:FIAT|FIAT 500|2012,FIAT,FIAT 500,,,year 2012 outside every generation of fiat-500e (1x)
 rdw,m9d7-ebf2:FIAT|FIAT 500 1.4 16V|2010,FIAT,FIAT 500 1.4 16V,,,model not in seed (1x)
-rdw,m9d7-ebf2:FIAT|FIAT DUCATO|2021,FIAT,FIAT DUCATO,,,model not in seed (6x)
+rdw,m9d7-ebf2:FIAT|FIAT DUCATO|2021,FIAT,FIAT DUCATO,,,model not in seed (8x)
 rdw,m9d7-ebf2:FIAT|FIAT PANDA|2010,FIAT,FIAT PANDA,,,model not in seed (1x)
-rdw,m9d7-ebf2:FIAT|PANDA|2025,FIAT,PANDA,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FIAT|PANDA|2025#consumption_kwh_100km,FIAT,PANDA,,,model not in seed (8x)
 rdw,m9d7-ebf2:FIAT|SCUDO|2011,FIAT,SCUDO,,,model not in seed (5x)
-rdw,m9d7-ebf2:FIAT|ULYSSE|2022,FIAT,ULYSSE,,,model not in seed (4x)
+rdw,m9d7-ebf2:FIAT|ULYSSE|2022,FIAT,ULYSSE,,,model not in seed (5x)
 rdw,m9d7-ebf2:FIAT|ULYSSE TRIPIOD|2022,FIAT,ULYSSE TRIPIOD,,,model not in seed (1x)
-rdw,m9d7-ebf2:FIAT|ULYSSE TRIPOD|2022,FIAT,ULYSSE TRIPOD,,,model not in seed (2x)
-rdw,m9d7-ebf2:FORD|CAPRI|2024,FORD,CAPRI,,,model not in seed (3x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FIAT|ULYSSE TRIPOD|2022#consumption_kwh_100km,FIAT,ULYSSE TRIPOD,,,model not in seed (8x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FORD|CAPRI|2024#consumption_kwh_100km,FORD,CAPRI,,,model not in seed (7x)
 rdw,m9d7-ebf2:FORD|CX740L|2024,FORD,CX740L,,,model not in seed (2x)
 rdw,m9d7-ebf2:FORD|CX740S|2024,FORD,CX740S,,,model not in seed (2x)
 rdw,m9d7-ebf2:FORD|Edge|2018,FORD,Edge,,,model not in seed (1x)
 rdw,m9d7-ebf2:FORD|ESCAPE|2010,FORD,ESCAPE,,,model not in seed (2x)
-rdw,m9d7-ebf2:FORD|EXPLORER|2010,FORD,EXPLORER,,,model not in seed (6x)
+rdw,m9d7-ebf2:FORD|EXPLORER|2010,FORD,EXPLORER,,,model not in seed (7x)
 rdw,m9d7-ebf2:FORD|F-150 LIGHTNING|2023,FORD,F-150 LIGHTNING,,,model not in seed (1x)
 rdw,m9d7-ebf2:FORD|FIESTA|2012,FORD,FIESTA,,,model not in seed (4x)
 rdw,m9d7-ebf2:FORD|FOCUS|2011,FORD,FOCUS,,,model not in seed (4x)
@@ -1586,20 +1599,22 @@ rdw,m9d7-ebf2:FORD|KUGA|2016,FORD,KUGA,,,model not in seed (1x)
 rdw,m9d7-ebf2:FORD|MONDEO|2011,FORD,MONDEO,,,model not in seed (3x)
 rdw,m9d7-ebf2:FORD|MUSTANG|2013,FORD,MUSTANG,,,model not in seed (4x)
 rdw,m9d7-ebf2:FORD|MUSTANG GT|2010,FORD,MUSTANG GT,,,model not in seed (3x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FORD|MUSTANG MACH-E|2021#consumption_kwh_100km,FORD,MUSTANG MACH-E,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in ford-mustang-mach-e-gen1 (4x)"
 rdw,m9d7-ebf2:FORD|MUSTANG MACH-E|2020,FORD,MUSTANG MACH-E,,,year 2020 outside every generation of ford-mustang-mach-e (2x)
-rdw,m9d7-ebf2:FORD|PUMA|2020,FORD,PUMA,,,model not in seed (3x)
+rdw,m9d7-ebf2:FORD|PUMA|2020,FORD,PUMA,,,model not in seed (5x)
 rdw,m9d7-ebf2:FORD|RANGER|2018,FORD,RANGER,,,model not in seed (2x)
 rdw,m9d7-ebf2:FORD|S-MAX|2013,FORD,S-MAX,,,model not in seed (1x)
-rdw,m9d7-ebf2:FORD|TOURNEO COURIER|2025,FORD,TOURNEO COURIER,,,model not in seed (2x)
+rdw,m9d7-ebf2:FORD|TOURNEO COURIER|2025,FORD,TOURNEO COURIER,,,model not in seed (3x)
 rdw,m9d7-ebf2:FORD|TOURNEO CUSTOM|2024,FORD,TOURNEO CUSTOM,,,model not in seed (5x)
-rdw,m9d7-ebf2:FORD|TRANSIT|2022,FORD,TRANSIT,,,model not in seed (5x)
-rdw,m9d7-ebf2:FORD|TRANSIT CUSTOM|2024,FORD,TRANSIT CUSTOM,,,model not in seed (3x)
-rdw,m9d7-ebf2:FORD|TRANSIT ECUSTOM|2026,FORD,TRANSIT ECUSTOM,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:FORD|TRANSIT|2022#consumption_kwh_100km,FORD,TRANSIT,,,model not in seed (13x)
+rdw,m9d7-ebf2:FORD|TRANSIT CUSTOM|2024,FORD,TRANSIT CUSTOM,,,model not in seed (8x)
+rdw,m9d7-ebf2:FORD|TRANSIT ECUSTOM|2026,FORD,TRANSIT ECUSTOM,,,model not in seed (2x)
 rdw,m9d7-ebf2:FORD|TRANSIT/TOURNEO|2011,FORD,TRANSIT/TOURNEO,,,model not in seed (1x)
 rdw,m9d7-ebf2:HONDA|CIVIC|2015,HONDA,CIVIC,,,model not in seed (2x)
 rdw,m9d7-ebf2:HONDA|CR-V|2020,HONDA,CR-V,,,model not in seed (2x)
 rdw,m9d7-ebf2:HONDA|CRV|2019,HONDA,CRV,,,model not in seed (1x)
-rdw,m9d7-ebf2:HONDA|E:NY1|2023,HONDA,E:NY1,,,model not in seed (name excluded from honda-e) (5x)
+rdw,m9d7-ebf2:HONDA|E:NY1|2023,HONDA,E:NY1,,,model not in seed (name excluded from honda-e) (8x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HONDA|HONDA E|2020#consumption_kwh_100km,HONDA,HONDA E,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in honda-e-gen1 (3x)"
 rdw,m9d7-ebf2:HONDA|HR-V 1.5 e-HEV|2022,HONDA,HR-V 1.5 e-HEV,,,model not in seed (1x)
 rdw,m9d7-ebf2:HONDA|JAZZ|2015,HONDA,JAZZ,,,model not in seed (2x)
 rdw,m9d7-ebf2:HONDA|ODYSSEY|2010,HONDA,ODYSSEY,,,model not in seed (5x)
@@ -1610,14 +1625,20 @@ rdw,m9d7-ebf2:HYUNDAI|GENESIS GV70|2022,HYUNDAI,GENESIS GV70,,,model not in seed
 rdw,m9d7-ebf2:HYUNDAI|I10|2017,HYUNDAI,I10,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|I20|2013,HYUNDAI,I20,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|I30|2010,HYUNDAI,I30,,,model not in seed (1x)
-rdw,m9d7-ebf2:HYUNDAI|INSTER|2024,HYUNDAI,INSTER,,,model not in seed (3x)
-rdw,m9d7-ebf2:HYUNDAI|IONIQ 3|2026,HYUNDAI,IONIQ 3,,,model not in seed (1x)
-rdw,m9d7-ebf2:HYUNDAI|IONIQ 9|2025,HYUNDAI,IONIQ 9,,,model not in seed (2x)
-rdw,m9d7-ebf2:HYUNDAI|IX35|2014,HYUNDAI,IX35,,,model not in seed (4x)
+rdw,m9d7-ebf2:HYUNDAI|INSTER|2024,HYUNDAI,INSTER,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ|2019#consumption_kwh_100km,HYUNDAI,IONIQ,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-electric-gen1 (3x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ 3|2026#consumption_kwh_100km,HYUNDAI,IONIQ 3,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ 9|2025#consumption_kwh_100km,HYUNDAI,IONIQ 9,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|IONIQ6|2025#wltp_range_km,HYUNDAI,IONIQ6,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-ioniq-6-gen1 (4x)"
+rdw,m9d7-ebf2:HYUNDAI|IX35|2014,HYUNDAI,IX35,,,model not in seed (5x)
 rdw,m9d7-ebf2:HYUNDAI|IX35 FCEV|2016,HYUNDAI,IX35 FCEV,,,model not in seed (1x)
-rdw,m9d7-ebf2:HYUNDAI|KONA|2023,HYUNDAI,KONA,,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (1x)"
-rdw,"m9d7-ebf2:HYUNDAI|KONA, KAUAI|2023",HYUNDAI,"KONA, KAUAI",,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (2x)"
-rdw,m9d7-ebf2:HYUNDAI|NEXO|2018,HYUNDAI,NEXO,,,model not in seed (7x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA|2023#consumption_kwh_100km,HYUNDAI,KONA,,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (2x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA|2018#consumption_kwh_100km,HYUNDAI,KONA,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-os (13x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA|2024#consumption_kwh_100km,HYUNDAI,KONA,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-sx2 (1x)"
+rdw,"8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA, KAUAI|2023#consumption_kwh_100km",HYUNDAI,"KONA, KAUAI",,,"ambiguous-generation: 2023 is shared by hyundai-kona-electric-os, hyundai-kona-electric-sx2; no name/battery evidence (1x)"
+rdw,"8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA, KAUAI|2021#consumption_kwh_100km",HYUNDAI,"KONA, KAUAI",,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-os (4x)"
+rdw,"8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:HYUNDAI|KONA, KAUAI|2026#consumption_kwh_100km",HYUNDAI,"KONA, KAUAI",,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in hyundai-kona-electric-sx2 (1x)"
+rdw,m9d7-ebf2:HYUNDAI|NEXO|2018,HYUNDAI,NEXO,,,model not in seed (12x)
 rdw,m9d7-ebf2:HYUNDAI|SANTA FE|2012,HYUNDAI,SANTA FE,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|SANTA FE SPORT|2014,HYUNDAI,SANTA FE SPORT,,,model not in seed (1x)
 rdw,m9d7-ebf2:HYUNDAI|SUV|2025,HYUNDAI,SUV,,,model not in seed (1x)
@@ -1629,22 +1650,23 @@ rdw,m9d7-ebf2:JAGUAR|F-PACE|2019,JAGUAR,F-PACE,,,model not in seed (1x)
 rdw,m9d7-ebf2:JAGUAR|F-Type|2021,JAGUAR,F-Type,,,model not in seed (1x)
 rdw,m9d7-ebf2:JAGUAR|JAGUAR I-PACE|2025,JAGUAR,JAGUAR I-PACE,,,year 2025 outside every generation of jaguar-i-pace (1x)
 rdw,m9d7-ebf2:JAGUAR|XE 180d|2020,JAGUAR,XE 180d,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|EV2|2026,KIA,EV2,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|EV3|2024,KIA,EV3,,,model not in seed (3x)
-rdw,m9d7-ebf2:KIA|EV4|2025,KIA,EV4,,,model not in seed (2x)
-rdw,m9d7-ebf2:KIA|EV5|2025,KIA,EV5,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV2|2026#consumption_kwh_100km,KIA,EV2,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV3|2024#consumption_kwh_100km,KIA,EV3,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV4|2025#wltp_range_km,KIA,EV4,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV5|2025#consumption_kwh_100km,KIA,EV5,,,model not in seed (7x)
 rdw,m9d7-ebf2:KIA|EV5 PLUS|2026,KIA,EV5 PLUS,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|EV9|2023,KIA,EV9,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV6|2021#consumption_kwh_100km,KIA,EV6,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-ev6-gen1 (8x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|EV9|2023#consumption_kwh_100km,KIA,EV9,,,model not in seed (10x)
 rdw,m9d7-ebf2:KIA|K5|2021,KIA,K5,,,model not in seed (1x)
 rdw,m9d7-ebf2:KIA|NERO|2020,KIA,NERO,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|NIRO|2022,KIA,NIRO,,,"ambiguous-generation: 2022 is shared by kia-niro-ev-de, kia-niro-ev-sg2; no name/battery evidence (1x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|NIRO|2022#consumption_kwh_100km,KIA,NIRO,,,"ambiguous-generation: 2022 is shared by kia-niro-ev-de, kia-niro-ev-sg2; no name/battery evidence (3x)"
+rdw,m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|NIRO|2018#price_new:NL,KIA,NIRO,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-niro-ev-de (8x)"
 rdw,m9d7-ebf2:KIA|Niro|2017,KIA,Niro,,,year 2017 outside every generation of kia-niro-ev (1x)
 rdw,m9d7-ebf2:KIA|OPTIMA|2015,KIA,OPTIMA,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|PV5|2025,KIA,PV5,,,model not in seed (2x)
+rdw,m9d7-ebf2:KIA|PV5|2025,KIA,PV5,,,model not in seed (4x)
 rdw,m9d7-ebf2:KIA|SORENTO|2015,KIA,SORENTO,,,model not in seed (1x)
-rdw,m9d7-ebf2:KIA|SOUL|2019,KIA,SOUL,,,"ambiguous-generation: 2019 is shared by kia-soul-ev-ps, kia-soul-ev-sk3; no name/battery evidence (1x)"
-rdw,m9d7-ebf2:KIA|SOUL|2023,KIA,SOUL,,,year 2023 outside every generation of kia-soul-ev (1x)
-rdw,m9d7-ebf2:KIA|SOUL|2024,KIA,SOUL,,,year 2024 outside every generation of kia-soul-ev (1x)
+rdw,m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|SOUL|2014#price_new:NL,KIA,SOUL,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-soul-ev-ps (3x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:KIA|SOUL|2020#consumption_kwh_100km,KIA,SOUL,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in kia-soul-ev-sk3 (13x)"
 rdw,m9d7-ebf2:KIA|SOUL|2025,KIA,SOUL,,,year 2025 outside every generation of kia-soul-ev (1x)
 rdw,m9d7-ebf2:KIA|SPORTAGE|2011,KIA,SPORTAGE,,,model not in seed (3x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|A 160|2010,MERCEDES-BENZ,A 160,,,model not in seed (1x)
@@ -1659,16 +1681,16 @@ rdw,m9d7-ebf2:MERCEDES-BENZ|B180|2011,MERCEDES-BENZ,B180,,,model not in seed (1x
 rdw,m9d7-ebf2:MERCEDES-BENZ|C 200 4MATIC|2015,MERCEDES-BENZ,C 200 4MATIC,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|C 200 D|2019,MERCEDES-BENZ,C 200 D,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|C 220 CDI|2013,MERCEDES-BENZ,C 220 CDI,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|C 400 4MATIC ELECTRIC|2026,MERCEDES-BENZ,C 400 4MATIC ELECTRIC,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|C 400 4MATIC ELECTRIC|2026#consumption_kwh_100km,MERCEDES-BENZ,C 400 4MATIC ELECTRIC,,,model not in seed (4x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|C200|2011,MERCEDES-BENZ,C200,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|C220 CDI|2012,MERCEDES-BENZ,C220 CDI,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 180|2020,MERCEDES-BENZ,CLA 180,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 180 D|2016,MERCEDES-BENZ,CLA 180 D,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 200|2026,MERCEDES-BENZ,CLA 200,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|CLA 200|2026#consumption_kwh_100km,MERCEDES-BENZ,CLA 200,,,model not in seed (3x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 220|2019,MERCEDES-BENZ,CLA 220,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 250|2026,MERCEDES-BENZ,CLA 250,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 250+|2025,MERCEDES-BENZ,CLA 250+,,,model not in seed (2x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 350 4MATIC|2025,MERCEDES-BENZ,CLA 350 4MATIC,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|CLA 250|2026#consumption_kwh_100km,MERCEDES-BENZ,CLA 250,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|CLA 250+|2025#consumption_kwh_100km,MERCEDES-BENZ,CLA 250+,,,model not in seed (7x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|CLA 350 4MATIC|2025,MERCEDES-BENZ,CLA 350 4MATIC,,,model not in seed (4x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|CLA250+ BUSINESS EDITION|2026,MERCEDES-BENZ,CLA250+ BUSINESS EDITION,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|E 200 CDI|2013,MERCEDES-BENZ,E 200 CDI,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|E 350 BLUETEC|2014,MERCEDES-BENZ,E 350 BLUETEC,,,model not in seed (1x)
@@ -1678,46 +1700,46 @@ rdw,m9d7-ebf2:MERCEDES-BENZ|E200|2016,MERCEDES-BENZ,E200,,,model not in seed (1x
 rdw,m9d7-ebf2:MERCEDES-BENZ|E220d|2020,MERCEDES-BENZ,E220d,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|E350|2018,MERCEDES-BENZ,E350,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|ECITAN TOURER|2024,MERCEDES-BENZ,ECITAN TOURER,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|ELECTRIC DRIVE|2015,MERCEDES-BENZ,ELECTRIC DRIVE,,,model not in seed (3x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|ELECTRIC DRIVE|2015,MERCEDES-BENZ,ELECTRIC DRIVE,,,model not in seed (4x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQA 250|2020,MERCEDES-BENZ,EQA 250,,,year 2020 outside every generation of mercedes-eqa (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 250|2022,MERCEDES-BENZ,EQB 250,,,model not in seed (3x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 250+|2023,MERCEDES-BENZ,EQB 250+,,,model not in seed (4x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 300 4MATIC|2021,MERCEDES-BENZ,EQB 300 4MATIC,,,model not in seed (5x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 350 4MATIC|2021,MERCEDES-BENZ,EQB 350 4MATIC,,,model not in seed (5x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250|2022#consumption_kwh_100km,MERCEDES-BENZ,EQB 250,,,model not in seed (7x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQB 250+|2023#consumption_kwh_100km,MERCEDES-BENZ,EQB 250+,,,model not in seed (7x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 300 4MATIC|2021,MERCEDES-BENZ,EQB 300 4MATIC,,,model not in seed (10x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|EQB 350 4MATIC|2021,MERCEDES-BENZ,EQB 350 4MATIC,,,model not in seed (8x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQC 400 4MATIC|2024,MERCEDES-BENZ,EQC 400 4MATIC,,,year 2024 outside every generation of mercedes-eqc (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQC 400 4MATIC|2025,MERCEDES-BENZ,EQC 400 4MATIC,,,year 2025 outside every generation of mercedes-eqc (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 300|2022,MERCEDES-BENZ,EQE 300,,,model not in seed (5x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 350|2022,MERCEDES-BENZ,EQE 350,,,model not in seed (5x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 350 4MATIC|2023,MERCEDES-BENZ,EQE 350 4MATIC,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQE 300|2022#wltp_range_km,MERCEDES-BENZ,EQE 300,,,model not in seed (10x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQE 350|2022#consumption_kwh_100km,MERCEDES-BENZ,EQE 350,,,model not in seed (7x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQE 350 4MATIC|2023#consumption_kwh_100km,MERCEDES-BENZ,EQE 350 4MATIC,,,model not in seed (8x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 350+|2022,MERCEDES-BENZ,EQE 350+,,,model not in seed (5x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 500 4MATIC|2022,MERCEDES-BENZ,EQE 500 4MATIC,,,model not in seed (5x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|EQE 500 4MATIC|2022,MERCEDES-BENZ,EQE 500 4MATIC,,,model not in seed (6x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQS  450+|2021,MERCEDES-BENZ,EQS  450+,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 350|2022,MERCEDES-BENZ,EQS 350,,,model not in seed (5x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQS 350|2022#consumption_kwh_100km,MERCEDES-BENZ,EQS 350,,,model not in seed (10x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 400|2026,MERCEDES-BENZ,EQS 400,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 450 4MATIC|2022,MERCEDES-BENZ,EQS 450 4MATIC,,,model not in seed (5x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 450+|2021,MERCEDES-BENZ,EQS 450+,,,model not in seed (6x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQS 450+|2021#wltp_range_km,MERCEDES-BENZ,EQS 450+,,,model not in seed (14x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 500 4MATIC|2023,MERCEDES-BENZ,EQS 500 4MATIC,,,model not in seed (4x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 580 4MATIC|2021,MERCEDES-BENZ,EQS 580 4MATIC,,,model not in seed (5x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|EQS 580 4MATIC|2021,MERCEDES-BENZ,EQS 580 4MATIC,,,model not in seed (8x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQS-KLASSE|2021,MERCEDES-BENZ,EQS-KLASSE,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EQS450+|2022,MERCEDES-BENZ,EQS450+,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQT|2023,MERCEDES-BENZ,EQT,,,model not in seed (4x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EQV|2020,MERCEDES-BENZ,EQV,,,model not in seed (7x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|EQT|2023,MERCEDES-BENZ,EQT,,,model not in seed (5x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EQV|2020#consumption_kwh_100km,MERCEDES-BENZ,EQV,,,model not in seed (19x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|ESPRINTER|2020,MERCEDES-BENZ,ESPRINTER,,,model not in seed (5x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|EVITO|2020,MERCEDES-BENZ,EVITO,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|EVITO TOURER|2019,MERCEDES-BENZ,EVITO TOURER,,,model not in seed (12x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|G 580|2024,MERCEDES-BENZ,G 580,,,model not in seed (3x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|EVITO TOURER|2019#consumption_kwh_100km,MERCEDES-BENZ,EVITO TOURER,,,model not in seed (31x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|G 580|2024,MERCEDES-BENZ,G 580,,,model not in seed (4x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GL450|2013,MERCEDES-BENZ,GL450,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLA 180|2015,MERCEDES-BENZ,GLA 180,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLA 200|2016,MERCEDES-BENZ,GLA 200,,,model not in seed (2x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|GLA 250+|2026,MERCEDES-BENZ,GLA 250+,,,model not in seed (1x)
+rdw,m9d7-ebf2:MERCEDES-BENZ|GLA 250+|2026,MERCEDES-BENZ,GLA 250+,,,model not in seed (2x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLB 200|2026,MERCEDES-BENZ,GLB 200,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|GLB 250|2026,MERCEDES-BENZ,GLB 250,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|GLB 250+|2026,MERCEDES-BENZ,GLB 250+,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLB 250|2026#consumption_kwh_100km,MERCEDES-BENZ,GLB 250,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLB 250+|2026#consumption_kwh_100km,MERCEDES-BENZ,GLB 250+,,,model not in seed (3x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLB 350 4MATIC|2026,MERCEDES-BENZ,GLB 350 4MATIC,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|GLC 250 ELECTRIC|2026,MERCEDES-BENZ,GLC 250 ELECTRIC,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLC 250 ELECTRIC|2026#consumption_kwh_100km,MERCEDES-BENZ,GLC 250 ELECTRIC,,,model not in seed (3x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLC 300 4MATIC ELECTRIC|2026,MERCEDES-BENZ,GLC 300 4MATIC ELECTRIC,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLC 400 4MATIC|2026,MERCEDES-BENZ,GLC 400 4MATIC,,,model not in seed (1x)
-rdw,m9d7-ebf2:MERCEDES-BENZ|GLC 400 4MATIC WITH EQ TE|2026,MERCEDES-BENZ,GLC 400 4MATIC WITH EQ TE,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MERCEDES-BENZ|GLC 400 4MATIC WITH EQ TE|2026#consumption_kwh_100km,MERCEDES-BENZ,GLC 400 4MATIC WITH EQ TE,,,model not in seed (3x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLC400 4 MATIC / EQ TE|2026,MERCEDES-BENZ,GLC400 4 MATIC / EQ TE,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLK220|2015,MERCEDES-BENZ,GLK220,,,model not in seed (1x)
 rdw,m9d7-ebf2:MERCEDES-BENZ|GLS 450|2018,MERCEDES-BENZ,GLS 450,,,model not in seed (1x)
@@ -1728,27 +1750,32 @@ rdw,m9d7-ebf2:MERCEDES-BENZ|SPRINTER|2014,MERCEDES-BENZ,SPRINTER,,,model not in 
 rdw,m9d7-ebf2:MERCEDES-BENZ|VIANO|2011,MERCEDES-BENZ,VIANO,,,model not in seed (1x)
 rdw,m9d7-ebf2:MG|CYBERSTER|2024,MG,CYBERSTER,,,model not in seed (2x)
 rdw,m9d7-ebf2:MG|IM 5|2026,MG,IM 5,,,model not in seed (1x)
-rdw,m9d7-ebf2:MG|IM 6|2026,MG,IM 6,,,model not in seed (1x)
+rdw,m9d7-ebf2:MG|IM 6|2026,MG,IM 6,,,model not in seed (2x)
 rdw,m9d7-ebf2:MG|IM6|2026,MG,IM6,,,model not in seed (1x)
 rdw,m9d7-ebf2:MG|MG 5 EV|2021,MG,MG 5 EV,,,model not in seed (1x)
-rdw,m9d7-ebf2:MG|MG CYBERSTER|2024,MG,MG CYBERSTER,,,model not in seed (3x)
-rdw,m9d7-ebf2:MG|MG MARVEL R ELECTRIC|2021,MG,MG MARVEL R ELECTRIC,,,model not in seed (9x)
-rdw,m9d7-ebf2:MG|MG S5 EV|2025,MG,MG S5 EV,,,model not in seed (2x)
+rdw,m9d7-ebf2:MG|MG CYBERSTER|2024,MG,MG CYBERSTER,,,model not in seed (7x)
+rdw,m9d7-ebf2:MG|MG MARVEL R ELECTRIC|2021,MG,MG MARVEL R ELECTRIC,,,model not in seed (16x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG S5 EV|2025#consumption_kwh_100km,MG,MG S5 EV,,,model not in seed (8x)
 rdw,m9d7-ebf2:MG|MG S6 EV|2026,MG,MG S6 EV,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG ZS EV|2019#consumption_kwh_100km,MG,MG ZS EV,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mg-zs-ev-gen1 (16x)"
 rdw,m9d7-ebf2:MG|MG3 FORM Sport|2017,MG,MG3 FORM Sport,,,model not in seed (1x)
-rdw,m9d7-ebf2:MG|MG5 ELECTRIC|2021,MG,MG5 ELECTRIC,,,model not in seed (8x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG4 ELECTRIC|2023#consumption_kwh_100km,MG,MG4 ELECTRIC,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mg-mg4-gen1 (5x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG4 ELECTRIC|2026#wltp_range_km,MG,MG4 ELECTRIC,,,"attach-only: tie between mg-mg4-gen1-long-range, mg-mg4-gen1-standard-long-range in mg-mg4-gen1 (1x)"
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MG|MG4 EV URBAN|2026#consumption_kwh_100km,MG,MG4 EV URBAN,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mg-mg4-gen1 (2x)"
+rdw,m9d7-ebf2:MG|MG5 ELECTRIC|2021,MG,MG5 ELECTRIC,,,model not in seed (15x)
 rdw,m9d7-ebf2:MG|MGS5 EV|2026,MG,MGS5 EV,,,model not in seed (1x)
 rdw,m9d7-ebf2:MG|ZS1|2019,MG,ZS1,,,model not in seed (1x)
-rdw,m9d7-ebf2:MINI|ACEMAN E|2024,MINI,ACEMAN E,,,model not in seed (3x)
-rdw,m9d7-ebf2:MINI|ACEMAN SE|2024,MINI,ACEMAN SE,,,model not in seed (3x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|ACEMAN E|2024#consumption_kwh_100km,MINI,ACEMAN E,,,model not in seed (9x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|ACEMAN SE|2024#consumption_kwh_100km,MINI,ACEMAN SE,,,model not in seed (9x)
 rdw,m9d7-ebf2:MINI|COOPER|2012,MINI,COOPER,,,model not in seed (3x)
 rdw,m9d7-ebf2:MINI|COOPER S|2022,MINI,COOPER S,,,model not in seed (1x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|COOPER SE|2020#consumption_kwh_100km,MINI,COOPER SE,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in mini-cooper-se-f56 (7x)"
 rdw,m9d7-ebf2:MINI|COOPER SE|2019,MINI,COOPER SE,,,year 2019 outside every generation of mini-cooper-se (1x)
 rdw,m9d7-ebf2:MINI|COUNTRYMAN|2013,MINI,COUNTRYMAN,,,model not in seed (2x)
-rdw,m9d7-ebf2:MINI|COUNTRYMAN E|2024,MINI,COUNTRYMAN E,,,model not in seed (3x)
-rdw,m9d7-ebf2:MINI|COUNTRYMAN SE ALL4|2024,MINI,COUNTRYMAN SE ALL4,,,model not in seed (4x)
-rdw,m9d7-ebf2:MINI|JCW ACEMAN E|2025,MINI,JCW ACEMAN E,,,model not in seed (2x)
-rdw,m9d7-ebf2:MINI|JCW E|2025,MINI,JCW E,,,model not in seed (2x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|COUNTRYMAN E|2024#wltp_range_km,MINI,COUNTRYMAN E,,,model not in seed (5x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|COUNTRYMAN SE ALL4|2024#consumption_kwh_100km,MINI,COUNTRYMAN SE ALL4,,,model not in seed (13x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|JCW ACEMAN E|2025#consumption_kwh_100km,MINI,JCW ACEMAN E,,,model not in seed (4x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:MINI|JCW E|2025#consumption_kwh_100km,MINI,JCW E,,,model not in seed (5x)
 rdw,m9d7-ebf2:MINI|MINI|2011,MINI,MINI,,,model not in seed (1x)
 rdw,m9d7-ebf2:NISSAN|ARIYA|2023,NISSAN,ARIYA,,,model not in seed (2x)
 rdw,m9d7-ebf2:NISSAN|ARIYA  EVOLVE+|2023,NISSAN,ARIYA  EVOLVE+,,,model not in seed (1x)
@@ -1756,76 +1783,56 @@ rdw,m9d7-ebf2:NISSAN|ARIYA  EVOLVE+ E-40RCE|2023,NISSAN,ARIYA  EVOLVE+ E-40RCE,,
 rdw,m9d7-ebf2:NISSAN|E-NV200|2017,NISSAN,E-NV200,,,model not in seed (3x)
 rdw,m9d7-ebf2:NISSAN|ELECTRIQUE VISIA|2014,NISSAN,ELECTRIQUE VISIA,,,model not in seed (1x)
 rdw,m9d7-ebf2:NISSAN|MICRA|2020,NISSAN,MICRA,,,model not in seed (1x)
-rdw,m9d7-ebf2:NISSAN|NISSAN ARIYA|2022,NISSAN,NISSAN ARIYA,,,model not in seed (5x)
-rdw,m9d7-ebf2:NISSAN|NISSAN E-NV200|2014,NISSAN,NISSAN E-NV200,,,model not in seed (11x)
-rdw,m9d7-ebf2:NISSAN|NISSAN MICRA|2025,NISSAN,NISSAN MICRA,,,model not in seed (2x)
+rdw,m9d7-ebf2:NISSAN|NISSAN ARIYA|2022,NISSAN,NISSAN ARIYA,,,model not in seed (9x)
+rdw,m9d7-ebf2:NISSAN|NISSAN E-NV200|2014,NISSAN,NISSAN E-NV200,,,model not in seed (24x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:NISSAN|NISSAN LEAF|2026#consumption_kwh_100km,NISSAN,NISSAN LEAF,,,no variant in nissan-leaf-gen3 to attach to (1x)
+rdw,m9d7-ebf2:NISSAN|NISSAN MICRA|2025,NISSAN,NISSAN MICRA,,,model not in seed (4x)
 rdw,m9d7-ebf2:NISSAN|NISSAN QASHQAI|2016,NISSAN,NISSAN QASHQAI,,,model not in seed (1x)
 rdw,m9d7-ebf2:NISSAN|QASHQAI|2011,NISSAN,QASHQAI,,,model not in seed (1x)
 rdw,m9d7-ebf2:NISSAN|TOWNSTAR|2023,NISSAN,TOWNSTAR,,,model not in seed (4x)
 rdw,m9d7-ebf2:NISSAN|X-TRAIL|2017,NISSAN,X-TRAIL,,,model not in seed (1x)
 rdw,m9d7-ebf2:OPEL|AMPERA E|2017,OPEL,AMPERA E,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|AMPERA-E|2017,OPEL,AMPERA-E,,,model not in seed (7x)
+rdw,m9d7-ebf2:OPEL|AMPERA-E|2017,OPEL,AMPERA-E,,,model not in seed (14x)
 rdw,m9d7-ebf2:OPEL|AMPERA-E EV|2018,OPEL,AMPERA-E EV,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|ASTRA|2010,OPEL,ASTRA,,,model not in seed (7x)
-rdw,m9d7-ebf2:OPEL|Astra Sports Tourer|2018,OPEL,Astra Sports Tourer,,,model not in seed (4x)
+rdw,m9d7-ebf2:OPEL|ASTRA|2010,OPEL,ASTRA,,,model not in seed (16x)
+rdw,m9d7-ebf2:OPEL|Astra Sports Tourer|2018,OPEL,Astra Sports Tourer,,,model not in seed (12x)
 rdw,m9d7-ebf2:OPEL|Astra+|2020,OPEL,Astra+,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|COMBO-E LIFE|2021,OPEL,COMBO-E LIFE,,,model not in seed (9x)
-rdw,m9d7-ebf2:OPEL|CORSA|2011,OPEL,CORSA,,,year 2011 outside every generation of opel-corsa-e (1x)
-rdw,m9d7-ebf2:OPEL|CORSA|2013,OPEL,CORSA,,,year 2013 outside every generation of opel-corsa-e (1x)
-rdw,m9d7-ebf2:OPEL|E-COMBO LIFE|2025,OPEL,E-COMBO LIFE,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|E-FIXXTER XXL|2021,OPEL,E-FIXXTER XXL,,,model not in seed (3x)
-rdw,m9d7-ebf2:OPEL|E-VIVARO|2026,OPEL,E-VIVARO,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|FRONTERA|2024,OPEL,FRONTERA,,,model not in seed (3x)
-rdw,m9d7-ebf2:OPEL|GRANDLAND|2024,OPEL,GRANDLAND,,,model not in seed (3x)
-rdw,m9d7-ebf2:OPEL|INSIGNIA|2017,OPEL,INSIGNIA,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|MOKKA|2021,OPEL,MOKKA,,,model not in seed (6x)
-rdw,m9d7-ebf2:OPEL|MOKKA E|2021,OPEL,MOKKA E,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|MOKKA ULTIMATE EV|2021,OPEL,MOKKA ULTIMATE EV,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|MOKKA X|2018,OPEL,MOKKA X,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|MOVANO|2026,OPEL,MOVANO,,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|VIVARO|2021,OPEL,VIVARO,,,model not in seed (6x)
-rdw,m9d7-ebf2:OPEL|VIVARO (LIFE)|2023,OPEL,VIVARO (LIFE),,,model not in seed (1x)
-rdw,m9d7-ebf2:OPEL|VIVARO / ZAFIRA LIFE|2020,OPEL,VIVARO / ZAFIRA LIFE,,,model not in seed (5x)
-rdw,m9d7-ebf2:OPEL|VIVARO LIFE|2020,OPEL,VIVARO LIFE,,,model not in seed (6x)
-rdw,m9d7-ebf2:OPEL|ZAFIRA LIFE|2020,OPEL,ZAFIRA LIFE,,,model not in seed (7x)
-rdw,m9d7-ebf2:OPEL|ZAFIRA TOURER|2012,OPEL,ZAFIRA TOURER,,,model not in seed (1x)
-rdw,m9d7-ebf2:PEUGEOT|2008|2016,PEUGEOT,2008,,,year 2016 outside every generation of peugeot-e-2008 (1x)
-rdw,m9d7-ebf2:PEUGEOT|2008|2019,PEUGEOT,2008,,,year 2019 outside every generation of peugeot-e-2008 (1x)
-rdw,m9d7-ebf2:PEUGEOT|208|2012,PEUGEOT,208,,,year 2012 outside every generation of peugeot-e-208 (1x)
-rdw,m9d7-ebf2:PEUGEOT|208|2014,PEUGEOT,208,,,year 2014 outside every generation of peugeot-e-208 (1x)
-rdw,m9d7-ebf2:PEUGEOT|208|2015,PEUGEOT,208,,,year 2015 outside every generation of peugeot-e-208 (1x)
-rdw,m9d7-ebf2:PEUGEOT|208|2017,PEUGEOT,208,,,year 2017 outside every generation of peugeot-e-208 (1x)
-rdw,m9d7-ebf2:PEUGEOT|3008|2017,PEUGEOT,3008,,,model not in seed (5x)
-rdw,m9d7-ebf2:PEUGEOT|308|2011,PEUGEOT,308,,,model not in seed (5x)
-rdw,m9d7-ebf2:PEUGEOT|408|2024,PEUGEOT,408,,,model not in seed (3x)
-rdw,m9d7-ebf2:PEUGEOT|5008|2019,PEUGEOT,5008,,,model not in seed (5x)
-rdw,(summary),PORSCHE,,,,make not in seed: 92 records
-rdw,(summary),TOYOTA,,,,make not in seed: 74 records
+rdw,m9d7-ebf2:OPEL|COMBO-E LIFE|2021,OPEL,COMBO-E LIFE,,,model not in seed (10x)
+rdw,8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:OPEL|CORSA|2020#consumption_kwh_100km,OPEL,CORSA,,,"attach-only: no variant evidence (name, kWh, kW, WLTP) in opel-corsa-e-f (12x)"
+rdw,(summary),PORSCHE,,,,make not in seed: 119 records
+rdw,(summary),TOYOTA,,,,make not in seed: 109 records
 eea,(summary),PORSCHE,,,,make not in seed: 67 records
 openev,(summary),NIO,,,,make not in seed: 65 records
 kilowatt-openev,(summary),PORSCHE,,,,make not in seed: 52 records
+rdw,(summary),NIO,,,,make not in seed: 41 records
 dft-veh,(summary),PORSCHE,,,,make not in seed: 39 records
 openev,(summary),CHEVROLET,,,,make not in seed: 38 records
+rdw,(summary),XPENG,,,,make not in seed: 38 records
+rdw,(summary),LEAPMOTOR,,,,make not in seed: 36 records
+rdw,(summary),MAZDA,,,,make not in seed: 35 records
 openev,(summary),VINFAST,,,,make not in seed: 34 records
 dft-veh,(summary),TOYOTA,,,,make not in seed: 33 records
+rdw,(summary),DS,,,,make not in seed: 33 records
 openev,(summary),ZEEKR,,,,make not in seed: 32 records
 openev,(summary),GAC AION,,,,make not in seed: 31 records
 openev,(summary),XPENG,,,,make not in seed: 31 records
+rdw,(summary),JEEP,,,,make not in seed: 31 records
 kilowatt-openev,(summary),TOYOTA,,,,make not in seed: 27 records
-rdw,(summary),XPENG,,,,make not in seed: 27 records
-rdw,(summary),NIO,,,,make not in seed: 26 records
+rdw,(summary),LEXUS,,,,make not in seed: 26 records
+rdw,(summary),ZEEKR,,,,make not in seed: 26 records
 dft-veh,(summary),DS,,,,make not in seed: 25 records
 ademe,(summary),PORSCHE,,,,make not in seed: 24 records
 openev,(summary),LAND ROVER,,,,make not in seed: 24 records
 openev,(summary),RIVIAN,,,,make not in seed: 24 records
 kilowatt-openev,(summary),NIO,,,,make not in seed: 23 records
 openev,(summary),LEAPMOTOR,,,,make not in seed: 23 records
+rdw,(summary),SERES,,,,make not in seed: 23 records
 dft-veh,(summary),LEXUS,,,,make not in seed: 22 records
 openev,(summary),CHERY,,,,make not in seed: 22 records
+rdw,(summary),MITSUBISHI,,,,make not in seed: 21 records
 dft-veh,(summary),LOTUS,,,,make not in seed: 20 records
 eea,(summary),TOYOTA,,,,make not in seed: 20 records
 openev,(summary),PORSCHE,,,,make not in seed: 20 records
-rdw,(summary),LEXUS,,,,make not in seed: 20 records
 eea,(summary),NIO,,,,make not in seed: 19 records
 openev,(summary),GEELY,,,,make not in seed: 19 records
 rdw,(summary),CHEVROLET,,,,make not in seed: 19 records
@@ -1833,43 +1840,44 @@ rdw,(summary),GENESIS,,,,make not in seed: 19 records
 openev,(summary),CHANGAN,,,,make not in seed: 18 records
 openev,(summary),TATA MOTORS,,,,make not in seed: 18 records
 openev,(summary),TOYOTA,,,,make not in seed: 18 records
-rdw,(summary),DS,,,,make not in seed: 18 records
 eea,(summary),XPENG,,,,make not in seed: 17 records
-rdw,(summary),JEEP,,,,make not in seed: 17 records
 rdw,(summary),MAXUS,,,,make not in seed: 17 records
+rdw,(summary),SEAT,,,,make not in seed: 17 records
 eea,(summary),LEXUS,,,,make not in seed: 16 records
-rdw,(summary),MAZDA,,,,make not in seed: 16 records
-rdw,(summary),SERES,,,,make not in seed: 15 records
+rdw,(summary),AIWAYS,,,,make not in seed: 16 records
+rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 15 records
+rdw,(summary),LUCID MOTORS,,,,make not in seed: 15 records
+rdw,(summary),SUBARU,,,,make not in seed: 15 records
 eea,(summary),MASERATI,,,,make not in seed: 14 records
 kilowatt-openev,(summary),XPENG,,,,make not in seed: 14 records
 openev,(summary),GENESIS,,,,make not in seed: 14 records
 openev,(summary),LEXUS,,,,make not in seed: 14 records
-rdw,(summary),MITSUBISHI,,,,make not in seed: 14 records
+rdw,(summary),FAW,,,,make not in seed: 14 records
 eea,(summary),DS,,,,make not in seed: 13 records
 eea,(summary),DS AUTOMOBILES,,,,make not in seed: 13 records
 eea,(summary),LEAPMOTOR,,,,make not in seed: 13 records
 openev,(summary),GWM,,,,make not in seed: 13 records
 openev,(summary),LUCID,,,,make not in seed: 13 records
-rdw,(summary),LUCID MOTORS,,,,make not in seed: 13 records
+rdw,(summary),DONGFENG,,,,make not in seed: 13 records
 dft-veh,(summary),GENESIS,,,,make not in seed: 12 records
 openev,(summary),CADILLAC,,,,make not in seed: 12 records
 openev,(summary),NAMMI,,,,make not in seed: 12 records
 openev,(summary),VOYAH,,,,make not in seed: 12 records
-rdw,(summary),DS AUTOMOBILES,,,,make not in seed: 12 records
-rdw,(summary),SEAT,,,,make not in seed: 12 records
+rdw,(summary),MASERATI,,,,make not in seed: 12 records
 dft-veh,(summary),MAZDA,,,,make not in seed: 11 records
 eea,(summary),LUCID MOTORS,,,,make not in seed: 11 records
 kilowatt-openev,(summary),DS,,,,make not in seed: 11 records
 kilowatt-openev,(summary),LUCID,,,,make not in seed: 11 records
 kilowatt-openev,(summary),ZEEKR,,,,make not in seed: 11 records
 openev,(summary),LOTUS,,,,make not in seed: 11 records
-rdw,(summary),FAW,,,,make not in seed: 11 records
-rdw,(summary),LEAPMOTOR,,,,make not in seed: 11 records
-rdw,(summary),MASERATI,,,,make not in seed: 11 records
-rdw,(summary),ZEEKR,,,,make not in seed: 11 records
+rdw,(summary),ALFA ROMEO,,,,make not in seed: 11 records
+rdw,(summary),VOYAH,,,,make not in seed: 11 records
 dft-veh,(summary),ALPINE,,,,make not in seed: 10 records
 kba-fz10,(summary),NIO,,,,make not in seed: 10 records
 kilowatt-openev,(summary),GENESIS,,,,make not in seed: 10 records
+rdw,(summary),DFSK,,,,make not in seed: 10 records
+rdw,(summary),LOTUS,,,,make not in seed: 10 records
+rdw,(summary),VINFAST,,,,make not in seed: 10 records
 dft-veh,(summary),ORA,,,,make not in seed: 9 records
 eea,(summary),LOTUS,,,,make not in seed: 9 records
 eea,(summary),MAZDA,,,,make not in seed: 9 records
@@ -1879,9 +1887,6 @@ kilowatt-openev,(summary),LOTUS,,,,make not in seed: 9 records
 openev,(summary),FERRARI,,,,make not in seed: 9 records
 openev,(summary),IM MOTORS,,,,make not in seed: 9 records
 openev,(summary),RISING AUTO,,,,make not in seed: 9 records
-rdw,(summary),LOTUS,,,,make not in seed: 9 records
-rdw,(summary),SUBARU,,,,make not in seed: 9 records
-rdw,(summary),VOYAH,,,,make not in seed: 9 records
 dft-veh,(summary),LAND ROVER,,,,make not in seed: 8 records
 eea,(summary),ABARTH,,,,make not in seed: 8 records
 eea,(summary),JEEP,,,,make not in seed: 8 records
@@ -1890,12 +1895,7 @@ kba-fz10,(summary),LEAPMOTOR,,,,make not in seed: 8 records
 kba-fz10,(summary),XPENG,,,,make not in seed: 8 records
 kilowatt-openev,(summary),ABARTH,,,,make not in seed: 8 records
 kilowatt-openev,(summary),FISKER,,,,make not in seed: 8 records
-rdw,(summary),SSANGYONG,,,,make not in seed: 8 records
-dft-veh,(summary),ABARTH,,,,make not in seed: 7 records
-dft-veh,(summary),JEEP,,,,make not in seed: 7 records
-dft-veh,(summary),MAXUS,,,,make not in seed: 7 records
-eea,(summary),ALPINE,,,,make not in seed: 7 records
-eea,(summary),FAW,,,,make not in seed: 7 records
-eea,(summary),GEELY,,,,make not in seed: 7 records
-eea,(summary),XIAOMI,,,,make not in seed: 7 records
-*,(summary),(other makes),,,,make not in seed: 746 records
+rdw,(summary),ALPINE,,,,make not in seed: 8 records
+rdw,(summary),GEELY,,,,make not in seed: 8 records
+rdw,(summary),LANCIA,,,,make not in seed: 8 records
+*,(summary),(other makes),,,,make not in seed: 780 records

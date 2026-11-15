@@ -12,7 +12,7 @@ Last run: 2026-11-15 (UTC; the run log shows 2026-11-14T23:5x, just before midni
 | id | Name | URL | Licence (exact, as found) | Attribution line | How we use it | Tonight | Rows |
 |---|---|---|---|---|---|---|---|
 | `openev` | Open EV Data | https://github.com/open-ev-data/open-ev-data-dataset | **CDLA-Permissive-2.0**: repo `LICENCE` file, "Community Data License Agreement - Permissive - Version 2.0" | Contains data from OpenEV Data (open-ev-data-dataset), CDLA-Permissive-2.0. | Specs per variant: battery, WLTP/EPA range, AC/DC kW, 10–80 % time and average, power, 0–100, top speed, boot/frunk, dimensions, weight, towing, seats, voltage, chemistry, cooling, warranty; EUR/GBP list prices for NL/DE/FR/BE/UK. Confidence medium (OEM/regulatory sources) or low. | **Live**: `git clone --depth 1` at commit `8edb266d` | 1,449 files → 1,229 records (1,189 vehicles + 40 DE price records). Fixture: 37 |
-| `rdw` | RDW Open Data | https://opendata.rdw.nl/d/m9d7-ebf2 | **CC0-1.0**: Socrata metadata `license.name = "Public Domain"` (`licenseId PUBLIC_DOMAIN`); `metadata.custom_fields.Licentie = "Creative Commons 0 (CC0)"` | Bron: RDW Open Data (opendata.rdw.nl), CC0. | Count of registered battery-electric passenger cars in NL per make × trade name × year of first admission. Confidence high. | **Live**: one grouped SoQL query, no row-level download | 3,124 groups → 3,124 records, 922,990 cars. Fixture: 118 |
+| `rdw` | RDW Open Data | https://opendata.rdw.nl/d/m9d7-ebf2 | **CC0-1.0**: Socrata metadata `license.name = "Public Domain"` (`licenseId PUBLIC_DOMAIN`); `metadata.custom_fields.Licentie = "Creative Commons 0 (CC0)"` | Bron: RDW Open Data (opendata.rdw.nl), CC0. | Count of registered battery-electric passenger cars in NL per make × trade name × year of first admission (confidence high). Plus spec records (confidence medium) per the same group: WLTP range (km) and consumption (kWh/100km) from the fuel table `8ys7-d773` via a 10 % plate sample, and NL catalogue price (`catalogusprijs`, EUR incl. VAT + BPM, cars sold new in NL) as a server-side median. Wide (IQR > 5 % of median) or small (< 5 cars) groups emit nothing. | **Live**: grouped SoQL (counts, price) + 10 % plate sample of both tables joined in memory (~40 requests, 1 s apart, ~4 min); plates never stored | 3,124 count records (922,990 cars) + 1,849 spec records: WLTP range 740, consumption 743, price 366. Dropped for spread: range 233, consumption 191, price 680; for small groups: 502 / 400 / 791. Fixture: 118 counts + 81 price groups + 86 sample groups |
 | `eea` | EEA CO2 monitoring of new cars (Reg. 2019/631) | https://www.eea.europa.eu/en/datahub/datahubitem-view/fa8b1229-3db6-495d-b18e-9c9b3267c02b | **CC-BY-4.0**: EEA SDI metadata record `b4044b06-2e6b-4f8e-a6e6-66e0e98bb0dd` (2025, provisional), use limitation: "License CC-BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Copyright holder: Directorate-General for Climate Action (DG-CLIMA)." Same text on the 2022–2024 records. | Contains data from the European Environment Agency, CO2 emissions from new passenger cars (Regulation (EU) 2019/631). Copyright holder: Directorate-General for Climate Action (DG CLIMA). CC BY 4.0. | New BEV registrations (`Ft = 'electric'`) per country × make × commercial name for NL/DE/FR/BE, year 2025 (provisional table `co2cars_2025Pv31`), confidence medium. Registration-weighted type-approval mass (kg), consumption (Z, Wh/km → kWh/100km) and electric range (Zr, km) as spec facts, confidence low. | **Live**: grouped SQL, POSTed to Discodata | 1,733 groups → 3,430 records (1,715 counts + 1,715 spec averages; 18 DE groups without make/name dropped). Counts: NL 159,006 · DE 544,418 · FR 339,849 · BE 142,114. Fixture: 68 |
 | `nyland` | Bjørn Nyland range/charging tests | (not recorded: the URL lives only in the `NYLAND_SHEET_CSV_URL` env var) | **none**: permission pending | Bjørn Nyland test results (permission pending; local use only). | Importer skeleton for real-world range, consumption, usable kWh and 10–80 % average kW. Confidence high (exact tests). **Permission pending: local cache only, never in the repo, fixtures or releases.** Fetch → `data/local/nyland/`; normalise → `data/local/nyland/records.jsonl`, never `data/staging/`. | **Not run**: no URL, no permission | 0. Tests use an invented CSV ("Testcar Alpha"): 3 records |
 | `kba-fz10` | KBA FZ10 new registrations by make and model series | https://www.kba.de/DE/Statistik/Produktkatalog/produkte/Fahrzeuge/fz10/fz10_gentab.html | **dl-de/by-2-0**: Impressum sheet of each file, "Nutzungsbedingungen: © Kraftfahrt-Bundesamt, Flensburg / Datenlizenz Deutschland - Namensnennung - Version 2.0" | © Kraftfahrt-Bundesamt, Flensburg. Datenlizenz Deutschland – Namensnennung – Version 2.0 (FZ10, Neuzulassungen nach Marken und Modellreihen). | New BEV registrations in DE ("mit Elektroantrieb (BEV)" column) per Marke × Modellreihe, **year-to-date**: Jan–Oct 2026 (`fz10_2026_10`) and the full year 2025 (`fz10_2025_12`). Year = data year. Confidence high. | **Live**: two .xlsx downloads (Nov 2026 file not out yet, so Oct 2026 is newest) | 423 records (2026: 221, 2025: 202). BEV 2026 Jan–Oct 695,069 emitted + 3,161 "SONSTIGE" = 698,230 = KBA grand total; 2025: 540,884 + 4,258 = 545,142. Fixture: 30 |
@@ -43,6 +43,32 @@ We checked it on 2026-11-15 against `8ys7-d773` with 1,000 random rows each way:
 Year = year of first admission anywhere, so imports count from their foreign first
 registration. Trade names are raw and messy (`NISSAN LEAF 40KWH`, `ID.3 PRO 150 KW`):
 matching (T-005) maps them to models.
+
+*Specs (added 2026-11-15, coverage-gaps findings 3 and 4).* Same grouping, merk ×
+handelsbenaming × year of first admission, written into each record_key as
+`[merk|handelsbenaming|jaar]`. Spec records have confidence medium, one field per record, with a
+`registered_count` weight = the cars behind the median.
+- **NL catalogue price** = `m9d7-ebf2.catalogusprijs`. RDW definition (Beschrijving dataset
+  gekentekende voertuigen v5.4): "De catalogusprijs is gebaseerd op informatie van de
+  importeur en is als volgt berekend: netto-catalogusprijs, verhoogd met de BTW en de BPM";
+  legally required since 1 July 2005 and the basis for the bijtelling. So EUR, incl. VAT and
+  BPM (BEVs paid no BPM before 2025). It is per car, so trims and factory options spread it.
+  Only cars sold new in NL count (`datum_eerste_toelating = datum_eerste_tenaamstelling_in_nederland`),
+  so used imports don't mix in. Median and count are exact, server-side (`median()`).
+- **WLTP** = `8ys7-d773.actie_radius_enkel_elektrisch_wltp` (km) and
+  `elektrisch_verbruik_enkel_elektrisch_wltp` (Wh/km, emitted as kWh/100km = Wh/km ÷ 10).
+  Socrata metadata: "Actieradius / Electrisch verbruik gemeten bij een op een rollenbank
+  rijdend puur elektrisch voertuig tijdens een rit volgens de WLTP test onder gecombineerde
+  belasting". (The RDW PDF swaps the two descriptions; values show which is which: median
+  162 = Wh/km.) The fuel table has no make, and joins are refused, so we use a fixed 10 %
+  plate sample (`kenteken like '___7%'`, 9–10 % of BEVs in every year 2015–2026), fetch only
+  plate + needed columns from both tables, join in memory, and store only per-group value
+  histograms (never plates). Empty for NEDC-era cars.
+- **Spread rule.** Interquartile range from the sample. IQR > 5 % of the median, or fewer than
+  5 cars: no value for that field, counted in the run log (`dropped_wide_spread`,
+  `dropped_small_sample`, with examples). Price may skip the sample check when the full
+  group's min and max are within 5 %. A group where ~75 % of cars share one value passes; the
+  median is then that car's real value, not a blend.
 
 **eea.** The Discodata WAF (Azure Application Gateway) answers HTTP 403 to many GET queries
 with quoted literals, but the same SQL POSTed as a form body works. That's why the adapter

@@ -11,7 +11,7 @@ This dataset is published by EV Shortlist under CC BY 4.0 (see LICENSE). It is b
 | [Open EV Data (KilowattApp)](https://github.com/KilowattApp/open-ev-data) (`kilowatt-openev`) | Tijs Teulings / KilowattApp (GitHub) | [MIT-with-attribution](https://github.com/KilowattApp/open-ev-data/blob/main/LICENSE) | Open EV Data (https://github.com/KilowattApp/open-ev-data) |
 | EV Finder estimate models (`model-estimate`) | EV Finder | [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) | EV Finder estimate models |
 | [Open EV Data](https://github.com/open-ev-data/open-ev-data-dataset) (`openev`) | open-ev-data (GitHub) | [CDLA-Permissive-2.0](https://cdla.dev/permissive-2-0/) | Contains data from OpenEV Data (open-ev-data-dataset), CDLA-Permissive-2.0. |
-| [RDW Open Data](https://opendata.rdw.nl/d/m9d7-ebf2) (`rdw`) | RDW (NL) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) | Dutch vehicle register (RDW open data, CC0). Wording pending QUESTIONS.md Q-037. |
+| [RDW Open Data](https://opendata.rdw.nl/d/8ys7-d773) (`rdw`) | RDW (NL) | [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/) | Dutch vehicle register (RDW open data, CC0). Wording pending QUESTIONS.md Q-037. |
 | EV Finder seed (hand-entered, unchecked) (`seed-manual`) | EV Finder | [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) | EV Finder contributors |
 
 ## Licence notices

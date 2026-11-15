@@ -800,3 +800,10 @@ def test_variants_validator_checks_source_names() -> None:
     assert any("g-b" in e and "also on g-a" in e for e in errors)
     assert any("g-c" in e and "non-empty names" in e for e in errors)
     assert not any("g-d" in e or "g-a)" in e for e in errors)
+
+
+def test_rdw_spec_records_never_create_variants() -> None:
+    """Q-068: RDW trade names are registration names; RDW specs may only attach to existing rows."""
+    from ev_pipeline.match import matcher
+
+    assert "rdw" in matcher.ATTACH_ONLY_SOURCES

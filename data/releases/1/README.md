@@ -1,15 +1,15 @@
 # EV Finder catalogue release 1
 
-Generated 2026-11-15T01:37:26+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
+Generated 2026-11-15T01:49:57+00:00 by `ev release`. Data licence: CC BY 4.0 (see DATA_LICENSE.md); third-party inputs keep their own licences, listed below.
 
 ## Counts
 
-- Variants (rows): 199
+- Variants (rows): 197
 - Generations with rows: 55 of 56 in the seed
-- Facts: 7887
-- Quality tiers: single-source 197, sourced 2
-- Real-range rungs: body-ratio 115, none 84
-- Changes vs previous: +199 / -0 / ~0
+- Facts: 8434
+- Quality tiers: single-source 184, sourced 13
+- Real-range rungs: body-ratio 126, none 71
+- Changes vs previous: +197 / -0 / ~0
 
 ## Sources and licences
 
@@ -34,7 +34,7 @@ Generated 2026-11-15T01:37:26+00:00 by `ev release`. Data licence: CC BY 4.0 (se
 - Contains data from Open EV Data (KilowattApp) (https://github.com/KilowattApp/open-ev-data), licensed MIT-with-attribution. Open EV Data (https://github.com/KilowattApp/open-ev-data)
 - Contains data from EV Finder estimate models, licensed CC-BY-4.0.
 - Contains data from Open EV Data (https://github.com/open-ev-data/open-ev-data-dataset), licensed CDLA-Permissive-2.0. Contains data from OpenEV Data (open-ev-data-dataset), CDLA-Permissive-2.0.
-- Contains data from RDW Open Data (https://opendata.rdw.nl/d/m9d7-ebf2), licensed CC0-1.0. Bron: RDW Open Data (opendata.rdw.nl), CC0.
+- Contains data from RDW Open Data (https://opendata.rdw.nl/d/8ys7-d773), licensed CC0-1.0. Bron: RDW Open Data (opendata.rdw.nl), CC0.
 - Contains data from EV Finder seed (hand-entered, unchecked), licensed CC-BY-4.0. EV Finder contributors
 
 ## Caveats

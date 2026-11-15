@@ -16,7 +16,44 @@
     "licenseId": "PUBLIC_DOMAIN",
     "custom_fields.Licentie": "Creative Commons 0 (CC0)"
   },
+  "fuel_dataset": {
+    "url": "https://opendata.rdw.nl/resource/8ys7-d773.json",
+    "dataset_name": "Open Data RDW: Gekentekende_voertuigen_brandstof",
+    "dataset_rows_updated_at": 1794641147,
+    "licence_metadata": {
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    }
+  },
+  "price_query": {
+    "$select": "merk, handelsbenaming, date_extract_y(datum_eerste_toelating_dt) AS jaar, count(catalogusprijs) AS n, median(catalogusprijs) AS med, min(catalogusprijs) AS mn, max(catalogusprijs) AS mx",
+    "$where": "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101 AND datum_eerste_toelating = datum_eerste_tenaamstelling_in_nederland AND catalogusprijs > 0",
+    "$group": "merk, handelsbenaming, jaar",
+    "$order": "merk, handelsbenaming, jaar"
+  },
+  "sample_main_query": {
+    "$select": "kenteken, merk, handelsbenaming, date_extract_y(datum_eerste_toelating_dt) AS jaar, catalogusprijs, datum_eerste_toelating = datum_eerste_tenaamstelling_in_nederland AS nieuw_nl",
+    "$where": "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101 AND kenteken like '___7%'",
+    "$order": "kenteken"
+  },
+  "sample_fuel_query": {
+    "$select": "kenteken, actie_radius_enkel_elektrisch_wltp AS range_km, elektrisch_verbruik_enkel_elektrisch_wltp AS wh_km",
+    "$where": "brandstof_omschrijving = 'Elektriciteit' AND (actie_radius_enkel_elektrisch_wltp IS NOT NULL OR elektrisch_verbruik_enkel_elektrisch_wltp IS NOT NULL) AND kenteken like '___7%'",
+    "$order": "kenteken"
+  },
   "pages": 1,
   "rows": 118,
-  "note": "Test fixture: subset of the recorded live response (rows for LEAF, MODEL 3, ID.3, IONIQ 5, MEGANE E-TECH), unchanged. RDW Open Data, CC0."
+  "price_groups": 81,
+  "sample": {
+    "main_rows": 91814,
+    "fuel_rows": 86048,
+    "joined_plates": 83111,
+    "groups": 1811,
+    "note": "Plates are joined in memory and never stored; only histograms.",
+    "fixture_groups": 86
+  },
+  "note": "Test fixture: subset of the recorded live responses (rows for LEAF, MODEL 3, ID.3, IONIQ 5, MEGANE E-TECH), unchanged. Counts recorded 2026-11-14; price stats and sample histograms recorded 2026-11-15. RDW Open Data, CC0. No plates."
 }
