@@ -1,7 +1,7 @@
 {
  "schema": "release-sources/v1",
  "release": 1,
- "generated_at": "2026-11-15T03:46:27+00:00",
+ "generated_at": "2026-11-15T04:13:46+00:00",
  "sources": {
   "ademe": {
    "id": "ademe",
@@ -12,6 +12,28 @@
    "cadence": "quarterly",
    "registry_status": "active",
    "in_catalogue": true
+  },
+  "bnetza": {
+   "id": "bnetza",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "Bundesnetzagentur Ladesäulenregister: Ladeinfrastruktur in Zahlen",
+   "licence": "CC-BY-4.0",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": false,
+   "in_charging_stats": true
+  },
+  "dft-charging": {
+   "id": "dft-charging",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "DfT electric vehicle charging infrastructure statistics (EVCI tables)",
+   "licence": "OGL-UK-3.0",
+   "cadence": "quarterly",
+   "registry_status": "active",
+   "in_catalogue": false,
+   "in_charging_stats": true
   },
   "dft-veh": {
    "id": "dft-veh",

@@ -92,16 +92,31 @@ def public_entry(entry: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in entry.items() if k not in ("seen_fingerprint",)}
 
 
+def charging_source_ids(charging: dict[str, Any] | None) -> set[str]:
+    """Registry ids of the sources behind charging_stats.json (its aliases resolved)."""
+    if not charging:
+        return set()
+    aliases = charging.get("source_aliases") or {}
+    ids = {str(s["id"]) for s in charging.get("sources") or [] if s.get("id")}
+    ids |= {str(st["source_id"]) for st in charging.get("stats") or [] if st.get("source_id")}
+    return {str(aliases.get(i, i)) for i in ids}
+
+
 def release_sources_doc(
-    data_dir: Path, catalogue: dict[str, Any], registry_entries: list[dict[str, Any]]
+    data_dir: Path,
+    catalogue: dict[str, Any],
+    registry_entries: list[dict[str, Any]],
+    charging: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """sources.json for a release: the health entry of every refreshable source plus every
-    source the catalogue cites (manual ones get `refresh: none`)."""
+    source the catalogue or charging_stats.json cites (manual ones get `refresh: none`;
+    A-05 L5: the charging sources were missing)."""
     state = load_state(data_dir)
     reg = {str(e.get("id")): e for e in registry_entries if e.get("id")}
     cited = {str(s["id"]) for s in catalogue.get("sources") or []}
+    in_charging = charging_source_ids(charging)
     out: dict[str, dict[str, Any]] = {}
-    for sid in sorted(set(state) | cited):
+    for sid in sorted(set(state) | cited | in_charging):
         entry = dict(state.get(sid) or {"id": sid, "status": "not_refreshed", "refresh": "none"})
         r = reg.get(sid) or {}
         for k in ("name", "licence", "cadence"):
@@ -109,6 +124,8 @@ def release_sources_doc(
                 entry.setdefault(k, r[k])
         entry["registry_status"] = r.get("status")
         entry["in_catalogue"] = sid in cited
+        if sid in in_charging:
+            entry["in_charging_stats"] = True
         out[sid] = public_entry(entry)
     return {
         "schema": SCHEMA,

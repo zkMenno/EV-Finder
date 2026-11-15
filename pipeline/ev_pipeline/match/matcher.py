@@ -60,7 +60,13 @@
    attached to one existing variant of its generation: same name, else the generation's
    only variant, else the single variant with the most evidence (battery kWh, power kW,
    WLTP km, shared distinctive name words; on equal evidence the name with the fewest words
-   the record lacks); a tie or no evidence goes to review. Year bands of one variant count
+   the record lacks, but only when every tied name shares a word with the record); a tie or
+   no evidence goes to review. A-05: a record without a variant name (RDW year groups, EPA
+   rows) names no variant, so it is never a "same name" match for a variant called "base";
+   it attaches only to a generation's only variant or by unique evidence. Generic trim words
+   (long, standard, extended, plus, max) count only next to a distinctive shared word or
+   numeric evidence; "range" is a stop word and "long range" / "standard range" /
+   "extended range" are joined into one token each (F8). Year bands of one variant count
    as one candidate; the record's year then picks the band. A record without a year uses
    battery/name evidence to pick the generation, else goes to review.
    Power gate (Q-086, POWER_GATE_SOURCES): when such a record carries power evidence (RDW
@@ -79,10 +85,10 @@
    TGK evidence (TGK_EVIDENCE_SOURCES, rdw-tgk; see `tgk_pick`): a type-approval version
    names no battery, so the variant is picked from the version's own figures: years (+-1),
    the battery its range x consumption implies, trade-name words, a range number in the
-   variant name ("R240"), WLTP, and (tie-break only) a missing 30-minute power meaning more
-   than one motor. Only a single fitting variant is chosen; ties and misfits go to review
-   ("tgk: several variants fit" / "tgk: no variant fits"). A TGK year shared by two
-   generations (e-Golf 2017) is decided the same way across both generations' variants.
+   variant name ("R240") and WLTP. Only a single fitting variant is chosen; ties and
+   misfits go to review ("tgk: several variants fit" / "tgk: no variant fits"). A TGK year
+   shared by two generations (e-Golf 2017) is decided the same way across both generations'
+   variants.
 
 Nothing here decides values: that is merge's job.
 """
@@ -269,8 +275,13 @@ class VariantInfo:
     source_names: dict[str, set[str]] = field(default_factory=dict)
 
     def named(self, source_id: str, name: str | None) -> bool:
-        """True when `name` is this variant's name or one of `source_id`'s names for it."""
-        k = key(name or "base")
+        """True when `name` is this variant's name or one of `source_id`'s names for it.
+
+        A record without a variant name names no variant (A-05 F1): it is never an exact
+        match for a variant called "base" (RDW year groups and EPA rows blend every trim)."""
+        k = key(name or "")
+        if not k:
+            return False
         return k == key(self.name) or k in self.source_names.get(source_id, set())
 
 
@@ -833,8 +844,20 @@ _STOP_TOKENS = frozenset(
         "new",
         "version",
         "e",
+        "range",  # A-05 F8: "Standard Range" and "Long Range" share it; see _PHRASES
     ]
 )
+# A-05 F8: trim-neutral words. They count as name evidence only next to a distinctive shared
+# word or numeric evidence (kWh, kW, WLTP), never on their own.
+_GENERIC_TOKENS = frozenset({"long", "standard", "extended", "plus", "max", "std"})
+# Two-word trim phrases kept as one token, so "standard range" never shares a word with
+# "long range" ("range" alone is a stop word). The joined token is distinctive evidence.
+_PHRASES: dict[tuple[str, str], str] = {
+    ("long", "range"): "longrange",
+    ("standard", "range"): "standardrange",
+    ("std", "range"): "standardrange",
+    ("extended", "range"): "extendedrange",
+}
 _KW_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*kw(?!h)", re.IGNORECASE)
 POWER_TOLERANCE = 0.02
 WLTP_TOLERANCE = 0.02
@@ -891,8 +914,34 @@ class _Candidate:
     battery: set[tuple[float, str]] = field(default_factory=set)
 
 
+def _joined_tokens(text: str | None) -> list[str]:
+    """tokens() with the two-word trim phrases of _PHRASES joined into one token."""
+    toks = tokens(text)
+    out: list[str] = []
+    i = 0
+    while i < len(toks):
+        pair = (toks[i], toks[i + 1]) if i + 1 < len(toks) else None
+        if pair in _PHRASES:
+            out.append(_PHRASES[pair])  # type: ignore[index]
+            i += 2
+        else:
+            out.append(toks[i])
+            i += 1
+    return out
+
+
 def _distinct_tokens(text: str | None, drop: set[str]) -> set[str]:
-    return {t for t in tokens(text) if t not in _STOP_TOKENS and t not in drop}
+    return {t for t in _joined_tokens(text) if t not in _STOP_TOKENS and t not in drop}
+
+
+def name_score(words: set[str], cand: set[str], numeric: int = 0) -> int:
+    """Shared name words as evidence (A-05 F8): generic words count only next to a
+    distinctive shared word or numeric evidence."""
+    shared = words & cand
+    distinct = shared - _GENERIC_TOKENS
+    if distinct or numeric > 0:
+        return len(shared)
+    return 0
 
 
 def attach_records(
@@ -1000,17 +1049,17 @@ def attach_records(
 #    e-208, Mini, Honda e, I-Pace, e-tron and EQC. A candidate fits when every such energy
 #    is within TGK_ENERGY_RATIO of one of its defining battery figures (seed-manual's when
 #    it has one, else the highest-priority source's; kWh in its name only when no source
-#    has one). Candidates of unknown battery stay only with name evidence, or when no
-#    candidate fits (then they need name evidence).
+#    has one). Candidates of unknown battery stay only when no candidate fits (then they
+#    need name evidence). Battery fits next to name-only candidates of unknown battery is a
+#    tie for review (A-05 F12), never decided by the name count.
 # 0. Range in the name: a 3-digit number in a candidate name equal to the version's NEDC or
 #    WLTP range ("Q210", "R240") limits the choice to those candidates (checked first; the
 #    year and battery checks still apply, so a contradiction goes to review).
 # 3. Name: distinctive words of the maker trade names ("I3S", "E-TRON 55"), and a kWh figure
 #    in the plate name ("NISSAN LEAF 24KWH") within 1 kWh of the candidate's.
 # 4. WLTP: the version's best-case WLTP within 2 % of the candidate's known WLTP.
-# 5. Drivetrain (tie-break only): TGK leaves 30-minute power out on multi-motor versions, so
-#    a version with range figures but no 30-minute power prefers AWD candidates. The reverse
-#    is not used: some dual-motor versions (I-Pace, early Model S) carry one 30-minute row.
+# 5. Drivetrain: OFF (A-05 F12, TGK_AWD_TIE_BREAK). TGK leaves 30-minute power out on
+#    multi-motor versions, but a missing field is not evidence; such ties go to review.
 # Running-order mass is not used: seed kerb weights are sparse and not on the same basis.
 TGK_EVIDENCE_SOURCES = frozenset({"rdw-tgk"})
 # Energy drawn on the test / battery kWh, per basis of the battery figure (see 2 above).
@@ -1020,6 +1069,9 @@ TGK_ENERGY_RATIO: dict[str, tuple[float, float]] = {
     "name": (0.95, 1.5),  # kWh in a variant name: net or gross, unknown
 }
 TGK_YEAR_SLACK = 1
+# A-05 F12: "no 30-minute power -> prefer AWD" infers from a missing field, so it is off;
+# such ties go to review. Kept as a switch so its effect can be measured.
+TGK_AWD_TIE_BREAK = False
 TGK_TIE = "tgk: several variants fit"
 TGK_MISFIT = "tgk: no variant fits"
 _RANGE_NUM_RE = re.compile(r"(?<!\d)(\d{3})(?!\d)(?!\s*(?:kw|ah|v\b|nm|ps|hp|km/h))", re.I)
@@ -1117,19 +1169,23 @@ def tgk_pick(
             return None, f"{TGK_MISFIT} year {rec.year} (+-{TGK_YEAR_SLACK})"
     words = _tgk_words(rec, drop)
     rec_kwh = kwh_in_text(rec.model, rec.variant_name)  # "NISSAN LEAF 24KWH"
-    named = {
-        c.root: len(words & c.name_tokens)
-        + (1 if any(abs(a - b) <= KWH_TOLERANCE for a in rec_kwh for b in c.kwh) else 0)
-        for c in pool
-    }
+    named = {}
+    for c in pool:
+        kwh_hit = 1 if any(abs(a - b) <= KWH_TOLERANCE for a in rec_kwh for b in c.kwh) else 0
+        named[c.root] = name_score(words, c.name_tokens, kwh_hit) + kwh_hit
     energies = tgk_energies(rec)
     need_evidence = False
     if energies:
         fit = [c for c in pool if c.battery and _battery_fits(energies, c.battery)]
         unknown = [c for c in pool if not c.battery]
         e_txt = "/".join(f"{e:g}" for e in energies)
+        named_unknown = [c for c in unknown if named[c.root] > 0]
+        if fit and named_unknown:
+            # A-05 F12: battery evidence for some, name words only for others. Letting the
+            # name count decide between the two kinds of evidence would be a guess.
+            return None, f"{TGK_TIE}: battery fits {ids(fit)}, name only {ids(named_unknown)}"
         if fit:
-            pool = fit + [c for c in unknown if named[c.root] > 0]
+            pool = fit
         elif unknown:
             pool, need_evidence = unknown, len(cands) > 1
         else:
@@ -1144,7 +1200,12 @@ def tgk_pick(
         close = [c for c in pool if _close_rel(wltp, c.wltp, WLTP_TOLERANCE)]
         if close:
             pool = close
-    if len(pool) > 1 and energies and FactField.power_30min_kw not in rec.specs:
+    if (
+        TGK_AWD_TIE_BREAK
+        and len(pool) > 1
+        and energies
+        and FactField.power_30min_kw not in rec.specs
+    ):
         awd = [c for c in pool if "awd" in _drivetrains(c, result)]
         if awd:
             pool = awd
@@ -1182,7 +1243,7 @@ def _best_candidate(
         else:
             numeric += 2 if _close_rel(power, c.power, POWER_TOLERANCE) else 0
         numeric += 1 if _close_rel(wltp, c.wltp, WLTP_TOLERANCE) else 0
-        scored.append((len(words & c.name_tokens) + numeric, numeric, c))
+        scored.append((name_score(words, c.name_tokens, numeric) + numeric, numeric, c))
     top = max(s for s, _, _ in scored)
     if top == 0:
         return None, "no variant evidence (name, kWh, kW, WLTP)"
@@ -1191,8 +1252,10 @@ def _best_candidate(
         # Only WLTP within tolerance, for 2+ candidates: the name-length tie-break below
         # would be a guess (Q-086).
         return None, f"{AMBIGUOUS_EVIDENCE}: WLTP fits " + ", ".join(c.root for c in best)
-    if len(best) > 1:
-        # Same evidence: the variant whose name has the fewest words the record lacks.
+    # Same evidence: the variant whose name has the fewest words the record lacks, but only
+    # when every tied candidate shares a name word with the record (A-05 F1): a variant with
+    # no words ("base") would otherwise win every tie on no evidence at all.
+    if len(best) > 1 and all(name_score(words, c.name_tokens, 0) > 0 for c in best):
         extra = {c.root: len(c.name_tokens - words) for c in best}
         fewest = min(extra.values())
         best = [c for c in best if extra[c.root] == fewest]

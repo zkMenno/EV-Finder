@@ -7,6 +7,10 @@ Each field lists `primary` and `fallbacks` source ids (that order is the priorit
             pick their *low median*: a real observed value, never an average.
 - newest:   the most recently retrieved value wins (then model year, then priority).
 
+Optional keys: `agreement_wins: false` turns off "agreement beats priority" (merge.py);
+`needs_backing: [source ids]`: a value whose agreeing sources are only these is withheld and
+sent to review (qa/value_guard.py, A-05 F9).
+
 Sources not listed for a field rank below every listed one, in the default order
 (matcher.SOURCE_PRIORITY). Fields not in the file keep the overnight defaults: majority of 3+
 agreeing values, else priority, recency as tie-breaker, 3% tolerance (`mode = "default"`).
@@ -34,6 +38,10 @@ class FieldPolicy:
     tol_pct: float | None = DEFAULT_TOLERANCE_PCT
     tol_abs: float | None = None
     tol_unit: str | None = None
+    # A-05 F1 (c): in priority mode, 2+ agreeing independent origins outvote the winner.
+    agreement_wins: bool = True
+    # A-05 F9: sources whose value is withheld (review) unless another source agrees.
+    needs_backing: tuple[str, ...] = ()
 
     def priority(self, source_id: str) -> int:
         if source_id in self.order:
@@ -88,6 +96,8 @@ def parse_policies(data: dict[str, Any]) -> Policies:
             tol_pct=None if tol_pct is None else float(tol_pct),
             tol_abs=None if tol_abs is None else float(tol_abs),
             tol_unit=tol.get("unit"),
+            agreement_wins=bool(spec.get("agreement_wins", True)),
+            needs_backing=tuple(spec.get("needs_backing") or ()),
         )
     return Policies(out)
 

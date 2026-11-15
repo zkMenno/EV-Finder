@@ -541,7 +541,9 @@ def _release(
         "seconds_before_release": round(t - t0, 1),
     }
     extras = {
-        "sources.json": release_sources_doc(data_dir, res.catalogue, registry_entries(data_dir)),
+        "sources.json": release_sources_doc(
+            data_dir, res.catalogue, registry_entries(data_dir), res.charging_stats
+        ),
         "refresh.json": summary,
     }
     try:

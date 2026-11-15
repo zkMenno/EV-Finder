@@ -416,6 +416,11 @@ No answer needed unless you disagree. **What changed:** `pnpm build` fails witho
 
 **Answer:** Coordinator: done, `APP_URL: https://ev.example.com` added to the CI `web` and `e2e` jobs. Menno: only the domain step, later.
 
+### Q-091 · A-05 pipeline fixes: defaults taken (merge, DC peaks, NEDC, tie-breaks) · A-05 F1/F4/F9/F12 · pipeline builder · 2026-11-15
+No answer needed unless you disagree; details in audits/A-05-overnight-review.md "Fixes". **Defaults taken:** (1) **Agreement beats priority** (`merge/merge.py`, all `merge: priority` fields, opt-out `agreement_wins: false` in field_sources.yaml): when 2+ independent origins (rdw-tgk counts as rdw; seed-manual never counts) agree on another value and outnumber the priority winner's origins, their best-ranked value wins (rule `agreement`). RDW stays first for WLTP / consumption. (2) **KilowattApp DC peaks need backing** (`needs_backing: [kilowatt-openev]` on `dc_peak_kw`): a DC peak only KilowattApp gives goes to review (28 variants; DC peak rows 239 → 212). Agreement from seed-manual counts as backing, so the 37 KilowattApp + seed rows stay. The seed has no charge-port field, so "no DC socket" could not be a rule; a seed `dc_port` field would let right values come back. (3) **NEDC**: besides NEDC = WLTP ±1 km, NEDC is also dropped on versions approved under 2018/858 and first admitted after 2020 (236 versions; such types have no real NEDC figure). 🟡 reasoned, not checked per version. (4) **TGK tie-breaks** (F12): battery fit vs name-only now goes to review; the AWD rule is off (`TGK_AWD_TIE_BREAK`). Known cost: BMW i3s versions now tie with 94 Ah / 120 Ah because the seed's i3s row has no battery; adding `battery_kwh_net` to `bmw-i3-i01-i3s` (seed lane) brings them back. **For the coordinator:** log (1) and (2) in DECISIONS.md if you agree.
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

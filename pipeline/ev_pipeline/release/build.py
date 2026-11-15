@@ -60,6 +60,7 @@ from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.qa.pack_guard import fill_winning_values, guard_usable_vs_pack
+from ev_pipeline.qa.value_guard import guard_impossible, guard_needs_backing
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
 from ev_pipeline.release.charging_stats import build_charging_stats
@@ -320,6 +321,9 @@ def build_release(
         by_variant, links, {vid: info.generation_id for vid, info in result.variants.items()}
     )
     merged = {vid: merge_variant_facts(fs, policies) for vid, fs in by_variant.items()}
+    # A-05 F9 / F7: unbacked values and impossible pairs go to review, not into rows.
+    pack_conflicts += guard_needs_backing(merged, by_variant, policies)
+    pack_conflicts += guard_impossible(merged, by_variant, policies)
     fill_winning_values(pack_conflicts, merged)
     # Q-019 (a): generation averages may confirm a merged value, never set one (flag-gated).
     corro_facts, corro_dropped = check_fact_ranges(result.corroboration_facts)
@@ -755,8 +759,27 @@ def write_latest(releases: Path, n: int) -> None:
     """Point `latest` at release n atomically: write a temp file, then rename over it, so a
     reader sees the old number or the new one, never an empty file (addendum 6 P2)."""
     tmp = releases / f".latest.tmp-{os.getpid()}"
-    tmp.write_text(f"{n}\n", encoding="utf-8")
+    with tmp.open("w", encoding="utf-8") as fh:
+        fh.write(f"{n}\n")
+        fh.flush()
+        os.fsync(fh.fileno())  # A-05 L2: the bytes are on disk before the rename
     os.replace(tmp, releases / "latest")
+    fsync_dir(releases)  # ...and the rename itself survives a power loss
+
+
+def fsync_dir(path: Path) -> None:
+    """fsync a directory so a rename inside it is durable (no-op where unsupported)."""
+    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
+    try:
+        fd = os.open(path, flags)
+    except OSError:
+        return  # e.g. Windows cannot open directories
+    try:
+        os.fsync(fd)
+    except OSError:
+        pass
+    finally:
+        os.close(fd)
 
 
 def _default_extras(res: ReleaseResult, data_dir: Path) -> dict[str, Any]:
@@ -765,7 +788,9 @@ def _default_extras(res: ReleaseResult, data_dir: Path) -> dict[str, Any]:
     from ev_pipeline.refresh.plan import registry_entries
 
     return {
-        "sources.json": release_sources_doc(data_dir, res.catalogue, registry_entries(data_dir))
+        "sources.json": release_sources_doc(
+            data_dir, res.catalogue, registry_entries(data_dir), res.charging_stats
+        )
     }
 
 

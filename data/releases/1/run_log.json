@@ -1,6 +1,6 @@
 {
  "step": "release",
- "at": "2026-11-15T03:46:27+00:00",
+ "at": "2026-11-15T04:13:46+00:00",
  "inputs": [
   {
    "path": "data/seed/models.yaml",
@@ -44,7 +44,7 @@
   {
    "path": "data/staging/rdw-tgk.records.jsonl",
    "records": 8513,
-   "modified": "2026-11-15T03:22:09+00:00"
+   "modified": "2026-11-15T04:13:33+00:00"
   },
   {
    "path": "data/staging/rdw.records.jsonl",
@@ -133,7 +133,7 @@
   "release": 1,
   "rows": 244,
   "generations_with_rows": 75,
-  "facts": 41578,
+  "facts": 40090,
   "sources": [
    "ademe",
    "dft-veh",
@@ -149,7 +149,7 @@
    "seed-manual",
    "wikidata"
   ],
-  "matched_records": 10758,
+  "matched_records": 10248,
   "excluded_records": {},
   "count_only_spec_records_skipped": {},
   "match_flags": {
@@ -166,15 +166,15 @@
    "variants_corroborated_by_field": {}
   },
   "attach_only_records_attached": {
-   "ademe": 48,
-   "fueleconomy": 587,
-   "kilowatt-openev": 426,
-   "rdw": 1216,
-   "rdw-tgk": 2630
+   "ademe": 43,
+   "fueleconomy": 487,
+   "kilowatt-openev": 395,
+   "rdw": 932,
+   "rdw-tgk": 2540
   },
   "ignored_fields": {
-   "fueleconomy:consumption_kwh_100km": 540,
-   "kilowatt-openev:consumption_kwh_100km": 353
+   "fueleconomy:consumption_kwh_100km": 448,
+   "kilowatt-openev:consumption_kwh_100km": 326
   },
   "registrations_coverage": {
    "BE": {
@@ -204,14 +204,14 @@
    }
   },
   "dc_curve_status": {
-   "default": 186,
-   "estimated": 53,
-   "none": 5
+   "default": 174,
+   "estimated": 51,
+   "none": 19
   },
   "price_new_coverage": {
    "DE": 11,
-   "FR": 14,
-   "NL": 103
+   "FR": 13,
+   "NL": 95
   },
   "year_bands": [
    {
@@ -306,18 +306,18 @@
     ]
    }
   ],
-  "unmatched_records": 17421,
-  "unmatched_seed_makes": 13109,
+  "unmatched_records": 17931,
+  "unmatched_seed_makes": 13619,
   "validation_problems": 3,
-  "conflicts": 5062,
+  "conflicts": 4175,
   "gated_sources": {},
   "real_range_rungs": {
-   "body-ratio": 216,
-   "none": 28
+   "body-ratio": 215,
+   "none": 29
   },
   "quality_tiers": {
-   "single-source": 220,
-   "sourced": 24
+   "single-source": 208,
+   "sourced": 36
   },
   "optional_taxonomy_rows": {
    "bidi_modes": 4,
@@ -349,11 +349,11 @@
   },
   "sections": {
    "epa_range_km": {
-    "fueleconomy_only": 54,
-    "rows": 104,
-    "second_source_via_fueleconomy": 15,
-    "two_plus_agreeing": 15,
-    "with_fueleconomy": 77
+    "fueleconomy_only": 44,
+    "rows": 106,
+    "second_source_via_fueleconomy": 27,
+    "two_plus_agreeing": 27,
+    "with_fueleconomy": 79
    },
    "generation_years": {
     "records": 13,
@@ -424,8 +424,8 @@
     }
    }
   },
-  "catalogue_json_bytes": 7886666,
-  "catalogue_json_gzip_bytes": 475633,
+  "catalogue_json_bytes": 7816992,
+  "catalogue_json_gzip_bytes": 470437,
   "diff": {
    "rows_previous": 0,
    "rows": 244,

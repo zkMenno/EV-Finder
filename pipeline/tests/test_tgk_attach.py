@@ -186,7 +186,10 @@ def test_i3_battery_years_and_name() -> None:
     res = _run([I3_2013, I3_2016_94, I3S_2017, I3_2017, I3_2018_120])
     assert _placed(res, I3_2013) == {"bmw-i3-i01-60ah"}
     assert _placed(res, I3_2016_94) == {"bmw-i3-i01-94ah"}  # 2016: 60 Ah too old for 312 km
-    assert _placed(res, I3S_2017) == {"bmw-i3-i01-i3s"}  # "I3S" in the trade names
+    # "I3S" names the i3s, but the i3s has no known battery while 94 Ah fits the battery:
+    # name-only against battery evidence is a tie for review (A-05 F12), not a pick.
+    assert _placed(res, I3S_2017) == set()
+    assert "name only bmw-i3-i01-i3s" in _reason(res, I3S_2017)
     assert _placed(res, I3_2018_120) == {"bmw-i3-i01-120ah"}
     # 2017, 39 kWh drawn: fits 94 Ah and 120 Ah (2018 - 1 year): review, not a guess.
     why = _reason(res, I3_2017)
@@ -241,11 +244,13 @@ TWIN = [
 RANGE = {"wltp_range_km": (270, "km"), "consumption_kwh_100km": (17.1, "kWh/100km")}
 
 
-def test_no_30min_power_prefers_awd_as_tie_break_only() -> None:
+def test_missing_30min_power_breaks_no_tie() -> None:
+    """A-05 F12: a missing 30-minute power is no evidence of AWD; the tie goes to review."""
     no_power = _tgk("LEAF", 2019, RANGE)
     single = _tgk("LEAF", 2019, RANGE | {"power_30min_kw": (90, "kW")})
     res = _run([no_power, single], TWIN)
-    assert _placed(res, no_power) == {"nissan-leaf-ze1-awd"}
+    assert _placed(res, no_power) == set()
+    assert TGK_TIE in _reason(res, no_power)
     # One 30-minute row is not proof of one motor (I-Pace): tie, review.
     assert TGK_TIE in _reason(res, single)
 

@@ -65,9 +65,9 @@ power_bands:
     max_kw: null
     ours: true
 
-  # --- EAFO / AFIR (DC split as in the spec) -----------------------------------------------
+  # --- AFIR (DC split as in the spec; ids keep "eafo", the source is blocked: A-05 L5) -----------------------------------------------
   - id: eafo-dc-50-149
-    label: {en: "EAFO: DC 50–149 kW", nl: "EAFO: DC 50–149 kW"}
+    label: {en: "EU (AFIR): DC 50–149 kW", nl: "EU (AFIR): DC 50–149 kW"}
     current: dc
     min_kw: 50
     max_kw: 150
@@ -76,7 +76,7 @@ power_bands:
     maps_to: [dc-50-149]
 
   - id: eafo-dc-150-349
-    label: {en: "EAFO: DC 150–349 kW", nl: "EAFO: DC 150–349 kW"}
+    label: {en: "EU (AFIR): DC 150–349 kW", nl: "EU (AFIR): DC 150–349 kW"}
     current: dc
     min_kw: 150
     max_kw: 350
@@ -85,7 +85,7 @@ power_bands:
     maps_to: [dc-150-349]
 
   - id: eafo-dc-350-plus
-    label: {en: "EAFO: DC 350 kW+", nl: "EAFO: DC 350 kW+"}
+    label: {en: "EU (AFIR): DC 350 kW+", nl: "EU (AFIR): DC 350 kW+"}
     current: dc
     min_kw: 350
     max_kw: null

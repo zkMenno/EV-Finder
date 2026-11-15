@@ -14,6 +14,12 @@ tolerance and mode. Fields without a policy use the overnight defaults:
 
 Values are never averaged: the merged value is always one real fact's value.
 
+**Agreement beats priority** (A-05 F1 c, `agreement_wins`, on unless field_sources.yaml says
+`agreement_wins: false`): in priority mode, when 2+ independent origins agree among
+themselves on another value and outnumber the priority winner's origins, their best-ranked
+fact wins instead (rule `agreement`); the priority value becomes a conflict. Origins: sources
+mapped through SAME_ORIGIN, seed-manual and model-estimate excluded.
+
 Confidence: `high` when 2+ *independent* sources agree within the field tolerance; otherwise
 the winning fact's own confidence. `seed-manual` is hand-entered from memory and unchecked, so
 it never counts as an independent confirmation (QUESTIONS.md Q-015). `agreeing_sources` is the
@@ -63,7 +69,7 @@ class Merged:
     source_ids: list[str]
     fact_ids: list[str]
     winner: MatchedFact
-    rule: str  # "majority", "priority", "median", "newest", "single"
+    rule: str  # "majority", "priority", "agreement", "median", "newest", "single"
     overruled: int
     independent_agreeing: int  # distinct independent sources agreeing with the value
     conflicts: list[MatchedFact] = field(default_factory=list)
@@ -86,6 +92,8 @@ class Merged:
         parts = []
         if self.rule in ("majority", "median", "newest"):
             parts.append(f"{self.rule} rule")
+        elif self.rule == "agreement":
+            parts.append("agreeing sources outvote the priority source")
         if self.overruled:
             parts.append(f"{self.overruled} conflicting value(s) not used")
         for c in self.corroborations:
@@ -155,6 +163,10 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
     else:  # priority
         winner = by_rank[0]
         rule = "priority"
+    if rule == "priority" and policy.agreement_wins:
+        alt = _outvoted_by(winner, by_rank, policy)
+        if alt is not None:
+            winner, rule = alt, "agreement"
     agreeing = [f for f in by_rank if policy.agree(winner.fact.value, f.fact.value)]
     if winner in agreeing:  # winner first
         agreeing.remove(winner)
@@ -175,10 +187,12 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
     for f in agreeing:
         if f.source_id not in source_ids:
             source_ids.append(f.source_id)
+    # A-05 F6: only voters count as independent agreement. A SPREAD_SOURCES version that
+    # agrees while its source's own vote is a conflict backs fact_ids, never confidence.
     independent = {
         SAME_ORIGIN.get(f.source_id, f.source_id)
         for f in agreeing
-        if f.source_id not in NOT_INDEPENDENT
+        if f.source_id not in NOT_INDEPENDENT and f.source_id in voted
     }
     confidence = "high" if len(independent) >= 2 else _conf(winner)
     return Merged(
@@ -195,6 +209,35 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         tolerance=policy.tolerance_text(),
         spread=same_spread,
     )
+
+
+def _origins(facts: list[MatchedFact]) -> set[str]:
+    return {SAME_ORIGIN.get(f.source_id, f.source_id) for f in facts} - NOT_INDEPENDENT
+
+
+def _outvoted_by(
+    winner: MatchedFact, by_rank: list[MatchedFact], policy: FieldPolicy
+) -> MatchedFact | None:
+    """A-05 F1 (c): the best-ranked fact of a group of 2+ independent origins that agree
+    among themselves and outnumber the priority winner's group, else None. One blended
+    record (an RDW year group) must not override several agreeing sources. Two such groups
+    that disagree with each other: no clear agreement, the priority value stays."""
+    w = len(_origins([f for f in by_rank if policy.agree(winner.fact.value, f.fact.value)]))
+    groups: list[tuple[int, list[MatchedFact]]] = []
+    for f in by_rank:
+        if policy.agree(winner.fact.value, f.fact.value):
+            continue
+        g = [h for h in by_rank if policy.agree(f.fact.value, h.fact.value)]
+        n = len(_origins(g))
+        if n >= 2 and n > w:
+            groups.append((n, g))
+    if not groups:
+        return None
+    top = max(n for n, _ in groups)
+    leaders = [g[0] for n, g in groups if n == top]
+    if all(policy.agree(leaders[0].fact.value, x.fact.value) for x in leaders):
+        return leaders[0]
+    return None
 
 
 def _one_vote_per_version_source(

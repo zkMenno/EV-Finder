@@ -2,6 +2,9 @@
 # primary: 1–2 source ids, tried first. fallbacks: in order. tolerance: values within it "agree".
 # merge: priority (first available in order) | median (of agreeing values) | newest (most recent retrieval).
 # Conflicts outside tolerance go to data/review/conflicts.csv and are never averaged.
+# agreement_wins (default true, A-05 F1 c): in priority mode 2+ agreeing independent origins
+#   outvote the priority winner (one blended RDW year group no longer beats OpenEV + TGK).
+# needs_backing: [ids] (A-05 F9): a value whose only agreeing sources are these goes to review.
 schema: field-sources/v1
 fields:
   names_years:       {primary: [eea, rdw], fallbacks: [openev, wikidata, maker-docs], merge: priority}
@@ -20,10 +23,15 @@ fields:
   ac_kw:             {primary: [openev, kilowatt-openev], fallbacks: [maker-docs, fastned, seed-manual], tolerance: {pct: 2}, merge: priority}
   dc_curve:          {primary: [fastned], fallbacks: [kilowatt-openev, openev, nyland, model-estimate], merge: priority,
                       note: "OpenEV only where not a default curve; then same platform/pack; else generic shape (estimated)."}
-  dc_peak_kw:        {primary: [fastned, openev], fallbacks: [kilowatt-openev, maker-docs, seed-manual], tolerance: {pct: 5}, merge: priority}
+  dc_peak_kw:        {primary: [fastned, openev], fallbacks: [kilowatt-openev, maker-docs, seed-manual], tolerance: {pct: 5}, merge: priority,
+                      needs_backing: [kilowatt-openev],
+                      note: "A-05 F9: KilowattApp alone is not enough (Zoe Ph1 R110: 150 kW on a car without DC)."}
   dc_avg_10_80_kw:   {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {pct: 5}, merge: median,
                       note: "Derived from the curve when present; maker figures labelled 'claim'."}
   dc_minutes_10_80:  {primary: [naf, adac], fallbacks: [automobile-propre, model-estimate, maker-docs], tolerance: {abs: 2, unit: min}, merge: median}
+  # A-05 F1: rdw stays first (its type-split records are per-version plate values), but its
+  # year-group records no longer land on a trim by a missing name, and agreement_wins lets
+  # OpenEV + TGK outvote a single RDW value.
   wltp_range_km:     {primary: [eea, rdw], fallbacks: [rdw-tgk, maker-docs, openev, ademe, seed-manual], tolerance: {pct: 2}, merge: priority,
                       note: "ADEME holds the best case (highest range) of each WLTP interpolation family."}
   consumption_kwh_100km: {primary: [eea, rdw], fallbacks: [rdw-tgk, maker-docs, openev, ademe, seed-manual], tolerance: {pct: 3}, merge: priority,

@@ -5,8 +5,11 @@ builds a release). `latest` is a one-line file holding the current release numbe
 switched atomically (temp file + rename, `release.build.write_latest`), so the web app always
 reads a whole number.
 
-Rollback only points `latest` at an existing, QA-passed release (its `qa.json` exists and is
-not `fail`). Nothing is deleted: the newer folders stay, and the next `ev release` still takes
+Rollback only points `latest` at an existing, QA-passed release: its `qa.json` status must
+be `pass` or `review` (A-05 L1: `unknown`, `fail`, `missing` and `unreadable` are refused),
+and the blocking checks are run again on it against today's data/sources.yaml
+(`qa.check_release`), so a source blocked since that release was built never comes back.
+Nothing is deleted: the newer folders stay, and the next `ev release` still takes
 the highest number + 1.
 """
 
@@ -28,6 +31,7 @@ from ev_pipeline.release.build import (
 )
 
 SHOW = 15
+ROLLBACK_OK = frozenset({"pass", "review"})  # qa/report.overall_status values that may serve
 
 
 class ReleaseOpError(RuntimeError):
@@ -71,8 +75,19 @@ def rollback(data_dir: Path, to: int) -> dict[str, Any]:
         raise ReleaseOpError(f"release {to} does not exist in {releases.name}/")
     _catalogue(data_dir, to)
     qa = qa_status(data_dir, to)
-    if qa in ("fail", "missing", "unreadable"):
+    if qa not in ROLLBACK_OK:
         raise ReleaseOpError(f"release {to} has QA status {qa!r}; refusing to make it latest")
+    from ev_pipeline.qa.check_release import ReleaseInputError, check_release
+
+    try:
+        recheck = check_release(releases / str(to), data_dir)
+    except ReleaseInputError as e:
+        raise ReleaseOpError(f"release {to} cannot be re-checked: {e}") from e
+    if recheck["status"] != "pass":
+        failed = ", ".join(recheck["blocking_failures"])
+        raise ReleaseOpError(
+            f"release {to} fails today's blocking checks ({failed}); refusing to make it latest"
+        )
     before = latest_release(data_dir)
     write_latest(releases, to)
     entry = {
@@ -81,6 +96,7 @@ def rollback(data_dir: Path, to: int) -> dict[str, Any]:
         "from": before,
         "to": to,
         "qa_status": qa,
+        "recheck": recheck["status"],
     }
     d = runs_dir(data_dir)
     d.mkdir(parents=True, exist_ok=True)

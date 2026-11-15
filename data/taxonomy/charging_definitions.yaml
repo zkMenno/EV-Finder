@@ -8,21 +8,21 @@
 # Validate: python3 -I data/taxonomy/validate_taxonomy.py
 charging_definitions:
   - id: afir-recharging-point
-    label: {en: "EU standard count (AFIR, via EAFO)", nl: "EU-standaardtelling (AFIR, via EAFO)"}
-    technical: {en: "AFIR publicly accessible recharging point, EAFO series", nl: "AFIR openbaar toegankelijk laadpunt, EAFO-reeks"}
+    label: {en: "EU standard count (AFIR)", nl: "EU-standaardtelling (AFIR)"}
+    technical: {en: "AFIR publicly accessible recharging point", nl: "AFIR openbaar toegankelijk laadpunt"}
     short:
       en: "Same rules for every European country, so this is the one to compare countries with."
       nl: "Dezelfde regels voor elk Europees land; gebruik deze om landen te vergelijken."
     explainer:
       en: >-
         The EU's charging rules (AFIR) define a recharging point as a place where one car at a time
-        can charge. The European Alternative Fuels Observatory publishes counts on that definition
-        for every EU country plus the UK, Norway, Switzerland, Iceland, Liechtenstein and Turkey.
+        can charge. Counts on that definition exist for every EU country and several neighbours,
+        so it is the one to use when comparing countries.
         Supermarket and car-park chargers count as public under AFIR; workplace and dealership
         chargers usually don't.
       nl: >-
-        De EU-regels (AFIR) tellen een laadpunt als een plek waar één auto tegelijk kan laden. EAFO
-        publiceert die telling voor alle EU-landen en een paar buurlanden. Laders bij supermarkten
+        De EU-regels (AFIR) tellen een laadpunt als een plek waar één auto tegelijk kan laden. Die
+        telling bestaat voor alle EU-landen en een paar buurlanden. Laders bij supermarkten
         en parkeergarages tellen mee als openbaar.
     counts: point
     country: EUROPE
@@ -108,7 +108,7 @@ charging_definitions:
       en: >-
         Belgium shows why definitions matter: about 22,000 fully public 24/7 points versus about
         126,000 public plus semi-public points in the same period. This series is the wider one.
-        For Belgium the main series is the EU count (EAFO); EV Belgium figures are the fallback.
+        For Belgium the main series is the EU count (AFIR); EV Belgium figures are the fallback.
       nl: >-
         België laat zien waarom definities ertoe doen: ongeveer 22.000 volledig publieke punten
         tegenover ongeveer 126.000 publieke plus semipublieke punten in dezelfde periode.

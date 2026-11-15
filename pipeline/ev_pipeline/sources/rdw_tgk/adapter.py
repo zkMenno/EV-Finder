@@ -34,7 +34,12 @@ differs between revisions of one version is **not emitted** (counted as `revisio
 **Field rules (Decision 023).**
 
 - `nedc_range_km` / `nedc_consumption_kwh_100km` (Wh/km / 10) from the NEDC columns. NEDC
-  never fills `wltp_range_km` or `consumption_kwh_100km`.
+  never fills `wltp_range_km` or `consumption_kwh_100km`. The reverse (A-05 F4): an NEDC
+  range within 1 km of the version's WLTP best case is the WLTP figure copied into the NEDC
+  column on a WLTP-only approval, so both NEDC fields are dropped (`drop_nedc_copy_of_wltp`,
+  count `dropped_nedc_equals_wltp` in the run log). Also dropped: NEDC on a version approved
+  under 2018/858 and first admitted after 2020 (`dropped_nedc_wltp_era`), which has no real
+  NEDC figure.
 - WLTP bounds: RDW glossary (Begrippenlijst TGK, 12 March 2024): range Ogr = "de laagste van
   alle bovengrenzen", Bgr = "de hoogste van alle ondergrenzen"; consumption Ogr = lowest
   lower bound, Bgr = highest upper bound. In the data Ogr is the best case of the
@@ -403,6 +408,8 @@ class Stats:
     bounds_differ: Counter[str] = field(default_factory=Counter)
     implausible: Counter[str] = field(default_factory=Counter)
     wltp_swapped: int = 0
+    nedc_equals_wltp: Counter[str] = field(default_factory=Counter)  # A-05 F4 drops per field
+    nedc_wltp_era: Counter[str] = field(default_factory=Counter)  # A-05 F4: 2018/858 + 2021+
     multi_drivetrain_power_skipped: int = 0
     massaledig_filled: int = 0
     no_specs: int = 0
@@ -515,6 +522,53 @@ def energy_values(rows: list[dict[str, Any]], stats: Stats) -> dict[FactField, f
     return vals
 
 
+NEDC_SAME_KM = 1.0
+NEDC_SAME_KWH_100KM = 0.1
+
+
+def drop_nedc_copy_of_wltp(vals: dict[FactField, float]) -> set[str]:
+    """A-05 F4: on WLTP-only approvals RDW fills the NEDC columns with the WLTP figures. An
+    NEDC range within 1 km of the version's WLTP best case is that copy, not an NEDC value:
+    both NEDC fields are dropped (the consumption comes from the same filled-in row). An NEDC
+    consumption within 0.1 kWh/100 km of the WLTP best case is dropped on its own too.
+    Returns the dropped field names."""
+    dropped: set[str] = set()
+    nedc_km, wltp_km = vals.get(FactField.nedc_range_km), vals.get(FactField.wltp_range_km)
+    nedc_c = vals.get(FactField.nedc_consumption_kwh_100km)
+    wltp_c = vals.get(FactField.consumption_kwh_100km)
+    copied_km = (
+        nedc_km is not None and wltp_km is not None and abs(nedc_km - wltp_km) <= (NEDC_SAME_KM)
+    )
+    copied_c = (
+        nedc_c is not None and wltp_c is not None and abs(nedc_c - wltp_c) <= NEDC_SAME_KWH_100KM
+    )
+    if copied_km:
+        del vals[FactField.nedc_range_km]
+        dropped.add(FactField.nedc_range_km.value)
+    if nedc_c is not None and (copied_km or copied_c):
+        del vals[FactField.nedc_consumption_kwh_100km]
+        dropped.add(FactField.nedc_consumption_kwh_100km.value)
+    return dropped
+
+
+NEDC_LAST_YEAR = 2020  # NEDC figures stopped with the WLTP switch; 2018/858 types are WLTP-only
+_NEDC_FIELDS = (FactField.nedc_range_km, FactField.nedc_consumption_kwh_100km)
+
+
+def drop_nedc_on_wltp_era_approval(
+    tan: str, first_year: int | None, vals: dict[FactField, float]
+) -> list[str]:
+    """A-05 F4: a version approved under Regulation (EU) 2018/858 and first admitted after
+    2020 has no real NEDC figure; the NEDC columns then hold another WLTP figure (Ioniq 5
+    58 kWh: "NEDC 384" = its WLTP). Drops both NEDC fields; returns the dropped names."""
+    if "2018/858" not in tan or first_year is None or first_year <= NEDC_LAST_YEAR:
+        return []
+    dropped = [f.value for f in _NEDC_FIELDS if f in vals]
+    for f in _NEDC_FIELDS:
+        vals.pop(f, None)
+    return dropped
+
+
 BASIS_PAIRS: dict[FactField, tuple[str, str]] = {
     FactField.length_mm: ("lengteondergrens", "lengtebovengrens"),
     FactField.width_mm: ("breedteondergrens", "breedtebovengrens"),
@@ -567,8 +621,10 @@ def version_values(
         stats.note("not_bev", what)
         return None
     per_rev: dict[int, dict[FactField, float]] = {}
+    nedc_copies: set[str] = set()
     for rev in sorted({_rev(r) for r in energy}):
         vals = energy_values([r for r in energy if _rev(r) == rev], stats)
+        nedc_copies |= drop_nedc_copy_of_wltp(vals)  # A-05 F4, per revision
         b = [r for r in basis if _rev(r) == rev]
         if b:
             for fact, v in basis_values(b[0], stats).items():
@@ -576,6 +632,9 @@ def version_values(
                     continue
                 vals[fact] = v
         per_rev[rev] = vals
+    if nedc_copies:
+        stats.nedc_equals_wltp.update(nedc_copies)
+        stats.note("nedc_equals_wltp", what)
     newest = max(per_rev)
     out = dict(per_rev[newest])
     for fact in list(out):
@@ -629,6 +688,8 @@ def normalise(raw_dir: Path, retrieved_at: date, stats: Stats | None = None) -> 
         if got is None:
             continue
         vals, rev = got
+        for f in drop_nedc_on_wltp_era_approval(k[0], v.first_year, vals):
+            stats.nedc_wltp_era[f] += 1
         if not vals:
             stats.no_specs += 1
             continue
@@ -717,6 +778,8 @@ def normalise_cmd(from_fixtures: bool) -> int:
         dropped_bounds_differ=dict(stats.bounds_differ),
         dropped_implausible=dict(stats.implausible),
         wltp_bounds_swapped=stats.wltp_swapped,
+        dropped_nedc_equals_wltp=dict(stats.nedc_equals_wltp),
+        dropped_nedc_wltp_era=dict(stats.nedc_wltp_era),
         multi_drivetrain_power_skipped=stats.multi_drivetrain_power_skipped,
         massaledig_filled=stats.massaledig_filled,
         rules="newest revision; field dropped if revisions differ; dims/mass/seats only when "

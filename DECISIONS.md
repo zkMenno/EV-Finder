@@ -368,4 +368,20 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Pre-2020 rows gain NEDC, worst-case WLTP and running-order mass where the evidence is unique. Remaining ties (Zoe Z.E. 40, Honda e, Model 3 LR vs Performance) need more seed evidence (Q-089).
 
+## Decision 025: Agreeing sources outvote one priority value; nameless records need evidence; lone-source DC peaks go to review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Review A-05 found RDW model-year records (which blend all trims) landing on base trims and winning over other sources, RDW NEDC columns holding WLTP figures, and a DC peak on a Zoe that has no DC socket (Q-091).
+
+**Decision:**
+- A record without a variant name is not "base". It attaches only to a generation's only variant or on unique evidence; otherwise it goes to review.
+- In priority fields, 2+ agreeing independent sources outvote a single priority value. Fields can opt out in `data/field_sources.yaml`. RDW stays first for WLTP and consumption.
+- NEDC within 1 km of the same version's WLTP is dropped, and NEDC is dropped on 2018/858 approvals first registered after 2020 (inferred rule, logged in the run log).
+- Only a source's own vote raises confidence.
+- A DC peak that only KilowattApp gives goes to review until a second source or a charge-port field confirms it.
+
+**Consequences:** EX30 base 475 → 341 km; 12 more rows reach "sourced"; 510 more records wait in review; 27 fewer rows show a DC peak until confirmed.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
