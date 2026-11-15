@@ -34,7 +34,7 @@ Checks: `pnpm --filter @ev/web test`, `pnpm --filter @ev/web e2e`, `cd pipeline 
 | `/staff/review` | Review queue (only with `STAFF_PAGES=1`) |
 
 ## 3. Data
-Release 1: **199 variants** across 55 generations of the 40 seed models.
+Release 1: **197 variants** across 55 generations of the 40 seed models.
 
 | Source | Ran | Licence | Used for |
 |---|---|---|---|
@@ -90,7 +90,7 @@ _(at the end of the run)_
 | 7 | EEA as corroboration | done (off) | with the flag on, sourced rows 2 → 6, but EEA averages blend variants, so it stays off (Q-019) |
 | 9 | Docs for new builders | done | root, pipeline, infra READMEs; every command run; web README queued |
 | — | Seed quality (MG4 dupes, year evidence, shared years) | done | MG4 8 → 6 rows; ID.4 starts 2020 and Soul SK3 ends 2024 (RDW counts in notes); 10,413 NL cars in shared years now counted at model level instead of dropped; new BMW i3 in RDW/EEA not invented (Q-065) |
-| — | RDW WLTP + catalogue price (from item 5) | running | being made attach-only so it can't create junk variants |
+| — | RDW WLTP + catalogue price (from item 5) | done | 56 variants get an RDW WLTP figure, 25 an NL price (catalogusprijs incl. VAT + BPM); wide-spread groups dropped; WLTP from a 10% plate sample (no joins possible) |
 
 ## Addenda 6 + 7 (WS0, picked up 03:10)
 | Item | Status | Notes |
