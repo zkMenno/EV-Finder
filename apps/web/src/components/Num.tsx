@@ -32,6 +32,23 @@ export interface NumProps {
   level?: Level;
   /** Release date, shown with sources at nerd level (FieldProvenance has no date yet). */
   asOf?: string;
+  /** Screen-reader text for the missing-value "—" (default labels.noData). */
+  missingLabel?: string;
+  /**
+   * false: not a Tab stop (hover and tap still open the popover). Explore's table uses this so a
+   * row costs a few Tab stops, not one per number; provenance stays reachable from the variant page.
+   */
+  focusable?: boolean;
+}
+
+/** The missing-value dash, with text for screen readers ("—" alone is read as "dash" or skipped). */
+export function Missing({ label }: { label: string }) {
+  return (
+    <span className="text-slate-500" data-testid="num-missing">
+      <span aria-hidden="true">{DASH}</span>
+      <span className="sr-only">{label}</span>
+    </span>
+  );
 }
 
 /** Text badges for a value (Decision 009). Text, not colour alone. Exported for tests. */
@@ -58,11 +75,13 @@ export function Num({
   claim = false,
   level = "detailed",
   asOf,
+  missingLabel,
+  focusable = true,
 }: NumProps) {
   const { buttonProps, popoverProps } = usePopover();
 
   if (value === null || value === undefined || !Number.isFinite(value)) {
-    return <span className="text-slate-500">{DASH}</span>;
+    return <Missing label={missingLabel ?? labels.noData} />;
   }
 
   const shown = text ?? `${formatNumber(value, locale, level === "nerd" ? Math.max(digits, 2) : digits)}${unit ? `\u00a0${unit}` : ""}`;
@@ -73,6 +92,7 @@ export function Num({
     <span className="inline-flex flex-col items-start">
       <button
         {...buttonProps}
+        tabIndex={focusable ? undefined : -1}
         className="whitespace-nowrap rounded-sm tabular-nums underline decoration-slate-400 decoration-dotted underline-offset-4 hover:decoration-slate-800"
       >
         {shown}

@@ -11,6 +11,7 @@ import { COMPARE_MAX } from "@/lib/compare-store";
 import { formatYears } from "@/lib/format";
 import { seeListings } from "@/lib/listings";
 import { SPEC_FIELDS, SPEC_GROUPS, timelineOrder } from "@/lib/spec-diff";
+import { Registrations } from "../../../../_components/Registrations";
 import { FieldLabel, SpecValue } from "../../../../_components/SpecValue";
 import { VariantActions } from "../../../../_components/VariantActions";
 import { pageCtx } from "../../../../_lib/context";
@@ -106,6 +107,16 @@ export default async function VariantPage({ params }: Props) {
                     </td>
                   </tr>
                 ))}
+                {group === "availability" ? (
+                  <tr className="border-t border-slate-200">
+                    <th scope="row" className="py-2 pr-3 text-left align-top font-normal text-slate-800">
+                      {t("reg.title", { country: cfg.name })}
+                    </th>
+                    <td className="py-2 align-top font-medium">
+                      <Registrations ctx={ctx} row={row} />
+                    </td>
+                  </tr>
+                ) : null}
                 {group === "availability" ? (
                   <tr className="border-t border-slate-200">
                     <th scope="row" className="py-2 pr-3 text-left align-top font-normal text-slate-800">

@@ -3,6 +3,7 @@ import type { Country, QualityTier } from "@ev/schema";
 import type { ExploreRow } from "./explore-data";
 import type { ExploreFilters, SortDir, SortKey } from "./state";
 import { ERAS } from "./state";
+import { hasDcData } from "./dc";
 
 type NumGetter = (r: ExploreRow) => number | null | undefined;
 
@@ -44,7 +45,7 @@ export function applyFilters(rows: ExploreRow[], f: ExploreFilters, country: Cou
   inIds(f.voltageClasses, (r) => r.voltage_class_id);
   inIds(f.chemistries, (r) => r.chemistry_id);
   inIds(f.coolings, (r) => r.cooling_id);
-  if (f.fast400) checks.push((r) => r.fast_on_400v === true);
+  if (f.fast400) checks.push((r) => r.fast_on_400v === true && hasDcData(r));
   if (f.charge100) checks.push((r) => r.charge_100_daily === true);
   if (f.eras.length) checks.push((r) => f.eras.includes(r.era));
   if (f.segments.length) checks.push((r) => r.segment !== undefined && f.segments.includes(r.segment));

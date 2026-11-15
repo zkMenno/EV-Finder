@@ -128,7 +128,7 @@ test("T-008: keyboard — skip link, visible focus, sort, add to compare, remove
 test("T-008: Explore shows no DC figures for a car without DC data (Zoe R240)", async ({ page }) => {
   await page.goto("/nl?level=nerd&lang=en");
   await exploreReady(page);
-  const more = page.getByRole("button", { name: /^\+ \d+$/ });
+  const more = page.getByTestId("show-more");
   while (await more.count()) await more.click();
   const row = page.getByTestId("explore-row").filter({ hasText: "R240 22 kWh" });
   await expect(row).toHaveCount(1);
@@ -139,16 +139,93 @@ test("T-008: Explore shows no DC figures for a car without DC data (Zoe R240)", 
   expect(idx400).toBeGreaterThan(0);
   expect(idxDc).toBeGreaterThan(0);
   const cells = row.locator("th, td");
-  await expect(cells.nth(idx400)).toHaveText("—");
-  await expect(cells.nth(idxDc)).toHaveText("—");
+  // "—" for sighted users, words for screen readers.
+  await expect(cells.nth(idx400)).toHaveText("—no DC charging data");
+  await expect(cells.nth(idx400).locator(".sr-only")).toHaveText("no DC charging data");
+  await expect(cells.nth(idxDc)).toHaveText("—no data");
+  await expect(cells.nth(idx400)).not.toContainText(/native|booster/);
 });
 
 test("T-009/T-010: spec sheets show no 400 V charger behaviour for a car without DC data", async ({ page }) => {
-  // Known bug (review 2026-11-15): Explore hides "On 400 V chargers" when dc_peak_kw is missing,
-  // but SpecValue (variant, generation, compare) still prints "native". Remove test.fail once fixed.
-  test.fail();
-  await page.goto("/nl/compare?ids=renault-zoe-x10-r240&lang=en");
-  const row = page.getByTestId("compare-table").getByRole("row").filter({ hasText: /On 400 V chargers/ });
-  // Either the row is dropped (all cars lack DC data) or it shows "—".
-  if (await row.count()) await expect(row.locator("td").first()).toHaveText("—");
+  // Compare: Zoe R240 (no DC data) next to Zoe ZE50 (46 kW): the 400 V row stays for the ZE50 only.
+  await page.goto("/nl/compare?ids=renault-zoe-x10-r240,renault-zoe-ze50-r135&lang=en");
+  const row = page.getByTestId("compare-table").getByRole("row").filter({ hasText: /On 400 V chargers/ }).first();
+  await expect(row.locator("td").nth(0)).toHaveText(/—no DC charging data$/);
+  await expect(row.locator("td").nth(1)).toHaveText(/native/);
+
+  // Variant page: no "native" anywhere in the charging table.
+  await page.goto("/nl/ev/renault/zoe/x10/r240?lang=en");
+  const vrow = page.getByRole("row").filter({ hasText: /^On 400 V chargers/ });
+  await expect(vrow.first().locator("td")).toHaveText("—no DC charging data");
+  await expect(page.getByRole("row").filter({ hasText: /^Power on 400 V chargers/ }).first().locator("td")).toHaveText("—no DC charging data");
+
+  // Generation key facts (both x10 variants lack DC data).
+  await page.goto("/nl/ev/renault/zoe/x10?lang=en");
+  const fact = page.locator("#key-facts + dl > div").filter({ hasText: /On 400 V chargers/ });
+  await expect(fact.locator("dd")).toHaveText("—no DC charging data");
+});
+
+test("T-008: table Tab stops — name link, heart and compare per row; Nerd adds one sources button", async ({ page }) => {
+  await page.goto("/nl?lang=en&level=detailed");
+  await exploreReady(page);
+  const row = page.getByTestId("explore-row").first();
+  const stops = await row.evaluate((tr) =>
+    [...tr.querySelectorAll<HTMLElement>("a[href], button, input, [tabindex]")].filter((el) => el.tabIndex >= 0 && !el.hidden).length,
+  );
+  expect(stops).toBe(3);
+  // Numbers still open their provenance on hover.
+  await row.locator("td button").first().hover();
+  await expect(page.getByRole("tooltip").filter({ hasText: /Source|No source/ }).first()).toBeVisible();
+
+  await page.goto("/nl?lang=en&level=nerd");
+  await exploreReady(page);
+  const nerdRow = page.getByTestId("explore-row").first();
+  const nerdStops = await nerdRow.evaluate((tr) =>
+    [...tr.querySelectorAll<HTMLElement>("a[href], button, input, [tabindex]")].filter((el) => el.tabIndex >= 0).length,
+  );
+  expect(nerdStops).toBe(4);
+  const sources = nerdRow.getByTestId("row-sources");
+  await expect(sources).toHaveAccessibleName(/^Sources for /);
+  await sources.focus();
+  await expect(page.locator(`[id="${await sources.getAttribute("aria-describedby")}"]`)).toBeVisible();
+});
+
+test("T-008: show-more has a full name; a full tray keeps the compare toggle reachable (aria-disabled)", async ({ page }) => {
+  await page.goto("/nl?lang=en");
+  await exploreReady(page);
+  // The dev fixture (38 cars) fits in one page; with a real release (E2E_CATALOGUE_DIR) the button shows.
+  const more = page.getByTestId("show-more");
+  if (await more.count()) await expect(more).toHaveAccessibleName(/^Show \d+ more cars$/);
+
+  const toggles = page.getByTestId("compare-toggle");
+  for (let i = 0; i < 4; i++) await toggles.nth(i).click();
+  await expect(page.getByTestId("compare-tray").getByRole("listitem")).toHaveCount(4);
+  const fifth = toggles.nth(4);
+  await expect(fifth).toHaveAttribute("aria-disabled", "true");
+  // Not the `disabled` attribute (that would drop it from the Tab order).
+  expect(await fifth.evaluate((el) => (el as HTMLButtonElement).disabled)).toBe(false);
+  await expect(fifth).toHaveAccessibleDescription(/up to 4 cars/);
+  await fifth.focus();
+  await expect(fifth).toBeFocused();
+  await page.keyboard.press("Space");
+  await expect(page.getByTestId("compare-tray").getByRole("listitem")).toHaveCount(4);
+});
+
+test("About page: linked in the footer, explains the site, credits the release's sources", async ({ page }) => {
+  for (const path of ["/nl?lang=en", "/nl/top?lang=en", "/nl/learn/real-range?lang=en"]) {
+    await page.goto(path);
+    await expect(page.getByTestId("footer-about")).toHaveAttribute("href", "/nl/about");
+  }
+  await page.getByTestId("footer-about").click();
+  await expect(page).toHaveURL(/\/nl\/about/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^About /);
+  await expect(page.getByRole("heading", { name: "Credits / data sources" })).toBeVisible();
+  await expect(page.getByText(/AGPL-3\.0/)).toBeVisible();
+  await expect(page.getByText(/CC BY 4\.0/).first()).toBeVisible();
+  // The dev fixture has one source; a real release lists each of its sources (unit-tested in credits.test.ts).
+  await expect(page.getByTestId("credits").locator("tbody tr")).toHaveCount(1);
+
+  await page.goto("/nl/about?lang=nl");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^Over /);
+  await expect(page.getByRole("heading", { name: "Bronvermelding / databronnen" })).toBeVisible();
 });

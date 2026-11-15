@@ -41,3 +41,17 @@ No critical or high findings in production code or runtime dependencies.
 | 10 | Info | e2e serves with `next start` although `output: "standalone"` (Next warns). Production uses `server.js`, so the smoke test doesn't exercise the exact prod entry point. | Optionally run e2e against `node .next/standalone/apps/web/server.js` (copy `static`/`public` first). |
 
 **Verdict:** pass for the prototype. #1 and #3 should be fixed before the first public deploy.
+
+## Fixes
+
+**2026-11-15, builder (proto/overnight-1), web lane.**
+
+| # | Fix |
+|---|---|
+| 1 | `.github/workflows/ci.yml` has an `e2e` job (switches on with `web`): installs Playwright Chromium with system deps, builds, runs `pnpm --filter @ev/web e2e` (smoke + review specs, including "every page talks only to our own origin"), uploads traces on failure. `ci-ok` now needs it. |
+| 3 | `vitest` ^2.1.8 → **^5.1.0** (latest major) in `apps/web` and `packages/schema`; it pulls `vite` 8.3.8, patched `esbuild`/`tinypool`/`@vitest/mocker`. No test changes were needed (web 151 tests, schema 14 tests pass). |
+| 4 | `.github/dependabot.yml`: `npm` (root workspace, weekly, grouped dev/prod minor+patch), `uv` (`/pipeline`, weekly, grouped), `docker` (`/apps/web`, `/pipeline`, weekly, grouped), next to the existing GitHub Actions entry. |
+
+**`pnpm audit` after the fixes: 1 advisory (1 moderate), down from 16 (3 critical, 1 high, 11 moderate, 1 low).** `pnpm audit --prod`: no known vulnerabilities.
+
+The one left: `minimatch` 10.2.6 (GHSA-g3hv-75wg-m249, patched ≥ 11.0.1) via `typescript-eslint` → `@typescript-eslint/typescript-estree`, dev only (lint). The latest `typescript-eslint` (8.72.2) still depends on `minimatch ^10.2.2`, so a bump can't fix it; a root `pnpm.overrides` entry (`"minimatch@>=7 <11.0.1": ">=11.0.1"`) would, but the root `package.json` is outside the web lane and a major-version override of a lint dependency needs a test run by the coordinator. Dependabot will pick up a fixed `typescript-eslint`.

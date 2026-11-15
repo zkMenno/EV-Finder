@@ -61,6 +61,11 @@ export default async function CountryLayout({
       <footer className="mx-auto max-w-7xl px-4 pb-32 text-xs text-slate-700">
         <p>{t("footer.units", { currency: cfg.currency })}</p>
         <p>{cat.origin() === "fixture" ? t("footer.fixture") : t("footer.release", { n: cat.release() })}</p>
+        <p className="mt-1">
+          <Link href={`/${country}/about`} className="text-blue-800 underline underline-offset-2 hover:text-blue-950" data-testid="footer-about">
+            {t("footer.about")}
+          </Link>
+        </p>
       </footer>
       <CompareTray country={country} dict={dict} />
     </>

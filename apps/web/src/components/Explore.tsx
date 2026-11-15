@@ -3,13 +3,14 @@
 // hydrates them, then fetches the compact catalogue JSON from our own origin and filters
 // and sorts the full list in the browser. All state lives in the URL (see lib/state.ts).
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
-import type { Country, Currency } from "@ev/schema";
+import type { Country, Currency, FieldProvenance } from "@ev/schema";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { generationHref, variantHref } from "@/app/[country]/ev/_lib/routes";
 import type { CountrySlug, Lang } from "@/config/countries";
 import { makeT, type Dict, type MsgKey, type T } from "@/i18n";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
+import { hasDcData } from "@/lib/dc";
 import type { ClientCatalogue, ExploreRow } from "@/lib/explore-data";
 import { favouriteStore } from "@/lib/favourites";
 import { applyFilters, displayName, priceFor, sortRows } from "@/lib/filters";
@@ -36,11 +37,12 @@ import {
 import { readStorage, writeStorage } from "@/lib/storage";
 import { voltageBounds, type UiTaxonomy } from "@/lib/taxonomy";
 import { useListStore } from "@/lib/use-list-store";
-import { Num } from "./Num";
+import { Missing, Num } from "./Num";
 import { numLabels, type NumLabels } from "./num-labels";
 import { PriceBand } from "./PriceBand";
 import { QualityBadge } from "./QualityBadge";
 import { InfoTip, TermInfo, TermLabel, type TermText } from "./Term";
+import { usePopover } from "./use-popover";
 
 const PAGE = 50;
 
@@ -76,6 +78,11 @@ interface Ctx {
   termText: TermText;
   level: Level;
   asOf: string;
+  /**
+   * Inside the table, numbers and secondary links are not Tab stops (one stop per row for the
+   * name link, heart and compare; provenance via the variant page or the Nerd "sources" button).
+   */
+  inTable?: boolean;
 }
 
 export function Explore(props: ExploreProps) {
@@ -232,8 +239,9 @@ export function Explore(props: ExploreProps) {
               type="button"
               onClick={() => setLimit((l) => l + PAGE * 2)}
               className="rounded-md border border-slate-500 px-4 py-2 text-sm font-medium hover:bg-slate-100"
+              data-testid="show-more"
             >
-              + {Math.min(PAGE * 2, matches.length - rows.length)}
+              {t("explore.showMore", { n: Math.min(PAGE * 2, matches.length - rows.length) })}
             </button>
           </div>
         ) : null}
@@ -554,6 +562,7 @@ function num(r: ExploreRow, c: Ctx, v: number | null | undefined, field: string,
       claim={claim}
       level={c.level}
       asOf={c.asOf}
+      focusable={!c.inTable}
     />
   );
 }
@@ -563,6 +572,8 @@ function rangeNote(r: ExploreRow, c: Ctx): string | undefined {
   const label = c.t(`rung.${r.real_range_rung}` as MsgKey);
   return c.level === "nerd" ? `${label} [${r.real_range_rung}]` : label;
 }
+
+const NO_NAMES = new Map<string, string>();
 
 function named(map: Map<string, string>, id: string | null | undefined, c: Ctx): string {
   if (!id) return "—";
@@ -583,13 +594,15 @@ function priceCell(r: ExploreRow, c: Ctx) {
       labels={c.labels}
       level={c.level}
       asOf={c.asOf}
+      focusable={!c.inTable}
     />
   );
 }
 
 function charger400(r: ExploreRow, c: Ctx) {
-  // No DC figure means "no DC data": never imply the car fast-charges (coordinator note, release 1).
-  if (!r.charger_400v_mode || r.dc_peak_kw == null) return "—";
+  // No DC figure means "no DC data": never imply the car fast-charges (shared rule, src/lib/dc.ts).
+  if (!hasDcData(r)) return <Missing label={c.t("num.noDc")} />;
+  if (!r.charger_400v_mode) return <Missing label={c.t("num.noData")} />;
   return (
     <span className="flex flex-col">
       <span>
@@ -604,7 +617,7 @@ function charger400(r: ExploreRow, c: Ctx) {
 const COLS: Col[] = [
   { id: "car", key: "name", label: "col.car", levels: ALL, cell: () => null },
   { id: "gen", key: null, label: "col.generation", term: "generation", levels: DN, cell: (r, c) => (
-      <Link href={generationHref(c.country, r)} className="underline decoration-slate-400 underline-offset-2 hover:text-blue-900">
+      <Link href={generationHref(c.country, r)} tabIndex={c.inTable ? -1 : undefined} className="underline decoration-slate-400 underline-offset-2 hover:text-blue-900">
         {r.generation_name}
       </Link>
     ) },
@@ -620,10 +633,10 @@ const COLS: Col[] = [
   { id: "voltage", key: null, label: "col.voltage", term: "voltage-class", levels: DN, cell: (r, c) => named(c.names.voltage, r.voltage_class_id, c) },
   { id: "nominal", key: null, label: "col.voltage", term: "nominal-voltage", num: true, levels: N, cell: (r, c) => num(r, c, r.voltage_nominal_v, "voltage_nominal_v", "V", 0) },
   { id: "charger400", key: null, label: "col.charger400", term: "400v-charger-behaviour", levels: N, cell: charger400 },
-  { id: "chem", key: null, label: "col.chemistry", term: "chemistry", levels: DN, cell: (r, c) => named(c.names.chem, r.chemistry_id, c) + (c.level === "nerd" && r.cell_format ? ` · ${r.cell_format}` : "") },
+  { id: "chem", key: null, label: "col.chemistry", term: "chemistry", levels: DN, cell: (r, c) => named(c.names.chem, r.chemistry_id, c) + (c.level === "nerd" && r.cell_format ? ` · ${named(NO_NAMES, r.cell_format, c)}` : "") },
   { id: "cool", key: null, label: "col.cooling", term: "cooling", levels: N, cell: (r, c) => named(c.names.cool, r.cooling_id, c) },
   { id: "platform", key: null, label: "col.platform", levels: N, cell: (r) => r.platform_name ?? "—" },
-  { id: "pack", key: null, label: "col.pack", levels: N, cell: (r, c) => named(new Map(), r.battery_pack_id, c) },
+  { id: "pack", key: null, label: "col.pack", levels: N, cell: (r, c) => named(NO_NAMES, r.battery_pack_id, c) },
   { id: "quality", key: "quality", label: "col.quality", term: "quality-tier", levels: ALL, cell: (r, c) => <QualityBadge tier={r.quality_tier} label={c.t(`tier.${r.quality_tier}`)} help={c.t(`tier.${r.quality_tier}.help`)} /> },
 ];
 
@@ -634,7 +647,8 @@ export function columnsFor(level: Level): string[] {
 
 /* ---------- table ---------- */
 
-function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state: ExploreState; onSort: (k: SortKey) => void; ctx: Ctx }) {
+function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[]; state: ExploreState; onSort: (k: SortKey) => void; ctx: Ctx }) {
+  const ctx = useMemo(() => ({ ...outer, inTable: true }), [outer]);
   const { t, level } = ctx;
   const cols = COLS.filter((c) => c.levels.includes(level));
   return (
@@ -688,6 +702,7 @@ function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state:
                       {r.make_name} {r.model_name}
                       {level !== "simple" ? <span className="sr-only"> {r.generation_name} {r.variant_name}</span> : null}
                     </Link>
+                    {level === "nerd" ? <RowSources row={r} ctx={ctx} /> : null}
                     {level === "simple" ? (
                       <span className="whitespace-nowrap text-xs font-normal text-slate-700">
                         {r.generation_name} · {r.variant_name}
@@ -706,6 +721,68 @@ function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state:
         </tbody>
       </table>
     </div>
+  );
+}
+
+/* ---------- per-row sources (Nerd level, keyboard access to provenance) ---------- */
+
+/** Provenance key → column label, in display order. Price uses `price_new.<CC>`. */
+const PROV_LABELS: readonly [string, MsgKey][] = [
+  ["real_range_km", "col.range"],
+  ["battery_kwh_net", "col.battery"],
+  ["dc_km_per_20min", "col.dc"],
+  ["dc_km_per_10min", "col.dc"],
+  ["dc_peak_kw", "col.dcPeak"],
+  ["ac_km_per_h", "col.ac"],
+  ["price_new", "col.price"],
+  ["registered_count_nl", "col.rdw"],
+  ["voltage_nominal_v", "col.voltage"],
+  ["charger_400v_kw", "col.charger400"],
+  ["boot_l", "filters.boot"],
+  ["length_mm", "filters.length"],
+  ["towing_kg", "filters.towing"],
+];
+
+/** Rows of the per-row sources list: label, source names, confidence. Exported for tests. */
+export function rowSources(r: ExploreRow, code: Country, sources: Record<string, string>) {
+  const out: { key: string; label: MsgKey; names: string; confidence: FieldProvenance["confidence"]; estimate: boolean }[] = [];
+  const dc = hasDcData(r);
+  for (const [key, label] of PROV_LABELS) {
+    if (key === "charger_400v_kw" && !dc) continue;
+    const p = key === "price_new" ? (r.provenance[`price_new.${code}`] ?? r.provenance.price_new) : r.provenance[key];
+    const value = key === "price_new" ? priceFor(r, code) : (r as unknown as Record<string, unknown>)[key];
+    if (!p || value === null || value === undefined) continue;
+    out.push({ key, label, names: p.source_ids.map((s) => sources[s] ?? s).join(", "), confidence: p.confidence, estimate: !!p.estimate });
+  }
+  return out;
+}
+
+function RowSources({ row, ctx }: { row: ExploreRow; ctx: Ctx }) {
+  const { buttonProps, popoverProps } = usePopover();
+  const list = rowSources(row, ctx.code, ctx.sources);
+  if (!list.length) return null;
+  const { t } = ctx;
+  return (
+    <span className="inline-flex">
+      <button
+        {...buttonProps}
+        aria-label={t("explore.rowSources", { name: displayName(row) })}
+        className="w-fit whitespace-nowrap rounded-sm text-left text-xs font-normal text-blue-800 underline decoration-dotted underline-offset-2"
+        data-testid="row-sources"
+      >
+        {t("explore.sources")}
+      </button>
+      <span {...popoverProps}>
+        <span className="mb-1 block font-semibold">{displayName(row)}</span>
+        {list.map((x) => (
+          <span key={x.key} className="block">
+            <span className="font-semibold">{t(x.label)}:</span> {x.names} · {ctx.labels.conf[x.confidence]}
+            {x.estimate ? ` · ${ctx.labels.estimate}` : ""}
+          </span>
+        ))}
+        <span className="mt-1 block text-slate-700">{ctx.asOf}</span>
+      </span>
+    </span>
   );
 }
 
@@ -759,7 +836,7 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
             {item(term("400v-charger-behaviour", "col.charger400"), charger400(r, c))}
             {item(term("nominal-voltage", "col.voltage"), num(r, c, r.voltage_nominal_v, "voltage_nominal_v", "V", 0))}
             {item(t("col.platform"), r.platform_name ?? "—")}
-            {item(t("col.pack"), named(new Map(), r.battery_pack_id, c))}
+            {item(t("col.pack"), named(NO_NAMES, r.battery_pack_id, c))}
           </>
         ) : null}
       </dl>
@@ -775,6 +852,7 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
 function RowActions({ row, t, withText = false }: { row: ExploreRow; t: T; withText?: boolean }) {
   const favs = useListStore(favouriteStore);
   const cmp = useListStore(compareStore);
+  const fullId = useId();
   const name = displayName(row);
   const fav = favs.includes(row.variant_id);
   const inCmp = cmp.some((c) => c.id === row.variant_id);
@@ -792,19 +870,29 @@ function RowActions({ row, t, withText = false }: { row: ExploreRow; t: T; withT
           <path d="M12 21s-7.5-4.6-9.5-9.2C1 8.2 3.4 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.6 0 6 3.7 4.5 7.3C19.5 16.4 12 21 12 21z" />
         </svg>
       </button>
+      {/* Full tray: aria-disabled (not disabled) so keyboard and screen-reader users still reach it and hear why. */}
       <button
         type="button"
         aria-pressed={inCmp}
-        aria-label={inCmp ? t("compare.removeLabel", { name }) : full ? t("compare.full", { max: COMPARE_MAX }) : t("compare.addLabel", { name })}
+        aria-label={inCmp ? t("compare.removeLabel", { name }) : t("compare.addLabel", { name })}
+        aria-disabled={full || undefined}
+        aria-describedby={full ? fullId : undefined}
         title={full ? t("compare.full", { max: COMPARE_MAX }) : undefined}
-        disabled={full}
         data-testid="compare-toggle"
-        onClick={() => (inCmp ? compareStore.remove(row.variant_id) : compareStore.add({ id: row.variant_id, label: name }))}
-        className={`flex h-8 items-center gap-1 rounded-full border px-2 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-50 ${inCmp ? "border-blue-800 bg-blue-800 text-white" : "border-slate-500 text-slate-900 hover:bg-slate-100"}`}
+        onClick={() => {
+          if (inCmp) compareStore.remove(row.variant_id);
+          else if (!full) compareStore.add({ id: row.variant_id, label: name });
+        }}
+        className={`flex h-8 items-center gap-1 rounded-full border px-2 text-xs font-medium aria-disabled:cursor-not-allowed aria-disabled:opacity-50 ${inCmp ? "border-blue-800 bg-blue-800 text-white" : "border-slate-500 text-slate-900 hover:bg-slate-100"}`}
       >
         <span aria-hidden="true">{inCmp ? "✓" : "+"}</span>
         <span className={withText ? "" : "sr-only"}>{t("compare.add")}</span>
       </button>
+      {full ? (
+        <span id={fullId} className="sr-only">
+          {t("compare.full", { max: COMPARE_MAX })}
+        </span>
+      ) : null}
     </div>
   );
 }

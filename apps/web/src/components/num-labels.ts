@@ -8,6 +8,10 @@ export interface NumLabels {
   derived: string;
   details: string;
   noSource: string;
+  /** Screen-reader text for a missing value ("—"). */
+  noData: string;
+  /** Screen-reader text for a DC-behaviour value hidden because the car has no DC data. */
+  noDc: string;
   /** "{n} sources agree" */
   agree: string;
   oneSource: string;
@@ -24,6 +28,8 @@ export function numLabels(t: T): NumLabels {
     derived: t("num.derived"),
     details: t("num.details"),
     noSource: t("num.noSource"),
+    noData: t("num.noData"),
+    noDc: t("num.noDc"),
     agree: t("num.agree"),
     oneSource: t("num.oneSource"),
     estimate: t("num.estimate"),

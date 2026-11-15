@@ -1,9 +1,10 @@
 // Renders one spec field of one variant: numbers through <Num> (source + confidence + badges),
 // taxonomy ids as localised labels. Server component; shared by variant, generation and compare pages.
 import type { PublishedVariant } from "@ev/schema";
-import { Num } from "@/components/Num";
+import { Missing, Num } from "@/components/Num";
 import { Term } from "@/components/Term";
 import { hasMsgKey, type MsgKey } from "@/i18n";
+import { hiddenForNoDc } from "@/lib/dc";
 import { DASH, formatMoney } from "@/lib/format";
 import type { SpecField } from "@/lib/spec-diff";
 import { sourcesFor, type PageCtx } from "../_lib/context";
@@ -29,6 +30,8 @@ function msg(ctx: PageCtx, key: string, fallback: string): string {
 
 /** Display text for a text/boolean field. */
 export function textValue(ctx: PageCtx, row: PublishedVariant, key: Extract<SpecField, { kind: "text" }>["key"]): string {
+  // No DC data → no 400 V charger behaviour (shared rule, src/lib/dc.ts).
+  if (hiddenForNoDc(row, key)) return DASH;
   const v = row[key];
   if (v === null || v === undefined || v === "") return DASH;
   if (v === ND) return ctx.t("notDisclosed");
@@ -56,7 +59,11 @@ export function textValue(ctx: PageCtx, row: PublishedVariant, key: Extract<Spec
 }
 
 export function SpecValue({ ctx, row, field }: { ctx: PageCtx; row: PublishedVariant; field: SpecField }) {
-  if (field.kind === "text") return <span>{textValue(ctx, row, field.key)}</span>;
+  if (hiddenForNoDc(row, field.key)) return <Missing label={ctx.labels.noDc} />;
+  if (field.kind === "text") {
+    const text = textValue(ctx, row, field.key);
+    return text === DASH ? <Missing label={ctx.labels.noData} /> : <span>{text}</span>;
+  }
   if (field.kind === "price") {
     const m = row.price_new?.[ctx.cfg.code];
     const prov = row.provenance[`price_new.${ctx.cfg.code}`];

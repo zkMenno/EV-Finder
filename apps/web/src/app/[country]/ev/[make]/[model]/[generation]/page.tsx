@@ -4,16 +4,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { Num } from "@/components/Num";
+import { Missing, Num } from "@/components/Num";
 import { PriceBand } from "@/components/PriceBand";
 import { SeeListings } from "@/components/SeeListings";
 import { SpecDiff } from "@/components/SpecDiff";
 import { Term } from "@/components/Term";
 import { isCountrySlug } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
-import { formatYears } from "@/lib/format";
+import { hasDcData, isDcDependent } from "@/lib/dc";
+import { registrationsFor } from "@/lib/registrations";
+import { DASH, formatYears } from "@/lib/format";
 import { seeListings } from "@/lib/listings";
 import { DIFF_KEYS, fieldsFor, specDiff, SPEC_FIELDS, type SpecField } from "@/lib/spec-diff";
+import { Registrations } from "../../../_components/Registrations";
 import { FieldLabel, SpecValue, textValue } from "../../../_components/SpecValue";
 import { pageCtx, sourcesFor, type PageCtx } from "../../../_lib/context";
 import { firstWith, generationTitle, generationView, withCountries } from "../../../_lib/data";
@@ -33,7 +36,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 /** One value for the whole generation, or "differs by variant". */
 function Summary({ ctx, field, rows }: { ctx: PageCtx; field: Extract<SpecField, { kind: "text" }>; rows: Parameters<typeof textValue>[1][] }) {
+  // textValue() applies the shared no-DC rule (src/lib/dc.ts), so DC behaviour never shows without DC data.
   const values = [...new Set(rows.map((r) => textValue(ctx, r, field.key)))];
+  if (values.length === 1 && values[0] === DASH) {
+    const noDc = isDcDependent(field.key) && rows.every((r) => !hasDcData(r));
+    return <Missing label={noDc ? ctx.labels.noDc : ctx.labels.noData} />;
+  }
   return <>{values.length === 1 ? values[0] : `${ctx.t("gen.mixed")}: ${values.join(", ")}`}</>;
 }
 
@@ -103,6 +111,13 @@ export default async function GenerationPage({ params }: Props) {
                 asOf={ctx.asOf}
               />
               <span className="sr-only">. {t("gen.rdw.help")}</span>
+            </dd>
+          </div>
+          <div>
+            <dt className="text-sm text-slate-700">{t("reg.title", { country: cfg.name })}</dt>
+            <dd className="font-medium">
+              {/* Generation- and model-level counts repeat on every variant: show the first variant that has any. */}
+              <Registrations ctx={ctx} row={g.rows.find((r) => registrationsFor(r, cfg.code).length)} />
             </dd>
           </div>
           <div>

@@ -64,6 +64,35 @@ jobs:
       - run: pnpm --filter ./apps/web run --if-present typecheck
       - run: pnpm --filter ./apps/web run --if-present test
       - run: pnpm --filter ./apps/web run --if-present build
+      # Perf budget (A-01): Explore first-load JS < 200 KB gzip, client catalogue < 300 KB gzip.
+      - name: Perf budget
+        run: node apps/web/scripts/budget.mjs
+
+  # Playwright smoke + review tests on a production build (A-02 #1: the "no foreign request"
+  # guarantee must run in CI). Uses the dev fixture, like local `pnpm e2e`.
+  e2e:
+    needs: detect
+    if: needs.detect.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      - run: corepack enable
+      - name: Install (workspace root)
+        run: pnpm install --frozen-lockfile
+      - name: Install Playwright Chromium (with system deps)
+        run: pnpm --filter @ev/web exec playwright install --with-deps chromium
+      - run: pnpm --filter @ev/web build
+      - run: pnpm --filter @ev/web e2e
+      - name: Upload Playwright traces on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-traces
+          path: apps/web/test-results/
+          retention-days: 7
 
   schema:
     needs: detect
@@ -101,7 +130,7 @@ jobs:
   # One stable check name to require on main, whatever jobs ran.
   ci-ok:
     if: always()
-    needs: [repo-checks, web, schema, pipeline]
+    needs: [repo-checks, web, e2e, schema, pipeline]
     runs-on: ubuntu-latest
     steps:
       - name: All jobs passed or were skipped

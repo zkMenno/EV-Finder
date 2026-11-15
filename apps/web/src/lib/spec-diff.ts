@@ -2,6 +2,7 @@
 // logic: change-vs-previous-column for the generation spec diff (T-009) and
 // differs-from-the-others for the compare table (T-010). No React, safe anywhere.
 import type { Country, PublishedVariant } from "@ev/schema";
+import { hiddenForNoDc } from "./dc";
 
 export type SpecGroup = "battery" | "charging" | "range" | "performance" | "dimensions" | "practicality" | "availability";
 
@@ -143,6 +144,8 @@ export function cellValue(row: PublishedVariant, field: SpecField, country?: Cou
     const m = country ? row.price_new?.[country] : undefined;
     return m && Number.isFinite(m.amount) ? `${m.currency} ${Math.round(m.amount)}` : null;
   }
+  // No DC data → 400 V charger behaviour reads as missing (never "native" / "50 kW").
+  if (hiddenForNoDc(row, field.key)) return null;
   const v = row[field.key];
   if (v === null || v === undefined) return null;
   if (field.kind === "num") {

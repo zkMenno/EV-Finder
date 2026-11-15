@@ -11,7 +11,9 @@ import { siteName } from "@/config/site";
 import { COMPARE_MAX } from "@/lib/compare-store";
 import { formatYears } from "@/lib/format";
 import { requestLang } from "@/lib/request-lang";
+import { registrationsKey } from "@/lib/registrations";
 import { cellValue, differingCells, SPEC_FIELDS, SPEC_GROUPS } from "@/lib/spec-diff";
+import { Registrations } from "../ev/_components/Registrations";
 import { FieldLabel, SpecValue } from "../ev/_components/SpecValue";
 import { pageCtx } from "../ev/_lib/context";
 import { variantHref } from "../ev/_lib/routes";
@@ -43,10 +45,25 @@ export default async function ComparePage({ params, searchParams }: Props) {
   const missing = ids.filter((id) => !ctx.cat.variant(id));
   const foundIds = cars.map((c) => c.variant_id);
 
+  // Official registration counts for this country: one cell lists every count (never summed).
+  const registrationsRow = (): CompareGroupView["rows"] => {
+    const values = cars.map((c) => registrationsKey(c, cfg.code));
+    if (values.every((v) => v === null)) return [];
+    const differs = differingCells(values);
+    if (onlyDiff && !differs.some(Boolean)) return [];
+    return [
+      {
+        key: "registrations",
+        label: <>{t("reg.title", { country: cfg.name })}</>,
+        cells: cars.map((c, i) => ({ differs: differs[i] ?? false, content: <Registrations ctx={ctx} row={c} /> })),
+      },
+    ];
+  };
+
   const groups: CompareGroupView[] = SPEC_GROUPS.map((group) => ({
     key: group,
     title: t(`variant.group.${group}`),
-    rows: SPEC_FIELDS.filter((f) => f.group === group).flatMap((field) => {
+    rows: SPEC_FIELDS.filter((f) => f.group === group).flatMap((field): CompareGroupView["rows"] => {
       const values = cars.map((c) => cellValue(c, field, cfg.code));
       if (values.every((v) => v === null)) return [];
       const differs = differingCells(values);
@@ -58,7 +75,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
           cells: cars.map((c, i) => ({ differs: differs[i] ?? false, content: <SpecValue ctx={ctx} row={c} field={field} /> })),
         },
       ];
-    }),
+    }).concat(group === "availability" ? registrationsRow() : []),
   })).filter((g) => g.rows.length);
 
   return (

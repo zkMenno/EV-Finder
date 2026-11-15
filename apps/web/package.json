@@ -7,14 +7,16 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "node scripts/listings.mjs && next dev",
-    "build": "node scripts/listings.mjs && next build",
+    "dev": "node scripts/listings.mjs && node scripts/sources.mjs && next dev",
+    "build": "node scripts/listings.mjs && node scripts/sources.mjs && next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "e2e": "playwright test",
-    "listings": "node scripts/listings.mjs"
+    "listings": "node scripts/listings.mjs",
+    "sources": "node scripts/sources.mjs",
+    "budget": "node scripts/budget.mjs"
   },
   "dependencies": {
     "@ev/schema": "workspace:*",
@@ -37,6 +39,6 @@
     "tailwindcss": "^4.3.5",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.0.0",
-    "vitest": "^2.1.8"
+    "vitest": "^5.1.0"
   }
 }

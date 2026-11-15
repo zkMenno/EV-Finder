@@ -23,6 +23,9 @@ export const EXPLORE_FIELDS = [
   "dc_km_per_10min",
   "dc_peak_kw",
   "dc_peak_kw_is_claim",
+  // Not shown in Explore; carried so hasDcData() (src/lib/dc.ts) gives the same answer as on spec pages.
+  "dc_avg_10_80_kw",
+  "dc_minutes_10_80",
   "ac_km_per_h",
   "boot_l",
   "length_mm",
