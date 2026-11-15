@@ -249,8 +249,47 @@ def test_run_log_has_no_host_paths(release_dir: Path) -> None:
 
 def test_no_eea_spec_facts(facts: dict[str, dict[str, Any]]) -> None:
     # EEA type-approval averages blend different cars (and M includes a 75 kg driver): counts only.
-    eea = {f["field"] for f in facts.values() if f["source_id"] == "eea"}
-    assert eea <= {"registered_count"}
+    # With EV_EEA_CORROBORATION on (Q-019), range/consumption averages may appear, but only as
+    # generation facts (corroboration), never on a variant and never as mass.
+    for f in facts.values():
+        if f["source_id"] != "eea" or f["field"] == "registered_count":
+            continue
+        assert f["subject_type"] == "generation", f["id"]
+        assert f["field"] in {"wltp_range_km", "consumption_kwh_100km"}, f["id"]
+        assert f["id"].endswith(f"#corroboration:{f['field']}"), f["id"]
+
+
+def test_price_provenance_per_country_resolves_to_price_facts(
+    rows: list[dict[str, Any]], facts: dict[str, dict[str, Any]]
+) -> None:
+    """Every row price has `provenance.price_new.<CC>` whose facts are price facts of that same
+    variant and country, and whose winning fact carries the published amount."""
+    bad: list[str] = []
+    for row in rows:
+        prov = row.get("provenance") or {}
+        for cc, money in (row.get("price_new") or {}).items():
+            p = prov.get(f"price_new.{cc}")
+            if p is None:
+                bad.append(f"{row['variant_id']}.price_new.{cc}: no provenance")
+                continue
+            fs = [facts.get(fid) for fid in p.get("fact_ids") or []]
+            if not fs or any(f is None for f in fs):
+                bad.append(f"{row['variant_id']}.price_new.{cc}: fact ids missing")
+                continue
+            for f in fs:
+                if (f["field"], f["country"], f["subject_id"]) != (
+                    "price_new",
+                    cc,
+                    row["variant_id"],
+                ):
+                    bad.append(f"{row['variant_id']}.price_new.{cc}: fact {f['id']} is not it")
+            if fs[0]["value_num"] != money["amount"] or fs[0]["unit"] != money["currency"]:
+                bad.append(f"{row['variant_id']}.price_new.{cc}: amount differs from its fact")
+            if fs[0]["source_id"] not in p["source_ids"]:
+                bad.append(f"{row['variant_id']}.price_new.{cc}: source not listed")
+    for k in {k for r in rows for k in (r.get("provenance") or {}) if k.startswith("price_new")}:
+        assert k.startswith("price_new.") and len(k.split(".", 1)[1]) == 2, k
+    assert bad == []
 
 
 def test_no_e_tron_gt_counted_as_e_tron(release_dir: Path) -> None:

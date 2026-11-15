@@ -95,11 +95,21 @@ class Seed:
     make_keys: dict[str, str]  # normalised make key -> make id
     models: dict[str, SeedModel]
     generations: dict[str, SeedGeneration]
+    # Q-021: make spellings one source uses (`make_aliases_by_source` on a make in models.yaml,
+    # e.g. EEA "VOLKSWAGEN, VW", OpenEV "MG Motor"): source id -> normalised key -> make id.
+    # Used only when scoped aliases are on.
+    make_source_keys: dict[str, dict[str, str]] = field(default_factory=dict)
 
-    def make_id_for(self, make: str) -> str | None:
+    def make_id_for(
+        self, make: str, source_id: str | None = None, scoped: bool = False
+    ) -> str | None:
         k = key(make)
         if k in self.make_keys:
             return self.make_keys[k]
+        if scoped and source_id is not None:
+            hit = self.make_source_keys.get(source_id, {}).get(k)
+            if hit is not None:
+                return hit
         return self.make_keys.get(MAKE_ALIASES.get(k, ""))
 
 
@@ -108,7 +118,16 @@ def parse_seed(data: dict[str, Any]) -> Seed:
     make_keys: dict[str, str] = {}
     models: dict[str, SeedModel] = {}
     gens: dict[str, SeedGeneration] = {}
+    make_source_keys: dict[str, dict[str, str]] = {}
     for mk in data.get("makes", []):
+        for sids, names in (mk.get("make_aliases_by_source") or {}).items():
+            for sid in [x.strip() for x in str(sids).split(",") if x.strip()]:
+                for n in names or []:
+                    k = key(str(n))
+                    prev = make_source_keys.setdefault(sid, {}).get(k)
+                    if not k or (prev is not None and prev != mk["id"]):
+                        raise ValueError(f"make alias {n!r} for {sid}: empty or on two makes")
+                    make_source_keys[sid][k] = mk["id"]
         make_models: list[SeedModel] = []
         for md in mk.get("models", []):
             mgens: list[SeedGeneration] = []
@@ -148,7 +167,13 @@ def parse_seed(data: dict[str, Any]) -> Seed:
         makes[mk["id"]] = SeedMake(id=mk["id"], name=mk["name"], models=make_models)
         make_keys[key(mk["name"])] = mk["id"]
         make_keys[key(mk["id"])] = mk["id"]
-    return Seed(makes=makes, make_keys=make_keys, models=models, generations=gens)
+    return Seed(
+        makes=makes,
+        make_keys=make_keys,
+        models=models,
+        generations=gens,
+        make_source_keys=make_source_keys,
+    )
 
 
 def _parse_source_aliases(raw: Any) -> dict[str, list[SourceAlias]]:

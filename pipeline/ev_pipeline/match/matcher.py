@@ -41,6 +41,11 @@
    kinds (fleet / new registrations) are never added together.
 6. Count-only sources (COUNT_ONLY_SOURCES, EEA): their spec records are dropped and counted,
    never matched: the EEA averages blend different cars (T-004 review, Q-039).
+   Corroboration records (Q-019 option a, flag `EV_EEA_CORROBORATION`, default off): EEA's
+   generation-level range/consumption averages become generation facts in
+   `result.corroboration_facts` (one per generation and field: the average with the most
+   registrations behind it). Merge (`merge/corroborate.py`) may count them as an agreeing
+   source; they never set a value. Flag off, or unplaceable: counted, never unmatched.csv.
 7. Source-scoped aliases (`source_aliases` in models.yaml): names one source uses for a model
    (KBA "4ER" = the BEV column of the BMW 4 series = i4). They may start with a make the seed
    lacks ("SEAT BORN" -> Cupra Born). Their optional note goes into the count's provenance.
@@ -126,6 +131,11 @@ _DFT_PERIOD_RE = re.compile(r"(\d{4}) Q([1-4])")
 # Sources used for registration counts only; their spec records never become facts (Q-039).
 COUNT_ONLY_SOURCES = frozenset({"eea"})
 
+# Q-019 option (a): sources whose `corroboration` records may confirm (never set) a value.
+CORROBORATION_SOURCES = frozenset({"eea"})
+EEA_CORROBORATION_ENV = "EV_EEA_CORROBORATION"
+EEA_CORROBORATION_DEFAULT = False  # Q-019 is open: off until Menno picks option (a)
+
 AMBIGUOUS_GENERATION = "ambiguous-generation"
 
 # Q-021 source-scoped aliases. Env EV_SCOPED_ALIASES=1/0 overrides the default; the default
@@ -148,6 +158,22 @@ def scoped_aliases_enabled(value: bool | None = None) -> bool:
     if raw:
         raise ValueError(f"{SCOPED_ALIASES_ENV}={raw!r}: use 1 or 0")
     return SCOPED_ALIASES_DEFAULT
+
+
+def eea_corroboration_enabled(value: bool | None = None) -> bool:
+    """The Q-019 corroboration flag: an explicit value, else the env var, else the default."""
+    if value is not None:
+        return value
+    raw = os.environ.get(EEA_CORROBORATION_ENV, "").strip().lower()
+    if raw in _ON:
+        return True
+    if raw in _OFF:
+        return False
+    if raw:
+        raise ValueError(f"{EEA_CORROBORATION_ENV}={raw!r}: use 1 or 0")
+    return EEA_CORROBORATION_DEFAULT
+
+
 KWH_TOLERANCE = 1.0  # "40KWH" in a name vs 39 kWh net / 40 kWh gross
 # Year-band split thresholds (relative difference to the band's first year).
 BAND_THRESHOLDS: dict[str, float] = {"wltp_range_km": 0.05, "dc_peak_kw": 0.10}
@@ -191,6 +217,7 @@ class MatchedFact:
     model_id: str | None = None
     period: str | None = None  # registration counts: the period the count covers
     note: str | None = None  # e.g. a source alias note ("KBA joins ID.4 and ID.5")
+    weight: int | None = None  # corroboration: registrations behind the average
 
 
 @dataclass
@@ -245,6 +272,11 @@ class MatchResult:
     ignored_fields: Counter[str] = field(default_factory=Counter)  # "source:field" dropped
     matched_records: int = 0
     scoped_aliases: bool = False  # Q-021 flag value used for this run
+    eea_corroboration: bool = False  # Q-019 flag value used for this run
+    # Q-019: generation-level facts that may only confirm a merged value (never set one).
+    corroboration_facts: list[MatchedFact] = field(default_factory=list)
+    corroboration_skipped: Counter[str] = field(default_factory=Counter)  # reason -> records
+    corroboration_log: dict[str, object] = field(default_factory=dict)  # set by the release step
 
 
 def priority_of(source_id: str) -> int:
@@ -540,7 +572,7 @@ def build_evidence(
         sid = rec.source.id.root
         if rec.kind != "spec" or sid in EXCLUDED_SOURCES or sid in COUNT_ONLY_SOURCES:
             continue
-        make_id = seed.make_id_for(rec.make)
+        make_id = seed.make_id_for(rec.make, sid, scoped)
         if make_id is None or rec.year is None:
             continue
         model, _ = find_model(seed, make_id, match_view(rec), scoped)
@@ -558,13 +590,17 @@ def match_records(
     manual: list[ManualVariant] | None = None,
     generation_kwh: dict[str, set[float]] | None = None,
     scoped_aliases: bool | None = None,
+    eea_corroboration: bool | None = None,
 ) -> MatchResult:
     """`generation_kwh`: optional battery sizes per generation (e.g. from battery_packs.yaml
     via variant_links.yaml), used as evidence for shared-year records. `scoped_aliases`:
-    None = env EV_SCOPED_ALIASES / default (see `scoped_aliases_enabled`)."""
+    None = env EV_SCOPED_ALIASES / default (see `scoped_aliases_enabled`); `eea_corroboration`
+    likewise (EV_EEA_CORROBORATION, `eea_corroboration_enabled`)."""
     result = MatchResult()
     scoped = scoped_aliases_enabled(scoped_aliases)
     result.scoped_aliases = scoped
+    corroborate = eea_corroboration_enabled(eea_corroboration)
+    result.eea_corroboration = corroborate
     manual = manual or []
     evidence = build_evidence(records, seed, manual, generation_kwh, scoped)
     # (generation_id, variant name key) -> variant id
@@ -600,11 +636,19 @@ def match_records(
         if sid in EXCLUDED_SOURCES:
             result.excluded[sid] += 1
             continue
+        if rec.kind == "corroboration":
+            if not corroborate:
+                result.corroboration_skipped["flag off"] += 1
+            elif sid not in CORROBORATION_SOURCES:
+                result.corroboration_skipped[f"{sid}: not a corroboration source"] += 1
+            else:
+                _add_corroboration(rec, seed, evidence, result, scoped)
+            continue
         if sid in COUNT_ONLY_SOURCES and rec.kind != "registration_count":
             result.count_only_skipped[sid] += 1
             continue
         view = match_view(rec)
-        make_id = seed.make_id_for(rec.make)
+        make_id = seed.make_id_for(rec.make, sid, scoped)
         note: str | None = None
         if make_id is None:
             model, note = find_by_source_alias(seed, view, scoped)
@@ -639,7 +683,62 @@ def match_records(
         result.matched_records += 1
     split_year_bands(result)
     attach_records(deferred, result)
+    result.corroboration_facts = _best_corroboration(result.corroboration_facts)
     return result
+
+
+def _add_corroboration(
+    rec: SourceRecord,
+    seed: Seed,
+    evidence: GenerationEvidence,
+    result: MatchResult,
+    scoped: bool,
+) -> None:
+    """A corroboration record becomes generation facts (Q-019); never a variant fact."""
+    view = match_view(rec)
+    make_id = seed.make_id_for(rec.make, rec.source.id.root, scoped)
+    if make_id is None:
+        model, _ = find_by_source_alias(seed, view, scoped)
+    else:
+        model, _, _ = find_model_noted(seed, make_id, view, scoped)
+    if model is None:
+        result.corroboration_skipped["model not in seed"] += 1
+        return
+    gen, why = find_generation(model, rec.year, evidence, rec)
+    if gen is None:
+        reason = AMBIGUOUS_GENERATION if why.startswith(AMBIGUOUS_GENERATION) else "no generation"
+        result.corroboration_skipped[reason] += 1
+        return
+    weight_sv = rec.specs.get(FactField.registered_count)
+    weight = int(weight_sv.value) if weight_sv and isinstance(weight_sv.value, int | float) else 0
+    for f, sv in rec.specs.items():
+        fname = f.value if isinstance(f, FactField) else str(f)
+        if fname == "registered_count":
+            continue
+        fact = _make_fact(rec, fname, sv, "generation", gen.id, result)
+        if fact is not None:
+            result.corroboration_facts.append(
+                MatchedFact(
+                    fact,
+                    rec.source.id.root,
+                    priority_of(rec.source.id.root),
+                    rec.year,
+                    gen.id,
+                    gen.model_id,
+                    weight=weight,
+                )
+            )
+
+
+def _best_corroboration(facts: list[MatchedFact]) -> list[MatchedFact]:
+    """One per (source, generation, field, year): the average with the most registrations
+    behind it (then the lowest fact id). Several countries or commercial names ("KONA",
+    "KONA ELECTRIC") never give several chances to agree."""
+    best: dict[tuple[str, str, str, int | None], MatchedFact] = {}
+    for mf in sorted(facts, key=lambda m: (-(m.weight or 0), m.fact.id)):
+        k = (mf.source_id, str(mf.generation_id), mf.fact.field.value, mf.year)
+        best.setdefault(k, mf)
+    return sorted(best.values(), key=lambda m: m.fact.id)
 
 
 # --- attach-only sources -------------------------------------------------------------------

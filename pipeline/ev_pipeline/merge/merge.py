@@ -58,6 +58,9 @@ class Merged:
     independent_agreeing: int  # distinct independent sources agreeing with the value
     conflicts: list[MatchedFact] = field(default_factory=list)
     tolerance: str = ""
+    # Q-019: generation-level facts that agree with the value (merge/corroborate.py). They
+    # count toward agreeing_sources (and the quality tier), never toward value or confidence.
+    corroborations: list[MatchedFact] = field(default_factory=list)
 
     @property
     def agreeing_sources(self) -> int:
@@ -73,6 +76,8 @@ class Merged:
             parts.append(f"{self.rule} rule")
         if self.overruled:
             parts.append(f"{self.overruled} conflicting value(s) not used")
+        for c in self.corroborations:
+            parts.append(f"{c.source_id} generation average agrees (corroboration, not the value)")
         return "; ".join(parts) or None
 
 

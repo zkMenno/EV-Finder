@@ -9,8 +9,12 @@ of mass (M), consumption (Z) and range (Zr) over *every* type approval under one
 name: all battery sizes, wheels and trims blended into a number that may match no real car.
 Decision 009 says conflicts are never averaged, so these are NOT emitted as spec facts. `M`
 is also mass in running order (curb weight + 75 kg driver), which must never merge with curb
-weight. The averages stay in the raw pages only; per-type-approval (TAN/Va/Ve) spec rows are an
-open question (QUESTIONS.md Q-039).
+weight. Per-type-approval (TAN/Va/Ve) spec rows are an open question (QUESTIONS.md Q-039).
+
+**Corroboration records (Q-019 option a).** The range (Zr) and consumption (Z) averages are also
+emitted as `kind="corroboration"` records (never mass). The matcher ignores them unless
+`EV_EEA_CORROBORATION=1`; then merge may use one to count EEA as an agreeing source when it
+is within the field tolerance of a variant's merged value. It never sets a value.
 
 Discodata sits behind an Azure WAF that rejects many GET queries (e.g. `... AND ...` with
 quoted literals) with HTTP 403; POSTing the same query as a form body works.
@@ -158,7 +162,30 @@ def normalise(raw_dir: Path, retrieved_at: date) -> list[SourceRecord]:
                 )
             )
             # No spec record: see the module docstring (averages across different cars).
+            corro: dict[FactField, SpecValue] = {}
+            if _positive(row.get("zr_km")):
+                corro[FactField.wltp_range_km] = SpecValue(value=float(row["zr_km"]), unit="km")
+            if _positive(row.get("z_wh_km")):
+                corro[FactField.consumption_kwh_100km] = SpecValue(
+                    value=float(row["z_wh_km"]), unit="Wh/km"
+                )
+            if corro:
+                # The count is the average's weight: merge uses the best-supported average.
+                corro[FactField.registered_count] = SpecValue(value=count, unit="count")
+                records.append(
+                    SourceRecord(
+                        record_key=f"{key}#corroboration",
+                        kind="corroboration",
+                        specs=corro,
+                        confidence=Confidence.low,  # registration-weighted average
+                        **common,
+                    )
+                )
     return records
+
+
+def _positive(v: object) -> bool:
+    return isinstance(v, int | float) and not isinstance(v, bool) and v > 0
 
 
 def fetch_cmd(client: httpx.Client | None = None) -> int:

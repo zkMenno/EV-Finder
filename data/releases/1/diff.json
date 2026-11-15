@@ -105,6 +105,10 @@
   "mg-mg4-gen1-extended-range",
   "mg-mg4-gen1-long-range",
   "mg-mg4-gen1-standard",
+  "mg-mg4-gen1-standard-2023",
+  "mg-mg4-gen1-standard-long-range",
+  "mg-mg4-gen1-standard-range",
+  "mg-mg4-gen1-trophy",
   "mg-mg4-gen1-xpower",
   "mg-zs-ev-gen1-44kwh",
   "mg-zs-ev-gen1-long-range",
@@ -202,8 +206,8 @@
  "changed": {},
  "counts": {
   "rows_previous": 0,
-  "rows": 195,
-  "added": 195,
+  "rows": 199,
+  "added": 199,
   "removed": 0,
   "changed": 0
  }

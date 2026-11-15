@@ -20,10 +20,12 @@ def test_counts_only_no_averaged_specs() -> None:
         assert rec.source.licence == "CC-BY-4.0"
         assert "DG CLIMA" in (rec.source.attribution or "")
         assert rec.country in {Country.NL, Country.DE, Country.FR, Country.BE}
-        # Registration-weighted averages across type approvals are not spec facts, and EEA
+        # Registration-weighted averages across type approvals are never spec facts, and EEA
         # mass in running order (incl. 75 kg driver) must never become weight_kg.
-        assert rec.kind == "registration_count"
-        assert set(rec.specs) == {FactField.registered_count}
+        assert rec.kind in {"registration_count", "corroboration"}
+        assert FactField.weight_kg not in rec.specs
+        if rec.kind == "registration_count":
+            assert set(rec.specs) == {FactField.registered_count}
         assert not rec.record_key.endswith("#type_approval_avg")
     key = "[CO2Emission].[latest].[co2cars_2025Pv31]:NL|TESLA|MODEL 3|2025"
     [count] = [r for r in records if r.record_key == key]
@@ -64,3 +66,24 @@ def test_fetch_refuses_without_licence(tmp_path: Path) -> None:
         pytest.raises(RuntimeError),
     ):
         adapter.fetch(client, tmp_path)
+
+
+def test_corroboration_records_from_averages() -> None:
+    """Q-019 (a): range and consumption averages ride along as corroboration only."""
+    records = adapter.normalise(FIXTURE, date(2026, 11, 15))
+    corro = {r.record_key: r for r in records if r.kind == "corroboration"}
+    assert corro
+    de = corro["[CO2Emission].[latest].[co2cars_2025Pv31]:DE|TESLA|MODEL 3|2025#corroboration"]
+    assert de.confidence == Confidence.low
+    assert de.specs[FactField.wltp_range_km].unit == "km"
+    assert round(de.specs[FactField.wltp_range_km].value) == 597
+    assert de.specs[FactField.consumption_kwh_100km].unit == "Wh/km"
+    assert de.specs[FactField.registered_count].value == 6848  # the average's weight
+    assert set(de.specs) == {
+        FactField.wltp_range_km,
+        FactField.consumption_kwh_100km,
+        FactField.registered_count,
+    }
+    # BE Model 3 has no Zr/Z average: no corroboration record, the count stays.
+    assert not any("BE|TESLA|MODEL 3|" in k for k in corro)
+    assert any(r.record_key.endswith("BE|TESLA|MODEL 3|2025") for r in records)

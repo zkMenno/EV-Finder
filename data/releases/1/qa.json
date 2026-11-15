@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T01:28:30+00:00",
+ "generated_at": "2026-11-15T01:37:26+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -9,12 +9,12 @@
    "title": "Provenance completeness",
    "blocking": true,
    "status": "pass",
-   "summary": "3852 values checked; 0 problem(s)",
+   "summary": "3957 values checked; 0 problem(s)",
    "details": {
-    "values_checked": 3852,
-    "dated_by_fact": 3821,
+    "values_checked": 3957,
+    "dated_by_fact": 3926,
     "dated_by_source": 31,
-    "facts_checked": 7599,
+    "facts_checked": 7887,
     "errors": [],
     "error_count": 0
    }
@@ -24,7 +24,7 @@
    "title": "Licence gate re-check",
    "blocking": true,
    "status": "pass",
-   "summary": "9 sources, 7599 facts; 0 problem(s)",
+   "summary": "9 sources, 7887 facts; 0 problem(s)",
    "details": {
     "sources": [
      "ademe",
@@ -39,14 +39,14 @@
     ],
     "values_per_source": {
      "ademe": 73,
-     "dft-veh": 195,
-     "eea": 537,
-     "kba-fz10": 132,
-     "kilowatt-openev": 890,
-     "model-estimate": 1214,
-     "openev": 1673,
-     "rdw": 390,
-     "seed-manual": 1748
+     "dft-veh": 199,
+     "eea": 561,
+     "kba-fz10": 136,
+     "kilowatt-openev": 893,
+     "model-estimate": 1256,
+     "openev": 1768,
+     "rdw": 398,
+     "seed-manual": 1747
     },
     "errors": [],
     "error_count": 0
@@ -60,7 +60,7 @@
    "summary": "first release: nothing to compare",
    "details": {
     "previous_release": null,
-    "variants": 195
+    "variants": 199
    }
   },
   "outliers": {
@@ -68,7 +68,7 @@
    "title": "Outliers and impossible values",
    "blocking": false,
    "status": "flag",
-   "summary": "1 impossible value(s), 30 outside P1-P99 (reference: this release)",
+   "summary": "1 impossible value(s), 31 outside P1-P99 (reference: this release)",
    "details": {
     "impossible_count": 1,
     "impossible_by_rule": {
@@ -83,7 +83,7 @@
       "detail": "usable 80.0 > gross 77.4 kWh"
      }
     ],
-    "percentile_count": 30,
+    "percentile_count": 31,
     "percentile_by_field": {
      "ac_km_per_h": 1,
      "ac_kw": 1,
@@ -98,7 +98,7 @@
      "dc_peak_held_min": 4,
      "dc_peak_kw": 3,
      "length_mm": 1,
-     "power_kw": 1,
+     "power_kw": 2,
      "real_range_km": 1,
      "weight_kg": 2,
      "wltp_range_km": 1
@@ -166,7 +166,7 @@
       "field": "length_mm",
       "value": 4600.0,
       "p1": 4200.0,
-      "p99": 4567.0
+      "p99": 4562.6
      },
      {
       "variant_id": "ford-mustang-mach-e-gen1-extended-range",
@@ -221,8 +221,8 @@
       "segment": "C",
       "field": "dc_avg_10_80_kw",
       "value": 31.0,
-      "p1": 31.42,
-      "p99": 116.98
+      "p1": 31.48,
+      "p99": 116.84
      },
      {
       "variant_id": "kia-ev6-gen1-77kwh-awd",
@@ -241,28 +241,36 @@
       "p99": 13.73
      },
      {
+      "variant_id": "mg-mg4-gen1-xpower",
+      "segment": "C",
+      "field": "power_kw",
+      "value": 320.0,
+      "p1": 80.0,
+      "p99": 295.2
+     },
+     {
       "variant_id": "nissan-leaf-ze1-40kwh",
       "segment": "C",
       "field": "dc_peak_held_min",
       "value": 28.2,
-      "p1": 3.64,
-      "p99": 27.69
+      "p1": 3.67,
+      "p99": 27.62
      },
      {
       "variant_id": "nissan-leaf-ze1-62-kwh",
       "segment": "C",
       "field": "dc_minutes_10_80",
       "value": 77.3,
-      "p1": 19.13,
-      "p99": 70.94
+      "p1": 19.25,
+      "p99": 70.09
      },
      {
       "variant_id": "renault-megane-e-tech-gen1-40-kwh",
       "segment": "C",
       "field": "dc_minutes_10_80",
       "value": 18.2,
-      "p1": 19.13,
-      "p99": 70.94
+      "p1": 19.25,
+      "p99": 70.09
      },
      {
       "variant_id": "tesla-model-y-juniper-long-range-awd",
@@ -293,7 +301,7 @@
       "segment": "C",
       "field": "battery_kwh_net",
       "value": 21.2,
-      "p1": 22.04,
+      "p1": 22.15,
       "p99": 77.0
      },
      {
@@ -302,39 +310,39 @@
       "field": "ac_kw",
       "value": 32.0,
       "p1": 3.6,
-      "p99": 29.0
+      "p99": 28.6
      },
      {
       "variant_id": "volkswagen-e-golf-mk75-36kwh",
       "segment": "C",
       "field": "dc_peak_kw",
       "value": 40.0,
-      "p1": 41.2,
-      "p99": 173.5
+      "p1": 41.36,
+      "p99": 173.3
      },
      {
       "variant_id": "volkswagen-id3-gen1-gtx",
       "segment": "C",
       "field": "dc_peak_kw",
       "value": 175.0,
-      "p1": 41.2,
-      "p99": 173.5
+      "p1": 41.36,
+      "p99": 173.3
      },
      {
       "variant_id": "volkswagen-id3-gen1-gtx",
       "segment": "C",
       "field": "dc_avg_10_80_kw",
       "value": 118.0,
-      "p1": 31.42,
-      "p99": 116.98
+      "p1": 31.48,
+      "p99": 116.84
      },
      {
       "variant_id": "volkswagen-id3-gen1-pro",
       "segment": "C",
       "field": "dc_peak_held_min",
       "value": 3.4,
-      "p1": 3.64,
-      "p99": 27.69
+      "p1": 3.67,
+      "p99": 27.62
      },
      {
       "variant_id": "volkswagen-id4-gen1-gtx",
@@ -346,8 +354,8 @@
      }
     ],
     "reference": "this release",
-    "segment_fields_checked": 25,
-    "segment_fields_skipped_small": 131,
+    "segment_fields_checked": 26,
+    "segment_fields_skipped_small": 130,
     "min_values_per_segment": 30
    }
   },
@@ -1635,35 +1643,40 @@
       "rank": 32,
       "model_id": "mg-mg4",
       "name": "MG MG4",
-      "variants": 4,
+      "variants": 8,
       "fields": {
        "battery_kwh_net": {
         "covered": false,
-        "one": 4
+        "one": 7,
+        "two_plus": 1
        },
        "wltp_range_km": {
         "covered": false,
-        "missing": 4
+        "missing": 3,
+        "one": 5
        },
        "real_range_km": {
         "covered": false,
-        "missing": 4
+        "missing": 3,
+        "estimate": 5
        },
        "ac_kw": {
         "covered": false,
-        "one": 4
+        "one": 7,
+        "two_plus": 1
        },
        "dc_peak_kw": {
         "covered": false,
-        "one": 4
+        "one": 8
        },
        "dc_avg_10_80_kw": {
         "covered": false,
-        "estimate": 4
+        "estimate": 8
        },
        "dc_km_per_20min": {
         "covered": false,
-        "missing": 4
+        "missing": 3,
+        "estimate": 5
        }
       }
      },
@@ -1989,7 +2002,7 @@
   }
  },
  "open_data": {
-  "rows": 195,
+  "rows": 199,
   "columns": 162,
   "sources": [
    "ademe",
@@ -2007,8 +2020,8 @@
    "ATTRIBUTION.md": 3911,
    "LICENSE": 715,
    "README.md": 13849,
-   "variants.csv": 391415,
-   "variants.json": 1181578
+   "variants.csv": 401709,
+   "variants.json": 1207618
   }
  }
 }

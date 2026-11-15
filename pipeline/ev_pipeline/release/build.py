@@ -53,6 +53,7 @@ from ev_pipeline.match.matcher import (
 )
 from ev_pipeline.match.review import unmatched_rows, write_unmatched
 from ev_pipeline.match.seed import ManualVariant, Seed, load_manual_variants, load_seed
+from ev_pipeline.merge.corroborate import apply_corroboration
 from ev_pipeline.merge.merge import Merged, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.records import SourceRecord
@@ -297,6 +298,12 @@ def build_release(
     for mf in spec_facts:
         by_variant.setdefault(mf.fact.subject_id.root, []).append(mf)
     merged = {vid: merge_variant_facts(fs, policies) for vid, fs in by_variant.items()}
+    # Q-019 (a): generation averages may confirm a merged value, never set one (flag-gated).
+    corro_facts, corro_dropped = check_fact_ranges(result.corroboration_facts)
+    problems += corro_dropped
+    corro_used, result.corroboration_log = apply_corroboration(
+        merged, result.variants, corro_facts, policies
+    )
     conflicts = conflict_rows(merged)
     nl_counts = aggregate_counts(result.count_facts, seed, "rdw", "NL")
     registrations = registration_entries(result.count_facts, seed)
@@ -332,7 +339,7 @@ def build_release(
                 row["provenance"].pop(f, None)
     problems += row_problems
 
-    all_facts = spec_facts + result.count_facts
+    all_facts = spec_facts + result.count_facts + corro_used
     sources: dict[str, dict[str, Any]] = {}
     for mf in all_facts:
         sources.setdefault(mf.source_id, mf.fact.source.model_dump(mode="json", exclude_none=True))
@@ -659,6 +666,14 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "matched_records": res.match.matched_records,
         "excluded_records": dict(res.match.excluded),
         "count_only_spec_records_skipped": dict(res.match.count_only_skipped),
+        "match_flags": {
+            "scoped_aliases": res.match.scoped_aliases,
+            "eea_corroboration": res.match.eea_corroboration,
+        },
+        "corroboration": {
+            "skipped": dict(res.match.corroboration_skipped),
+            **res.match.corroboration_log,
+        },
         "attach_only_records_attached": dict(res.match.attached),
         "ignored_fields": dict(res.match.ignored_fields),
         "registrations_coverage": registrations_coverage(rows),
