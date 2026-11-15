@@ -45,6 +45,7 @@ _Last updated: 2026-11-15 01:00 UTC by WS0. Waves 1–4 are being built by overn
 ### Wave 6 — Charging buildout Core 1 + bidi filters + schemas
 - T-023 schema-charging-stats (WS0, `packages/schema`)
 - T-030 schema-trip-fit (WS0, `packages/schema`)
+- T-044 schema-variant-clue (WS0; overnight run tonight)
 - T-024 charging-taxonomies-seed (WS3, `data/taxonomy`, `config/`) — after T-023
 - T-026 web-charging-linkouts (WS2, `apps/web`) — after T-024
 - T-027 learn-charging-2026 (WS3 content + WS2 page)
@@ -65,9 +66,14 @@ _Last updated: 2026-11-15 01:00 UTC by WS0. Waves 1–4 are being built by overn
 - T-037 valhalla-box (WS4)
 - T-028 web-country-charging-pages (WS2, Core 2) — after T-025
 
+- T-045 web-differences-timeline (WS2, Core) — Variant finder, Decision 019
+- T-046 clue-types-and-top40-clues (WS3) — after T-044
+- T-047 lookalike-groups (WS1) — after T-044, T-046
+- T-049 rdw-plate-vin-research (WS1 + WS3)
 - T-043 price-modes (WS3 finance_profiles + WS2 UI; schema WS0)
 
 ### Wave 8 — Trip fit Core 2
+- T-048 web-spot-it-box (WS2) — after T-046, T-047
 - T-038 web-trip-routes (WS2) — after T-033, T-034, T-037
 
 ## Blocked

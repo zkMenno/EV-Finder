@@ -1,4 +1,4 @@
-<!-- Spec tab "Variant finder" (rev 1), written 2026-11-15 in the repo first at Menno's request. WS0: add it as a tab in the claude.ai spec doc. -->
+<!-- Mirror of the claude.ai spec doc, tab "Variant finder" (rev 1), written in the repo first on 2026-11-15 and added to the doc by WS0. For builders this repo copy wins. -->
 
 # Variant finder: tell variants apart, and spot the right one in an ad
 
