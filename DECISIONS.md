@@ -261,4 +261,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** The licence gate and attribution file must be complete before launch; WS1 adds the bundle to the release job, WS2 a /data page.
 
+## Decision 017: Prices in three modes (outright, loan, lease) from config tables
+
+**Status:** Accepted (Menno's idea, WS0 defaults, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** Many buyers lease or finance part of the price. Used leasing exists in NL, DE and FR. CCD2 (Directive (EU) 2023/2225) applies from 20 Nov 2026 to credit adverts with cost figures; in the UK, introducing consumers to finance or lease providers is FCA-regulated credit broking. Spec: master-spec-v2 §8 "Ways to pay".
+
+**Decision:** A price mode (outright / loan per month / lease per month) on every price, remembered and in the URL. Loan = browser calculator from price, deposit, term and a typical rate from a new editable `finance_profiles` table (country, product, typical APR, default term and deposit, source, date). Calculator output is labelled an estimate, shows its assumptions, the total over the term and the CCD2 warning. Lease = partner-feed figures only, otherwise a plain labelled link. No finance commission at launch; no UK finance or lease links until the FCA question is answered.
+
+**Consequences:** One small taxonomy (WS3), a price-mode control and calculator (WS2), a lawyer question in R-03. Lease figures stay Next until partner feeds exist.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

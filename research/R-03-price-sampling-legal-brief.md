@@ -117,3 +117,9 @@ The spec's €500–1,500 is probably too low for a written opinion. It does fit
 - Knab, Dutch lawyer rates 2026: https://bieb.knab.nl/wat-verdient-een-advocaat-zzp-bekijk-uurtarief-en-winst
 - Rose & Partner, German lawyer hourly rates: https://www.rosepartner.de/stundensatz-anwalt-kanzlei-zeithonorar.html
 - Coover, French lawyer fees: https://www.coover.fr/?p=79588
+
+## Added 15 Nov 2026: finance and lease display (Decision 017)
+Extra questions for the lawyer:
+1. Does a neutral loan calculator (no lender named, no commission, typical APR from public sources) count as credit advertising under CCD2 as transposed in NL, DE, FR and BE? If yes, which representative-example items must it show?
+2. In the UK, does a plain unpaid link to a used-lease or car-finance site count as credit broking (FCA), and is there a safe way to show lease prices from a partner feed?
+3. For NL private lease (Keurmerk Private Lease, BKR), may we show a partner's "from €X/month" figure, and what must accompany it?
