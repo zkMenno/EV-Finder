@@ -125,6 +125,8 @@ class ReleaseResult:
     charging_review: list[dict[str, str]] = field(default_factory=list)
     # T-034: towns + January climate per country (towns/<cc>.json), empty = not shipped.
     towns: dict[str, dict[str, Any]] = field(default_factory=dict)
+    # T-033: per-variant consumption matrix (consumption_matrix.json), None = not shipped.
+    consumption: dict[str, Any] | None = None
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -481,6 +483,19 @@ def build_release(
     facts = [_fact_dict(mf) for mf in all_facts]
     pfacts = pack_facts(links)
     facts += pfacts
+    from ev_pipeline.derive.consumption import build_matrix
+
+    matrix = build_matrix(
+        rows,
+        facts,
+        data_dir / "staging",
+        registry.releasable,
+        {s["id"]: s for s in catalogue["sources"]},
+        n,
+        catalogue["generated_at"],
+        taxonomy_dir=data_dir / "taxonomy",
+    )
+    inputs += matrix.inputs
 
     for inp in inputs:
         inp["path"] = log_path(inp["path"], data_dir)
@@ -542,12 +557,14 @@ def build_release(
         charging_stats=charging.document,
         charging_review=charging_review,
         towns=towns.documents,
+        consumption=matrix.document,
         sections={
             "epa_range_km": epa_summary(rows),
             "generation_years": years.log,
             "known_issues": known.log,
             "charging_stats": charging.log,
             "towns": towns.log,
+            "consumption_matrix": matrix.log,
             "pack_links": link_coverage(link_report),
         },
     )
@@ -746,6 +763,14 @@ def sections_md(sections: dict[str, Any]) -> list[str]:
     for name, f in sorted((cs.get("files") or {}).items()):
         state = f"gated: {f['gated']}" if f.get("gated") else f"{f['shipped']} rows shipped"
         lines.append(f"- **Charging stats** `{name}`: {f['rows_in']} rows in, {state}.")
+    cm = sections.get("consumption_matrix") or {}
+    if cm.get("status") == "shipped":
+        rungs = ", ".join(f"{k} {v}" for k, v in (cm.get("cells_by_rung") or {}).items())
+        lines.append(
+            f"- **Consumption matrix** (Trip fit, all estimates): {cm['variants']} variants"
+            f" ({cm['variants_skipped']} without a WLTP or test figure), cells by rung: {rungs};"
+            f" {cm['tests_used']} tests; {cm['gzip_bytes'] / 1024:.0f} KB gzip."
+        )
     tw = sections.get("towns") or {}
     if tw.get("status") == "shipped":
         n_towns = sum(v for k, v in tw.items() if k.startswith("towns "))
@@ -945,6 +970,13 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
     if res.charging_stats is not None:  # T-059, Decision 012: aggregates only
         (tmp / CHARGING_STATS_FILE).write_text(
             json.dumps(res.charging_stats, separators=(",", ":"), ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+    if res.consumption is not None:  # T-033: static JSON for the Trip fit browser model
+        from ev_pipeline.derive.consumption import FILE_NAME as MATRIX_FILE
+
+        (tmp / MATRIX_FILE).write_text(
+            json.dumps(res.consumption, separators=(",", ":"), ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
     if res.towns:  # T-034: one file per country, loaded on demand by the trip module

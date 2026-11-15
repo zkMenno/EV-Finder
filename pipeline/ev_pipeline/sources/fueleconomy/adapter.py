@@ -16,6 +16,14 @@ Per row (one row = make x model text x model year x EPA options):
   pack)" (about 56 rows, mostly older Teslas). That is a nominal pack size, not a usable
   figure, so it goes in a separate `#battery` record with confidence low.
 
+T-032: `normalise` also writes condition-tagged consumption tests
+(`data/staging/fueleconomy.consumption_tests.jsonl`, schema ConsumptionTest minus
+`variant_id`, which the release fills from the matched fact of the same record): EPA city
+(`cityE`, UDDS cycle, ~31.5 km/h average, road band town) and highway (`highwayE`, HWFET,
+~77.7 km/h, road band rural), kWh/100 mi → Wh/km, from the wall, lab temperature 23.9 °C
+(75 °F). They are 5-cycle *adjusted* label values, so cold, hot and A/C effects are
+blended in (noted on every row).
+
 SourceRecord kind spec, `country` None (the schema Country enum has no US); the market is in
 `record_key` (`...;market=us`). Confidence medium. `model` is EPA's model text (it carries
 options such as "w/21in All-Season Tires"); `body` is left empty.
@@ -25,6 +33,7 @@ from __future__ import annotations
 
 import csv
 import io
+import json
 import re
 import zipfile
 from collections import Counter
@@ -213,6 +222,53 @@ def fetch_cmd(client: httpx.Client | None = None) -> int:
     return 0
 
 
+# --- T-032: consumption tests ------------------------------------------------------------
+
+TEST_CYCLES = (
+    # (column, cycle, average speed km/h, road band)
+    ("cityE", "EPA city (UDDS)", 31.5, "town"),
+    ("highwayE", "EPA highway (HWFET)", 77.7, "rural"),
+)
+LAB_TEMPERATURE_C = 23.9  # 75 °F, the FTP/HWFET test-cell temperature
+TESTS_SUFFIX = ".consumption_tests.jsonl"
+TEST_NOTE = (
+    "EPA label value (5-cycle adjusted: cold, hot and A/C tests blended in), measured from the "
+    "wall, US-market car."
+)
+
+
+def consumption_tests(raw_dir: Path, retrieved_at: date) -> list[dict[str, object]]:
+    """ConsumptionTest rows (minus variant_id) keyed by `source_record`."""
+    out: list[dict[str, object]] = []
+    for row in read_rows(raw_dir):
+        if not is_bev(row) or not row.get("make", "").strip() or not row.get("model", "").strip():
+            continue
+        key = f"vehicles.csv:id={row.get('id')};market={MARKET}"
+        for col, cycle, speed, band in TEST_CYCLES:
+            v = _num(row.get(col))
+            if v is None or v <= 0:
+                continue
+            out.append(
+                {
+                    "id": f"fueleconomy:{key}:{col}",
+                    "source_record": key,
+                    "test_kind": "cycle",
+                    "speed_kmh": speed,
+                    "road_band": band,
+                    "temperature_c": LAB_TEMPERATURE_C,
+                    "consumption_wh_km": round(v * 10 / KM_PER_MILE, 1),
+                    "energy_basis": "wall",
+                    "tyre_season": "not-disclosed",
+                    "conditions": {"notes": f"{cycle}. {TEST_NOTE}"},
+                    "source": SOURCE.model_dump(exclude_none=True),
+                    "retrieved_at": retrieved_at.isoformat(),
+                    "confidence": "medium",
+                }
+            )
+    out.sort(key=lambda t: str(t["id"]))
+    return out
+
+
 def normalise_cmd(from_fixtures: bool) -> int:
     src = c.FIXTURES_DIR / DIR if from_fixtures else c.raw_dir(DIR)
     if not ((src / ZIP_NAME).exists() or (src / CSV_NAME).exists()):
@@ -222,6 +278,12 @@ def normalise_cmd(from_fixtures: bool) -> int:
     records = normalise(src, c.retrieved_at_for(src), stats)
     out = c.staging_dir() / f"{NAME}.records.jsonl"
     rows = c.write_records(records, out)
+    tests = consumption_tests(src, c.retrieved_at_for(src))
+    tests_out = c.staging_dir() / f"{NAME}{TESTS_SUFFIX}"
+    with tests_out.open("w", encoding="utf-8") as fh:
+        for t in tests:
+            fh.write(json.dumps(t, ensure_ascii=False, sort_keys=True) + "\n")
+    stats["consumption_tests"] = len(tests)
     c.log_step(
         step="normalise",
         source=NAME,

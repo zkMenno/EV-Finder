@@ -118,6 +118,7 @@ def test_release_end_to_end(data_dir: Path) -> None:
         "catalogue",  # per-generation split (T-064)
         "catalogue.json",
         "catalogue.parquet",
+        "consumption_matrix.json",  # Trip fit model (T-033)
         "coverage.md",
         "diff.json",
         "facts.parquet",

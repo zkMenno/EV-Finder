@@ -341,6 +341,25 @@ daily mean temperature, January mean, and P10 = 10th percentile of January daily
   providers"; confidence medium. ERA5-Land (primary, Decision 036) is a stub until the CDS key
   arrives (`CDSAPI_KEY`, WS4); `ev refresh` skips it until then.
 
+## Consumption matrix (T-032, T-033, Trip fit)
+
+`consumption_matrix.json` in each release: per variant 3 road bands × 5 temperature bands
+(Wh/km, battery basis), with rung, confidence and a P10–P90 band per cell. `estimate: true`:
+all parameters in `ev_pipeline/derive/consumption_params.yaml` are engineering defaults until
+licensed tests can fit them (WS3 taxonomy rows for temperature bands / heater types win).
+
+- Tests (T-032): `ev normalise fueleconomy` also writes
+  `staging/fueleconomy.consumption_tests.jsonl` (EPA city → town, highway → rural; label
+  values from the wall). A test reaches a variant through the release fact of the same
+  source record. Nyland / NAF / ADAC stay out until permission (Decision 004 / 009).
+- Ladder per band: `measured` (own test) → `physics` (motorway from the EPA highway figure ×
+  a drag factor) → `wltp-ratio` (WLTP combined × body-class ratio). No estimate-only WLTP
+  input: a variant without a sourced WLTP figure or tests is skipped.
+- Temperature: traction × (1 + k·(20 − T)) + (aux + heating ÷ COP + A/C) ÷ speed, so cold
+  costs more per km in town. Heat pump `option` → two cell sets.
+- Live 2026-11-15 on release 1: 198 variants (28 skipped), 770 measured / 385 physics /
+  1,815 wltp-ratio cells, 1.3 MB raw, 57 KB gzip.
+
 ## Manual facts and the review queue
 
 **Manual facts** are single values a person looked up by hand (a warranty booklet, a maker
