@@ -1575,6 +1575,217 @@ class FinanceProfile(BaseModel):
     )
 
 
+class ClueStrength(Enum):
+    decisive = 'decisive'
+    strong = 'strong'
+    weak = 'weak'
+
+
+class ClueValueKind(Enum):
+    number = 'number'
+    number_range = 'number-range'
+    date_range = 'date-range'
+    text = 'text'
+    code = 'code'
+    boolean = 'boolean'
+
+
+class ClueFoundIn(Enum):
+    ad = 'ad'
+    photos = 'photos'
+    papers = 'papers'
+    car = 'car'
+    vin = 'vin'
+
+
+class ClueType(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    label: LocalizedText = Field(..., description='Plain-language label.')
+    technical: LocalizedText | None = Field(
+        None, description='Technical name shown under the plain label.'
+    )
+    short: LocalizedText = Field(
+        ...,
+        description="Tooltip text, at most 20 words (e.g. 'What is the type-approval code?').",
+    )
+    explainer: LocalizedText | None = Field(
+        None, description='Plain-language explainer for /learn and Detailed mode.'
+    )
+    value_kind: ClueValueKind
+    unit: str | None = Field(
+        None,
+        description='Metric unit for number values (kW, kWh, in for rim size code); absent for text, code and date values.',
+    )
+    found_in: list[ClueFoundIn] = Field(
+        ..., description='Where a buyer can read it, most useful first.', min_length=1
+    )
+    paper_fields: dict[str, str] | None = Field(
+        None,
+        description="Country → field on that country's registration papers or open registration data, e.g. FR 'P.2', NL 'vermogen (RDW)'. Absent country = not on the papers there or not checked.",
+    )
+    ask_seller: LocalizedText | None = Field(
+        None,
+        description="Copyable 'ask the seller' line template (six languages, spec §5). May contain '{value}' or '{variant}', filled by the web app.",
+    )
+    default_strength: ClueStrength | None = Field(
+        None,
+        description='Typical strength of this clue type; each VariantClue still states its own.',
+    )
+    order: int | None = Field(
+        None, description="Display order in the 'spot it in an ad' box."
+    )
+    glossary_id: Id | None = Field(
+        None, description='Glossary term for the ⓘ tooltip, if any.'
+    )
+
+
+class Min(RootModel[str]):
+    root: str = Field(
+        ...,
+        description='Lower bound (inclusive); null = open.',
+        pattern='^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$',
+    )
+
+
+class Max(RootModel[str]):
+    root: str = Field(
+        ...,
+        description='Upper bound (inclusive); null = open (e.g. still built).',
+        pattern='^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$',
+    )
+
+
+class ClueRange(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    min: float | Min | None = Field(
+        ..., description='Lower bound (inclusive); null = open.'
+    )
+    max: float | Max | None = Field(
+        ..., description='Upper bound (inclusive); null = open (e.g. still built).'
+    )
+
+
+class ClueSourceRef(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    source_id: Id = Field(..., description='Id of a row in the catalogue sources list.')
+    url: str | None = Field(
+        None,
+        description='Exact page (maker brochure, press release, registration-data docs). Required for staff-entered clues (checked at release time).',
+    )
+    locator: str | None = Field(
+        None,
+        description="Where on the page or in the document, e.g. 'p. 12, technical data table'. No copied tables.",
+    )
+    source_record: str | None = Field(
+        None, description='Pointer to a raw record, for pipeline-derived clues.'
+    )
+    retrieved_at: date
+
+
+class VariantClue(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id = Field(
+        ...,
+        description='Convention: <variant_id>-<clue_type_id>[-<market lowercase>][-n].',
+    )
+    variant_id: Id
+    clue_type_id: Id = Field(
+        ...,
+        description='clue_types id (data/taxonomy/clue_types.yaml), checked at release time.',
+    )
+    market: CountryCode | str = Field(
+        ...,
+        description="Country where the clue holds (trim names, paper fields), or 'global'.",
+    )
+    value: float | str | bool | None = Field(
+        None,
+        description='Single value for number / text / code / boolean clue types. Trim names are stored as written in that market, never translated.',
+    )
+    range: ClueRange | None = Field(
+        None, description='For number-range and date-range clue types.'
+    )
+    unit: str | None = Field(
+        None,
+        description="Metric unit when value or range is a number; must match the clue type's unit.",
+    )
+    position: int | None = Field(
+        None,
+        description='Character position (1-based) for VIN-position clue types.',
+        ge=1,
+    )
+    description: LocalizedText | None = Field(
+        None,
+        description="Buyer-facing detail for visible-feature clues, e.g. 'heat-pump pipe left of the front motor'. Not for trim names.",
+    )
+    strength: ClueStrength
+    rules_out: list[Id] = Field(
+        ...,
+        description='Variant ids this clue rules out; they must exist and share a look-alike group with variant_id (checked at release time).',
+    )
+    lookalike_group_id: Id | None = Field(
+        None,
+        description='Group the clue separates within, when the variant is in more than one.',
+    )
+    sources: list[ClueSourceRef] = Field(
+        ..., description='Evidence; two or more where possible.', min_length=1
+    )
+    retrieved_at: date = Field(
+        ..., description='Last date a source confirmed the clue.'
+    )
+    confidence: Confidence
+    entered_by: EnteredBy | None = None
+    fact_ids: list[str] | None = Field(
+        None,
+        description='Facts the clue is derived from, if any (e.g. the power_kw fact).',
+    )
+    notes: str | None = Field(None, description='Internal note; never shown.')
+
+
+class LookalikeReason(Enum):
+    same_generation = 'same-generation'
+    same_badge = 'same-badge'
+    same_marketing_name = 'same-marketing-name'
+
+
+class BuiltBy(Enum):
+    pipeline = 'pipeline'
+    staff = 'staff'
+
+
+class LookalikeGroup(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    id: Id
+    variant_ids: list[Id] = Field(..., min_length=2)
+    reason: LookalikeReason
+    built_by: BuiltBy = Field(
+        ...,
+        description='staff = created or edited by hand; the pipeline keeps it as written.',
+    )
+    generation_id: Id | None = Field(
+        None, description='Set when all variants share one generation.'
+    )
+    markets: list[CountryCode] | None = Field(
+        None,
+        description='Markets where the confusion applies (same-marketing-name); absent = everywhere.',
+    )
+    label: LocalizedText | None = Field(
+        None, description="Short label, e.g. 'ID.3 Pro: 58 vs 59 kWh'."
+    )
+    built_at: date | None = None
+    notes: str | None = Field(None, description='Internal note; never shown.')
+
+
 class Variant(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -1745,6 +1956,15 @@ class PublishedVariant(BaseModel):
     wheel_sizes_in: list[float] | None = Field(
         None, description='Rim diameter codes offered (e.g. [18, 19, 20]).'
     )
+    lookalike_group_ids: list[Id] | None = Field(
+        None,
+        description='Look-alike groups this variant is in (Catalogue.lookalike_groups); empty or absent = none known.',
+    )
+    clue_count: int | None = Field(
+        None,
+        description="Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues.",
+        ge=0,
+    )
 
 
 class Taxonomy(BaseModel):
@@ -1771,6 +1991,7 @@ class Taxonomy(BaseModel):
     heater_types: list[HeaterType] | None = None
     usage_profiles: list[UsageProfile] | None = None
     finance_profiles: list[FinanceProfile] | None = None
+    clue_types: list[ClueType] | None = None
 
 
 class Catalogue(BaseModel):
@@ -1785,3 +2006,5 @@ class Catalogue(BaseModel):
     taxonomy: Taxonomy | None = None
     platforms: list[Platform] | None = None
     battery_packs: list[BatteryPack] | None = None
+    variant_clues: list[VariantClue] | None = None
+    lookalike_groups: list[LookalikeGroup] | None = None

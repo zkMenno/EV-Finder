@@ -154,6 +154,34 @@ export type WeightLevel = "off" | "low" | "medium" | "high" | "very-high";
  */
 export type FinanceProduct = "used-car-loan" | "new-car-loan" | "private-lease" | "business-lease" | "pcp";
 /**
+ * Shape of the value a clue of this type carries. number / text / code / boolean use VariantClue.value; number-range and date-range use VariantClue.range. code = an identifier matched as written (type-approval code, VIN character).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ClueValueKind".
+ */
+export type ClueValueKind = "number" | "number-range" | "date-range" | "text" | "code" | "boolean";
+/**
+ * Where a buyer finds the clue: ad text, ad photos, registration papers, on the car itself, or the VIN.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ClueFoundIn".
+ */
+export type ClueFoundIn = "ad" | "photos" | "papers" | "car" | "vin";
+/**
+ * How far a clue settles which variant it is (variant finder spec §3). decisive = on its own it separates the variant from every look-alike in rules_out; strong = usually settles it but sources or ads can be wrong; weak = a hint only (e.g. battery kWh in ads, often wrong).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ClueStrength".
+ */
+export type ClueStrength = "decisive" | "strong" | "weak";
+/**
+ * Why buyers confuse the group's variants: overlapping specs in one generation, the same badge, or the same marketing name across markets.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "LookalikeReason".
+ */
+export type LookalikeReason = "same-generation" | "same-badge" | "same-marketing-name";
+/**
  * Car-side ISO 15118-20 support. Default not-disclosed; never inferred from model year (Decision 011).
  *
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -552,6 +580,14 @@ export interface PublishedVariant {
    * Rim diameter codes offered (e.g. [18, 19, 20]).
    */
   wheel_sizes_in?: number[] | null;
+  /**
+   * Look-alike groups this variant is in (Catalogue.lookalike_groups); empty or absent = none known.
+   */
+  lookalike_group_ids?: Id[];
+  /**
+   * Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues.
+   */
+  clue_count?: number;
 }
 /**
  * One official count for a country. Kinds are not added together.
@@ -757,6 +793,8 @@ export interface Catalogue {
   taxonomy?: Taxonomy;
   platforms?: Platform[];
   battery_packs?: BatteryPack[];
+  variant_clues?: VariantClue[];
+  lookalike_groups?: LookalikeGroup[];
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -783,6 +821,7 @@ export interface Taxonomy {
   heater_types?: HeaterType[];
   usage_profiles?: UsageProfile[];
   finance_profiles?: FinanceProfile[];
+  clue_types?: ClueType[];
 }
 /**
  * Row in data/taxonomy/voltage_classes.yaml. Data, not an enum: add a row, no code change.
@@ -1721,6 +1760,79 @@ export interface FinanceSource {
   period?: string;
 }
 /**
+ * Row in data/taxonomy/clue_types.yaml (build-date-range, power-kw, battery-kwh, trim-name, type-approval-code, vin-position, visible-feature, onboard-charger, ...). Decision 019, variant finder spec §3-4. A new clue type is a new row, no code change; clue_type_id values are checked against this table at release time (Decision 010 pattern).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ClueType".
+ */
+export interface ClueType {
+  id: Id;
+  label: LocalizedText48;
+  technical?: LocalizedText49;
+  short: LocalizedText50;
+  explainer?: LocalizedText51;
+  value_kind: ClueValueKind;
+  /**
+   * Metric unit for number values (kW, kWh, in for rim size code); absent for text, code and date values.
+   */
+  unit?: string;
+  /**
+   * Where a buyer can read it, most useful first.
+   *
+   * @minItems 1
+   */
+  found_in: [ClueFoundIn, ...ClueFoundIn[]];
+  /**
+   * Country → field on that country's registration papers or open registration data, e.g. FR 'P.2', NL 'vermogen (RDW)'. Absent country = not on the papers there or not checked.
+   */
+  paper_fields?: {
+    [k: string]: string;
+  };
+  ask_seller?: LocalizedText52;
+  /**
+   * Typical strength of this clue type; each VariantClue still states its own.
+   */
+  default_strength?: "decisive" | "strong" | "weak";
+  /**
+   * Display order in the 'spot it in an ad' box.
+   */
+  order?: number;
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  glossary_id?: string;
+}
+/**
+ * Plain-language label.
+ */
+export interface LocalizedText48 {
+  [k: string]: string;
+}
+/**
+ * Technical name shown under the plain label.
+ */
+export interface LocalizedText49 {
+  [k: string]: string;
+}
+/**
+ * Tooltip text, at most 20 words (e.g. 'What is the type-approval code?').
+ */
+export interface LocalizedText50 {
+  [k: string]: string;
+}
+/**
+ * Plain-language explainer for /learn and Detailed mode.
+ */
+export interface LocalizedText51 {
+  [k: string]: string;
+}
+/**
+ * Copyable 'ask the seller' line template (six languages, spec §5). May contain '{value}' or '{variant}', filled by the web app.
+ */
+export interface LocalizedText52 {
+  [k: string]: string;
+}
+/**
  * This interface was referenced by `EvSchema`'s JSON-Schema
  * via the `definition` "Platform".
  */
@@ -1769,12 +1881,158 @@ export interface Warranty {
   min_soh_pct?: number;
 }
 /**
+ * One fact a buyer can read in an ad, on the registration papers or on the car that points to this variant (Decision 019, variant finder spec §3-4). Set exactly one of value or range (checked at release time, together with the value shape against the clue type's value_kind). The same rows feed listing matching later (spec §8).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "VariantClue".
+ */
+export interface VariantClue {
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  id: string;
+  variant_id: Id;
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  clue_type_id: string;
+  /**
+   * Country where the clue holds (trim names, paper fields), or 'global'.
+   */
+  market: CountryCode | "global";
+  /**
+   * Single value for number / text / code / boolean clue types. Trim names are stored as written in that market, never translated.
+   */
+  value?: number | string | boolean;
+  range?: ClueRange;
+  /**
+   * Metric unit when value or range is a number; must match the clue type's unit.
+   */
+  unit?: string;
+  /**
+   * Character position (1-based) for VIN-position clue types.
+   */
+  position?: number;
+  description?: LocalizedText53;
+  strength: ClueStrength;
+  /**
+   * Variant ids this clue rules out; they must exist and share a look-alike group with variant_id (checked at release time).
+   */
+  rules_out: Id[];
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  lookalike_group_id?: string;
+  /**
+   * Evidence; two or more where possible.
+   *
+   * @minItems 1
+   */
+  sources: [ClueSourceRef, ...ClueSourceRef[]];
+  /**
+   * Last date a source confirmed the clue.
+   */
+  retrieved_at: string;
+  confidence: Confidence;
+  entered_by?: "pipeline" | "staff";
+  /**
+   * Facts the clue is derived from, if any (e.g. the power_kw fact).
+   */
+  fact_ids?: string[];
+  /**
+   * Internal note; never shown.
+   */
+  notes?: string;
+}
+/**
+ * For number-range and date-range clue types.
+ */
+export interface ClueRange {
+  /**
+   * Lower bound (inclusive); null = open.
+   */
+  min: number | string | null;
+  /**
+   * Upper bound (inclusive); null = open (e.g. still built).
+   */
+  max: number | string | null;
+}
+/**
+ * Buyer-facing detail for visible-feature clues, e.g. 'heat-pump pipe left of the front motor'. Not for trim names.
+ */
+export interface LocalizedText53 {
+  [k: string]: string;
+}
+/**
+ * One piece of evidence for a clue: a row in the catalogue sources list plus the exact page where the clue was read.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ClueSourceRef".
+ */
+export interface ClueSourceRef {
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  source_id: string;
+  /**
+   * Exact page (maker brochure, press release, registration-data docs). Required for staff-entered clues (checked at release time).
+   */
+  url?: string;
+  /**
+   * Where on the page or in the document, e.g. 'p. 12, technical data table'. No copied tables.
+   */
+  locator?: string;
+  /**
+   * Pointer to a raw record, for pipeline-derived clues.
+   */
+  source_record?: string;
+  retrieved_at: string;
+}
+/**
+ * Variants that buyers confuse (Decision 019, variant finder spec §4). Built automatically from overlapping specs; staff overrides in data/manual.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "LookalikeGroup".
+ */
+export interface LookalikeGroup {
+  id: Id;
+  /**
+   * @minItems 2
+   */
+  variant_ids: [Id, Id, ...Id[]];
+  reason: LookalikeReason;
+  /**
+   * staff = created or edited by hand; the pipeline keeps it as written.
+   */
+  built_by: "pipeline" | "staff";
+  /**
+   * Stable id: lowercase, hyphen-separated.
+   */
+  generation_id?: string;
+  /**
+   * Markets where the confusion applies (same-marketing-name); absent = everywhere.
+   */
+  markets?: CountryCode[];
+  label?: LocalizedText54;
+  built_at?: string;
+  /**
+   * Internal note; never shown.
+   */
+  notes?: string;
+}
+/**
+ * Short label, e.g. 'ID.3 Pro: 58 vs 59 kWh'.
+ */
+export interface LocalizedText54 {
+  [k: string]: string;
+}
+/**
  * Text keyed by language (en, nl, de, fr, es, it); en required.
  *
  * This interface was referenced by `EvSchema`'s JSON-Schema
  * via the `definition` "LocalizedText".
  */
-export interface LocalizedText48 {
+export interface LocalizedText55 {
   [k: string]: string;
 }
 /**
@@ -1841,7 +2099,7 @@ export interface CountryChargingLink {
   url: string;
   job: "official-map" | "local-app" | "map" | "route-planner" | "price-compare";
   order: number;
-  label?: LocalizedText49;
+  label?: LocalizedText56;
   /**
    * URL template with {placeholders}, e.g. ABRP car model; null = plain link.
    */
@@ -1850,7 +2108,7 @@ export interface CountryChargingLink {
 /**
  * Optional link label override.
  */
-export interface LocalizedText49 {
+export interface LocalizedText56 {
   [k: string]: string;
 }
 /**
@@ -2045,4 +2303,20 @@ export interface ClimateNormal {
   ];
   source_id: Id;
   retrieved_at: string;
+}
+/**
+ * Inclusive range. Numbers for number-range clue types; ISO year-month ('2021-06') or date ('2021-06-14') for date-range types. null = open-ended on that side.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "ClueRange".
+ */
+export interface ClueRange1 {
+  /**
+   * Lower bound (inclusive); null = open.
+   */
+  min: number | string | null;
+  /**
+   * Upper bound (inclusive); null = open (e.g. still built).
+   */
+  max: number | string | null;
 }

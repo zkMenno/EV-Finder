@@ -11,35 +11,81 @@
     },
     "Country": {
       "type": "string",
-      "enum": ["NL", "DE", "FR", "BE", "UK"]
+      "enum": [
+        "NL",
+        "DE",
+        "FR",
+        "BE",
+        "UK"
+      ]
     },
     "Currency": {
       "type": "string",
-      "enum": ["EUR", "GBP"]
+      "enum": [
+        "EUR",
+        "GBP"
+      ]
     },
     "Confidence": {
       "type": "string",
-      "enum": ["high", "medium", "low"]
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
     },
     "Body": {
       "type": "string",
-      "enum": ["hatchback", "sedan", "estate", "suv", "crossover", "coupe", "mpv", "cabrio"]
+      "enum": [
+        "hatchback",
+        "sedan",
+        "estate",
+        "suv",
+        "crossover",
+        "coupe",
+        "mpv",
+        "cabrio"
+      ]
     },
     "Segment": {
       "type": "string",
-      "enum": ["A", "B", "C", "D", "E", "F", "J-small", "J-medium", "J-large"]
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "J-small",
+        "J-medium",
+        "J-large"
+      ]
     },
     "Drivetrain": {
       "type": "string",
-      "enum": ["fwd", "rwd", "awd"]
+      "enum": [
+        "fwd",
+        "rwd",
+        "awd"
+      ]
     },
     "Era": {
       "type": "string",
-      "enum": ["pre-2018", "2018-20", "2021-22", "2023-24", "2025+"]
+      "enum": [
+        "pre-2018",
+        "2018-20",
+        "2021-22",
+        "2023-24",
+        "2025+"
+      ]
     },
     "QualityTier": {
       "type": "string",
-      "enum": ["checked", "sourced", "single-source"],
+      "enum": [
+        "checked",
+        "sourced",
+        "single-source"
+      ],
       "description": "checked = staff hand-checked; sourced = 2+ agreeing sources; single-source = one source only."
     },
     "RealRangeRung": {
@@ -56,7 +102,10 @@
     "Money": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["amount", "currency"],
+      "required": [
+        "amount",
+        "currency"
+      ],
       "properties": {
         "amount": {
           "type": "number",
@@ -70,7 +119,10 @@
     "ChangeMarker": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "text"],
+      "required": [
+        "year",
+        "text"
+      ],
       "properties": {
         "year": {
           "type": "integer",
@@ -86,7 +138,11 @@
     "Source": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "licence"],
+      "required": [
+        "id",
+        "name",
+        "licence"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -109,7 +165,11 @@
     "Make": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "slug"],
+      "required": [
+        "id",
+        "name",
+        "slug"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -125,7 +185,12 @@
     "Model": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "make_id", "name", "slug"],
+      "required": [
+        "id",
+        "make_id",
+        "name",
+        "slug"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -156,7 +221,13 @@
     "Generation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "model_id", "name", "slug", "year_start"],
+      "required": [
+        "id",
+        "model_id",
+        "name",
+        "slug",
+        "year_start"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -176,7 +247,10 @@
           "maximum": 2035
         },
         "year_end": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "minimum": 2008,
           "maximum": 2035,
           "description": "null = still on sale."
@@ -197,7 +271,13 @@
     "Variant": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "generation_id", "name", "slug", "year_start"],
+      "required": [
+        "id",
+        "generation_id",
+        "name",
+        "slug",
+        "year_start"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -217,7 +297,10 @@
           "maximum": 2035
         },
         "year_end": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "minimum": 2008,
           "maximum": 2035
         },
@@ -237,7 +320,10 @@
           "$ref": "#/$defs/Charger400vBehaviour"
         },
         "abrp_typecode": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "ABRP car model code for deep links (Decision 012); null = plain ABRP link."
         }
       }
@@ -245,7 +331,11 @@
     "MarketVariant": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "variant_id", "country"],
+      "required": [
+        "id",
+        "variant_id",
+        "country"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -272,7 +362,10 @@
         },
         "drive_side": {
           "type": "string",
-          "enum": ["lhd", "rhd"]
+          "enum": [
+            "lhd",
+            "rhd"
+          ]
         },
         "on_sale_new": {
           "type": "boolean"
@@ -327,7 +420,7 @@
         "kerb_mass_kg",
         "wheel_size_in"
       ],
-      "description": "Fact field names. Enum-valued facts are checked at release time, not here (an if/then on Fact breaks the generated TS type): iso15118_20_support → Iso15118Support (yes/no/not-disclosed, default not-disclosed, never inferred); heat_pump → HeatPumpFitment; drag_coefficient → Cd 0-1. Units: frontal_area_m2 m², kerb_mass_kg kg (EU mass in running order), wheel_size_in = rim diameter code. Usable battery is battery_kwh_net (no separate usable_kwh field)."
+      "description": "Fact field names. Enum-valued facts are checked at release time, not here (an if/then on Fact breaks the generated TS type): iso15118_20_support \u2192 Iso15118Support (yes/no/not-disclosed, default not-disclosed, never inferred); heat_pump \u2192 HeatPumpFitment; drag_coefficient \u2192 Cd 0-1. Units: frontal_area_m2 m\u00b2, kerb_mass_kg kg (EU mass in running order), wheel_size_in = rim diameter code. Usable battery is battery_kwh_net (no separate usable_kwh field)."
     },
     "Fact": {
       "type": "object",
@@ -349,7 +442,14 @@
         },
         "subject_type": {
           "type": "string",
-          "enum": ["model", "generation", "variant", "market_variant", "platform", "battery_pack"]
+          "enum": [
+            "model",
+            "generation",
+            "variant",
+            "market_variant",
+            "platform",
+            "battery_pack"
+          ]
         },
         "subject_id": {
           "$ref": "#/$defs/Id"
@@ -360,7 +460,11 @@
         "value": {
           "oneOf": [
             {
-              "type": ["number", "string", "boolean"]
+              "type": [
+                "number",
+                "string",
+                "boolean"
+              ]
             },
             {
               "$ref": "#/$defs/ChargeCurve"
@@ -403,7 +507,10 @@
     "FieldProvenance": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source_ids", "confidence"],
+      "required": [
+        "source_ids",
+        "confidence"
+      ],
       "properties": {
         "source_ids": {
           "type": "array",
@@ -494,7 +601,10 @@
           "type": "integer"
         },
         "year_end": {
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "era": {
           "$ref": "#/$defs/Era"
@@ -509,33 +619,60 @@
           "$ref": "#/$defs/Drivetrain"
         },
         "battery_kwh_net": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "wltp_range_km": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "consumption_kwh_100km": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "ac_kw": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "dc_peak_kw": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "dc_avg_10_80_kw": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "ac_km_per_h": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Derived: ac_kw / consumption * 100."
         },
         "dc_km_per_10min": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Derived: km added in 10 min at motorway consumption (dc_avg_10_80_kw / motorway consumption * 100 / 6)."
         },
         "real_range_km": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "real_range_rung": {
           "oneOf": [
@@ -548,25 +685,46 @@
           ]
         },
         "power_kw": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "accel_0_100_s": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "boot_l": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "length_mm": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "weight_kg": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "towing_kg": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "seats": {
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "on_sale_new": {
           "type": "boolean"
@@ -582,7 +740,10 @@
           }
         },
         "registered_count_nl": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "RDW registrations, counted at generation level."
         },
         "quality_tier": {
@@ -596,32 +757,48 @@
         },
         "provenance": {
           "type": "object",
-          "description": "Field name → where the value came from. Every non-null number above must have an entry.",
+          "description": "Field name \u2192 where the value came from. Every non-null number above must have an entry.",
           "additionalProperties": {
             "$ref": "#/$defs/FieldProvenance"
           }
         },
         "dc_minutes_10_80": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Minutes 10-80%."
         },
         "dc_km_per_20min": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Derived: km added in 20 min at motorway consumption. Used for the DC ranking."
         },
         "dc_peak_held_min": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Minutes above 90% of peak."
         },
         "consumption_motorway_kwh_100km": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Motorway consumption used for km-in-N-minutes."
         },
         "dc_curve_status": {
           "oneOf": [
             {
               "type": "string",
-              "enum": ["measured", "estimated", "default"]
+              "enum": [
+                "measured",
+                "estimated",
+                "default"
+              ]
             },
             {
               "type": "null"
@@ -633,53 +810,104 @@
           "description": "true when dc_peak_kw is a maker claim, not measured."
         },
         "platform_id": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "platform_name": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "battery_pack_id": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "chemistry_id": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Taxonomy id or 'not-disclosed'."
         },
         "cooling_id": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "cell_format": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "voltage_nominal_v": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "voltage_max_v": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "voltage_label": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "voltage_class_id": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Derived class id, or 'not-disclosed'."
         },
         "voltage_switchable": {
-          "type": ["boolean", "null"]
+          "type": [
+            "boolean",
+            "null"
+          ]
         },
         "charger_400v_mode": {
-          "type": ["string", "null"],
-          "enum": ["native", "booster", "limited", "not-disclosed", null]
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "native",
+            "booster",
+            "limited",
+            "not-disclosed",
+            null
+          ]
         },
         "charger_400v_kw": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "fast_on_400v": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Derived: native 400 V car, or booster/limited at >= 50 kW on 400 V chargers."
         },
         "charge_100_daily": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "From the chemistry row."
         },
         "registrations": {
@@ -696,7 +924,10 @@
           }
         },
         "abrp_typecode": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "ABRP car model code; null = plain ABRP link."
         },
         "iso15118_20_support": {
@@ -730,29 +961,59 @@
           "description": "Heat pump: standard / option / none / not-disclosed."
         },
         "drag_coefficient": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Cd, unitless."
         },
         "frontal_area_m2": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "kerb_mass_kg": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "EU mass in running order."
         },
         "wheel_sizes_in": {
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "type": "number"
           },
           "description": "Rim diameter codes offered (e.g. [18, 19, 20])."
+        },
+        "lookalike_group_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "uniqueItems": true,
+          "description": "Look-alike groups this variant is in (Catalogue.lookalike_groups); empty or absent = none known."
+        },
+        "clue_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of clues for this variant in Catalogue.variant_clues, so the web app can skip the 'spot it' box without loading clues."
         }
       }
     },
     "Catalogue": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["release", "generated_at", "sources", "rows"],
+      "required": [
+        "release",
+        "generated_at",
+        "sources",
+        "rows"
+      ],
       "properties": {
         "release": {
           "type": "integer",
@@ -793,13 +1054,28 @@
           "items": {
             "$ref": "#/$defs/BatteryPack"
           }
+        },
+        "variant_clues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VariantClue"
+          }
+        },
+        "lookalike_groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LookalikeGroup"
+          }
         }
       }
     },
     "ChargeCurve": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["points", "status"],
+      "required": [
+        "points",
+        "status"
+      ],
       "description": "DC charge curve: list of (state of charge %, kW) points plus test conditions.",
       "properties": {
         "points": {
@@ -824,7 +1100,11 @@
         },
         "status": {
           "type": "string",
-          "enum": ["measured", "estimated", "default"]
+          "enum": [
+            "measured",
+            "estimated",
+            "default"
+          ]
         },
         "conditions": {
           "type": "object",
@@ -851,12 +1131,24 @@
     },
     "TaxonomyStatus": {
       "type": "string",
-      "enum": ["mainstream", "emerging", "niche", "legacy", "experimental"]
+      "enum": [
+        "mainstream",
+        "emerging",
+        "niche",
+        "legacy",
+        "experimental"
+      ]
     },
     "VoltageClass": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "min_v", "max_v", "status"],
+      "required": [
+        "id",
+        "label",
+        "min_v",
+        "max_v",
+        "status"
+      ],
       "description": "Row in data/taxonomy/voltage_classes.yaml. Data, not an enum: add a row, no code change.",
       "properties": {
         "id": {
@@ -865,12 +1157,21 @@
         "label": {
           "type": "object",
           "description": "Display label. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "min_v": {
@@ -885,12 +1186,21 @@
         "explainer": {
           "type": "object",
           "description": "Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         }
       }
@@ -898,7 +1208,13 @@
     "Chemistry": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "family", "label", "status", "charge_100_daily"],
+      "required": [
+        "id",
+        "family",
+        "label",
+        "status",
+        "charge_100_daily"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -909,12 +1225,21 @@
         "label": {
           "type": "object",
           "description": "Display label. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "status": {
@@ -925,12 +1250,21 @@
           "items": {
             "type": "object",
             "description": "One pro. Keyed by language (en, nl, de, fr, es, it); en required.",
-            "required": ["en"],
+            "required": [
+              "en"
+            ],
             "additionalProperties": {
               "type": "string"
             },
             "propertyNames": {
-              "enum": ["en", "nl", "de", "fr", "es", "it"]
+              "enum": [
+                "en",
+                "nl",
+                "de",
+                "fr",
+                "es",
+                "it"
+              ]
             }
           }
         },
@@ -939,12 +1273,21 @@
           "items": {
             "type": "object",
             "description": "One con. Keyed by language (en, nl, de, fr, es, it); en required.",
-            "required": ["en"],
+            "required": [
+              "en"
+            ],
             "additionalProperties": {
               "type": "string"
             },
             "propertyNames": {
-              "enum": ["en", "nl", "de", "fr", "es", "it"]
+              "enum": [
+                "en",
+                "nl",
+                "de",
+                "fr",
+                "es",
+                "it"
+              ]
             }
           }
         },
@@ -953,32 +1296,56 @@
           "items": {
             "type": "object",
             "description": "One tip. Keyed by language (en, nl, de, fr, es, it); en required.",
-            "required": ["en"],
+            "required": [
+              "en"
+            ],
             "additionalProperties": {
               "type": "string"
             },
             "propertyNames": {
-              "enum": ["en", "nl", "de", "fr", "es", "it"]
+              "enum": [
+                "en",
+                "nl",
+                "de",
+                "fr",
+                "es",
+                "it"
+              ]
             }
           }
         },
         "charge_100_daily": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "true = maker guidance allows charging to 100% daily (typical for LFP). null = unclear."
         },
         "first_year": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "description": "First year in a series-production passenger EV."
         },
         "explainer": {
           "type": "object",
           "description": "Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         }
       }
@@ -986,7 +1353,10 @@
     "CoolingType": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -994,23 +1364,41 @@
         "label": {
           "type": "object",
           "description": "Display label. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "explainer": {
           "type": "object",
           "description": "Plain-language explainer. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         }
       }
@@ -1018,7 +1406,11 @@
     "GlossaryTerm": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "short"],
+      "required": [
+        "id",
+        "label",
+        "short"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -1026,56 +1418,101 @@
         "label": {
           "type": "object",
           "description": "Plain-language label. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "technical": {
           "type": "object",
           "description": "Technical name shown under the plain label. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "short": {
           "type": "object",
           "description": "Tooltip text, at most 20 words. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "long": {
           "type": "object",
           "description": "Learn-page text. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "nerd_note": {
           "type": "object",
           "description": "Extra detail for Nerd mode. Keyed by language (en, nl, de, fr, es, it); en required.",
-          "required": ["en"],
+          "required": [
+            "en"
+          ],
           "additionalProperties": {
             "type": "string"
           },
           "propertyNames": {
-            "enum": ["en", "nl", "de", "fr", "es", "it"]
+            "enum": [
+              "en",
+              "nl",
+              "de",
+              "fr",
+              "es",
+              "it"
+            ]
           }
         },
         "related": {
@@ -1089,7 +1526,12 @@
     "Taxonomy": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["voltage_classes", "chemistries", "cooling_types", "glossary_terms"],
+      "required": [
+        "voltage_classes",
+        "chemistries",
+        "cooling_types",
+        "glossary_terms"
+      ],
       "properties": {
         "voltage_classes": {
           "type": "array",
@@ -1210,13 +1652,22 @@
           "items": {
             "$ref": "#/$defs/FinanceProfile"
           }
+        },
+        "clue_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ClueType"
+          }
         }
       }
     },
     "Platform": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name"],
+      "required": [
+        "id",
+        "name"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -1274,7 +1725,10 @@
     "BatteryPack": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name"],
+      "required": [
+        "id",
+        "name"
+      ],
       "description": "A battery pack shared by one or more variants. Variants inherit its facts unless they have their own measured fact.",
       "properties": {
         "id": {
@@ -1303,10 +1757,19 @@
         },
         "cell_format": {
           "type": "string",
-          "enum": ["pouch", "prismatic", "cylindrical", "blade", "not-disclosed"]
+          "enum": [
+            "pouch",
+            "prismatic",
+            "cylindrical",
+            "blade",
+            "not-disclosed"
+          ]
         },
         "cell_to_pack": {
-          "type": ["boolean", "null"]
+          "type": [
+            "boolean",
+            "null"
+          ]
         },
         "gross_kwh": {
           "anyOf": [
@@ -1383,15 +1846,25 @@
     "Charger400vBehaviour": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["mode"],
+      "required": [
+        "mode"
+      ],
       "description": "How an 800 V+ car behaves on older 400 V DC chargers.",
       "properties": {
         "mode": {
           "type": "string",
-          "enum": ["native", "booster", "limited", "not-disclosed"]
+          "enum": [
+            "native",
+            "booster",
+            "limited",
+            "not-disclosed"
+          ]
         },
         "kw": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Max kW on a 400 V charger (booster or limited)."
         }
       }
@@ -1443,7 +1916,10 @@
           ]
         },
         "switchable": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Pack can switch between 400 and 800 V."
         }
       }
@@ -1451,7 +1927,11 @@
     "RegistrationCount": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["count", "kind", "source_id"],
+      "required": [
+        "count",
+        "kind",
+        "source_id"
+      ],
       "description": "One official count for a country. Kinds are not added together.",
       "properties": {
         "count": {
@@ -1460,7 +1940,10 @@
         },
         "kind": {
           "type": "string",
-          "enum": ["fleet", "new_registrations"],
+          "enum": [
+            "fleet",
+            "new_registrations"
+          ],
           "description": "fleet = cars on the road (stock); new_registrations = first registrations in the period."
         },
         "period": {
@@ -1469,7 +1952,10 @@
         },
         "level": {
           "type": "string",
-          "enum": ["generation", "model"],
+          "enum": [
+            "generation",
+            "model"
+          ],
           "description": "Level the count was matched at; model-level counts repeat on every generation."
         },
         "source_id": {
@@ -1480,12 +1966,21 @@
     "LocalizedText": {
       "type": "object",
       "description": "Text keyed by language (en, nl, de, fr, es, it); en required.",
-      "required": ["en"],
+      "required": [
+        "en"
+      ],
       "additionalProperties": {
         "type": "string"
       },
       "propertyNames": {
-        "enum": ["en", "nl", "de", "fr", "es", "it"]
+        "enum": [
+          "en",
+          "nl",
+          "de",
+          "fr",
+          "es",
+          "it"
+        ]
       }
     },
     "CountryCode": {
@@ -1496,7 +1991,10 @@
     "BidiMode": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "description": "Row in data/taxonomy/bidi_modes.yaml (v2l, v2h, v2g, v2b). Decision 011.",
       "properties": {
         "id": {
@@ -1524,14 +2022,17 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "BidiRoute": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "description": "Row in data/taxonomy/bidi_routes.yaml (ac-onboard, dc-offboard, chademo-dc, proprietary).",
       "properties": {
         "id": {
@@ -1555,23 +2056,33 @@
         },
         "inverter_location": {
           "type": "string",
-          "enum": ["car", "wallbox", "varies"],
-          "description": "Where the inverter sits; decides the home box price (R-01 §3)."
+          "enum": [
+            "car",
+            "wallbox",
+            "varies"
+          ],
+          "description": "Where the inverter sits; decides the home box price (R-01 \u00a73)."
         },
         "needs_special_box": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "true = needs a bidirectional box beyond a normal wallbox."
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "BidiProtocol": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "description": "Row in data/taxonomy/bidi_protocols.yaml (iso15118-20, iso15118-2-ext, chademo, proprietary, not-disclosed).",
       "properties": {
         "id": {
@@ -1599,14 +2110,18 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "BidiCaveat": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "short"],
+      "required": [
+        "id",
+        "label",
+        "short"
+      ],
       "description": "Row in data/taxonomy/bidi_caveats.yaml. The UI shows caveats only from this table, never free text. label/short may contain '{param}', filled from BidiCaveatRef.param.",
       "properties": {
         "id": {
@@ -1630,7 +2145,12 @@
         },
         "param_kind": {
           "type": "string",
-          "enum": ["none", "number", "date", "version"],
+          "enum": [
+            "none",
+            "number",
+            "date",
+            "version"
+          ],
           "default": "none",
           "description": "Type of the optional parameter a capability row may pass."
         },
@@ -1640,19 +2160,26 @@
         },
         "severity": {
           "type": "string",
-          "enum": ["info", "condition", "blocker"],
+          "enum": [
+            "info",
+            "condition",
+            "blocker"
+          ],
           "description": "condition = shown as an eligibility condition, never a plain tick."
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "BidiStatus": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "description": "Row in data/taxonomy/bidi_status.yaml (live, pilot, announced, hardware-ready-not-enabled, not-offered, not-disclosed).",
       "properties": {
         "id": {
@@ -1676,7 +2203,11 @@
         },
         "filter_group": {
           "type": "string",
-          "enum": ["live", "pilot-or-announced", "not-available"],
+          "enum": [
+            "live",
+            "pilot-or-announced",
+            "not-available"
+          ],
           "description": "live matches the default filter; pilot-or-announced only with 'Include pilots and announced'."
         },
         "order": {
@@ -1684,14 +2215,17 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "ConnectorType": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "description": "Row in data/taxonomy/connector_types.yaml (type1-j1772, type2, ccs1, ccs2, nacs-j3400, chademo, tesla-eu-legacy, gbt-ac, gbt-dc).",
       "properties": {
         "id": {
@@ -1717,7 +2251,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["ac", "dc"]
+            "enum": [
+              "ac",
+              "dc"
+            ]
           },
           "minItems": 1,
           "uniqueItems": true,
@@ -1736,14 +2273,16 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "PriceBandEur": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["min"],
+      "required": [
+        "min"
+      ],
       "description": "Price band in euros (converted at display time). Euros internally (AGENTS.md units).",
       "properties": {
         "min": {
@@ -1751,7 +2290,10 @@
           "minimum": 0
         },
         "max": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0
         },
         "as_of": {
@@ -1767,7 +2309,13 @@
     "BidiEquipment": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "maker", "route_id", "source_ids"],
+      "required": [
+        "id",
+        "name",
+        "maker",
+        "route_id",
+        "source_ids"
+      ],
       "description": "Row in data/taxonomy/bidi_equipment.yaml: an approved bidirectional box. New boxes are new rows.",
       "properties": {
         "id": {
@@ -1785,7 +2333,10 @@
         },
         "current": {
           "type": "string",
-          "enum": ["ac", "dc"]
+          "enum": [
+            "ac",
+            "dc"
+          ]
         },
         "max_kw": {
           "anyOf": [
@@ -1864,20 +2415,29 @@
     },
     "Iso15118Support": {
       "type": "string",
-      "enum": ["yes", "no", "not-disclosed"],
+      "enum": [
+        "yes",
+        "no",
+        "not-disclosed"
+      ],
       "description": "Car-side ISO 15118-20 support. Default not-disclosed; never inferred from model year (Decision 011)."
     },
     "BidiCaveatRef": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/Id",
           "description": "bidi_caveats id."
         },
         "param": {
-          "type": ["number", "string"],
+          "type": [
+            "number",
+            "string"
+          ],
           "description": "Optional parameter, typed by the caveat row's param_kind (number, ISO date, version string)."
         }
       }
@@ -1885,7 +2445,12 @@
     "BidiMarketStatus": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status_id", "source_ids", "checked_at", "confidence"],
+      "required": [
+        "status_id",
+        "source_ids",
+        "checked_at",
+        "confidence"
+      ],
       "description": "Status of one capability in one country. Older than 90 days = 'may be out of date'.",
       "properties": {
         "status_id": {
@@ -1949,14 +2514,17 @@
         "retrieved_at",
         "confidence"
       ],
-      "description": "One bidirectional mode for a variant, or for a platform (inherited by its variants). Decision 011, spec bidirectional-and-connectors §3.2. Eligibility is shown as conditions, never a plain tick, whenever min_software, min_battery_net_kwh or build_date_from is set.",
+      "description": "One bidirectional mode for a variant, or for a platform (inherited by its variants). Decision 011, spec bidirectional-and-connectors \u00a73.2. Eligibility is shown as conditions, never a plain tick, whenever min_software, min_battery_net_kwh or build_date_from is set.",
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
         },
         "subject_type": {
           "type": "string",
-          "enum": ["variant", "platform"]
+          "enum": [
+            "variant",
+            "platform"
+          ]
         },
         "subject_id": {
           "$ref": "#/$defs/Id"
@@ -1986,15 +2554,24 @@
           ]
         },
         "min_software": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "e.g. 'ID. Software 3.5'."
         },
         "min_battery_net_kwh": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0
         },
         "build_date_from": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "format": "date"
         },
         "model_years": {
@@ -2034,7 +2611,7 @@
         },
         "market_status": {
           "type": "object",
-          "description": "Country → status. A country that is absent means not known (shown as not disclosed).",
+          "description": "Country \u2192 status. A country that is absent means not known (shown as not disclosed).",
           "propertyNames": {
             "$ref": "#/$defs/CountryCode"
           },
@@ -2076,7 +2653,10 @@
     "AdapterRef": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["from_connector_id", "to_connector_id"],
+      "required": [
+        "from_connector_id",
+        "to_connector_id"
+      ],
       "properties": {
         "from_connector_id": {
           "$ref": "#/$defs/Id",
@@ -2102,7 +2682,7 @@
         "retrieved_at",
         "confidence"
       ],
-      "description": "Charging inlets of a variant per market and model-year range (US ports switch CCS1 → NACS by model year).",
+      "description": "Charging inlets of a variant per market and model-year range (US ports switch CCS1 \u2192 NACS by model year).",
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -2119,7 +2699,10 @@
           "maximum": 2040
         },
         "model_year_to": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "minimum": 2008,
           "maximum": 2040,
           "description": "null = still current."
@@ -2153,12 +2736,22 @@
         },
         "native_or_adapter": {
           "type": "string",
-          "enum": ["native", "adapter", "not-disclosed"],
+          "enum": [
+            "native",
+            "adapter",
+            "not-disclosed"
+          ],
           "description": "Whether the listed DC connector is the car's own inlet or reached through an included adapter."
         },
         "supercharger_access": {
           "type": "string",
-          "enum": ["native", "adapter", "magic-dock", "none", "not-disclosed"],
+          "enum": [
+            "native",
+            "adapter",
+            "magic-dock",
+            "none",
+            "not-disclosed"
+          ],
           "description": "(US) Can it use Tesla Superchargers, and how."
         },
         "adapters_included": {
@@ -2194,7 +2787,11 @@
         },
         {
           "type": "string",
-          "enum": ["EU27", "EUROPE", "WORLD"]
+          "enum": [
+            "EU27",
+            "EUROPE",
+            "WORLD"
+          ]
         }
       ],
       "description": "A country, or an aggregate area for EAFO (EU27, EUROPE) and IEA (WORLD) series."
@@ -2202,7 +2799,11 @@
     "ChargingMetric": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "unit"],
+      "required": [
+        "id",
+        "label",
+        "unit"
+      ],
       "description": "Row in data/taxonomy/charging_metrics.yaml (public-points, public-points-dc, installed-kw, evs-per-point, ...). Decision 012.",
       "properties": {
         "id": {
@@ -2229,7 +2830,10 @@
           "description": "Metric unit: count, kW, %, per 100k people, EVs per point, kW per EV."
         },
         "higher_is_better": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "false for evs-per-point; null = neutral."
         },
         "derived": {
@@ -2238,14 +2842,19 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "ChargingDefinition": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "counts", "source_id"],
+      "required": [
+        "id",
+        "label",
+        "counts",
+        "source_id"
+      ],
       "description": "Row in data/taxonomy/charging_definitions.yaml: how one source counts (afir-recharging-point, uk-dft-evse-2026, ...). A chart draws one definition; a new definition starts a new series with a marked break.",
       "properties": {
         "id": {
@@ -2269,7 +2878,13 @@
         },
         "counts": {
           "type": "string",
-          "enum": ["point", "device", "location", "connector", "port"],
+          "enum": [
+            "point",
+            "device",
+            "location",
+            "connector",
+            "port"
+          ],
           "description": "Unit counted: a point is not a device is not a location is not a connector."
         },
         "country": {
@@ -2279,7 +2894,10 @@
           "$ref": "#/$defs/Id"
         },
         "includes_semi_public": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "Supermarket / car-park points etc."
         },
         "fast_label": {
@@ -2291,7 +2909,10 @@
           "format": "date"
         },
         "valid_to": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "format": "date"
         },
         "replaced_by": {
@@ -2311,14 +2932,19 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "PowerBand": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "current", "min_kw"],
+      "required": [
+        "id",
+        "label",
+        "current",
+        "min_kw"
+      ],
       "description": "Row in data/taxonomy/power_bands.yaml. Our bands (AC <22 kW, AC 22 kW, DC 50-149, DC 150-349, DC 350+) plus each source's own bands, mapped to ours with maps_to.",
       "properties": {
         "id": {
@@ -2342,7 +2968,11 @@
         },
         "current": {
           "type": "string",
-          "enum": ["ac", "dc", "any"]
+          "enum": [
+            "ac",
+            "dc",
+            "any"
+          ]
         },
         "min_kw": {
           "type": "number",
@@ -2350,7 +2980,10 @@
           "description": "Inclusive lower bound."
         },
         "max_kw": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "description": "Exclusive upper bound; null = open-ended."
         },
@@ -2371,7 +3004,7 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
@@ -2400,7 +3033,10 @@
           "$ref": "#/$defs/ChargingArea"
         },
         "region": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Sub-national region (e.g. a German state), null = whole country."
         },
         "period_end": {
@@ -2442,7 +3078,10 @@
         },
         "entered_by": {
           "type": "string",
-          "enum": ["pipeline", "staff"]
+          "enum": [
+            "pipeline",
+            "staff"
+          ]
         },
         "source_url": {
           "type": "string",
@@ -2469,16 +3108,26 @@
             "const": "staff"
           }
         },
-        "required": ["entered_by"]
+        "required": [
+          "entered_by"
+        ]
       },
       "then": {
-        "required": ["source_url"]
+        "required": [
+          "source_url"
+        ]
       }
     },
     "CountryChargingLink": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["country", "tool", "url", "job", "order"],
+      "required": [
+        "country",
+        "tool",
+        "url",
+        "job",
+        "order"
+      ],
       "description": "Row in config: the 'Find a charger / plan a trip' link-out block. Pure links, no API calls. Decision 012.",
       "properties": {
         "country": {
@@ -2502,7 +3151,13 @@
         },
         "job": {
           "type": "string",
-          "enum": ["official-map", "local-app", "map", "route-planner", "price-compare"]
+          "enum": [
+            "official-map",
+            "local-app",
+            "map",
+            "route-planner",
+            "price-compare"
+          ]
         },
         "order": {
           "type": "integer",
@@ -2513,31 +3168,52 @@
           "description": "Optional link label override."
         },
         "deep_link_template": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "URL template with {placeholders}, e.g. ABRP car model; null = plain link."
         }
       }
     },
     "RoadBand": {
       "type": "string",
-      "enum": ["town", "rural", "motorway"],
-      "description": "The three route bands of the consumption matrix (Decision 013): town ≤50 km/h, rural 60-90, motorway 100+."
+      "enum": [
+        "town",
+        "rural",
+        "motorway"
+      ],
+      "description": "The three route bands of the consumption matrix (Decision 013): town \u226450 km/h, rural 60-90, motorway 100+."
     },
     "HeatPumpFitment": {
       "type": "string",
-      "enum": ["standard", "option", "none", "not-disclosed"],
+      "enum": [
+        "standard",
+        "option",
+        "none",
+        "not-disclosed"
+      ],
       "description": "option = fitted on some cars only; for used cars show both cases until the owner confirms."
     },
     "ConsumptionRung": {
       "type": "string",
-      "enum": ["measured", "platform", "physics", "wltp-ratio"],
-      "description": "Fallback ladder rung (trip-fit §5): measured for this variant → same platform/pack scaled → physics → WLTP × class ratio."
+      "enum": [
+        "measured",
+        "platform",
+        "physics",
+        "wltp-ratio"
+      ],
+      "description": "Fallback ladder rung (trip-fit \u00a75): measured for this variant \u2192 same platform/pack scaled \u2192 physics \u2192 WLTP \u00d7 class ratio."
     },
     "RoadClass": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "band"],
-      "description": "Row in data/taxonomy/road_classes.yaml: OSM highway tags → road band.",
+      "required": [
+        "id",
+        "label",
+        "band"
+      ],
+      "description": "Row in data/taxonomy/road_classes.yaml: OSM highway tags \u2192 road band.",
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -2561,19 +3237,26 @@
           "description": "OSM highway=* values, e.g. motorway, trunk, residential."
         },
         "max_speed_kmh": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Typical limit when the way has no maxspeed tag."
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "BandSpeeds": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["town", "rural", "motorway"],
+      "required": [
+        "town",
+        "rural",
+        "motorway"
+      ],
       "description": "Typical driving speed per road band, km/h.",
       "properties": {
         "town": {
@@ -2593,7 +3276,11 @@
     "SpeedProfile": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "country", "speeds_kmh"],
+      "required": [
+        "id",
+        "country",
+        "speeds_kmh"
+      ],
       "description": "Row in data/taxonomy/speed_profiles.yaml: typical speeds per road band for one country (NL 100 by day, FR 130, DE advisory 130, UK 70 mph).",
       "properties": {
         "id": {
@@ -2641,14 +3328,18 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "TemperatureBand": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label", "representative_c"],
+      "required": [
+        "id",
+        "label",
+        "representative_c"
+      ],
       "description": "Row in data/taxonomy/temperature_bands.yaml: one of the matrix temperature columns (5 at launch).",
       "properties": {
         "id": {
@@ -2663,11 +3354,17 @@
           "description": "Tooltip text, at most 20 words."
         },
         "min_c": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Inclusive; null = open-ended."
         },
         "max_c": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Exclusive; null = open-ended."
         },
         "representative_c": {
@@ -2679,14 +3376,17 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "HeaterType": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
+      "required": [
+        "id",
+        "label"
+      ],
       "description": "Row in data/taxonomy/heater_types.yaml (heat-pump, resistive, unknown) with its default temperature curve.",
       "properties": {
         "id": {
@@ -2720,10 +3420,13 @@
             "minItems": 2,
             "maxItems": 2
           },
-          "description": "(ambient °C, consumption factor vs 20 °C) points; a car's own winter test replaces it."
+          "description": "(ambient \u00b0C, consumption factor vs 20 \u00b0C) points; a car's own winter test replaces it."
         },
         "warm_up_kwh": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "description": "Energy per cold start (cabin + battery); dropped when preheated on the plug."
         },
@@ -2738,19 +3441,28 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
     "WeightLevel": {
       "type": "string",
-      "enum": ["off", "low", "medium", "high", "very-high"]
+      "enum": [
+        "off",
+        "low",
+        "medium",
+        "high",
+        "very-high"
+      ]
     },
     "UsageProfile": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "label"],
-      "description": "Row in data/taxonomy/usage_profiles.yaml: Fit-score weights per profile (trip-fit §6). A new row, not new code.",
+      "required": [
+        "id",
+        "label"
+      ],
+      "description": "Row in data/taxonomy/usage_profiles.yaml: Fit-score weights per profile (trip-fit \u00a76). A new row, not new code.",
       "properties": {
         "id": {
           "$ref": "#/$defs/Id"
@@ -2765,12 +3477,15 @@
         },
         "kind": {
           "type": "string",
-          "enum": ["base", "addon"],
+          "enum": [
+            "base",
+            "addon"
+          ],
           "default": "base"
         },
         "applies_when": {
           "type": "object",
-          "description": "Picker answers that select this profile: question id → accepted answer ids.",
+          "description": "Picker answers that select this profile: question id \u2192 accepted answer ids.",
           "propertyNames": {
             "pattern": "^[a-z0-9_]+$"
           },
@@ -2783,7 +3498,7 @@
         },
         "weights": {
           "type": "object",
-          "description": "Factor → weight (price, efficiency, dc_km_20min_winter, winter_1000km_time, ac_speed, battery_risk ...).",
+          "description": "Factor \u2192 weight (price, efficiency, dc_km_20min_winter, winter_1000km_time, ac_speed, battery_risk ...).",
           "propertyNames": {
             "pattern": "^[a-z0-9_]+$"
           },
@@ -2793,7 +3508,7 @@
         },
         "weight_steps": {
           "type": "object",
-          "description": "Add-ons: factor → steps up (+) or down (-), e.g. battery_risk +1.",
+          "description": "Add-ons: factor \u2192 steps up (+) or down (-), e.g. battery_risk +1.",
           "propertyNames": {
             "pattern": "^[a-z0-9_]+$"
           },
@@ -2806,7 +3521,7 @@
         },
         "glossary_id": {
           "$ref": "#/$defs/Id",
-          "description": "Glossary term for the ⓘ tooltip, if any."
+          "description": "Glossary term for the \u24d8 tooltip, if any."
         }
       }
     },
@@ -2824,7 +3539,7 @@
         "retrieved_at",
         "confidence"
       ],
-      "description": "One condition-tagged consumption measurement (Bjørn Nyland 90/120 km/h, ADAC, NAF El Prix ...). Input to ConsumptionModel.",
+      "description": "One condition-tagged consumption measurement (Bj\u00f8rn Nyland 90/120 km/h, ADAC, NAF El Prix ...). Input to ConsumptionModel.",
       "properties": {
         "id": {
           "type": "string"
@@ -2834,11 +3549,19 @@
         },
         "test_kind": {
           "type": "string",
-          "enum": ["constant-speed", "route", "cycle", "owner-data"],
+          "enum": [
+            "constant-speed",
+            "route",
+            "cycle",
+            "owner-data"
+          ],
           "description": "constant-speed = steady speed run; route = mixed real route; cycle = lab cycle."
         },
         "speed_kmh": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "description": "Constant speed, or average speed for a route."
         },
@@ -2873,11 +3596,17 @@
           }
         },
         "distance_km": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0
         },
         "climb_m": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0
         },
         "temperature_c": {
@@ -2885,18 +3614,29 @@
           "description": "Ambient temperature (average for the test)."
         },
         "wheel_size_in": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 10,
           "maximum": 26,
           "description": "Rim diameter code (ISO/ETRTO designation, inches by convention)."
         },
         "tyre": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Tyre size, e.g. '235/45 R19'."
         },
         "tyre_season": {
           "type": "string",
-          "enum": ["summer", "winter", "all-season", "not-disclosed"]
+          "enum": [
+            "summer",
+            "winter",
+            "all-season",
+            "not-disclosed"
+          ]
         },
         "consumption_wh_km": {
           "type": "number",
@@ -2904,11 +3644,18 @@
         },
         "energy_basis": {
           "type": "string",
-          "enum": ["battery", "wall", "not-disclosed"],
+          "enum": [
+            "battery",
+            "wall",
+            "not-disclosed"
+          ],
           "description": "battery = from the car's own meter / SoC; wall = includes charging losses."
         },
         "range_km": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "description": "Range result, if the test reports one."
         },
@@ -2926,17 +3673,25 @@
             },
             "hvac": {
               "type": "string",
-              "description": "e.g. '21 °C auto'."
+              "description": "e.g. '21 \u00b0C auto'."
             },
             "heat_pump_fitted": {
-              "type": ["boolean", "null"]
+              "type": [
+                "boolean",
+                "null"
+              ]
             },
             "wind": {
               "type": "string"
             },
             "precipitation": {
               "type": "string",
-              "enum": ["dry", "wet", "snow", "not-disclosed"]
+              "enum": [
+                "dry",
+                "wet",
+                "snow",
+                "not-disclosed"
+              ]
             },
             "payload_kg": {
               "type": "number",
@@ -2973,8 +3728,14 @@
     "ConsumptionCell": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["road_band", "temperature_band_id", "wh_km", "rung", "confidence"],
-      "description": "One road band × temperature band cell.",
+      "required": [
+        "road_band",
+        "temperature_band_id",
+        "wh_km",
+        "rung",
+        "confidence"
+      ],
+      "description": "One road band \u00d7 temperature band cell.",
       "properties": {
         "road_band": {
           "$ref": "#/$defs/RoadBand"
@@ -3017,8 +3778,12 @@
     "ConsumptionModel": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["variant_id", "release", "cells"],
-      "description": "Derived per-variant consumption matrix (3 road bands × temperature bands), static JSON per release. The browser scores trips with it.",
+      "required": [
+        "variant_id",
+        "release",
+        "cells"
+      ],
+      "description": "Derived per-variant consumption matrix (3 road bands \u00d7 temperature bands), static JSON per release. The browser scores trips with it.",
       "properties": {
         "variant_id": {
           "$ref": "#/$defs/Id"
@@ -3035,27 +3800,42 @@
           "$ref": "#/$defs/HeatPumpFitment"
         },
         "usable_kwh": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0
         },
         "mass_kg": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "description": "Mass used for climb energy."
         },
         "warm_up_kwh": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "description": "Per cold start; overrides the heater_types default."
         },
         "regen_recovery": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "maximum": 1,
           "description": "Share of climb energy recovered downhill (~0.6)."
         },
         "drivetrain_efficiency": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "maximum": 1
         },
@@ -3074,7 +3854,10 @@
     "MonthlyClimate": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["month", "mean_c"],
+      "required": [
+        "month",
+        "mean_c"
+      ],
       "properties": {
         "month": {
           "type": "integer",
@@ -3086,11 +3869,17 @@
           "description": "Mean daily temperature."
         },
         "p10_c": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "description": "Colder 10th-percentile day (cold snap check)."
         },
         "mean_min_c": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         }
       }
     },
@@ -3114,7 +3903,10 @@
         },
         "location_kind": {
           "type": "string",
-          "enum": ["town", "grid-cell"]
+          "enum": [
+            "town",
+            "grid-cell"
+          ]
         },
         "name": {
           "type": "string"
@@ -3123,7 +3915,10 @@
           "$ref": "#/$defs/CountryCode"
         },
         "geonames_id": {
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "lat": {
           "type": "number",
@@ -3136,11 +3931,17 @@
           "maximum": 180
         },
         "grid_resolution_deg": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "exclusiveMinimum": 0
         },
         "elevation_m": {
-          "type": ["number", "null"]
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "period": {
           "type": "string",
@@ -3166,13 +3967,22 @@
     },
     "FinanceProduct": {
       "type": "string",
-      "enum": ["used-car-loan", "new-car-loan", "private-lease", "business-lease", "pcp"],
+      "enum": [
+        "used-car-loan",
+        "new-car-loan",
+        "private-lease",
+        "business-lease",
+        "pcp"
+      ],
       "description": "Kind of finance a FinanceProfile row describes. pcp = personal contract purchase (balloon at the end; UK, similar to FR LOA)."
     },
     "FinanceSource": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "url"],
+      "required": [
+        "name",
+        "url"
+      ],
       "description": "Where a FinanceProfile figure comes from. Central-bank statistics only for typical_apr (Decision 017).",
       "properties": {
         "name": {
@@ -3228,29 +4038,48 @@
           "$ref": "#/$defs/FinanceProduct"
         },
         "typical_apr": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "maximum": 100,
           "description": "Typical annual percentage rate of charge, in percent (8.91 = 8.91 %). null = no citable source; the calculator asks for a rate."
         },
         "default_term_months": {
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "minimum": 1,
           "maximum": 120,
           "description": "Sourced typical term; null = no source, the calculator uses its own labelled default."
         },
         "default_deposit_pct": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0,
           "maximum": 100,
           "description": "Sourced typical deposit as percent of the price; null = no source."
         },
         "source": {
-          "anyOf": [{ "$ref": "#/$defs/FinanceSource" }, { "type": "null" }],
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FinanceSource"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "description": "Required (not null) whenever typical_apr has a value."
         },
         "retrieved_at": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "format": "date",
           "description": "When the source was read. Required (not null) whenever typical_apr has a value."
         },
@@ -3264,13 +4093,386 @@
         }
       },
       "if": {
-        "properties": { "typical_apr": { "type": "number" } },
-        "required": ["typical_apr"]
+        "properties": {
+          "typical_apr": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "typical_apr"
+        ]
       },
       "then": {
         "properties": {
-          "source": { "$ref": "#/$defs/FinanceSource" },
-          "retrieved_at": { "type": "string", "format": "date" }
+          "source": {
+            "$ref": "#/$defs/FinanceSource"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "ClueStrength": {
+      "type": "string",
+      "enum": [
+        "decisive",
+        "strong",
+        "weak"
+      ],
+      "description": "How far a clue settles which variant it is (variant finder spec \u00a73). decisive = on its own it separates the variant from every look-alike in rules_out; strong = usually settles it but sources or ads can be wrong; weak = a hint only (e.g. battery kWh in ads, often wrong)."
+    },
+    "ClueValueKind": {
+      "type": "string",
+      "enum": [
+        "number",
+        "number-range",
+        "date-range",
+        "text",
+        "code",
+        "boolean"
+      ],
+      "description": "Shape of the value a clue of this type carries. number / text / code / boolean use VariantClue.value; number-range and date-range use VariantClue.range. code = an identifier matched as written (type-approval code, VIN character)."
+    },
+    "ClueFoundIn": {
+      "type": "string",
+      "enum": [
+        "ad",
+        "photos",
+        "papers",
+        "car",
+        "vin"
+      ],
+      "description": "Where a buyer finds the clue: ad text, ad photos, registration papers, on the car itself, or the VIN."
+    },
+    "ClueType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "short",
+        "value_kind",
+        "found_in"
+      ],
+      "description": "Row in data/taxonomy/clue_types.yaml (build-date-range, power-kw, battery-kwh, trim-name, type-approval-code, vin-position, visible-feature, onboard-charger, ...). Decision 019, variant finder spec \u00a73-4. A new clue type is a new row, no code change; clue_type_id values are checked against this table at release time (Decision 010 pattern).",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "label": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Plain-language label."
+        },
+        "technical": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Technical name shown under the plain label."
+        },
+        "short": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Tooltip text, at most 20 words (e.g. 'What is the type-approval code?')."
+        },
+        "explainer": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Plain-language explainer for /learn and Detailed mode."
+        },
+        "value_kind": {
+          "$ref": "#/$defs/ClueValueKind"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Metric unit for number values (kW, kWh, in for rim size code); absent for text, code and date values."
+        },
+        "found_in": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ClueFoundIn"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Where a buyer can read it, most useful first."
+        },
+        "paper_fields": {
+          "type": "object",
+          "description": "Country \u2192 field on that country's registration papers or open registration data, e.g. FR 'P.2', NL 'vermogen (RDW)'. Absent country = not on the papers there or not checked.",
+          "propertyNames": {
+            "$ref": "#/$defs/CountryCode"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "ask_seller": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Copyable 'ask the seller' line template (six languages, spec \u00a75). May contain '{value}' or '{variant}', filled by the web app."
+        },
+        "default_strength": {
+          "$ref": "#/$defs/ClueStrength",
+          "description": "Typical strength of this clue type; each VariantClue still states its own."
+        },
+        "order": {
+          "type": "integer",
+          "description": "Display order in the 'spot it in an ad' box."
+        },
+        "glossary_id": {
+          "$ref": "#/$defs/Id",
+          "description": "Glossary term for the \u24d8 tooltip, if any."
+        }
+      }
+    },
+    "ClueRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min",
+        "max"
+      ],
+      "description": "Inclusive range. Numbers for number-range clue types; ISO year-month ('2021-06') or date ('2021-06-14') for date-range types. null = open-ended on that side.",
+      "properties": {
+        "min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Lower bound (inclusive); null = open."
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Upper bound (inclusive); null = open (e.g. still built)."
+        }
+      }
+    },
+    "ClueSourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "retrieved_at"
+      ],
+      "description": "One piece of evidence for a clue: a row in the catalogue sources list plus the exact page where the clue was read.",
+      "properties": {
+        "source_id": {
+          "$ref": "#/$defs/Id",
+          "description": "Id of a row in the catalogue sources list."
+        },
+        "url": {
+          "type": "string",
+          "description": "Exact page (maker brochure, press release, registration-data docs). Required for staff-entered clues (checked at release time)."
+        },
+        "locator": {
+          "type": "string",
+          "description": "Where on the page or in the document, e.g. 'p. 12, technical data table'. No copied tables."
+        },
+        "source_record": {
+          "type": "string",
+          "description": "Pointer to a raw record, for pipeline-derived clues."
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "VariantClue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "variant_id",
+        "clue_type_id",
+        "market",
+        "strength",
+        "rules_out",
+        "sources",
+        "retrieved_at",
+        "confidence"
+      ],
+      "description": "One fact a buyer can read in an ad, on the registration papers or on the car that points to this variant (Decision 019, variant finder spec \u00a73-4). Set exactly one of value or range (checked at release time, together with the value shape against the clue type's value_kind). The same rows feed listing matching later (spec \u00a78).",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id",
+          "description": "Convention: <variant_id>-<clue_type_id>[-<market lowercase>][-n]."
+        },
+        "variant_id": {
+          "$ref": "#/$defs/Id"
+        },
+        "clue_type_id": {
+          "$ref": "#/$defs/Id",
+          "description": "clue_types id (data/taxonomy/clue_types.yaml), checked at release time."
+        },
+        "market": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CountryCode"
+            },
+            {
+              "type": "string",
+              "const": "global"
+            }
+          ],
+          "description": "Country where the clue holds (trim names, paper fields), or 'global'."
+        },
+        "value": {
+          "type": [
+            "number",
+            "string",
+            "boolean"
+          ],
+          "description": "Single value for number / text / code / boolean clue types. Trim names are stored as written in that market, never translated."
+        },
+        "range": {
+          "$ref": "#/$defs/ClueRange",
+          "description": "For number-range and date-range clue types."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Metric unit when value or range is a number; must match the clue type's unit."
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Character position (1-based) for VIN-position clue types."
+        },
+        "description": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Buyer-facing detail for visible-feature clues, e.g. 'heat-pump pipe left of the front motor'. Not for trim names."
+        },
+        "strength": {
+          "$ref": "#/$defs/ClueStrength"
+        },
+        "rules_out": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "uniqueItems": true,
+          "description": "Variant ids this clue rules out; they must exist and share a look-alike group with variant_id (checked at release time)."
+        },
+        "lookalike_group_id": {
+          "$ref": "#/$defs/Id",
+          "description": "Group the clue separates within, when the variant is in more than one."
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ClueSourceRef"
+          },
+          "minItems": 1,
+          "description": "Evidence; two or more where possible."
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date",
+          "description": "Last date a source confirmed the clue."
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "entered_by": {
+          "type": "string",
+          "enum": [
+            "pipeline",
+            "staff"
+          ]
+        },
+        "fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Facts the clue is derived from, if any (e.g. the power_kw fact)."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Internal note; never shown."
+        }
+      }
+    },
+    "LookalikeReason": {
+      "type": "string",
+      "enum": [
+        "same-generation",
+        "same-badge",
+        "same-marketing-name"
+      ],
+      "description": "Why buyers confuse the group's variants: overlapping specs in one generation, the same badge, or the same marketing name across markets."
+    },
+    "LookalikeGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "variant_ids",
+        "reason",
+        "built_by"
+      ],
+      "description": "Variants that buyers confuse (Decision 019, variant finder spec \u00a74). Built automatically from overlapping specs; staff overrides in data/manual.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/Id"
+        },
+        "variant_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Id"
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "reason": {
+          "$ref": "#/$defs/LookalikeReason"
+        },
+        "built_by": {
+          "type": "string",
+          "enum": [
+            "pipeline",
+            "staff"
+          ],
+          "description": "staff = created or edited by hand; the pipeline keeps it as written."
+        },
+        "generation_id": {
+          "$ref": "#/$defs/Id",
+          "description": "Set when all variants share one generation."
+        },
+        "markets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CountryCode"
+          },
+          "uniqueItems": true,
+          "description": "Markets where the confusion applies (same-marketing-name); absent = everywhere."
+        },
+        "label": {
+          "$ref": "#/$defs/LocalizedText",
+          "description": "Short label, e.g. 'ID.3 Pro: 58 vs 59 kWh'."
+        },
+        "built_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Internal note; never shown."
         }
       }
     }

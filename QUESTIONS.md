@@ -284,6 +284,26 @@ No answer needed unless you disagree. The glossary now has 88 terms: 39 were add
 
 **Answer:**
 
+### Q-064 · Variant clue and look-alike group schema: judgement calls · T-044 / Decision 019 · schema delegate (WS0) · 2026-11-15
+No answer needed unless you disagree; the coordinator may log these in DECISIONS. **Defaults taken:** (1) The task's `clue_type` field is named `clue_type_id`, like every other taxonomy reference (`mode_id`, `metric_id`, `status_id`). (2) The task's `source` is `sources[]` (at least one `ClueSourceRef`: catalogue source id + exact page URL + locator + date), so a clue can cite two sources, as the product rules ask. (3) `market` is a `CountryCode` or the word `global`. (4) A clue has either `value` (number, text, code, yes/no) or `range` (`min`/`max`, numbers or `YYYY-MM` dates, null = open-ended). "Exactly one of the two" and "shape fits the clue type's `value_kind`" are checked at release time (T-047), not in the schema, because conditional schema rules broke the generated TypeScript before (Decision 020). (5) Each clue type row also carries `value_kind`, `unit`, `found_in` (ad, photos, papers, car, vin), `paper_fields` per country (FR "P.2"), the "ask the seller" template, a default strength, and the usual label/short/explainer, so T-046 doesn't need another schema change. (6) Look-alike `reason` is a fixed list (`same-generation`, `same-badge`, `same-marketing-name`), not a taxonomy table, because the spec names exactly three. (7) PublishedVariant gains optional `lookalike_group_ids` and `clue_count`, so the web app can skip the "spot it" box without loading every clue.
+
+**Answer:**
+
+### Q-065 · A "BMW i3" registered in 2025-26 with no seed generation · seed (coverage-gaps finding 7) · data builder · 2026-11-15
+Registration data has cars named i3 after the i3 (I01) ended in 2022: RDW 2026: 210 cars `I3 50 XDRIVE`; EEA DE 2025: 119 (`I3 50 XDRIVE` 93, `I3 40 XDRIVE` 22, `I3 40L` 4); KBA 2026: 1 `I3`. No generation was added, because what this car is has not been checked against a primary source (it could be a new model sold as "i3", an import of a car sold elsewhere, or a data error). **Default:** the counts stay in `unmatched.csv` ("year outside every generation") and the gap is written in the `bmw-i3-i01` notes in `data/seed/models.yaml`. Should WS3 check it with a primary source and add a generation or model?
+
+**Answer:**
+
+### Q-066 · RDW shared-year cars now counted at model level · match / web (coverage-gaps finding 6) · data builder · 2026-11-15
+No answer needed unless you disagree. RDW cars from a year that two generations share, with no name or battery clue, are no longer dropped (Q-041) and never split by a ratio. They are counted for the model: an extra NL entry with `level: model` on every generation of that model, with the note "shared year, generation unknown". That is 10,413 NL cars (Niro 2022 3946, Zoe 2019 2720, Kona 2023 1743, Model S 2016 964, e-Golf 2017 823, Soul 2019 217). `registered_count_nl` stays the generation-level count. EEA still sends a shared year to review (its 2025/2026 files have none). **For the web builder (WS2):** (1) a row can now have two RDW NL entries with the same period (generation + model level), so the React key in `Registrations.tsx` (kind-period-source) is no longer unique; add `level`. (2) The `reg.modelLevel` label reads as "the whole model", but this RDW entry is only the shared-year cars. A label like "1 year, generation unknown" would fit better. The schema needs no change.
+
+**Answer:**
+
+### Q-067 · MG4: what stays split after the Q-062 fix · seed (variants) · data builder · 2026-11-15
+No answer needed unless you disagree. Seed variants can now list the names other sources use for the same car (`source_names` in `data/seed/variants.yaml`). MG4 goes from 8 rows to 6. Two splits stay on purpose: (1) OpenEV "Standard Long Range" has the same 64 kWh pack as the Long Range but 125 kW instead of 150 kW, so it stays its own row. It has no pack link, because `variant_links.yaml` only takes seed variant ids. (2) The Standard Range has a year band for 2023+, because OpenEV gives DC 135 kW for 2023-2025 and the seed and KilowattApp give 117 kW for 2022 (KilowattApp also has a 2022 "51 kWh" record at 87 kW). That band has no pack link either. Both are worth a check against a primary source.
+
+**Answer:**
+
 ## Closed
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15
