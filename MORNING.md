@@ -4,7 +4,9 @@ _Working title EV Shortlist (Decision 018). Branch `proto/overnight-1`, draft PR
 
 ## 0. Do this first (2 minutes)
 1. **Nothing to undo on `main`.** The first hour of work landed on `main` by mistake (Q-030). WS0 has built on top of it, so it stays; everything since then is in PR #1.
-2. **Answer the starred questions** in section 5 when you have time. Nothing is blocked on you tonight.
+2. **One GitHub setting:** Settings → Actions → General → tick "Allow GitHub Actions to create and approve pull requests", so the weekly data-refresh workflow can open its PR (Q-079).
+3. **Paste the project instructions v1.3** (sent in chat) into Project Settings if you haven't yet.
+4. **Answer the questions** in section 5 when you have time. Nothing is blocked on you tonight.
 
 ## 1. What works now
 Run it locally (needs Node 22, pnpm 10, Python 3.12 + uv):
@@ -12,9 +14,11 @@ Run it locally (needs Node 22, pnpm 10, Python 3.12 + uv):
 ```bash
 git clone https://github.com/zkMenno/EV-Finder && cd EV-Finder && git checkout proto/overnight-1
 pnpm install
-pnpm --filter @ev/web dev          # http://localhost:3000 → redirects to /nl
+pnpm --filter @ev/web dev          # http://localhost:3000 → redirects to /nl/nl
 # optional: rebuild the data release from recorded samples (no network)
 cd pipeline && uv sync && uv run ev release
+# refresh from the live open sources (network): only what is due and changed
+uv run ev refresh
 ```
 
 Checks: `pnpm --filter @ev/web test`, `pnpm --filter @ev/web e2e`, `cd pipeline && uv run pytest`.
@@ -22,44 +26,68 @@ Checks: `pnpm --filter @ev/web test`, `pnpm --filter @ev/web e2e`, `cd pipeline 
 ## 2. Screens
 | Route | What it is |
 |---|---|
-| `/nl` (also `/de`, `/fr`, `/be`, `/uk`) | Explore: one table of new + used EVs, table/cards toggle, filters (price, era, segment, body, real range, battery, DC km in 20 min, boot, length, towing, voltage class, chemistry, cooling, "fast on older 400 V chargers", "charge to 100% daily"), Simple / Detailed / Nerd, hearts, compare tray that never resets |
-| `/nl/ev/<make>/<model>` | Model overview with generations |
-| `/nl/ev/<make>/<model>/<generation>` | Generation page: change markers, spec diff per year, See listings, registrations per country, source + confidence on every number |
-| `/nl/ev/…/<variant>` | Full spec sheet |
-| `/nl/compare?ids=…` | Up to 4 side by side, differences highlighted, share + print |
-| `/nl/top` | Rankings: longest real range under €30k, fastest DC (km in 20 min), most registered in NL |
-| `/nl/learn/<term>` | Glossary pages |
-| `/nl/about` | What we are, how numbers are made, credits for every source |
+| `/nl/nl` (11 pairs: nl/nl, nl/en, de/de, de/en, fr/fr, fr/en, be/nl, be/fr, be/de, be/en, uk/en) | Explore: one table of new + used EVs, table/cards toggle, filters (price, era, segment, body, real range, battery, DC km in 20 min, boot, length, towing, voltage class, chemistry, cooling, "fast on older 400 V chargers", "charge to 100% daily"), Simple / Detailed / Nerd, hearts, compare tray that never resets |
+| `/nl/nl/ev/<make>/<model>` | Model overview with generations |
+| `…/<generation>` | Generation page: change markers, spec diff per year, See listings, registrations per country, Known issues (RDW defects), source + confidence on every number |
+| `…/<variant>` | Full spec sheet with price modes (buy / loan / lease) |
+| `/nl/nl/compare?ids=…` | Up to 4 side by side, differences highlighted, share + print |
+| `/nl/nl/top` | Rankings: longest real range under €30k, fastest DC (km in 20 min), most registered in NL |
+| `/nl/nl/learn` | 5 articles (draft) + 88 glossary terms |
+| `/nl/nl/about` | What we are, how numbers are made, credits for every source |
 | `/health` | Health check for the server watchdog |
 | `/staff/review` | Review queue (only with `STAFF_PAGES=1`) |
 
 ## 3. Data
-Release 1: **218 variants** across 62 generations of 48 models across 55 generations of the 40 seed models.
+Release 1: **218 variants** across 62 generations of 48 models (the 40 from the brief + 8 top-40 additions). 4,301 static pages.
 
 | Source | Ran | Licence | Used for |
 |---|---|---|---|
 | Open EV Data (open-ev-data-dataset) | live | CDLA-Permissive-2.0 | base specs |
 | Open EV Data (KilowattApp) | live | MIT + attribution | specs, 51 non-default charge curves (estimates) |
-| RDW | live | CC0 | NL fleet counts |
+| RDW | live | CC0 | NL fleet, WLTP (10% sample), NL catalogue price, inspection defects |
 | EEA CO₂ monitoring | live | CC BY 4.0 | new registrations NL/DE/FR/BE |
 | KBA FZ10 | live | dl-de/by-2-0 | DE new registrations |
 | DfT VEH0120 | live | OGL v3 | UK fleet |
 | ADEME Car Labelling | live | Licence Ouverte | FR prices (7 variants), fallback specs |
+| fueleconomy.gov (EPA) | live | US public domain | EPA range cross-check |
+| Wikidata | live | CC0 | generation-year check |
+| Bundesnetzagentur, DfT charging | live | CC BY 4.0, OGL v3 | charging statistics (aggregates) |
+| EAFO | sample | blocked (third-party data) | not released |
 | Seed (hand-entered) | — | CC BY 4.0 | older cars, confidence **low** |
 | Bjørn Nyland | importer only | permission pending | never in a release |
 
 Honest caveats: 🟡 every real-range and DC figure is an **estimate** tonight (ratio model, default or unverified curves). 🔴 About half of all numbers rest only on the hand-entered seed (low confidence). Coverage per field: `data/releases/1/coverage.md`.
 
-Research (all on the branch): R-02 launch countries, R-06 future markets, R-07 European expansion.
+Research (all on the branch): R-02 launch countries, R-06 future markets, R-07 European expansion. Coverage gaps: `data/review/coverage-gaps.md`; top-40 list: `data/seed/top40.yaml`.
 
 ## 4. Not done, and why
-_(filled in at the end of the run)_
+- **Used prices:** no open source exists; layer 0 indices and partner feeds are next (T-056). PriceBand shows "not enough data".
+- **Real range and DC charging are estimates:** every real-world test source needs permission (Bjørn, NAF, ADAC, Spritmonitor; T-055). KilowattApp curves are unverified.
+- **Two-source agreement is low:** 0–25% of top-40 headline fields have 2+ agreeing sources (target 80%). Most fields rest on one source or the hand-entered seed.
+- **Pre-2020 specs:** no open licensed source yet (Q-007, T-052).
+- **Per-car bidirectional data, clue table, lookalike groups:** schemas are in; data is WS3 work (T-019, T-046, T-047).
+- **Deploy:** files written, nothing applied (WS4). arm64 images are built in CI only.
+- **EAFO and maker documents:** blocked on licences (Q-077, Q-008).
 
-## 5. Questions for Menno (most important first)
-_(final list at the end of the run; all are in QUESTIONS.md)_
+## 5. Questions for Menno (most important first, max 7)
+1. **Q-008** · Can single facts cited from maker documents (spec sheets, price lists) go into public releases? Unlocks prices, boot space, warranty and the hand-entered facts path.
+2. **Q-037** · RDW's notice says reusers may not state the data comes from RDW. How should we label it? (Interim: "Dutch vehicle register (RDW open data, CC0)".)
+3. **Q-036** · RVO is CC BY-SA (share-alike). Keep it as a cross-check only, or ask RVO for permission?
+4. **Q-047 / Q-059** · Some KilowattApp values may come from ev-database.org, and its MIT data sits inside our CC BY bundle. Keep, limit, or drop?
+5. **Q-077** · Email the Commission (DG MOVE) to reuse EAFO data?
+6. **Q-079** · Tick the GitHub setting so the weekly data PR can open (see section 0).
+7. **Q-002 / Q-003** · Confirm pnpm + uv, and require PRs with green CI on `main`.
+
+All 70+ open questions are in [QUESTIONS.md](QUESTIONS.md); most only record a default and need no answer.
 
 ## 6. Suggested wave 5
-_(at the end of the run)_
+1. T-055 real-range permissions (drafts for Menno to send) — the biggest quality gap.
+2. T-056 used prices layer 0 (free indices) so PriceBand and the "under €15k" rankings can show data.
+3. T-051 part 2 + T-060: finish seed coverage and pack/platform links.
+4. T-052 a licensed pre-2020 spec source to replace hand-entered seed data.
+5. T-057 make release QA a CI gate on data PRs; fix the EV6 pack mismatch.
+6. WS2: show Known issues, EPA range, generation-year badges and charging charts in the UI.
+7. WS4: apply the deploy (database, Caddy, staging), using the runbook notes in Q-070/Q-073.
 
 ## Addenda 4 + 5
 | Item | Status | Notes |
@@ -105,3 +133,10 @@ _(at the end of the run)_
 | A6 P6 RDW defects, fueleconomy.gov, charging stats (EAFO, BNetzA, DfT) | done (staging) | RDW defects 1,469 counts (aggregates, plates never stored); EPA 1,684 BEVs (attach-only, consumption ignored: not WLTP); BNetzA 218,113 points 1 Oct 2026; DfT 121,171 chargers 1 Jul 2026; EAFO blocked (third-party data, Q-077); DVSA skipped. Integrated into release 1 (T-059): EPA range on 84 rows; Known issues for 47 generations; Wikidata years agree on 7 of 9 checks; 2,861 charging-stat rows |
 | A6 P7 manual facts path + review ids | done | `data/manual/<topic>/*.yaml` with URL + date + quote required; source `manual` blocked until Q-008; review CSVs get `review_id` + `status`, decisions kept in `data/review/status.yaml` |
 
+
+## Retro (5 lines, light version at 03:45)
+- **Slowed me:** the push clone sat on `main` for an hour, so early work landed there (Q-030); and two decision/question/task number clashes with WS0 working on `main` at the same time.
+- **Menno had to do by hand:** grant push access mid-run, and paste the project instructions.
+- **Rule that would have prevented it:** "Before the first push, `git branch --show-current` must equal the brief's branch; push by explicit refspec only." And "before adding a decision, task or question number, fetch `main` and take the next free one on both sides" (WS0 already added this in addendum 7).
+- **What worked:** lanes per folder plus a fresh reviewer per wave caught real bugs (Nyland fixture, e-tron GT, DC honesty, junk RDW rows) before they shipped.
+- **Next time:** give builders one shared clone path in the brief (agents kept seeing two working directories).
