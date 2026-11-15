@@ -69,3 +69,12 @@ Spec section built on this: `docs/spec/bidirectional-and-connectors.md`. Decisio
 - GM newsroom, NACS by model (2026-08-13) — https://news.gm.com/home.detail.html/Pages/topic/us/en/2026/aug/0813-electric-vehicle-nacs-charging.html
 - cali-energy.com, US V2H table (GM model years + hardware)
 - bestchargers.co.uk, UK V2G compatibility (Leaf gen 3, CHAdeMO hardware)
+
+## Corrections (15 Nov 2026, from research/R-25)
+- 🟢 SAE J3400 (NACS) does cover bidirectional power (V2G / backup power); the 🔴 line in §5 is wrong.
+- 🟢 Tesla Model 3/Y V2H (Powershare) applies to cars **ordered** from 1 Oct 2026 (US/PR), not to all cars.
+- 🟢 Ford Explorer EV V2H is confirmed for DE/AT/CH.
+- 🟡 Kia EV2 V2G is listed on Kia UK; BYD Dolphin V2G is a UK bundle only.
+- 🔴 "Volvo EX30 is ISO 15118-20 ready" is not backed by Volvo's press release; treat as not disclosed.
+- Car-side ISO 15118-20: only VW has an official statement (ISO 15118-2); all others not disclosed.
+Details and sources: research/R-25-bidirectional-red-items.md.

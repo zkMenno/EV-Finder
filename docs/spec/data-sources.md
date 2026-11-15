@@ -43,10 +43,10 @@ Free, official or openly licensed sources for specs, registrations per model, fl
 
 | Country | Source | What it gives | Cadence | Licence / access |
 | --- | --- | --- | --- | --- |
-| US | [fueleconomy.gov web services](https://fueleconomy.gov/feg/ws) | EPA range, efficiency, charge time for every model year since 1984; CSV/XML download and REST API, no key | Ongoing | US government data 🟡 |
+| US | [fueleconomy.gov web services](https://fueleconomy.gov/feg/ws) | EPA range, efficiency, charge time for every model year since 1984; CSV/XML download and REST API, no key | Ongoing | US government data, public domain 🟢 (R-28) |
 | US | NHTSA vPIC (VIN decoder) and recalls API | Decode make/model/year from VIN; recalls per model | Ongoing | Free 🟡 |
-| US | [California Energy Commission ZEV sales](https://www.energy.ca.gov/zevstats) | New ZEV sales by make and model, county | Quarterly | Free, citation requested 🟢 |
-| US | [Washington State EV population](https://catalog.data.gov/dataset/electric-vehicle-population-data) | Every registered EV: make, model, model year, range, county | Monthly | Public 🟢 |
+| US | [California Energy Commission ZEV sales](https://www.energy.ca.gov/zevstats) | New ZEV sales by make and model, county | Quarterly | Free to read, no commercial use 🔴 (R-28) |
+| US | [Washington State EV population](https://catalog.data.gov/dataset/electric-vehicle-population-data) | Every registered EV: make, model, model year, range, county | Monthly | ODbL 🟡: internal use only, never in CC BY output (R-28) |
 | US | [Argonne monthly sales](https://www.anl.gov/esia/light-duty-electric-drive-vehicles-monthly-sales-updates) | National monthly totals (stopped per-model reporting in Nov 2019) | Monthly | Free 🟢 |
 | AU | [EVC State of EVs](https://www.pv-magazine-australia.com/press-releases/state-of-evs-2026-an-ev-bought-every-100-seconds-as-car-choice-charging-and-innovation-accelerate/) | Annual sales, fleet (612,000 EVs by June 2026), model count | Annual | Free report |
 | AU | FCAI VFACTS via [The Driven](https://thedriven.io/2026/11/05/australian-electric-vehicle-sales-by-month-in-2026-by-model-and-by-brand-3/) | Monthly BEV sales per model | Monthly | Aggregator; cite 🟡 |
