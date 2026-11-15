@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { numBadges } from "@/components/Num";
 import { numLabels } from "@/components/num-labels";
-import { quartiles } from "@/components/PriceBand";
+import { quartiles, showable } from "@/components/PriceBand";
 import { swapCountry, swapLang } from "@/components/Switchers";
 import { COUNTRIES } from "@/config/countries";
 import { listingLinks } from "@/lib/listings";
@@ -50,6 +50,14 @@ describe("Num badges (Decision 009)", () => {
 describe("price band", () => {
   it("quartiles", () => {
     expect(quartiles([1, 2, 3, 4, 5])).toEqual([2, 4]);
+  });
+  it("shows a schema band only with a source, ≥ 5 samples and the market's currency", () => {
+    const b = { generation_id: "g", country: "NL", currency: "EUR" as const, p25: 9000, median: 10000, p75: 11000, samples: 5, period: "2026-10", source_id: "s" };
+    expect(showable(b, "EUR")).toBe(true);
+    expect(showable(undefined, "EUR")).toBe(false);
+    expect(showable({ ...b, samples: 4 }, "EUR")).toBe(false);
+    expect(showable({ ...b, source_id: "" }, "EUR")).toBe(false);
+    expect(showable(b, "GBP")).toBe(false);
   });
 });
 

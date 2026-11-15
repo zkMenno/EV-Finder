@@ -61,7 +61,8 @@ function Cohort({
   const headId = `ki-${c.year}`;
   const heading = (
     <h3 id={headId} className="text-base font-semibold">
-      {t("gen.ki.cohort", { year: String(c.year) })}{" "}
+      {t("gen.ki.cohort", { year: String(c.year) })}
+      <TermInfo term={ctx.tax.terms["first-registration-year"]} base={ctx.base} text={ctx.termText} />{" "}
       <span className="font-normal text-slate-700">
         · {t("gen.ki.age", { n: String(c.ageYears) })}
       </span>
@@ -96,7 +97,8 @@ function Cohort({
     >
       {heading}
       <p className="mt-1 text-sm text-slate-900" data-testid="ki-any">
-        {t("gen.ki.any")}: <Rate ctx={ctx} v={v} value={c.anyPer100} /> {t("gen.ki.per100")} ·{" "}
+        {t("gen.ki.any")}: <Rate ctx={ctx} v={v} value={c.anyPer100} /> {t("gen.ki.per100")}
+        <TermInfo term={ctx.tax.terms["defect-rate"]} base={ctx.base} text={ctx.termText} /> ·{" "}
         {t("gen.ki.baseline", { year: String(c.year) })}:{" "}
         <Rate ctx={ctx} v={v} value={c.baseline.anyPer100} /> {t("gen.ki.per100short")}
       </p>

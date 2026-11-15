@@ -1378,3 +1378,121 @@ glossary_terms:
     nerd_note:
       en: "Default 48 months (spec §8 'Ways to pay'); finance_profiles may set a country default when a source states one."
     related: [loan, apr, total-cost-over-term]
+
+  # T-061 follow-up (2026-11-15). Facts from docs/spec (data-sources, charging-buildout), R-02, R-08,
+  # the release's own known_issues method (rate_basis, sample_rule) and gov.uk/getting-an-mot (fetched 2026-11-15).
+  - id: known-issues
+    label: {en: "Known issues", nl: "Bekende gebreken"}
+    technical: {en: "Common APK defects by first-registration year"}
+    short:
+      en: "The defects Dutch inspectors find most often on this generation, compared with other EVs of the same age."
+      nl: "De gebreken die Nederlandse keurmeesters het vaakst vinden bij deze generatie, vergeleken met andere EV's van dezelfde leeftijd."
+    long:
+      en: >-
+        This block counts the defects found at the Dutch periodic inspection (APK) for this
+        generation, from RDW open data. Cars are grouped by the year they were first registered, and
+        each rate is compared with all sampled EVs from that same year, never with older or younger
+        cars. A high rate is a hint for what to check before you buy, not proof that a car is
+        unreliable.
+    nerd_note:
+      en: "RDW inspections and defects datasets (CC0), light-vehicle APK only, on a fixed ~10 % plate sample of EVs first registered from 2010. A year needs at least 20 sampled cars and a defect at least 3 cars; the top 5 defects per year are kept. The defects seen so far are wear items such as tyres, lights, wheel bearings and ball joints."
+    related: [apk, defect-rate, first-registration-year, registrations-nl]
+
+  - id: apk
+    label: {en: "Dutch MOT (APK)", nl: "APK-keuring"}
+    technical: {en: "APK (Algemene Periodieke Keuring)", nl: "APK (Algemene Periodieke Keuring)"}
+    short:
+      en: "The Netherlands' required periodic roadworthiness test for cars, like the UK MOT. RDW publishes the defects found."
+      nl: "De verplichte periodieke keuring van je auto. De RDW publiceert welke gebreken keurmeesters vinden."
+    long:
+      en: >-
+        The APK is the periodic roadworthiness inspection that cars in the Netherlands must pass to
+        stay on the road. Inspectors record every defect they find, and RDW publishes those records
+        as open data per number plate. That makes it one of the few open sources that shows how a
+        model holds up with age. The data lists defects only: it has no pass or fail result and no
+        odometer reading.
+    nerd_note:
+      en: "RDW datasets Keuringen (vkij-7mwc), Geconstateerde Gebreken (a34c-vvps) and the defect code list Gebreken (hx2c-gt7k), all CC0. UK equivalent: the MOT, due by a car's third registration anniversary and then yearly (gov.uk/getting-an-mot); DVSA publishes MOT results as open data (OGL)."
+    related: [known-issues, defect-rate, registrations-nl]
+
+  - id: epa-range
+    label: {en: "US official range (EPA)", nl: "Officieel bereik VS (EPA)"}
+    technical: {en: "EPA range"}
+    short:
+      en: "The range from the official US test. It is usually lower than the European WLTP figure for the same car."
+      nl: "Het bereik uit de officiële Amerikaanse test. Meestal lager dan het Europese WLTP-cijfer voor dezelfde auto."
+    long:
+      en: >-
+        The US Environmental Protection Agency rates cars sold in the US with its own five-cycle
+        test. Its range figure is usually lower than the WLTP figure for the same car. We show it as
+        a separate number and never mix it with WLTP. It only exists for cars sold in the US, and US
+        versions can differ from European ones, for example in charger options.
+    nerd_note:
+      en: "From fueleconomy.gov (US public domain), with OpenEV as fallback; merged only with other EPA figures (2 % tolerance) and converted from miles to km. When several US trims or model years map to one variant, the earliest model year of the primary source wins and the rest go to the conflicts list, never averaged."
+    related: [wltp, real-range, wltp-equivalent]
+
+  - id: first-registration-year
+    label: {en: "First registered", nl: "Eerste registratie"}
+    technical: {en: "First-registration year"}
+    short:
+      en: "The year the car was first registered, from the Dutch register. Inspection results are only compared within one year."
+      nl: "Het jaar waarin de auto voor het eerst op kenteken kwam. Keuringsresultaten vergelijken we alleen binnen hetzelfde jaar."
+    long:
+      en: >-
+        This is the year a car was first registered, taken from the first-admission date in the RDW
+        register. Cars from the same year have had the same time to age, so we group inspection
+        results by this year and compare each generation only with other EVs registered in that
+        year. It is close to the car's age, but it is not the same as its model year.
+    nerd_note:
+      en: "RDW field datum_eerste_toelating. A separate field, datum_eerste_tenaamstelling_in_nederland, holds the first Dutch registration, which can be later for imported cars. Age = fetch year minus this year."
+    related: [known-issues, defect-rate, model-years, apk]
+
+  - id: defect-rate
+    label: {en: "Defects per 100 cars", nl: "Gebreken per 100 auto's"}
+    technical: {en: "Defect rate per 100 sampled cars"}
+    short:
+      en: "Of every 100 sampled cars of this generation and year, how many had this defect noted at the APK."
+      nl: "Van elke 100 auto's in de steekproef van deze generatie en dit jaar: hoeveel dit gebrek hadden bij de APK."
+    long:
+      en: >-
+        The rate counts cars, not defect reports, for one generation and one first-registration year.
+        Cars with no APK report in the period count as zero, so the base is every sampled car, not
+        only the inspected ones. Each rate sits next to the same figure for all sampled EVs first
+        registered in that year. Years with few reports are hidden by default, because a handful of
+        cars can swing the number a lot.
+    nerd_note:
+      en: "Rate = cars with the defect ÷ sampled cars × 100. Years with fewer than 20 sampled cars are left out; years with few reports (under 10 % of cars, or under 10 cars, with a report) are hidden by default. 'About as often' means within 20 % of the same-year baseline (or 1 per 100): a display rule, not a statistical test."
+    related: [known-issues, first-registration-year, apk, confidence]
+
+  - id: power-band
+    label: {en: "Charger power band", nl: "Laadvermogenklasse"}
+    technical: {en: "Charging-point power band"}
+    short:
+      en: "Charging points grouped by maximum power, from slow AC to ultra-fast DC of 350 kW and more."
+      nl: "Laadpunten gegroepeerd naar maximaal vermogen, van langzaam AC tot ultrasnel DC van 350 kW en meer."
+    long:
+      en: >-
+        Official statistics group public charging points by how much power they can deliver. We map
+        each source's own bands onto five of ours: AC under 22 kW, AC 22 kW, DC 50–149 kW, DC 150–349
+        kW and DC 350 kW and more. Sources draw their lines differently, so a chart only shows the
+        bands a source really reports.
+    nerd_note:
+      en: "Source bands (EAFO, BNetzA and others) keep their own ids and map onto ours. One chart uses one source definition, never a mix (Decision 012)."
+    related: [charging-point, dc-charging, ac-charging, peak-kw]
+
+  - id: wikidata-years
+    label: {en: "Years checked against Wikidata", nl: "Jaren gecontroleerd met Wikidata"}
+    technical: {en: "Wikidata year check"}
+    short:
+      en: "We compare our generation start and end years with Wikidata. A mismatch is flagged, never silently changed."
+      nl: "We vergelijken onze begin- en eindjaren met Wikidata. Een verschil wordt gemeld, nooit stilletjes aangepast."
+    long:
+      en: >-
+        Wikidata is an open (CC0) knowledge base that records, among other things, when car models
+        were introduced and ended. We check each generation's start and end years against it. When
+        every Wikidata year falls within one year of ours, the badge says the years are checked; when
+        one does not, it says Wikidata disagrees and Nerd mode shows the details. Wikidata never
+        changes our years: a disagreement is flagged for review.
+    nerd_note:
+      en: "Corroborated = every Wikidata year within ±1 of the nearest seed boundary of the same kind (start or end). Wikidata is model-level and sparse, so we use it for names and years only (R-08). Known disagreements so far: a concept-car year and a China-only item."
+    related: [model-years, generation, sources-agree]

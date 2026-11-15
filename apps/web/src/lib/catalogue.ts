@@ -13,9 +13,10 @@ import type {
   PublishedVariant,
   Source,
   Taxonomy,
+  UsedPriceBand,
 } from "@ev/schema";
 import fixture from "../fixtures/catalogue.sample.json";
-import { isUsedPriceBand, type UsedPriceBand } from "./used-rankings";
+import { isUsedPriceBand } from "./used-rankings";
 
 export interface Catalogue {
   release(): number;
@@ -33,8 +34,8 @@ export interface Catalogue {
   platforms(): Platform[];
   batteryPacks(): BatteryPack[];
   /**
-   * Sourced used-price bands per generation × country (`used_prices` in catalogue.json; not in
-   * the schema yet, Q-085). Malformed entries are dropped. Empty in release 1: no used prices.
+   * Sourced used-price bands per generation × country (`Catalogue.used_prices`, schema type
+   * `UsedPriceBand`). Malformed entries are dropped. Empty until T-056 publishes used prices.
    */
   usedPrices(): UsedPriceBand[];
   /** RDW APK defect rates per generation × first-registration year (`known_issues`), if the release has them. */
@@ -95,10 +96,8 @@ class JsonCatalogue implements Catalogue {
     return this.data.battery_packs ?? [];
   }
   usedPrices(): UsedPriceBand[] {
-    // The schema now has its own `used_prices` shape (median/p25/p75/period), which differs from
-    // the web's UsedPriceBand (typical/low/high, Q-085): read it as unknown and keep the runtime
-    // guard until the two are aligned (T-061 handoff).
-    const raw = (this.data as unknown as { used_prices?: unknown }).used_prices;
+    // Schema-typed, but still guarded at runtime: one malformed row must not break a page.
+    const raw: unknown = this.data.used_prices;
     return Array.isArray(raw) ? raw.filter(isUsedPriceBand) : [];
   }
   knownIssues(): KnownIssues | undefined {

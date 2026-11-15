@@ -15,6 +15,7 @@ import { financeProfile } from "@/lib/finance-profiles";
 import { SeeListings } from "@/components/SeeListings";
 import { isCountrySlug, isServed } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
+import { usedBandFor } from "@/lib/used-rankings";
 import { COMPARE_MAX } from "@/lib/compare-store";
 import { formatYears } from "@/lib/format";
 import { seeListings } from "@/lib/listings";
@@ -136,7 +137,7 @@ export default async function VariantPage({ params }: Props) {
                       <Term term={ctx.tax.terms["used-price"] ? { ...ctx.tax.terms["used-price"], label: t("gen.usedPrice", { country: cfg.name }) } : undefined} fallback={t("gen.usedPrice", { country: cfg.name })} base={base} text={ctx.termText} showTechnical={false} />
                     </th>
                     <td className="py-2 align-top">
-                      <PriceBand currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
+                      <PriceBand band={usedBandFor(ctx.cat.usedPrices(), row.generation_id, cfg.code, cfg.currency)} currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
                     </td>
                   </tr>
                 ) : null}

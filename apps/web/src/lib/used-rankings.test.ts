@@ -1,12 +1,12 @@
 import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import type { PublishedVariant } from "@ev/schema";
+import type { PublishedVariant, UsedPriceBand } from "@ev/schema";
 import { afterEach, describe, expect, it } from "vitest";
 import fixture from "@/fixtures/catalogue.sample.json";
 import { getCatalogue } from "./catalogue";
 import { sitemapUrls } from "./sitemap";
-import { isUsedPriceBand, USED_MIN_ENTRIES, usedRanking, visibleUsedRankings, type UsedPriceBand } from "./used-rankings";
+import { isUsedPriceBand, USED_MIN_ENTRIES, usedBandFor, usedRanking, visibleUsedRankings } from "./used-rankings";
 
 // Five fixture generations with a range each (FIXTURE values, not real data).
 const gen = (i: number, range: number, extra: Partial<PublishedVariant> = {}): PublishedVariant =>
@@ -28,14 +28,19 @@ const gen = (i: number, range: number, extra: Partial<PublishedVariant> = {}): P
     ...extra,
   }) as PublishedVariant;
 const ROWS = [gen(1, 200), gen(2, 250), gen(3, 300), gen(4, 350), gen(5, 400), gen(6, 380)];
-const band = (g: string, typical: number, over: Partial<UsedPriceBand> = {}): UsedPriceBand => ({
+// Schema shape (`UsedPriceBand`, packages/schema): median = typical price, p25/p75 = the band.
+const band = (g: string, median: number, over: Partial<UsedPriceBand> = {}): UsedPriceBand => ({
   generation_id: g,
   country: "NL",
   currency: "EUR",
-  typical,
+  p25: Math.round(median * 0.9),
+  median,
+  p75: Math.round(median * 1.1),
   samples: 12,
-  source_ids: ["fixture-prices"],
-  retrieved_at: "2026-11-01",
+  period: "2026-10",
+  age_band_years: null,
+  source_id: "fixture-prices",
+  fact_ids: [],
   ...over,
 });
 
@@ -54,7 +59,7 @@ describe("best used EV under €15k / 20k / 25k", () => {
     const bands = [
       band("g1", 10000), // 20 km per 1k
       band("g2", 10000, { samples: 4 }), // too few samples
-      band("g3", 10000, { source_ids: [] }), // no source
+      band("g3", 10000, { source_id: "" }), // no source
       band("g4", 16000), // over the 15k cap
       band("g5", 10000), // 40 km per 1k
     ];
@@ -73,8 +78,25 @@ describe("best used EV under €15k / 20k / 25k", () => {
 
   it("validates bands read from catalogue.json", () => {
     expect(isUsedPriceBand(band("g1", 1000))).toBe(true);
-    expect(isUsedPriceBand({ ...band("g1", 1000), typical: "1000" })).toBe(false);
+    expect(isUsedPriceBand({ ...band("g1", 1000), median: "1000" })).toBe(false);
     expect(isUsedPriceBand({ ...band("g1", 1000), currency: "USD" })).toBe(false);
+    expect(isUsedPriceBand({ ...band("g1", 1000), p25: -1 })).toBe(false);
+    expect(isUsedPriceBand({ ...band("g1", 1000), samples: 5.5 })).toBe(false);
+    // The old web-only shape (typical/low/high, Q-085) no longer passes.
+    expect(isUsedPriceBand({ generation_id: "g1", country: "NL", currency: "EUR", typical: 1000, samples: 12, source_ids: ["x"], retrieved_at: "2026-11-01" })).toBe(false);
+  });
+
+  it("one band per generation and country, in the market's currency, ≥ 5 samples", () => {
+    const bands = [band("g1", 9000, { samples: 4 }), band("g1", 9500, { country: "UK", currency: "GBP" }), band("g1", 10000)];
+    expect(usedBandFor(bands, "g1", "NL", "EUR")?.median).toBe(10000);
+    expect(usedBandFor(bands, "g1", "UK", "GBP")?.median).toBe(9500);
+    expect(usedBandFor(bands, "g1", "UK", "EUR")).toBeUndefined();
+    expect(usedBandFor(bands, "g1", "DE", "EUR")).toBeUndefined();
+  });
+
+  it("a GBP band never counts on an EUR market", () => {
+    const five = ["g1", "g2", "g3", "g4", "g5"].map((g) => band(g, 9000, { currency: "GBP" }));
+    expect(visibleUsedRankings(ROWS, five, "NL", "EUR")).toEqual([]);
   });
 });
 

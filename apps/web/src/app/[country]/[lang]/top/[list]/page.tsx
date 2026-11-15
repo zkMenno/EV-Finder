@@ -219,13 +219,13 @@ function UsedRankingPage({ ctx, list }: { ctx: PageCtx; list: UsedRankingId }) {
         <Num key="r" value={e.rangeKm} unit="km" digits={0} provenance={rangeProv} sources={sourcesFor(ctx, rangeProv)} locale={ctx.locale} labels={ctx.labels} asOf={ctx.asOf} />,
         <Num
           key="p"
-          value={e.band.typical}
-          text={formatMoney(e.band.typical, e.band.currency, ctx.locale)}
+          value={e.band.median}
+          text={formatMoney(e.band.median, e.band.currency, ctx.locale)}
           provenance={e.priceProvenance}
           sources={sourcesFor(ctx, e.priceProvenance)}
           locale={ctx.locale}
           labels={ctx.labels}
-          asOf={e.band.retrieved_at}
+          asOf={e.band.period}
         />,
       ],
     };

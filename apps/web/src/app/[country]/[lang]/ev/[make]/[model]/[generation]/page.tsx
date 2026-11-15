@@ -18,6 +18,7 @@ import { SpecDiff } from "@/components/SpecDiff";
 import { Term } from "@/components/Term";
 import { isCountrySlug, isServed } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
+import { usedBandFor } from "@/lib/used-rankings";
 import { hasDcData, isDcDependent } from "@/lib/dc";
 import { registrationsFor } from "@/lib/registrations";
 import { DASH, formatYears } from "@/lib/format";
@@ -131,7 +132,7 @@ export default async function GenerationPage({ params }: Props) {
               <Term term={ctx.tax.terms["used-price"] ? { ...ctx.tax.terms["used-price"], label: t("gen.usedPrice", { country: cfg.name }) } : undefined} fallback={t("gen.usedPrice", { country: cfg.name })} base={base} text={ctx.termText} showTechnical={false} />
             </dt>
             <dd>
-              <PriceBand currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
+              <PriceBand band={usedBandFor(ctx.cat.usedPrices(), g.id, cfg.code, cfg.currency)} currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
             </dd>
           </div>
         </dl>

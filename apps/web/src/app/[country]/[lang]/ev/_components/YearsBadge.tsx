@@ -56,7 +56,8 @@ export function YearsBadge({
             : t("years.wikidata.disagrees.help")}
         </span>
       </span>
-      {info}
+      {/* A Wikidata check explains itself with its own term; falls back to model-years if the row is missing. */}
+      <TermInfo term={ctx.tax.terms["wikidata-years"] ?? ctx.tax.terms["model-years"]} base={ctx.base} text={ctx.termText} />
       {compact ? null : (
         <LevelGate show={NERD}>
           <span className="block basis-full text-xs text-slate-700" data-testid="years-nerd">

@@ -224,7 +224,10 @@ function Block({
       ) : null}
       {bandSeries.length ? (
         <figure className="mt-4">
-          <figcaption className="text-sm font-semibold">{t("charging.stats.byBand")}</figcaption>
+          <figcaption className="flex items-center gap-1 text-sm font-semibold">
+            {t("charging.stats.byBand")}
+            <TermInfo term={ctx.tax.terms["power-band"]} base={ctx.base} text={ctx.termText} />
+          </figcaption>
           <LineChart
             id={`${id}-band`}
             title={`${block.metricLabel}: ${t("charging.stats.byBand")}`}
