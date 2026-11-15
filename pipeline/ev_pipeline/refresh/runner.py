@@ -57,6 +57,7 @@ from ev_pipeline.refresh.plan import (
     plan,
     raw_dir_name,
     registry_entries,
+    staging_file,
 )
 from ev_pipeline.snapshot.probe import ProbeResult, probe_git, probe_http
 from ev_pipeline.snapshot.recording import recording
@@ -238,7 +239,7 @@ def _refresh_source(
 ) -> None:
     mod = ps.adapter
     assert mod is not None
-    staging = data_dir / "staging" / f"{ps.id}.records.jsonl"
+    staging = staging_file(data_dir, ps.id, mod)
     raw = data_dir / "raw" / raw_dir_name(mod)
     accept = ps.id in opts.accept
 
@@ -513,7 +514,7 @@ def _release(
         for ps in planned
         if ps.adapter is not None
         and (published is None or ps.id in published)
-        and not (data_dir / "staging" / f"{ps.id}.records.jsonl").exists()
+        and not staging_file(data_dir, ps.id, ps.adapter).exists()
     ]
     if missing:
         return {

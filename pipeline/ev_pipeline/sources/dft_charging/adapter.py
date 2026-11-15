@@ -49,6 +49,7 @@ from ev_pipeline.sources.eafo import charging_stats as cs
 
 NAME = "dft-charging"
 DIR = "dft_charging"
+STAGING_SUFFIX = ".charging_stats.jsonl"  # refresh runner: where normalise writes (T-025)
 SOURCE_ID = "dft-ev-charging-infrastructure"  # taxonomy source id
 CONTENT_API = (
     "https://www.gov.uk/api/content/government/statistical-data-sets/"

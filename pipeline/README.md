@@ -309,6 +309,23 @@ uv run --with pytest-cov pytest --cov=ev_pipeline --cov-report=term-missing -q
 pytest-cov is pulled in for the run only; it is not a project dependency. On 2026-11-15: 680
 tests, 96 % overall (the gaps are mostly adapters' network paths and `match/`).
 
+## Charging statistics (T-025, Decision 012)
+
+Aggregates only, never point data. Three loaders (`ev fetch|normalise eafo|bnetza|dft-charging`)
+write `data/staging/<id>.charging_stats.jsonl` + `.meta.json`; `ev refresh` runs them on their
+cadence (adapters declare `STAGING_SUFFIX`, so the runner checks the right staging file).
+Measured 2026-11-15 (live): each fetch + normalise under 90 MB peak and under 5 s.
+
+- **Gate:** a file ships only when its source passes the licence gate (`active`, or
+  `active_pending_confirmation` for EAFO, Decision 037) and its meta says `releasable: true`.
+- **Manual figures:** `data/manual/charging/<name>.yaml` (WS3 writes), format in
+  `tests/fixtures/manual/charging/example.yaml`: `schema: manual-charging/v1`, `source_id`,
+  `stats:` rows like ChargingStat without `entered_by` (set to `staff`); `source_url`
+  required. A manual copy of a downloaded figure is dropped (the download wins).
+- **Review, not block:** `data/review/charging_changes.csv` lists figures that grew more than
+  15 % a month (compound, so yearly series compare fairly), fell, were revised, or vanished
+  since the previous release. The first release of a series checks its whole history once.
+
 ## Manual facts and the review queue
 
 **Manual facts** are single values a person looked up by hand (a warranty booklet, a maker

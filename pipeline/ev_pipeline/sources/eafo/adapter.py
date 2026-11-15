@@ -51,6 +51,7 @@ from ev_pipeline.sources.eafo import charging_stats as cs
 
 NAME = "eafo"
 DIR = "eafo"
+STAGING_SUFFIX = ".charging_stats.jsonl"  # refresh runner: where normalise writes (T-025)
 SOURCE_ID = "eafo"  # taxonomy source id (charging_definitions, power_bands)
 BASE = "https://alternative-fuels-observatory.ec.europa.eu"
 FAQ_URL = f"{BASE}/general-information/frequently-asked-questions"

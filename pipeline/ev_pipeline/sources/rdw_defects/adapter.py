@@ -77,6 +77,7 @@ GROUPING = "merk|handelsbenaming|jaar"
 GROUPS_FILE = "groups.json"
 CODES_FILE = "codes.json"
 OUT_SUFFIX = ".defects.jsonl"
+STAGING_SUFFIX = OUT_SUFFIX  # refresh runner: where normalise writes (T-025)
 
 BEV_WHERE = (
     "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL "

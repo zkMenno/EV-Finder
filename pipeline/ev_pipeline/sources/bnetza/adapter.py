@@ -49,6 +49,7 @@ from ev_pipeline.sources.eafo import charging_stats as cs
 
 NAME = "bnetza"
 DIR = "bnetza"
+STAGING_SUFFIX = ".charging_stats.jsonl"  # refresh runner: where normalise writes (T-025)
 SOURCE_ID = "bnetza-ladesaeulenregister"  # taxonomy source id
 PAGE_URL = (
     "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/"
