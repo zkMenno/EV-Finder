@@ -160,6 +160,11 @@ RDW's bijsluiter says reusers may not state that the data comes from RDW, or use
 
 **Answer:**
 
+### Q-038 · Two different "Open EV Data" datasets · coordinator · 2026-11-15
+The project decisions log says "Open EV Data (MIT + attribution, drop default curves)". That describes **KilowattApp/open-ev-data** (MIT with attribution requirement, © Tijs Teulings), which has DC charge curves. Tonight's pipeline uses **open-ev-data/open-ev-data-dataset** (CDLA-Permissive-2.0), which has no curves. **Default:** keep the CDLA dataset as the base spec source and add the KilowattApp dataset in wave 5 as a curve source (drop its default curves, keep measured ones, attribution in the UI). Did you mean one, or both?
+
+**Answer:**
+
 ## Closed
 
 ### Q-031 · DC ranking: km in 10 or 20 minutes? · T-011 · builder · 2026-11-15
