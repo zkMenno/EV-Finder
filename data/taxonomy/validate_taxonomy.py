@@ -21,6 +21,9 @@ Checks (Decision 010):
   route / mode / protocol / platform / variant / source refs resolve, definition replaced_by
   chains are ordered, source power bands map into overlapping bands of ours, our bands don't
   overlap, taxonomy_sources.yaml rows are valid Sources
+- content/learn (glossary sweep): glossary ids don't reuse a /learn article slug (both live under
+  /learn/<slug>), and every `[[id]]` / `[[id|text]]` marker and front-matter `glossary:` id in
+  content/learn/<slug>/<lang>.md resolves to a glossary term or a chemistry / cooling / voltage id
 - config/countries/*.yaml `charging_links`: each row fits schema CountryChargingLink (label as
   a plain string, as the web loader reads it), at most five, unique order and URL, https, and
   every URL appears in docs/spec/charging-buildout.md (no invented URLs)
@@ -137,6 +140,8 @@ TAXONOMY_SOURCES = "taxonomy_sources.yaml"
 COUNTRY_DIR = ROOT / "config" / "countries"
 CHARGING_SPEC = ROOT / "docs" / "spec" / "charging-buildout.md"
 REGISTRY = ROOT / "data" / "sources.yaml"
+LEARN_DIR = ROOT / "content" / "learn"
+LEARN_MARK_RE = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]")
 MAX_CHARGING_LINKS = 5
 # Keys the web loader (apps/web/scripts/charging-links.mjs) accepts beyond the schema row.
 WEB_ONLY_LINK_KEYS = {"official", "utm", "note"}
@@ -189,6 +194,16 @@ def load_all() -> Data:
     )
     data["countries"] = {
         p.stem: load_yaml(p) or {} for p in sorted(COUNTRY_DIR.glob("*.yaml"))
+    }
+    learn_index = load_yaml(LEARN_DIR / "index.yaml") if (LEARN_DIR / "index.yaml").exists() else {}
+    data["learn_slugs"] = sorted(
+        a["slug"]
+        for a in ((learn_index or {}).get("articles") or [])
+        if isinstance(a, dict) and "slug" in a
+    )
+    data["learn_files"] = {
+        str(f.relative_to(ROOT)): f.read_text(encoding="utf-8")
+        for f in sorted(LEARN_DIR.glob("*/*.md"))
     }
     data["charging_spec_text"] = (
         CHARGING_SPEC.read_text(encoding="utf-8") if CHARGING_SPEC.exists() else ""
@@ -570,6 +585,22 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
             elif rel not in related_ok:
                 err(f"glossary_terms.yaml [{gid}] related id {rel!r} does not exist")
 
+    # glossary ids vs /learn articles (same URL space) and content markers
+    for slug in sorted(glossary_ids & set(data.get("learn_slugs") or [])):
+        err(
+            f"glossary_terms.yaml: id {slug} is also a /learn article slug (content/learn/index.yaml)"
+        )
+    for fname, text in (data.get("learn_files") or {}).items():
+        ids = set(LEARN_MARK_RE.findall(text))
+        fm = re.match(r"---\n(.*?)\n---", text, re.DOTALL)
+        if fm:
+            gl = re.search(r"^glossary:\s*\[([^\]]*)\]", fm.group(1), re.MULTILINE)
+            if gl:
+                ids |= {x.strip() for x in gl.group(1).split(",") if x.strip()}
+        for gid in sorted(i.strip() for i in ids):
+            if gid not in related_ok:
+                err(f"{fname}: glossary id {gid!r} does not exist")
+
     check_new_tables(data, schema, ids_by_table, err, warn)
 
     # --- seed wrappers -------------------------------------------------------------------
@@ -940,7 +971,16 @@ def self_test(base: Data, schema: Schema) -> int:
         row = next(r for r in d["taxonomy"]["finance_profiles"] if r["typical_apr"] is not None)
         row["source"], row["retrieved_at"] = None, None
 
+    def m_learn_slug(d: Data) -> None:
+        d["taxonomy"]["glossary_terms"][0]["id"] = d["learn_slugs"][0]
+
+    def m_learn_mark(d: Data) -> None:
+        first = next(iter(d["learn_files"]))
+        d["learn_files"][first] += "\nSee [[no-such-term|this]].\n"
+
     cases: list[tuple[str, Callable[[Data], None], str]] = [
+        ("glossary id equals a /learn slug", m_learn_slug, "/learn article slug"),
+        ("dangling [[id]] in content/learn", m_learn_mark, "glossary id 'no-such-term'"),
         ("finance rate without source (schema)", m_finance_unsourced, "finance_profiles.yaml"),
         ("unknown bidi route", m_route, "route_id 'teleport'"),
         ("unknown equipment source", m_equip_source, "source id 'no-such-source'"),

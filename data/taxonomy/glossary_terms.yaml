@@ -777,3 +777,604 @@ glossary_terms:
     nerd_note:
       en: "Under the EU consumer credit directive (CCD2, Directive (EU) 2023/2225), credit adverts that show cost figures must give a representative example that includes the total amount payable. Our calculator is an estimate, not an offer, but shows the same figures."
     related: [loan, balloon-pcp, estimate]
+
+  # --- glossary sweep (addendum 5, bottomless backlog item 1; Q-061 + UI audit in data/review/glossary-sweep.md) ---
+  # Plugs and two-way charging. Facts: research/R-01, content/learn/plugs-and-bidirectional and
+  # charging-2026 (sources cited there), docs/spec/bidirectional-and-connectors.md. Ids match the
+  # bidi_modes / bidi_protocols / connector_types rows where they can (type-2 vs connector `type2`).
+  - id: bidirectional-charging
+    label: {en: "Two-way charging", nl: "Tweerichtingsladen"}
+    technical: {en: "Bidirectional charging (V2X)", nl: "Bidirectioneel laden (V2X)"}
+    short:
+      en: "The car can give power back, not only take it: to appliances, your home or the grid."
+      nl: "De auto kan stroom teruggeven, niet alleen laden: aan apparaten, je huis of het net."
+    long:
+      en: >-
+        Two-way charging comes in three levels: powering appliances (V2L), powering your home (V2H)
+        and feeding the grid (V2G). Whether a car can do it depends on the car, its software and
+        battery size, an approved wallbox and, for V2G, an energy contract. The power electronics sit
+        either in the car (AC route, simpler wallbox) or in the wallbox (DC route, much more
+        expensive box).
+    nerd_note:
+      en: "Renault 5 / Alpine A290 use the AC route with the Mobilize PowerBox Verso; VW ID. cars use the DC route (R-01; Volkswagen Austria, retrieved 2026-11-15). Eligibility for a used car is shown as conditions, never a plain tick, when software, battery size or build date matter (bidi spec §3)."
+    related: [v2l, v2h, v2g, v2b, iso15118-20, chademo]
+
+  - id: v2l
+    label: {en: "Powers appliances", nl: "Voedt apparaten"}
+    technical: {en: "Vehicle-to-load (V2L)", nl: "Vehicle-to-load (V2L)"}
+    short:
+      en: "Run a kettle, tools or camping gear from the car through a socket or an adapter."
+      nl: "Gebruik een waterkoker, gereedschap of kampeerspullen via een stopcontact of adapter in de auto."
+    long:
+      en: >-
+        With V2L the car gives out household power through a socket in the car or an adapter in the
+        charging port. It is quite common on newer cars and needs no installation. It is not the same
+        as powering your house: a car with a socket for appliances cannot run your home just because
+        of that.
+    nerd_note:
+      en: "The maximum power out differs by car and is stored per car as max_kw_out with its source; we show 'not disclosed' where the maker gives no figure."
+    related: [bidirectional-charging, v2h]
+
+  - id: v2h
+    label: {en: "Can power your home", nl: "Kan je huis van stroom voorzien"}
+    technical: {en: "Vehicle-to-home (V2H)", nl: "Vehicle-to-home (V2H)"}
+    short:
+      en: "The car's battery runs your home, for example in the evening or during a power cut."
+      nl: "De accu van de auto voedt je huis, bijvoorbeeld 's avonds of bij een stroomstoring."
+    long:
+      en: >-
+        With V2H the car supplies your house through a special wallbox and installation. Whether it
+        works depends on the car, its software version and battery size, the approved wallbox and your
+        country. On a used car, check the conditions before you count on it.
+    nerd_note:
+      en: "Example of conditions: Volkswagen says ID. cars with Software 6 can charge both ways, while Software 3.5 cars need a battery of 77 kWh or more and are capped at 10,000 kWh or 4,000 hours of discharge (Volkswagen Austria, retrieved 2026-11-15)."
+    related: [bidirectional-charging, v2l, v2g]
+
+  - id: v2g
+    label: {en: "Can earn by feeding the grid", nl: "Kan verdienen door terug te leveren"}
+    technical: {en: "Vehicle-to-grid (V2G)", nl: "Vehicle-to-grid (V2G)"}
+    short:
+      en: "The car sends power back to the grid when it is needed. Needs a matching wallbox and energy contract."
+      nl: "De auto levert stroom terug aan het net als dat nodig is. Vraagt een passende wallbox en contract."
+    long:
+      en: >-
+        With V2G the car charges when power is cheap and sends some back when the grid needs it, and an
+        energy company pays or credits you for it. It needs an approved wallbox and an energy contract
+        that supports it. In 2026 it is live in only a few countries, for specific cars, wallboxes and
+        contracts.
+    nerd_note:
+      en: "First commercial offer: Renault 5 / Alpine A290 with the PowerBox Verso and a Mobilize Power contract in France, October 2024 (electrive, 2024-10-22). Germany stopped double grid fees and electricity tax on stored power fed back in November 2025 (electrive, 2025-11-14)."
+    related: [bidirectional-charging, v2h, iso15118-20]
+
+  - id: v2b
+    label: {en: "Can power a building", nl: "Kan een gebouw van stroom voorzien"}
+    technical: {en: "Vehicle-to-building (V2B)", nl: "Vehicle-to-building (V2B)"}
+    short:
+      en: "Like powering a home, but for an office or other building, often with several cars."
+      nl: "Zoals een huis voeden, maar dan voor een kantoor of ander gebouw, vaak met meerdere auto's."
+    long:
+      en: >-
+        V2B works like V2H but supplies a larger building, such as an office or a depot. It is mostly a
+        business setup with several cars and a building energy system. For private buyers V2H and V2G
+        matter more.
+    nerd_note:
+      en: "Kept as its own mode in bidi_modes so business offers can be rows, not code (bidi spec §3.1)."
+    related: [v2h, v2g, bidirectional-charging]
+
+  - id: iso15118-20
+    label: {en: "New charging language (2027 rule)", nl: "Nieuwe laadtaal (regel vanaf 2027)"}
+    technical: {en: "ISO 15118-20 communication protocol", nl: "Communicatieprotocol ISO 15118-20"}
+    short:
+      en: "How car and charger talk. Required on new EU wallboxes from 2027; it does not make them two-way."
+      nl: "Hoe auto en laadpaal praten. Verplicht op nieuwe EU-wallboxen vanaf 2027; maakt ze niet tweerichting."
+    long:
+      en: >-
+        ISO 15118-20 is the language a car and a charger use to talk to each other. From 1 January
+        2027 every newly installed or renovated charging point in the EU must support it, including
+        home and workplace wallboxes. It makes two-way charging possible on the software side, but the
+        rules do not require two-way hardware, and the car must support the standard too.
+    nerd_note:
+      en: "Commission Delegated Regulation (EU) 2025/656 amending AFIR (EUR-Lex; go-e and KEBA, retrieved 2026-11-15). Existing wallboxes need no replacement; Mode 2 portable chargers are not covered. Many cars sold up to about 2025 speak DIN 70121 / ISO 15118-2 instead (R-01)."
+    related: [afir, plug-and-charge, bidirectional-charging, v2g]
+
+  - id: plug-and-charge
+    label: {en: "Plug in and charge, no card", nl: "Inpluggen en laden, zonder pas"}
+    technical: {en: "Plug & Charge (automatic authentication)", nl: "Plug & Charge (automatische authenticatie)"}
+    short:
+      en: "The charger recognises the car through the cable and bills your contract. No card or app needed."
+      nl: "De laadpaal herkent de auto via de kabel en rekent af via je contract. Geen pas of app nodig."
+    long:
+      en: >-
+        With Plug & Charge the car identifies itself to the charger when you plug in, and the session
+        is billed to your charging contract. The EU rules do not make it compulsory. Whether it works
+        depends on the car, the charger network and your contract.
+    nerd_note:
+      en: "Public points with automatic authentication installed or renovated from 2027 must support both ISO 15118-2 and ISO 15118-20 (R-01, Delegated Regulation (EU) 2025/656 Annex 2.1.2)."
+    related: [iso15118-20, roaming, ad-hoc-payment]
+
+  - id: type-2
+    label: {en: "Type 2 plug (home and street charging)", nl: "Type 2-stekker (thuis en aan de paal)"}
+    technical: {en: "Type 2 (Mennekes) AC connector", nl: "Type 2 (Mennekes) AC-stekker"}
+    short:
+      en: "The standard plug for home wallboxes and street posts in Europe and the UK. Every current car has it."
+      nl: "De standaardstekker voor wallboxen en laadpalen in Europa en het VK. Elke huidige auto heeft hem."
+    long:
+      en: >-
+        Type 2 is the plug for slower AC charging at home, at work and at street posts. Every electric
+        car sold new in Europe today has a Type 2 inlet. At many street posts you bring your own Type 2
+        cable.
+    nerd_note:
+      en: "Pre-2019 Tesla Model S and X used a modified Type 2 plug at Superchargers; Teslas sold in Europe now use CCS2 (R-01 §5). Connector row: connector_types `type2`."
+    related: [ac-charging, ccs2, chademo]
+
+  - id: ccs2
+    label: {en: "CCS2 plug (fast charging)", nl: "CCS2-stekker (snelladen)"}
+    technical: {en: "Combined Charging System, Combo 2", nl: "Combined Charging System, Combo 2"}
+    short:
+      en: "The fast-charge plug on every new EV in Europe. The cable is fixed to the charger."
+      nl: "De snellaadstekker op elke nieuwe EV in Europa. De kabel zit vast aan de lader."
+    long:
+      en: >-
+        CCS2 is the standard plug for DC fast charging in Europe and the UK. The car's socket combines
+        the Type 2 shape with two extra pins for fast charging, so one inlet takes both plugs. At fast
+        chargers the cable is attached to the charger, so you don't need your own.
+    nerd_note:
+      en: "Europe, the UK, Australia and New Zealand use CCS2 + Type 2; Tesla Europe moved to CCS2 (R-01 §5). Connector row: connector_types `ccs2`."
+    related: [dc-charging, type-2, chademo]
+
+  - id: chademo
+    label: {en: "CHAdeMO plug (older fast charging)", nl: "CHAdeMO-stekker (ouder snelladen)"}
+    technical: {en: "CHAdeMO DC connector", nl: "CHAdeMO DC-stekker"}
+    short:
+      en: "An older Japanese fast-charge plug on some used cars. CHAdeMO chargers are getting harder to find."
+      nl: "Een oudere Japanse snellaadstekker op sommige occasions. CHAdeMO-laders worden steeds zeldzamer."
+    long:
+      en: >-
+        CHAdeMO is an older fast-charging plug found on some used cars, such as the first two
+        generations of the Nissan Leaf, the Nissan e-NV200 and the Mitsubishi Outlander plug-in hybrid.
+        Fewer new chargers support it. Before buying, check that there are enough working CHAdeMO
+        chargers on the routes you drive.
+    nerd_note:
+      en: "CHAdeMO cars were the first route to V2G in Europe (for example Octopus's UK V2G tariff for legacy CHAdeMO cars), but compatible boxes are scarce (R-01; bidi caveat `chademo-legacy`)."
+    related: [dc-charging, ccs2, bidirectional-charging]
+
+  # Public charging rules. Facts: content/learn/charging-2026 and docs/spec/charging-buildout.md
+  # (Plugchoice, EC AFIR Q&A, Nationale Leitstelle, GOV.UK, GreenFleet; all retrieved 2026-11-15).
+  - id: afir
+    label: {en: "EU charging rules", nl: "EU-laadregels"}
+    technical: {en: "AFIR, Regulation (EU) 2023/1804", nl: "AFIR, Verordening (EU) 2023/1804"}
+    short:
+      en: "EU law for public chargers: card payment at fast chargers, clear prices and chargers along main roads."
+      nl: "EU-wet voor openbare laders: pinnen bij snelladers, duidelijke prijzen en laders langs hoofdwegen."
+    long:
+      en: >-
+        AFIR is the EU regulation for alternative fuels infrastructure, including public EV chargers.
+        It requires bank-card payment at new fast chargers, prices shown before you start, and a
+        minimum number of fast chargers along main European roads. It applies in every EU country, not
+        in the UK, which has its own rules.
+    nerd_note:
+      en: "Applies since 13 April 2024. New public points of 50 kW+ must take bank cards; from 1 January 2027 existing 50 kW+ points on the TEN-T network too (Plugchoice). TEN-T core: a site every 60 km with 400 kW and one 150 kW point by end 2025, 600 kW and two by end 2027 (Nationale Leitstelle)."
+    related: [ad-hoc-payment, idle-fee, ten-t, iso15118-20, charging-point]
+
+  - id: ad-hoc-payment
+    label: {en: "Pay without an account", nl: "Betalen zonder account"}
+    technical: {en: "Ad-hoc payment (bank card, contactless, QR)", nl: "Ad-hocbetaling (pinpas, contactloos, QR)"}
+    short:
+      en: "Charge and pay on the spot with a bank card, phone or QR code. No app or subscription needed."
+      nl: "Ter plekke laden en betalen met pinpas, telefoon of QR-code. Geen app of abonnement nodig."
+    long:
+      en: >-
+        Ad-hoc payment means you can charge without signing up for anything. In the EU, new fast
+        chargers must accept a bank card, while slower posts may use a QR code and a web page instead.
+        A charger where you can only pay in cash does not meet the rules.
+    nerd_note:
+      en: "EU (AFIR): new public points of 50 kW+ built since 13 April 2024 need a card or contactless reader; below 50 kW QR/web payment is enough (Plugchoice). UK: contactless on all public points of 50 kW+ and on new points of 8 kW+ installed after 24 November 2024 (GreenFleet). Cash-only fails AFIR (EC Q&A Q5.7)."
+    related: [afir, roaming, idle-fee]
+
+  - id: roaming
+    label: {en: "One app or card for many networks", nl: "Eén app of pas voor veel netwerken"}
+    technical: {en: "Charging roaming (e-mobility service provider)", nl: "Laadroaming (e-mobility-provider)"}
+    short:
+      en: "A charging app or card that works across many networks, so you don't need one per operator."
+      nl: "Een laadapp of -pas die bij veel netwerken werkt, zodat je er niet één per aanbieder nodig hebt."
+    long:
+      en: >-
+        A roaming app or card lets you charge at many networks with one account. It is optional now
+        that fast chargers take bank cards, but it can help where a charger has no card reader and is
+        sometimes cheaper. Prices differ by app or card, so compare before you choose.
+    nerd_note:
+      en: "UK operators must let you pay through at least one roaming provider (GOV.UK, Public Charge Point Regulations 2023). Chargeprice compares session prices per card or app."
+    related: [ad-hoc-payment, plug-and-charge, idle-fee]
+
+  - id: idle-fee
+    label: {en: "Fee for staying plugged in", nl: "Kosten voor blijven staan"}
+    technical: {en: "Idle fee (blocking fee)", nl: "Blokkeertarief (idle fee)"}
+    short:
+      en: "An extra charge per minute if your car stays plugged in after charging. Move the car when done."
+      nl: "Extra kosten per minuut als je auto na het laden aangesloten blijft. Zet de auto weg als hij klaar is."
+    long:
+      en: >-
+        Some operators charge per minute when a car stays connected after it has finished charging, so
+        the charger is free for the next driver. In the EU it may come on top of the price per kWh at
+        fast chargers. The charger or app shows it before you start.
+    nerd_note:
+      en: "AFIR: at 50 kW+ the ad-hoc price is per kWh, with a per-minute fee for occupancy allowed on top (EC Q&A Q5.17 and Q5.19; Plugchoice)."
+    related: [afir, ad-hoc-payment, roaming]
+
+  - id: ten-t
+    label: {en: "Main European roads", nl: "Europese hoofdwegen"}
+    technical: {en: "TEN-T core and comprehensive network", nl: "TEN-T-kern- en uitgebreid netwerk"}
+    short:
+      en: "The EU's main road network. Fast chargers must be placed at set distances along it."
+      nl: "Het belangrijkste wegennet van de EU. Snelladers moeten er op vaste afstanden langs staan."
+    long:
+      en: >-
+        TEN-T is the EU's list of main transport routes, with a core network of the busiest corridors.
+        The EU charging rules set a minimum charging offer along these roads. So on main motorways a
+        fast charger is never far away, though there are still gaps.
+    nerd_note:
+      en: "Core network: a site at least every 60 km with 400 kW in total and one 150 kW+ point by end 2025, 600 kW and two 150 kW+ points by end 2027 (Nationale Leitstelle). 79 % of the core met the 2025 rule in June 2026 (T&E via electrive, 2026-07-20)."
+    related: [afir, dc-charging]
+
+  - id: charging-point
+    label: {en: "Charging point", nl: "Laadpunt"}
+    technical: {en: "Recharging point (EVSE)", nl: "Laadpunt (EVSE)"}
+    short:
+      en: "One place where one car can charge at a time. A charger can have several."
+      nl: "Eén plek waar één auto tegelijk kan laden. Een laadpaal kan er meerdere hebben."
+    long:
+      en: >-
+        Countries count chargers in different ways, so we separate points, devices, locations and
+        connectors. A point is where one car charges at a time; a device can hold several points, and
+        a point can have several connectors. That is why charger counts from different countries
+        should not be compared side by side.
+    nerd_note:
+      en: "We count points (EVSE) wherever the source allows, as AFIR, the UK DfT (since 2026) and EAFO do; each series keeps one definition_id (charging_definitions)."
+    related: [afir, dc-charging]
+
+  # Explore, cards, model and variant pages: columns and spec rows without a term so far.
+  - id: battery-capacity
+    label: {en: "Battery size", nl: "Accugrootte"}
+    technical: {en: "Usable battery capacity (kWh)", nl: "Bruikbare accucapaciteit (kWh)"}
+    short:
+      en: "How much energy the battery can actually use, in kWh. Bigger usually means more range."
+      nl: "Hoeveel energie de accu echt kan gebruiken, in kWh. Groter betekent meestal meer bereik."
+    long:
+      en: >-
+        Battery size is the energy the car can store and use, in kilowatt-hours. We show the usable
+        (net) figure, because that is what you drive on. Makers often advertise the larger gross
+        figure, so compare usable with usable.
+    nerd_note:
+      en: "Stored as battery_kwh_net. Where only gross is known, the value is labelled; see 'usable vs gross'."
+    related: [usable-vs-gross, real-range, battery-pack]
+
+  - id: used-price
+    label: {en: "Used price", nl: "Occasionprijs"}
+    technical: {en: "Asking-price band (p25–p75)", nl: "Vraagprijsband (p25–p75)"}
+    short:
+      en: "What sellers typically ask for this car used in your country: the middle half of asking prices."
+      nl: "Wat verkopers in jouw land meestal vragen voor deze auto als occasion: de middelste helft van de vraagprijzen."
+    long:
+      en: >-
+        The used price is a band of asking prices, not a valuation and not a final sale price. It shows
+        the middle half of prices we see for this generation, by age and mileage, with the number of
+        listings. With too few listings we show "not enough data" instead of a guess.
+    nerd_note:
+      en: "p25–p75 of asking prices per generation × country × age band × mileage band; hidden below 8 listings (spec §8). Until a listing source covers a country, a 'See listings' link replaces the band."
+    related: [new-price, generation, estimate]
+
+  - id: dc-km-10min
+    label: {en: "Range added in 10 minutes", nl: "Bereik erbij in 10 minuten"}
+    technical: {en: "DC km per 10 min", nl: "DC-km per 10 min"}
+    short:
+      en: "How many kilometres a fast charger adds in 10 minutes of motorway driving. Higher means shorter stops."
+      nl: "Hoeveel kilometer snelweg een snellader in 10 minuten toevoegt. Hoger betekent kortere stops."
+    long:
+      en: >-
+        This is the short-stop version of our fast-charging figure. It combines the car's average
+        charging speed with its motorway energy use, so it says how far a quick stop gets you. It
+        assumes a suitable charger and a warm battery.
+    nerd_note:
+      en: "dc_km_per_10min = dc_avg_10_80_kw / motorway consumption (kWh/100 km) × 100 / 6 (schema PublishedVariant). Rankings use the 20-minute figure (Decision 009)."
+    related: [dc-km-20min, 10-80, consumption]
+
+  - id: motor-power
+    label: {en: "Power", nl: "Vermogen"}
+    technical: {en: "Motor power (kW)", nl: "Motorvermogen (kW)"}
+    short:
+      en: "How strong the electric motor or motors are, in kilowatts. More power means quicker acceleration."
+      nl: "Hoe sterk de elektromotor of -motoren zijn, in kilowatt. Meer vermogen betekent sneller optrekken."
+    long:
+      en: >-
+        Power is the most the motors can deliver, in kilowatts. It matters for overtaking and towing,
+        but even modest electric cars feel quick from a standstill. Higher power does not always mean
+        higher energy use.
+    nerd_note:
+      en: "Usually the maker's peak (system) figure; registration documents may list a lower continuous rating. The source of each figure is shown on hover."
+    related: [acceleration-0-100, drivetrain]
+
+  - id: acceleration-0-100
+    label: {en: "0–100 km/h", nl: "0–100 km/u"}
+    technical: {en: "Acceleration 0–100 km/h (s)", nl: "Acceleratie 0–100 km/u (s)"}
+    short:
+      en: "Seconds from standstill to 100 km/h. Lower is quicker."
+      nl: "Seconden van stilstand tot 100 km/u. Lager is sneller."
+    long:
+      en: >-
+        This is the time the car needs to reach 100 km/h from a standstill, as stated by the maker or a
+        test. It is a rough guide to how lively the car feels. Battery charge and temperature can make
+        real times a little slower.
+    nerd_note:
+      en: "Maker claims are marked as claims; test figures carry their own source and date."
+    related: [motor-power, claim]
+
+  - id: drivetrain
+    label: {en: "Drive", nl: "Aandrijving"}
+    technical: {en: "Drivetrain (FWD / RWD / AWD)", nl: "Aandrijving (voor / achter / vierwiel)"}
+    short:
+      en: "Which wheels the motors drive: front, rear or all four."
+      nl: "Welke wielen de motoren aandrijven: voor, achter of alle vier."
+    long:
+      en: >-
+        Front- or rear-wheel drive cars have one motor; all-wheel drive usually means a motor on each
+        axle. All-wheel drive helps on snow and when towing, and often adds power. It usually uses a
+        little more energy, so range can be slightly lower.
+    nerd_note:
+      en: "Drivetrain is a variant field; the trip check's 'snow / mountain roads' extra weighs AWD (trip-fit §4)."
+    related: [motor-power, towing-capacity, variant]
+
+  - id: kerb-weight
+    label: {en: "Weight", nl: "Gewicht"}
+    technical: {en: "Vehicle mass (kg)", nl: "Massa (kg)"}
+    short:
+      en: "How heavy the car is, in kilograms. Heavier cars usually use a bit more energy."
+      nl: "Hoe zwaar de auto is, in kilogram. Zwaardere auto's verbruiken meestal iets meer."
+    long:
+      en: >-
+        Weight is the mass of the car, mostly set by its size and battery. Sources differ on whether
+        a driver and luggage are included, so small differences between cars mean little. Weight also
+        matters for some driving licences and for towing limits.
+    nerd_note:
+      en: "Stored as weight_kg with the source's own definition in provenance; compare within one source where you can."
+    related: [battery-capacity, towing-capacity, consumption]
+
+  - id: seats
+    label: {en: "Seats", nl: "Zitplaatsen"}
+    technical: {en: "Number of seats", nl: "Aantal zitplaatsen"}
+    short:
+      en: "How many people the car is approved to carry, driver included."
+      nl: "Hoeveel mensen de auto mag vervoeren, bestuurder meegerekend."
+    long:
+      en: >-
+        The number of seats the car is approved for, including the driver. Some models offer extra
+        seats as an option, so check the exact car. A third row is often only suitable for children.
+    nerd_note:
+      en: "Per variant; optional seat rows are listed separately when a source gives them."
+    related: [boot-volume, body-type]
+
+  # Data badges and the detail switch.
+  - id: derived
+    label: {en: "Calculated by us", nl: "Door ons berekend"}
+    technical: {en: "Derived value", nl: "Afgeleide waarde"}
+    short:
+      en: "We worked this out from other sourced numbers, with the method shown, rather than copying it."
+      nl: "Dit hebben we berekend uit andere bronnen, met de methode erbij, in plaats van het over te nemen."
+    long:
+      en: >-
+        Many of our headline numbers, such as real-world range and range added while charging, are
+        calculated from other figures. Each one keeps the inputs and the method it came from. We
+        compute our own figures instead of copying another site's tables.
+    nerd_note:
+      en: "Data rule 2, 'derived, not copied' (AGENTS.md). Provenance lists the input facts and the method or rung."
+    related: [estimate, sources-agree, real-range-rung]
+
+  - id: data-release
+    label: {en: "Data release", nl: "Datarelease"}
+    technical: {en: "Numbered catalogue release", nl: "Genummerde catalogusrelease"}
+    short:
+      en: "Our data is published in numbered releases with a date, so you know how fresh a number is."
+      nl: "Onze data verschijnt in genummerde releases met een datum, zodat je weet hoe vers een getal is."
+    long:
+      en: >-
+        The catalogue is published in numbered releases. Each release replaces the previous one in one
+        go and can be rolled back if something is wrong. The open data downloads carry the same
+        release number and date.
+    nerd_note:
+      en: "Releases swap in atomically and can be rolled back (spec §12); each release has QA checks in qa.json (provenance and licence gates block)."
+    related: [derived, quality-tier]
+
+  - id: detail-level
+    label: {en: "Detail level", nl: "Detailniveau"}
+    technical: {en: "Simple / Detailed / Nerd", nl: "Eenvoudig / Gedetailleerd / Nerd"}
+    short:
+      en: "Choose how much you see: key numbers in plain words, full specs, or raw values with sources."
+      nl: "Kies hoeveel je ziet: kerncijfers in gewone woorden, alle specificaties, of ruwe waarden met bronnen."
+    long:
+      en: >-
+        Simple shows the headline numbers and a few filters. Detailed adds all filters and full spec
+        tables. Nerd shows raw values and units, every source with its date and confidence, and the
+        method behind each estimate.
+    nerd_note:
+      en: "Remembered per visitor and kept in the URL, so a shared link keeps the level (spec §4)."
+    related: [confidence, real-range-rung, sources-agree]
+
+  # Trip fit (docs/spec/trip-fit.md §3-§5, §8). Values the UI shows are model assumptions, not facts.
+  - id: trip-fit
+    label: {en: "Does my trips", nl: "Haalt mijn ritten"}
+    technical: {en: "Trip fit (winter)", nl: "Ritcheck (winter)"}
+    short:
+      en: "Whether this car does your regular trips in winter without charging: yes, tight or needs a stop."
+      nl: "Of deze auto je vaste ritten in de winter haalt zonder te laden: ja, krap of een stop nodig."
+    long:
+      en: >-
+        You tell us your longest regular round trip, how much is motorway and where you live. We
+        estimate the car's winter range on that mix and compare it with what you need. Cars that fall
+        short stay visible, with the reason.
+    nerd_note:
+      en: "Energy needed = Σ road bands (km × consumption at speed and temperature) + warm-up + climb; energy available = usable kWh × battery health × (start charge − arrival buffer) (trip-fit §5). Tonight's matrix is a provisional fixture."
+    related: [range-you-need, trip-margin, road-band, start-charge, real-range]
+
+  - id: range-you-need
+    label: {en: "The range you truly need", nl: "Het bereik dat je echt nodig hebt"}
+    technical: {en: "Winter range need on your road mix", nl: "Benodigd winterbereik op jouw wegmix"}
+    short:
+      en: "The winter range your longest regular trip takes, with a safety buffer, on your mix of roads."
+      nl: "Het winterbereik dat je langste vaste rit vraagt, met een veiligheidsmarge, op jouw mix van wegen."
+    long:
+      en: >-
+        This is the range your biggest must-do trip needs in winter, plus a buffer. We show it in
+        kilometres on your road mix and as a rough official-range equivalent, so you can compare it
+        with adverts. Weather, tyres, speed and load change real results.
+    nerd_note:
+      en: "Shown with a P10–P90 band in Nerd mode; WLTP-equivalent uses the median WLTP ratio for that mix (trip-fit §5)."
+    related: [trip-fit, wltp-equivalent, uncertainty-band]
+
+  - id: trip-margin
+    label: {en: "Spare range", nl: "Reservebereik"}
+    technical: {en: "Trip margin (% of usable battery)", nl: "Ritmarge (% van bruikbare accu)"}
+    short:
+      en: "How much battery is left over after your trip. Too little, and the result is marked tight."
+      nl: "Hoeveel accu er na je rit overblijft. Te weinig, en de uitkomst is krap."
+    long:
+      en: >-
+        The margin is the energy left after your trip, as a share of the usable battery. A clear margin
+        gives a tick, a small one is marked tight, and a shortfall means you need a charging stop. It
+        is an estimate, so a tight result deserves a closer look.
+    nerd_note:
+      en: "Verdict: ✓ margin ≥ 15 % of usable; ⚠ 0–15 % or the P10–P90 band crosses zero; ✗ short (trip-fit §5)."
+    related: [trip-fit, uncertainty-band, start-charge]
+
+  - id: road-band
+    label: {en: "Road type", nl: "Wegtype"}
+    technical: {en: "Road band (town / rural / motorway)", nl: "Wegband (stad / buitenweg / snelweg)"}
+    short:
+      en: "Town, rural roads or motorway. Each uses a different amount of energy per kilometre."
+      nl: "Stad, buitenweg of snelweg. Elk verbruikt een andere hoeveelheid energie per kilometer."
+    long:
+      en: >-
+        We split a trip into town, rural and motorway driving, because speed changes energy use a lot.
+        Motorway driving uses the most energy per kilometre, while town trips lose more to heating in
+        winter. Your mix of road types decides your real range.
+    nerd_note:
+      en: "Bands: town ≤ 50 km/h roads, rural 60–90, motorway 100+; speed per band from a country speed profile ± driving style (trip-fit §5)."
+    related: [trip-fit, consumption]
+
+  - id: uncertainty-band
+    label: {en: "Likely range of results", nl: "Waarschijnlijke spreiding"}
+    technical: {en: "P10–P90 uncertainty band", nl: "P10–P90-onzekerheidsband"}
+    short:
+      en: "The spread in which the real result will most likely fall. A wider band means less certainty."
+      nl: "De spreiding waarbinnen de echte uitkomst waarschijnlijk valt. Een bredere band betekent minder zekerheid."
+    long:
+      en: >-
+        Every estimate has some uncertainty, so we show a low and a high value next to the main one. In
+        most cases the real figure falls between them. The band is wider when our method for that car
+        is less precise.
+    nerd_note:
+      en: "P10–P90 from the confidence of the rung used (trip-fit §5). Simple mode shows only the verdict and one number."
+    related: [estimate, confidence, real-range-rung]
+
+  - id: start-charge
+    label: {en: "Charge at the start", nl: "Laadstand bij vertrek"}
+    technical: {en: "Starting state of charge (%)", nl: "Laadtoestand bij vertrek (%)"}
+    short:
+      en: "How full the battery is when you leave. Daily trips assume your normal charging limit."
+      nl: "Hoe vol de accu is als je vertrekt. Dagelijkse ritten gaan uit van je normale laadlimiet."
+    long:
+      en: >-
+        The trip check assumes you leave with the battery at your daily charging limit. For most
+        batteries that is about 80 %, and 100 % for types that are fine to charge full every day. Rare
+        long trips assume a full battery.
+    nerd_note:
+      en: "Weekly / monthly trips start at 80 % for NMC and 100 % where charge_100_daily is true; occasional and must-reach trips at 100 %; arrival buffer default 10 % (trip-fit §3, §5)."
+    related: [charge-to-100, trip-margin, chemistry]
+
+  - id: climate-normal
+    label: {en: "Normal winter day", nl: "Normale winterdag"}
+    technical: {en: "Climate normal (monthly mean temperature)", nl: "Klimaatnormaal (gemiddelde maandtemperatuur)"}
+    short:
+      en: "The usual temperature for that month in your area, from long-term weather records."
+      nl: "De gebruikelijke temperatuur voor die maand in jouw omgeving, uit langjarige weergegevens."
+    long:
+      en: >-
+        We check trips on a normal January day near you, not on the coldest day ever recorded. The
+        temperature comes from long-term averages for your town. You can also check a colder day for
+        snow or mountain trips.
+    nerd_note:
+      en: "Planned source: Meteostat climate normals (licence to confirm), fallback Copernicus ERA5 monthly means (trip-fit §7). Tonight's town list is a fixture."
+    related: [trip-fit, heat-pump, range-you-need]
+
+  - id: wltp-equivalent
+    label: {en: "Same as official range", nl: "Vergelijkbare officiële actieradius"}
+    technical: {en: "WLTP-equivalent range", nl: "WLTP-equivalent bereik"}
+    short:
+      en: "The official (WLTP) range a car would need to cover your trip, to compare with adverts."
+      nl: "De officiële (WLTP-)actieradius die een auto nodig heeft voor je rit, om met advertenties te vergelijken."
+    long:
+      en: >-
+        Adverts quote the official WLTP range, which is higher than what you get in winter. We convert
+        the range you need into the WLTP figure a typical car would need. It is a rough guide for
+        reading adverts, not a promise.
+    nerd_note:
+      en: "Uses the median WLTP ratio for your road mix and season (trip-fit §5)."
+    related: [wltp, range-you-need]
+
+  # Price modes (Decision 017, T-043; master spec §8 "Ways to pay"). UI not built yet.
+  - id: price-mode
+    label: {en: "How you pay", nl: "Hoe je betaalt"}
+    technical: {en: "Price mode (buy / loan / lease)", nl: "Prijsweergave (kopen / lenen / leasen)"}
+    short:
+      en: "Show prices as a cash price, a monthly loan estimate or a monthly lease."
+      nl: "Toon prijzen als koopprijs, maandschatting voor een lening of maandbedrag voor lease."
+    long:
+      en: >-
+        Many buyers don't pay cash, so every price can switch between buying outright, a loan per month
+        and a lease per month. Loan figures are our own estimate, not an offer. The choice is
+        remembered and kept in the link.
+    nerd_note:
+      en: "Lease shows labelled links only until partner feeds exist; no UK finance or lease links until FCA credit-broking rules are checked (spec §8)."
+    related: [loan, lease, total-cost-over-term]
+
+  - id: apr
+    label: {en: "Interest rate (APR)", nl: "Rente (JKP)"}
+    technical: {en: "Annual percentage rate of charge", nl: "Jaarlijks kostenpercentage"}
+    short:
+      en: "The yearly cost of a loan, including most fees, as a percentage. Lower is cheaper."
+      nl: "De jaarlijkse kosten van een lening, inclusief de meeste kosten, als percentage. Lager is goedkoper."
+    long:
+      en: >-
+        The APR shows the total cost of borrowing as a yearly percentage, so loans can be compared.
+        Our calculator uses a typical national rate where an official statistic exists, or asks you to
+        enter one. Your own rate depends on the lender and your situation.
+    nerd_note:
+      en: "EU consumer credit directive CCD2 (Directive (EU) 2023/2225) applies from 20 November 2026 (spec §8). Typical rates and their sources live in finance_profiles; with no source the field stays empty."
+    related: [loan, total-cost-over-term, loan-term]
+
+  - id: deposit
+    label: {en: "Deposit", nl: "Aanbetaling"}
+    technical: {en: "Down payment", nl: "Eigen inbreng"}
+    short:
+      en: "The part of the price you pay yourself at the start. The rest is borrowed."
+      nl: "Het deel van de prijs dat je zelf aan het begin betaalt. De rest leen je."
+    long:
+      en: >-
+        A deposit is the money you put down when you buy. A bigger deposit means borrowing less, so the
+        monthly amount and the total interest go down. You can change it in the calculator.
+    nerd_note:
+      en: "Default deposit per country comes from finance_profiles only where a source states one; otherwise the calculator asks."
+    related: [loan, loan-term, total-cost-over-term]
+
+  - id: loan-term
+    label: {en: "Loan length", nl: "Looptijd"}
+    technical: {en: "Term (months)", nl: "Looptijd (maanden)"}
+    short:
+      en: "How many months you pay. Longer means lower monthly amounts but more interest in total."
+      nl: "Hoeveel maanden je betaalt. Langer betekent lagere maandbedragen maar meer rente in totaal."
+    long:
+      en: >-
+        The term is how long you take to repay a loan or how long a lease runs. Spreading payments over
+        more months lowers each payment but raises the total you pay. Our calculator starts at 48
+        months, and you can change it.
+    nerd_note:
+      en: "Default 48 months (spec §8 'Ways to pay'); finance_profiles may set a country default when a source states one."
+    related: [loan, apr, total-cost-over-term]
