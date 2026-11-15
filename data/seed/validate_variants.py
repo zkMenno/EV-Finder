@@ -11,6 +11,7 @@ Exit code 0 = valid, 1 = errors found.
 from __future__ import annotations
 
 import re
+from datetime import date
 import sys
 from pathlib import Path
 from typing import Any
@@ -23,7 +24,11 @@ DRIVETRAINS = {"fwd", "rwd", "awd"}
 CONFIDENCE = {"low", "medium", "high"}
 YEAR_TOLERANCE = 1
 TOP_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "notes", "confidence",
-            "source_names"}
+            "source_names", "cited"}
+# `cited` (A-05 follow-up): field -> one value with its own public source. Unlike `specs`
+# (unchecked, from model knowledge), each entry names the page it was read from.
+CITED_REQUIRED = {"value", "source_url", "retrieved", "confidence"}
+CITED_KEYS = CITED_REQUIRED | {"source_name", "quote", "locator", "notes"}
 REQUIRED_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "confidence"}
 SOURCE_KEYS = {"id", "name", "licence", "attribution"}
 
@@ -80,6 +85,53 @@ def find_price_keys(obj: Any, path: str, errors: list[str]) -> None:
 
 def is_num(x: Any) -> bool:
     return isinstance(x, (int, float)) and not isinstance(x, bool)
+
+
+def validate_cited(cited: Any, specs: Any, where: str, today: date | None = None) -> list[str]:
+    """`cited`: {field: {value, source_url (https), retrieved (date, not future), confidence,
+    quote and/or locator, optional source_name/notes}}. A field is cited or in specs, not both."""
+    if cited is None:
+        return []
+    if not isinstance(cited, dict) or not cited:
+        return [f"{where}: cited must map spec fields to cited values"]
+    today = today or date.today()
+    errors: list[str] = []
+    for k, c in cited.items():
+        w = f"{where}: cited {k}"
+        if k not in SPEC_RANGES:
+            errors.append(f"{w}: field not allowed")
+            continue
+        if isinstance(specs, dict) and specs.get(k) is not None:
+            errors.append(f"{w}: also in specs; keep one")
+        if not isinstance(c, dict):
+            errors.append(f"{w}: must be a mapping")
+            continue
+        missing = CITED_REQUIRED - set(c)
+        if missing:
+            errors.append(f"{w}: missing keys {sorted(missing)}")
+        extra = set(c) - CITED_KEYS
+        if extra:
+            errors.append(f"{w}: unknown keys {sorted(extra)}")
+        if not (c.get("quote") or c.get("locator")):
+            errors.append(f"{w}: needs a quote or a locator")
+        val = c.get("value")
+        if not is_num(val):
+            errors.append(f"{w}: value must be a number")
+        else:
+            lo, hi = SPEC_RANGES[k] or (0, float("inf"))
+            if not lo <= val <= hi:
+                errors.append(f"{w}: value {val} outside plausible range {lo}-{hi}")
+        url = c.get("source_url")
+        if not isinstance(url, str) or not re.match(r"^https://[^/\s]+\.[^/\s]+/\S*$", url):
+            errors.append(f"{w}: source_url must be a public https URL")
+        got = c.get("retrieved")
+        if not isinstance(got, date):
+            errors.append(f"{w}: retrieved must be a date (YYYY-MM-DD)")
+        elif got > today:
+            errors.append(f"{w}: retrieved is in the future")
+        if c.get("confidence") not in CONFIDENCE:
+            errors.append(f"{w}: confidence must be one of {sorted(CONFIDENCE)}")
+    return errors
 
 
 def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list[str]:
@@ -170,6 +222,8 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
                         errors.append(f"{where}: end {y1} outside generation span {g0}-{g1}")
                 elif g1 is not None:
                     errors.append(f"{where}: open end but generation ended {g1}")
+
+        errors += validate_cited(v.get("cited"), v.get("specs"), where)
 
         specs = v.get("specs")
         if not isinstance(specs, dict):

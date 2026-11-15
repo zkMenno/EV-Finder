@@ -777,6 +777,12 @@ cf-7e910558d8,open,bmw-i3-i01-i3s,epa_range_km,fueleconomy,246.2,km,172.2,±2%,f
 cf-4ad3041f62,open,bmw-i3-i01-i3s,price_new.NL,rdw,52067.0,EUR,50062.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:BMW I|I3S|2018|BMWI-1|7Z61|0A040000:price_new
 cf-c685aa54c1,open,bmw-i3-i01-i3s,price_new.NL,rdw,56924.0,EUR,50062.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:BMW I|I3S|2018|BMWI-1|8P61:price_new
 cf-d0fed5e612,open,bmw-i3-i01-i3s,wltp_range_km,rdw,233.0,km,279.0,±2%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant]:BMW I|I3S|2018|BMWI-1|7Z61:wltp_range_km
+cf-2dbeec0697,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*09|8P61|0AW40000|0:wltp_range_km
+cf-999515efb7,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*10|8P61|0AW40000|0:wltp_range_km
+cf-d8de15a3c4,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*11|8P61|0AW40000|0:wltp_range_km
+cf-b4deeb8531,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*13|8P61|0AW40000|0:wltp_range_km
+cf-f9edd1efc0,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*12|8P61|0AW40000|0:wltp_range_km
+cf-cfce5990a3,open,bmw-i3-i01-i3s,wltp_range_km,rdw-tgk,285.0,km,279.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*14|8P61|0AW40000|1:wltp_range_km
 cf-c16e177fe5,open,bmw-i4-g26-edrive35,battery_kwh_gross,openev,70.3,kWh,68.7,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2024/i4.json+src/bmw/i4/2024/i4_edrive35.json:battery_kwh_gross
 cf-7a1e1a8457,open,bmw-i4-g26-edrive35,battery_kwh_gross,openev,70.3,kWh,68.7,±2%,openev:src/bmw/i4/base.json+src/bmw/i4/2025/i4.json+src/bmw/i4/2025/i4_edrive35.json:battery_kwh_gross
 cf-98ef1e17fc,open,bmw-i4-g26-edrive35,consumption_kwh_100km,rdw,15.9,kWh/100km,16.4,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:BMW|I4 EDRIVE35|2025#consumption_kwh_100km:consumption_kwh_100km

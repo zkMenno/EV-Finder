@@ -31,6 +31,7 @@ size checks still apply. The address check is tested on `PinnedBackend` with a f
 from __future__ import annotations
 
 import ipaddress
+import re
 import socket
 import time
 import zlib
@@ -357,3 +358,60 @@ def safe_client(
         trust_env=False,
         headers={"User-Agent": c.USER_AGENT, "Accept-Encoding": "gzip"},
     )
+
+
+# --- git sources (A-05 L6) --------------------------------------------------------------
+
+GIT_REPO_PART = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9._-]{0,99})$")
+GIT_SAFE_FLAGS = ("-c", "protocol.allow=never", "-c", "protocol.https.allow=always")
+"""Only https may be used by git, also for submodules and redirects git itself follows."""
+
+
+def check_git_url(
+    source_id: str,
+    url: str,
+    *,
+    sources_path: Path | None = None,
+    hosts: Iterable[str] | None = None,
+) -> str:
+    """Return `url` if it is `https://github.com/<owner>/<repo>` and allowed, else raise.
+
+    Git clones don't go through `safe_client`, so this is their gate: the URL must be plain
+    https on the default port, no user info, query or fragment, exactly two path parts
+    (an optional `.git` suffix is allowed), and its host must be listed under `hosts:` for
+    `source_id` in data/sources.yaml. Fails closed with `FetchBlocked` (or `ValueError` from
+    `load_hosts` when the source has no hosts). `hosts` overrides sources.yaml (tests only).
+    """
+    policy = FetchPolicy(
+        source_id=source_id,
+        hosts=tuple(hosts) if hosts is not None else load_hosts(source_id, sources_path),
+    )
+    try:
+        parsed = httpx.URL(url)
+    except (httpx.InvalidURL, TypeError) as exc:
+        raise FetchBlocked(f"{source_id}: git URL does not parse") from exc
+    policy.check_url(parsed)
+    if parsed.host != "github.com":
+        raise FetchBlocked(f"{source_id}: git sources must be on github.com (got {parsed.host!r})")
+    if parsed.query or parsed.fragment or "?" in url or "#" in url:
+        raise FetchBlocked(f"{source_id}: git URL must not carry a query or fragment")
+    parts = parsed.path.split("/")
+    if len(parts) != 3 or parts[0] != "":
+        raise FetchBlocked(f"{source_id}: git URL must be https://github.com/<owner>/<repo>")
+    owner, repo = parts[1], parts[2].removesuffix(".git")
+    for part in (owner, repo):
+        if not GIT_REPO_PART.match(part) or part in {".", ".."}:
+            raise FetchBlocked(f"{source_id}: git URL must be https://github.com/<owner>/<repo>")
+    return url
+
+
+def git_clone_cmd(source_id: str, url: str, dest: str, **kwargs: Any) -> list[str]:
+    """`git clone --depth 1` argv for a checked git source URL (see `check_git_url`)."""
+    check_git_url(source_id, url, **kwargs)
+    return ["git", *GIT_SAFE_FLAGS, "clone", "--depth", "1", "--quiet", "--", url, dest]
+
+
+def git_ls_remote_cmd(source_id: str, url: str, **kwargs: Any) -> list[str]:
+    """`git ls-remote <url> HEAD` argv for a checked git source URL."""
+    check_git_url(source_id, url, **kwargs)
+    return ["git", *GIT_SAFE_FLAGS, "ls-remote", "--", url, "HEAD"]

@@ -622,7 +622,7 @@ def build_evidence(
     for mv in manual:
         if mv.record.source.id.root in EXCLUDED_SOURCES or mv.generation_id not in seed.generations:
             continue
-        ev.add_variant(mv.generation_id, mv.name, record_kwh(mv.record))
+        ev.add_variant(mv.generation_id, mv.name, set().union(*(record_kwh(r) for r in mv.records)))
         for keys in mv.source_names.values():
             ev.names.setdefault(mv.generation_id, set()).update(keys)
     for rec in records:
@@ -690,7 +690,8 @@ def match_records(
             info.explicit_end = int(mv.year_end)
         elif mv.year_start is not None:
             info.open_end = True
-        _add_spec_facts(mv.record, gen, mv.id, info, result)
+        for rec in mv.records:  # the variant's own record, then one per cited value
+            _add_spec_facts(rec, gen, mv.id, info, result)
         result.matched_records += 1
 
     ordered = sorted(
@@ -1060,6 +1061,9 @@ def attach_records(
 # 4. WLTP: the version's best-case WLTP within 2 % of the candidate's known WLTP.
 # 5. Drivetrain: OFF (A-05 F12, TGK_AWD_TIE_BREAK). TGK leaves 30-minute power out on
 #    multi-motor versions, but a missing field is not evidence; such ties go to review.
+# 6. Trade name (still tied): a candidate whose name extends the model name by up to two
+#    characters ("i3s" for model i3) is dropped when the version's trade name lacks that
+#    word (a plain "I3" version is not an i3s), if another candidate stays.
 # Running-order mass is not used: seed kerb weights are sparse and not on the same basis.
 TGK_EVIDENCE_SOURCES = frozenset({"rdw-tgk"})
 # Energy drawn on the test / battery kWh, per basis of the battery figure (see 2 above).
@@ -1209,9 +1213,27 @@ def tgk_pick(
         awd = [c for c in pool if "awd" in _drivetrains(c, result)]
         if awd:
             pool = awd
+    if len(pool) > 1:
+        # A candidate named after a longer trade name of the model ("i3s" next to model
+        # "i3") is contradicted by a version whose trade name lacks that word.
+        trade = set(tokens((rec.variant_name or "").split(" · ")[0])) | set(tokens(rec.model))
+        # `drop` = the make and seed model tokens ("bmw", "i3").
+        kept = [c for c in pool if not _trade_word_missing(c.name_tokens, trade, drop)]
+        if kept:
+            pool = kept
     if len(pool) == 1:
         return pool[0], ""
     return None, f"{TGK_TIE} ({ids(pool)})"
+
+
+def _trade_word_missing(cand: set[str], trade: set[str], model_toks: set[str]) -> bool:
+    """True when the candidate name has a model-name extension ("i3s" for model "i3": the
+    model token plus at most 2 characters) that the record's trade name does not carry."""
+    for t in cand - trade:
+        for m in model_toks:
+            if len(m) >= 2 and t != m and t.startswith(m) and len(t) - len(m) <= 2:
+                return True
+    return False
 
 
 def _drivetrains(c: _Candidate, result: MatchResult) -> set[str]:

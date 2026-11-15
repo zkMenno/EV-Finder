@@ -1,5 +1,6 @@
 # Hand-entered key variants for used-EV generations that OpenEV Data (2023+) is likely to miss.
 # UNCHECKED, LOW-CONFIDENCE data written from model knowledge, no sources fetched. To be replaced by sourced data.
+# Exception: values under `cited:` were read from the public page they name (source_url, retrieved, confidence).
 # Units are implied by the field name (metric). Fields left out = not known well enough. No prices, ever.
 # wltp_range_km is only set where a WLTP figure is reasonably well known; approximate WLTP ranges are in notes.
 # Merge rule downstream: OpenEV wins on duplicates.
@@ -970,7 +971,16 @@ variants:
       length_mm: 4006
       towing_kg: 0
       seats: 4
-    notes: "Sportier i3s: wider track, lower suspension, 135 kW. 94 Ah battery until 2018, 120 Ah after."
+    cited:
+      battery_kwh_gross:
+        value: 42.2
+        source_url: https://newsroom.bmwgroup.com/emea/the-all-electric-bmw-i3-120ah
+        source_name: "BMW Group PressClub, 'The all-electric BMW i3 (120Ah)', 28 Sep 2018"
+        retrieved: 2026-11-15
+        quote: "now has a capacity of 120Ah and a gross energy content of 42.2kWh"
+        confidence: medium
+        notes: "120 Ah pack (i3 and i3s from late 2018). The 2017-18 i3s had the 94 Ah pack (33 kWh gross); that is not split into its own row yet, as in variant_links.yaml. The press page gives no usable kWh, so battery_kwh_net is left out."
+    notes: "Sportier i3s: wider track, lower suspension, 135 kW. 94 Ah battery until 2018, 120 Ah after. Battery figure = the 120 Ah pack (cited)."
     confidence: low
   - generation_id: bmw-i4-g26
     id: bmw-i4-g26-edrive35

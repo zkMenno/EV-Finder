@@ -284,6 +284,80 @@ class ManualVariant:
     # A record of that source with that variant name in this generation joins this variant
     # instead of making a near-duplicate row of its own.
     source_names: dict[str, set[str]] = field(default_factory=dict)
+    # `cited:` values (field -> value + its own public source URL, retrieval date and
+    # confidence): one record each, so every cited value carries its own provenance.
+    cited_records: list[SourceRecord] = field(default_factory=list)
+
+    @property
+    def records(self) -> list[SourceRecord]:
+        return [self.record, *self.cited_records]
+
+
+def parse_cited(
+    raw: Any, vid: str, v: dict[str, Any], source: Source
+) -> tuple[list[SourceRecord], list[str]]:
+    """`cited:` of one seed-manual variant -> one SourceRecord per value (see validate_variants)."""
+    out: list[SourceRecord] = []
+    problems: list[str] = []
+    if raw is None:
+        return out, problems
+    if not isinstance(raw, dict):
+        return out, [f"{vid}: cited must map fields to cited values"]
+    valid_fields = {f.value for f in FactField}
+    years = v.get("years") or [None, None]
+    for fname, c in raw.items():
+        if fname not in valid_fields or fname not in CANONICAL_UNITS or fname == "dc_curve":
+            problems.append(f"{vid}: cited {fname}: unknown or unsupported field; skipped")
+            continue
+        if not isinstance(c, dict):
+            problems.append(f"{vid}: cited {fname}: must be a mapping; skipped")
+            continue
+        value, url, got = c.get("value"), c.get("source_url"), c.get("retrieved")
+        conf = c.get("confidence")
+        if isinstance(value, bool) or not isinstance(value, int | float):
+            problems.append(f"{vid}: cited {fname}: value is not a number; skipped")
+            continue
+        if not isinstance(url, str) or not url.startswith("https://"):
+            problems.append(f"{vid}: cited {fname}: no https source_url; skipped")
+            continue
+        if isinstance(got, str):
+            try:
+                got = date.fromisoformat(got)
+            except ValueError:
+                got = None
+        if not isinstance(got, date) or isinstance(got, datetime):
+            problems.append(f"{vid}: cited {fname}: no retrieved date; skipped")
+            continue
+        if conf not in {c_.value for c_ in Confidence}:
+            problems.append(f"{vid}: cited {fname}: no valid confidence; skipped")
+            continue
+        if not (c.get("quote") or c.get("locator")):
+            problems.append(f"{vid}: cited {fname}: needs a quote or locator; skipped")
+            continue
+        cited_source = source.model_copy(
+            update={
+                "url": url,
+                "name": f"{source.name}: {c.get('source_name') or url}",
+            }
+        )
+        out.append(
+            SourceRecord(
+                source=cited_source,
+                record_key=f"{vid}#cited:{fname}",
+                kind="spec",
+                make="",
+                model="",
+                variant_name=v.get("name"),
+                year=years[0],
+                drivetrain=v.get("drivetrain"),
+                specs={
+                    FactField(fname): SpecValue(value=float(value), unit=CANONICAL_UNITS[fname])
+                },
+                retrieved_at=got,
+                confidence=Confidence(conf),
+            )
+        )
+    return out, problems
 
 
 def parse_source_names(raw: Any, vid: str) -> dict[str, set[str]]:
@@ -346,6 +420,13 @@ def parse_manual_variants(
                 problems.append(f"{vid}: {fname} is not a number ({value!r})")
                 continue
             specs[FactField(fname)] = SpecValue(value=float(value), unit=CANONICAL_UNITS[fname])
+        cited, cited_problems = parse_cited(v.get("cited"), vid, v, source)
+        problems += cited_problems
+        for cr in cited:
+            for f in cr.specs:
+                if f in specs:
+                    problems.append(f"{vid}: {f.value} is both in specs and cited; cited wins")
+                    del specs[f]
         conf = v.get("confidence", "low")
         record = SourceRecord(
             source=source,
@@ -369,6 +450,7 @@ def parse_manual_variants(
                 year_end=years[1] if len(years) > 1 else None,
                 record=record,
                 source_names=parse_source_names(v.get("source_names"), vid),
+                cited_records=cited,
             )
         )
     return out, problems

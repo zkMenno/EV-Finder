@@ -421,6 +421,11 @@ No answer needed unless you disagree; details in audits/A-05-overnight-review.md
 
 **Answer:**
 
+### Q-092 · Seed `cited:` values, TGK trade-name rule, and the ties that stay · Q-089 / Q-091 / A-05 L6 · pipeline builder · 2026-11-15
+No answer needed unless you disagree. **What changed:** (1) `data/seed/variants.yaml` accepts `cited:` (field → value, https `source_url`, `retrieved`, quote/locator, `confidence`); each becomes its own `seed-manual` record, so the fact carries that URL and date. First use: i3s `battery_kwh_gross` 42.2 (BMW press, medium). (2) `tgk_pick` step 6: a still-tied candidate named after a longer trade name ("i3s" for model i3) is dropped when the version's trade name lacks that word; without it, plain i3 120 Ah versions tied with the i3s once it had a battery. (3) Git sources: `net.check_git_url` gate (A-05 L6). Release 1: placed 10,248 → 10,254, unmatched 17,931 → 17,925, no published value changed. **Defaults taken:** the i3s row keeps one battery figure (120 Ah, as `variant_links.yaml` already links it); its 2017–18 94 Ah versions stay in review. **Not done (no manufacturer/official figure that separates them):** Honda e vs Advance (222 km WLTP for both on 16"), Zoe Z.E. 40 Q90/R90/R110, Model 3 gen1 LR vs Performance. **For the coordinator:** log (1) and (2) in DECISIONS.md if you agree; optional seed-lane follow-up: split the i3s into 94 Ah (2017–18) and 120 Ah rows, and find Tesla's own per-year WLTP figures (archived tesla.com) before adding them as `cited:` values.
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

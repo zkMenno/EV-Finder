@@ -19,6 +19,8 @@ from typing import Any
 
 import httpx
 
+from ev_pipeline import net
+
 MAX_PROBES = 25
 GIT_TIMEOUT_S = 60
 
@@ -36,9 +38,18 @@ def _git_runner(cmd: list[str]) -> str:
     return out.stdout
 
 
-def probe_git(repo_url: str, commit: str, run: GitRunner | None = None) -> ProbeResult:
+def probe_git(
+    repo_url: str, commit: str, run: GitRunner | None = None, source_id: str | None = None
+) -> ProbeResult:
+    """`source_id` given: the URL must pass `net.check_git_url` first (A-05 L6, fail closed)."""
+    cmd = ["git", "ls-remote", repo_url, "HEAD"]
+    if source_id is not None:
+        try:
+            cmd = net.git_ls_remote_cmd(source_id, repo_url)
+        except (net.FetchBlocked, ValueError) as exc:
+            return ProbeResult("unknown", f"git URL refused: {exc}")
     try:
-        out = (run or _git_runner)(["git", "ls-remote", repo_url, "HEAD"])
+        out = (run or _git_runner)(cmd)
     except (subprocess.SubprocessError, OSError) as exc:
         return ProbeResult("unknown", f"git ls-remote failed: {type(exc).__name__}")
     head = out.split()[0] if out.split() else ""

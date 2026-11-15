@@ -380,6 +380,11 @@ def test_git_probe_skips_clone(data_dir: Path) -> None:
     fake.fetch_cmd = fetch_with_commit  # type: ignore[method-assign]
     _run(fake)
     assert load_state(data_dir)["fake"]["commit"] == "abc123"
+    # The probe checks the git URL against `hosts:` first (A-05 L6); fake lists github.com.
+    (data_dir / "sources.yaml").write_text(
+        REGISTRY.replace("status: active}", "status: active, hosts: [github.com]}", 1),
+        encoding="utf-8",
+    )
     deps = _deps(fake, NOW + timedelta(days=8), git_runner=lambda cmd: "abc123\tHEAD\n")
     _, log = refresh(RefreshOptions(release=False), deps)
     assert _status(log)["status"] == "unchanged" and fake.fetches == 1

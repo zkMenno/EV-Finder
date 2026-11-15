@@ -36,6 +36,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from ev_pipeline import net
 from ev_pipeline.records import SourceRecord, SpecValue
 from ev_pipeline.schema_models import ChargeCurve, Conditions, Confidence, FactField, Source
 from ev_pipeline.sources import _common as c
@@ -214,11 +215,12 @@ def fetch_cmd() -> int:
     target.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(dir=target.parent) as tmp:
         clone = Path(tmp) / DIR
-        result = subprocess.run(
-            ["git", "clone", "--depth", "1", "--quiet", REPO_URL, str(clone)],
-            capture_output=True,
-            text=True,
-        )
+        try:
+            cmd = net.git_clone_cmd(NAME, REPO_URL, str(clone))
+        except (net.FetchBlocked, ValueError) as exc:
+            print(f"fetch {NAME}: refusing to clone: {exc}")
+            return 1
+        result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
             print(f"fetch {NAME}: git clone failed: {result.stderr.strip()}")
             return 1

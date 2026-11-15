@@ -187,7 +187,7 @@ def _probe(
                 return ProbeResult("changed", detail)
     repo = getattr(mod, "REPO_URL", None)
     if repo and entry.get("commit"):
-        return probe_git(str(repo), str(entry["commit"]), deps.git_runner)
+        return probe_git(str(repo), str(entry["commit"]), deps.git_runner, source_id=ps.id)
     if entry.get("responses"):
         return probe_http(entry["responses"], lambda: deps.client_factory(ps.id))
     return ProbeResult("unknown", "no validators from the previous fetch")

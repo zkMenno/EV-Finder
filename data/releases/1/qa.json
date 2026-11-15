@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T04:13:46+00:00",
+ "generated_at": "2026-11-15T04:33:43+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -14,7 +14,7 @@
     "values_checked": 5711,
     "dated_by_fact": 5680,
     "dated_by_source": 31,
-    "facts_checked": 40090,
+    "facts_checked": 40167,
     "errors": [],
     "error_count": 0
    }
@@ -24,7 +24,7 @@
    "title": "Licence gate re-check",
    "blocking": true,
    "status": "pass",
-   "summary": "13 sources, 40090 facts; 0 problem(s)",
+   "summary": "13 sources, 40167 facts; 0 problem(s)",
    "details": {
     "sources": [
      "ademe",
@@ -51,7 +51,7 @@
      "model-estimate": 1655,
      "openev": 2500,
      "rdw": 1230,
-     "rdw-tgk": 1049,
+     "rdw-tgk": 1059,
      "seed-manual": 1807
     },
     "errors": [],
@@ -3269,8 +3269,8 @@
    "ATTRIBUTION.md": 4407,
    "LICENSE": 715,
    "README.md": 14164,
-   "variants.csv": 1091026,
-   "variants.json": 2095011
+   "variants.csv": 1091082,
+   "variants.json": 2095067
   }
  }
 }

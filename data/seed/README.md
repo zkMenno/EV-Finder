@@ -11,3 +11,10 @@ Every generation with `uncertain: true` must be hand-checked against a primary s
 It is **unchecked, low-confidence data written from model knowledge**, without fetching sources: every entry has `confidence: low`, unknown fields are left out, approximate WLTP ranges sit in `notes` rather than in `wltp_range_km`, and there are deliberately no prices.
 Downstream, OpenEV wins on any duplicate; each entry is meant to be replaced by sourced data (manufacturer, homologation or OpenEV) as soon as one exists.
 Validate it with `python3 -I data/seed/validate_variants.py` (checks ids, generation links and year spans against `models.yaml`, allowed spec keys and plausible ranges, and no price keys).
+
+### Cited values (`cited:`)
+
+A variant may carry `cited:` values next to its unchecked `specs`: `field: {value, source_url, source_name, retrieved, quote and/or locator, confidence, notes}`.
+Each cited value must come from a public page (https), name the date it was read, and set its confidence honestly; a field is either in `specs` or in `cited`, never both.
+The pipeline turns each one into its own `seed-manual` record, so the published fact carries that URL and retrieval date instead of the file date.
+Only add a cited value when a manufacturer or official source states it; if none is found, leave the field out and note it.

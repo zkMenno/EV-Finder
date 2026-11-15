@@ -384,4 +384,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** EX30 base 475 → 341 km; 12 more rows reach "sourced"; 510 more records wait in review; 27 fewer rows show a DC peak until confirmed.
 
+## Decision 026: Seed values can cite a source; git sources clone only from allow-listed GitHub URLs
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Hand-entered seed values had no per-value source (A-05 F5), and two adapters cloned from GitHub outside the safe fetcher (A-05 L6). Q-092.
+
+**Decision:**
+- `data/seed/variants.yaml` takes an optional `cited:` block per value (value, https source URL, retrieval date, locator, confidence). Each cited value becomes its own fact with that source. New seed values should be cited; uncited ones stay "unchecked" (Q-015).
+- When a type-approval version still ties, a candidate named after a longer trade name (e.g. "i3s") drops out if the version's own trade name lacks that word.
+- Git sources clone only from `https://github.com/<owner>/<repo>` with github.com in that source's `hosts:`; anything else fails closed before git runs.
+
+**Consequences:** BMW i3s gains a cited battery figure and six more RDW versions place correctly. Honda e, Zoe Z.E. 40 and Model 3 gen1 trims still tie: no official figure separates them.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

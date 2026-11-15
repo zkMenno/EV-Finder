@@ -1,7 +1,8 @@
 # Source registry (Decision 009, provisional). One entry per source.
 # status: active | waiting_permission | blocked
 # hosts: what the fetcher may contact (ev_pipeline/net.py allowlist; redirects are re-checked).
-#   Git-cloned sources list github.com for the egress record; git doesn't go through net.py.
+#   Git-cloned sources list github.com: git does not go through net.py, but net.check_git_url
+#   refuses any clone URL that is not https://github.com/<owner>/<repo> on this list (A-05 L6).
 # Rule: only `active` sources with a named licence or written permission reach a public release.
 # Licences marked "(to confirm)" were not verified tonight; they stay blocked until checked.
 schema: sources/v1

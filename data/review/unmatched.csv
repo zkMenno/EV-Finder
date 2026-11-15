@@ -117,8 +117,7 @@ um-0a09b10435,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|ui
 um-7bd2a3a734,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*2130*00|7X41|0AW5000S|0,BMW,IX3,,,attach-only: tgk: no variant fits year 2020 (+-1) in bmw-ix3-gen1 (1x)
 um-e2ecdc527e,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*2130*00|7X41|0AW50000|0,BMW,IX3,,,attach-only: tgk: no variant fits year 2021 (+-1) in bmw-ix3-gen1 (6x)
 um-646e6ab810,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*06|1Z61|0A140000|0,BMW I,I3,,,"attach-only: tgk: several variants fit (bmw-i3-i01-120ah, bmw-i3-i01-94ah) in bmw-i3-i01 (4x)"
-um-e4331423e4,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*07|7Z61|0A040000|0,BMW I,I3S,,,"attach-only: tgk: several variants fit: battery fits bmw-i3-i01-120ah, bmw-i3-i01-94ah, name only bmw-i3-i01-i3s in bmw-i3-i01 (2x)"
-um-a7973c7bdb,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*09|8P61|0AW40000|0,BMW I,I3S,,,"attach-only: tgk: several variants fit: battery fits bmw-i3-i01-120ah, name only bmw-i3-i01-i3s in bmw-i3-i01 (6x)"
+um-d1c7f7ad52,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1213*07|7Z61|0A040000|0,BMW I,I3S,,,"attach-only: tgk: several variants fit (bmw-i3-i01-120ah, bmw-i3-i01-94ah) in bmw-i3-i01 (2x)"
 um-8873354245,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e9*2018/858*11147*05|M2F1C|1NXE5E001NL1|1,BYD,ATTO 3,,,"attach-only: tgk: several variants fit (byd-atto-3-gen1-extended-range, byd-atto-3-gen1-standard-range-extended-range) in byd-atto-3-gen1 (2x)"
 um-49ddcd9cf8,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e9*2018/858*11147*09|M2D1C|4NZE5G003NL1|0,BYD,ATTO 3 EVO,,,"attach-only: tgk: several variants fit (byd-atto-3-gen1-60kwh, byd-atto-3-gen1-extended-range) in byd-atto-3-gen1 (4x)"
 um-638dc782c5,open,rdw-tgk,gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e9*2007/46*6816*09|C|ZKXC-A0DA00|1,CITROEN,E-C4,,,"attach-only: tgk: several variants fit (citroen-e-c4-c41-50kwh, citroen-e-c4-c41-54kwh, citroen-e-c4-c41-base) in citroen-e-c4-c41 (20x)"
@@ -1799,6 +1798,7 @@ um-4431309583,open,kba-fz10,fz10_2026_10:YTD 2026-01..10:NISSAN|INTERSTAR,NISSAN
 um-ef653aa3b7,open,kba-fz10,fz10_2026_10:YTD 2026-01..10:NISSAN|MICRA,NISSAN,MICRA,,,model not in seed (1x)
 um-88aa1111af,open,kba-fz10,fz10_2019_12:YTD 2019-01..12:NISSAN|NV200,NISSAN,NV200,,,model not in seed (4x)
 um-def8934406,open,kba-fz10,fz10_2023_12:YTD 2023-01..12:NISSAN|TOWNSTAR,NISSAN,TOWNSTAR,,,model not in seed (4x)
+um-2d0ee9075d,open,kba-fz10,fz10_2019_12:YTD 2019-01..12:OPEL|AMPERA,OPEL,AMPERA,,,model not in seed (3x)
 um-38488af3ee,open,fueleconomy,(summary),RIVIAN,,,,make not in seed: 187 records
 um-f477515a30,open,fueleconomy,(summary),LUCID,,,,make not in seed: 72 records
 um-ceed4d7465,open,eea,(summary),NIO,,,,make not in seed: 65 records
