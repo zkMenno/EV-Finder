@@ -1,11 +1,17 @@
 # Dependency updates (A-02 #4). Weekly, one grouped PR per ecosystem so a solo maintainer
 # isn't flooded; security updates still open on their own as soon as an advisory lands.
+# Patch/minor PRs merge themselves once every check is green; majors get the `dependabot-major`
+# label for the coordinator chat (Decision 039, .github/workflows/dependabot-automerge.yml).
+# Mondays 09:00 Paris, so merges land in the daytime.
 version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Europe/Paris
     groups:
       actions:
         patterns: ["*"]
@@ -15,6 +21,9 @@ updates:
     directory: /
     schedule:
       interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Europe/Paris
     open-pull-requests-limit: 5
     groups:
       npm-dev:
@@ -29,6 +38,9 @@ updates:
     directory: /pipeline
     schedule:
       interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Europe/Paris
     groups:
       python:
         patterns: ["*"]
@@ -39,6 +51,9 @@ updates:
     directories: [/apps/web, /pipeline]
     schedule:
       interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Europe/Paris
     groups:
       docker:
         patterns: ["*"]

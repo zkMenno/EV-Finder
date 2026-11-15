@@ -75,13 +75,13 @@ test("theme toggle: Night drive is remembered across reloads and pages", async (
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(toggle).toHaveAttribute("aria-pressed", "true");
   const bg = () => page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(await bg()).toBe("rgb(20, 28, 48)");
+  expect(await bg()).toBe("rgb(17, 26, 43)");
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   // Static page too (CSP: /theme-init.js is same-origin, not inline).
   await page.goto("/nl/en/learn/winter-range");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  expect(await bg()).toBe("rgb(20, 28, 48)");
+  expect(await bg()).toBe("rgb(17, 26, 43)");
   await page.getByTestId("theme-toggle").click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   expect(await bg()).toBe("rgb(255, 255, 255)");
@@ -91,6 +91,6 @@ test("theme follows the system when nothing is stored", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/nl/en/about");
   await expect(page.locator("html")).not.toHaveAttribute("data-theme", /./);
-  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe("rgb(20, 28, 48)");
+  expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe("rgb(17, 26, 43)");
   await expect(page.getByTestId("theme-toggle")).toHaveAttribute("aria-pressed", "true");
 });
