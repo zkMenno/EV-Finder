@@ -8,6 +8,16 @@ Format: `Q-NNN` · task id (if any) · who asked · date.
 
 ## Open
 
+### Q-093 · Free data accounts · coordinator · 2026-11-15
+Two free accounts would unlock data: **Copernicus CDS** (ERA5-Land winter temperatures for Trip fit) and **ABRP** (their car-code list for "Plan this trip in ABRP" links). Both free, sign-up in your name. Recommended: yes to both now; others (CEDA, NREL key) later.
+
+**Answer:**
+
+### Q-094 · Two short emails in your name · coordinator · 2026-11-15
+WS5 drafts: **EAFO** (can we reuse their charging statistics? needed for Belgium and Europe comparisons) and **RDW** (how to credit them: their notice says not to state data comes from RDW, which clashes with our "every number has a source"; pairs with Q-037). Recommended: send both once drafted; they're factual licence questions, not outreach.
+
+**Answer:**
+
 ### Q-001 · Server capacity · coordinator · 2026-11-15
 Does the AppInfra server have room for EV Finder? Partly answered (see Decision 006): CAX31, 16 GB, shared with GardenLayer and Dungeon Tracker; fits on paper while Cahier stays off. Still needed from the "EV Finder capacity check" chat: real `docker stats`, free disk, existing job timers (to confirm the 00:30–02:30 UTC window), and off-site backup status.
 

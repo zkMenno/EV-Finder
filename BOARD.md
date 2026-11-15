@@ -72,6 +72,7 @@ _Last updated: 2026-11-15 01:00 UTC by WS0. Waves 1–4 are being built by overn
 - T-049 rdw-plate-vin-research (WS1 + WS3)
 - T-043 price-modes (WS3 finance_profiles + WS2 UI; schema WS0)
 
+- T-065 schema-research-followups (WS0)
 - T-064 releases-out-of-git (WS1 + WS4) — before the catalogue grows past the top 40
 
 ### Wave 8 — Trip fit Core 2

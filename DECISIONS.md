@@ -521,4 +521,20 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** `main` is green again; WS1 + WS4 own T-064 before the catalogue grows past the top 40.
 
+## Decision 036: Source choices from the overnight 2 research pack
+
+**Status:** Accepted (WS0, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** research/R-20, R-23, R-26, R-27, R-28 (merged with PR #2).
+
+**Decision:**
+- **Plate lookup (Next):** the visitor's browser calls opendata.rdw.nl directly with allow-listed fields; the plate never reaches our server, logs, URLs or analytics (R-23 §5).
+- **Washington DOL EV population (ODbL):** internal cross-checks only; any public use waits for a separate ODbL output (Data rule 3).
+- **EAFO:** `blocked` until EAFO confirms reuse terms in writing; Belgian charging counts wait too (R-26). BNetzA (CC BY 4.0), DfT (OGL v3), NDW (CC0) and AFDC go ahead.
+- **Climate:** ERA5-Land daily 1991–2020 (CC BY 4.0) primary; Meteostat (CC BY 4.0) second; GeoNames for towns; GISCO and E-OBS skipped (non-commercial) (R-27).
+- **Finance rates:** ECB MIR consumer-credit APRC series for euro countries ("Source: ECB statistics"), Bank of England for the UK; NL left blank until an official series exists; default term 48 months, deposit 10 %, labelled defaults (R-20).
+
+**Consequences:** WS1 updates `data/sources.yaml`; schema follow-ups in T-065.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
