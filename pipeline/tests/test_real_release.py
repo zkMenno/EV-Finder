@@ -327,8 +327,11 @@ def test_registrations_are_never_summed_across_sources_or_periods(
             for e in entries:
                 own = [f for f in cited if f["source_id"] == e["source_id"]]
                 if e["source_id"] != "rdw":  # RDW: summed per first-admission year (below)
-                    own = [f for f in own if (e["period"] or "") in (f["source_record"] or "")
-                           or e["source_id"] == "eea"]  # fmt: skip
+                    if e["source_id"] == "eea":  # EEA record keys end with "|<year>"
+                        tail = f"|{e['period']}"
+                        own = [f for f in own if (f["source_record"] or "").endswith(tail)]
+                    else:
+                        own = [f for f in own if (e["period"] or "") in (f["source_record"] or "")]
                 if e["source_id"] == "rdw":  # facts of both RDW levels are cited together
                     total = sum(x["count"] for x in entries if x["source_id"] == "rdw")
                     if own and sum(f["value_num"] for f in own) != total:
