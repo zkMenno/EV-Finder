@@ -3,7 +3,7 @@ import fixture from "@/fixtures/catalogue.sample.json";
 import { toExploreRow, type ExploreRow } from "@/lib/explore-data";
 
 export const catalogue = fixture as unknown as Catalogue;
-export const rows: ExploreRow[] = catalogue.rows.map(toExploreRow);
+export const rows: ExploreRow[] = catalogue.rows.map((r) => toExploreRow(r));
 
 export function row(over: Partial<PublishedVariant> & { variant_id: string }): ExploreRow {
   const base: PublishedVariant = {

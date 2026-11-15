@@ -16,7 +16,7 @@ import { financeProfile } from "@/lib/finance-profiles";
 import { heroFromSearchParams } from "@/lib/hero-state";
 import { article, articleTitle } from "@/lib/learn";
 import { LISTING_SITES } from "@/lib/listings";
-import { rankHero, resolveProfile, type UsedBands } from "@/lib/shortlist";
+import { rankHero, resolveProfile, scoreContext, scoreRow, type UsedBands } from "@/lib/shortlist";
 import { fromSearchParams, hasLevelParam, hasPayParam, hasViewParam } from "@/lib/state";
 import { localizeTaxonomy } from "@/lib/taxonomy";
 import { pageMeta, servedRoute } from "./ev/_lib/context";
@@ -44,22 +44,31 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   const t = getT(lang);
 
   const cat = getCatalogue();
-  const all = cat.rows().map(toExploreRow);
+  const used = cat.variantUsedPrices();
+  const all = cat.rows().map((r) => toExploreRow(r, used));
   const state = fromSearchParams(sp);
   const tripFit = tripFitEnabled();
   // Flag off: the trip filter flag in a shared URL is dropped, so no hidden filter counts as active.
   if (!tripFit) state.filters.tripFit = false;
-  const matches = sortRows(applyFilters(all, state.filters, cfg.code), state.sort, state.dir, cfg.code);
+  // Hero (T-080) answers also drive Explore's "Suggested" sort (T-067).
+  const hero = heroFromSearchParams(sp);
+  const profile = resolveProfile(hero.answers);
+  const sctx = scoreContext(all);
+  const scorer = profile
+    ? (r: (typeof all)[number]) => {
+        const res = scoreRow(r, profile, sctx);
+        return res.ruledOut ? null : res.score;
+      }
+    : undefined;
+  const matches = sortRows(applyFilters(all, state.filters, cfg.code), state.sort, state.dir, cfg.code, scorer);
 
   // Hero (T-080): ranked on the server from the URL, re-ranked in the browser on every change.
-  const hero = heroFromSearchParams(sp);
   const usedBands: UsedBands = {};
   for (const b of cat.usedPrices()) {
     if (b.country !== cfg.code || !showable(b, cfg.currency)) continue;
     (usedBands[b.generation_id] ??= []).push(b);
   }
   const nowYear = Number(cat.generatedAt().slice(0, 4)) || new Date().getFullYear();
-  const profile = resolveProfile(hero.answers);
   const heroResult = profile
     ? rankHero(all, profile, {
         country: cfg.code,
@@ -119,6 +128,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
           lang={lang}
           dict={dict}
           initialState={state}
+          initialAnswers={hero.answers}
           viewFromUrl={hasViewParam(sp)}
           levelFromUrl={hasLevelParam(sp)}
           taxonomy={tax}

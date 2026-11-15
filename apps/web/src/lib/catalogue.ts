@@ -1,5 +1,6 @@
 // Server-only read path for the published catalogue (Decision 008).
 // A Postgres implementation can sit behind the same `Catalogue` interface later.
+import { parseVariantUsedPrices, type VariantUsedPrices } from "./variant-prices";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import type {
@@ -45,6 +46,8 @@ export interface Catalogue {
    * release's catalogue.json. Null when the release has none (or it can't be read).
    */
   chargingStats(): ChargingStatsRelease | null;
+  /** Used price bands per variant × build year × country (`used_prices.json`, T-081); empty when the release has none. */
+  variantUsedPrices(): VariantUsedPrices;
 }
 
 class JsonCatalogue implements Catalogue {
@@ -52,6 +55,7 @@ class JsonCatalogue implements Catalogue {
   private readonly byGeneration: Map<Id, Generation>;
 
   private charging: ChargingStatsRelease | null | undefined;
+  private used: VariantUsedPrices | undefined;
 
   constructor(
     private readonly data: CatalogueFile,
@@ -107,6 +111,19 @@ class JsonCatalogue implements Catalogue {
     if (this.charging !== undefined) return this.charging;
     this.charging = readChargingStats(this.chargingPath);
     return this.charging;
+  }
+  variantUsedPrices(): VariantUsedPrices {
+    if (this.used) return this.used;
+    // Optional file next to charging_stats.json; missing or malformed = no bands (never breaks a page).
+    const p = this.chargingPath ? path.join(path.dirname(this.chargingPath), "used_prices.json") : null;
+    let doc: unknown = null;
+    try {
+      if (p && existsSync(p)) doc = JSON.parse(readFileSync(p, "utf8"));
+    } catch {
+      doc = null;
+    }
+    this.used = parseVariantUsedPrices(doc);
+    return this.used;
   }
 }
 

@@ -11,7 +11,7 @@ import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
 import { loadClientCatalogue } from "@/lib/client-catalogue";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
 import type { ExploreRow } from "@/lib/explore-data";
-import { onFilters, publishFilters } from "@/lib/filter-bus";
+import { onFilters, publishAnswers, publishFilters } from "@/lib/filter-bus";
 import { effectiveLoan, monthlyFor, type FinanceProfileView } from "@/lib/finance";
 import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "@/lib/hero-state";
@@ -42,6 +42,7 @@ import { useLevel } from "@/lib/use-level";
 import { useListStore } from "@/lib/use-list-store";
 import { generationHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import { LoanBox, LoanWarning, useLoanSettings, type FinanceUi } from "./PriceMode";
+import { profileName } from "./SuggestedSort";
 import { TermInfo, type TermText } from "./Term";
 import cityDay from "@/assets/illustrations/scene-city-hero-day.svg";
 import cityNight from "@/assets/illustrations/scene-city-night.svg";
@@ -95,13 +96,6 @@ const inputCls = "w-32 rounded-md border border-slate-400 bg-white px-3 py-2 tex
 
 function cap(s: string): string {
   return s ? s[0]!.toUpperCase() + s.slice(1) : s;
-}
-
-function profileName(rp: ResolvedProfile, t: T): string {
-  const parts = [t(`hero.profile.${rp.base.id}` as MsgKey)];
-  if (rp.layer) parts.push(t(`hero.profile.${rp.layer.id}` as MsgKey).toLowerCase());
-  if (rp.modifier) parts.push(t(`hero.profile.modifier.${rp.modifier.id}` as MsgKey));
-  return parts.join(" · ");
 }
 
 function presetLabel(p: ActivePreset, t: T, locale: string): string {
@@ -264,7 +258,11 @@ export function Hero(props: HeroProps) {
     setCopied(false);
     setHero((h) => ({ ...h, ...patch }));
   };
-  const setAnswers = (patch: Partial<Answers>) => update({ answers: { ...hero.answers, ...patch }, presetsOff: [] });
+  const setAnswers = (patch: Partial<Answers>) => {
+    const answers = { ...hero.answers, ...patch };
+    update({ answers, presetsOff: [] });
+    publishAnswers(answers);
+  };
   const setFilters = (filters: ExploreFilters) => {
     update({ filters });
     publishFilters({ filters, from: "hero" });
@@ -780,8 +778,9 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   if (!pick.price) price = t("hero.card.priceUnknown");
   else if (pick.price.kind === "new") price = t("hero.card.priceNew", { amount: r.money(pick.price.amount) });
   else if (pick.price.low !== null && pick.price.high !== null)
-    price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high) });
-  else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount) });
+    price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high), country: COUNTRIES[props.country].name });
+  else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount), country: COUNTRIES[props.country].name });
+  const priceNote = pick.price?.estimate ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate") : null;
 
   return (
     <li className="rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank} data-variant={row.variant_id}>
@@ -816,6 +815,7 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               <dt className="text-slate-700">{t("hero.card.price")}</dt>
               <dd className="font-semibold" data-testid="hero-price">
                 {price}
+                {priceNote ? <span className="block text-xs font-normal text-slate-700" data-testid="hero-price-note">{priceNote}</span> : null}
                 {monthly ? <span className="block text-sm font-normal text-slate-800">{t("hero.monthly", { amount: r.money(monthly.monthly) })}</span> : null}
               </dd>
             </div>
