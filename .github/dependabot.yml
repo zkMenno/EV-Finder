@@ -1,14 +1,14 @@
-# Dependency updates (A-02 #4). Weekly, one grouped PR per ecosystem so a solo maintainer
-# isn't flooded; security updates still open on their own as soon as an advisory lands.
+# Dependency updates (A-02 #4). Monthly, one grouped PR per ecosystem so a solo maintainer
+# isn't flooded (Decision 054); security updates still open on their own as soon as an advisory lands.
 # Patch/minor PRs merge themselves once every check is green; majors get the `dependabot-major`
 # label for the coordinator chat (Decision 039, .github/workflows/dependabot-automerge.yml).
-# Mondays 09:00 Paris, so merges land in the daytime.
+# First Monday of the month, 09:00 Paris, so merges land in the daytime.
 version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris
@@ -20,7 +20,7 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris
@@ -34,18 +34,15 @@ updates:
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
     groups:
-      npm-dev:
-        dependency-type: development
-        update-types: [minor, patch]
-      npm-prod:
-        dependency-type: production
+      npm:
+        patterns: ["*"]
         update-types: [minor, patch]
 
   # Python pipeline (pyproject.toml + uv.lock).
   - package-ecosystem: uv
     directory: /pipeline
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris
@@ -58,7 +55,7 @@ updates:
   - package-ecosystem: docker
     directories: [/apps/web, /pipeline]
     schedule:
-      interval: weekly
+      interval: monthly
       day: monday
       time: "09:00"
       timezone: Europe/Paris
