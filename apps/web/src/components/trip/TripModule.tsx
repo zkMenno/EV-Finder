@@ -27,6 +27,8 @@ import {
 } from "@/lib/trip-settings";
 import { Num } from "../Num";
 import type { NumLabels } from "../num-labels";
+import { TermInfo, type TermText } from "../Term";
+import type { UiTerm } from "@/lib/taxonomy";
 
 export type { CarFit, TripSettings };
 
@@ -60,6 +62,14 @@ export interface TripUi {
   locale: string;
   labels: NumLabels;
   country: CountrySlug;
+  /** Glossary ⓘ for the trip terms (glossary sweep item 10); none = plain labels. */
+  gloss?: { base: string; terms: Record<string, UiTerm>; text: TermText };
+}
+
+/** The glossary ⓘ for one trip term, or nothing when the glossary (or `ui.gloss`) lacks it. */
+function TripTerm({ ui, id }: { ui: TripUi; id: string }) {
+  if (!ui.gloss) return null;
+  return <TermInfo term={ui.gloss.terms[id]} base={ui.gloss.base} text={ui.gloss.text} />;
 }
 
 function TripNum({ value, ui, unit = "km", focusable = true }: { value: number | null; ui: TripUi; unit?: string; focusable?: boolean }) {
@@ -230,9 +240,12 @@ export function TripPanel({ settings: s, onChange, onClose, onClear, fits, ui }:
             <input id="trip-mw" type="range" min={0} max={100} step={5} value={mwShown} onChange={(e) => set({ motorwayPct: Number(e.target.value) })} className="max-w-72 accent-blue-800" />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="trip-town" className="text-sm font-medium">
-              {t("trip.town")}
-            </label>
+            <span className="flex items-center gap-1">
+              <label htmlFor="trip-town" className="text-sm font-medium">
+                {t("trip.town")}
+              </label>
+              <TripTerm ui={ui} id="climate-normal" />
+            </span>
             <select id="trip-town" value={town.id} onChange={(e) => set({ townId: e.target.value })} className="w-fit rounded-md border border-slate-400 bg-white px-2 py-1.5 text-sm">
               {[country, ...others].map((c) => (
                 <optgroup key={c} label={COUNTRIES[c].name}>
@@ -291,12 +304,16 @@ function ResultCard({ settings, fits, ui }: { settings: TripSettings; fits: Map<
 
   return (
     <div className="mt-4 rounded-md border border-slate-300 bg-white p-4" data-testid="trip-result" aria-live="polite">
-      <h3 className="font-semibold">{t("trip.result.title")}</h3>
+      <h3 className="flex items-center gap-1 font-semibold">
+        {t("trip.result.title")}
+        <TripTerm ui={ui} id="range-you-need" />
+      </h3>
       <p className="mt-1 flex flex-wrap items-baseline gap-1">
         {t("trip.result.need")} <TripNum value={need.winterKm} ui={ui} /> <span>{t("trip.result.winterMix")}</span>
         <span className="text-slate-700">
           (≈ <TripNum value={need.winterWltpKm} ui={ui} /> {t("trip.result.wltp")})
         </span>
+        <TripTerm ui={ui} id="wltp-equivalent" />
       </p>
       <p className="mt-1 text-xs text-slate-700" data-testid="trip-estimate-label">
         {t("trip.result.estimate", { rung: t("trip.rung.fixture") })}
@@ -314,7 +331,10 @@ function ResultCard({ settings, fits, ui }: { settings: TripSettings; fits: Map<
             {row(t("trip.result.wltpWinter"), <TripNum value={need.winterWltpKm} ui={ui} />, "trip-wltp-km")}
             {row(t("trip.result.wltpSummer"), <TripNum value={need.summerWltpKm} ui={ui} />)}
           </dl>
-          <p className="mt-3 text-sm">{t("trip.result.temps", { town: c.town.name, winter: temp(c.winterC), summer: temp(c.summerC) })}</p>
+          <p className="mt-3 flex items-center gap-1 text-sm">
+            <span>{t("trip.result.temps", { town: c.town.name, winter: temp(c.winterC), summer: temp(c.summerC) })}</span>
+            <TripTerm ui={ui} id="climate-normal" />
+          </p>
           <div className="mt-2" aria-hidden="true">
             <div className="flex h-3 w-full overflow-hidden rounded border border-slate-400">
               {ROAD_BANDS.map((b, i) => (
@@ -322,10 +342,16 @@ function ResultCard({ settings, fits, ui }: { settings: TripSettings; fits: Map<
               ))}
             </div>
           </div>
-          <p className="mt-1 text-xs text-slate-800">
-            {ROAD_BANDS.map((b) => `${t(`trip.band.${b}` as MsgKey)} ${pct(c.shares[b])}% (${Math.round(c.km * c.shares[b])} km)`).join(" · ")}
+          <p className="mt-1 flex items-center gap-1 text-xs text-slate-800">
+            <span>{ROAD_BANDS.map((b) => `${t(`trip.band.${b}` as MsgKey)} ${pct(c.shares[b])}% (${Math.round(c.km * c.shares[b])} km)`).join(" · ")}</span>
+            <TripTerm ui={ui} id="road-band" />
           </p>
-          <p className="mt-2 text-xs text-slate-800">{t("trip.result.assumes")}</p>
+          <p className="mt-2 flex flex-wrap items-center gap-1 text-xs text-slate-800">
+            <span>{t("trip.result.assumes")}</span>
+            <TripTerm ui={ui} id="start-charge" />
+            <TripTerm ui={ui} id="trip-margin" />
+            <TripTerm ui={ui} id="soh" />
+          </p>
           {c.changes.length ? (
             <div className="mt-2 text-xs text-slate-800">
               <span className="font-semibold">{t("trip.result.changed")}</span>
@@ -360,9 +386,14 @@ function ResultCard({ settings, fits, ui }: { settings: TripSettings; fits: Map<
               ))}
             </tbody>
           </table>
-          <p className="mt-2">
-            {t("trip.nerd.band10", { low: Math.round(need.winterLow), high: Math.round(need.winterHigh) })} · {t("trip.nerd.rung")}: {TRIP_RUNG} ({MATRIX.status}) ·{" "}
-            {t("trip.nerd.factor", { winter: need.winterFactor.toFixed(2), summer: need.summerFactor.toFixed(2) })}
+          <p className="mt-2 flex flex-wrap items-center gap-1">
+            <span>{t("trip.nerd.band10", { low: Math.round(need.winterLow), high: Math.round(need.winterHigh) })}</span>
+            <TripTerm ui={ui} id="uncertainty-band" />
+            <span>
+              · {t("trip.nerd.rung")}: {TRIP_RUNG} ({MATRIX.status})
+            </span>
+            <TripTerm ui={ui} id="real-range-rung" />
+            <span>· {t("trip.nerd.factor", { winter: need.winterFactor.toFixed(2), summer: need.summerFactor.toFixed(2) })}</span>
           </p>
           <details className="mt-2">
             <summary className="cursor-pointer">{t("trip.nerd.json")}</summary>

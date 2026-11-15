@@ -20,7 +20,7 @@ export function RankingTable({
   rows: RankingRowView[];
 }) {
   return (
-    <div className="overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-label={caption}>
+    <div className="relative overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-label={caption}>
       <table className="min-w-full border-collapse text-sm" data-testid="ranking-table">
         <caption className="px-3 py-2 text-left font-semibold">{caption}</caption>
         <thead className="bg-slate-50">

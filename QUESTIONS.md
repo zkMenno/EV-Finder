@@ -382,6 +382,11 @@ No answer needed unless you disagree. **Finding:** the EV6 77.4 kWh AWD row show
 
 **Answer:**
 
+### Q-085 · Used prices in the release (schema field) + Wave 5 web polish calls · T-050 · web builder · 2026-11-15
+No answer needed unless you disagree. **(1) Used-price rankings need a release field.** The "best used EV under €15k / €20k / €25k" pages are built but hidden: release 1 has no used prices, and the schema has no used-price field. The web app reads an optional `used_prices` array from `catalogue.json` (per generation × country: `generation_id, country, currency, typical, low?, high?, samples, source_ids, retrieved_at, estimate?`; see `UsedPriceBand` in `apps/web/src/lib/used-rankings.ts`). Bad entries are dropped. A list appears (page, /top link, sitemap) only when at least 5 generations in that country have a sourced band with at least 5 samples. **Default:** the coordinator adds that shape to `packages/schema` when T-056 delivers prices (or renames it; the web side is one accessor, `catalogue.usedPrices()`). Ranked by km of real range per €1,000 of the typical used price (spec: "real range per €"), one row per generation, using the median-range variant. UK caps are £13k / £17k / £21k (about 0.86 £/€, rounded down). **(2) Theme approach (architectural, for DECISIONS):** colours come from `docs/design/tokens.json` via `apps/web/scripts/theme.mjs` → `src/app/tokens.generated.css`. `globals.css` points Tailwind's slate/blue/amber/green/red/white palette at those tokens, so existing classes follow Day trip / Night drive without touching every component. New code should use the tokens directly. The remembered choice is applied before first paint by a same-origin `/theme-init.js`, not an inline script, so the CSP stays as it is. Coordinator: please log this as a decision if you agree. **(3) No era badge exists** on model pages yet, so glossary sweep item 8 "era badge / timeline → `era`" has nothing to attach to. It is wired wherever an era label is shown (Explore column, cards).
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

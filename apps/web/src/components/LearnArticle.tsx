@@ -89,7 +89,7 @@ export function LearnBlocks({ blocks, ctx }: { blocks: Block[]; ctx: LearnCtx })
           }
           case "table":
             return (
-              <div key={k} className="mt-4 overflow-x-auto">
+              <div key={k} className="relative mt-4 overflow-x-auto">
                 <table className="min-w-full border-collapse text-sm">
                   <thead>
                     <tr>

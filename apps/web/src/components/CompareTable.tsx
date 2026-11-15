@@ -32,7 +32,7 @@ export function CompareTable({
   groups: CompareGroupView[];
 }) {
   return (
-    <div className="compare-scroll overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-label={caption}>
+    <div className="compare-scroll relative overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-label={caption}>
       <table className="compare-table w-full min-w-[36rem] border-collapse text-sm" data-testid="compare-table">
         <caption className="sr-only">{caption}</caption>
         <colgroup>
@@ -68,7 +68,7 @@ export function CompareTable({
                 {r.cells.map((c, i) => (
                   <td
                     key={i}
-                    className={`px-3 py-2 align-top ${c.differs ? "compare-differs bg-amber-50 font-semibold shadow-[inset_3px_0_0_#b45309]" : ""}`}
+                    className={`px-3 py-2 align-top ${c.differs ? "compare-differs bg-amber-50 font-semibold shadow-[inset_3px_0_0_var(--warning)]" : ""}`}
                     data-differs={c.differs || undefined}
                   >
                     <span className="inline-flex items-start gap-1">

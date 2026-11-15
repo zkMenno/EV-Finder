@@ -448,5 +448,18 @@
   "learn.updated": "Bijgewerkt {date}",
   "learn.retrieved": "gecontroleerd {date}",
   "learn.newTab": "(opent in een nieuw tabblad)",
-  "nav.learn": "Uitleg"
+  "nav.learn": "Uitleg",
+  "num.release": "Datarelease",
+  "theme.night": "Nachtrit",
+  "theme.help": "Donker thema. Je keuze wordt op dit apparaat onthouden.",
+  "crumb.label": "Kruimelpad",
+  "filters.vrange": "Bereik accuspanning",
+  "explore.noResults.reason": "Geen auto’s gevonden: haal het filter “{filter}” weg om er {n} te zien.",
+  "explore.noResults.remove": "“{filter}” weghalen",
+  "top.used.title": "Beste tweedehands EV onder {price}",
+  "top.used.short": "De meeste echte actieradius voor je geld bij generaties met een gangbare tweedehandsprijs onder {price} in {country}.",
+  "top.used.metric": "km per {per}",
+  "top.used.range": "Echte actieradius",
+  "top.used.price": "Gangbare tweedehandsprijs",
+  "top.used.method": "Rangschikt generaties op kilometers echte actieradius per {per} van hun gangbare tweedehandsprijs in {country}, voor generaties met een gangbare prijs onder {price}. De gangbare prijs is de mediaan van minstens 5 prijswaarnemingen met bron; generaties zonder die prijs vallen weg, we gokken niet. De actieradius is die van de middelste uitvoering van de generatie, uit ons eigen cijfer voor echte actieradius (gemarkeerd als \"schatting\" waar het een schatting is). De lijst verschijnt pas als minstens 5 generaties meetellen."
 }

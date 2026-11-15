@@ -1,6 +1,10 @@
 {
   "id": "volkswagen-id3-gen1-same-generation",
-  "variant_ids": ["volkswagen-id3-gen1-pure", "volkswagen-id3-gen1-pro", "volkswagen-id3-gen1-pro-s"],
+  "variant_ids": [
+    "volkswagen-id3-gen1-pure",
+    "volkswagen-id3-gen1-pro",
+    "volkswagen-id3-gen1-pro-s"
+  ],
   "reason": "same-generation",
   "built_by": "pipeline",
   "generation_id": "volkswagen-id3-gen1",

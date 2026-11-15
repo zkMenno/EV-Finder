@@ -1,7 +1,7 @@
 // sitemap.xml entries (Decision 015): every indexable page in every served country × language
 // pair (a country's own languages + EN), from the current release's model / generation /
 // variant ids. Compare and staff pages are noindex and left out.
-import { servedPairs } from "@/config/countries";
+import { COUNTRIES, servedPairs } from "@/config/countries";
 import {
   generationParams,
   modelParams,
@@ -10,6 +10,7 @@ import {
 import type { Catalogue } from "@/lib/catalogue";
 import { articles } from "@/lib/learn";
 import { RANKING_IDS } from "@/lib/rankings";
+import { visibleUsedRankings } from "@/lib/used-rankings";
 import { siteBase } from "@/lib/site-paths";
 
 /** Page paths below /{country}/{lang} ("" = Explore). */
@@ -32,7 +33,10 @@ export function pagePaths(cat: Catalogue): string[] {
 /** Absolute URLs, one per served pair × page. */
 export function sitemapUrls(cat: Catalogue, origin: string): string[] {
   const paths = pagePaths(cat);
-  return servedPairs().flatMap(({ country, lang }) =>
-    paths.map((p) => `${origin}${siteBase(country, lang)}${p}`),
-  );
+  return servedPairs().flatMap(({ country, lang }) => {
+    const cfg = COUNTRIES[country];
+    // Used-price lists vary per country and exist only with enough sourced prices.
+    const used = visibleUsedRankings(cat.rows(), cat.usedPrices(), cfg.code, cfg.currency).map((l) => `/top/${l}`);
+    return [...paths, ...used].map((p) => `${origin}${siteBase(country, lang)}${p}`);
+  });
 }

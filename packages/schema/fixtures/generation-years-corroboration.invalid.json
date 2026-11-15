@@ -2,5 +2,13 @@
   "corroborated": true,
   "tolerance_years": 1,
   "source_ids": ["wikidata"],
-  "checks": [{"boundary": "middle", "year": 2019, "agrees": true, "source_id": "wikidata", "retrieved_at": "2026-11-15"}]
+  "checks": [
+    {
+      "boundary": "middle",
+      "year": 2019,
+      "agrees": true,
+      "source_id": "wikidata",
+      "retrieved_at": "2026-11-15"
+    }
+  ]
 }

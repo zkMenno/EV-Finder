@@ -15,7 +15,7 @@ import { financeProfile } from "@/lib/finance-profiles";
 
 import { SeeListings } from "@/components/SeeListings";
 import { SpecDiff } from "@/components/SpecDiff";
-import { Term } from "@/components/Term";
+import { Term, TermInfo } from "@/components/Term";
 import { isCountrySlug, isServed } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
 import { hasDcData, isDcDependent } from "@/lib/dc";
@@ -74,7 +74,7 @@ export default async function GenerationPage({ params }: Props) {
   return (
     <>
       <Breadcrumbs
-        label={t("nav.main")}
+        label={t("crumb.label")}
         items={[{ label: t("crumb.home"), href: base }, { label: modelName, href: modelHref(base, first) }, { label: g.name }]}
       />
       <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{fullName}</h1>
@@ -87,6 +87,7 @@ export default async function GenerationPage({ params }: Props) {
             <span className="sr-only">. {t("years.unchecked.help")}</span>
           </span>
         ) : null}
+        {g.uncertain ? <TermInfo term={ctx.tax.terms["model-years"]} base={base} text={ctx.termText} /> : null}
         {first.segment ? <span>· {t(`segment.${first.segment}`)}</span> : first.body ? <span>· {t(`body.${first.body}`)}</span> : null}
       </p>
 

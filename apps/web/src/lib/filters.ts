@@ -2,7 +2,7 @@
 import type { Country, QualityTier } from "@ev/schema";
 import type { ExploreRow } from "./explore-data";
 import type { ExploreFilters, SortDir, SortKey } from "./state";
-import { ERAS } from "./state";
+import { defaultFilters, ERAS } from "./state";
 import { hasDcData } from "./dc";
 
 type NumGetter = (r: ExploreRow) => number | null | undefined;
@@ -102,4 +102,62 @@ export function sortRows(rows: ExploreRow[], key: SortKey | null, dir: SortDir, 
       return c !== 0 ? c * sign : a.i - b.i;
     })
     .map((x) => x.r);
+}
+
+/**
+ * One removable filter, for the empty state ("No cars match: remove the 'Charging voltage' filter").
+ * Groups fields that one control sets together (the voltage range).
+ */
+export const FILTER_GROUPS = [
+  ["priceMax"],
+  ["eras"],
+  ["segments"],
+  ["bodies"],
+  ["rangeMin"],
+  ["batteryMin"],
+  ["dcMin"],
+  ["bootMin"],
+  ["lengthMax"],
+  ["towingMin"],
+  ["voltageClasses"],
+  ["voltageMin", "voltageMax"],
+  ["fast400"],
+  ["chemistries"],
+  ["coolings"],
+  ["charge100"],
+  ["tripFit"],
+] as const satisfies readonly (readonly (keyof ExploreFilters)[])[];
+export type FilterGroup = (typeof FILTER_GROUPS)[number][0];
+
+function isActive(f: ExploreFilters, k: keyof ExploreFilters): boolean {
+  const v = f[k];
+  return Array.isArray(v) ? v.length > 0 : typeof v === "boolean" ? v : v !== null;
+}
+
+/** Filter groups that are on now (in FILTER_GROUPS order). */
+export function activeGroups(f: ExploreFilters): FilterGroup[] {
+  return FILTER_GROUPS.filter((g) => g.some((k) => isActive(f, k))).map((g) => g[0]);
+}
+
+/** `f` with one group turned off (back to its default). */
+export function withoutGroup(f: ExploreFilters, group: FilterGroup): ExploreFilters {
+  const keys = FILTER_GROUPS.find((g) => g[0] === group) ?? [group];
+  const d = defaultFilters();
+  const out: ExploreFilters = { ...f };
+  for (const k of keys) (out as unknown as Record<string, unknown>)[k] = d[k];
+  return out;
+}
+
+/**
+ * The most restrictive active filter: the single group whose removal brings back the most cars.
+ * `count(filters)` runs the same pipeline Explore shows (filters + trip fit). Ties go to the
+ * earlier group. Null when no single removal helps (or nothing is active).
+ */
+export function mostRestrictive(f: ExploreFilters, count: (f: ExploreFilters) => number): { group: FilterGroup; count: number } | null {
+  let best: { group: FilterGroup; count: number } | null = null;
+  for (const group of activeGroups(f)) {
+    const n = count(withoutGroup(f, group));
+    if (n > 0 && (!best || n > best.count)) best = { group, count: n };
+  }
+  return best;
 }

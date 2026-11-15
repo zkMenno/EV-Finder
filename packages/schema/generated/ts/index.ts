@@ -843,6 +843,10 @@ export interface Catalogue {
   variant_clues?: VariantClue[];
   lookalike_groups?: LookalikeGroup[];
   known_issues?: KnownIssues;
+  /**
+   * Optional; empty until a licensed used-price source exists (T-056).
+   */
+  used_prices?: UsedPriceBand[];
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -2170,6 +2174,25 @@ export interface KnownIssueDefect {
    * The same rate over all sampled BEVs of the same first-registration year (the comparison baseline).
    */
   cohort_per_100: number;
+}
+/**
+ * Typical used asking-price band for a generation in one country. Only from sourced samples; shown only with >= 5 samples.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "UsedPriceBand".
+ */
+export interface UsedPriceBand {
+  generation_id: Id;
+  country: CountryCode;
+  currency: Currency;
+  p25?: number | null;
+  median: number;
+  p75?: number | null;
+  samples: number;
+  period: string;
+  age_band_years?: string | null;
+  source_id: Id;
+  fact_ids?: string[];
 }
 /**
  * Text keyed by language (en, nl, de, fr, es, it); en required.

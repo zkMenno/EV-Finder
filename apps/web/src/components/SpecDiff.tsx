@@ -27,7 +27,7 @@ export function SpecDiff({
   rows: SpecDiffRowView[];
 }) {
   return (
-    <div className="overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-label={caption}>
+    <div className="relative overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-label={caption}>
       <table className="min-w-full border-collapse text-sm" data-testid="spec-diff">
         <caption className="px-3 py-2 text-left text-sm text-slate-800">{caption}</caption>
         <thead className="bg-slate-50">
@@ -51,7 +51,7 @@ export function SpecDiff({
               {r.cells.map((c, i) => (
                 <td
                   key={i}
-                  className={`px-3 py-2 align-top ${c.changed ? "bg-amber-50 shadow-[inset_3px_0_0_#b45309]" : ""}`}
+                  className={`px-3 py-2 align-top ${c.changed ? "bg-amber-50 shadow-[inset_3px_0_0_var(--warning)]" : ""}`}
                   data-changed={c.changed || undefined}
                 >
                   <span className="inline-flex items-start gap-1">

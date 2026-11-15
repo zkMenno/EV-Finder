@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { row, rows } from "@/test/helpers";
-import { applyFilters, sortRows } from "./filters";
-import { defaultFilters } from "./state";
+import { activeGroups, applyFilters, mostRestrictive, sortRows, withoutGroup } from "./filters";
+import { defaultFilters, type ExploreFilters } from "./state";
 
 const f = (p: Partial<ReturnType<typeof defaultFilters>>) => ({ ...defaultFilters(), ...p });
 
@@ -66,5 +66,30 @@ describe("sortRows", () => {
     const head = prices.slice(0, firstNull) as number[];
     expect(head).toEqual([...head].sort((x, y) => x - y));
     expect(prices.slice(firstNull).every((p) => p === null)).toBe(true);
+  });
+});
+
+describe("empty state: most restrictive filter (Wave 5 polish)", () => {
+  const rows = [
+    row({ variant_id: "a", real_range_km: 300, voltage_class_id: "400v" }),
+    row({ variant_id: "b", real_range_km: 450, voltage_class_id: "400v" }),
+    row({ variant_id: "c", real_range_km: 500, voltage_class_id: "800v" }),
+  ];
+  const count = (f: ExploreFilters) => applyFilters(rows, f, "NL").length;
+
+  it("names the single filter whose removal brings back the most cars", () => {
+    const f = { ...defaultFilters(), rangeMin: 600, voltageClasses: ["400v"] };
+    expect(count(f)).toBe(0);
+    // Dropping the range filter → 2 cars (a, b); dropping the voltage filter → 0.
+    expect(mostRestrictive(f, count)).toEqual({ group: "rangeMin", count: 2 });
+  });
+
+  it("groups the voltage range and returns null when no single removal helps", () => {
+    const f = { ...defaultFilters(), voltageMin: 900, voltageMax: 950 };
+    expect(activeGroups(f)).toEqual(["voltageMin"]);
+    expect(withoutGroup(f, "voltageMin")).toEqual(defaultFilters());
+    const g = { ...defaultFilters(), rangeMin: 600, voltageClasses: ["900v-plus"] };
+    expect(mostRestrictive(g, count)).toBeNull();
+    expect(mostRestrictive(defaultFilters(), count)).toBeNull();
   });
 });

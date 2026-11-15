@@ -53,7 +53,7 @@ export default async function AboutPage({ params }: Props) {
 
   return (
     <>
-      <Breadcrumbs label={t("nav.main")} items={[{ label: t("crumb.home"), href: base }, { label: t("about.title", { app }) }]} />
+      <Breadcrumbs label={t("crumb.label")} items={[{ label: t("crumb.home"), href: base }, { label: t("about.title", { app }) }]} />
       <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("about.title", { app })}</h1>
       <p className="mt-2 max-w-3xl text-slate-800">{t("about.intro", { app })}</p>
 
@@ -114,7 +114,7 @@ export default async function AboutPage({ params }: Props) {
         <p className="mt-2 max-w-3xl text-slate-800">{t("about.credits.intro", { n: release.n, date: release.date })}</p>
         {cat.origin() === "fixture" ? <p className="mt-2 max-w-3xl font-medium text-amber-900">{t("footer.fixture")}</p> : null}
         {list.length ? (
-          <div className="mt-3 overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-labelledby="about-credits">
+          <div className="relative mt-3 overflow-x-auto rounded-md border border-slate-300" tabIndex={0} role="region" aria-labelledby="about-credits">
             <table className="min-w-full border-collapse text-sm">
               <thead className="bg-slate-50">
                 <tr>

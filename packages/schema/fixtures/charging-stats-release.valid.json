@@ -1,9 +1,30 @@
 {
   "release": 2,
   "generated_at": "2026-11-15T03:00:00+00:00",
-  "sources": [{"id": "bnetza-ladesaeulenregister", "name": "Bundesnetzagentur Ladesäulenregister", "licence": "CC-BY-4.0", "attribution": "Bundesnetzagentur.de"}],
-  "source_aliases": {"bnetza-ladesaeulenregister": "bnetza"},
+  "sources": [
+    {
+      "id": "bnetza-ladesaeulenregister",
+      "name": "Bundesnetzagentur Ladesäulenregister",
+      "licence": "CC-BY-4.0",
+      "attribution": "Bundesnetzagentur.de"
+    }
+  ],
+  "source_aliases": { "bnetza-ladesaeulenregister": "bnetza" },
   "stats": [
-    {"id": "bnetza-ladesaeulenregister:de::2026-07-01:public-points:all", "country": "DE", "region": null, "period_end": "2026-07-01", "metric_id": "public-points", "power_band_id": null, "value": 12345, "unit": "count", "source_id": "bnetza-ladesaeulenregister", "definition_id": "de-bnetza-ladepunkt", "confidence": "high", "entered_by": "pipeline", "retrieved_at": "2026-11-15"}
+    {
+      "id": "bnetza-ladesaeulenregister:de::2026-07-01:public-points:all",
+      "country": "DE",
+      "region": null,
+      "period_end": "2026-07-01",
+      "metric_id": "public-points",
+      "power_band_id": null,
+      "value": 12345,
+      "unit": "count",
+      "source_id": "bnetza-ladesaeulenregister",
+      "definition_id": "de-bnetza-ladepunkt",
+      "confidence": "high",
+      "entered_by": "pipeline",
+      "retrieved_at": "2026-11-15"
+    }
   ]
 }

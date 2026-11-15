@@ -6,7 +6,7 @@ import { ChargingLinks } from "@/components/ChargingLinks";
 import { abrpLink, chargingLinks } from "@/lib/charging-links";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PriceBand } from "@/components/PriceBand";
-import { Term } from "@/components/Term";
+import { Term, TermInfo } from "@/components/Term";
 import { PricePanel } from "@/components/PriceMode";
 import { getClientDict } from "@/i18n";
 import { financeTerms } from "@/lib/finance";
@@ -56,7 +56,7 @@ export default async function VariantPage({ params }: Props) {
   return (
     <>
       <Breadcrumbs
-        label={t("nav.main")}
+        label={t("crumb.label")}
         items={[
           { label: t("crumb.home"), href: base },
           { label: modelName, href: modelHref(base, row) },
@@ -71,11 +71,15 @@ export default async function VariantPage({ params }: Props) {
             <span>{row.generation_name}</span>
             <span className="tabular-nums">· {formatYears(row.year_start, row.year_end, t("years.now"))}</span>
             {row.generation_uncertain ? (
-              <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">{t("years.unchecked")}</span>
+              <>
+                <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">{t("years.unchecked")}</span>
+                <TermInfo term={ctx.tax.terms["model-years"]} base={ctx.base} text={ctx.termText} />
+              </>
             ) : null}
             <span className="rounded border border-slate-400 px-1 text-xs">
               {t("variant.quality", { tier: t(`tier.${row.quality_tier}`) })}
             </span>
+            <TermInfo term={ctx.tax.terms["quality-tier"]} base={ctx.base} text={ctx.termText} />
           </p>
         </div>
         <VariantActions

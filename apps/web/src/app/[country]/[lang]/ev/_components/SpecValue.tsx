@@ -2,7 +2,7 @@
 // taxonomy ids as localised labels. Server component; shared by variant, generation and compare pages.
 import type { PublishedVariant } from "@ev/schema";
 import { Missing, Num } from "@/components/Num";
-import { Term } from "@/components/Term";
+import { Term, TermInfo } from "@/components/Term";
 import { hasMsgKey, type MsgKey } from "@/i18n";
 import { hiddenForNoDc } from "@/lib/dc";
 import { DASH, formatMoney } from "@/lib/format";
@@ -62,7 +62,16 @@ export function SpecValue({ ctx, row, field }: { ctx: PageCtx; row: PublishedVar
   if (hiddenForNoDc(row, field.key)) return <Missing label={ctx.labels.noDc} />;
   if (field.kind === "text") {
     const text = textValue(ctx, row, field.key);
-    return text === DASH ? <Missing label={ctx.labels.noData} /> : <span>{text}</span>;
+    if (text === DASH) return <Missing label={ctx.labels.noData} />;
+    // "not disclosed" is a term too (glossary sweep item 7): the maker doesn't publish it.
+    if (row[field.key] === ND)
+      return (
+        <span className="inline-flex items-center gap-1">
+          {text}
+          <TermInfo term={ctx.tax.terms["not-disclosed"]} base={ctx.base} text={ctx.termText} />
+        </span>
+      );
+    return <span>{text}</span>;
   }
   if (field.kind === "price") {
     const m = row.price_new?.[ctx.cfg.code];
@@ -93,6 +102,7 @@ export function SpecValue({ ctx, row, field }: { ctx: PageCtx; row: PublishedVar
       locale={ctx.locale}
       labels={ctx.labels}
       note={note}
+      noteTerm={note ? "rung" : undefined}
       claim={field.key === "dc_peak_kw" && !!row.dc_peak_kw_is_claim}
       asOf={ctx.asOf}
     />

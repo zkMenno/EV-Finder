@@ -33,17 +33,19 @@ export interface PageCtx {
 export function pageCtx(country: CountrySlug, lang: Lang): PageCtx {
   const t = getT(lang);
   const cat = getCatalogue();
+  const tax = localizeTaxonomy(cat.taxonomy(), lang);
+  const base = siteBase(country, lang);
   return {
     country,
     cfg: COUNTRIES[country],
     lang,
-    base: siteBase(country, lang),
+    base,
     locale: localeFor(lang),
     t,
     cat,
-    labels: numLabels(t),
+    labels: numLabels(t, { base, terms: tax.terms }),
     sources: sourceNames(cat.sources()),
-    tax: localizeTaxonomy(cat.taxonomy(), lang),
+    tax,
     asOf: cat.generatedAt().slice(0, 10),
     termText: { about: t("term.about"), learnMore: t("term.learnMore") },
   };

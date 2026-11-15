@@ -18,8 +18,10 @@ pnpm listings     # config/countries/*.yaml → src/config/listings.generated.js
 pnpm countries    # config/countries/*.yaml languages → src/config/countries.generated.json
 pnpm finance      # data/taxonomy/finance_profiles.yaml → src/config/finance.generated.json
 pnpm learn        # content/learn/**.md → src/config/learn.generated.json (front matter + Markdown subset)
+pnpm theme        # docs/design/tokens.json → src/app/tokens.generated.css (both themes)
 pnpm exec playwright install chromium   # once
-pnpm e2e          # Playwright smoke test (run `pnpm build` first)
+pnpm e2e          # Playwright: flows + axe accessibility check (run `pnpm build` first)
+AXE_REPORT=1 pnpm exec playwright test e2e/a11y.spec.ts   # print every axe finding, moderate ones too
 ```
 
 From the repo root the same scripts run as `pnpm --filter @ev/web <script>` (CI runs lint, typecheck, test, build).
@@ -35,6 +37,19 @@ The browser gets a compact copy for Explore at `/data/catalogue-<release>.json` 
 "Find a charger / plan a trip" links come from `charging_links` in the same country files (`pnpm charging-links` → `src/config/charging-links.generated.json`); none configured yet means no block.
 
 "See listings" deep links come from `config/countries/<country>.yaml` at the repo root: public search URLs only (Decision 004), all unverified. `pnpm listings` validates them and writes `src/config/listings.generated.json`, which the server imports (no YAML parser at runtime). Commit the regenerated JSON; a unit test fails when it is stale.
+
+## Themes
+
+Two themes from the design system (`docs/design/tokens.json`): light **Day trip** and dark **Night drive**. `pnpm theme` (also run by `dev` and `build`) writes the colour tokens as CSS variables into `src/app/tokens.generated.css`; commit it (a unit test fails when it is stale; the Docker build has no `docs/` and keeps the committed file). `src/app/globals.css` points Tailwind's slate / blue / amber / green / red / white palette at the tokens, so existing classes follow the theme. In new code, use the tokens directly (`bg-[var(--surface)]`, `text-[var(--ink-2)]`) and never paste hex values.
+
+- Default: the system setting (`prefers-color-scheme`).
+- The "Night drive" button in the header (`src/components/ThemeToggle.tsx`) remembers the choice in localStorage (`ev-finder:theme:v1`, `src/lib/theme.ts`).
+- `/theme-init.js` (a same-origin route, `src/app/theme-init.js/route.ts`) applies the stored choice before first paint. It is a file, not an inline script, so the CSP needs no change.
+- Print always uses the light theme.
+
+## Accessibility
+
+`e2e/a11y.spec.ts` runs axe-core (`@axe-core/playwright`) on Explore (table, cards, Nerd), a generation page, a variant page, Compare, a /learn guide and a ranking list, in both themes. It fails on critical and serious violations. Results and what is not covered yet: `audits/A-04-accessibility.md`. Keyboard order and focus rings: `e2e/polish.spec.ts`, `e2e/review.spec.ts`.
 
 ## Environment
 
@@ -64,7 +79,7 @@ The browser gets a compact copy for Explore at `/data/catalogue-<release>.json` 
 | `{base}/ev/{make}/{model}/{generation}` | Generation: key facts, spec diff, price mode + loan calculator, See listings; SSG |
 | `{base}/ev/{make}/{model}/{generation}/{variant}` | Variant spec sheet, price mode + loan calculator, add to compare, See listings; SSG |
 | `{base}/compare?ids=a,b` | Compare up to 4 cars (`&diff=1`, `&pay=loan`, print view); noindex; ƒ |
-| `{base}/top`, `{base}/top/{list}` | Rankings; SSG |
+| `{base}/top`, `{base}/top/{list}` | Rankings; SSG. `best-used-under-15k/20k/25k` exist only where at least 5 generations have a sourced used price (none in release 1: 404, not linked) |
 | `{base}/learn` | Learn index: guides (`content/learn/index.yaml`) + glossary A–Z; SSG |
 | `{base}/learn/{slug}` | A guide from `content/learn/<slug>/<lang>.md` (EN fallback with a notice, draft banner, sources, ⓘ terms) or a glossary term; SSG |
 | `{base}/about` | About, method, licences, credits; SSG |
@@ -72,6 +87,7 @@ The browser gets a compact copy for Explore at `/data/catalogue-<release>.json` 
 | `/sitemap.xml`, `/robots.txt` | Served pairs × indexable pages (no compare, no staff) |
 | `/data/catalogue-{release}.json` | Compact client catalogue |
 | `/health` | Liveness probe (status, release number, time) |
+| `/theme-init.js` | Applies the remembered theme before first paint |
 
 Every page has canonical + hreflang for all 11 served pairs + `x-default` (`/nl/en/…`). The browser language (`Accept-Language`) never redirects; a dismissible banner suggests a served language. The language switcher keeps the path and query (filters) and remembers the choice in a cookie used only by the `/{country}` redirect.
 

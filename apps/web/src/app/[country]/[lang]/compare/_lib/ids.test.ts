@@ -27,5 +27,8 @@ describe("compareUrl", () => {
     expect(compareUrl("/nl/nl", ["a", "b"])).toBe("/nl/nl/compare?ids=a,b");
     expect(compareUrl("/nl/nl", ["a", "b"], true)).toBe("/nl/nl/compare?ids=a,b&diff=1");
     expect(compareUrl("/de/de", [])).toBe("/de/de/compare");
+    expect(compareUrl("/nl/nl", ["a", "b"], true, "loan")).toBe("/nl/nl/compare?ids=a,b&diff=1&pay=loan");
+    expect(compareUrl("/nl/nl", ["a"], false, "buy")).toBe("/nl/nl/compare?ids=a");
+    expect(compareUrl("/nl/nl", ["a"], false, "<x>")).toBe("/nl/nl/compare?ids=a");
   });
 });

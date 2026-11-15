@@ -13,6 +13,7 @@ import type {
   Taxonomy,
 } from "@ev/schema";
 import fixture from "../fixtures/catalogue.sample.json";
+import { isUsedPriceBand, type UsedPriceBand } from "./used-rankings";
 
 export interface Catalogue {
   release(): number;
@@ -29,6 +30,11 @@ export interface Catalogue {
   taxonomy(): Taxonomy;
   platforms(): Platform[];
   batteryPacks(): BatteryPack[];
+  /**
+   * Sourced used-price bands per generation × country (`used_prices` in catalogue.json; not in
+   * the schema yet, Q-085). Malformed entries are dropped. Empty in release 1: no used prices.
+   */
+  usedPrices(): UsedPriceBand[];
 }
 
 class JsonCatalogue implements Catalogue {
@@ -74,6 +80,10 @@ class JsonCatalogue implements Catalogue {
   }
   batteryPacks(): BatteryPack[] {
     return this.data.battery_packs ?? [];
+  }
+  usedPrices(): UsedPriceBand[] {
+    const raw = (this.data as CatalogueFile & { used_prices?: unknown }).used_prices;
+    return Array.isArray(raw) ? raw.filter(isUsedPriceBand) : [];
   }
 }
 

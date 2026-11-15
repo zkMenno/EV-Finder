@@ -46,6 +46,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
   const { t, cfg } = ctx;
   const ids = parseCompareIds(sp.ids);
   const onlyDiff = sp.diff === "1";
+  const pay = typeof sp.pay === "string" ? sp.pay : null;
   const cars = ids.map((id) => ctx.cat.variant(id)).filter((r): r is PublishedVariant => !!r);
   const missing = ids.filter((id) => !ctx.cat.variant(id));
   const foundIds = cars.map((c) => c.variant_id);
@@ -85,7 +86,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
 
   return (
     <div data-compare-page="">
-      <Breadcrumbs label={t("nav.main")} items={[{ label: t("crumb.home"), href: base }, { label: t("crumb.compare") }]} />
+      <Breadcrumbs label={t("crumb.label")} items={[{ label: t("crumb.home"), href: base }, { label: t("crumb.compare") }]} />
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("compare.title")}</h1>
@@ -127,7 +128,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
             {cars.length >= 2 ? (
               <Link
-                href={compareUrl(base, foundIds, !onlyDiff)}
+                href={compareUrl(base, foundIds, !onlyDiff, pay)}
                 className="inline-flex min-h-11 items-center gap-2 rounded-md border border-blue-800 px-4 text-sm font-semibold text-blue-900 hover:bg-blue-50"
                 data-testid="compare-diff-toggle"
               >
@@ -162,6 +163,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
                             base,
                             foundIds.filter((x) => x !== c.variant_id),
                             onlyDiff,
+                            pay,
                           )}
                           className="text-xs font-normal text-slate-800 underline underline-offset-2 print:hidden"
                         >

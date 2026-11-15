@@ -42,7 +42,7 @@ export default async function ModelPage({ params }: Props) {
 
   return (
     <>
-      <Breadcrumbs label={t("nav.main")} items={[{ label: t("crumb.home"), href: base }, { label: name }]} />
+      <Breadcrumbs label={t("crumb.label")} items={[{ label: t("crumb.home"), href: base }, { label: name }]} />
       <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{name}</h1>
       <p className="mt-2 text-slate-800">
         {gens.length === 1
@@ -69,6 +69,7 @@ export default async function ModelPage({ params }: Props) {
                     {t("years.unchecked")}
                   </span>
                 ) : null}
+                {g.uncertain ? <TermInfo term={ctx.tax.terms["model-years"]} base={base} text={ctx.termText} /> : null}
               </p>
               <p className="text-sm text-slate-800">{t("model.variants", { n: g.rows.length })}</p>
               {rdw ? (

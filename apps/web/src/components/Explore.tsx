@@ -5,7 +5,7 @@
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
 import type { Country, Currency, FieldProvenance } from "@ev/schema";
 import Link from "next/link";
-import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { generationHref, variantHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import type { CountrySlug, Lang } from "@/config/countries";
 import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
@@ -13,7 +13,7 @@ import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
 import { hasDcData } from "@/lib/dc";
 import type { ClientCatalogue, ExploreRow } from "@/lib/explore-data";
 import { favouriteStore } from "@/lib/favourites";
-import { applyFilters, displayName, priceFor, sortRows } from "@/lib/filters";
+import { applyFilters, displayName, mostRestrictive, priceFor, sortRows, withoutGroup, type FilterGroup } from "@/lib/filters";
 import { formatMoney, formatYears, localeFor } from "@/lib/format";
 import { effectiveLoan, monthlyFor, readPayMode, writePayMode, type EffectiveLoan, type FinanceProfileView, type PayMode } from "@/lib/finance";
 import { LeaseNotice, LoanBox, PayModeToggle, useLoanSettings, type FinanceUi } from "@/components/PriceMode";
@@ -139,7 +139,7 @@ export function Explore(props: ExploreProps) {
     () => ({
       t,
       locale,
-      labels: numLabels(t),
+      labels: numLabels(t, { base: siteBase(props.country, props.lang), terms: props.taxonomy.terms }),
       sources,
       code: props.code,
       currency: props.currency,
@@ -156,7 +156,14 @@ export function Explore(props: ExploreProps) {
       asOf: props.asOf,
       pay: state.pay,
       loan,
-      trip: tripMod && fits ? { mod: tripMod, fits, ui: { t, level: state.level, locale, labels: numLabels(t), country: props.country } } : undefined,
+      trip: tripMod && fits ? { mod: tripMod, fits, ui: {
+              t,
+              level: state.level,
+              locale,
+              labels: numLabels(t, { base: siteBase(props.country, props.lang), terms: props.taxonomy.terms }),
+              country: props.country,
+              gloss: { base: siteBase(props.country, props.lang), terms: props.taxonomy.terms, text: { about: t("term.about"), learnMore: t("term.learnMore") } },
+            } } : undefined,
     }),
     [t, locale, sources, props.code, props.currency, props.country, props.lang, props.taxonomy, state.level, props.asOf, state.pay, loan, tripMod, fits],
   );
@@ -282,17 +289,28 @@ export function Explore(props: ExploreProps) {
     termText: ctx.termText,
   };
 
+  // The filter pipeline Explore shows: filters + (with a trip entered) the winter trip fit.
+  const runFilters = useCallback(
+    (f: ExploreFilters) => {
+      let out = applyFilters(all ?? props.initialRows, f, props.code);
+      // "Does my trips in winter": keeps ✓ and ⚠; only with a trip entered (the URL flag alone does nothing).
+      if (f.tripFit && fits) out = out.filter((r) => {
+        const v = fits.get(r.variant_id)?.verdict;
+        return v === "ok" || v === "tight";
+      });
+      return out;
+    },
+    [all, props.initialRows, props.code, fits],
+  );
   const matches = useMemo(() => {
     if (!all && !dirty) return props.initialRows;
-    const base = all ?? props.initialRows;
-    let out = applyFilters(base, state.filters, props.code);
-    // "Does my trips in winter": keeps ✓ and ⚠; only with a trip entered (the URL flag alone does nothing).
-    if (state.filters.tripFit && fits) out = out.filter((r) => {
-      const v = fits.get(r.variant_id)?.verdict;
-      return v === "ok" || v === "tight";
-    });
-    return sortRows(out, state.sort, state.dir, props.code);
-  }, [all, dirty, state.filters, state.sort, state.dir, props.code, props.initialRows, fits]);
+    return sortRows(runFilters(state.filters), state.sort, state.dir, props.code);
+  }, [all, dirty, runFilters, state.filters, state.sort, state.dir, props.code, props.initialRows]);
+  // Empty state with a reason: the one filter whose removal brings back the most cars.
+  const relax = useMemo(
+    () => (matches.length === 0 && (all || dirty) ? mostRestrictive(state.filters, (f) => runFilters(f).length) : null),
+    [matches.length, all, dirty, state.filters, runFilters],
+  );
 
   const matchCount = all || dirty ? matches.length : props.initialMatches;
   const rows = matches.slice(0, limit);
@@ -354,7 +372,7 @@ export function Explore(props: ExploreProps) {
               onClose={() => setTripOpen(false)}
               onClear={clearTrip}
               fits={fits}
-              ui={{ t, level: state.level, locale, labels: ctx.labels, country: props.country }}
+              ui={{ t, level: state.level, locale, labels: ctx.labels, country: props.country, gloss: { base: ctx.base, terms: ctx.tax.terms, text: ctx.termText } }}
             />
           ) : (
             <p className="mb-4 text-sm text-slate-700">{t("trip.loading")}</p>
@@ -362,7 +380,13 @@ export function Explore(props: ExploreProps) {
         ) : null}
 
         {rows.length === 0 ? (
-          <p className="rounded-md border border-dashed border-slate-400 p-6 text-center text-slate-800">{t("explore.noResults")}</p>
+          <EmptyState
+            ctx={ctx}
+            filters={state.filters}
+            relax={relax}
+            onRemove={(g) => update({ ...state, filters: withoutGroup(state.filters, g) })}
+            onReset={() => update({ ...state, filters: defaultFilters() })}
+          />
         ) : state.view === "table" ? (
           <ExploreTable rows={rows} state={state} onSort={(k) => update(nextSort(state, k))} ctx={ctx} />
         ) : (
@@ -391,6 +415,70 @@ export function Explore(props: ExploreProps) {
 }
 
 /* ---------- trip fit entry point (T-036) ---------- */
+
+/** Label of one filter group as the filters panel shows it, with chosen values where it has them. */
+function groupLabel(g: FilterGroup, f: ExploreFilters, c: Ctx): string {
+  const { t } = c;
+  const list = (label: string, values: string[]) => (values.length ? `${label}: ${values.join(", ")}` : label);
+  switch (g) {
+    case "priceMax": return t("filters.price");
+    case "eras": return list(t("filters.era"), f.eras);
+    case "segments": return list(t("filters.segment"), f.segments.map((v) => t(`segment.${v}` as MsgKey)));
+    case "bodies": return list(t("filters.body"), f.bodies.map((v) => t(`body.${v}` as MsgKey)));
+    case "rangeMin": return t("filters.range");
+    case "batteryMin": return t("filters.battery");
+    case "dcMin": return t("filters.dc");
+    case "bootMin": return t("filters.boot");
+    case "lengthMax": return t("filters.length");
+    case "towingMin": return t("filters.towing");
+    case "voltageClasses": return list(t("filters.voltage"), f.voltageClasses.map((v) => named(c.names.voltage, v, c)));
+    case "voltageMin": return t("filters.vrange");
+    case "fast400": return t("filters.fast400");
+    case "chemistries": return list(t("filters.chemistry"), f.chemistries.map((v) => named(c.names.chem, v, c)));
+    case "coolings": return list(t("filters.cooling"), f.coolings.map((v) => named(c.names.cool, v, c)));
+    case "charge100": return t("filters.charge100");
+    case "tripFit": return t("trip.filter");
+  }
+}
+
+/** "No cars match": names the most restrictive filter and offers to remove it (or reset all). */
+function EmptyState({
+  ctx,
+  filters,
+  relax,
+  onRemove,
+  onReset,
+}: {
+  ctx: Ctx;
+  filters: ExploreFilters;
+  relax: { group: FilterGroup; count: number } | null;
+  onRemove: (g: FilterGroup) => void;
+  onReset: () => void;
+}) {
+  const { t } = ctx;
+  const name = relax ? groupLabel(relax.group, filters, ctx) : "";
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-md border border-dashed border-slate-400 p-6 text-center text-slate-800" data-testid="explore-empty" role="status">
+      <p>{relax ? t("explore.noResults.reason", { filter: name, n: relax.count }) : t("explore.noResults")}</p>
+      <div className="flex flex-wrap justify-center gap-3">
+        {relax ? (
+          <button
+            type="button"
+            onClick={() => onRemove(relax.group)}
+            className="min-h-9 rounded-md border border-blue-800 bg-blue-800 px-3 text-sm font-semibold text-white hover:bg-blue-900"
+            data-testid="explore-empty-remove"
+            data-group={relax.group}
+          >
+            {t("explore.noResults.remove", { filter: name })}
+          </button>
+        ) : null}
+        <button type="button" onClick={onReset} className="min-h-9 rounded-md border border-slate-400 px-3 text-sm text-blue-800 underline underline-offset-2">
+          {t("filters.reset")}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function TripBar({
   ctx,
@@ -424,10 +512,13 @@ function TripBar({
           >
             {t("trip.chip", { km: settings!.roundTripKm! })} <span className="underline underline-offset-2">{t("trip.edit")}</span>
           </button>
-          <label htmlFor="f-trip" className="flex items-center gap-2 text-sm font-medium">
-            <input id="f-trip" type="checkbox" checked={filterOn} onChange={(e) => onFilter(e.target.checked)} className="h-4 w-4 accent-blue-800" />
-            {t("trip.filter")}
-          </label>
+          <span className="flex items-center gap-1">
+            <label htmlFor="f-trip" className="flex items-center gap-2 text-sm font-medium">
+              <input id="f-trip" type="checkbox" checked={filterOn} onChange={(e) => onFilter(e.target.checked)} className="h-4 w-4 accent-blue-800" />
+              {t("trip.filter")}
+            </label>
+            <TermInfo term={ctx.tax.terms["trip-fit"]} base={ctx.base} text={ctx.termText} />
+          </span>
         </>
       ) : (
         <button
@@ -440,6 +531,7 @@ function TripBar({
           {t("trip.open")}
         </button>
       )}
+      {has ? null : <TermInfo term={ctx.tax.terms["trip-fit"]} base={ctx.base} text={ctx.termText} />}
     </div>
   );
 }
@@ -753,6 +845,7 @@ function num(r: ExploreRow, c: Ctx, v: number | null | undefined, field: string,
       labels={c.labels}
       digits={digits}
       note={note}
+      noteTerm={field === "real_range_km" && note ? "rung" : undefined}
       claim={claim}
       level={c.level}
       asOf={c.asOf}
@@ -857,8 +950,10 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
   const { t, level } = ctx;
   const cols = COLS.filter((c) => c.levels.includes(level));
   const trip = ctx.trip;
+  // "Sort by {col}" split around the column name, so the words work in any language's order.
+  const [sortBefore = "", sortAfter = ""] = t("sort.by", { col: "\u0000" }).split("\u0000");
   return (
-    <div className="max-h-[75vh] overflow-auto rounded-lg border border-slate-300" tabIndex={0} aria-labelledby="results-heading">
+    <div className="relative max-h-[75vh] overflow-auto rounded-lg border border-slate-300" tabIndex={0} aria-labelledby="results-heading" data-testid="explore-scroll">
       <table className="w-max min-w-full border-collapse text-sm" data-testid="explore-table">
         <thead>
           <tr>
@@ -881,10 +976,13 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
                       <button
                         type="button"
                         onClick={() => onSort(col.key!)}
-                        aria-label={t("sort.by", { col: term?.label ?? t(col.label) })}
-                        className="inline-flex items-end gap-1 rounded-sm text-left hover:underline"
+                        // No aria-label: the accessible name must contain the visible label (WCAG 2.5.3,
+                        // axe label-content-name-mismatch), so "Sort by" is sr-only text around it.
+                        className="inline-flex min-h-6 items-end gap-1 rounded-sm text-left hover:underline"
                       >
+                        {sortBefore.trim() ? <span className="sr-only">{sortBefore}</span> : null}
                         {label}
+                        {sortAfter.trim() ? <span className="sr-only">{sortAfter}</span> : null}
                         <span aria-hidden="true" className="text-xs text-slate-600">
                           {sorted ? (state.dir === "asc" ? "▲" : "▼") : "↕"}
                         </span>
@@ -922,7 +1020,7 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
                 <div className="flex items-center gap-2">
                   <RowActions row={r} t={t} />
                   <span className="flex flex-col">
-                    <Link href={variantHref(ctx.base, r)} className="whitespace-nowrap text-blue-800 underline underline-offset-2 hover:text-blue-950">
+                    <Link href={variantHref(ctx.base, r)} className="inline-block min-h-6 whitespace-nowrap py-0.5 text-blue-800 underline underline-offset-2 hover:text-blue-950">
                       {r.make_name} {r.model_name}
                       {level !== "simple" ? <span className="sr-only"> {r.generation_name} {r.variant_name}</span> : null}
                     </Link>
@@ -997,7 +1095,7 @@ function RowSources({ row, ctx }: { row: ExploreRow; ctx: Ctx }) {
       <button
         {...buttonProps}
         aria-label={t("explore.rowSources", { name: displayName(row) })}
-        className="w-fit whitespace-nowrap rounded-sm text-left text-xs font-normal text-blue-800 underline decoration-dotted underline-offset-2"
+        className="min-h-6 w-fit whitespace-nowrap rounded-sm text-left text-xs font-normal text-blue-800 underline decoration-dotted underline-offset-2"
         data-testid="row-sources"
       >
         {t("explore.sources")}
@@ -1021,7 +1119,7 @@ function RowSources({ row, ctx }: { row: ExploreRow; ctx: Ctx }) {
 function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
   const { t, level } = c;
   const item = (label: ReactNode, value: ReactNode) => (
-    <div className="flex flex-col">
+    <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]">
       <dt className="text-xs text-slate-700">{label}</dt>
       <dd>{value}</dd>
     </div>
@@ -1051,7 +1149,10 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
             {r.generation_name} · {r.variant_name} · {formatYears(r.year_start, r.year_end, t("years.now"))}
           </p>
         </div>
-        <QualityBadge tier={r.quality_tier} label={t(`tier.${r.quality_tier}`)} help={t(`tier.${r.quality_tier}.help`)} />
+        <span className="inline-flex items-center gap-1">
+          <QualityBadge tier={r.quality_tier} label={t(`tier.${r.quality_tier}`)} help={t(`tier.${r.quality_tier}.help`)} />
+          <TermInfo term={c.tax.terms["quality-tier"]} base={c.base} text={c.termText} />
+        </span>
       </div>
       {c.trip ? (
         <div className="text-sm">

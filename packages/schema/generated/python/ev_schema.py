@@ -1906,6 +1906,23 @@ class ChargingStatsRelease(BaseModel):
     stats: list[ChargingStat]
 
 
+class UsedPriceBand(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    generation_id: Id
+    country: CountryCode
+    currency: Currency
+    p25: float | None = Field(None, ge=0.0)
+    median: float = Field(..., ge=0.0)
+    p75: float | None = Field(None, ge=0.0)
+    samples: int = Field(..., ge=0)
+    period: str
+    age_band_years: str | None = None
+    source_id: Id
+    fact_ids: list[str] | None = None
+
+
 class Generation(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -2152,3 +2169,7 @@ class Catalogue(BaseModel):
     variant_clues: list[VariantClue] | None = None
     lookalike_groups: list[LookalikeGroup] | None = None
     known_issues: KnownIssues | None = None
+    used_prices: list[UsedPriceBand] | None = Field(
+        None,
+        description='Optional; empty until a licensed used-price source exists (T-056).',
+    )

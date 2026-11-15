@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { CompareTray } from "@/components/CompareTray";
 import { LanguageBanner } from "@/components/LanguageBanner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { CountrySwitcher, LanguageSwitcher } from "@/components/Switchers";
 import { COUNTRIES, COUNTRY_SLUGS, isCountrySlug, isServed, servedPairs } from "@/config/countries";
 import { siteName } from "@/config/site";
@@ -42,7 +43,13 @@ export default async function SiteLayout({ children, params }: Props) {
   const base = siteBase(country, lang);
 
   return (
-    <html lang={lang}>
+    // suppressHydrationWarning: /theme-init.js may set data-theme on <html> before React hydrates.
+    <html lang={lang} suppressHydrationWarning>
+      <head>
+        {/* Same-origin, blocking on purpose: applies the remembered theme before first paint. */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src="/theme-init.js" />
+      </head>
       <body className="min-h-screen">
         <a
           href="#main"
@@ -83,6 +90,7 @@ export default async function SiteLayout({ children, params }: Props) {
                 countries={COUNTRY_SLUGS.map((c) => ({ slug: c, name: COUNTRIES[c].name }))}
               />
               <LanguageSwitcher lang={lang} label={t("header.language")} langs={cfg.served} />
+              <ThemeToggle label={t("theme.night")} help={t("theme.help")} />
             </div>
           </div>
         </header>

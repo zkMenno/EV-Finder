@@ -13,8 +13,14 @@ export function parseCompareIds(raw: string | string[] | undefined | null): stri
   return out;
 }
 
-/** `base` = "/{country}/{lang}". */
-export function compareUrl(base: string, ids: readonly string[], onlyDiff = false): string {
-  const q = ids.length ? `?ids=${ids.map(encodeURIComponent).join(",")}${onlyDiff ? "&diff=1" : ""}` : onlyDiff ? "?diff=1" : "";
-  return `${base}/compare${q}`;
+/**
+ * `base` = "/{country}/{lang}". `pay` (Decision 017 price mode, "loan" | "lease") is kept so the
+ * "differences only" toggle and remove links don't drop the price mode from a shared link.
+ */
+export function compareUrl(base: string, ids: readonly string[], onlyDiff = false, pay?: string | null): string {
+  const parts: string[] = [];
+  if (ids.length) parts.push(`ids=${ids.map(encodeURIComponent).join(",")}`);
+  if (onlyDiff) parts.push("diff=1");
+  if (pay === "loan" || pay === "lease") parts.push(`pay=${pay}`);
+  return `${base}/compare${parts.length ? `?${parts.join("&")}` : ""}`;
 }

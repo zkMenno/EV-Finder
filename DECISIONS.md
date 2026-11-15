@@ -326,4 +326,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** No database or server needed for fresh data. The workflow's PRs don't start CI by themselves (GITHUB_TOKEN limit) and need the repo setting that lets Actions open PRs (Q-079). When pg-boss arrives, the job calls `ev refresh` and the snapshot backend switches to S3 by env var.
 
+---
+
+## Decision 022: Themes from design tokens, applied before paint without inline scripts
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Addendum 5 asked for a light "Day trip" and a dark "Night drive" theme. The strict CSP (no inline scripts) rules out the usual inline "apply theme before paint" snippet.
+
+**Decision:** Colours come from `docs/design/tokens.json` (UX chat), generated into `apps/web/src/app/tokens.generated.css` by `scripts/theme.mjs` (a test fails when it is stale). `globals.css` maps the Tailwind colours the app uses onto the tokens. The default follows `prefers-color-scheme`; a header toggle stores the choice in localStorage; a same-origin `/theme-init.js` applies it before paint. Print is always light.
+
+**Consequences:** The UX chat changes colours in one file. axe runs on both themes in CI (0 findings tonight).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

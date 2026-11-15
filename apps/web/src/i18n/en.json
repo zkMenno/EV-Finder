@@ -460,5 +460,18 @@
   "learn.updated": "Updated {date}",
   "learn.retrieved": "checked {date}",
   "learn.newTab": "(opens in a new tab)",
-  "nav.learn": "Learn"
+  "nav.learn": "Learn",
+  "num.release": "Data release",
+  "theme.night": "Night drive",
+  "theme.help": "Dark theme. Your choice is remembered on this device.",
+  "crumb.label": "Breadcrumb",
+  "filters.vrange": "Battery voltage range",
+  "explore.noResults.reason": "No cars match: remove the “{filter}” filter to see {n}.",
+  "explore.noResults.remove": "Remove “{filter}”",
+  "top.used.title": "Best used EV under {price}",
+  "top.used.short": "Most real-world range for your money among generations with a typical used price under {price} in {country}.",
+  "top.used.metric": "km per {per}",
+  "top.used.range": "Real-world range",
+  "top.used.price": "Typical used price",
+  "top.used.method": "Ranks generations by kilometres of real-world range per {per} of their typical used price in {country}, among those whose typical used price is below {price}. The typical price is the median of at least 5 sourced price observations; generations without one are left out, not guessed. Range is the median variant of the generation, from our own real-world range figure (marked \"estimate\" where it is estimated). The list only appears once at least 5 generations qualify."
 }

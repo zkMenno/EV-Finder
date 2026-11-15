@@ -10,7 +10,7 @@
   "min_sample_cars": 20,
   "min_cars_per_code": 3,
   "top_n": 5,
-  "codes": [{"code": "205", "label_nl": "Band onvoldoende profiel", "article": "5.*.27"}],
+  "codes": [{ "code": "205", "label_nl": "Band onvoldoende profiel", "article": "5.*.27" }],
   "by_generation": {
     "tesla-model-3-gen1": [
       {
@@ -21,8 +21,10 @@
         "cars_with_any_defect": 1308,
         "any_defect_per_100": 51.2,
         "few_reports": false,
-        "cohort": {"generations": 12, "sample_cars": 5526, "any_defect_per_100": 45.2},
-        "defects": [{"code": "205", "cars_with_defect": 300, "per_100": 11.7, "cohort_per_100": 9.1}],
+        "cohort": { "generations": 12, "sample_cars": 5526, "any_defect_per_100": 45.2 },
+        "defects": [
+          { "code": "205", "cars_with_defect": 300, "per_100": 11.7, "cohort_per_100": 9.1 }
+        ],
         "source_records": ["a34c-vvps+m9d7-ebf2[merk|handelsbenaming|jaar]:TESLA|MODEL 3|2019"]
       }
     ]
