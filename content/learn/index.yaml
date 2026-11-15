@@ -33,3 +33,9 @@ articles:
     title:
       en: "400 V, 800 V and more: battery voltage explained"
       nl: "400V, 800V en hoger: accuspanning uitgelegd"
+  - slug: batteries-health
+    order: 6
+    langs: [en, nl]
+    title:
+      en: "Batteries and used battery health"
+      nl: "Accu's en accugezondheid bij occasions"
