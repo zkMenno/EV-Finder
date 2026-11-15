@@ -11,7 +11,7 @@ import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
 import { loadClientCatalogue } from "@/lib/client-catalogue";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
 import type { ExploreRow } from "@/lib/explore-data";
-import { onFilters, publishFilters } from "@/lib/filter-bus";
+import { onFilters, publishAnswers, publishFilters } from "@/lib/filter-bus";
 import { effectiveLoan, monthlyFor, type FinanceProfileView } from "@/lib/finance";
 import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "@/lib/hero-state";
@@ -42,6 +42,7 @@ import { useLevel } from "@/lib/use-level";
 import { useListStore } from "@/lib/use-list-store";
 import { generationHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import { LoanBox, LoanWarning, useLoanSettings, type FinanceUi } from "./PriceMode";
+import { profileName } from "./SuggestedSort";
 import { TermInfo, type TermText } from "./Term";
 
 export interface HeroProps {
@@ -89,13 +90,6 @@ const inputCls = "w-32 rounded-md border border-slate-400 bg-white px-3 py-2 tex
 
 function cap(s: string): string {
   return s ? s[0]!.toUpperCase() + s.slice(1) : s;
-}
-
-function profileName(rp: ResolvedProfile, t: T): string {
-  const parts = [t(`hero.profile.${rp.base.id}` as MsgKey)];
-  if (rp.layer) parts.push(t(`hero.profile.${rp.layer.id}` as MsgKey).toLowerCase());
-  if (rp.modifier) parts.push(t(`hero.profile.modifier.${rp.modifier.id}` as MsgKey));
-  return parts.join(" · ");
 }
 
 function presetLabel(p: ActivePreset, t: T, locale: string): string {
@@ -240,7 +234,11 @@ export function Hero(props: HeroProps) {
     setCopied(false);
     setHero((h) => ({ ...h, ...patch }));
   };
-  const setAnswers = (patch: Partial<Answers>) => update({ answers: { ...hero.answers, ...patch }, presetsOff: [] });
+  const setAnswers = (patch: Partial<Answers>) => {
+    const answers = { ...hero.answers, ...patch };
+    update({ answers, presetsOff: [] });
+    publishAnswers(answers);
+  };
   const setFilters = (filters: ExploreFilters) => {
     update({ filters });
     publishFilters({ filters, from: "hero" });

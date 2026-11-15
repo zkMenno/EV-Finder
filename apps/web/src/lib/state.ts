@@ -17,6 +17,8 @@ export const SORT_KEYS = [
   "price",
   "rdw",
   "quality",
+  // T-067: order from the shortlist rules for the profile picked in the hero (src/lib/shortlist.ts).
+  "suggested",
 ] as const;
 export type SortKey = (typeof SORT_KEYS)[number];
 export type SortDir = "asc" | "desc";
@@ -323,6 +325,7 @@ const FIRST_DIR: Record<SortKey, SortDir> = {
   price: "asc",
   rdw: "desc",
   quality: "desc",
+  suggested: "desc",
 };
 
 /** Header click cycle: first direction → other direction → unsorted. */
