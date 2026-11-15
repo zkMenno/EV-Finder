@@ -18,6 +18,7 @@ from ev_pipeline.backtest.harness import release_backtest
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.opendata.bundle import write_open_bundle
 from ev_pipeline.qa.report import qa_document, qa_md, run_qa
+from ev_pipeline.qa.top40 import top40_section
 from ev_pipeline.release.gate import load_registry
 from ev_pipeline.release.validate import ReleaseError
 
@@ -57,6 +58,7 @@ def finish_release(
     checks = run_qa(catalogue, facts, registry, policies, prev)
     backtest = release_backtest(data_dir, registry.releasable, prev_bt)
     doc = qa_document(catalogue, checks, backtest)
+    doc["top40"] = top40_section(catalogue, data_dir)  # report only (ADDENDUM-6 P5)
     if doc["status"] == "fail":
         review = data_dir / "review"
         review.mkdir(parents=True, exist_ok=True)

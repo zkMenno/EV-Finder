@@ -134,18 +134,11 @@ Hyundai/Kia E-GMP 58 kWh packs are sold as 800 V but sit around 523 V nominal, w
 
 **Answer:**
 
-### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15
-The ev, top and learn pages have `generateStaticParams` for all 5 countries (1,552 paths), but `app/[country]/layout.tsx` calls `requestLang()` → `headers()`, so Next renders every route on demand (ƒ). This works and is fast (catalogue is cached in memory), but it is not static. **Default:** left as is; the pages turn static by themselves once language stops depending on the request (e.g. a `/[country]/[lang]` segment or language = country default plus a client switch). Is static output needed for launch?
-
-**Answer:**
-
-### Q-034 · Static model pages (Q-033): skipped for now, needs a decision · T-008 (wave 4) · builder · 2026-11-15
-Tried to make the ev, top and learn pages static. **Not done**, for three reasons: (1) `<html lang>` sits in the root layout, which can only learn the language from the request, so a static page needs the language as a route segment, which means a layout restructure (multiple root layouts or a hidden `[lang]` segment the proxy rewrites to); (2) static pages bake the catalogue in at build time, but the app re-reads `data/releases/latest` at runtime (Decision 008: releases swap atomically and roll back by pointing `latest` back), and the Docker build stage has no `data/releases`, so in the image the pages would be built from the dev fixture; (3) one copy per language would mean 1,552 × 6 paths. **Default:** pages stay on-demand (ƒ, fast: the catalogue is cached in memory). **Proposal if static is wanted:** proxy rewrites `/{country}/…` to a hidden `/{lang}/{country}/…` tree (public URLs, `?lang` and the cookie stay as they are), `generateStaticParams` only for each country's default language, others on demand with ISR, `revalidate` on a release change, and `data/releases` copied into the build stage. Needs a Decision entry first. Is static output needed for launch?
-
-**Answer:**
 
 ### Q-035 · Staff review page: reads pipeline files, no auth yet · T-008 (wave 4) · builder · 2026-11-15
 `/staff/review` (read-only table of `data/review/unmatched.csv` and `conflicts.csv`) reads those files directly, which `apps/web/AGENTS.md` rule 5 otherwise forbids; I noted it there as the one exception. It is off unless `STAFF_PAGES=1` (404 otherwise), `noindex` plus `X-Robots-Tag`, and has no login. In the Docker image the CSVs aren't there (it shows "not found" unless `REVIEW_DIR` points at a mount). **Default:** keep `STAFF_PAGES=0` in production until staff auth exists; use it locally. OK, or should it sit behind Caddy basic auth on staging?
+
+**Update (overnight, A-02):** the app now has a basic guard: with `STAFF_PAGES=1`, `/staff/*` also needs HTTP Basic credentials from `STAFF_BASIC_AUTH` (`user:pass`, env only; constant-time compare in `src/proxy.ts` / `src/lib/staff-auth.ts`). Without `STAFF_BASIC_AUTH` it answers 401 (fails closed). Still noindex, `no-store`, never linked. Caddy `basic_auth` on top stays a WS4 option.
 
 **Answer:**
 
@@ -314,7 +307,61 @@ No answer needed unless you disagree. Hand-entered facts now go in `data/manual/
 
 **Answer:**
 
+### Q-070 · Static pages need a rebuild per release · T-050 / Decision 015 · web builder · 2026-11-15
+Model, generation, variant and learn pages are now static and baked from the release present at build time (Q-033/Q-034). Explore and `/data/catalogue-<n>.json` still read `data/releases/latest` at run time, so if `latest` moves on the server without a new image, Explore would show the new release while static pages show the old one (and links to new variants would 404). **Default:** treat a release like code: the release job commits it, CI builds and deploys a new image; rollback = previous image. Server-side `latest` swaps without a rebuild should stop (WS4 to confirm in the deploy runbook). Alternative if hourly freshness is needed later: ISR with on-demand revalidation per release (more moving parts, and the CSP hash manifest from T-050 would then need a different approach). OK?
+
+**Answer:**
+
+### Q-071 · Language URL details: x-default, Belgium and the remembered language · T-050 · web builder · 2026-11-15
+Judgement calls in T-050: (1) `x-default` points to English in the Netherlands (`/nl/en/…`): prices in EUR, English text. (2) Belgium serves NL, FR **and DE** (German is an official language there) plus EN; `default_language: nl`. The German UI still falls back to EN key by key. (3) `/{country}` redirects (307) to the language the visitor picked before (cookie set by the language switcher) if that country serves it, else to `default_language` from config; old `/{country}/…` URLs redirect (308) to the default language, or to `?lang=` when served. A language a country doesn't serve (e.g. `/uk/nl/…`) redirects to its default. (4) hreflang uses `lang-REGION` tags (`fr-BE`, `en-GB`). (5) `Accept-Language` never redirects: a small dismissible banner, written in the suggested language, offers the switch. **Default:** as built. Change any of these?
+
+**Answer:**
+
+### Q-072 · CCD2 warning in German and French, and Belgium's own wording · T-043 / Decision 017 · web builder · 2026-11-15
+The loan calculator shows the CCD2 warning in the page language: EN "Borrowing money costs money." and NL "Let op! Geld lenen kost geld." (as given in the task). DE and FR have no reviewed wording yet, so they fall back to the English sentence (keys `loan.warning` missing in `de.json` / `fr.json` on purpose). Belgium may require its own national wording in Dutch and French (Code of Economic Law), which could differ from the Dutch "Let op! Geld lenen kost geld." used on `/be/nl`. **Default:** EN fallback for DE/FR, NL text on `/be/nl`, until R-03 (lawyer question) gives the exact wording per country and language; then add per-country keys. Needs a legal check before launch (CCD2 applies from 20 Nov 2026).
+
+**Answer:**
+
+### Q-073 · CSP: hashes for static pages, nonces for the rest; Caddy must stop replacing it · A-02 / T-050 · web builder · 2026-11-15
+The app now sends a strict CSP without `'unsafe-inline'` for scripts (`src/proxy.ts`, `src/lib/csp.ts`): a per-request nonce on dynamic pages, and on static pages the sha256 hashes of that page's inline scripts, computed after `next build` by `scripts/csp-hashes.mjs` into `.next/server/csp-hashes.json` (~0.8 MB for 4,235 pages; also copied into the standalone output). Trade-offs: (1) if the manifest is missing (build step skipped), the proxy logs an error and falls back to the old policy with `'unsafe-inline'` so the site keeps working; (2) `style-src` keeps `'unsafe-inline'` (style attributes); (3) **`infra/deploy/ev.caddy` sets its own CSP with `defer`, which replaces the app's header**, so in production the strict policy would be lost (and with `'unsafe-inline'` still in Caddy's copy). **Default:** WS4 removes `Content-Security-Policy` from `ev.caddy` (keep the other headers) and lets the app own it. OK?
+
+**Answer:**
+
+### Q-074 · Top-40 used models: how to rank DE/FR/BE, and 8 models to add to the seed · ADDENDUM-6 P5 · data builder · 2026-11-15
+No answer needed unless you disagree. `data/seed/top40.yaml` ranks the top-40 used EVs from registration data we already have. **Defaults taken:** (1) **"Used" = 2–8 years old in 2026 = first registered 2018–2024.** Only the Dutch register (RDW) has that year, so the score uses NL (RDW, 2018–2024) and UK (DfT fleet, all ages, because the UK file has no year), averaged. (2) **Germany, France and Belgium are shown but not scored**: the only data we have there counts *new* cars sold in 2025–2026, which would push brand-new models to the top. **Recommended next step (no cost, open data):** fetch the KBA FZ10 and EEA files for 2018–2024 so DE/FR/BE get a "sold new 2018–2024" count as a used-stock stand-in (KBA/EEA adapter lanes). (3) **8 of the 40 are not in the seed yet:** Volvo EX30, BMW iX1, BMW iX3, Opel/Vauxhall Mokka Electric, Mercedes EQB, Porsche Taycan, BMW iX, Ford Explorer EV. Default: the coordinator adds them in the next seed wave (seed lane). (4) **Wikidata stays corroboration-only** (not in the matcher's `CORROBORATION_SOURCES`): only 12 of 43 items carry a year, and one is a concept year (Enyaq 2017). Coverage today: only registrations NL and DE reach the 80 % "2+ sources" target; spec fields are at 0–12 % (`data/review/coverage-gaps.md`, top-40 section).
+
+**Answer:**
+
+### Q-075 · P6 sources: what the coordinator needs to integrate · ADDENDUM-6 P6 / T-025 · pipeline builder · 2026-11-15
+No answer needed from Menno; coordinator to-dos. (1) **Two id spaces for charging sources.** The CLI/sources.yaml ids are `bnetza` and `dft-charging`, but `charging_definitions` and `power_bands` use `bnetza-ladesaeulenregister` and `dft-ev-charging-infrastructure`. **Default:** ChargingStat `source_id` = the taxonomy id (so a stat's source matches its definition's source); the sources.yaml entries carry `aliases: [<taxonomy id>]`. Pick one id per source and drop the alias. (2) **Shared helper** `ev_pipeline/sources/eafo/charging_stats.py` (taxonomy check, validity window, jsonschema validation, writer) sits in the eafo folder only because of lane limits; move it to `sources/_common` if you like. (3) **Outputs in staging, not SourceRecords:** `data/staging/{eafo,bnetza,dft-charging}.charging_stats.jsonl` (+ `.meta.json` with licence, download, status, `releasable`) and `data/staging/rdw-defects.defects.jsonl` (kinds `defect_group` / `defect_count`, shape in the adapter docstring). The release step must read them and keep EAFO out (`releasable: false`). (4) **fueleconomy** records are `kind: spec`, country empty, `;market=us` in record_key. Its `consumption_kwh_100km` is EPA wall-to-wheels on the 5-cycle test, not WLTP: keep fueleconomy out of the primary/fallback list for consumption in `data/field_sources.yaml` (agreement counts only); `epa_range_km` already lists it. Its pack sizes are `battery_kwh_gross`, confidence low.
+
+**Answer:**
+
+### Q-076 · Charging taxonomy gaps found while loading · T-025 / T-024 · pipeline builder · 2026-11-15
+No answer needed unless you disagree. **Defaults taken:** values with no taxonomy id are skipped and counted in the run log, never forced into a nearby band. Gaps: (a) **power bands** missing for EAFO AC slow/medium/fast and DC < 50 kW, BNetzA's 8 classes (sheet 3.3: 0–3.7, >3.7–15, >15–22, >22–49, >49–59, >59–149, >149–299, >299 kW; note >149–299 and >299 don't line up with our 150–349 / 350+) and DfT Standard (3–<8 kW) / Standard plus (8–<50 kW). (b) **`uk-dft-evse-2026` valid_from 2026-01-01**, but DfT's EVCI0101 counts EV chargers on the same definition back to 2025-01-01; 180 rows (4 quarters) are dropped by the window. Moving valid_from to 2025-01-01 adds them on the next normalise. (c) **DfT "50kW+"** (rapid + ultra-rapid) is loaded as `public-points-dc` with no band and a note that DC below 50 kW is excluded; a `dc-50-plus` band or a `public-points-50kw-plus` metric would be cleaner. "50kW+ per 100k" has no metric and is skipped. (d) EAFO year rows are read as 31 December, the newest year as the last day of the month in the file title (🟡: the file doesn't say).
+
+**Answer:**
+
+### Q-077 · EAFO charging data: ask the Commission for reuse permission? · T-025 · pipeline builder · 2026-11-15
+EAFO's AFIR recharging-points file has no licence of its own. The EC legal notice makes EU-owned content CC BY 4.0 but excludes third-party works, and EAFO says its main source is Eco-Movement (commercial). It's the only fair cross-country series (spec), so it matters for the Europe comparison (Next). **Default:** `eafo` is `blocked` in data/sources.yaml; the loader runs and stages 898 rows marked `releasable: false`; the fixture uses invented numbers. Options: (1) recommended: an email to DG MOVE / EAFO asking whether the AFIR dataset may be reused under CC BY 4.0 (a coordinator can draft it; it goes out in your name, so you approve it); (2) keep EAFO blocked and use national sources only.
+
+**Answer:**
+
+### Q-078 · RDW defects: young cars look "clean" because they haven't had an APK yet · ADDENDUM-6 P6 · pipeline builder · 2026-11-15
+No answer needed unless you disagree. Defect counts cover cars first registered at least 3 calendar years before the fetch (2023 and older tonight), but many 2023 cars have not had their first APK yet (e.g. Model Y 2023: 23 of 1,453 sampled cars with any defect, vs Model 3 2019: 1,308 of 2,554). **Default:** rows keep `sample_cars` and `cars_with_any_defect` per group, so the "Known issues" view must compare cars of the same first-registration year only and should hide cohorts where few cars have reports. Raising `MIN_AGE_YEARS` to 4 in the adapter is a one-line change if you prefer. The RDW naming clause (Q-037) applies here too.
+
+**Answer:**
+
 ## Closed
+
+### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15
+The ev, top and learn pages have `generateStaticParams` for all 5 countries (1,552 paths), but `app/[country]/layout.tsx` calls `requestLang()` → `headers()`, so Next renders every route on demand (ƒ). This works and is fast (catalogue is cached in memory), but it is not static. **Default:** left as is; the pages turn static by themselves once language stops depending on the request (e.g. a `/[country]/[lang]` segment or language = country default plus a client switch). Is static output needed for launch?
+
+**Answer (overnight, Decision 015):** Done in T-050. URLs are now `/{country}/{lang}/…`; the language comes from the URL, never from request headers, so the root layout (`app/[country]/[lang]/layout.tsx`, which renders `<html lang>`) reads no headers. Model, generation, variant, learn, rankings and about pages are static again (SSG ●, `generateStaticParams` over the served country × language pairs from `config/countries/*.yaml`): 4,235 pages with release 1 (variants 2,167 = 197 × 11 pairs). Explore and Compare stay on demand because they render from the query string. Closed.
+### Q-034 · Static model pages (Q-033): skipped for now, needs a decision · T-008 (wave 4) · builder · 2026-11-15
+Tried to make the ev, top and learn pages static. **Not done**, for three reasons: (1) `<html lang>` sits in the root layout, which can only learn the language from the request, so a static page needs the language as a route segment, which means a layout restructure (multiple root layouts or a hidden `[lang]` segment the proxy rewrites to); (2) static pages bake the catalogue in at build time, but the app re-reads `data/releases/latest` at runtime (Decision 008: releases swap atomically and roll back by pointing `latest` back), and the Docker build stage has no `data/releases`, so in the image the pages would be built from the dev fixture; (3) one copy per language would mean 1,552 × 6 paths. **Default:** pages stay on-demand (ƒ, fast: the catalogue is cached in memory). **Proposal if static is wanted:** proxy rewrites `/{country}/…` to a hidden `/{lang}/{country}/…` tree (public URLs, `?lang` and the cookie stay as they are), `generateStaticParams` only for each country's default language, others on demand with ISR, `revalidate` on a release change, and `data/releases` copied into the build stage. Needs a Decision entry first. Is static output needed for launch?
+
+**Answer (overnight, Decision 015):** Done in T-050, along the lines proposed, with these choices: (1) `<html lang>`: the root layout moved to `app/[country]/[lang]/layout.tsx` (plus `app/staff/layout.tsx` and `app/global-not-found.tsx`; `experimental.globalNotFound`), so no hidden segment or rewrite is needed. (2) Release swaps: static pages are built from the release in the build, and the Docker build stage now copies `data/releases/<latest>` in, so **a new release (or a rollback) means a new image** (rollback = redeploy the previous image). If the release is missing or half-written while `data/releases/latest` exists, `next build` now fails instead of silently using the dev fixture, and a post-build check fails on any catalogue page that came out as a 404 (this happened once tonight when the pipeline rewrote the release mid-build). Follow-up for WS4 in **Q-070**. (3) Paths: only served pairs (each country's own languages + EN = 11 pairs), not 30. Closed.
 
 ### Q-030 · Overnight work landed on `main` by mistake · coordinator · 2026-11-15
 From about 01:05 the coordinator's push clone was on `main`, so syncs pushed `main` as well as `proto/overnight-1`. Both now point to 660427d (CI green; nothing deploys from `main` yet). **Default:** leave `main` alone (force-push is forbidden by AGENTS.md and blocked by the ruleset) and keep working on the branch only. **Fix for Menno:** briefly allow force-push on `main`, run `git push --force-with-lease=main:660427d origin 319468c:main`, re-enable protection, then open the draft PR.
@@ -362,5 +409,4 @@ The schema now has `FactField.dc_curve` with a `ChargeCurve` value, but `records
 The overnight session could clone the repo (it's public) but was refused push access, so nothing could be pushed to `proto/overnight-1` and no draft PR could be opened. **Default:** all work is committed locally on `proto/overnight-1` and handed over as a git bundle; you push it with `git fetch <bundle> proto/overnight-1:proto/overnight-1 && git push -u origin proto/overnight-1`. Next time, attach the repo with write access before starting the session.
 
 **Answer:** Menno granted push access at 00:49. Closed: branch pushed normally.
-
 
