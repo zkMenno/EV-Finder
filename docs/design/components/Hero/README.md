@@ -1,9 +1,10 @@
 # Hero
 
-The home page opening: the promise in one line, one question, and a shortlist already taped to the map.
+The home page opening: the promise in one line, the first of three questions, and a sunny solarpunk scene with a shortlist taped to it.
 
-- Left: the tagline as the display headline (Bitter 800, 52px; 38px on phones), the explainer in `body-lg`, then one field, "Where do you drive from?", and the primary "Show cars". The town feeds the range maps everywhere.
-- Right: a ShortlistNote on a sketch of land and a dotted sky route. It shows what the site is for before anyone reads a word.
-- Ground `paper-sea` with the paper-grain texture; the land carries contour lines. Phones stack text first, note second, and the note shrinks to 280px.
-- One orchestrated moment on first load: the route line draws (600ms), then the note settles (no bounce). Nothing else on the page animates by itself. Reduced motion shows the final state.
-- Don't swap the note for a photo of a car or a person charging.
+- Left: the headline "Used EVs got good." (Bitter 800, 52px; 38px on phones), a one-line lead in `body-lg`, then step 1 of the three-step hero (country → profile → budget, Decision 051) with the primary "Next".
+- Right: the rich home-hero scene (`scene-village-hero-day`, or `scene-city-hero-day` for visitors who said they live in a city) with a small ShortlistNote overlapping its bottom-left corner. Night drive swaps in the `-night` scene via `evs-scene--day` / `evs-scene--night`.
+- This is the only place rich illustration colours appear. Ground `paper-sea` with the paper-grain texture. Phones stack text first, scene second.
+- No numbers in the scene or the headline. Prices and ranges appear only in results, from our data with sources.
+- One orchestrated moment on first load: the note settles onto the scene (no bounce). Reduced motion shows the final state.
+- Don't swap the scene for a photo of a car or a person charging.
