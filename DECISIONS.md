@@ -510,4 +510,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** some AC figures shown tonight are the optional charger; T-063 fixes the meaning.
 
+## Decision 035: Releases move out of git; temporary 25 MB cap for release files
+
+**Status:** Accepted (WS0, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** After PR #1, `data/releases/1/catalogue.json` is 7.1 MB (minified) for 226 rows, because every value carries its provenance. The CI guard (5 MB, meant for raw data) turned `main` red. At ~1,500 variants a release would be ~45 MB per release in git, which doesn't scale.
+
+**Decision:** Raw data keeps the 5 MB cap. Files under `data/releases/` get a warning above 5 MB and fail above 25 MB, for now. Next step (T-064): published releases live outside git (GitHub Release assets now; Scaleway object storage once WS4 sets it up), the repo keeps only a small manifest per release (number, date, checksums, sizes, QA summary) plus a tiny fixture release for tests, and the web app fetches the release named in the manifest at build time. The catalogue also splits per generation so pages load only what they need.
+
+**Consequences:** `main` is green again; WS1 + WS4 own T-064 before the catalogue grows past the top 40.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

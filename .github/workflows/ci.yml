@@ -81,8 +81,14 @@ jobs:
         run: |
           bad=$(git ls-files | grep -E '(^|/)\.env($|\.)' | grep -v '\.env\.example$' || true)
           [ -z "$bad" ] || { echo "::error::Env files must not be committed: $bad"; exit 1; }
-          big=$(git ls-files -z | xargs -0 -I{} sh -c '[ -f "{}" ] && [ $(wc -c < "{}") -gt 5242880 ] && echo "{}"' || true)
+          # Raw data never goes in git (5 MB cap). Published releases under data/releases/ get a
+          # temporary 25 MB cap with a warning until they move out of git (Decision 035, T-064).
+          big=$(git ls-files -z | grep -zv '^data/releases/' | xargs -0 -I{} sh -c '[ -f "{}" ] && [ $(wc -c < "{}") -gt 5242880 ] && echo "{}"' || true)
           [ -z "$big" ] || { echo "::error::Files over 5 MB (raw data goes to object storage): $big"; exit 1; }
+          rel=$(git ls-files -z -- data/releases | xargs -0 -I{} sh -c '[ -f "{}" ] && [ $(wc -c < "{}") -gt 5242880 ] && echo "{}"' || true)
+          [ -z "$rel" ] || echo "::warning::Release files over 5 MB (move releases out of git, T-064): $rel"
+          huge=$(git ls-files -z -- data/releases | xargs -0 -I{} sh -c '[ -f "{}" ] && [ $(wc -c < "{}") -gt 26214400 ] && echo "{}"' || true)
+          [ -z "$huge" ] || { echo "::error::Release files over 25 MB: $huge"; exit 1; }
 
   web:
     needs: detect
