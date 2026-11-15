@@ -84,6 +84,7 @@ Workstreams talk through `workstreams/<ws>/INBOX.md`, never through Menno (Decis
 | WS3 curation | data/seed/, data/manual/, data/taxonomy/, content/, config/ |
 | WS4 infra | infra/, pipeline/Dockerfile, apps/web/Dockerfile, .github/workflows/image*.yml |
 | WS5 growth | docs/outreach/, docs/growth/, docs/brand/ |
+| UX design | docs/design/ |
 | each WS | its own workstreams/<ws>/STATUS.md and HANDOFF.md; INBOX.md files are append-only for everyone |
 
 ## Done
