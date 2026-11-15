@@ -13,3 +13,4 @@
 - 2026-11-15 · Menno: outreach waits for name; open data at launch (Decision 016); name open (EV Shortlist / EV Field Guide); asked whether lead programmes cover used EVs
 - 2026-11-15 · overnight addendum 4 written (workstreams/OVERNIGHT/ADDENDUM-4.md); review scheduled 07:30 Paris
 - At merge: add to QUESTIONS.md the owed items (name + domain, affiliate links day 1, emerging-market order), renumber after the branch's last Q
+- 2026-11-15 · working title EV Shortlist (Decision 018). TODO at next project-log update: add brand line to claude/decisions.md (Business) + Open list
