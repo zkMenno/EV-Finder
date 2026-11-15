@@ -184,7 +184,11 @@ export function validateRules(doc) {
     review: doc.review === true,
     weight_step_factor: isNum(doc.weight_step_factor) ? doc.weight_step_factor : 1.5,
     picker,
-    profiles: profiles.map(({ _ids, ...rest }) => rest),
+    profiles: profiles.map((p) => {
+      const rest = { ...p };
+      delete rest._ids;
+      return rest;
+    }),
     modifiers,
     addons,
   };

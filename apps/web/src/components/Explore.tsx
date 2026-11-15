@@ -13,7 +13,7 @@ import type { CountrySlug, Lang } from "@/config/countries";
 import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
 import { hasDcData } from "@/lib/dc";
-import type { ClientCatalogue, ExploreRow } from "@/lib/explore-data";
+import type { ExploreRow } from "@/lib/explore-data";
 import { favouriteStore } from "@/lib/favourites";
 import { applyFilters, displayName, mostRestrictive, priceFor, sortRows, withoutGroup, type FilterGroup } from "@/lib/filters";
 import { formatMoney, formatYears, localeFor } from "@/lib/format";
