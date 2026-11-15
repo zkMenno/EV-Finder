@@ -101,5 +101,5 @@ _(at the end of the run)_
 | A6 P1–P4 refresh, snapshots, rollback/diff, source health, weekly data-refresh workflow | running | |
 | A6 P5 top-40 initial dataset + Wikidata | queued | after the seed-quality builder finishes |
 | A6 P6 RDW defects, fueleconomy.gov, charging stats (EAFO, BNetzA, DfT) | running | DVSA MOT skipped (no key) |
-| A6 P7 manual facts path + review ids | queued | |
+| A6 P7 manual facts path + review ids | done | `data/manual/<topic>/*.yaml` with URL + date + quote required; source `manual` blocked until Q-008; review CSVs get `review_id` + `status`, decisions kept in `data/review/status.yaml` |
 
