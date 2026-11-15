@@ -173,7 +173,7 @@ Motion answers what people do and is quiet otherwise.
 
 ## Accessibility checklist
 
-- Text at 4.5:1, and large text, icons, control borders and focus rings at 3:1, in both themes.
+- **Hard rule (Menno, 2026-11-15): every piece of text meets WCAG 2.2 level AA, always.** Text at 4.5:1 or more; only large text (24px+, or 19px+ bold) may drop to 3:1. Icons, control borders and focus rings at 3:1. Both themes, every state (hover, disabled labels included), and on every ground it can sit on, illustrations and tints too. No text ever sits directly on an illustration. Every token pair is checked with `workstreams/UX/tools/contrast.py` before a release of the system; a failing pair blocks it. Current status: all text pairs pass AA, most pass AAA.
 - Targets of 48px or more (`tap-target`). Visible focus everywhere.
 - Every chart and map has a text equivalent (the legend under the range map, a table behind every chart).
 - Meaning never depends on colour alone. Quality tiers, cautions and faults carry an icon and a word.
