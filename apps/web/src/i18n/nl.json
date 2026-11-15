@@ -108,7 +108,7 @@
   "reg.title": "Registraties in {country}",
   "reg.fleet": "op de weg",
   "reg.new": "nieuwe registraties",
-  "reg.modelLevel": "alle generaties {model}",
+  "reg.modelLevel": "generatie onbekend, getoond bij alle generaties {model}",
   "about.title": "Over {app}",
   "about.intro": "Hoe {app} werkt, waar de cijfers vandaan komen en wie we bedanken voor de data.",
   "about.what.title": "Wat {app} is",

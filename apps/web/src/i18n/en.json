@@ -108,7 +108,7 @@
   "reg.title": "Registrations in {country}",
   "reg.fleet": "on the road",
   "reg.new": "new registrations",
-  "reg.modelLevel": "all {model} generations",
+  "reg.modelLevel": "generation unknown, shown on all {model} generations",
   "about.title": "About {app}",
   "about.intro": "How {app} works, where the numbers come from and who we thank for the data.",
   "about.what.title": "What {app} is",

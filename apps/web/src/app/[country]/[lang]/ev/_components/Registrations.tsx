@@ -1,9 +1,10 @@
 // Official registration counts for the page's country (fleet / new registrations), one line per
-// count with kind, period and source; never summed. Model-level counts say so ("all X generations").
+// count with kind, period and source; never summed. Model-level counts (generation unknown, e.g.
+// RDW shared-year cars, Q-066) say so: "generation unknown, shown on all X generations".
 // Server component; numbers through <Num> with provenance key `registrations.<CC>`.
 import type { PublishedVariant } from "@ev/schema";
 import { Missing, Num } from "@/components/Num";
-import { registrationsFor, registrationsProvKey } from "@/lib/registrations";
+import { registrationItemKey, registrationsFor, registrationsProvKey } from "@/lib/registrations";
 import { sourcesFor, type PageCtx } from "../_lib/context";
 
 export function Registrations({ ctx, row }: { ctx: PageCtx; row: PublishedVariant | undefined }) {
@@ -21,7 +22,14 @@ export function Registrations({ ctx, row }: { ctx: PageCtx; row: PublishedVarian
           ctx.sources[r.source_id] ?? r.source_id,
         ].filter(Boolean);
         return (
-          <li key={`${r.kind}-${r.period}-${r.source_id}`} className="flex flex-wrap items-baseline gap-x-1">
+          <li
+            key={registrationItemKey(r)}
+            data-kind={r.kind}
+            data-level={r.level ?? "generation"}
+            data-period={r.period ?? ""}
+            data-source={r.source_id}
+            className="flex flex-wrap items-baseline gap-x-1"
+          >
             <Num
               value={r.count}
               digits={0}
