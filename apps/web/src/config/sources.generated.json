@@ -200,6 +200,12 @@
     "status": "active",
     "owner": "RDW (NL)"
   },
+  "rdw-tgk": {
+    "name": "RDW Open Data: type-approval register (TGK)",
+    "licence": "CC0-1.0",
+    "status": "active",
+    "owner": "RDW (NL)"
+  },
   "recurrent": {
     "name": "Recurrent battery data",
     "licence": "none",

@@ -11,6 +11,7 @@ import { isCountrySlug, isServed } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
 import { formatYears } from "@/lib/format";
 import { pageCtx, pageMeta, servedRoute, sourcesFor } from "../../_lib/context";
+import { YearsBadge } from "../../_components/YearsBadge";
 import { firstWith, groupGenerations } from "../../_lib/data";
 import { generationHref, modelParams, modelRows } from "../../_lib/routes";
 
@@ -64,12 +65,9 @@ export default async function ModelPage({ params }: Props) {
               <p className="text-sm">
                 <span className="sr-only">{t("years.label")}: </span>
                 <span className="tabular-nums">{formatYears(g.yearStart, g.yearEnd, t("years.now"))}</span>
-                {g.uncertain ? (
-                  <span className="ml-2 rounded border border-amber-700 px-1 text-xs text-amber-900" title={t("years.unchecked.help")}>
-                    {t("years.unchecked")}
-                  </span>
-                ) : null}
-                {g.uncertain ? <TermInfo term={ctx.tax.terms["model-years"]} base={base} text={ctx.termText} /> : null}
+                <span className="ml-2 inline-flex flex-wrap items-center gap-1">
+                  <YearsBadge ctx={ctx} status={g.years} yearStart={g.yearStart} yearEnd={g.yearEnd} compact />
+                </span>
               </p>
               <p className="text-sm text-slate-800">{t("model.variants", { n: g.rows.length })}</p>
               {rdw ? (
@@ -91,7 +89,7 @@ export default async function ModelPage({ params }: Props) {
           );
         })}
       </ul>
-      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} />
+      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} statsHref={`${base}/charging`} />
     </>
   );
 }

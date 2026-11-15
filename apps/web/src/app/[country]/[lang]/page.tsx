@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { siteBase } from "@/lib/site-paths";
 import { ChargingLinks } from "@/components/ChargingLinks";
 import { Explore } from "@/components/Explore";
 import { COUNTRIES, isCountrySlug, isServed } from "@/config/countries";
@@ -68,7 +69,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         finance={financeProfile(cfg.code)}
         payFromUrl={hasPayParam(sp)}
       />
-      <ChargingLinks links={chargingLinks(country, { lang })} t={t} />
+      <ChargingLinks links={chargingLinks(country, { lang })} t={t} statsHref={`${siteBase(country, lang)}/charging`} />
     </>
   );
 }

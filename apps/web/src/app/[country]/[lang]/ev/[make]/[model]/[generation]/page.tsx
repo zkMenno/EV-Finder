@@ -15,7 +15,7 @@ import { financeProfile } from "@/lib/finance-profiles";
 
 import { SeeListings } from "@/components/SeeListings";
 import { SpecDiff } from "@/components/SpecDiff";
-import { Term, TermInfo } from "@/components/Term";
+import { Term } from "@/components/Term";
 import { isCountrySlug, isServed } from "@/config/countries";
 import { getCatalogue } from "@/lib/catalogue";
 import { hasDcData, isDcDependent } from "@/lib/dc";
@@ -23,7 +23,9 @@ import { registrationsFor } from "@/lib/registrations";
 import { DASH, formatYears } from "@/lib/format";
 import { seeListings } from "@/lib/listings";
 import { DIFF_KEYS, fieldsFor, specDiff, SPEC_FIELDS, type SpecField } from "@/lib/spec-diff";
+import { KnownIssues } from "../../../_components/KnownIssues";
 import { Registrations } from "../../../_components/Registrations";
+import { YearsBadge } from "../../../_components/YearsBadge";
 import { FieldLabel, SpecValue, textValue } from "../../../_components/SpecValue";
 import { pageCtx, pageMeta, servedRoute, sourcesFor, type PageCtx } from "../../../_lib/context";
 import { firstWith, generationTitle, generationView } from "../../../_lib/data";
@@ -81,13 +83,7 @@ export default async function GenerationPage({ params }: Props) {
       <p className="mt-2 flex flex-wrap items-center gap-2 text-slate-800">
         <span className="sr-only">{t("years.label")}: </span>
         <span className="tabular-nums">{formatYears(g.yearStart, g.yearEnd, t("years.now"))}</span>
-        {g.uncertain ? (
-          <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">
-            {t("years.unchecked")}
-            <span className="sr-only">. {t("years.unchecked.help")}</span>
-          </span>
-        ) : null}
-        {g.uncertain ? <TermInfo term={ctx.tax.terms["model-years"]} base={base} text={ctx.termText} /> : null}
+        <YearsBadge ctx={ctx} status={g.years} yearStart={g.yearStart} yearEnd={g.yearEnd} />
         {first.segment ? <span>· {t(`segment.${first.segment}`)}</span> : first.body ? <span>· {t(`body.${first.body}`)}</span> : null}
       </p>
 
@@ -164,6 +160,8 @@ export default async function GenerationPage({ params }: Props) {
         />
       </div>
 
+      <KnownIssues ctx={ctx} generationId={g.id} name={fullName} />
+
       <section aria-labelledby="timeline" className="mt-8">
         <h2 id="timeline" className="text-xl font-semibold">
           {t("gen.timeline")}
@@ -209,7 +207,7 @@ export default async function GenerationPage({ params }: Props) {
           }))}
         />
       </section>
-      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} />
+      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} statsHref={`${base}/charging`} />
     </>
   );
 }

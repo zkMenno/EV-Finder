@@ -72,6 +72,9 @@ const text = (key: TextKey, group: SpecGroup, term?: string): TextField => ({ ki
 export const SPEC_FIELDS: readonly SpecField[] = [
   num("real_range_km", "range", "km", 0, "real-range"),
   num("wltp_range_km", "range", "km", 0, "wltp"),
+  // EPA (US 5-cycle) is its own row, never merged or averaged with WLTP (T-059, T-061). Glossary
+  // term "epa-range" is not in the taxonomy yet: the label renders without an ⓘ until it is.
+  num("epa_range_km", "range", "km", 0, "epa-range"),
   num("consumption_kwh_100km", "range", "kWh/100 km", 1, "consumption"),
   num("consumption_motorway_kwh_100km", "range", "kWh/100 km", 1, "consumption"),
 

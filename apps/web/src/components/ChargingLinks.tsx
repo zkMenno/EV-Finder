@@ -1,9 +1,23 @@
 // "Find a charger / plan a trip" block (T-026). Server component, no JS: plain text links that
 // open in a new tab. Renders nothing when the country has no links (and no ABRP line is asked for).
+// `statsHref` adds our own "charging network in numbers" page (T-061, same tab) at the end.
+import Link from "next/link";
 import { hasMsgKey, type T } from "@/i18n";
 import type { ChargingLink } from "@/lib/charging-links";
 
-export function ChargingLinks({ links, abrp, t, headingLevel = 2 }: { links: ChargingLink[]; abrp?: ChargingLink; t: T; headingLevel?: 2 | 3 }) {
+export function ChargingLinks({
+  links,
+  abrp,
+  t,
+  headingLevel = 2,
+  statsHref,
+}: {
+  links: ChargingLink[];
+  abrp?: ChargingLink;
+  t: T;
+  headingLevel?: 2 | 3;
+  statsHref?: string;
+}) {
   if (!links.length && !abrp) return null;
   const H = headingLevel === 2 ? "h2" : "h3";
   const job = (j: string) => {
@@ -36,6 +50,13 @@ export function ChargingLinks({ links, abrp, t, headingLevel = 2 }: { links: Cha
           {item(abrp, "abrp-link", t("charging.abrp"))}
           <li className="text-xs text-slate-700">{t("charging.abrpNote")}</li>
         </ul>
+      ) : null}
+      {statsHref ? (
+        <p className="mt-3 border-t border-slate-200 pt-3 text-sm">
+          <Link href={statsHref} className="font-medium text-blue-800 underline underline-offset-2 hover:text-blue-950" data-testid="charging-stats-link">
+            {t("charging.stats.link")}
+          </Link>
+        </p>
       ) : null}
     </section>
   );

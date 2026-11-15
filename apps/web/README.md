@@ -76,13 +76,14 @@ Two themes from the design system (`docs/design/tokens.json`): light **Day trip*
 | `/{country}/{unserved lang}/…` | 308 → the default language |
 | `{base}` | Explore (filters, sort, table/cards, Simple/Detailed/Nerd, price mode); ƒ |
 | `{base}/ev/{make}/{model}` | Model overview: generations, years, RDW count; SSG |
-| `{base}/ev/{make}/{model}/{generation}` | Generation: key facts, spec diff, price mode + loan calculator, See listings; SSG |
+| `{base}/ev/{make}/{model}/{generation}` | Generation: key facts, year badge, known issues (RDW APK), spec diff, price mode + loan calculator, See listings; SSG |
 | `{base}/ev/{make}/{model}/{generation}/{variant}` | Variant spec sheet, price mode + loan calculator, add to compare, See listings; SSG |
 | `{base}/compare?ids=a,b` | Compare up to 4 cars (`&diff=1`, `&pay=loan`, print view); noindex; ƒ |
 | `{base}/top`, `{base}/top/{list}` | Rankings; SSG. `best-used-under-15k/20k/25k` exist only where at least 5 generations have a sourced used price (none in release 1: 404, not linked) |
 | `{base}/learn` | Learn index: guides (`content/learn/index.yaml`) + glossary A–Z; SSG |
 | `{base}/learn/{slug}` | A guide from `content/learn/<slug>/<lang>.md` (EN fallback with a notice, draft banner, sources, ⓘ terms) or a glossary term; SSG |
 | `{base}/about` | About, method, licences, credits; SSG |
+| `{base}/charging` | Charging network in numbers: public points over time and by power band (DE BNetzA, UK DfT; others "no open data yet"), SVG + data table; SSG |
 | `/staff/review?file=…` | Staff only (`STAFF_PAGES=1` + `STAFF_BASIC_AUTH`); noindex |
 | `/sitemap.xml`, `/robots.txt` | Served pairs × indexable pages (no compare, no staff) |
 | `/data/catalogue-{release}.json` | Compact client catalogue |

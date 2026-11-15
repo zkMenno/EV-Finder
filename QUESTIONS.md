@@ -399,6 +399,11 @@ No answer needed unless you disagree. The new `rdw-tgk` source gives official sp
 
 **Answer:**
 
+### Q-088 · Known issues, EPA range, year badges, charging charts: wording and display calls · T-061 · web builder · 2026-11-15
+No answer needed unless you disagree. **Defaults taken:** (1) **"per 100 sampled cars", not "per 100 inspected cars".** The release counts cars with no APK report as zero in the denominator (`rate_basis`), so not every car in the rate has been inspected. The page says "per 100 sampled cars" (NL "per 100 auto's in de steekproef") and shows the rate basis at Nerd level. (2) **A plain-language verdict per year**: "more often / about as often / less often than the average EV from {year}". "About as often" means within 20 % of the same-year baseline (or 1 per 100). This is a display rule, not a statistical test: say if you'd rather show only the two numbers. (3) **RDW defect labels stay Dutch** (marked `lang="nl"`) with a note that this is RDW's own wording; no translations are invented. Source wording is the Q-037 interim line, now also used for `rdw-defects` in the About credits. (4) **Simple level** shows the top 3 codes per year, Detailed the top 5, and Nerd adds codes, articles, sample sizes and the sample rule. (5) **Year badge:** a Wikidata check takes over from "years not yet checked" (corroborated → "years checked against Wikidata"; any failing check → "Wikidata disagrees", with the details at Nerd level). Without a check, the old rule still applies. The same function feeds the model, generation and variant pages. (6) **Charging charts live on their own page** `/{country}/{lang}/charging` (hand-written SVG, no JS, no library), linked from the "Find a charger" block on every page that shows it and listed in the sitemap. Charts: points over time and by power band, one chart per definition. DE has 1 block, UK has 2 (all points; 50 kW+ DC with rapid / ultra-rapid). Every other country shows "no open data yet". Regional figures, installed kW and points per 100k people are in the release but not charted yet.
+
+**Answer:**
+
 ## Closed
 
 ### Q-033 · Model pages can't be static while the layout reads request headers · T-009 / T-012 · builder · 2026-11-15

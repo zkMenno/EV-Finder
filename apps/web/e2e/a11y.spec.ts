@@ -30,6 +30,18 @@ const PAGES: { name: string; path: string; ready: (p: Page) => Promise<void> }[]
   },
   { name: "learn-article", path: "/nl/en/learn/winter-range", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "rankings", path: "/nl/en/top/fastest-dc", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
+  // T-061: known issues (Nerd: code + sample columns), years badge detail, charging charts.
+  { name: "generation-known-issues-nerd", path: "/nl/nl/ev/skoda/enyaq/gen1?level=nerd", ready: async (p) => void (await expect(p.getByTestId("years-nerd")).toBeVisible()) },
+  {
+    name: "charging-de",
+    path: "/de/en/charging",
+    ready: async (p) => {
+      await expect(p.getByTestId("charging-chart").first()).toBeVisible();
+      await p.getByText("Show the numbers as a table").first().click();
+    },
+  },
+  { name: "charging-uk-nerd", path: "/uk/en/charging?level=nerd", ready: async (p) => void (await expect(p.getByTestId("charging-chart").first()).toBeVisible()) },
+  { name: "charging-none", path: "/fr/fr/charging", ready: async (p) => void (await expect(p.getByTestId("charging-none")).toBeVisible()) },
 ];
 
 for (const theme of ["light", "dark"] as const) {

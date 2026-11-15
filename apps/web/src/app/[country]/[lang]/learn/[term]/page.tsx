@@ -83,7 +83,7 @@ function ArticlePage({ slug, lang, base, t, country }: { slug: string; lang: Lan
           </ol>
         </section>
       ) : null}
-      <ChargingLinks links={chargingLinks(country, { lang })} t={t} />
+      <ChargingLinks links={chargingLinks(country, { lang })} t={t} statsHref={`${base}/charging`} />
     </article>
   );
 }
@@ -148,7 +148,7 @@ export default async function LearnPage({ params }: Props) {
           </ul>
         </section>
       ) : null}
-      <ChargingLinks links={chargingLinks(country, { lang })} t={t} />
+      <ChargingLinks links={chargingLinks(country, { lang })} t={t} statsHref={`${base}/charging`} />
     </article>
   );
 }

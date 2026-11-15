@@ -109,3 +109,17 @@ describe("differingCells (compare highlight)", () => {
     expect(differingCells([3])).toEqual([false]);
   });
 });
+
+describe("EPA range (T-061)", () => {
+  it("is its own range row next to WLTP, never the same value or field", () => {
+    const keys = SPEC_FIELDS.filter((f) => f.group === "range").map((f) => f.key);
+    expect(keys.indexOf("epa_range_km")).toBe(keys.indexOf("wltp_range_km") + 1);
+    const r = v({ variant_id: "a", wltp_range_km: 357, epa_range_km: 297.7 });
+    expect(cellValue(r, field("wltp_range_km"))).toBe(357);
+    expect(cellValue(r, field("epa_range_km"))).toBe(298);
+    expect(cellValue(v({ variant_id: "b", wltp_range_km: 357 }), field("epa_range_km"))).toBeNull();
+  });
+  it("is not part of the generation diff (WLTP stays the headline range)", () => {
+    expect(DIFF_KEYS).not.toContain("epa_range_km");
+  });
+});

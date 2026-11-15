@@ -34,6 +34,8 @@ export const FALLBACK_WORDING: Record<string, { override?: string; notice?: stri
   "kilowatt-openev": { notice: "Open EV Data (https://github.com/KilowattApp/open-ev-data)" },
   openev: { fallback: "Contains data from Open EV Data (open-ev-data-dataset), CDLA-Permissive-2.0." },
   rdw: { override: "Dutch vehicle register (RDW open data, CC0)" },
+  // APK defects (T-059 known issues): same RDW clause, same interim wording (Q-037).
+  "rdw-defects": { override: "Dutch vehicle register (RDW open data, CC0)" },
   eea: { notice: "© European Union, EEA, CC BY 4.0" },
   kba: { notice: "© Kraftfahrt-Bundesamt, Flensburg" },
   "kba-fz10": { notice: "© Kraftfahrt-Bundesamt, Flensburg" },

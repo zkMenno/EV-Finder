@@ -22,6 +22,8 @@ import { SPEC_FIELDS, SPEC_GROUPS, timelineOrder } from "@/lib/spec-diff";
 import { Registrations } from "../../../../_components/Registrations";
 import { FieldLabel, SpecValue } from "../../../../_components/SpecValue";
 import { VariantActions } from "../../../../_components/VariantActions";
+import { YearsBadge } from "../../../../_components/YearsBadge";
+import { yearsStatus } from "../../../../_lib/data";
 import { pageCtx, pageMeta, servedRoute } from "../../../../_lib/context";
 import { findVariant, generationHref, generationRows, modelHref, variantHref, variantParams } from "../../../../_lib/routes";
 
@@ -51,6 +53,7 @@ export default async function VariantPage({ params }: Props) {
   const { t, cfg } = ctx;
   const modelName = `${row.make_name} ${row.model_name}`;
   const name = `${modelName} ${row.variant_name}`;
+  const gen = ctx.cat.generation(row.generation_id);
   const siblings = timelineOrder(generationRows(all, make, model, generation)).filter((r) => r.variant_id !== row.variant_id);
 
   return (
@@ -70,12 +73,7 @@ export default async function VariantPage({ params }: Props) {
           <p className="mt-1 flex flex-wrap items-center gap-2 text-slate-800">
             <span>{row.generation_name}</span>
             <span className="tabular-nums">· {formatYears(row.year_start, row.year_end, t("years.now"))}</span>
-            {row.generation_uncertain ? (
-              <>
-                <span className="rounded border border-amber-700 px-1 text-xs text-amber-900">{t("years.unchecked")}</span>
-                <TermInfo term={ctx.tax.terms["model-years"]} base={ctx.base} text={ctx.termText} />
-              </>
-            ) : null}
+            <YearsBadge ctx={ctx} status={yearsStatus(gen?.uncertain ?? !!row.generation_uncertain, gen?.years_corroboration)} yearStart={gen?.year_start ?? row.year_start} yearEnd={gen ? (gen.year_end ?? null) : (row.year_end ?? null)} />
             <span className="rounded border border-slate-400 px-1 text-xs">
               {t("variant.quality", { tier: t(`tier.${row.quality_tier}`) })}
             </span>
@@ -187,7 +185,7 @@ export default async function VariantPage({ params }: Props) {
           </ul>
         </section>
       ) : null}
-      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} />
+      <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} statsHref={`${base}/charging`} />
     </>
   );
 }
