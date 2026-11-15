@@ -9,6 +9,7 @@ export const EXPLORE_FIELDS = [
   "generation_name",
   "model_id",
   "model_name",
+  "make_id",
   "make_name",
   "year_start",
   "year_end",
@@ -18,10 +19,16 @@ export const EXPLORE_FIELDS = [
   "real_range_km",
   "real_range_rung",
   "battery_kwh_net",
+  // Trip fit (T-036): WLTP battery consumption = usable kWh / WLTP km (fallback: published consumption).
+  "wltp_range_km",
+  "consumption_kwh_100km",
   "dc_km_per_20min",
   "dc_km_per_10min",
   "dc_peak_kw",
   "dc_peak_kw_is_claim",
+  // Not shown in Explore; carried so hasDcData() (src/lib/dc.ts) gives the same answer as on spec pages.
+  "dc_avg_10_80_kw",
+  "dc_minutes_10_80",
   "ac_km_per_h",
   "boot_l",
   "length_mm",
@@ -48,6 +55,8 @@ export const EXPLORE_FIELDS = [
 const NUMERIC = new Set<string>([
   "real_range_km",
   "battery_kwh_net",
+  // wltp_range_km / consumption_kwh_100km ship without provenance: Explore never shows them, they
+  // only feed the trip estimate, which carries its own "fixture matrix" provenance (T-036).
   "dc_km_per_20min",
   "dc_km_per_10min",
   "dc_peak_kw",

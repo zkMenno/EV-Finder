@@ -1,0 +1,16 @@
+{
+  "corroborated": true,
+  "tolerance_years": 1,
+  "source_ids": ["wikidata"],
+  "checks": [
+    {
+      "boundary": "start",
+      "year": 2019,
+      "agrees": true,
+      "source_id": "wikidata",
+      "source_record": "wikidata:volkswagen-id3/Q63636478#production_start:P571",
+      "label": "Volkswagen ID.3",
+      "retrieved_at": "2026-11-15"
+    }
+  ]
+}

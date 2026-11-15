@@ -1,0 +1,103 @@
+# Bidirectional caveat badges (Decision 011, T-019). Rows = schema $defs/BidiCaveat.
+# Spec §2.2: the UI shows caveats only from this table, never free text. label/short may contain
+# {param}, filled from BidiCaveatRef.param (param_kind says what type).
+# severity: condition = shown as an eligibility condition, never a plain tick.
+# EN + NL; other languages still to do.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+bidi_caveats:
+  - id: needs-dc-box
+    label: {en: "Needs a special DC wallbox (≈€2,000–3,000)", nl: "Vraagt een speciale DC-wallbox (≈€2.000–3.000)"}
+    short:
+      en: "The car can only send power back through an expensive DC wallbox."
+      nl: "De auto kan alleen terugleveren via een dure DC-wallbox."
+    param_kind: none
+    severity: condition
+
+  - id: maker-box-only
+    label: {en: "Only with the maker's wallbox", nl: "Alleen met de wallbox van het merk"}
+    short:
+      en: "Other wallboxes won't work for two-way charging, even bidirectional ones."
+      nl: "Andere wallboxen werken niet voor terugleveren, ook niet als ze bidirectioneel zijn."
+    param_kind: none
+    severity: condition
+
+  - id: tariff-required
+    label: {en: "Needs a specific energy contract", nl: "Vraagt een specifiek energiecontract"}
+    short:
+      en: "Feeding the grid only works with a matching contract from a named energy company."
+      nl: "Terugleveren werkt alleen met een passend contract van een bepaald energiebedrijf."
+    param_kind: none
+    severity: condition
+
+  - id: software-min
+    label: {en: "Needs software {param} or newer — check the car", nl: "Vraagt software {param} of nieuwer — controleer de auto"}
+    short:
+      en: "Ask the seller which software version the car runs. Older versions can't do it."
+      nl: "Vraag de verkoper welke softwareversie de auto heeft. Oudere versies kunnen het niet."
+    param_kind: version
+    severity: condition
+
+  - id: battery-min
+    label: {en: "Large battery only ({param} kWh or more)", nl: "Alleen grote accu ({param} kWh of meer)"}
+    short:
+      en: "Smaller-battery versions of this car are excluded. Check the usable battery size."
+      nl: "Versies met een kleinere accu vallen af. Controleer de bruikbare accucapaciteit."
+    param_kind: number
+    param_unit: kWh
+    severity: condition
+
+  - id: build-date-from
+    label: {en: "Only cars built from {param}", nl: "Alleen auto's gebouwd vanaf {param}"}
+    short:
+      en: "Older cars of the same model can't do it. Check the build date, not just the year."
+      nl: "Oudere auto's van hetzelfde model kunnen het niet. Kijk naar de bouwdatum, niet alleen het jaar."
+    param_kind: date
+    severity: condition
+
+  - id: discharge-cap
+    label: {en: "Limited discharge allowance (warranty)", nl: "Beperkte ontlaadruimte (garantie)"}
+    short:
+      en: "The maker caps how much energy you may send back without affecting the battery warranty."
+      nl: "Het merk begrenst hoeveel energie je mag terugleveren zonder gevolgen voor de accugarantie."
+    param_kind: none
+    severity: info
+
+  - id: chademo-legacy
+    label: {en: "Old CHAdeMO plug — boxes getting scarce", nl: "Oude CHAdeMO-stekker — boxen worden schaars"}
+    short:
+      en: "Two-way boxes for this plug are hard to find new. Check before you count on it."
+      nl: "Nieuwe boxen voor deze stekker zijn lastig te vinden. Controleer dit vooraf."
+    param_kind: none
+    severity: info
+
+  - id: smart-meter-required
+    label: {en: "Needs a smart meter", nl: "Vraagt een slimme meter"}
+    short:
+      en: "Your home needs a smart electricity meter before you can feed power back."
+      nl: "Je huis heeft een slimme meter nodig voordat je kunt terugleveren."
+    param_kind: none
+    severity: condition
+
+  - id: home-battery-required
+    label: {en: "Only with the maker's home battery", nl: "Alleen met de thuisaccu van het merk"}
+    short:
+      en: "Works only when the maker's own home battery system is installed."
+      nl: "Werkt alleen als het thuisaccusysteem van het merk is geïnstalleerd."
+    param_kind: none
+    severity: condition
+
+  - id: pilot-only
+    label: {en: "Pilot only", nl: "Alleen proef"}
+    short:
+      en: "Only in a trial with a limited number of households. Not something you can buy yet."
+      nl: "Alleen in een proef met een beperkt aantal huishoudens. Nog niet te koop."
+    param_kind: none
+    severity: blocker
+
+  - id: announced-only
+    label: {en: "Announced, not yet available", nl: "Aangekondigd, nog niet beschikbaar"}
+    short:
+      en: "The maker has announced it, but it isn't offered yet. Dates can slip."
+      nl: "Het merk heeft het aangekondigd, maar het is nog niet te krijgen. Data kunnen schuiven."
+    param_kind: none
+    severity: blocker

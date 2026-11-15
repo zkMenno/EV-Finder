@@ -1,0 +1,16 @@
+{
+  "id": "vw-meb-77-v2h-dc",
+  "subject_type": "model",
+  "subject_id": "vw-meb",
+  "mode_id": "v2h",
+  "route_id": "dc-offboard",
+  "caveats": ["needs a special box"],
+  "market_status": {
+    "de": {
+      "status_id": "live"
+    }
+  },
+  "source_ids": [],
+  "retrieved_at": "2026-11-15",
+  "confidence": "medium"
+}

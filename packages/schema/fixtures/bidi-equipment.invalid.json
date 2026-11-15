@@ -1,0 +1,10 @@
+{
+  "id": "elli-chargeline-bidi",
+  "name": "ChargeLine BiDi",
+  "maker": "Elli",
+  "route_id": "dc-offboard",
+  "price_band": {
+    "max": 2990
+  },
+  "source_ids": ["fixture"]
+}

@@ -1,0 +1,64 @@
+/* Compare print view (T-010). Scoped to pages that contain [data-compare-page], so loading
+   this sheet has no effect elsewhere. Black on white, no nav or chrome, all columns fit. */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  body:has([data-compare-page]) {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  body:has([data-compare-page]) header,
+  body:has([data-compare-page]) nav,
+  body:has([data-compare-page]) footer,
+  body:has([data-compare-page]) [data-testid="compare-tray"],
+  body:has([data-compare-page]) a[href="#main"] {
+    display: none !important;
+  }
+  body:has([data-compare-page]) main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  [data-compare-page] * {
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  [data-compare-page] .compare-scroll {
+    overflow: visible !important;
+    border: 0 !important;
+  }
+  [data-compare-page] .compare-table {
+    table-layout: fixed;
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 8.5pt;
+  }
+  [data-compare-page] .compare-table th,
+  [data-compare-page] .compare-table td {
+    position: static !important;
+    padding: 2pt 4pt !important;
+    border-bottom: 0.5pt solid #000;
+    overflow-wrap: anywhere;
+    white-space: normal !important;
+  }
+  [data-compare-page] .compare-table .whitespace-nowrap {
+    white-space: normal !important;
+  }
+  [data-compare-page] .compare-table .compare-differs {
+    font-weight: 700;
+  }
+  [data-compare-page] .compare-table tr {
+    break-inside: avoid;
+  }
+  /* Popovers and ⓘ buttons are screen-only. */
+  [data-compare-page] [role="tooltip"],
+  [data-compare-page] button[aria-label] {
+    display: none !important;
+  }
+  [data-compare-page] a {
+    text-decoration: none !important;
+  }
+}

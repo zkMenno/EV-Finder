@@ -1,1 +1,20 @@
-{}
+{
+  "banner.lang.label": "Sprachvorschlag",
+  "banner.lang.offer": "Diese Seite gibt es auch auf {language}",
+  "banner.lang.dismiss": "Nein, danke",
+  "pay.label": "Wie Sie zahlen",
+  "pay.buy": "Kaufen",
+  "pay.loan": "Kredit pro Monat",
+  "pay.lease": "Leasing pro Monat",
+  "pay.col.loan": "Pro Monat (Kredit)",
+  "pay.col.lease": "Pro Monat (Leasing)",
+  "pay.perMonth": "{amount}/Monat",
+  "pay.estimate": "Schätzung",
+  "loan.title": "Kredit-Schätzung",
+  "loan.notOffer": "Schätzung, kein Angebot. Kreditgeber legen Zins und Bedingungen selbst fest.",
+  "loan.term": "Laufzeit",
+  "loan.termMonths": "{n} Monate",
+  "loan.monthly": "Pro Monat",
+  "loan.total": "Summe über die Laufzeit",
+  "nav.learn": "Wissen"
+}

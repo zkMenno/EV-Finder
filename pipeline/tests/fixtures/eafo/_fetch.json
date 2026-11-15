@@ -1,0 +1,9 @@
+{
+  "fetched_at": "2026-11-15T02:00:37+00:00",
+  "url": "https://alternative-fuels-observatory.ec.europa.eu/system/files/documents/2026-06/Recharging%20points%20per%20power%20level%20%28AFIR%29%20dataset%20%282020%20-%20May%202026%29.xlsx",
+  "file_label": "Recharging points per power level (AFIR) dataset (2020 - May 2026).xlsx",
+  "title": "Recharging points per power level (AFIR) dataset (2020 - May 2026).xlsx",
+  "sha256": "c8066ec5b29b5988cd8cabd6a8d5106a59f0511463b49e69754e7cf18ce54d88",
+  "licence": "EC reuse policy CC-BY-4.0 for EU-owned content; third-party content unclear",
+  "fixture_note": "SYNTHETIC VALUES: real EAFO layout and category labels, invented numbers (the EAFO licence is unclear, so no real figures are committed). 'Atlantis' tests the unknown-country path."
+}

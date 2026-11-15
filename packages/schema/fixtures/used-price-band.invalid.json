@@ -1,0 +1,9 @@
+{
+  "generation_id": "nissan-leaf-ze1",
+  "country": "NL",
+  "currency": "USD",
+  "median": 13500,
+  "samples": 3,
+  "period": "2026-10",
+  "source_id": "fixture"
+}

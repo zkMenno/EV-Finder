@@ -1,0 +1,12 @@
+{
+  "id": "pilot",
+  "label": {
+    "en": "Pilot",
+    "nl": "Proef"
+  },
+  "short": {
+    "en": "Only in a trial with a limited number of households."
+  },
+  "filter_group": "pilot-or-announced",
+  "order": 2
+}

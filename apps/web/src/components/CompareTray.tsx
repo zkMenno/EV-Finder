@@ -3,11 +3,12 @@
 // localStorage (compare-store), so it survives navigation and reloads.
 import Link from "next/link";
 import { useMemo } from "react";
-import { makeT, type Dict } from "@/i18n";
+import { makeT, type Dict } from "@/i18n/t";
 import { COMPARE_MAX, compareHref, compareStore } from "@/lib/compare-store";
 import { useListStore } from "@/lib/use-list-store";
 
-export function CompareTray({ country, dict }: { country: string; dict: Dict }) {
+/** `base` = "/{country}/{lang}". */
+export function CompareTray({ base, dict }: { base: string; dict: Dict }) {
   const t = useMemo(() => makeT(dict), [dict]);
   const items = useListStore(compareStore);
   if (!items.length) return null;
@@ -50,7 +51,7 @@ export function CompareTray({ country, dict }: { country: string; dict: Dict }) 
           </button>
           {items.length >= 2 ? (
             <Link
-              href={compareHref(country, items)}
+              href={compareHref(base, items)}
               className="rounded-md bg-blue-800 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-900"
             >
               {t("compare.go")} ({items.length})

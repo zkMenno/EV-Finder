@@ -61,3 +61,30 @@ run: `derive.metrics` lacks `dc_km_per_10min`/`dc_avg_estimate`). None are in th
   `QUESTIONS.md` (Q-009 to Q-013). No new dependencies.
 
 ## Review
+
+**Reviewer (fresh agent), 2026-11-15. Verdict: changes needed.**
+
+Boxes confirmed: one folder per source under `pipeline/ev_pipeline/sources/` with fixtures under `pipeline/tests/fixtures/<name>/`. Tests are offline (`httpx.MockTransport`; no network in the suite). Licences in `data/SOURCES.md` match `data/sources.yaml`. No marketplace scraping anywhere: the only marketplace URLs are user-facing "see listings" deep-link templates in `apps/web/src/config/countries.ts`, which Decision 004 allows. No secrets: `.env.example` has names and dummy values only. Nyland: the URL comes from env only, output goes to git-ignored `data/local/nyland/` only, and the adapter fixture `tests/fixtures/nyland/synthetic.csv` is all invented "Testcar" rows.
+
+Findings
+1. **EEA spec facts are averages across different cars (medium-high).** `sources/eea/adapter.py:40-53` publishes registration-weighted means of mass, Z and Zr over *all* type approvals under one commercial name (all battery sizes, wheels and trims) as `wltp_range_km` / `consumption_kwh_100km` / `weight_kg` facts. Where a name covers several packs or trims, the fact is a blend that may match no single car. Such facts then sit on `-base` variants (e.g. `dacia-spring-gen1-base` WLTP 228 covers all 2025 Spring trims; the Q8 e-tron EEA rows give 18.5 to 29 kWh/100km across names, see conflicts.csv). That goes against the spirit of "conflicts are never averaged" (Decision 009). Options: group by type-approval variant (TAN/Va/Ve) and emit per-variant facts, or emit only when the group's min and max agree within tolerance, else count-only.
+2. EEA `M (kg)` is *mass in running order* (includes a 75 kg driver), but it goes in as `weight_kg` next to OpenEV curb weight (`eea/adapter.py:161`). That causes systematic conflicts or a wrong winner on weight. Map it to its own field, or subtract the 75 kg and say so in the note. Low-medium.
+3. Nyland fetch prints the httpx exception (`sources/nyland/adapter.py:104`). For `HTTPStatusError`, the message contains the full sheet URL, so it leaks to stdout and CI or cron logs. Print only the status code. Low.
+4. `dc_avg_10_80` in the OpenEV adapter (`openev/adapter.py`) is a derived value (net × 0.7 / minutes), but it is emitted as an OpenEV source fact with the source's confidence, not marked derived. Low; it's documented in SOURCES.md.
+
+## Fixes after review
+
+**Builder, 2026-11-15 (proto/overnight-1).**
+1. EEA averaged specs (finding 1) and EEA mass (finding 2): **EEA is count-only.** `sources/eea/adapter.py`
+   emits only `registered_count` records. The registration-weighted M/Z/Zr averages stay in the raw pages
+   and never become facts, so mass in running order can't merge with curb weight. Belt and braces:
+   `matcher.COUNT_ONLY_SOURCES` drops any EEA spec record (e.g. a stale staging file) and counts it in the
+   run log. Per-type-approval rows are QUESTIONS.md Q-039. Tests: `test_source_eea.py::test_counts_only_no_averaged_specs`,
+   `test_match.py::test_variant_ids_and_year_merge`, `test_release.py::test_release_end_to_end`,
+   `test_real_release.py::test_no_eea_spec_facts`.
+2. Nyland fetch leak (finding 3): `nyland/adapter.py::scrub_error` prints `HTTP <code>` or the error
+   class only, never the exception text (which holds the URL). Test: `test_source_nyland.py::test_fetch_error_never_prints_url`
+   (status error and connect error).
+3. Finding 4 (`dc_avg_10_80` from OpenEV not marked derived) was not in tonight's fix list and is still open.
+
+Release 1 rebuilt (`rm -rf data/releases && uv run ev release`) from openev 1229, rdw 3124 and eea 1715 (counts only) records + seed: **195 rows** (was 210), 55 generations with rows, 6063 facts, conflicts.csv 79 (was 489), unmatched.csv 1383 rows (2726 seed-make records + 1920 other-make records unmatched), validation.csv 0, tiers single-source 195, real-range rungs body-ratio 105 / none 90, catalogue.json 1,925,423 B raw / 91,755 B gzipped. Checks green on my files: `ruff check`, `ruff format --check`, `pytest` (251 incl. test_real_release.py).

@@ -1,0 +1,13 @@
+{
+  "variant_id": "vw-id3-pro-58kwh",
+  "release": 2,
+  "heat_pump": "maybe",
+  "cells": [
+    {
+      "road_band": "highway",
+      "temperature_band_id": "t-0",
+      "wh_km": 225,
+      "confidence": "medium"
+    }
+  ]
+}

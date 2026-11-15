@@ -1,0 +1,174 @@
+# A-06 Merge rules review: Decisions 025–030 and how they interact
+
+**Type:** data quality + rule interaction review · **Date:** 2026-11-15 · **Auditor:** fresh reviewer agent, branch `proto/overnight-1` (read-only; no commits) · **Data:** release 1 (`data/releases/latest` = `1`, 244 rows)
+
+**Scope:** work since A-05 (`60c296f`..`e44dda8`): Decisions 025–030 and their code in `match/matcher.py`, `match/seed.py`, `merge/merge.py`, `merge/policy.py`, `qa/value_guard.py`, `derive/links.py`, `release/build.py`, `net.py`, `data/field_sources.yaml`, plus the seed `cited:` values in `data/seed/variants.yaml`.
+
+**Tests added:** `pipeline/tests/test_a06_review.py`: 5 `xfail(strict=True)` tests that reproduce F1 (2 tests), F2, F3 and F6. Each fails for the reason stated (checked with `--runxfail`). They turn into XPASS errors once fixed, so remove the marker in the same commit as the fix.
+
+## Check runs
+
+| Check | Result |
+|---|---|
+| `uv run pytest -q` | 1147 passed, 5 xfailed (the new A-06 tests) |
+| `uv run ruff check .` / `ruff format --check .` | pass |
+| `python -m ev_pipeline.qa check-release ../data/releases/latest` | pass (provenance 5711 values, licence gate 13 sources / 40116 facts) |
+| `ev release` twice, on a copy of `data/` in /tmp (releases 2 and 3) | identical apart from the release number, `previous_release`/"vs release N" text and the gzip byte count. Parquet differs only by the embedded release column. `data/review/*` byte-identical. Committed release 1 = the rebuild, so release 1 matches the current code. |
+| WebFetch of the cited URLs | **not done**: the first fetch got no answer to its permission prompt, so I made no other network calls. The cited values were checked against common knowledge instead (see "Verified clean"). Re-run this check with web access. |
+
+## How the rules are applied (order)
+
+1. Matcher: battery gate (027) rules out candidates, then nameless records need evidence (025) → placement.
+2. `guard_usable_vs_pack` (T-057) drops usable kWh above a linked pack's gross.
+3. `merge_facts` per field: one vote per SPREAD_SOURCES source → mode (priority / median / default majority / newest) → `agreement` (025; priority mode only) → `cited` (028; all modes but `newest`).
+4. `guard_mixups` (029) → `guard_needs_backing` (025) → `guard_impossible` (A-05 F7). Each removes facts and merges the field again, but **no guard runs again after a later guard changes a value**.
+5. Corroboration, then rule pack/platform links (030) on the guarded `battery_kwh_net`.
+
+## Findings
+
+### Critical
+
+None.
+
+### High
+
+**F1 · `needs_backing` deletes the whole field, not just the unbacked value.** `guard_needs_backing` (`qa/value_guard.py:120`) checks only the merged *winner*. If the winner's sources are all `kilowatt-openev`, it deletes the field and sends **every** fact for that field to review, including values that are backed or come from other sources. It never merges the field again without the weak facts (the other two guards do).
+- *Scenario seen in release 1:* Audi Q4 40: KilowattApp 143 (earliest year, wins) and 125, seed 125. The 125 group meets the rule's own bar (seed agreement counts as backing, per the QUESTIONS.md default), but the row ships with **no DC peak**.
+- *Non-monotone:* 16 variants lose a seed DC peak that would have shipped (single, low) if KilowattApp had no record. Examples: Nissan Leaf ZE0 24/30, Leaf ZE1 40, Kia EV6 77 AWD and GT, Mercedes EQC 400, VW ID.3 Pro, e-Golf, Model S P100D, Zoe Ph2 R110/R135. Adding a source *removes* data.
+- *Latent:* a lone KilowattApp value outranks `maker-docs` and `seed-manual` for `dc_peak_kw`, so once maker-docs facts are released, a real maker figure would be withheld with it.
+- *Fix:* drop only the facts whose group is backed solely by `needs_backing` sources, then merge again (as `guard_mixups` does). Tests: `test_needs_backing_keeps_a_backed_value_when_the_winner_is_unbacked`, `test_needs_backing_does_not_drop_another_sources_value`.
+
+**F2 · `guard_impossible` can undo a `cited` win, so the overruled lone value comes back.** The impossible-pair guard drops the half with the lower `independent_agreeing`. A cited seed fact counts 0 (seed-manual is never independent), so a value that won by rule `cited` always loses to any single uncited source on the other half.
+- *Scenario:* OpenEV gives usable 82 and gross 85. Ford's cited usable is 88, so rule `cited` publishes 88. Then 88 > 85, so the guard drops the cited 88, merges again, and OpenEV's 82 (the value Decision 028 overruled) ships with no review flag on 82. The same happens with `wltp_efficiency` (cited usable vs a lone wrong-trim WLTP).
+- *In release 1:* not triggered (Mach-E cited gross values sit next to the cited net values). Any new `cited:` net without a cited gross is exposed.
+- *Fix:* in `guard_impossible`, count a cited half as at least 1 (or prefer it), or drop the uncited half when only one side is cited. Test: `test_impossible_guard_does_not_undo_a_cited_win`.
+
+**F3 · Seed `cited:` values ship under the seed's CC BY licence, and the citation URL is dropped.** `parse_cited` (`match/seed.py:337`) copies the seed source and changes only `url` and `name`. The id stays `seed-manual`, licence `CC-BY-4.0`, owner "EV Finder". Two problems:
+- (a) *Traceability:* `_flat_facts` (`release/build.py:710`) does not write `source.url`, and `sources.json` / `ATTRIBUTION.md` list only the generic seed. The URL, the only real evidence for a cited value, appears **nowhere in release 1** (grep for fordpers/press.renault/newsroom.bmwgroup: 0 hits; facts.parquet has 15 cited facts with name only). The attribution text says seed-manual values are "hand-entered and unchecked", which is wrong for these 15.
+- (b) *Licence gate:* the same kind of fact from a maker document is `blocked` when it comes through `maker-docs` or `manual` until Q-008 is answered ("Can cited single facts from maker documents count as releasable? ... EU database right may apply"). `bidi_equipment` is held back for exactly this reason. Seed `cited:` routes maker-document facts (Ford, Renault and BMW press PDFs, three of them third-party copies: rinnovabili.it, xr793.com, projekt-renault.de) around that gate into the CC BY release.
+- *Scenario:* a reuser of `facts.parquet` sees "Mach-E GT usable 88 kWh, seed-manual, CC-BY-4.0, EV Finder" with no URL. If Menno answers Q-008 "no", these values have already shipped.
+- *Fix:* (a) write `source_url` in facts.parquet (and the row provenance). (b) Either give cited seed values their own source id that follows `maker-docs`' gate, or record in DECISIONS.md that Decision 026 deliberately answers Q-008 for single cited facts, and ask Menno. Test for (a): `test_published_facts_keep_the_citation_url`. (b) is a policy question, so no test.
+
+### Medium
+
+**F4 · `needs_backing` counts unchecked seed values as backing.** `set(mg.source_ids) <= set(weak)` treats any seed-manual agreement as backing. That goes against Q-015 / merge.py ("seed-manual never counts as an independent confirmation"). It was disclosed as a default in QUESTIONS.md, but it was never logged in DECISIONS.md 025.
+- *Release 1:* 42 of 211 DC peaks rest on KilowattApp + uncited seed only (e.g. Mach-E ER AWD 148, Cupra Born 58 124, EQA 250 99), published at `medium`.
+- *Scenario:* a seed value typed from memory, possibly from the same upstream as KilowattApp, "confirms" a KilowattApp error like the Zoe R110 150 kW, and it ships.
+- *Fix:* count only cited seed facts as backing, or log the exception in DECISIONS.md.
+
+**F5 · Known-wrong KilowattApp `ac_kw` still ships at medium confidence.** The Zoe Ph1 **Q210 shows 11 kW** (Renault: 43 kW; the cited 43 is `low`, so it can't win). The **R90 shows 11 kW** over the seed's 22 (R-motor Zoes charge at up to 22 kW). Decision 028 parks this, but Decision 028's consequence line "No cited value loses anywhere in the release" is not true: the Q210 citation loses (conflicts.csv `cf-256b8af817`, seed-manual 43 vs 11). That is a bad value for anyone filtering on "fast AC".
+- *Fix:* a confirmed Phase 1 spec sheet (the Q210 one is already cited, so raise it to medium if the page names the exact version), or `needs_backing: [kilowatt-openev]` on `ac_kw`.
+
+**F6 · `manual` facts count as independent confirmation.** `NOT_INDEPENDENT` holds only seed-manual and model-estimate. A `manual` fact (cited by definition) counts as a second origin in `agreement`, in `confidence = high` and in `_cited_over` backing. That contradicts merge.py ("A cited fact still never counts as an independent confirmation").
+- *Latent:* `manual` is blocked today.
+- *Scenario:* once Q-008 opens it, OpenEV + one manual fact would outvote a priority source and show `high`. Test: `test_a_manual_citation_is_not_an_independent_confirmation`.
+
+**F7 · Citation scope wider than the variant.** `bmw-i3-i01-i3s` covers "94 Ah / 120 Ah" (2017–2022) but cites the 120 Ah press release (42.2 kWh gross). The row shows 37.9 kWh usable (120 Ah), so 2017–18 i3s cars (94 Ah, 27.2 / 33.2 kWh) get the wrong battery. The cited gross also becomes a battery-gate anchor, so 94 Ah i3s records can't land anywhere (unmatched.csv: "several variants fit 120ah, 94ah").
+- *Fix (seed lane):* split the i3s by battery, or limit the citation's `years`.
+
+**F8 · OpenEV vs KilowattApp vs fueleconomy independence is unverified.** Both "Open EV Data" datasets count as separate origins for `agreement` and for "high" confidence. OpenEV's own files cite fueleconomy.gov 25 times, but SAME_ORIGIN maps only `rdw-tgk → rdw`.
+- *Scenario:* if one dataset copied the other (or EPA), "2 independent sources agree" is one source counted twice. `agreement` can then outvote a priority source, and `cited` can lose to a copy (`_cited_over` returns None at 2 origins). 🔴 unsure: I could not check either project's upstream (web blocked).
+- *Fix:* a research note on each dataset's upstream, then SAME_ORIGIN entries (per field if needed, e.g. openev→fueleconomy for `epa_range_km`).
+
+### Low
+
+- **L1 · Guards don't re-check each other.** `guard_mixups` compares `ac_kw` with battery values *before* `guard_impossible` may replace them. An `ac_kw` fact can be dropped as a "mix-up" with a battery value that is later found wrong. Equally, a new battery value from the impossible guard is never checked for mix-ups. Rare. A fixed-point loop over the three guards would close it.
+- **L2 · Mix-up guard ignores pack-inherited battery values.** It compares only merged battery fields, so a row whose battery comes only from `variant_links.yaml` gets no mix-up check.
+- **L3 · Platform rule is unanimity over possibly one link.** In `apply_rule_links`, a generation with a single linked variant hands that platform to every row of the generation. That's fine today (no generation spans two platforms), but worth a minimum of 2 links or a reviewer flag.
+- **L4 · Git URL gate:** good (fail closed, `--`, https-only protocol flags). Git still reads the user's/system gitconfig (`url.<x>.insteadOf` could rewrite the URL after the check). Consider `GIT_CONFIG_NOSYSTEM=1` and `GIT_CONFIG_GLOBAL=/dev/null` in the subprocess env.
+- **L5 · Taxonomy names blocked source `eafo`.** `catalogue.json` has power-band and definition entries with `source_id: eafo` (labels only, no values). That's harmless, but `section_gate_errors` / `excluded_source_errors` don't flag it, so a future value would need an explicit check.
+
+## 15-row spot check (seeded random sample, release 1)
+
+Plausible: Enyaq 80x, ID.3 Pro 2023 (except DC), Ioniq Electric 38, EQA 250 (2021), iX xDrive50, ID.4 Pro, Cupra Born 58, BYD Atto 3, EQB 300 4MATIC (except kWh).
+
+Implausible (all single-source OpenEV values at `medium`):
+
+| Row | Published | Why it looks wrong |
+|---|---|---|
+| `audi-q4-e-tron-gen1-50` (2023–25) | rwd, 150 kW, 0–100 8.5 s, 73 kWh; WLTP 464 from **RDW 2021–22 "Q4 50 E-TRON" year groups** | The Q4 50 is quattro (220 kW, about 6.2 s). OpenEV's own `2024/q4_e_tron_50.json` carries 40-trim figures. The WLTP comes from earlier quattro year-group records placed on a 2023+ RWD row (rdw wins by priority over OpenEV 520, since one origin can't outvote it). `-50-sportback` has the same problem. |
+| `renault-megane-e-tech-gen1-40-kwh` | DC 130 kW | The EV40 does 85 kW. 130 kW is the EV60. |
+| `renault-5-e-tech-gen1-40-kwh` | DC 100 kW | The 40 kWh R5 does 80 kW. 100 kW is the 52 kWh. |
+| `volkswagen-id3-gen1-pro-2023` | DC 135 kW | The 58 kWh Pro does 120 kW. |
+| `mercedes-eqb-gen1-300-4matic`, `-base`, `eqa-h243-base` (2023–25) | 60 kWh usable | The EQA/EQB 250+/300 use 66.5 kWh, and the facelift 70.5 kWh. |
+| `hyundai-ioniq-6-gen1-long-range` | 72.6 kWh | 77.4 kWh pack, usable about 74. Minor. |
+| also seen: `audi-q4-e-tron-gen1-40-sportback` | 48 kWh | The Q4 40 is 77 kWh. This is the OpenEV record Decision 027 pushed off the 40 e-tron row; it now has its own row. |
+| also seen: `renault-zoe-ph1-q210/-r240` | usable 23.3 kWh | Decision 029 itself calls 23.3 the Z.E. 22 *gross* figure. Either the decision or the published usable value is wrong (seed says 22). 🟡 |
+
+These are source errors, not rule bugs. But all of them get past every guard because one OpenEV record per row "agrees with itself" (2023/2024/2025 files are one origin). Suggestion: a DC-peak-per-kWh outlier check within a generation (siblings with the same pack and platform but a different DC peak), and the generation-level year check for year-group records (RDW 2021–22 on a 2023+ row).
+
+## Verified clean
+
+- **Rule order inside `merge_facts`:** `agreement` only in priority mode, `cited` after it. Two agreeing origins beat a citation, disagreeing citations win nothing, `newest` is exempt, and `cited_wins` / `agreement_wins` opt-outs parse. No path leaves a field with zero candidates inside `merge_facts`. Field deletion happens only in the guards (F1, and the impossible guard when nothing is left, by design).
+- **SPREAD_SOURCES + SAME_ORIGIN:** rdw-tgk votes once, and its followers back `fact_ids` but not confidence (A-05 F6 fix holds).
+- **Mix-up guard:** cases in `fixtures/value_guard/ac_mixups.yaml` behave as documented. Re-merges without the bad facts. Cited or cross-origin agreement protects a value. Zoe R240 → 22 (seed), R110 → 22, Q90 → 43, e-Golf 36 → 7.2 verified in the release.
+- **Battery gate:** Zoe R90 41 kWh, Q4 40 e-tron 77 kWh, Mach-E ER AWD 88 kWh as Decision 027 says. The gate only rules out (no next-nearest push) per `test_battery_gate.py`.
+- **Cited values vs common knowledge** (web check not possible): Zoe Q210 43 kW AC, R240 22 kW, Q90 43 kW, Z.E. 40 41 kWh usable, R110 22 kW, i3 120 Ah 42.2 kWh gross, Mach-E SR 68 / 75.7 kWh, ER 88 / 98.7 kWh. All match the published maker figures I know, and every entry has a URL, date and quote or locator. No fake-looking citation was found, but the URLs themselves are **not** verified.
+- **Licence gate:** check-release passes. Release sources are ademe, bnetza, dft-charging, dft-veh, eea, fueleconomy, kba-fz10, kilowatt-openev, model-estimate, openev, rdw, rdw-defects, rdw-tgk, seed-manual, wikidata. **No Nyland or EAFO data**: 0 hits in variants.csv/json, sources.json, charging_stats.json and facts.parquet. EAFO appears only as taxonomy labels (L5). Nyland raw stays in git-ignored `data/local/`.
+- **Decision 030 links:** rule links carry their rule and gap in provenance (72 rows). The pack fit uses guarded usable kWh and never goes above gross. Spot check: Q8 50 → 95 kWh pack (89 usable) is right.
+- **Idempotence:** see check runs. Deterministic, and release 1 is reproducible from the committed code + staging.
+
+## Suggested tasks
+
+1. Pipeline: F1 (re-merge in `guard_needs_backing`) + F2 (cited half in `guard_impossible`). Both are small, with tests ready.
+2. Pipeline + coordinator: F3 (a) write `source_url` to facts.parquet and provenance; (b) DECISIONS entry or a separate gated source id for cited seed values, linked to Q-008.
+3. Coordinator: log F4's exception, or tighten it. Decide F5 (`needs_backing` on `ac_kw`?).
+4. Research: OpenEV / KilowattApp upstream and independence (F8).
+5. Seed lane: split the i3s by battery (F7). Check the OpenEV-only rows in the spot-check table.
+
+## Fixes (pipeline builder, 2026-11-15, branch `proto/overnight-1`)
+
+Release 1 rebuilt from the existing staging (no live refresh). `ruff check`, `ruff format --check`, `pytest -q` (1170 passed, 0 xfail) and `qa check-release` pass. New tests: `pipeline/tests/test_a06_fixes.py` (18); the 5 tests in `test_a06_review.py` lost their xfail markers.
+
+| Finding | Status | What changed |
+|---|---|---|
+| F3 | fixed | Seed `cited:` values are facts of the cited document's source: `maker-docs` by default (`source_id:` may name another registered source, never `seed-manual`), licence "none (individual facts cited by URL and date)", the URL, the cited retrieval date and confidence (`match/seed.py`, `data/seed/validate_variants.py`). They pass the licence gate after matching (`release/build.py`): maker-docs is blocked (Q-008), so **0 of 15 cited facts ship** (run log: `gated_sources.maker-docs.records = 15`). They stay battery-gate anchors for placement. `facts.parquet` has a `source_url` column. The "unchecked" seed wording no longer applies to any shipped cited value (none ship under seed-manual). |
+| F3 knock-on | fixed | `qa/value_guard.guard_contradicted`: a blocked citation (or a low-confidence one) that contradicts a value only one independent origin backs withholds that value ("contradicted by a citation that can't ship yet (Q-008)") and the field is merged again without it; 2+ agreeing origins keep their value (the citation goes to review); an agreeing blocked citation is a provenance note only ("a cited document agrees (maker-docs; not published until Q-008)"). `newest` fields are exempt. Release 1: 6 fields hit, 4 withheld (Mach-E GT gross, Zoe Q210/Q90/R240 `ac_kw`), 2 re-merged to a value that agrees with the citation (Mach-E GT usable 88 from KilowattApp instead of OpenEV 82; Zoe Ph1 R110 `ac_kw` 22 from KilowattApp). 7 fields carry the agreeing-citation note. |
+| F2 | fixed | `guard_impossible`: when exactly one half rests on a citation, the uncited half goes; taking out a `cited` half also takes out the values it overruled. All guards now work on one fact pool, so a removed fact never comes back in a later re-merge. |
+| F1 | fixed | `guard_needs_backing` takes out only the `needs_backing` sources' facts of the unbacked group and merges again (repeats while unbacked). Release 1: DC peak rows 211 → 227 on the same 244 rows (16 rows: Q4 40 at 125 kW and the F1 examples); needs-backing fields fully withheld 29 → 13. |
+| F4 | fixed (kept, made explicit) | New policy key `seed_counts_as_backing` (default false) in `data/field_sources.yaml`; only `dc_peak_kw` sets it. Coordinator to log it under Decision 025. |
+| F5 | partly | Zoe Q210 `ac_kw` 11 → withheld (low-confidence citation 43, now evidence). Q90 43 and R240 22 are withheld too, because their citations are blocked. **R90 still shows 11 kW**: it has no citation (its seed 22 is uncited), so the F3 rule does not apply. `needs_backing: [kilowatt-openev]` on `ac_kw` (tried on a copy) would change 27 rows' AC power (mostly standard vs optional on-board charger, and it withholds R110's 22), so it is not applied. Decision 028's "no cited value loses" now holds in the sense that no value a citation contradicts ships; Decision 029's consequence line (Q210 11 kW) is out of date: coordinator to update. |
+| F6 | fixed | `manual` and `maker-docs` are in `NOT_INDEPENDENT` (`merge/merge.py`). |
+| F7 | fixed | `bmw-i3-i01-i3s` keeps its id and is now the 120 Ah i3s (2018–22); new `bmw-i3-i01-i3s-94ah` (2017–18, 27.2 / 33 kWh, uncited, pack `bmw-i3-94ah`). The 94 Ah i3s TGK versions now place there (WLTP 245 km). Rows 244 → 245. |
+| F8 | fixed (field level) | New policy key `same_origin` (per field); `epa_range_km: {openev: fueleconomy}` (an EPA rating only comes from EPA, and OpenEV's files cite fueleconomy.gov). Release 1: 27 EPA ranges drop from high to medium; 13 EPA values change because OpenEV + one fueleconomy record no longer outvote the priority fueleconomy record (rule `agreement` no longer fires): e.g. Ioniq 6 LR 581 → 490.8, i4 eDrive35 412 → 378.2. Both values are real EPA trim figures; which trim a row shows still follows "earliest model year". The wider question (does KilowattApp copy OpenEV, or either copy EPA for other fields) still needs the research note. |
+| L1 | fixed | `run_guards` repeats contradicted → mix-ups → needs-backing → impossible until no fact is removed. A mix-up dropped earlier against a battery value that is later replaced is not restored (rare; documented in `value_guard.py`). |
+| L4 | fixed | `net.git_env()` (`GIT_CONFIG_GLOBAL=/dev/null`, `GIT_CONFIG_NOSYSTEM=1`, `GIT_TERMINAL_PROMPT=0`, drops `GIT_CONFIG`) on every git subprocess (probe, OpenEV, KilowattApp). |
+| L2, L3, L5 | open | As written above. |
+
+**New QA flag (not blocking):** `volkswagen-e-golf-mk7-24kwh`: DC average 41.8 > peak 40 kW. The seed's 40 kW peak now ships (F1); the average comes from the curve model. Needs a look by the derive lane.
+
+**Not changed, for the coordinator:** `variant_links.yaml` generation `cited: platform_id` links (VW MEB, Renault CMF-BEV) still ship under seed-manual with the maker URL in the provenance note. They are platform memberships, not numeric spec values, so F3's gate was not applied to them; decide whether Q-008 covers them.
+
+**Spot check of the single-source OpenEV values (not fixed; no general rule clearly applies):** all still published as in the table above. Q4 50 / 50 Sportback (RWD, 150 kW, 8.5 s, 73 kWh, WLTP 464 from RDW 2021–22 year groups); Megane EV40 DC 130; R5 40 kWh DC 100; ID.3 Pro 2023 DC 135; EQB 300 4MATIC / EQB base / EQA base 60 kWh; Q4 40 Sportback 48 kWh; Zoe Q210 / R240 usable 23.3 (this is **KilowattApp**, not OpenEV; seed 22; the guard keeps it because the seed is unchecked). The suggested within-generation DC-per-kWh outlier check and a generation-level year check for RDW year groups remain open tasks.
+
+## Follow-up: citations for the spot-check values, DC average cap (pipeline builder, 2026-11-15)
+
+Release 1 rebuilt from the same staging; ruff, format, `pytest -q` (1177 passed) and `qa check-release` pass. Every figure was read on the page named in the citation.
+
+- **Where the citations live.** The spot-check rows (Megane `-40-kwh`, R5 `-40-kwh`, ID.3 `-pro-2023`, EQA/EQB 2023+, Q4 `-40-sportback`, `-50`, `-50-sportback`) are OpenEV-only release ids with no seed variant, and a seed `cited:` value can't reach them (the ID.3 one is a year band). They went into `data/manual/specs/a06-single-source-checks.yaml` (source `manual`, blocked by Q-008, 18 facts, `ev manual check` clean), which attaches by release id after matching and is evidence for `guard_contradicted` like seed citations. The Zoe Ph1 citations are seed `cited:` values (Q210/R240 `battery_kwh_net` 22, R90 `ac_kw` 22, all low).
+- **Withheld:** Megane 40 kWh DC 130 (Renault IE: 85); R5 40 kWh DC 100 (Renault UK: 80); ID.3 Pro 2023+ DC 135 (VW: 120, low); EQA base/300/350 and EQB base/7-seater/300 7-seater/350 7-seater usable 60 (Mercedes: 66.5 or 70.5); Q4 40 Sportback usable 48 (Audi 2025: 59, low); Q4 50 and 50 Sportback power 150 and 0-100 8.5 (Audi: 50 quattro 220 kW, 6.2 s, low); Zoe R90 AC 11. **Changed:** EQB 300 4MATIC and 350 4MATIC usable 60 → 66.5 (KilowattApp, agrees with the citation); Zoe Q210/R240 usable 23.3 → 22 (pack `renault-zoe-22`, seed-manual).
+- **New rule (derive):** after a citation withholds `battery_kwh_net`, the row used to re-estimate it as 0.93 x gross from the same wrong record (EQA 61.8, Q4 Sportback 48.4). `build_rows` now gets the unpublished citations (`qa/value_guard.citation_values`) and drops a net-from-gross estimate that every such citation contradicts (validation.csv).
+- **QA flag fixed (derive):** e-Golf 24 kWh "DC average 41.8 > peak 40": the KilowattApp estimated curve peaks at 44 kW while the row's peak is the seed's 40 (KilowattApp's own 44 is taken out by `needs_backing`). Rule now: a non-measured curve above the row's `dc_peak_kw` is capped at it before integrating (noted in provenance); a sourced or measured average above the peak goes to validation.csv. e-Golf 41.8 → 39.6. Other capped rows: ID. Buzz Pro 128 → 117.1, ID.3 Pro (2020-22) 77.3 → 70.5, EQC 400 104.9 → 98.7, Ioniq 5 AWD 175.6 → 175.4 (and their minutes / km-per-10-min).
+- **Still for a reviewer (rows look mis-modelled, not restructured):** OpenEV Q4 "50" / "50 Sportback" are RWD 150 kW 8.5 s, which are Audi's 40 e-tron figures (no RWD "50" existed; 2024+ names are 45 / 55); their drivetrain can't be cited (not a number). OpenEV Q4 "40 Sportback" (125 kW, 9.0 s, WLTP 348) matches the Sportback 35. `renault-megane-e-tech-gen1-40-kwh` duplicates seed `-ev40`. Renault's R5 sheet gives EV40 usable 40 kWh vs OpenEV 38 (not entered). R90 AC rests on an Italian sheet without a Renault imprint; the Renault UK July 2017 kit's R90 column says 3-43 kW.
+
+## Follow-up: cited checks on rows merged by Decision 033 (seed builder, 2026-11-15)
+
+After the Decision 033 dedup, some uncited seed values lost to single-source OpenEV values. Each one below was checked against a maker page (read 2026-11-15) and added as a seed `cited:` value in `data/seed/variants.yaml` (source `maker-docs`, blocked by Q-008, so these are evidence only). Where a citation replaced an uncited seed figure, the seed figure was taken out of `specs`. Release 1 rebuilt from the existing staging; ruff, format, `pytest -q` (1197 passed) and `qa check-release` pass. Rows 226 → 226; 17 published values changed, all on the rows below.
+
+| Row | Field | Maker figure (source) | Published before → after |
+|---|---|---|---|
+| `mg-mg4-gen1-standard` | DC peak | 117 kW (MG UK brochure 10/2022, medium) | 135 (OpenEV, the 64 kWh figure) → **withheld**; DC average/minutes go with it |
+| | usable | 50.8 kWh (same, medium) | 49 (OpenEV) → **50.8** (KilowattApp, agrees) |
+| | AC | 7 kW (same; MG rounds 6.6) | 11 stays: OpenEV + KilowattApp agree, so the citation goes to review. Market/year dependent (MG Austria 07/2023 copy: 6.6 kW, no 11 kW on the Standard) |
+| `renault-megane-e-tech-gen1-ev40` | AC | 22 kW Boost Charge (Renault IE FAQ, low) | 22 stays (agrees). **Trim dependent**: Standard Charge is 7.4 kW; the row covers both |
+| | DC peak | 85 kW (already cited) | stays **empty**: OpenEV 130 withheld, 85 can't ship until Q-008 |
+| `renault-megane-e-tech-gen1-ev60` | usable | 60 kWh (Renault ES catalogue 10/2025, medium) | 57 (OpenEV) → **60** (KilowattApp, agrees) |
+| `cupra-born-gen1-58kwh` | DC peak | 120 kW (CUPRA Belgium press pack 10/2021, low: indicative, launch year) | 135 (OpenEV MY2023-25) → **withheld**. Possibly year dependent: no maker source for 135 kW on the 58 kWh was found |
+| `peugeot-e-208-p21-51kwh` | usable / gross | 48.1 / 51 kWh (Stellantis media 27-09-2022, low) | 50 (OpenEV) → **48.1** (KilowattApp, agrees). **Year dependent**: later cars reportedly have a 54 kWh gross pack (OpenEV MY2024-25: 50 / 54; not maker-confirmed) |
+| `jaguar-i-pace-x590-ev400` | WLTP | 470 km (Jaguar FR infographic "21MY", low) | 437 (RDW 2018) → **470** (RDW TGK + OpenEV). RDW 437 / 450 and TGK 480 went to review: probably year and wheel dependent (launch 480, MY21 470) |
+| `fiat-500e-332-42kwh` | WLTP | 320 km (Fiat CH press 04-05-2021, low: page names trims and 87 kW, not the battery) | 337 stays (RDW TGK + ADEME agree); citation goes to review. Probably best case vs headline figure |
+| `mini-cooper-se-f56-cooper-se` | usable / gross | 28.9 / 32.6 kWh (MINI technical specs 03/2020, medium) | 28.9 stays (agrees) |
+
+Checked with no difference over 5% (no citation added): Leaf 40 kWh (Nissan EU 2017: 40 kWh, 110 kW, 6.6 kW AC, 50 kW DC; NEDC only); e-2008 54 kWh (Stellantis 04-05-2023: 115 kW, WLTP 406 vs 404; 54 kWh not labelled gross/net; 7.4 kW AC standard, 11 kW optional); I-Pace DC 100; Born 58 WLTP/battery/AC; MG4 Standard WLTP 350; Mégane EV40/EV60 WLTP and EV60 DC 130; 500e AC 11 / DC 85 / 87 kW.
+
+**For the coordinator / product:** on several rows, AC shows the optional charger (e-208 / e-2008 11 kW, where 7.4 is standard; Mégane 22 kW, where Standard Charge / Super Charge is 7.4; MG4 Standard 11 kW). Decide whether AC shows "standard" or "max option". Year-split candidates: e-208 51 vs 54 kWh, I-Pace AC 7 → 11 kW (MY21), Born 58 DC. The MG4 Standard DC is still open (MG UK says 117, a garbled MG Austria copy seems to say 88).

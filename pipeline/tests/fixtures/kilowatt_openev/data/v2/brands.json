@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "updated_at": "2025-04-12T15:03:50.025Z",
+    "overall_count": 14
+  },
+  "brands": [
+    {
+      "id": "37bfdacf-1aca-4eb7-8daa-8dc5b14c59e9",
+      "name": "DS",
+      "models_file": "models/ds.json"
+    },
+    {
+      "id": "9771afb8-9e25-4ae6-a5b3-b2a5b9f363f0",
+      "name": "Hyundai",
+      "models_file": "models/hyundai.json"
+    },
+    {
+      "id": "3337d5f0-39de-4ded-831b-843dfec1ebbd",
+      "name": "Kia",
+      "models_file": "models/kia.json"
+    },
+    {
+      "id": "dab5a47a-e8ce-4d34-9139-0701499205b1",
+      "name": "Nissan",
+      "models_file": "models/nissan.json"
+    },
+    {
+      "id": "c0d8a60c-34b8-44fe-8af7-9eeb62eedb4b",
+      "name": "Renault",
+      "models_file": "models/renault.json"
+    },
+    {
+      "id": "f37896c3-6bc5-45e1-b442-b9cbc38e3a7c",
+      "name": "Tesla",
+      "models_file": "models/tesla.json"
+    },
+    {
+      "id": "481793f5-c8b0-4dc9-b3d4-cc615085ac07",
+      "name": "Volkswagen",
+      "models_file": "models/volkswagen.json"
+    },
+    {
+      "id": "5686f8db-6a36-41e7-a78c-fbf957ca103a",
+      "name": "Zero Motorcycles",
+      "models_file": "models/zero_motorcycles.json"
+    }
+  ]
+}

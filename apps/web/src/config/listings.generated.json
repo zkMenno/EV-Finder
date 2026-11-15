@@ -1,0 +1,143 @@
+{
+  "nl": [
+    {
+      "site": "autoscout24-nl",
+      "label": "AutoScout24",
+      "url_template": "https://www.autoscout24.nl/lst/{make}/{model}",
+      "filters": {
+        "electric": {
+          "fuel": "E"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 1,
+      "verified": false
+    },
+    {
+      "site": "marktplaats",
+      "label": "Marktplaats",
+      "url_template": "https://www.marktplaats.nl/q/{makeName}+{modelName}/",
+      "filters": {},
+      "slug_overrides": {},
+      "priority": 2,
+      "verified": false
+    },
+    {
+      "site": "gaspedaal",
+      "label": "Gaspedaal",
+      "url_template": "https://www.gaspedaal.nl/{make}/{model}/elektrisch",
+      "filters": {},
+      "slug_overrides": {},
+      "priority": 3,
+      "verified": false
+    }
+  ],
+  "de": [
+    {
+      "site": "mobile-de",
+      "label": "mobile.de",
+      "url_template": "https://suchen.mobile.de/fahrzeuge/search.html?isSearchRequest=true&q={makeName}+{modelName}",
+      "filters": {
+        "electric": {
+          "ft": "ELECTRICITY"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 1,
+      "verified": false
+    },
+    {
+      "site": "autoscout24-de",
+      "label": "AutoScout24",
+      "url_template": "https://www.autoscout24.de/lst/{make}/{model}",
+      "filters": {
+        "electric": {
+          "fuel": "E"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 2,
+      "verified": false
+    }
+  ],
+  "fr": [
+    {
+      "site": "leboncoin",
+      "label": "leboncoin",
+      "url_template": "https://www.leboncoin.fr/recherche?category=2&text={makeName}+{modelName}",
+      "filters": {
+        "electric": {
+          "fuel": "4"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 1,
+      "verified": false
+    },
+    {
+      "site": "lacentrale",
+      "label": "La Centrale",
+      "url_template": "https://www.lacentrale.fr/listing?makesModelsCommercialNames={MAKE}%3A{MODEL}",
+      "filters": {
+        "electric": {
+          "energies": "elec"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 2,
+      "verified": false
+    },
+    {
+      "site": "autoscout24-fr",
+      "label": "AutoScout24",
+      "url_template": "https://www.autoscout24.fr/lst/{make}/{model}",
+      "filters": {
+        "electric": {
+          "fuel": "E"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 3,
+      "verified": false
+    }
+  ],
+  "be": [
+    {
+      "site": "2dehands",
+      "label": "2dehands",
+      "url_template": "https://www.2dehands.be/q/{makeName}+{modelName}/",
+      "filters": {},
+      "slug_overrides": {},
+      "priority": 1,
+      "verified": false
+    },
+    {
+      "site": "autoscout24-be",
+      "label": "AutoScout24",
+      "url_template": "https://www.autoscout24.be/nl/lst/{make}/{model}",
+      "filters": {
+        "electric": {
+          "fuel": "E"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 2,
+      "verified": false
+    }
+  ],
+  "uk": [
+    {
+      "site": "autotrader-uk",
+      "label": "Autotrader",
+      "url_template": "https://www.autotrader.co.uk/car-search?make={makeName}&model={modelName}",
+      "filters": {
+        "electric": {
+          "fuel-type": "Electric"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 1,
+      "verified": false
+    }
+  ]
+}

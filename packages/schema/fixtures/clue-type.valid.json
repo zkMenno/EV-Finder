@@ -1,0 +1,20 @@
+{
+  "id": "power-kw",
+  "label": { "en": "Motor power", "nl": "Motorvermogen" },
+  "technical": { "en": "Maximum net power (kW)" },
+  "short": {
+    "en": "Peak motor power in kW, as on the registration papers.",
+    "nl": "Maximaal motorvermogen in kW, zoals op het kentekenbewijs."
+  },
+  "value_kind": "number",
+  "unit": "kW",
+  "found_in": ["papers", "ad"],
+  "paper_fields": { "FR": "P.2", "NL": "vermogen (RDW)" },
+  "ask_seller": {
+    "en": "What power in kW is listed on the registration papers?",
+    "nl": "Welk vermogen in kW staat op het kentekenbewijs?"
+  },
+  "default_strength": "strong",
+  "order": 2,
+  "glossary_id": "power-kw"
+}

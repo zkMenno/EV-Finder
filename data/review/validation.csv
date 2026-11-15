@@ -1,1 +1,11 @@
-stage,source_id,record_key,subject_id,field,value,unit,reason
+review_id,status,stage,source_id,record_key,subject_id,field,value,unit,reason
+va-7a8669bcec,open,fact,openev,src/volkswagen/id_buzz/base.json+src/volkswagen/id_buzz/2023/id_buzz.json+src/volkswagen/id_buzz/2023/id_buzz_cargo.json,volkswagen-id-buzz-gen1-cargo,boot_l,3900.0,l,out of range 0-2000: 3900.0
+va-be5de4afa9,open,fact,openev,src/volkswagen/id_buzz/base.json+src/volkswagen/id_buzz/2024/id_buzz.json+src/volkswagen/id_buzz/2024/id_buzz_cargo.json,volkswagen-id-buzz-gen1-cargo,boot_l,3900.0,l,out of range 0-2000: 3900.0
+va-f740e7ece3,open,fact,openev,src/volkswagen/id_buzz/base.json+src/volkswagen/id_buzz/2025/id_buzz.json+src/volkswagen/id_buzz/2025/id_buzz_cargo.json,volkswagen-id-buzz-gen1-cargo,boot_l,3900.0,l,out of range 0-2000: 3900.0
+va-eb87fef056,open,row,,,mercedes-eqa-h243-300-4matic,battery_kwh_net,61.8,kWh,estimate from battery_kwh_gross contradicted by a citation (66.5 kWh)
+va-71cbe76ffa,open,row,,,mercedes-eqa-h243-350-4matic,battery_kwh_net,61.8,kWh,estimate from battery_kwh_gross contradicted by a citation (66.5 kWh)
+va-35a9b408ba,open,row,,,mercedes-eqa-h243-base,battery_kwh_net,61.8,kWh,estimate from battery_kwh_gross contradicted by a citation (66.5 kWh)
+va-a4a1a3e500,open,row,,,mercedes-eqb-gen1-300-4matic-7-seater,battery_kwh_net,61.8,kWh,estimate from battery_kwh_gross contradicted by a citation (66.5 kWh)
+va-365c4c87d0,open,row,,,mercedes-eqb-gen1-350-4matic-7-seater,battery_kwh_net,61.8,kWh,estimate from battery_kwh_gross contradicted by a citation (66.5 kWh)
+va-aa4a386f91,open,row,,,mercedes-eqb-gen1-7-seater,battery_kwh_net,61.8,kWh,estimate from battery_kwh_gross contradicted by a citation (70.5 kWh)
+va-06cd47cfd5,open,row,,,mercedes-eqb-gen1-base,battery_kwh_net,61.8,kWh,estimate from battery_kwh_gross contradicted by a citation (70.5 kWh)

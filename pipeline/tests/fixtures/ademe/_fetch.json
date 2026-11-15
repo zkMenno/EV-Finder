@@ -1,0 +1,7 @@
+{
+  "fetched_at": "2026-11-15T01:35:00+00:00",
+  "url": "https://data.ademe.fr/data-fair/api/v1/datasets/ademe-car-labelling/raw",
+  "metadata_url": "https://data.ademe.fr/data-fair/api/v1/datasets/ademe-car-labelling",
+  "licence_metadata": {"title": "Licence Ouverte / Open Licence", "href": "https://www.etalab.gouv.fr/licence-ouverte-open-licence"},
+  "note": "Recorded sample: header + 64 unchanged rows (53 ELECTRIC, 4 plug-in hybrid ELEC+ESSENC HR, 4 hybrid ESS+ELEC HNR, 3 petrol). ADEME – Car Labelling, Licence Ouverte."
+}

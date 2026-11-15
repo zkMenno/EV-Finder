@@ -5,9 +5,35 @@ tolerance and mode. Fields without a policy use the overnight defaults:
 1. **Majority**: if 3 or more facts agree within 3% of each other, the largest such group
    wins, whatever the sources' priority. Ties go to the group holding the higher-ranked fact.
 2. **Priority** otherwise: openev > eea > seed-manual (see matcher.SOURCE_PRIORITY).
-3. **Recency** breaks ties: latest `retrieved_at`, then latest record year, then fact id.
+3. **Earliest model year** breaks ties within one priority (T-005 review): a used-car row
+   should show what the first cars of the variant had, not the newest model year's specs.
+   Big year-to-year changes are split into year-banded variants by the matcher
+   (`split_year_bands`); smaller ones stay, and the later values show up as conflicts.
+   Then latest `retrieved_at`, then fact id. Facts without a model year rank last.
+   (The `newest` mode, used for prices and counts, still prefers the latest year.)
 
 Values are never averaged: the merged value is always one real fact's value.
+
+**Agreement beats priority** (A-05 F1 c, `agreement_wins`, on unless field_sources.yaml says
+`agreement_wins: false`): in priority mode, when 2+ independent origins agree among
+themselves on another value and outnumber the priority winner's origins, their best-ranked
+fact wins instead (rule `agreement`); the priority value becomes a conflict. Origins: sources
+mapped through SAME_ORIGIN, seed-manual and model-estimate excluded.
+
+**A cited value beats a lone source** (`cited_wins`, on unless field_sources.yaml says
+`cited_wins: false`; not in `newest` mode): a *cited* fact is one read from a public page it
+names (a seed `cited:` value, source maker-docs, or a `manual` fact), with confidence medium or
+high. When the winner disagrees with every cited fact and only ONE independent origin backs the
+winner, the best cited fact wins instead (rule `cited`) and the old value becomes a conflict
+(data/review/conflicts.csv). Two or more independent origins that agree still beat a citation;
+the cited fact is then a conflict for review. Cited facts that disagree among themselves win
+nothing. Cases: OpenEV's Mach-E GT 82 kWh vs Ford's 88 kWh usable; one KilowattApp `ac_kw`
+against a maker's figure. A cited fact still never counts as an independent confirmation:
+`manual` and `maker-docs` facts are in NOT_INDEPENDENT like seed-manual (A-06 F6).
+
+Seed `cited:` values carry their real source (`maker-docs` by default, A-06 F3), so while that
+source is blocked (Q-008) they never reach this merge; the release keeps them as *evidence*
+only (qa/value_guard.guard_contradicted withholds a lone value they contradict).
 
 Confidence: `high` when 2+ *independent* sources agree within the field tolerance; otherwise
 the winning fact's own confidence. `seed-manual` is hand-entered from memory and unchecked, so
@@ -20,13 +46,31 @@ listed on the Merged result and written to data/review/conflicts.csv by the rele
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 from ev_pipeline.match.matcher import MatchedFact
 from ev_pipeline.merge.policy import DEFAULT_POLICY, FieldPolicy, Policies
 
 MAJORITY_MIN = 3
-NOT_INDEPENDENT = frozenset({"seed-manual", "model-estimate"})
+# Cited facts (rule `cited`): seed `cited:` records (record key `<vid>#cited:<field>`, source
+# `maker-docs` or another registered id) and hand-entered manual facts, each with its own URL.
+CITED_SOURCES = frozenset({"manual", "maker-docs"})
+CITED_RECORD_MARK = "#cited:"
+CITED_MIN_CONFIDENCE = ("medium", "high")
+# Never an independent confirmation: the unchecked seed, our own estimates, and citations
+# (a citation can win by rule `cited`, but it never raises agreement or confidence; A-06 F6).
+NOT_INDEPENDENT = frozenset({"seed-manual", "model-estimate"}) | CITED_SOURCES
+# Sources that copy the same origin count once towards "N sources agree" (Q-087):
+# RDW's per-plate WLTP values come from the RDW type approvals (rdw-tgk). Field-level
+# entries live in field_sources.yaml (`same_origin:`, e.g. OpenEV's EPA range is EPA's, F8).
+SAME_ORIGIN: dict[str, str] = {"rdw-tgk": "rdw"}
+# Sources whose several records on one variant are versions of that variant (TGK: one record
+# per type-approved version). Their spread is variant spread, not a cross-source conflict:
+# the source votes once, with its best-ranked (earliest model year) fact; versions that differ
+# from that fact are listed as `spread` ("same-source versions differ"), never as conflicts.
+SPREAD_SOURCES = frozenset({"rdw-tgk"})
+SPREAD_NOTE = "same-source versions differ"
 
 _CONF_RANK = {"low": 0, "medium": 1, "high": 2}
 
@@ -40,6 +84,22 @@ def _conf(mf: MatchedFact) -> str:
     return c.value if hasattr(c, "value") else str(c)
 
 
+def has_citation(mf: MatchedFact) -> bool:
+    """Read from a public page it names (any confidence)."""
+    return mf.source_id in CITED_SOURCES or CITED_RECORD_MARK in (mf.fact.source_record or "")
+
+
+def is_cited(mf: MatchedFact) -> bool:
+    """A fact read from a public page it names, at confidence medium or high."""
+    return _conf(mf) in CITED_MIN_CONFIDENCE and has_citation(mf)
+
+
+def origin_of(mf: MatchedFact, policy: FieldPolicy = DEFAULT_POLICY) -> str:
+    """The origin a fact's value comes from: field-level `same_origin`, then SAME_ORIGIN."""
+    sid = mf.source_id
+    return policy.origin(sid) or SAME_ORIGIN.get(sid, sid)
+
+
 @dataclass
 class Merged:
     value: object
@@ -48,11 +108,19 @@ class Merged:
     source_ids: list[str]
     fact_ids: list[str]
     winner: MatchedFact
-    rule: str  # "majority", "priority", "median", "newest", "single"
+    rule: str  # "majority", "priority", "agreement", "cited", "median", "newest", "single"
     overruled: int
     independent_agreeing: int  # distinct independent sources agreeing with the value
     conflicts: list[MatchedFact] = field(default_factory=list)
     tolerance: str = ""
+    # Q-019: generation-level facts that agree with the value (merge/corroborate.py). They
+    # count toward agreeing_sources (and the quality tier), never toward value or confidence.
+    corroborations: list[MatchedFact] = field(default_factory=list)
+    # SPREAD_SOURCES versions whose value differs from their source's own vote.
+    spread: list[MatchedFact] = field(default_factory=list)
+    # A-06 F3: citations from a source that can't ship yet (Q-008) that agree with the value.
+    # Provenance only: never part of value, fact_ids, sources or confidence.
+    evidence: list[MatchedFact] = field(default_factory=list)
 
     @property
     def agreeing_sources(self) -> int:
@@ -66,9 +134,33 @@ class Merged:
         parts = []
         if self.rule in ("majority", "median", "newest"):
             parts.append(f"{self.rule} rule")
+        elif self.rule == "agreement":
+            parts.append("agreeing sources outvote the priority source")
+        elif self.rule == "cited":
+            parts.append("cited source outvotes a single uncorroborated source")
         if self.overruled:
             parts.append(f"{self.overruled} conflicting value(s) not used")
+        for c in self.corroborations:
+            parts.append(f"{c.source_id} generation average agrees (corroboration, not the value)")
+        if self.spread:
+            parts.append(self.spread_text())
+        if self.evidence:
+            sids = ", ".join(sorted({e.source_id for e in self.evidence}))
+            parts.append(f"a cited document agrees ({sids}; not published until Q-008)")
         return "; ".join(parts) or None
+
+    def spread_text(self) -> str:
+        """ "same-source versions differ: rdw-tgk 359-378 km (5 versions; earliest used)"."""
+        out = []
+        for sid in sorted({f.source_id for f in self.spread}):
+            fs = [f for f in self.spread if f.source_id == sid]
+            vals = [f.fact.value for f in fs]
+            if self.winner.source_id == sid:
+                vals.append(self.winner.fact.value)
+            nums = [v for v in vals if isinstance(v, int | float) and not isinstance(v, bool)]
+            rng = f"{min(nums):g}-{max(nums):g} {self.unit}" if nums else "several values"
+            out.append(f"{sid} {rng} ({len(fs)} other version(s); earliest model year used)")
+        return f"{SPREAD_NOTE}: " + ", ".join(out)
 
 
 def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) -> Merged:
@@ -76,8 +168,12 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         raise ValueError("merge_facts needs at least one fact")
 
     def rank(mf: MatchedFact) -> tuple:
-        return (policy.priority(mf.source_id), mf.fact.retrieved_at, mf.year or 0, mf.fact.id)
+        # Higher is better: priority, then EARLIEST model year (no year ranks last), then the
+        # latest retrieval, then fact id for a stable order.
+        year_pref = -mf.year if mf.year is not None else -10_000
+        return (policy.priority(mf.source_id), year_pref, mf.fact.retrieved_at, mf.fact.id)
 
+    facts, followers, spread = _one_vote_per_version_source(facts, rank, policy)
     by_rank = sorted(facts, key=rank, reverse=True)
     rule = "single" if len(facts) == 1 else policy.mode
     if len(facts) == 1:
@@ -114,16 +210,41 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
     else:  # priority
         winner = by_rank[0]
         rule = "priority"
+    if rule == "priority" and policy.agreement_wins:
+        alt = _outvoted_by(winner, by_rank, policy)
+        if alt is not None:
+            winner, rule = alt, "agreement"
+    if policy.cited_wins and policy.mode != "newest" and len(facts) > 1:
+        cited = _cited_over(winner, by_rank, policy)
+        if cited is not None:
+            winner, rule = cited, "cited"
     agreeing = [f for f in by_rank if policy.agree(winner.fact.value, f.fact.value)]
     if winner in agreeing:  # winner first
         agreeing.remove(winner)
     agreeing.insert(0, winner)
     conflicts = [f for f in by_rank if f not in agreeing]
+    # SPREAD_SOURCES: versions that agree with the value join it; the rest are spread when
+    # their source's vote is part of the value, else plain conflicts like that vote.
+    voted = {f.source_id for f in agreeing}
+    same_spread: list[MatchedFact] = []
+    for f in sorted(followers + spread, key=rank, reverse=True):
+        if policy.agree(winner.fact.value, f.fact.value):
+            agreeing.append(f)
+        elif f.source_id in voted:
+            same_spread.append(f)
+        else:
+            conflicts.append(f)
     source_ids: list[str] = []
     for f in agreeing:
         if f.source_id not in source_ids:
             source_ids.append(f.source_id)
-    independent = {f.source_id for f in agreeing if f.source_id not in NOT_INDEPENDENT}
+    # A-05 F6: only voters count as independent agreement. A SPREAD_SOURCES version that
+    # agrees while its source's own vote is a conflict backs fact_ids, never confidence.
+    independent = {
+        origin_of(f, policy)
+        for f in agreeing
+        if f.source_id not in NOT_INDEPENDENT and f.source_id in voted
+    }
     confidence = "high" if len(independent) >= 2 else _conf(winner)
     return Merged(
         value=winner.fact.value,
@@ -137,7 +258,69 @@ def merge_facts(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) 
         independent_agreeing=len(independent),
         conflicts=conflicts,
         tolerance=policy.tolerance_text(),
+        spread=same_spread,
     )
+
+
+def _origins(facts: list[MatchedFact], policy: FieldPolicy = DEFAULT_POLICY) -> set[str]:
+    return {origin_of(f, policy) for f in facts if f.source_id not in NOT_INDEPENDENT}
+
+
+def _outvoted_by(
+    winner: MatchedFact, by_rank: list[MatchedFact], policy: FieldPolicy
+) -> MatchedFact | None:
+    """A-05 F1 (c): the best-ranked fact of a group of 2+ independent origins that agree
+    among themselves and outnumber the priority winner's group, else None. One blended
+    record (an RDW year group) must not override several agreeing sources. Two such groups
+    that disagree with each other: no clear agreement, the priority value stays."""
+    w = len(_origins([f for f in by_rank if policy.agree(winner.fact.value, f.fact.value)], policy))
+    groups: list[tuple[int, list[MatchedFact]]] = []
+    for f in by_rank:
+        if policy.agree(winner.fact.value, f.fact.value):
+            continue
+        g = [h for h in by_rank if policy.agree(f.fact.value, h.fact.value)]
+        n = len(_origins(g, policy))
+        if n >= 2 and n > w:
+            groups.append((n, g))
+    if not groups:
+        return None
+    top = max(n for n, _ in groups)
+    leaders = [g[0] for n, g in groups if n == top]
+    if all(policy.agree(leaders[0].fact.value, x.fact.value) for x in leaders):
+        return leaders[0]
+    return None
+
+
+def _cited_over(
+    winner: MatchedFact, by_rank: list[MatchedFact], policy: FieldPolicy
+) -> MatchedFact | None:
+    """Rule `cited`: the best-ranked cited fact, when the winner is not cited, disagrees with
+    every cited fact, and only one independent origin backs it; else None."""
+    cited = [f for f in by_rank if is_cited(f)]
+    if not cited or any(policy.agree(winner.fact.value, f.fact.value) for f in cited):
+        return None
+    if not all(policy.agree(cited[0].fact.value, f.fact.value) for f in cited):
+        return None  # citations disagree among themselves: nothing clear to prefer
+    backing = [f for f in by_rank if policy.agree(winner.fact.value, f.fact.value)]
+    if len(_origins(backing, policy)) >= 2:
+        return None
+    return cited[0]
+
+
+def _one_vote_per_version_source(
+    facts: list[MatchedFact], rank: Callable[[MatchedFact], tuple], policy: FieldPolicy
+) -> tuple[list[MatchedFact], list[MatchedFact], list[MatchedFact]]:
+    """(voters, followers, spread): each SPREAD_SOURCES source keeps its best-ranked fact as
+    its one vote; its other facts follow (agree with that vote) or are spread (differ)."""
+    voters = [f for f in facts if f.source_id not in SPREAD_SOURCES]
+    followers: list[MatchedFact] = []
+    spread: list[MatchedFact] = []
+    for sid in sorted({f.source_id for f in facts if f.source_id in SPREAD_SOURCES}):
+        mine = sorted((f for f in facts if f.source_id == sid), key=rank, reverse=True)
+        voters.append(mine[0])
+        for f in mine[1:]:
+            (followers if policy.agree(mine[0].fact.value, f.fact.value) else spread).append(f)
+    return voters, followers, spread
 
 
 def merge_variant_facts(

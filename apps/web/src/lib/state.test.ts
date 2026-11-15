@@ -3,7 +3,9 @@ import {
   activeFilterCount,
   defaultState,
   deserializeState,
+  EXPLORE_PARAM_KEYS,
   fromSearchParams,
+  hasPayParam,
   hasViewParam,
   nextSort,
   serializeState,
@@ -31,11 +33,13 @@ const full: ExploreState = {
     chemistries: ["lfp", "nmc"],
     coolings: ["liquid"],
     charge100: true,
+    tripFit: true,
   },
   sort: "range",
   dir: "desc",
   view: "cards",
   level: "nerd",
+  pay: "loan",
 };
 
 describe("ExploreState URL (de)serialise", () => {
@@ -61,6 +65,16 @@ describe("ExploreState URL (de)serialise", () => {
     expect(p.get("chem")).toBe("lfp,nmc");
     expect(p.get("fast400")).toBe("1");
     expect(p.get("level")).toBe("nerd");
+    expect(p.get("trip")).toBe("1");
+  });
+
+  it("trip fit flag (T-036): only an on/off flag in the URL, never a place", () => {
+    expect(fromSearchParams({ trip: "1" }).filters.tripFit).toBe(true);
+    expect(fromSearchParams({ trip: "yes" }).filters.tripFit).toBe(false);
+    const qs = toSearchParams({ ...defaultState(), filters: { ...defaultState().filters, tripFit: true } }).toString();
+    expect(qs).toBe("trip=1");
+    expect(activeFilterCount({ ...defaultState().filters, tripFit: true })).toBe(1);
+    expect(deserializeState(JSON.stringify({ filters: { tripFit: true, townId: "nl-amsterdam", lat: 52.3 } })).filters).toEqual({ ...defaultState().filters, tripFit: true });
   });
 
   it("taxonomy ids are free data: any well-formed id passes, junk is dropped", () => {
@@ -87,6 +101,17 @@ describe("ExploreState URL (de)serialise", () => {
     expect(s.filters.batteryMin).toBe(60);
     expect(s.sort).toBe("price");
     expect(s.dir).toBe("asc");
+  });
+
+  it("price mode (Decision 017): `pay` in the URL, buy is the clean default", () => {
+    expect(fromSearchParams({ pay: "loan" }).pay).toBe("loan");
+    expect(fromSearchParams({ pay: "rent" }).pay).toBe("buy");
+    expect(toSearchParams(defaultState()).has("pay")).toBe(false);
+    expect(toSearchParams({ ...defaultState(), pay: "lease" }).get("pay")).toBe("lease");
+    expect(hasPayParam({ pay: "loan" })).toBe(true);
+    expect(hasPayParam({})).toBe(false);
+    expect(deserializeState(serializeState({ ...defaultState(), pay: "loan" })).pay).toBe("loan");
+    expect(EXPLORE_PARAM_KEYS).toContain("pay");
   });
 
   it("detects an explicit view param", () => {
@@ -121,6 +146,6 @@ describe("sort cycle and counters", () => {
   });
   it("counts active filters", () => {
     expect(activeFilterCount(defaultState().filters)).toBe(0);
-    expect(activeFilterCount(full.filters)).toBe(17);
+    expect(activeFilterCount(full.filters)).toBe(18);
   });
 });

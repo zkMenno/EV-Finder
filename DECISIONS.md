@@ -282,6 +282,7 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** "EV Shortlist" is the working title in copy, drafts and the site's brand config. EV Field Guide stays the backup; other names and domains remain open. Repo name, package names and code ids stay `ev-finder` (no churn). The name lives only in config (`brand.name`), never hard-coded.
 
 **Consequences:** Not final: no domain bought, no trademark filed, no logo finalised. Outreach still waits for the final name unless Menno says otherwise. Supersedes the "EV Finder" working name in AGENTS.md.
+---
 
 ## Decision 019: Variant finder: grouped variants, differences only, clues in one data table
 
@@ -293,5 +294,220 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** Keep one card per variant. Add a "differences only" toggle and a variant change timeline (Core, no new data), a "spot it in an ad" clue box (Core for the 40 hand-checked models, Next for the rest), a "which one is it?" finder and NL plate lookup (Next), and listing-link paste (Later, marketplace terms). Clues are a new config-typed data table (Variant clue + Look-alike group) that also feeds listing matching (§8). Spec tab: docs/spec/variant-finder.md.
 
 **Consequences:** Schema gains two entities (coordinator). WS3 writes clues for the top 40; WS1 owns clue data, look-alike detection and the RDW check; WS2 builds the toggle, timeline, box and later the finder; UX designs a colour-blind-safe diff highlight. No scraping of marketplaces.
+
+## Decision 020: Schema conventions for bidi, charging stats and Trip fit (T-018, T-023, T-030)
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Addendum 4 added 37 schema defs. A few conventions differ from the spec text and need to be shared.
+
+**Decision:**
+- Taxonomy ids use hyphens (`ac-onboard`, `iso15118-20`, `dc-150-349`), not underscores, because every id must match the `Id` pattern (Decision 010). Seed tasks T-019, T-024 and T-031 write ids this way.
+- New entities use `CountryCode` (any two-letter code, `UK` not `GB`), so US/AU rows need no schema change. The five-value `Country` enum stays for existing launch-market fields.
+- No separate `usable_kwh` fact: `battery_kwh_net` is usable capacity. New fact names carry units (`frontal_area_m2`, `kerb_mass_kg`, `wheel_size_in`).
+- Allowed values for `iso15118_20_support`, `heat_pump` and `drag_coefficient` facts are checked at release time (WS1), not in the schema, because a conditional schema rule broke the generated TypeScript `Fact` type.
+- `CountryChargingLink`, `ChargingStat`, `ConsumptionModel` and `ClimateNormal` are defined but not yet part of `Catalogue`; WS1 decides how they ship.
+
+**Consequences:** All additions are optional, so release 1 still validates. Details in Q-054.
+
+## Decision 021: Data refresh runs from the CLI now; pg-boss schedules it once the database exists
+
+**Status:** Proposed (provisional, overnight prototype 1, addendum 6 P1–P4)
+**Date:** 2026-11-15
+
+**Context:** The update loop is the heart of the product, but there is no database yet, so the pg-boss scheduling of Decisions 003/006 cannot run. Data still has to stay fresh, cheap and undoable.
+
+**Decision:**
+- One command, `ev refresh [--sources …] [--dry-run]`, runs every due source (cadence from `data/sources.yaml`): probe → fetch → snapshot → schema fingerprint → normalise → release → blocking QA. It is scheduled by GitHub Actions (`.github/workflows/data-refresh.yml`, weekly + manual) that opens a "Data release N" PR with only the release folder; on the server, the same command later becomes a pg-boss job (nightly window, 1 GB, Decision 006) without code changes.
+- Raw fetches go to a content-addressed snapshot store (`$SNAPSHOT_DIR`, local now; S3-compatible behind the same interface, env vars only, not built yet). Unchanged sources (same hash, HTTP 304, same git commit) cost one probe and publish nothing.
+- Per-source health (`data/releases/<n>/sources.json`): last success, last change, records vs previous, schema fingerprint. A breaking fingerprint change or a > 50 % record drop fails closed for that source (previous data kept, review item in `data/review/source-health.csv`) until `ev sources accept <id>`.
+- `data/releases/latest` switches atomically (temp file + rename) and only after blocking QA passes; `ev release rollback --to <n>` and `ev release diff <a> <b>` undo and explain.
+
+**Consequences:** No database or server needed for fresh data. The workflow's PRs don't start CI by themselves (GITHUB_TOKEN limit) and need the repo setting that lets Actions open PRs (Q-079). When pg-boss arrives, the job calls `ev refresh` and the snapshot backend switches to S3 by env var.
+
+---
+
+## Decision 022: Themes from design tokens, applied before paint without inline scripts
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Addendum 5 asked for a light "Day trip" and a dark "Night drive" theme. The strict CSP (no inline scripts) rules out the usual inline "apply theme before paint" snippet.
+
+**Decision:** Colours come from `docs/design/tokens.json` (UX chat), generated into `apps/web/src/app/tokens.generated.css` by `scripts/theme.mjs` (a test fails when it is stale). `globals.css` maps the Tailwind colours the app uses onto the tokens. The default follows `prefers-color-scheme`; a header toggle stores the choice in localStorage; a same-origin `/theme-init.js` applies it before paint. Print is always light.
+
+**Consequences:** The UX chat changes colours in one file. axe runs on both themes in CI (0 findings tonight).
+
+---
+
+## Decision 023: NEDC, worst-case WLTP and mass in running order are their own fields
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** R-08 found that the best open source for 2010–2020 EVs is RDW's type-approval data (TGK, CC0), which gives NEDC range, WLTP best and worst bounds and mass in running order (incl. 75 kg driver). Mixing these into WLTP or kerb weight would make numbers look comparable when they aren't.
+
+**Decision:** New FactFields `nedc_range_km`, `nedc_consumption_kwh_100km`, `wltp_range_km_worst`, `wltp_consumption_kwh_100km_worst`, `mass_running_order_kg`, `power_30min_kw`, and optional PublishedVariant columns `nedc_range_km`, `wltp_range_km_worst`, `mass_running_order_kg`. NEDC never fills WLTP; running-order mass never fills kerb weight; 30-minute power never fills peak power. `wltp_range_km` keeps meaning the best case or the single stated value.
+
+**Consequences:** Older cars can show an honest NEDC figure labelled as such. Real range stays derived from WLTP only.
+
+---
+
+## Decision 024: Type-approval values attach only on unique evidence; versions of one source are spread, not conflicts
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** RDW type approvals (rdw-tgk) carry many versions per car. Placing them on our variants needs evidence, and versions of one source that disagree are not a cross-source conflict.
+
+**Decision:**
+- A type-approval version attaches to a variant only when exactly one variant fits the evidence (range number in the name, years ±1, battery window from range × consumption, trade-name words, WLTP within 2%). Ties and misfits go to review with a reason; nothing is guessed.
+- All versions of a source in `SPREAD_SOURCES` (today rdw-tgk) on one variant count as one vote, cast by the earliest model year's version. Other values are noted as "same-source versions differ" in provenance, not written to conflicts.csv, and can't outvote other sources.
+- RDW plate values and RDW type approvals share one origin for agreement counts (Q-087).
+
+**Consequences:** Pre-2020 rows gain NEDC, worst-case WLTP and running-order mass where the evidence is unique. Remaining ties (Zoe Z.E. 40, Honda e, Model 3 LR vs Performance) need more seed evidence (Q-089).
+
+## Decision 025: Agreeing sources outvote one priority value; nameless records need evidence; lone-source DC peaks go to review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Review A-05 found RDW model-year records (which blend all trims) landing on base trims and winning over other sources, RDW NEDC columns holding WLTP figures, and a DC peak on a Zoe that has no DC socket (Q-091).
+
+**Decision:**
+- A record without a variant name is not "base". It attaches only to a generation's only variant or on unique evidence; otherwise it goes to review.
+- In priority fields, 2+ agreeing independent sources outvote a single priority value. Fields can opt out in `data/field_sources.yaml`. RDW stays first for WLTP and consumption.
+- NEDC within 1 km of the same version's WLTP is dropped, and NEDC is dropped on 2018/858 approvals first registered after 2020 (inferred rule, logged in the run log).
+- Only a source's own vote raises confidence.
+- A DC peak that only KilowattApp gives goes to review until a second source or a charge-port field confirms it.
+
+**Consequences:** EX30 base 475 → 341 km; 12 more rows reach "sourced"; 510 more records wait in review; 27 fewer rows show a DC peak until confirmed.
+
+## Decision 026: Seed values can cite a source; git sources clone only from allow-listed GitHub URLs
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Hand-entered seed values had no per-value source (A-05 F5), and two adapters cloned from GitHub outside the safe fetcher (A-05 L6). Q-092.
+
+**Decision:**
+- `data/seed/variants.yaml` takes an optional `cited:` block per value (value, https source URL, retrieval date, locator, confidence). Each cited value becomes its own fact with that source. New seed values should be cited; uncited ones stay "unchecked" (Q-015).
+- When a type-approval version still ties, a candidate named after a longer trade name (e.g. "i3s") drops out if the version's own trade name lacks that word.
+- Git sources clone only from `https://github.com/<owner>/<repo>` with github.com in that source's `hosts:`; anything else fails closed before git runs.
+
+**Consequences:** BMW i3s gains a cited battery figure and six more RDW versions place correctly. Honda e, Zoe Z.E. 40 and Model 3 gen1 trims still tie: no official figure separates them.
+
+## Decision 027: Battery gate: records that contradict the seed battery go to review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** A Zoe Z.E. 22 record (23.3 kWh) landed on the Z.E. 40 R90, an OpenEV Q4 40 (48 kWh) merged into the 77 kWh "40 e-tron", and Mach-E SR records landed on ER AWD. Nothing compared batteries before placing a record.
+
+**Decision:**
+- Each seed variant's battery (net, gross, cited, kWh in its name) is an anchor. A record whose battery differs by more than 15% on the same basis, or 20% across net/gross or name figures, never joins that variant; it goes to review with the reason.
+- In the attach pass, ruled-out candidates go first; whatever remains still needs its own positive evidence, so the gate can't push a record onto the next-nearest trim.
+- If either side has no battery figure, the gate rules nothing out.
+
+**Consequences:** Zoe R90 23.3 → 41 kWh, Q4 40 e-tron 48 → 77 kWh (and 150 kW), Mach-E ER AWD 68 → 88 kWh. About 10 more records wait in review.
+
+## Decision 028: A cited value beats a lone source
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** OpenEV gave the Mach-E GT 82 kWh net; Ford's own spec sheet says 88. One source with no backing beat a value with an official citation.
+
+**Decision:**
+- A cited fact (seed `cited:` or manual, medium or high confidence) wins when the merged winner disagrees with every citation and only one independent source backs it. The losing value goes to conflicts.csv.
+- Two or more agreeing independent sources still beat a citation; disagreeing citations win nothing; `newest` fields are exempt; a citation never counts as independent confirmation. Opt out per field with `cited_wins: false`.
+- Not decided tonight: withholding KilowattApp `ac_kw` for Zoe Phase 1 (it publishes 11 kW, even 23.3, where Renault's charger does 22 or 43 kW). Needs a cited Renault Phase 1 spec sheet first.
+
+**Consequences:** Mach-E GT 82 → 88 kWh net, 98.7 gross; Mach-E SR 70 → 68 net. No cited value loses anywhere in the release.
+
+## Decision 029: A value equal to another field of the same car is a mix-up and goes to review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** KilowattApp put battery sizes in the AC charging field (Zoe R240 "23.3 kW", e-Golf 36 kWh "32 kW").
+
+**Decision:**
+- A field can list `mixup_with` fields in `data/field_sources.yaml` (today `ac_kw` → battery net and gross). A fact within 0.5 of one of them, on the same row or in the same source record, goes to conflicts.csv as a field mix-up and the field is merged again without it, unless the fact is cited or backed by another independent origin.
+- Official manufacturer documents hosted on third-party sites may be cited at medium confidence when they name the exact version, low when they name only trims.
+
+**Consequences:** Zoe Q90 43 kW, R110 22 kW, R240 22 kW, e-Golf 36 kWh 7.2 kW. Zoe Q210 and R90 still show 11 kW until a source names those motors (low-confidence citations can't win).
+
+## Decision 030: Pack and platform links can be filled by rule within a generation
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** T-060: many release rows (from OpenEV and KilowattApp) had no battery pack or platform, because `variant_links.yaml` only knew seed ids.
+
+**Decision:**
+- `variant_links.yaml` accepts release variant ids; its links always win.
+- A row gets a platform when every link in its generation names the same platform.
+- A row gets a pack when its usable kWh fits exactly one pack already linked in its generation (within 6%, never above the pack's gross). The link's provenance records the rule and the gap. Ambiguous or misfitting rows stay unlinked with a reason in coverage.md.
+
+**Consequences:** packs 123 → 181 rows, platforms 140 → 206 of 244. Links more than 5% off (Model 3/Y Highland/Juniper, Q4 50, Q8 55, Ioniq 6 Standard, Leaf e+) are flagged for a reviewer.
+
+## Decision 031: Cited maker facts are gated like any source; a value a citation contradicts is withheld
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Review A-06 found cited seed values shipping as `seed-manual` (CC BY), skipping the licence gate for maker documents (Q-008), and guards that could resurrect overruled values or delete backed ones. Supersedes the consequence lines of Decisions 028 and 029 where they differ.
+
+**Decision:**
+- Seed `cited:` values are facts of source `maker-docs` (or another registered source) with their URL, date and confidence, and pass the licence gate. While Q-008 is open they don't ship; they still anchor the battery gate.
+- If a blocked or low-confidence citation contradicts a value backed by at most one independent origin, that value goes to review and the field is merged again without it. Never ship a value we have evidence is wrong.
+- All guards share one fact pool and repeat until stable; a removed fact never returns. `needs_backing` drops only the weak facts and re-merges.
+- `manual` and `maker-docs` never count as independent. New policy keys: `seed_counts_as_backing` (only `dc_peak_kw`), `same_origin` (OpenEV EPA → fueleconomy).
+- Cited platform links in `variant_links.yaml` still ship (memberships, not spec values) until Q-008 says otherwise.
+
+**Consequences:** 0 of 15 cited facts ship; 16 rows regain a DC peak; Zoe Q210/Q90/R240 AC withheld; R90 still 11 kW (uncited); BMW i3s split into 94 Ah and 120 Ah rows (new id `bmw-i3-i01-i3s-94ah`).
+
+## Decision 032: Citations for release-only rows live in data/manual; estimated curves never beat the peak
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Single-source values on rows that exist only in the release (no seed variant) couldn't be checked against a citation, and an estimated charge curve produced an average above the car's DC peak (e-Golf 24 kWh).
+
+**Decision:**
+- Citations for release-only rows go in `data/manual/specs/*.yaml` (source `manual`, attached by release id, blocked like maker documents until Q-008). They act as evidence for the withhold rule (Decision 031) but never ship.
+- An estimated (not measured) curve is capped at the row's DC peak before integrating; a sourced average above the peak goes to validation.csv.
+- A value withheld by a citation is not re-estimated from the same wrong record (e.g. net from gross).
+
+**Consequences:** withheld: Mégane 40 kWh DC 130, R5 40 kWh DC 100, ID.3 Pro 2023 DC 135, EQA/EQB 60 kWh, Q4 40 Sportback 48 kWh, Q4 50 power/0–100, Zoe R90 AC 11. Zoe Q210/R240 usable 23.3 → 22. Five charging averages capped. Open: the OpenEV "Q4 50" rows are really Q4 40 data (drivetrain still RWD) and need restructuring.
+
+## Decision 033: Source rows that copy a seed variant merge into it; known-wrong source naming is held for review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** OpenEV/KilowattApp created rows that duplicated seed variants (e.g. Mégane "40 kWh" = EV40), and OpenEV's Audi Q4 names are one step off (its "50" is a Q4 40).
+
+**Decision:**
+- Duplicates join the seed variant through variant-level `source_names`, which may be year-scoped (`{name, years}`; overlaps are an error). Seed facts no longer start a year band on aliased variants.
+- Seed power gate on alias joins: a joined record more than 5% off the seed's power goes to review.
+- `source_holds` in `variants.yaml` sends a source's records to review by name, generation and years, with a reason (today: all 18 OpenEV Q4 records).
+- Release 1 was never published (`previous_release: null`), so the 19 removed ids need no redirect. Before the first public release, the catalogue gets a `retired_ids` → successor map so later merges never 404 (schema + web task).
+- Equipment trims with identical specs (Fiat 500e Icon/La Prima, Dacia Spring trims) stay unmerged until the product spec says whether trims get rows.
+
+**Consequences:** 245 → 226 rows. Merged rows now follow merge policy, so some uncited seed values were replaced by source values; a few need a cited check (MG4 Standard DC 135, Mégane EV40 AC 22, Cupra Born 58 DC 135).
+
+## Decision 034: AC charging means the standard on-board charger; optional chargers get their own field
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Sources mix the standard and the optional on-board charger (e-208/e-2008 7.4 vs 11 kW, Mégane 7.4 vs 22, MG4 Standard 6.6 vs 11), so `ac_kw` flips between them by source.
+
+**Decision:** `ac_kw` is the standard charger. An optional charger is a separate additive field `ac_kw_optional` (schema + pipeline + web task T-063). Until T-063 lands, rows keep today's merged value and the citation for the standard figure sits in review. Year-dependent values (Born 58 DC, e-208 51 vs 54 kWh, I-Pace AC) are split by model year in the seed when an official source gives both.
+
+**Consequences:** some AC figures shown tonight are the optional charger; T-063 fixes the meaning.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

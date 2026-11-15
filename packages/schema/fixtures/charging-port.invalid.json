@@ -1,0 +1,11 @@
+{
+  "id": "hyundai-ioniq-5-us",
+  "variant_id": "hyundai-ioniq-5-77kwh-rwd",
+  "market": "USA",
+  "ac_inlet_id": "nacs-j3400",
+  "dc_inlet_id": "nacs-j3400",
+  "supercharger_access": "magic_dock",
+  "source_ids": ["fixture"],
+  "retrieved_at": "2026-11-15",
+  "confidence": "low"
+}

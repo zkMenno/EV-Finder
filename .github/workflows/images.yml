@@ -1,0 +1,139 @@
+name: Images
+
+# Builds linux/arm64 images for the AppInfra server (Hetzner CAX31, Arm) and pushes them to GHCR
+# (Decisions 005, 006). No deploy step: deploy is a manual SSH step for now (infra/README.md).
+# Pull requests that touch an image's inputs build both images too, but never push (T-013 review),
+# so a broken Dockerfile shows up before it reaches main.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - apps/web/**
+      - pipeline/**
+      - packages/**
+      - "**/Dockerfile"
+      - .dockerignore
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - .github/workflows/images.yml
+  workflow_dispatch:
+
+# Least privilege (A-02): read-only by default. Two jobs so that code from a pull request
+# (or a manual run on a branch) never runs with a token that can write packages: `build`
+# builds without pushing (contents: read only); `push` runs on main only and is the one job
+# with packages: write. Actions are pinned to commit SHAs (tag in the comment).
+permissions:
+  contents: read
+
+concurrency:
+  group: images-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Pull requests and manual runs off main: build both images, never log in, never push.
+  build:
+    if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
+    name: build ${{ matrix.image }} (linux/arm64)
+    # Native Arm runner (free for public repos): no QEMU, real arm64 Next/SWC and wheel builds.
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: web
+            dockerfile: apps/web/Dockerfile
+          - image: jobs
+            dockerfile: pipeline/Dockerfile
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+
+      # Tags: sha-<short> (what the server should pin), plus `main` for the newest main build.
+      - id: meta
+        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+        with:
+          # GHCR names must be lowercase, so the owner is spelled out rather than taken from github.repository_owner.
+          images: ghcr.io/zkmenno/ev-finder-${{ matrix.image }}
+          tags: |
+            type=sha,prefix=sha-
+            type=raw,value=main,enable={{is_default_branch}}
+
+      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/arm64
+          # Web image: public origin for canonical / hreflang / sitemap URLs (A-05 F3). Repository
+          # variable APP_URL once the domain exists; the infra placeholder until then (infra/README.md).
+          # The jobs image ignores it.
+          build-args: |
+            APP_URL=${{ vars.APP_URL || 'https://ev.example.com' }}
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Read main's cache, never write it (keeps main's cache clean).
+          cache-from: type=gha,scope=${{ matrix.image }}
+
+  # Pushes to main (and manual runs on main): build, push to GHCR with provenance + SBOM.
+  push:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    name: push ${{ matrix.image }} (linux/arm64)
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: web
+            dockerfile: apps/web/Dockerfile
+          - image: jobs
+            dockerfile: pipeline/Dockerfile
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Tags: sha-<short> (what the server should pin), plus `main` for the newest main build.
+      - id: meta
+        uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
+        with:
+          # GHCR names must be lowercase, so the owner is spelled out rather than taken from github.repository_owner.
+          images: ghcr.io/zkmenno/ev-finder-${{ matrix.image }}
+          tags: |
+            type=sha,prefix=sha-
+            type=raw,value=main,enable={{is_default_branch}}
+
+      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/arm64
+          # Web image: public origin for canonical / hreflang / sitemap URLs (A-05 F3). Repository
+          # variable APP_URL once the domain exists; the infra placeholder until then (infra/README.md).
+          # The jobs image ignores it.
+          build-args: |
+            APP_URL=${{ vars.APP_URL || 'https://ev.example.com' }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: true
+          sbom: true
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}

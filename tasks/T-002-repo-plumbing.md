@@ -45,3 +45,13 @@ Anything outside the lane above. No auth, no pg-boss, no Postgres tonight.
 - Pipeline builders: add subcommands in `ev_pipeline/cli.py::build_parser`; when adding a dev tool, add it to both the dev extra and the dev group.
 
 ## Review
+
+**Reviewer (fresh agent), 2026-11-15. Verdict: pass, with notes.**
+
+Ran every CI command locally; all green: `pnpm install --frozen-lockfile`, `pnpm --filter @ev/schema test` (8), `uv sync --all-extras --dev`, `uv run ruff check .`, `uv run ruff format --check .`, `uv run pytest` (179 passed + 1 xfail including the reviewer tests), the three `python3 -I` validators (0 errors; 7 unused-platform/pack warnings from validate_taxonomy). Re-ran pytest on a copy of the repo **without** the git-ignored `data/raw`, `data/staging` and `data/local`: still green, so CI doesn't depend on local-only data. Auto-detect (`detect` job, `.github/workflows/ci.yml:23-27`) and `ci-ok` are kept.
+
+Notes
+1. `actions/checkout@v7` and `actions/setup-node@v7` (`ci.yml:22,32,...`) couldn't be checked from here (no GitHub API access). They came from the earlier CI. If those major tags don't exist, every job fails. Confirm on the first run.
+2. CI doesn't run `pnpm format:check` (root) or `pnpm --filter @ev/schema typecheck`. The handoff says format:check flags 6 schema files. Either fix and add them, or note that they're deliberately out.
+3. Concurrent work: during this review, another agent was editing `apps/web` (`src/app/staff/review/page.tsx` appeared at 00:24 UTC), and `pnpm --filter ./apps/web build` then failed on i18n key types. Out of scope here, but the web job won't be green until that lane finishes.
+4. Root AGENTS.md still says `pipeline/sources/<name>/` (handoff note). Coordinator to update.

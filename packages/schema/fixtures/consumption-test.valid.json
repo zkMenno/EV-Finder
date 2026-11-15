@@ -1,0 +1,29 @@
+{
+  "id": "fixture:vw-id3-58:120kmh:2025-01-10",
+  "variant_id": "vw-id3-pro-58kwh",
+  "test_kind": "constant-speed",
+  "speed_kmh": 120,
+  "road_band": "motorway",
+  "distance_km": 250,
+  "temperature_c": 2,
+  "wheel_size_in": 20,
+  "tyre": "215/45 R20",
+  "tyre_season": "winter",
+  "consumption_wh_km": 215,
+  "energy_basis": "battery",
+  "observed_at": "2025-01-10",
+  "conditions": {
+    "preconditioned": true,
+    "hvac": "21 °C auto",
+    "heat_pump_fitted": false,
+    "precipitation": "dry"
+  },
+  "source": {
+    "id": "fixture",
+    "name": "Fixture source",
+    "url": "https://example.org/fixture",
+    "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-15",
+  "confidence": "medium"
+}

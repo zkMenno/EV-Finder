@@ -16,6 +16,17 @@ Checks (Decision 010):
 - every seed variant has exactly one link; generations without variants get a default
 - voltage class derived from nominal_v matches a stated class_id unless class_override_note is set;
   400 V-class links are `native`, 800 V+ links are not; `kw` only with booster / limited
+- bidi / connector / charging tables (Decisions 011, 012; T-019, T-024): spec-required ids exist,
+  label + short in EN and NL, short <= 20 words, caveat {param} matches param_kind, equipment
+  route / mode / protocol / platform / variant / source refs resolve, definition replaced_by
+  chains are ordered, source power bands map into overlapping bands of ours, our bands don't
+  overlap, taxonomy_sources.yaml rows are valid Sources
+- content/learn (glossary sweep): glossary ids don't reuse a /learn article slug (both live under
+  /learn/<slug>), and every `[[id]]` / `[[id|text]]` marker and front-matter `glossary:` id in
+  content/learn/<slug>/<lang>.md resolves to a glossary term or a chemistry / cooling / voltage id
+- config/countries/*.yaml `charging_links`: each row fits schema CountryChargingLink (label as
+  a plain string, as the web loader reads it), at most five, unique order and URL, https, and
+  every URL appears in docs/spec/charging-buildout.md (no invented URLs)
 
 Needs PyYAML and jsonschema (>= 4.18, for `referencing`). Exit 0 = valid, 1 = errors.
 """
@@ -28,6 +39,7 @@ import json
 import re
 import sys
 from collections.abc import Callable
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -45,7 +57,95 @@ TAXONOMY_FILES = {
     "chemistries": ("chemistries.yaml", "Chemistry"),
     "cooling_types": ("cooling_types.yaml", "CoolingType"),
     "glossary_terms": ("glossary_terms.yaml", "GlossaryTerm"),
+    # Decision 011 (bidirectional + plugs, T-019) and Decision 012 (charging stats, T-024).
+    "bidi_modes": ("bidi_modes.yaml", "BidiMode"),
+    "bidi_routes": ("bidi_routes.yaml", "BidiRoute"),
+    "bidi_protocols": ("bidi_protocols.yaml", "BidiProtocol"),
+    "bidi_caveats": ("bidi_caveats.yaml", "BidiCaveat"),
+    "bidi_status": ("bidi_status.yaml", "BidiStatus"),
+    "connector_types": ("connector_types.yaml", "ConnectorType"),
+    "bidi_equipment": ("bidi_equipment.yaml", "BidiEquipment"),
+    "charging_metrics": ("charging_metrics.yaml", "ChargingMetric"),
+    "charging_definitions": ("charging_definitions.yaml", "ChargingDefinition"),
+    "power_bands": ("power_bands.yaml", "PowerBand"),
+    # Decision 017 (price modes, T-043).
+    "finance_profiles": ("finance_profiles.yaml", "FinanceProfile"),
 }
+# Tables whose rows carry a localized `label` and `short` (EN + NL required, short <= 20 words).
+LABELLED_NEW = (
+    "bidi_modes",
+    "bidi_routes",
+    "bidi_protocols",
+    "bidi_caveats",
+    "bidi_status",
+    "connector_types",
+    "charging_metrics",
+    "charging_definitions",
+    "power_bands",
+)
+NO_LABEL = {"bidi_equipment", "finance_profiles"}  # rows have no localized label
+# Ids the spec requires (docs/spec/bidirectional-and-connectors.md §2.2/§3.1,
+# docs/spec/charging-buildout.md "Data model"), hyphenated per Decision 020.
+REQUIRED_IDS = {
+    "bidi_modes": {"v2l", "v2h", "v2g", "v2b"},
+    "bidi_routes": {"ac-onboard", "dc-offboard", "chademo-dc", "proprietary"},
+    "bidi_protocols": {"iso15118-20", "iso15118-2-ext", "chademo", "proprietary", "not-disclosed"},
+    "bidi_caveats": {
+        "needs-dc-box",
+        "maker-box-only",
+        "tariff-required",
+        "software-min",
+        "battery-min",
+        "build-date-from",
+        "discharge-cap",
+        "chademo-legacy",
+        "smart-meter-required",
+        "home-battery-required",
+        "pilot-only",
+        "announced-only",
+    },
+    "bidi_status": {
+        "live",
+        "pilot",
+        "announced",
+        "hardware-ready-not-enabled",
+        "not-offered",
+        "not-disclosed",
+    },
+    "connector_types": {
+        "type1-j1772",
+        "type2",
+        "ccs1",
+        "ccs2",
+        "nacs-j3400",
+        "chademo",
+        "tesla-eu-legacy",
+        "gbt-ac",
+        "gbt-dc",
+    },
+    "charging_metrics": {
+        "public-points",
+        "public-points-dc",
+        "public-devices",
+        "public-locations",
+        "installed-kw",
+        "points-per-100k-people",
+        "evs-per-point",
+        "kw-per-ev",
+        "technical-availability-pct",
+        "reliability-index",
+    },
+    "power_bands": {"ac-under-22", "ac-22", "dc-50-149", "dc-150-349", "dc-350-plus"},
+}
+TAXONOMY_SOURCES = "taxonomy_sources.yaml"
+COUNTRY_DIR = ROOT / "config" / "countries"
+CHARGING_SPEC = ROOT / "docs" / "spec" / "charging-buildout.md"
+REGISTRY = ROOT / "data" / "sources.yaml"
+LEARN_DIR = ROOT / "content" / "learn"
+LEARN_MARK_RE = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]")
+MAX_CHARGING_LINKS = 5
+# Keys the web loader (apps/web/scripts/charging-links.mjs) accepts beyond the schema row.
+WEB_ONLY_LINK_KEYS = {"official", "utm", "note"}
 ND = "not-disclosed"
 SHORT_MAX_WORDS = 20
 LONG_SENTENCES = (2, 4)
@@ -60,7 +160,11 @@ LINK_KEYS = {
     "uncertain",
     "notes",
     "class_override_note",
+    "cited",
 }
+# T-060: keys a link may cite (data/seed/README.md `cited:` format) and the cited-value keys.
+LINK_CITED_KEYS = {"platform_id", "battery_pack_id"}
+CITED_VALUE_KEYS = {"value", "source_url", "source_name", "retrieved", "quote", "locator", "confidence", "notes"}
 SEED_FILE_KEYS = {
     "platforms": {"source", "confidence", "platforms"},
     "packs": {"source", "confidence", "packs", "notes"},
@@ -69,6 +173,49 @@ SEED_FILE_KEYS = {
 CAPACITY_TOLERANCE = 0.06  # 6 %: variant kWh vs pack kWh, warning only
 
 Data = dict[str, Any]
+
+
+def release_generation(variant_id: str, generations: set[str]) -> str | None:
+    """T-060: the generation a release variant id (`<generation_id>-<slug>`) belongs to, using
+    the longest matching generation id; None when no generation id prefixes it."""
+    best = None
+    for gid in generations:
+        if variant_id.startswith(gid + "-") and len(variant_id) > len(gid) + 1:
+            if best is None or len(gid) > len(best):
+                best = gid
+    return best
+
+
+def check_link_cited(tag: str, link: dict[str, Any], cited: Any, err: Any) -> None:
+    """T-060: `cited:` on a variant link, per data/seed/README.md: field -> {value, source_url
+    (https), source_name, retrieved (date), quote and/or locator, confidence[, notes]}; the
+    value must be the link's own value for that key."""
+    if not isinstance(cited, dict) or not cited:
+        err(f"{tag} cited must be a non-empty mapping")
+        return
+    for key, c in cited.items():
+        where = f"{tag} cited.{key}"
+        if key not in LINK_CITED_KEYS:
+            err(f"{where}: only {sorted(LINK_CITED_KEYS)} can be cited")
+            continue
+        if not isinstance(c, dict):
+            err(f"{where} must be a mapping")
+            continue
+        extra = set(c) - CITED_VALUE_KEYS
+        if extra:
+            err(f"{where} unexpected keys {sorted(extra)}")
+        if c.get("value") != link.get(key):
+            err(f"{where} value {c.get('value')!r} differs from the link's {key} {link.get(key)!r}")
+        if not str(c.get("source_url") or "").startswith("https://"):
+            err(f"{where} source_url must be https")
+        if not str(c.get("source_name") or "").strip():
+            err(f"{where} source_name missing")
+        if not isinstance(c.get("retrieved"), date):
+            err(f"{where} retrieved must be a date (YYYY-MM-DD)")
+        if not (c.get("quote") or c.get("locator")):
+            err(f"{where} needs a quote and/or locator")
+        if c.get("confidence") not in ("low", "medium", "high"):
+            err(f"{where} confidence must be low, medium or high")
 
 
 def load_yaml(path: Path) -> Any:
@@ -87,6 +234,28 @@ def load_all() -> Data:
     data["links_doc"] = load_yaml(SEED / "variant_links.yaml") or {}
     data["variants_doc"] = load_yaml(SEED / "variants.yaml") or {}
     data["models_doc"] = load_yaml(SEED / "models.yaml") or {}
+    data["tax_sources_doc"] = load_yaml(HERE / TAXONOMY_SOURCES) or {}
+    data["registry_ids"] = sorted(
+        s["id"]
+        for s in ((load_yaml(REGISTRY) or {}).get("sources") or [])
+        if isinstance(s, dict) and "id" in s
+    )
+    data["countries"] = {
+        p.stem: load_yaml(p) or {} for p in sorted(COUNTRY_DIR.glob("*.yaml"))
+    }
+    learn_index = load_yaml(LEARN_DIR / "index.yaml") if (LEARN_DIR / "index.yaml").exists() else {}
+    data["learn_slugs"] = sorted(
+        a["slug"]
+        for a in ((learn_index or {}).get("articles") or [])
+        if isinstance(a, dict) and "slug" in a
+    )
+    data["learn_files"] = {
+        str(f.relative_to(ROOT)): f.read_text(encoding="utf-8")
+        for f in sorted(LEARN_DIR.glob("*/*.md"))
+    }
+    data["charging_spec_text"] = (
+        CHARGING_SPEC.read_text(encoding="utf-8") if CHARGING_SPEC.exists() else ""
+    )
     return data
 
 
@@ -148,6 +317,227 @@ def sentence_count(text: str) -> int:
     return len([p for p in parts if p.strip()])
 
 
+PARAM_RE = re.compile(r"\{param\}")
+URL_RE = re.compile(r"https://[^\s)\]>\"'|]+")
+
+
+def _texts(row: dict[str, Any], field: str) -> dict[str, str]:
+    v = row.get(field)
+    return {k: t for k, t in v.items() if isinstance(t, str)} if isinstance(v, dict) else {}
+
+
+def check_new_tables(
+    data: Data,
+    schema: Schema,
+    ids_by_table: dict[str, set[str]],
+    err: Callable[[str], None],
+    warn: Callable[[str], None],
+) -> None:
+    """Bidi / connector / charging tables (T-019, T-024), their sources and charging_links."""
+    tax = data["taxonomy"]
+
+    def rows(key: str) -> list[dict[str, Any]]:
+        return [r for r in tax.get(key) or [] if isinstance(r, dict)]
+
+    # spec-required ids
+    for key, want in REQUIRED_IDS.items():
+        for missing in sorted(want - ids_by_table.get(key, set())):
+            err(f"{TAXONOMY_FILES[key][0]}: required id {missing!r} missing (spec)")
+
+    # labels, tooltips, glossary links
+    glossary = ids_by_table.get("glossary_terms", set())
+    for key in LABELLED_NEW:
+        fname = TAXONOMY_FILES[key][0]
+        for r in rows(key):
+            rid = r.get("id")
+            short = _texts(r, "short")
+            if key in ("bidi_caveats", "charging_metrics") and not short.get("en"):
+                err(f"{fname} [{rid}] short.en missing")
+            if short and not short.get("nl"):
+                err(f"{fname} [{rid}] short.nl missing")
+            for lang, text in short.items():
+                if word_count(text) > SHORT_MAX_WORDS:
+                    err(
+                        f"{fname} [{rid}] short.{lang} has {word_count(text)} words (max {SHORT_MAX_WORDS})"
+                    )
+            gid = r.get("glossary_id")
+            if gid is not None and gid not in glossary:
+                err(f"{fname} [{rid}] glossary_id {gid!r} does not exist")
+
+    # caveat {param} placeholders match param_kind
+    for r in rows("bidi_caveats"):
+        rid, kind = r.get("id"), r.get("param_kind", "none")
+        texts = {**{f"label.{k}": v for k, v in _texts(r, "label").items()}}
+        texts.update({f"short.{k}": v for k, v in _texts(r, "short").items()})
+        uses = {k for k, v in texts.items() if PARAM_RE.search(v)}
+        if kind == "none" and uses:
+            err(f"bidi_caveats.yaml [{rid}] {sorted(uses)} use {{param}} but param_kind is none")
+        if kind != "none" and not any(k.startswith("label.") for k in uses):
+            err(f"bidi_caveats.yaml [{rid}] param_kind {kind} but label has no {{param}}")
+        if "param_unit" in r and kind != "number":
+            err(f"bidi_caveats.yaml [{rid}] param_unit only applies to param_kind number")
+
+    # sources cited by taxonomy rows
+    sdoc = data.get("tax_sources_doc") or {}
+    if not isinstance(sdoc, dict) or set(sdoc) - {"sources"}:
+        err(f"{TAXONOMY_SOURCES}: must be a mapping with only `sources`")
+        sdoc = {}
+    tax_source_ids: set[str] = set()
+    for i, s in enumerate(sdoc.get("sources") or []):
+        sid = s.get("id", f"#{i}") if isinstance(s, dict) else f"#{i}"
+        for e in schema.errors("Source", s):
+            err(f"{TAXONOMY_SOURCES} [{sid}] {e}")
+        if sid in tax_source_ids:
+            err(f"{TAXONOMY_SOURCES}: duplicate id {sid}")
+        tax_source_ids.add(sid)
+    known_sources = tax_source_ids | set(data.get("registry_ids") or [])
+
+    def need_source(where: str, sid: Any) -> None:
+        if sid not in known_sources:
+            err(f"{where} source id {sid!r} not in {TAXONOMY_SOURCES} or data/sources.yaml")
+
+    # bidi equipment cross-references
+    platforms = {
+        p.get("id") for p in (data["platforms_doc"].get("platforms") or []) if isinstance(p, dict)
+    }
+    variants = {
+        v.get("id") for v in (data["variants_doc"].get("variants") or []) if isinstance(v, dict)
+    }
+    routes = {r["id"]: r for r in rows("bidi_routes") if "id" in r}
+    for r in rows("bidi_equipment"):
+        tag = f"bidi_equipment.yaml [{r.get('id')}]"
+        route = routes.get(r.get("route_id"))
+        if route is None:
+            err(f"{tag} route_id {r.get('route_id')!r} does not exist")
+        for k, table in (("mode_ids", "bidi_modes"), ("protocol_ids", "bidi_protocols")):
+            for x in r.get(k) or []:
+                if x not in ids_by_table.get(table, set()):
+                    err(f"{tag} {k} {x!r} does not exist")
+        for x in r.get("compatible_platform_ids") or []:
+            if x not in platforms:
+                err(f"{tag} compatible_platform_ids {x!r} does not exist")
+        for x in r.get("compatible_variant_ids") or []:
+            if x not in variants:
+                err(f"{tag} compatible_variant_ids {x!r} does not exist")
+        for sid in r.get("source_ids") or []:
+            need_source(tag, sid)
+        pb = r.get("price_band")
+        if isinstance(pb, dict) and pb.get("max") is not None and pb["max"] < pb.get("min", 0):
+            err(f"{tag} price_band max < min")
+        if not (r.get("notes") or "").lower().startswith("confidence"):
+            err(f"{tag} notes must start with the confidence (no confidence field in the schema)")
+
+    # charging definitions
+    defs = {d["id"]: d for d in rows("charging_definitions") if "id" in d}
+    for d in defs.values():
+        tag = f"charging_definitions.yaml [{d['id']}]"
+        need_source(tag, d.get("source_id"))
+        vf, vt = d.get("valid_from"), d.get("valid_to")
+        if vf is not None and vt is not None and str(vt) < str(vf):
+            err(f"{tag} valid_to before valid_from")
+        rb = d.get("replaced_by")
+        if rb is not None:
+            nxt = defs.get(rb)
+            if nxt is None:
+                err(f"{tag} replaced_by {rb!r} does not exist")
+            elif rb == d["id"]:
+                err(f"{tag} replaced_by points to itself")
+            else:
+                if vt is None:
+                    err(f"{tag} replaced_by needs valid_to (where the series breaks)")
+                nf = nxt.get("valid_from")
+                if vt is not None and nf is not None and str(nf) <= str(vt):
+                    err(f"{tag} successor {rb} starts before this definition ends")
+        if d.get("comparable_across_countries") and d.get("country") not in (
+            "EU27",
+            "EUROPE",
+            "WORLD",
+        ):
+            err(f"{tag} only EAFO / IEA (EU27, EUROPE, WORLD) definitions are comparable across countries")
+
+    # power bands
+    bands = {b["id"]: b for b in rows("power_bands") if "id" in b}
+    ours = {k: b for k, b in bands.items() if b.get("ours")}
+
+    def span(b: dict[str, Any]) -> tuple[float, float]:
+        hi = b.get("max_kw")
+        return float(b.get("min_kw", 0)), float("inf") if hi is None else float(hi)
+
+    for b in bands.values():
+        tag = f"power_bands.yaml [{b['id']}]"
+        lo, hi = span(b)
+        if lo >= hi:
+            err(f"{tag} min_kw must be < max_kw")
+        if b.get("ours"):
+            if b.get("source_id") or b.get("maps_to"):
+                err(f"{tag} our own band has no source_id / maps_to")
+            continue
+        if not b.get("source_id"):
+            err(f"{tag} a source band needs source_id")
+        else:
+            need_source(tag, b["source_id"])
+        if not b.get("maps_to"):
+            err(f"{tag} a source band needs maps_to")
+        for m in b.get("maps_to") or []:
+            target = ours.get(m)
+            if target is None:
+                err(f"{tag} maps_to {m!r} is not one of our bands")
+                continue
+            tlo, thi = span(target)
+            if not (lo < thi and tlo < hi):
+                err(f"{tag} maps_to {m} but the kW ranges do not overlap")
+            if b.get("current") not in ("any", target.get("current")):
+                err(f"{tag} maps_to {m} but current differs")
+    for cur in ("ac", "dc"):
+        ordered = sorted((span(b) + (k,) for k, b in ours.items() if b.get("current") == cur))
+        for a, c in itertools.pairwise(ordered):
+            if a[1] > c[0]:
+                err(f"power_bands.yaml: our bands {a[2]} and {c[2]} overlap")
+
+    # charging_links in config/countries/*.yaml
+    spec_urls = set(URL_RE.findall(data.get("charging_spec_text") or ""))
+    for cc, doc in (data.get("countries") or {}).items():
+        links = doc.get("charging_links") if isinstance(doc, dict) else None
+        fname = f"config/countries/{cc}.yaml"
+        if links is None:
+            continue
+        if not isinstance(links, list):
+            err(f"{fname}: charging_links must be a list")
+            continue
+        if len(links) > MAX_CHARGING_LINKS:
+            err(f"{fname}: {len(links)} charging_links (max {MAX_CHARGING_LINKS})")
+        orders: set[Any] = set()
+        urls: set[str] = set()
+        for i, link in enumerate(links):
+            tag = f"{fname} charging_links[{i}]"
+            if not isinstance(link, dict):
+                err(f"{tag} must be a mapping")
+                continue
+            row = {k: v for k, v in link.items() if k not in WEB_ONLY_LINK_KEYS}
+            row["country"] = cc.upper()
+            if isinstance(row.get("label"), str):
+                row["label"] = {"en": row["label"]}  # web loader takes a plain string
+            for e in schema.errors("CountryChargingLink", row):
+                err(f"{tag} {e}")
+            for k in ("job", "label", "url", "tool"):
+                if not link.get(k):
+                    err(f"{tag} {k} missing (web loader needs it)")
+            url = link.get("url")
+            if isinstance(url, str):
+                if not url.startswith("https://"):
+                    err(f"{tag} url must be https")
+                if url in urls:
+                    err(f"{tag} duplicate url")
+                urls.add(url)
+                if spec_urls and url not in spec_urls:
+                    err(f"{tag} url {url} is not in docs/spec/charging-buildout.md (no invented URLs)")
+            if link.get("order") in orders:
+                err(f"{tag} duplicate order {link.get('order')}")
+            orders.add(link.get("order"))
+        if not any(isinstance(x, dict) and x.get("job") == "route-planner" for x in links):
+            warn(f"{fname}: charging_links has no route planner")
+
+
 def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -177,7 +567,7 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
                 err(f"{fname}: duplicate id {rid}")
             seen.add(rid)
             label = row.get("label", {})
-            if isinstance(label, dict) and not label.get("nl"):
+            if key not in NO_LABEL and isinstance(label, dict) and not label.get("nl"):
                 err(f"{fname} [{rid}] label.nl missing")
         ids_by_table[key] = seen
     for e in schema.errors("Taxonomy", tax):
@@ -242,6 +632,24 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
                 err(f"glossary_terms.yaml [{gid}] related points to itself")
             elif rel not in related_ok:
                 err(f"glossary_terms.yaml [{gid}] related id {rel!r} does not exist")
+
+    # glossary ids vs /learn articles (same URL space) and content markers
+    for slug in sorted(glossary_ids & set(data.get("learn_slugs") or [])):
+        err(
+            f"glossary_terms.yaml: id {slug} is also a /learn article slug (content/learn/index.yaml)"
+        )
+    for fname, text in (data.get("learn_files") or {}).items():
+        ids = set(LEARN_MARK_RE.findall(text))
+        fm = re.match(r"---\n(.*?)\n---", text, re.DOTALL)
+        if fm:
+            gl = re.search(r"^glossary:\s*\[([^\]]*)\]", fm.group(1), re.MULTILINE)
+            if gl:
+                ids |= {x.strip() for x in gl.group(1).split(",") if x.strip()}
+        for gid in sorted(i.strip() for i in ids):
+            if gid not in related_ok:
+                err(f"{fname}: glossary id {gid!r} does not exist")
+
+    check_new_tables(data, schema, ids_by_table, err, warn)
 
     # --- seed wrappers -------------------------------------------------------------------
     def check_wrapper(doc: Any, fname: str, kind: str) -> None:
@@ -333,6 +741,7 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
                 generations.add(gen["id"])
     gens_with_variants = {v.get("generation_id") for v in variants.values()}
 
+    release_ids_seen: set[str] = set()
     linked_variants: dict[str, int] = {}
     linked_gens: set[str] = set()
     used_platforms: set[str] = set()
@@ -348,13 +757,28 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
             err(f"{tag} unexpected keys {sorted(extra)}")
         if bool(vid) == bool(gid):
             err(f"{tag} needs exactly one of variant_id / generation_id")
+        release_id = False
         if vid:
             if vid not in variants:
-                err(f"{tag} variant_id does not exist in variants.yaml")
+                # T-060: a release variant id (OpenEV/KilowattApp variant, not in variants.yaml)
+                # is `<generation_id>-<slug>`; such a link needs a pack or a platform and
+                # leaves voltage / charger_400v optional (the platform class then applies).
+                gen_of_vid = release_generation(vid, generations)
+                if gen_of_vid is None:
+                    err(
+                        f"{tag} variant_id is neither in variants.yaml nor a release id"
+                        " (<generation_id>-<slug>)"
+                    )
+                else:
+                    release_id = True
+                    release_ids_seen.add(vid)
             linked_variants[vid] = linked_variants.get(vid, 0) + 1
             if "battery_pack_options" in link:
                 err(f"{tag} battery_pack_options is only for generation-level defaults")
-            if "battery_pack_id" not in link:
+            if release_id:
+                if "battery_pack_id" not in link and "platform_id" not in link:
+                    err(f"{tag} release-id link needs battery_pack_id or platform_id")
+            elif "battery_pack_id" not in link:
                 err(f"{tag} battery_pack_id missing")
         if gid:
             if gid not in generations:
@@ -366,10 +790,19 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
             if gid in linked_gens:
                 err(f"{tag} duplicate generation-level link")
             linked_gens.add(gid)
-            if "battery_pack_id" not in link and not link.get("battery_pack_options"):
-                err(f"{tag} needs battery_pack_id or battery_pack_options")
+            if (
+                "battery_pack_id" not in link
+                and not link.get("battery_pack_options")
+                and "platform_id" not in (link.get("cited") or {})
+            ):
+                err(f"{tag} needs battery_pack_id or battery_pack_options (or a cited platform_id)")
+        cited = link.get("cited")
+        if cited is not None:
+            check_link_cited(tag, link, cited, err)
         pid = link.get("platform_id")
-        if pid not in platforms:
+        if pid is None and release_id:
+            pass
+        elif pid not in platforms:
             err(f"{tag} platform_id {pid!r} does not exist")
         else:
             used_platforms.add(pid)
@@ -389,7 +822,10 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
         if link.get("uncertain") and not link.get("notes") and not link.get("class_override_note"):
             err(f"{tag} uncertain: true needs a note saying what is in doubt")
 
+        platform_only = gid and "platform_id" in (link.get("cited") or {}) and not pack_ids
         volt = link.get("voltage")
+        if volt is None and (release_id or platform_only):
+            continue  # nothing more to check without voltage / charger_400v
         if volt is None:
             err(f"{tag} voltage missing")
             volt = {}
@@ -467,11 +903,36 @@ def check(data: Data, schema: Schema) -> tuple[list[str], list[str]]:
         if n > 1:
             err(f"variant_links.yaml: variant {vid} linked {n} times")
     for gid in sorted(generations - gens_with_variants - linked_gens):
-        err(f"variant_links.yaml: generation {gid} has no variants and no generation-level default")
+        warn(f"variant_links.yaml: generation {gid} has no variants and no generation-level default (T-060)")
     for pk in sorted(set(packs) - used_packs):
         warn(f"battery_packs.yaml: pack {pk} is not used by any link")
     for pid in sorted(set(platforms) - used_platforms):
         warn(f"platforms.yaml: platform {pid} is not used by any link")
+
+    # --- finance profiles (Decision 017) ---------------------------------------------------
+    # Schema: a typical_apr needs a source + retrieved_at. Here: id convention, one row per
+    # country + product, and a cited rate names its series and period.
+    seen_cp: set[tuple[str, str]] = set()
+    for row in tax.get("finance_profiles") or []:
+        if not isinstance(row, dict):
+            continue
+        fid, cc, prod = row.get("id"), row.get("country"), row.get("product")
+        if isinstance(cc, str) and isinstance(prod, str):
+            if fid != f"{cc.lower()}-{prod}":
+                err(f"finance_profiles.yaml [{fid}] id should be {cc.lower()}-{prod}")
+            if (cc, prod) in seen_cp:
+                err(f"finance_profiles.yaml [{fid}] second row for {cc} {prod}")
+            seen_cp.add((cc, prod))
+        src = row.get("source")
+        if row.get("typical_apr") is not None and isinstance(src, dict):
+            for k in ("series_id", "period"):
+                if not src.get(k):
+                    err(f"finance_profiles.yaml [{fid}] typical_apr set but source.{k} missing")
+        for k in ("default_term_months", "default_deposit_pct"):
+            if row.get(k) is not None and not isinstance(src, dict):
+                err(f"finance_profiles.yaml [{fid}] {k} set without a source")
+        if row.get("typical_apr") is None and not row.get("notes"):
+            err(f"finance_profiles.yaml [{fid}] typical_apr is null: notes must say why")
 
     return errors, warnings
 
@@ -484,7 +945,16 @@ def summary(data: Data) -> str:
         f"cooling_types={len(tax['cooling_types'])} glossary_terms={len(tax['glossary_terms'])} "
         f"platforms={len(data['platforms_doc'].get('platforms') or [])} "
         f"packs={len(data['packs_doc'].get('packs') or [])} links={len(links)} "
-        f"(uncertain={sum(1 for x in links if isinstance(x, dict) and x.get('uncertain'))})"
+        f"(uncertain={sum(1 for x in links if isinstance(x, dict) and x.get('uncertain'))})\n"
+        + " ".join(f"{k}={len(tax.get(k) or [])}" for k in TAXONOMY_FILES if k in LABELLED_NEW)
+        + f" bidi_equipment={len(tax.get('bidi_equipment') or [])}"
+        + f" taxonomy_sources={len((data.get('tax_sources_doc') or {}).get('sources') or [])}"
+        + " charging_links="
+        + ",".join(
+            f"{cc}:{len(doc.get('charging_links') or [])}"
+            for cc, doc in (data.get("countries") or {}).items()
+            if isinstance(doc, dict)
+        )
     )
 
 
@@ -518,6 +988,21 @@ def self_test(base: Data, schema: Schema) -> int:
     def m_variant(d: Data) -> None:
         d["links_doc"]["links"].pop(0)
 
+    def m_release_unknown(d: Data) -> None:
+        d["links_doc"]["links"].append({"variant_id": "no-such-generation-base", "platform_id": "vw-meb"})
+
+    def m_release_empty(d: Data) -> None:
+        gid = d["variants_doc"]["variants"][0]["generation_id"]
+        d["links_doc"]["links"].append({"variant_id": f"{gid}-t060-test", "notes": "x"})
+
+    def m_cited_value(d: Data) -> None:
+        link = next(x for x in d["links_doc"]["links"] if x.get("cited"))
+        link["cited"]["platform_id"]["value"] = "some-other-platform"
+
+    def m_cited_http(d: Data) -> None:
+        link = next(x for x in d["links_doc"]["links"] if x.get("cited"))
+        link["cited"]["platform_id"]["source_url"] = "http://example.org/"
+
     def m_native(d: Data) -> None:
         d["links_doc"]["links"][0]["charger_400v"] = {"mode": "booster", "kw": 50}
 
@@ -531,7 +1016,74 @@ def self_test(base: Data, schema: Schema) -> int:
     def m_nl(d: Data) -> None:
         d["taxonomy"]["cooling_types"][0]["label"].pop("nl")
 
+    def m_route(d: Data) -> None:
+        d["taxonomy"]["bidi_equipment"][0]["route_id"] = "teleport"
+
+    def m_equip_source(d: Data) -> None:
+        d["taxonomy"]["bidi_equipment"][0]["source_ids"] = ["no-such-source"]
+
+    def m_maps_to(d: Data) -> None:
+        band = next(b for b in d["taxonomy"]["power_bands"] if not b.get("ours"))
+        band["maps_to"] = ["dc-9000"]
+
+    def m_band_overlap(d: Data) -> None:
+        band = next(b for b in d["taxonomy"]["power_bands"] if b["id"] == "uk-dft-rapid")
+        band["maps_to"] = ["dc-350-plus"]
+
+    def m_new_short(d: Data) -> None:
+        d["taxonomy"]["bidi_caveats"][0]["short"]["nl"] = " ".join(["woord"] * 21)
+
+    def m_param(d: Data) -> None:
+        cav = next(c for c in d["taxonomy"]["bidi_caveats"] if c["id"] == "battery-min")
+        cav["param_kind"] = "none"
+        cav.pop("param_unit", None)
+
+    def m_required(d: Data) -> None:
+        d["taxonomy"]["connector_types"] = [
+            c for c in d["taxonomy"]["connector_types"] if c["id"] != "ccs2"
+        ]
+
+    def m_replaced(d: Data) -> None:
+        dfn = next(x for x in d["taxonomy"]["charging_definitions"] if x.get("replaced_by"))
+        dfn["replaced_by"] = "no-such-definition"
+
+    def m_link_url(d: Data) -> None:
+        d["countries"]["nl"]["charging_links"][0]["url"] = "https://invented.example/"
+
+    def m_link_count(d: Data) -> None:
+        links = d["countries"]["nl"]["charging_links"]
+        for i in range(6):
+            links.append({**links[0], "order": 10 + i})
+
+    def m_link_job(d: Data) -> None:
+        d["countries"]["nl"]["charging_links"][0]["job"] = "find-charger"
+
+    def m_finance_unsourced(d: Data) -> None:
+        row = next(r for r in d["taxonomy"]["finance_profiles"] if r["typical_apr"] is not None)
+        row["source"], row["retrieved_at"] = None, None
+
+    def m_learn_slug(d: Data) -> None:
+        d["taxonomy"]["glossary_terms"][0]["id"] = d["learn_slugs"][0]
+
+    def m_learn_mark(d: Data) -> None:
+        first = next(iter(d["learn_files"]))
+        d["learn_files"][first] += "\nSee [[no-such-term|this]].\n"
+
     cases: list[tuple[str, Callable[[Data], None], str]] = [
+        ("glossary id equals a /learn slug", m_learn_slug, "/learn article slug"),
+        ("dangling [[id]] in content/learn", m_learn_mark, "glossary id 'no-such-term'"),
+        ("finance rate without source (schema)", m_finance_unsourced, "finance_profiles.yaml"),
+        ("unknown bidi route", m_route, "route_id 'teleport'"),
+        ("unknown equipment source", m_equip_source, "source id 'no-such-source'"),
+        ("unknown maps_to band", m_maps_to, "is not one of our bands"),
+        ("maps_to without kW overlap", m_band_overlap, "do not overlap"),
+        ("new-table short > 20 words", m_new_short, "words (max"),
+        ("{param} without param_kind", m_param, "param_kind is none"),
+        ("spec-required id missing", m_required, "required id 'ccs2'"),
+        ("dangling replaced_by", m_replaced, "replaced_by 'no-such-definition'"),
+        ("charging link URL not in spec", m_link_url, "no invented URLs"),
+        ("more than five charging links", m_link_count, "(max 5)"),
+        ("charging link job outside schema enum", m_link_job, "find-charger"),
         ("short > 20 words", m_short, "words (max"),
         ("dangling related", m_related, "related id"),
         ("duplicate chemistry", m_dup, "duplicate id"),
@@ -539,6 +1091,10 @@ def self_test(base: Data, schema: Schema) -> int:
         ("bad cell format (schema)", m_cell, "hexagonal"),
         ("unknown platform", m_platform, "platform_id"),
         ("variant without link", m_variant, "has no link"),
+        ("release id without generation", m_release_unknown, "nor a release id"),
+        ("cited value differs from link", m_cited_value, "differs from the link's platform_id"),
+        ("cited source not https", m_cited_http, "source_url must be https"),
+        ("release-id link without pack or platform", m_release_empty, "needs battery_pack_id or platform_id"),
         ("400 V car not native", m_native, "must have charger_400v.mode native"),
         ("class mismatch without override", m_override, "add class_override_note"),
         ("voltage class gap", m_gap, "gap or overlap"),

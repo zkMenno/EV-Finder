@@ -1,7 +1,43 @@
 @import "tailwindcss";
+/* Design tokens for both themes (Day trip / Night drive), generated from docs/design/tokens.json. */
+@import "./tokens.generated.css";
 
+/*
+ * Theme bridge: the app's Tailwind classes (slate / blue / amber / green / red, white) read these
+ * palette variables, so pointing them at the design tokens makes every existing class follow the
+ * theme without touching components. Unlayered, so it wins over Tailwind's @layer theme defaults.
+ * New code should prefer the tokens directly (bg-[var(--surface)], text-[var(--ink-2)], …).
+ * "white" is the surface colour, so text-white on a dark fill flips with the fill.
+ */
 :root {
-  color-scheme: light;
+  --color-white: var(--surface);
+  --color-slate-50: var(--surface-sunk);
+  --color-slate-100: color-mix(in srgb, var(--surface-sunk), var(--ink) 5%);
+  --color-slate-200: var(--line);
+  --color-slate-300: var(--line);
+  --color-slate-400: var(--line-strong);
+  --color-slate-500: var(--ink-3);
+  --color-slate-600: var(--ink-3);
+  --color-slate-700: var(--ink-2);
+  --color-slate-800: var(--ink);
+  --color-slate-900: var(--ink);
+  --color-blue-50: var(--paper-sea);
+  --color-blue-100: color-mix(in srgb, var(--paper-sea), var(--link) 14%);
+  --color-blue-700: var(--link);
+  --color-blue-800: var(--link);
+  --color-blue-900: color-mix(in srgb, var(--link), var(--ink) 35%);
+  --color-blue-950: color-mix(in srgb, var(--link), var(--ink) 55%);
+  --color-amber-50: color-mix(in srgb, var(--sunflower-tint), var(--surface) 55%);
+  --color-amber-100: var(--sunflower-tint);
+  --color-amber-700: var(--warning);
+  --color-amber-800: var(--warning);
+  --color-amber-900: var(--warning);
+  --color-amber-950: var(--warning);
+  --color-green-100: var(--meadow-tint);
+  --color-green-700: var(--success);
+  --color-green-900: var(--success);
+  --color-red-700: var(--danger);
+  --color-red-900: var(--danger);
 }
 
 html {
@@ -9,12 +45,15 @@ html {
 }
 
 body {
-  @apply bg-white text-slate-900 antialiased;
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Visible focus everywhere (keyboard users). */
+/* Visible focus everywhere (keyboard users): 3px, the design system's focus colour. */
 :where(a, button, input, select, summary, [tabindex]):focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
 

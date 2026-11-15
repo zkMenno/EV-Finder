@@ -109,7 +109,7 @@ makes:
             name: Phase 2 (ZE50)
             years: [2019, 2024]
             uncertain: true
-            notes: "Launched late 2019, most deliveries from 2020. Production reported to have ended early 2024; confirm last model year."
+            notes: "Launched late 2019, most deliveries from 2020. Production reported to have ended early 2024; confirm last model year. End year kept at 2024. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). 2025: RDW 2 cars (under 0.1% of the 7861 NL cars of 2020-2024), EEA 39 (DE 6, FR 17, BE 14, NL 2), KBA 7; likely late stock."
             change_markers:
               - {year: 2019, text: "52 kWh battery, new interior, optional 50 kW CCS"}
               - {year: 2021, text: "Renamed Zoe E-Tech Electric"}
@@ -119,6 +119,14 @@ makes:
         segment: C
         body: crossover
         name_aliases: [Megane E-Tech, Mégane E-Tech, Megane E-Tech Electric, Megane EV]
+        bev_only_aliases: [MEGANE]
+        source_aliases: {dft-veh: [MEGANE]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["MEGANE"]
+          dft-veh: [{name: "MEGANE", match: prefix}]
         generations:
           - id: renault-megane-e-tech-gen1
             name: Megane E-Tech Electric
@@ -127,6 +135,47 @@ makes:
             notes: "Whether it is still on sale in all European markets (and any facelift timing) is unverified."
             change_markers:
               - {year: 2022, text: "Launch: EV40 (40 kWh) and EV60 (60 kWh)"}
+
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: renault-5-e-tech
+        name: 5 E-Tech
+        segment: B
+        body: hatchback
+        notes: "Body: OpenEV `hatchback`. Segment: nearest seed hatchback by OpenEV length (5 E-Tech 3920 mm) is the Mini Cooper SE (3850 mm, B); Wikidata Q105095659 subclass of (P279) supermini (B) agrees. DfT names it '5 TECHNO E-TECH EV' etc. (prefix '5', DfT only); KBA series 'R5'."
+        source_aliases:
+          kba-fz10:
+            - {name: R5, note: "KBA Modellreihe R5 (BEV column)"}
+          dft-veh: ["5"]
+        aliases_by_source:
+          kba-fz10:
+            - {name: "R5", match: prefix, note: "KBA Modellreihe R5 (BEV column)"}
+          dft-veh: [{name: "5", match: prefix}]
+        generations:
+          - id: renault-5-e-tech-gen1
+            name: 5 E-Tech
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'RENAULT 5 E-TECH ELECTRIC': 2024 387, 2025 5127, 2026 4092 (9606 NL cars). 2024 is 4.0% (below the 5% bar) but OpenEV starts at model year 2024, so the start is 2024. Wikidata Q105095659 has no year. Still registered: EEA 2025 BE 1804, DE 7882, FR 40836, NL 4993; KBA R5 2024 942, 2025 7884, 2026 Jan-Oct 8202; DfT '5 ... E-TECH EV' 15966 (no year)."
+
+      - id: renault-scenic-e-tech
+        name: Scenic E-Tech
+        segment: J-medium
+        body: crossover
+        notes: "The electric Scenic (2024-); earlier Scenics are combustion cars and do not appear in these BEV-only sources. Body: OpenEV `crossover` (Wikidata Q122167780: electric car). Segment: nearest seed model by OpenEV length (Scenic E-Tech 4490 mm) is the BMW iX1 (4500 mm, J-medium); judgement call, Q-083. DfT names it 'SCENIC TECHNO E-TECH EV' etc. (prefix 'SCENIC', DfT only); KBA series 'SCENIC' (BEV column)."
+        source_aliases:
+          kba-fz10:
+            - {name: SCENIC, note: "KBA Modellreihe SCENIC, BEV column only: counted as the Scenic E-Tech"}
+          dft-veh: [SCENIC]
+        aliases_by_source:
+          kba-fz10:
+            - {name: "SCENIC", match: prefix, note: "KBA Modellreihe SCENIC, BEV column only: counted as the Scenic E-Tech"}
+          dft-veh: [{name: "SCENIC", match: prefix}]
+        generations:
+          - id: renault-scenic-e-tech-gen1
+            name: Scenic E-Tech
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'SCENIC E-TECH ELECTRIC': 2024 2367, 2025 3117, 2026 1563 (7047 NL cars); 2024 is 33.6%, above the 5% bar. RDW has no car in 2023, so the start stays 2024, although KilowattApp has model year 2023 records and EEA FR has 31 cars of 2023 (unverified). OpenEV starts at model year 2024. Wikidata Q122167780 has no year. Still registered: EEA 2025 BE 2165, DE 1917, FR 16287, NL 3042; KBA SCENIC BEV 2024 1665, 2025 1919, 2026 Jan-Oct 2732; DfT 'SCENIC ... E-TECH EV' 13679 (no year)."
 
   - id: nissan
     name: Nissan
@@ -162,12 +211,23 @@ makes:
 
   - id: volkswagen
     name: Volkswagen
+    make_aliases_by_source: {eea: ["VOLKSWAGEN, VW"]}  # Q-021 (scoped aliases on): EEA Mk spelling
     models:
       - id: volkswagen-e-golf
         name: e-Golf
         segment: C
         body: hatchback
         name_aliases: [e Golf, eGolf, Golf electric]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: [GOLF]
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        # rdw-tgk takes the rdw names: its make/model come from the same NL plates (BEV proxy).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["GOLF"]
+          dft-veh: ["GOLF"]
+          rdw,rdw-tgk: ["GOLF E"]
         generations:
           - id: volkswagen-e-golf-mk7
             name: Mk7
@@ -188,6 +248,11 @@ makes:
         segment: C
         body: hatchback
         name_aliases: [ID3, ID 3]
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk: ["VOLKSWAGEN, VW ID.3"]
         generations:
           - id: volkswagen-id3-gen1
             name: ID.3
@@ -205,24 +270,73 @@ makes:
         segment: J-medium
         body: suv
         name_aliases: [ID4, ID 4]
+        source_aliases:
+          kba-fz10:
+            - {name: "ID.4, ID.5", note: "KBA joins ID.4 and ID.5 in one row; the count includes the ID.5 (not in the seed)"}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          kba-fz10:
+            - {name: "ID.4, ID.5", match: prefix, note: "KBA joins ID.4 and ID.5 in one row; the count includes the ID.5 (not in the seed)"}
         generations:
           - id: volkswagen-id4-gen1
             name: ID.4
-            years: [2021, null]
+            years: [2020, null]
             uncertain: true
-            notes: "1st Edition deliveries late 2020/early 2021. A facelift or rename around 2026 has been reported but is unverified."
+            notes: "1st Edition deliveries late 2020/early 2021. A facelift or rename around 2026 has been reported but is unverified. Start year moved 2021 -> 2020 (coverage-gaps finding 7). Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW: 2830 NL cars first admitted in 2020, all 'ID.4 PRO 150 KW' (the same name as 2,225 cars of 2023), = 11.7% of the model's 24125 NL cars, so above the 5% bar."
             change_markers:
               - {year: 2021, text: "GTX dual-motor"}
               - {year: 2023, text: "MY24 update: APP550 motor, new infotainment"}
 
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: volkswagen-id7
+        name: ID.7
+        segment: E
+        body: sedan
+        notes: "Saloon and Tourer (estate) in one model: every source uses the one name 'ID.7' (RDW/EEA 'ID.7 TOURER ...', OpenEV variant 'Tour'). Body: OpenEV `sedan`. Segment: Wikidata Q116044540 subclass of (P279) 'executive car' = E (the nearest-length rule would give F: Porsche Taycan 4963 mm vs ID.7 4961 mm, and the seed has no E model); judgement call, Q-083."
+        generations:
+          - id: volkswagen-id7-gen1
+            name: ID.7
+            years: [2023, null]
+            uncertain: true
+            notes: "One generation: no second type or name in the data. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'ID.7 ...': 2023 54, 2024 1259, 2025 3719, 2026 2674 (7706 NL cars). 2023 is 0.7% (below the 5% bar) but Wikidata Q116044540 inception (P571) and commercialization date (P5204) are 2023 and KilowattApp has model year 2023 records, so the start is 2023. Still registered: EEA 2025 BE 4550, DE 34547, FR 899, NL 3613; KBA ID.7 2023 1095, 2024 14554, 2025 34563, 2026 Jan-Oct 26048; DfT 'ID7 ...' 12975 (no year)."
+            change_markers:
+              - {year: 2024, text: "ID.7 Tourer appears in registrations (RDW: 'ID.7 TOURER PRO' 511 NL cars first admitted 2024, none in 2023)"}
+
+      - id: volkswagen-id-buzz
+        name: ID. Buzz
+        segment: J-medium
+        body: mpv
+        notes: "Body: OpenEV `mpv` (Wikidata Q30765198: subclass of minibus). Segment: no seed model has an mpv body, so no nearest-length match in the same family; J-medium as a placeholder (as for the Explorer EV): judgement call, Q-083. RDW also files a few 'ID. BUZZ CARGO ...' (van) names as passenger cars (1 in 2022, 3 in 2023, 19 in 2024 and some later); they match this model by name."
+        generations:
+          - id: volkswagen-id-buzz-gen1
+            name: ID. Buzz
+            years: [2022, null]
+            uncertain: true
+            notes: "One generation: the 'LR' / 'KR' and 'GTX' names from 2024 (KilowattApp 'LWB' / 'NWB') keep the 'ID. BUZZ' name. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'ID. BUZZ ...' / 'ID.BUZZ ...' / 'ID BUZZ ...': 2022 177, 2023 652, 2024 297, 2025 667, 2026 530 (2323 NL cars); 2022 is 7.6%, above the 5% bar. Wikidata Q30765198 inception (P571) 2022 agrees; KilowattApp starts at model year 2022. Still registered: EEA 2025 BE 1243, DE 8590, FR 1020, NL 524; KBA ID. BUZZ 2022 1367, 2023 5028, 2024 4769, 2025 8564, 2026 Jan-Oct 9421; DfT 'ID BUZZ ...' 9388 (no year)."
+            change_markers:
+              - {year: 2024, text: "'LR' / 'KR 210 KW' names appear in RDW (2024: 'PRO KR 210 KW' 19, 'PRO LR 210 KW' 15 NL cars; 'GTX LR 250 KW' 70 in 2025)"}
+
   - id: hyundai
     name: Hyundai
+    make_aliases_by_source: {eea: ["HYUNDAI, GENESIS"]}  # EEA Mk group; Genesis models are not in the seed
     models:
       - id: hyundai-ioniq-electric
         name: Ioniq Electric
         segment: C
         body: hatchback
         name_aliases: [IONIQ Electric, Ioniq EV, Ioniq (electric)]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: [IONIQ]
+        name_excludes: [Ioniq 3, Ioniq 5, Ioniq 6, Ioniq 9]
+        source_aliases: {dft-veh: [IONIQ]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["IONIQ"]
+          dft-veh: [{name: "IONIQ", match: prefix}]
         generations:
           - id: hyundai-ioniq-electric-gen1
             name: Ioniq Electric
@@ -238,6 +352,15 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [Kona EV, KONA Electric, Kauai Electric]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: [KONA, "KONA, KAUAI", KAUAI]
+        source_aliases: {dft-veh: [KONA]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["KONA", "KONA, KAUAI", "KAUAI"]
+          dft-veh: ["KONA, KAUAI", "KAUAI", {name: "KONA", match: prefix}]
         generations:
           - id: hyundai-kona-electric-os
             name: Gen 1 (OS)
@@ -287,6 +410,19 @@ makes:
               - {year: 2022, text: "53 and 77.4 kWh, 800 V"}
               - {year: 2025, text: "Facelift and Ioniq 6 N"}
 
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: hyundai-inster
+        name: Inster
+        segment: J-small
+        body: suv
+        notes: "Body: Wikidata Q126598301 subclass of (P279) sport utility vehicle and electric car (no OpenEV record). Segment: no length in any source; Wikidata describes it as an 'electric city car', so the smallest J segment, J-small: judgement call, Q-083."
+        generations:
+          - id: hyundai-inster-gen1
+            name: Inster
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'INSTER': 2024 33, 2025 3631, 2026 3305 (6969 NL cars). 2024 is 0.5% (below the 5% bar) but KilowattApp has model year 2024 records (Standard and Long Range), so the start is 2024 (unverified). Wikidata Q126598301 has no year. Still registered: EEA 2025 BE 413, DE 10064, FR 3629, NL 3627; KBA 2024 27, 2025 10064, 2026 Jan-Oct 11462; DfT 'INSTER ...' 6017 (no year). No OpenEV record, so no variant rows."
+
   - id: kia
     name: Kia
     models:
@@ -295,6 +431,15 @@ makes:
         segment: J-small
         body: crossover
         name_aliases: [e-Soul, Soul Electric, Soul EV]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: [SOUL]
+        source_aliases: {dft-veh: [SOUL]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["SOUL"]
+          dft-veh: [{name: "SOUL", match: prefix}]
         generations:
           - id: kia-soul-ev-ps
             name: Gen 1 (PS)
@@ -306,9 +451,9 @@ makes:
               - {year: 2018, text: "30 kWh battery in some markets"}
           - id: kia-soul-ev-sk3
             name: Gen 2 (e-Soul, SK3)
-            years: [2019, 2022]
+            years: [2019, 2024]
             uncertain: true
-            notes: "European end of sales is unverified (2022 vs 2023). Sold as e-Soul in most of Europe."
+            notes: "European end of sales is unverified. Sold as e-Soul in most of Europe. End year moved 2022 -> 2024 (coverage-gaps finding 7). Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW 'SOUL': 2023 95 and 2024 99 cars = 6.4% and 6.6% of the 1490 NL cars of 2020-2025 (2019 is shared with the PS); 2025: 3 cars (0.2%), so 2025 is not added. Weaker signals not used for the boundary: EEA 2025 new registrations DE 33, FR 15, BE 1; KBA 2025 34, 2026 (Jan-Oct) 6, possibly late stock."
             change_markers:
               - {year: 2019, text: "39.2 and 64 kWh, CCS"}
 
@@ -317,6 +462,15 @@ makes:
         segment: J-small
         body: crossover
         name_aliases: [e-Niro, Niro EV, Niro Electric, e Niro]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: [NIRO]
+        source_aliases: {dft-veh: [NIRO]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["NIRO"]
+          dft-veh: [{name: "NIRO", match: prefix}]
         generations:
           - id: kia-niro-ev-de
             name: e-Niro (Gen 1, DE)
@@ -348,8 +502,22 @@ makes:
               - {year: 2022, text: "EV6 GT"}
               - {year: 2024, text: "Facelift: 84 kWh"}
 
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: kia-ev3
+        name: EV3
+        segment: J-medium
+        body: suv
+        notes: "No source gives a body or size: no OpenEV record, KilowattApp and RDW have no body field, and Wikidata Q125545236 has only 'car model'. Body suv and segment J-medium are placeholders (the most common seed body and the middle J segment, as for the Explorer EV): judgement call, Q-083."
+        generations:
+          - id: kia-ev3-gen1
+            name: EV3
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'EV3': 2024 143, 2025 11051, 2026 5432 (16626 NL cars). 2024 is 0.9% (below the 5% bar) but KilowattApp has a model year 2024 record (Long Range), so the start is 2024 (unverified). Wikidata Q125545236 has no year. Still registered: EEA 2025 BE 4110, DE 9199, FR 3986, NL 10929; KBA 2024 468, 2025 9205, 2026 Jan-Oct 8261; DfT 'EV3 ...' 18143 (no year). No OpenEV record, so no variant rows."
+
   - id: bmw
     name: BMW
+    make_aliases_by_source: {eea: ["BMW AG", "BAYER.MOT.WERKE-BMW"]}
     models:
       - id: bmw-i3
         name: i3
@@ -361,7 +529,7 @@ makes:
             name: i3 (I01)
             years: [2013, 2022]
             uncertain: true
-            notes: "Single generation; battery size is the key used-buyer variable. Year the REx was dropped in Europe is unverified (around 2019)."
+            notes: "Single generation; battery size is the key used-buyer variable. Year the REx was dropped in Europe is unverified (around 2019). GAP (coverage-gaps finding 7, QUESTIONS Q-065): a car named i3 shows up after this generation ended. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW 2026: 210 cars 'I3 50 XDRIVE'; EEA DE 2025: 119 ('I3 50 XDRIVE' 93, 'I3 40 XDRIVE' 22, 'I3 40L' 4); KBA 2026: 1 'I3'. No generation was added for it: what car this is has not been checked against a primary source. These counts stay in unmatched.csv ('year outside every generation')."
             change_markers:
               - {year: 2013, text: "60 Ah (22 kWh); optional range extender (REx)"}
               - {year: 2016, text: "94 Ah (33 kWh)"}
@@ -374,6 +542,15 @@ makes:
         segment: D
         body: sedan
         notes: "Five-door Gran Coupe (liftback)."
+        source_aliases:
+          kba-fz10:
+            - {name: 4ER, note: "KBA Modellreihe 4ER, BEV column only: counted as the i4"}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          kba-fz10:
+            - {name: "4ER", match: prefix, note: "KBA Modellreihe 4ER, BEV column only: counted as the i4"}
         generations:
           - id: bmw-i4-g26
             name: i4 (G26)
@@ -384,6 +561,85 @@ makes:
               - {year: 2022, text: "eDrive35 entry version"}
               - {year: 2024, text: "LCI facelift"}
 
+      # T-051: see the rule comment above volvo-ex30.
+      - id: bmw-ix1
+        name: iX1
+        segment: J-medium
+        body: suv
+        notes: "Body: OpenEV `suv` (Wikidata Q112190791: crossover, compact car). Segment: nearest seed model by OpenEV length (iX1 4500 mm) is the Mercedes EQA (4463 mm, J-medium); judgement call, Q-081."
+        source_aliases:
+          kba-fz10:
+            - {name: X1, note: "KBA Modellreihe X1, BEV column only: counted as the iX1"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "X1", match: prefix, note: "KBA Modellreihe X1, BEV column only: counted as the iX1"}
+        generations:
+          - id: bmw-ix1-gen1
+            name: iX1
+            years: [2022, null]
+            uncertain: true
+            notes: "One generation: no second type or name in the data. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW 'IX1 XDRIVE30' / 'IX1 EDRIVE20' (both spellings): 2022 96, 2023 3858, 2024 4005, 2025 4404, 2026 2966. 2022 is 0.6% of the 15329 NL cars (below the 5% bar) but KilowattApp has a model year 2022 xDrive30, so the start is 2022 (unverified). Wikidata Q112190791 has no production year. RDW also has 5 cars named plain 'X1' / 'X1 sDrive20i' (2017, 2020, 2022): not aliased, they stay unmatched. Still registered: EEA 2025 BE 9145, DE 19041, FR 8962, NL 4298; KBA X1 BEV 2025 18957, 2026 Jan-Oct 20534."
+            change_markers:
+              - {year: 2024, text: "Registrations shift from xDrive30 to eDrive20 (RDW: 2023 xDrive30 3654 of 3858 NL cars; 2024 eDrive20 3311 of 4005)"}
+
+      - id: bmw-ix3
+        name: iX3
+        segment: J-medium
+        body: suv
+        notes: "Two generations: RDW, EEA and DfT all switch from a plain 'IX3' to names with a power number ('IX3 50 XDRIVE', 'IX3 40'), and Wikidata has a second iX3 item (Q136100817, child of Q97159640). Body: OpenEV `suv` (old car, model years 2023-2024; Wikidata Q136100817: compact crossover SUV). Segment: nearest seed model by OpenEV length (iX3 4734 mm) is the Ford Mustang Mach-E (4743 mm, J-medium); judgement call, Q-081."
+        source_aliases:
+          kba-fz10:
+            - {name: X3, note: "KBA Modellreihe X3, BEV column only: counted as the iX3 (both generations; the year picks one)"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "X3", match: prefix, note: "KBA Modellreihe X3, BEV column only: counted as the iX3 (both generations; the year picks one)"}
+        generations:
+          - id: bmw-ix3-gen1
+            name: iX3 (2020-2025)
+            years: [2020, 2025]
+            uncertain: true
+            notes: "Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW plain 'IX3' / 'iX3': 2020 8, 2021 3036, 2022 2182, 2023 1974, 2024 879, 2025 221, 2026 0 (8300 NL cars). 2020 is 0.1% (below the 5% bar) but Wikidata Q97159640 inception (P571) and a KilowattApp model year 2020 record both start in 2020. End 2025: RDW 2025 is 2.7% (below the bar) but EEA 2025 still has 3090 plain 'IX3' (BE 873, DE 1707, FR 298, NL 212). End year unverified."
+          - id: bmw-ix3-gen2
+            name: iX3 (2026-)
+            years: [2026, null]
+            uncertain: true
+            notes: "Registration evidence, checked 2026-11-15 (as above). RDW 2026: 'IX3 50 XDRIVE' 2214, 'IX3 40' 1006, 'IX3-40' 1; KBA X3 BEV 2026 Jan-Oct 11055; DfT 'IX3 50 XDRIVE*' 1339 (no year). EEA 2025 already has about 780 cars with the new names (DE 'IX3 50 XDRIVE' 677, 'IX3 40' 38, 'IX3 50L XDRIVE' 26, 'IX3 M60XDRIVE' 19 and a few more; BE 6, FR 9), so the start may be 2025. It is set to 2026 because the matcher picks a generation by year: with a shared 2025 the 221 RDW and 3090 EEA plain-'IX3' cars of 2025 would go to this generation, which has no variants yet. The EEA 2025 new-name cars therefore sit on gen1 for now. No spec record in OpenEV or KilowattApp yet, so no variant rows."
+
+      - id: bmw-ix
+        name: iX
+        segment: J-large
+        body: suv
+        notes: "Body: OpenEV `suv` (Wikidata Q86663388: sport utility vehicle, crossover). Segment: nearest seed model by OpenEV length (iX 4953 mm) is the Audi e-tron (4915 mm, J-large); judgement call, Q-081."
+        generations:
+          - id: bmw-ix-gen1
+            name: iX
+            years: [2021, null]
+            uncertain: true
+            notes: "One generation: the 2025 name change is in the variant names only (same model name, no gap). Whether it is a new type approval is unverified. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW 'IX ...': 2021 316, 2022 995, 2023 743, 2024 306, 2025 406, 2026 202 (2968 NL cars); 2021 is 10.6%, above the 5% bar. Wikidata Q86663388 commercialization date (P5204) 2021 agrees. Still registered: EEA 2025 BE 1310, DE 4348, FR 343, NL 353; KBA 2025 4337, 2026 Jan-Oct 3604."
+            change_markers:
+              - {year: 2025, text: "Registrations switch to xDrive45 / xDrive60 / M70 names (RDW: 343 of 406 NL cars first admitted 2025; EEA 2025)"}
+
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: bmw-i5
+        name: i5
+        segment: E
+        body: sedan
+        notes: "Saloon and Touring in one model (KilowattApp has 'Sedan' and 'Touring' variants; RDW, EEA and DfT use 'I5 ...' for both). Body: OpenEV `sedan`. Segment: Wikidata Q23021036 subclass of (P279) 'executive car' = E (nearest-length rule: Tesla Model S 5021 mm vs i5 5060 mm, F); judgement call, Q-083."
+        source_aliases:
+          kba-fz10:
+            - {name: 5ER, note: "KBA Modellreihe 5ER, BEV column only: counted as the i5 (the only BEV in the series)"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "5ER", match: prefix, note: "KBA Modellreihe 5ER, BEV column only: counted as the i5 (the only BEV in the series)"}
+        generations:
+          - id: bmw-i5-gen1
+            name: i5
+            years: [2023, null]
+            uncertain: true
+            notes: "One generation: no second type or name in the data. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'I5 ...' (incl. 'i5 eDrive40', 'I5 E-DRIVE 40'): 2023 239, 2024 1573, 2025 1429, 2026 862 (4103 NL cars); 2023 is 5.8%, above the 5% bar. KilowattApp starts at model year 2023 (OpenEV 2024). Wikidata Q23021036 has no year. Still registered: EEA 2025 BE 3030, DE 10525, FR 368, NL 1318; KBA 5ER BEV 2023 1088, 2024 7849, 2025 10476, 2026 Jan-Oct 8130; DfT 'I5 ...' 10202 (no year)."
+            change_markers:
+              - {year: 2024, text: "xDrive40 appears in RDW (39 NL cars first admitted 2024, none in 2023)"}
+
   - id: peugeot
     name: Peugeot
     models:
@@ -392,6 +648,16 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [e208, E-208, 208 Electric]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: ["208"]
+        source_aliases: {dft-veh: ["208"]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["208"]
+          dft-veh: [{name: "208", match: prefix}]
+          rdw,rdw-tgk: ["208 E", "208 E-TENSE"]  # BEV-filtered rows: the only electric 208 is the e-208
         generations:
           - id: peugeot-e-208-p21
             name: e-208 (P21)
@@ -408,6 +674,15 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [e2008, E-2008, 2008 Electric]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: ["2008"]
+        source_aliases: {dft-veh: ["2008"]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["2008"]
+          dft-veh: [{name: "2008", match: prefix}]
         generations:
           - id: peugeot-e-2008-p24
             name: e-2008 (P24)
@@ -425,8 +700,17 @@ makes:
         name: Corsa-e
         segment: B
         body: hatchback
-        name_aliases: [Corsa Electric, Corsa-e, Corsa e, Vauxhall Corsa-e, Vauxhall Corsa Electric]
+        name_aliases: [Corsa Electric, Corsa-e, Corsa e, e-Corsa, Vauxhall Corsa-e, Vauxhall Corsa Electric]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: [CORSA]
         notes: "Sold as Vauxhall in the UK."
+        source_aliases: {dft-veh: [CORSA]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["CORSA"]
+          dft-veh: [{name: "CORSA", match: prefix}]
         generations:
           - id: opel-corsa-e-f
             name: Corsa F
@@ -437,6 +721,25 @@ makes:
               - {year: 2020, text: "50 kWh (gross), 100 kW"}
               - {year: 2023, text: "Facelift, renamed Corsa Electric, 51 kWh / 115 kW option"}
 
+      # T-051: see the rule comment above volvo-ex30.
+      - id: opel-mokka
+        name: Mokka-e
+        segment: J-small
+        body: suv
+        notes: "Sold as Vauxhall in the UK. No OpenEV record and no electric-specific Wikidata item with a body, so body and segment come from the Wikidata item for all Mokkas (Q1805731, ICE included): subclass of sport utility vehicle, mini SUV and supermini -> body suv, segment J-small. Judgement call, Q-081."
+        bev_only_aliases: [MOKKA]
+        source_aliases: {dft-veh: [MOKKA]}
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["MOKKA"]
+          rdw,rdw-tgk: ["MOKKA ULTIMATE EV"]
+          dft-veh: [{name: "MOKKA", match: prefix}]
+        generations:
+          - id: opel-mokka-gen1
+            name: Mokka-e
+            years: [2021, null]
+            uncertain: true
+            notes: "One generation: no second name or gap in the data (the drop from 1881 NL cars in 2023 to 394 in 2024 is not a generation sign on its own). Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW 'MOKKA' (+ 'MOKKA E' 1, 'MOKKA ULTIMATE EV' 1): 2021 1149, 2022 1762, 2023 1881, 2024 394, 2025 376, 2026 198 (5760 NL cars); 2021 is 19.9%, above the 5% bar. KilowattApp 'Mokka-e' model year 2021 agrees; Wikidata 'Opel Mokka B' (Q97705167) has no year. One RDW 'MOKKA X' of 2018 stays unmatched. Still registered: EEA 2025 BE 167, DE 1985, FR 1627, NL 286; KBA 2025 1985, 2026 Jan-Oct 1955."
+
   - id: fiat
     name: Fiat
     models:
@@ -445,6 +748,15 @@ makes:
         segment: A
         body: hatchback
         name_aliases: [500 Electric, New 500, 500 elettrica, Nuova 500, 500 La Prima, Abarth 500e]
+        # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
+        bev_only_aliases: ["500"]
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["500"]
+          dft-veh: ["500"]
+          rdw,rdw-tgk: ["FIAT500E", "FAIT 500E"]  # RDW typing variants
         generations:
           - id: fiat-500e-312
             name: 500e (US-only)
@@ -483,8 +795,22 @@ makes:
               - {year: 2023, text: "APP550 motor update (85)"}
               - {year: 2025, text: "Facelift: new 'Modern Solid' front"}
 
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: skoda-elroq
+        name: Elroq
+        segment: J-medium
+        body: crossover
+        notes: "Body: OpenEV `crossover` (make written 'Škoda'; models 'Elroq' and 'Elroq RS'; Wikidata Q126974549: sport utility vehicle). Segment: OpenEV has no length for it and Wikidata no size class; J-medium as a placeholder (as for the Explorer EV): judgement call, Q-083."
+        generations:
+          - id: skoda-elroq-gen1
+            name: Elroq
+            years: [2025, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'ELROQ ...': 2025 12082, 2026 6047 (18129 NL cars). RDW has no car in 2024, so the start is 2025, although KilowattApp has model year 2024 records and KBA has 46 new registrations in 2024 (those 46 stay unmatched; start unverified). Wikidata Q126974549 has no year. Still registered: EEA 2025 BE 3955, DE 25421, FR 8042, NL 11914; KBA 2025 25426, 2026 Jan-Oct 34441; DfT 'ELROQ ...' 17342 (no year). OpenEV has model year 2025 records (Elroq, Elroq RS)."
+
   - id: mg
     name: MG
+    make_aliases_by_source: {openev: ["MG Motor"], eea: ["MG, ROEWE"]}
     models:
       - id: mg-mg4
         name: MG4
@@ -492,6 +818,7 @@ makes:
         body: hatchback
         name_aliases: [MG4 Electric, MG 4, MG4 EV, Mulan]
         notes: "Do not confuse with the 2025 'MG4 Urban', reported to be a different car (unverified)."
+        name_excludes: [4 Urban, MG4 Urban]
         generations:
           - id: mg-mg4-gen1
             name: MG4
@@ -508,6 +835,15 @@ makes:
         segment: J-small
         body: suv
         name_aliases: [MG ZS EV, ZS Electric, MG ZS Electric]
+        bev_only_aliases: [ZS]
+        source_aliases: {dft-veh: [ZS]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["ZS"]
+          dft-veh: [{name: "ZS", match: prefix}]
+          rdw,rdw-tgk: ["ROEWE ZS EV"]  # RDW: MG | ROEWE ZS EV (China-market name on NL plates)
         generations:
           - id: mg-zs-ev-gen1
             name: ZS EV
@@ -540,18 +876,32 @@ makes:
 
   - id: audi
     name: Audi
+    make_aliases_by_source: {eea: ["AUDI AG", "AUDI SPORT"]}
     models:
       - id: audi-e-tron
         name: e-tron
         segment: J-large
         body: suv
-        name_aliases: [e-tron, etron, e-tron Sportback, Q8 e-tron, Q8 Sportback e-tron, e-tron quattro]
+        name_aliases: [e-tron, etron, e-tron Sportback, Q8 e-tron, Q8 Sportback e-tron, e-tron quattro,
+                       Q8 50 e-tron, Q8 55 e-tron, Q8 Sportback 50 e-tron, Q8 Sportback 55 e-tron, SQ8 e-tron, SQ8 Sportback e-tron]
+        # A different car that starts with the same words: never match these names to this model.
+        name_excludes: [e-tron GT, RS e-tron GT, S e-tron GT]
         notes: "Do not confuse with e-tron GT, a different model."
+        source_aliases:
+          kba-fz10:
+            - {name: Q8, note: "KBA Modellreihe Q8, BEV column only: counted as the Q8 e-tron"}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          kba-fz10:
+            - {name: "Q8", match: prefix, note: "KBA Modellreihe Q8, BEV column only: counted as the Q8 e-tron"}
         generations:
           - id: audi-e-tron-ge
             name: e-tron (GE)
             years: [2019, 2022]
-            uncertain: false
+            uncertain: true
+            notes: "Start year kept at 2019 (coverage-gaps finding 7). Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW: 644 NL cars first admitted in 2018 ('AUDI E-TRON' 639, 'E-TRON' 5) = 4.2% of the 15258 NL cars of 2018-2022, below the 5% bar; these 2018 cars stay outside every generation (unmatched.csv) until a primary source confirms 2018 deliveries."
             change_markers:
               - {year: 2019, text: "e-tron 55 (95 kWh gross)"}
               - {year: 2020, text: "Sportback body; e-tron 50 (71 kWh)"}
@@ -560,7 +910,7 @@ makes:
             name: Q8 e-tron
             years: [2023, 2025]
             uncertain: true
-            notes: "Facelift plus rename (late 2022, MY2023), bigger batteries (106/114 kWh gross). Brussels production reported to end early 2025; last on-sale year unverified."
+            notes: "Facelift plus rename (late 2022, MY2023), bigger batteries (106/114 kWh gross). Brussels production reported to end early 2025; last on-sale year unverified. End year kept at 2025. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). 2026: RDW 1 car ('SQ8 SPORTBACK E-TRON'), KBA 3; too few to move the end."
             change_markers:
               - {year: 2023, text: "Renamed Q8 e-tron, 106/114 kWh"}
 
@@ -568,7 +918,19 @@ makes:
         name: Q4 e-tron
         segment: J-medium
         body: suv
-        name_aliases: [Q4 e-tron, Q4 Sportback e-tron, Q4 etron]
+        name_aliases: [Q4 e-tron, Q4 Sportback e-tron, Q4 etron, Q4 SB e-tron,
+                       Q4 35 e-tron, Q4 40 e-tron, Q4 45 e-tron, Q4 50 e-tron, Q4 55 e-tron,
+                       Q4 Sportback 35 e-tron, Q4 Sportback 40 e-tron, Q4 Sportback 45 e-tron, Q4 Sportback 50 e-tron, Q4 Sportback 55 e-tron]
+        source_aliases:
+          kba-fz10:
+            - {name: Q4, note: "KBA Modellreihe Q4, BEV column only: counted as the Q4 e-tron"}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          kba-fz10:
+            - {name: "Q4", match: prefix, note: "KBA Modellreihe Q4, BEV column only: counted as the Q4 e-tron"}
+          rdw,rdw-tgk: ["Q4 4 E-TRON"]  # RDW typo
         generations:
           - id: audi-q4-e-tron-gen1
             name: Q4 e-tron
@@ -579,6 +941,47 @@ makes:
               - {year: 2021, text: "35/40/50 e-tron, Sportback body"}
               - {year: 2023, text: "MY24 update: more power, 82 kWh (gross) versions renamed 45/55"}
 
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: audi-q6-e-tron
+        name: Q6 e-tron
+        segment: J-medium
+        body: crossover
+        name_aliases: [Q6 SUV e-tron, Q6 SB e-tron, SQ6 SUV e-tron, SQ6 SB e-tron, SQ6 e-tron]
+        notes: "SUV, Sportback (SB) and SQ6 in one model (OpenEV variants 'quattro', 'quattro Sportback', 'SQ6'). Aliases are the RDW/EEA/KilowattApp spellings. Body: OpenEV `crossover` (Wikidata Q106620903: sport utility vehicle). Segment: nearest seed model by OpenEV length (Q6 e-tron 4771 mm) is the Tesla Model Y (4751 mm, J-medium); judgement call, Q-083."
+        source_aliases:
+          kba-fz10:
+            - {name: Q6, note: "KBA Modellreihe Q6, BEV column only: counted as the Q6 e-tron (the only BEV in the series)"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "Q6", match: prefix, note: "KBA Modellreihe Q6, BEV column only: counted as the Q6 e-tron (the only BEV in the series)"}
+        generations:
+          - id: audi-q6-e-tron-gen1
+            name: Q6 e-tron
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'Q6 SUV E-TRON ...', 'Q6 SB E-TRON ...', 'SQ6 ...': 2024 936, 2025 3137, 2026 1383 (5456 NL cars); 2024 is 17.2%, above the 5% bar. OpenEV and KilowattApp start at model year 2024. Wikidata Q106620903 has no year. Still registered: EEA 2025 BE 5991, DE 13578, FR 6226, NL 2657; KBA Q6 2024 2960, 2025 13571, 2026 Jan-Oct 15978; DfT 'Q6 E-TRON ...' 20309 (no year)."
+            change_markers:
+              - {year: 2025, text: "Sportback appears in RDW (no 'Q6 SB E-TRON ...' NL car first admitted 2024; 2025: 'Q6 SB E-TRON PERFORMANCE' 208, 'Q6 SB E-TRON' 185)"}
+
+      - id: audi-a6-e-tron
+        name: A6 e-tron
+        segment: E
+        body: sedan
+        name_aliases: [A6 AV e-tron, A6 SB e-tron, A6 Avant e-tron, A6 Sportback e-tron, S6 AV e-tron, S6 SB e-tron, S6 Avant e-tron, S6 Sportback e-tron, S6 e-tron]
+        notes: "Avant (AV), Sportback (SB) and S6 e-tron in one model (OpenEV variants 'Avant', 'Sportback'). Aliases are the RDW/EEA/KilowattApp/DfT spellings (DfT 'S6 E-TRON ...'); plain 'A6' / 'A6 AVANT' RDW names (3 cars of 2015-2017) are not aliased and stay unmatched. Body: OpenEV `sedan`. Segment: Wikidata Q106793330 is described as an 'electric executive car' = E (P279 only 'electric car'; the nearest-length rule would give F: Taycan 4963 mm vs 4960 mm); judgement call, Q-083."
+        source_aliases:
+          kba-fz10:
+            - {name: A6, note: "KBA Modellreihe A6, BEV column only: counted as the A6 e-tron (the only BEV in the series; the S6 e-tron has no own series)"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "A6", match: prefix, note: "KBA Modellreihe A6, BEV column only: counted as the A6 e-tron (the only BEV in the series; the S6 e-tron has no own series)"}
+        generations:
+          - id: audi-a6-e-tron-gen1
+            name: A6 e-tron
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'A6 AV/SB E-TRON ...', 'S6 AV/SB E-TRON': 2024 1, 2025 2662, 2026 734 (3397 NL cars). 2024 is 0.03% (below the 5% bar) but OpenEV and KilowattApp start at model year 2024 and Wikidata Q106793330 inception (P571) is 2024, so the start is 2024. Still registered: EEA 2025 BE 1979, DE 13790, FR 1318, NL 2490; KBA A6 BEV 2024 295, 2025 13778, 2026 Jan-Oct 17167; DfT 'A6 E-TRON ...' 4177 + 'S6 E-TRON ...' 283 (no year)."
+
   - id: mercedes
     name: Mercedes-Benz
     models:
@@ -587,6 +990,16 @@ makes:
         segment: J-medium
         body: suv
         name_aliases: [EQA 250, EQA 300, EQA 350]
+        source_aliases:
+          kba-fz10:
+            - {name: GLA, note: "KBA Modellreihe GLA, BEV column: read as the EQA (2025: 9,687 vs EEA DE EQA 9,682; Q-051)"}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          kba-fz10:
+            - {name: "GLA", match: prefix, note: "KBA Modellreihe GLA, BEV column: read as the EQA (2025: 9,687 vs EEA DE EQA 9,682; Q-051)"}
+          eea: ["CLASSE EQA"]  # EEA FR commercial name
         generations:
           - id: mercedes-eqa-h243
             name: EQA (H243)
@@ -607,10 +1020,62 @@ makes:
             name: EQC (N293)
             years: [2019, 2023]
             uncertain: true
-            notes: "End of European sales (2022 vs 2023) unverified. On-board charger upgrade timing unverified."
+            notes: "End of European sales (2022 vs 2023) unverified. On-board charger upgrade timing unverified. End year kept at 2023. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). RDW 2024: 41 cars = 1.7% of the 2427 NL cars, 2025: 1; EEA 2025: 10 (BE 3, DE 3, FR 4). Below the 5% bar."
             change_markers:
               - {year: 2019, text: "80 kWh, 7.4 kW AC"}
               - {year: 2020, text: "11 kW on-board charger"}
+
+      # T-051: see the rule comment above volvo-ex30.
+      - id: mercedes-eqb
+        name: EQB
+        segment: J-large
+        body: crossover
+        notes: "Two generations: from 2026 RDW names the car 'GLB ...' instead of 'EQB ...' (EEA 2025 DE 'GLB ... WITH EQ T.', DfT 'GLB CLASS ... ELECTRIC'). Body: OpenEV `crossover` (Wikidata Q86671945: crossover). Segment: nearest seed model by OpenEV length (EQB 4684 mm) is the Jaguar I-Pace (4682 mm, J-large); the Kia EV6 (4680 mm, J-medium) is almost as close and the EQA is J-medium: judgement call, Q-081."
+        source_aliases:
+          kba-fz10:
+            - {name: GLB, note: "KBA Modellreihe GLB, BEV column: counted as the EQB / GLB electric (the year picks the generation)"}
+          eea: [CLASSE EQB, GLB]
+          rdw: [GLB]
+          dft-veh: [GLB]
+        aliases_by_source:
+          kba-fz10:
+            - {name: "GLB", match: prefix, note: "KBA Modellreihe GLB, BEV column: counted as the EQB / GLB electric (the year picks the generation)"}
+          eea: [{name: "CLASSE EQB", match: prefix}, {name: "GLB", match: prefix}]  # EEA FR commercial name; DE 'GLB ... WITH EQ T.'
+          rdw,rdw-tgk: [{name: "GLB", match: prefix}]
+          dft-veh: [{name: "GLB", match: prefix}]
+        generations:
+          - id: mercedes-eqb-gen1
+            name: EQB
+            years: [2021, 2025]
+            uncertain: true
+            notes: "Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW 'EQB ...': 2021 6, 2022 841, 2023 1155, 2024 1809, 2025 1807, 2026 177 (5795 NL cars). 2021 is 0.1% (below the 5% bar) but Wikidata Q86671945 commercialization date (P5204) is 2021, so the start is 2021 (KilowattApp starts at model year 2022; unverified). End 2025: the 177 'EQB 250+' of 2026 are 3.1% (below the bar) and are placed on the GLB generation by year. KBA GLB BEV 2025 7318 sits here."
+            change_markers:
+              - {year: 2023, text: "RDW names change from 'EQB 250' to 'EQB 250+' (2023: 444 vs 592; 2024: 1667 vs 26)"}
+          - id: mercedes-eqb-glb
+            name: GLB electric
+            years: [2026, null]
+            uncertain: true
+            notes: "Registration evidence, checked 2026-11-15 (as above). RDW 2026: 'GLB 250+' 618, 'GLB 200' 65, 'GLB 250' 41, 'GLB 350 4MATIC' 16 (740); KBA GLB BEV 2026 Jan-Oct 8911 (the KBA series also holds the last EQBs); DfT 'GLB CLASS' 1261 (no year). EEA 2025 DE already has 164 'GLB ...' cars, so the start may be 2025; they sit on the EQB generation by year (a shared 2025 would move all 2025 EQBs here, because this generation has no variants). Whether this is a new generation or a rename is unverified. No spec record in OpenEV or KilowattApp yet, so no variant rows."
+
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: mercedes-cla
+        name: CLA
+        segment: D
+        body: sedan
+        name_aliases: [CLA250]
+        notes: "The electric CLA (2025-). The name is shared with earlier combustion CLAs, but every source used here is BEV-only (RDW no engine capacity, EEA electric, KBA BEV column, DfT battery electric) and the generation starts in 2025, so the 3 RDW 'CLA 180' / 'CLA 220' / 'CLA 180 D' cars of 2016-2020 stay unmatched. Alias 'CLA250' is the RDW/DfT spelling ('CLA250+ BUSINESS EDITION', 'CLA250+WTH EQ ...'). Body: OpenEV `sedan` ('CLA EV'). Segment: nearest seed sedan by OpenEV length (CLA 4690 mm) is the Tesla Model 3 (4720 mm, D); judgement call, Q-083."
+        source_aliases:
+          kba-fz10:
+            - {name: CLA-KLASSE, note: "KBA Modellreihe CLA-KLASSE, BEV column only: counted as the electric CLA (the only BEV in the series)"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "CLA-KLASSE", match: prefix, note: "KBA Modellreihe CLA-KLASSE, BEV column only: counted as the electric CLA (the only BEV in the series)"}
+        generations:
+          - id: mercedes-cla-gen1
+            name: CLA (electric)
+            years: [2025, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'CLA ...': 2025 1201, 2026 1792 (2993 NL cars); 2025 is 40.1%, above the 5% bar. RDW 2026 also has 'CLA 200' 289 and 'CLA 250' 50 with no engine capacity; EEA 2025 lists 'CLA 200 WITH EQ TECHNOLOGY' as electric, so they are counted here (unverified). OpenEV and KilowattApp have model year 2025. No Wikidata item checked (search rate-limited). Still registered: EEA 2025 BE 1392, DE 6769, FR 1260, NL 1178; KBA CLA-KLASSE BEV 2025 6741, 2026 Jan-Oct 20231; DfT 'CLA ...' (no year)."
 
   - id: jaguar
     name: Jaguar
@@ -620,12 +1085,17 @@ makes:
         segment: J-large
         body: suv
         name_aliases: [IPace, I Pace]
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk: ["JAUGAR I-PACE"]  # RDW typo
         generations:
           - id: jaguar-i-pace-x590
             name: I-Pace (X590)
             years: [2018, 2024]
             uncertain: true
-            notes: "Production reported to end in late 2024 as Jaguar reset the brand; confirm. Battery replacement campaign on some cars; check history."
+            notes: "Production reported to end in late 2024 as Jaguar reset the brand; confirm. Battery replacement campaign on some cars; check history. End year kept at 2024. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year (early deliveries, late stock, imports). 2025: RDW 4 cars (0.1% of 2816 NL cars), EEA 43 (FR 37, BE 3, NL 3); likely late stock."
             change_markers:
               - {year: 2018, text: "90 kWh, 7 kW AC"}
               - {year: 2020, text: "MY21: 11 kW AC, Pivi Pro infotainment"}
@@ -657,6 +1127,13 @@ makes:
         segment: A
         body: hatchback
         name_aliases: [fortwo electric drive, fortwo ED, fortwo EQ, smart EQ, smart ED, fortwo cabrio electric]
+        source_aliases: {dft-veh: [FORTWO]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          dft-veh: [{name: "FORTWO", match: prefix}]
+          rdw,rdw-tgk: ["FORTWO COUPE ED", "FORTWO CABRIO ED"]  # RDW handelsbenaming; ED = electric drive (fortwo, not forfour)
         generations:
           - id: smart-eq-fortwo-451
             name: fortwo electric drive (451)
@@ -683,6 +1160,8 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [Honda e, Honda-e, e Advance]
+        # Honda's e:N series are different cars whose names start with "e".
+        name_excludes: ["e:Ny1", "e:NS1", "e:NS2", "e:NP1", "e:NP2"]
         generations:
           - id: honda-e-gen1
             name: Honda e
@@ -700,6 +1179,15 @@ makes:
         segment: B
         body: hatchback
         name_aliases: [Mini Electric, Cooper SE, Cooper E, Mini Cooper Electric, Mini E, Mini Full Electric]
+        # KBA "MINI | MINI" is NOT mapped: KBA has one Modellreihe for every MINI, and its 2025
+        # BEV count (15,495) is 2.4x EEA's Cooper SE/E count for DE (6,570), so it includes the
+        # Aceman / Countryman E (Q-051). DfT "COOPER ..." names are Cooper-only.
+        source_aliases: {dft-veh: [COOPER]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          dft-veh: [{name: "COOPER", match: prefix}]
         generations:
           - id: mini-cooper-se-f56
             name: F56
@@ -724,6 +1212,15 @@ makes:
         segment: C
         body: hatchback
         name_aliases: [Born, CUPRA Born, Seat el-Born, el-Born]
+        source_aliases:
+          kba-fz10:
+            - {name: SEAT BORN, note: "KBA files the Cupra Born under make SEAT"}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          kba-fz10:
+            - {name: "SEAT BORN", match: prefix, note: "KBA files the Cupra Born under make SEAT"}
         generations:
           - id: cupra-born-gen1
             name: Born
@@ -734,6 +1231,25 @@ makes:
               - {year: 2021, text: "58 kWh"}
               - {year: 2022, text: "45 and 77 kWh versions"}
               - {year: 2024, text: "VZ (240 kW), 79 kWh"}
+
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: cupra-tavascan
+        name: Tavascan
+        segment: J-medium
+        body: coupe
+        notes: "Body: OpenEV `coupe` (Wikidata Q72917395 has only 'car model'). Segment: no seed model has a coupe body, so the nearest seed model by OpenEV length of any body (Tavascan 4644 mm) is the Skoda Enyaq (4649 mm, J-medium); judgement call, Q-083."
+        source_aliases:
+          kba-fz10:
+            - {name: SEAT TAVASCAN, note: "KBA files the Cupra Tavascan under make SEAT"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "SEAT TAVASCAN", match: prefix, note: "KBA files the Cupra Tavascan under make SEAT"}
+        generations:
+          - id: cupra-tavascan-gen1
+            name: Tavascan
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'TAVASCAN': 2024 256, 2025 1616, 2026 745 (2617 NL cars); 2024 is 9.8%, above the 5% bar. OpenEV and KilowattApp start at model year 2024. Wikidata Q72917395 has no year. Still registered: EEA 2025 BE 949, DE 14035, FR 2126, NL 1408; KBA SEAT TAVASCAN 2024 1601, 2025 14036, 2026 Jan-Oct 13214; DfT 'TAVASCAN ...' 8929 (no year)."
 
   - id: byd
     name: BYD
@@ -762,6 +1278,15 @@ makes:
         body: suv
         name_aliases: [XC40 Recharge, XC40 Pure Electric, XC40 P8, EX40, XC40 BEV]
         notes: "Do not confuse with plug-in hybrid XC40 Recharge T4/T5. C40 Recharge / EC40 is a separate model, not in this seed."
+        bev_only_aliases: [XC40]
+        source_aliases: {dft-veh: [XC40]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["XC40"]
+          dft-veh: [{name: "XC40", match: prefix}]
+          rdw,rdw-tgk: ["XC40 TWIN78AWD SPORT"]
         generations:
           - id: volvo-xc40-recharge-gen1
             name: XC40 Recharge
@@ -780,6 +1305,35 @@ makes:
             change_markers:
               - {year: 2024, text: "Renamed EX40"}
 
+      # T-051 (2026-11-15): the 8 top-40 models missing from the seed (data/seed/top40.yaml).
+      # Built from staged evidence only, no specs or years from memory. Year rule: start = the
+      # first RDW first-admission year with >= 5% of the generation's NL cars, one year earlier
+      # when RDW has cars in that year AND Wikidata or a spec source's model year (OpenEV,
+      # KilowattApp) starts there; end = null while 2026 registrations continue. Body: OpenEV
+      # `body`, else Wikidata `subclass of`. Segment: no source has one, so it is the segment of
+      # the seed model with the nearest OpenEV length_mm in the same body family (suv/crossover
+      # -> J-*, sedan -> letter segments); a judgement call (QUESTIONS Q-081).
+      # Part 2 (2026-11-15, 15 more models, QUESTIONS Q-083): same year and body rules. Segment:
+      # a Wikidata size class (P279 or description: executive car -> E, supermini -> B, compact
+      # crossover SUV -> J-medium, subcompact crossover / city car -> J-small) comes first;
+      # else the nearest-length rule above; a body with no seed model (coupe, mpv) takes the
+      # nearest length of any body or, with no length either, J-medium as a placeholder.
+      # KBA series names shared with combustion cars (A6, 5ER, CLA-KLASSE, PUMA, SCENIC, ...)
+      # are mapped only where the electric model is the only BEV in that series.
+      - id: volvo-ex30
+        name: EX30
+        segment: J-small
+        body: crossover
+        notes: "Body: OpenEV `crossover` (Wikidata Q116769123: sport utility vehicle). Segment: nearest seed model by OpenEV length (EX30 4233 mm) is the Hyundai Kona Electric (4180 mm, J-small); judgement call, Q-081."
+        generations:
+          - id: volvo-ex30-gen1
+            name: EX30
+            years: [2023, null]
+            uncertain: true
+            notes: "One generation: no second type or name in the data. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW 'EX30' + 'EX30 CROSS COUNTRY': 2023 83, 2024 11036, 2025 5326, 2026 3991. 2023 is 0.4% of the 20436 NL cars (below the 5% bar) but OpenEV and KilowattApp both have model year 2023 records, so the start is 2023. Wikidata Q116769123 inception (P571) says 2024: conflict, start year unverified. Still registered: EEA 2025 BE 3648, DE 4748, FR 2891, NL 5263; KBA 2025 4749, 2026 Jan-Oct 6650."
+            change_markers:
+              - {year: 2025, text: "EX30 Cross Country appears in registrations (RDW: 79 NL cars first admitted 2025; EEA 2025: 552)"}
+
   - id: ford
     name: Ford
     models:
@@ -788,6 +1342,11 @@ makes:
         segment: J-medium
         body: suv
         name_aliases: [Mach-E, Mach E, Mustang MachE]
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk: ["MUSTACH MACH E"]  # RDW typo
         generations:
           - id: ford-mustang-mach-e-gen1
             name: Mustang Mach-E
@@ -799,6 +1358,43 @@ makes:
               - {year: 2022, text: "GT"}
               - {year: 2024, text: "Extended Range battery update (91 kWh usable)"}
 
+      # T-051: see the rule comment above volvo-ex30.
+      - id: ford-explorer
+        name: Explorer EV
+        segment: J-medium
+        body: suv
+        notes: "Body: OpenEV `suv` (Wikidata Q117234931 gives only 'car'). Segment: no source gives a size (OpenEV has no length for it), so J-medium, the middle of the J segments, as a placeholder: judgement call, Q-081. OpenEV lists 7 seats / 3 rows for this car: worth a check."
+        bev_only_aliases: [EXPLORER]
+        source_aliases: {dft-veh: [EXPLORER], kilowatt-openev: [Explorer]}
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["EXPLORER"]
+          dft-veh: [{name: "EXPLORER", match: prefix}]
+          kilowatt-openev: [{name: "Explorer", match: prefix}]
+        generations:
+          - id: ford-explorer-gen1
+            name: Explorer EV
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW 'EXPLORER': 2024 1458, 2025 3214, 2026 1194 (5866 NL cars); 2024 is 24.9%, above the 5% bar. OpenEV and KilowattApp start at model year 2024. Two single RDW cars of 2010 and 2021 (likely not this car) stay unmatched. Wikidata Q117234931 has no year. Still registered: EEA 2025 BE 2043, DE 10895, FR 2488, NL 3116; KBA 2025 10913, 2026 Jan-Oct 9854."
+
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: ford-puma-gen-e
+        name: Puma Gen-E
+        segment: J-small
+        body: crossover
+        notes: "The electric Puma. The bare name 'PUMA' is shared with the combustion Puma, so it is matched only in BEV-only sources (RDW, EEA, KBA BEV column, ADEME; DfT battery electric by prefix); the generation starts in 2025, so 1 RDW 'PUMA' of 2020 stays unmatched. Body: OpenEV `crossover` (Wikidata Q134311414: crossover). Segment: no length in any source; Wikidata Q65124485 (all Pumas) describes a 'subcompact crossover', so J-small: judgement call, Q-083."
+        bev_only_aliases: [PUMA]
+        source_aliases: {dft-veh: [PUMA]}
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["PUMA"]
+          dft-veh: [{name: "PUMA", match: prefix}]
+        generations:
+          - id: ford-puma-gen-e-gen1
+            name: Puma Gen-E
+            years: [2025, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'PUMA': 2025 591, 2026 1095 (1686 NL cars); 2025 is 35.1%, above the 5% bar. OpenEV and KilowattApp start at model year 2024, but RDW has no car in 2024, so the start stays 2025 (rule above; the OpenEV 2024 record stays unmatched). Wikidata Q134311414 has no year. Still registered: EEA 2025 BE 445, DE 3887, FR 2483, NL 551; KBA PUMA BEV 2025 3843, 2026 Jan-Oct 5900; DfT 'PUMA ... EV' 18063 (no year)."
+
   - id: citroen
     name: Citroën
     models:
@@ -808,6 +1404,15 @@ makes:
         body: crossover
         name_aliases: [e-C4, eC4, C4 Electric, ë-C4 Electric, e-C4 X, ë-C4 X]
         notes: "ë-C4 X is the saloon-style sibling; alias included for matching, may deserve its own model later."
+        bev_only_aliases: [C4]
+        source_aliases: {ademe: [C4 X]}
+        # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
+        # matches the whole name only; {match: prefix} matches leading words. Replaces
+        # bev_only_aliases + source_aliases for this model (those stay for the flag-off path).
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["C4"]
+          dft-veh: ["C4"]
+          ademe: [{name: "C4 X", match: prefix}]
         generations:
           - id: citroen-e-c4-c41
             name: ë-C4 (C41)
@@ -819,3 +1424,64 @@ makes:
               - {year: 2022, text: "ë-C4 X body added"}
               - {year: 2023, text: "54 kWh / 115 kW update"}
               - {year: 2024, text: "Facelift"}
+
+  # T-051: see the rule comment above volvo-ex30.
+  - id: porsche
+    name: Porsche
+    models:
+      - id: porsche-taycan
+        name: Taycan
+        segment: F
+        body: sedan
+        notes: "Body: OpenEV `sedan` (Sport Turismo and Cross Turismo estate versions are in the variant names; Wikidata Q56307011 gives only 'electric car'). Segment: nearest seed model by OpenEV length (Taycan 4963 mm) is the Tesla Model S (4979 mm, F); judgement call, Q-081."
+        generations:
+          - id: porsche-taycan-gen1
+            name: Taycan
+            years: [2020, null]
+            uncertain: true
+            notes: "One generation: same name in every year, no gap, and the data shows no second type. A mid-life update with new type approval is not visible in these sources and is unverified. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10). First-admission year is not model year. RDW 'TAYCAN ...': 2020 524, 2021 961, 2022 1034, 2023 833, 2024 365, 2025 171, 2026 96 (3984 NL cars); 2020 is 13.2%, above the 5% bar. KilowattApp starts at model year 2020; Wikidata Q56307011 has no year. Still registered: EEA 2025 BE 311, DE 2808, FR 247, NL 135; KBA 2025 2799, 2026 Jan-Oct 1800."
+            change_markers:
+              - {year: 2022, text: "GTS appears in RDW (125 NL cars first admitted 2022, 1 in 2021)"}
+              - {year: 2024, text: "Turbo GT in OpenEV from model year 2024"}
+
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: porsche-macan-electric
+        name: Macan Electric
+        segment: J-medium
+        body: crossover
+        notes: "The electric Macan. The name 'MACAN' is shared with the combustion Macan, so it is matched only by source: RDW, EEA, KBA BEV column and DfT battery electric are BEV-only, OpenEV and KilowattApp are EV datasets; the generation starts in 2024, so 1 RDW 'MACAN S' of 2015 stays unmatched. Body: OpenEV `crossover` (Wikidata Q2753440, the item for all Macans: sport utility vehicle). Segment: no length in any source and no size class in Wikidata; J-medium as a placeholder (as for the Explorer EV): judgement call, Q-083."
+        source_aliases: {rdw: [MACAN], eea: [MACAN], kba-fz10: [MACAN], dft-veh: [MACAN], openev: [Macan], kilowatt-openev: [Macan]}
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,dft-veh,openev,kilowatt-openev: [{name: "MACAN", match: prefix}]
+        generations:
+          - id: porsche-macan-electric-gen1
+            name: Macan Electric
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'MACAN ...': 2024 625, 2025 1144, 2026 570 (2339 NL cars); 2024 is 26.7%, above the 5% bar. OpenEV and KilowattApp start at model year 2024. Wikidata Q2753440 has no year. Still registered: EEA 2025 BE 1662, DE 6267, FR 2220, NL 985; KBA MACAN BEV 2024 2777, 2025 6245, 2026 Jan-Oct 4617; DfT 'MACAN ... ELECTRIC' 10418 (no year)."
+            change_markers:
+              - {year: 2026, text: "GTS appears in RDW (127 NL cars first admitted 2026)"}
+
+  - id: toyota
+    name: Toyota
+    models:
+      # T-051 part 2: see the rule comment above volvo-ex30 (segment order: QUESTIONS Q-083).
+      - id: toyota-bz4x
+        name: bZ4X
+        segment: J-medium
+        body: crossover
+        notes: "Body: OpenEV `crossover`. Segment: Wikidata Q106481505 subclass of (P279) 'compact crossover SUV' = J-medium (the nearest-length rule would give J-large: Mercedes EQB 4684 mm vs bZ4X 4690 mm); judgement call, Q-083. The 'BZ4X TOURING' names of 2026 are kept in this model (same name prefix); whether the Touring is its own model is unverified."
+        source_aliases:
+          kba-fz10:
+            - {name: BZ4, note: "KBA Modellreihe BZ4 (BEV column)"}
+        aliases_by_source:
+          kba-fz10:
+            - {name: "BZ4", match: prefix, note: "KBA Modellreihe BZ4 (BEV column)"}
+        generations:
+          - id: toyota-bz4x-gen1
+            name: bZ4X
+            years: [2022, null]
+            uncertain: true
+            notes: "One generation: same name in every year, no gap; a facelift is not visible in these sources. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'TOYOTA BZ4X' / 'BZ4X' / 'TOYOTA BZ4X TOURING': 2022 186, 2023 895, 2024 1105, 2025 910, 2026 1532 (4628 NL cars). 2022 is 4.0% (below the 5% bar) but KilowattApp has a model year 2022 record, so the start is 2022. Wikidata Q106481505 has no year. Still registered: EEA 2025 BE 1108, DE 5010, FR 1228, NL 878; KBA BZ4 2022 654, 2023 3150, 2024 1550, 2025 5005, 2026 Jan-Oct 4014; DfT 'BZ4X ...' 13290 (no year)."
+            change_markers:
+              - {year: 2026, text: "bZ4X Touring appears in RDW (579 NL cars first admitted 2026)"}

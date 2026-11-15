@@ -98,3 +98,15 @@ Workstreams talk through `workstreams/<ws>/INBOX.md`, never through Menno (Decis
 ## Done
 - 2026-11-15: spec mirrored to docs/spec; workstreams WS0–WS5 set up; Decisions 012–014
 - 2026-11-15: GitHub repo, licences, scaffold, CI skeleton, templates, security settings
+
+## Proposed by overnight 1
+- T-051 expand-seed-top-missing (WS3 + WS1, `data/seed`)
+- T-052 pre-2020-spec-source (WS1, `pipeline/ev_pipeline/sources`)
+- T-053 registration-history (WS1, `pipeline/ev_pipeline/sources/{kba_fz10,eea}`)
+- T-054 rdw-split-by-type (WS1, `pipeline/ev_pipeline/sources/rdw`)
+- T-055 real-range-permissions (WS5, `outreach drafts`)
+- T-056 used-price-layer0 (WS1 + WS5, `pipeline, config`)
+- T-057 qa-findings-ev6-and-ci-gate (WS1, `pipeline/ev_pipeline/qa, .github`)
+- T-058 web-registrations-display (WS2, `apps/web`)
+- T-059 integrate-new-sources (WS1, `pipeline/ev_pipeline/{match,merge,release}`)
+- T-060 seed-variant-pack-links (WS3, `data/seed/variant_links.yaml`)

@@ -1,0 +1,7 @@
+{
+  "id": "ccs2",
+  "label": {
+    "en": "CCS"
+  },
+  "current": ["dc", "hydrogen"]
+}

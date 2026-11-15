@@ -1,0 +1,202 @@
+[
+{
+"typegoedkeuringsnummer": "e11*2007/46*0230*03",
+"variant": "A",
+"uitvoering": "A01",
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"first": "20120914",
+"last": "20141001",
+"n": "97"
+},
+{
+"typegoedkeuringsnummer": "e11*2007/46*4311*00",
+"variant": "A",
+"uitvoering": "502",
+"merk": "JAGUAR",
+"handelsbenaming": "I-PACE",
+"first": "20180418",
+"last": "20181130",
+"n": "22"
+},
+{
+"typegoedkeuringsnummer": "e11*2007/46*4311*00",
+"variant": "A",
+"uitvoering": "502",
+"merk": "JAGUAR",
+"handelsbenaming": "JAGUAR I-PACE",
+"first": "20180418",
+"last": "20200716",
+"n": "69"
+},
+{
+"typegoedkeuringsnummer": "e1*2001/116*0242*43",
+"variant": "AECAVDX0",
+"uitvoering": "FM6FM62S022N7MQVI",
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "GOLF",
+"first": "20120327",
+"last": "20120327",
+"n": "1"
+},
+{
+"typegoedkeuringsnummer": "e1*2001/116*0413*46",
+"variant": "52E5X0",
+"uitvoering": "ZZBAA40A",
+"merk": "SMART",
+"handelsbenaming": "EQ forfour",
+"first": "20210325",
+"last": "20210713",
+"n": "4"
+},
+{
+"typegoedkeuringsnummer": "e1*2001/116*0413*46",
+"variant": "52E5X0",
+"uitvoering": "ZZBAA40A",
+"merk": "SMART",
+"handelsbenaming": "EQ FORFOUR",
+"first": "20210511",
+"last": "20210707",
+"n": "2"
+},
+{
+"typegoedkeuringsnummer": "e1*2001/116*0480*31",
+"variant": "YNE0Z1",
+"uitvoering": "ZZAA050A",
+"merk": "MERCEDES-BENZ",
+"handelsbenaming": "EQC 400 4MATIC",
+"first": "20201216",
+"last": "20201216",
+"n": "1"
+},
+{
+"typegoedkeuringsnummer": "e1*2007/46*1213*05",
+"variant": "1Z61",
+"uitvoering": "0A140000",
+"merk": "BMW I",
+"handelsbenaming": "i3",
+"first": "20161125",
+"last": "20161125",
+"n": "1"
+},
+{
+"typegoedkeuringsnummer": "e1*2007/46*1213*05",
+"variant": "1Z61",
+"uitvoering": "0A140000",
+"merk": "BMW I",
+"handelsbenaming": "I3",
+"first": "20160718",
+"last": "20171011",
+"n": "361"
+},
+{
+"typegoedkeuringsnummer": "e1*2007/46*1213*08",
+"variant": "7Z21",
+"uitvoering": "0AW40000",
+"merk": "BMW I",
+"handelsbenaming": "I3",
+"first": "20180302",
+"last": "20191022",
+"n": "623"
+},
+{
+"typegoedkeuringsnummer": "e1*2007/46*1213*08",
+"variant": "7Z21",
+"uitvoering": "0AW40000",
+"merk": "BMW I",
+"handelsbenaming": "I SERIES",
+"first": "20180419",
+"last": "20180920",
+"n": "7"
+},
+{
+"typegoedkeuringsnummer": "e2*2007/46*0251*00",
+"variant": "AGV",
+"uitvoering": "AGVYA0",
+"merk": "RENAULT",
+"handelsbenaming": "ZOE",
+"first": "20130117",
+"last": "20150511",
+"n": "511"
+},
+{
+"typegoedkeuringsnummer": "e2*2007/46*0251*00",
+"variant": "AGV",
+"uitvoering": "AGVYA1",
+"merk": "RENAULT",
+"handelsbenaming": "ZOE",
+"first": "20130221",
+"last": "20141114",
+"n": "223"
+},
+{
+"typegoedkeuringsnummer": "e2*2007/46*0251*09",
+"variant": "V",
+"uitvoering": "YE0",
+"merk": "RENAULT",
+"handelsbenaming": "ZOE",
+"first": "20161222",
+"last": "20190301",
+"n": "12"
+},
+{
+"typegoedkeuringsnummer": "e2*2007/46*0251*13",
+"variant": "0V0Y",
+"uitvoering": "MALEA0400000",
+"merk": "RENAULT",
+"handelsbenaming": "ZOE",
+"first": "20181212",
+"last": "20190218",
+"n": "9"
+},
+{
+"typegoedkeuringsnummer": "e2*2007/46*0639*06",
+"variant": "H",
+"uitvoering": "ZKXZ-J0A000",
+"merk": "PEUGEOT",
+"handelsbenaming": "208",
+"first": "20191018",
+"last": "20200228",
+"n": "81"
+},
+{
+"typegoedkeuringsnummer": "e4*2007/46*0667*17",
+"variant": "100D",
+"uitvoering": "B19B5N",
+"merk": "TESLA",
+"handelsbenaming": "MODEL S",
+"first": "20171004",
+"last": "20180109",
+"n": "32"
+},
+{
+"typegoedkeuringsnummer": "e4*2007/46*1293*00",
+"variant": "E3D",
+"uitvoering": "BB1N",
+"merk": "TESLA",
+"handelsbenaming": "MODEL 3",
+"first": "20190206",
+"last": "20200629",
+"n": "825"
+},
+{
+"typegoedkeuringsnummer": "e9*2007/46*6537*00",
+"variant": "A",
+"uitvoering": "A01",
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"first": "20180511",
+"last": "20191021",
+"n": "15"
+},
+{
+"typegoedkeuringsnummer": "e9*2018/858*11470*01",
+"variant": "A",
+"uitvoering": "1",
+"merk": "ZEEKR",
+"handelsbenaming": "X",
+"first": "20231221",
+"last": "20260126",
+"n": "503"
+}
+]

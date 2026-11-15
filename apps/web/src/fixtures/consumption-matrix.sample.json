@@ -1,0 +1,55 @@
+{
+  "status": "PROVISIONAL",
+  "label": "FIXTURE consumption matrix v0: hand-set multipliers, not fitted to data. Replace with the T-033 release matrix.",
+  "rung": "fixture-matrix",
+  "note": "Multipliers are relative to the car's WLTP battery consumption (usable kWh / WLTP km). Shaped after docs/spec/trip-fit.md section 2 (Recurrent ~80% kept at 0 C, El Prix 15-38% below WLTP, 90->120 km/h +32-50%); not a source, never publish.",
+  "road_bands": ["town", "rural", "motorway"],
+  "temperature_bands": [
+    { "id": "t1", "label": "-5 °C and colder", "max_c": -5 },
+    { "id": "t2", "label": "-5 to 0 °C", "max_c": 0 },
+    { "id": "t3", "label": "0 to 5 °C", "max_c": 5 },
+    { "id": "t4", "label": "5 to 15 °C", "max_c": 15 },
+    { "id": "t5", "label": "15 °C and warmer", "max_c": null }
+  ],
+  "bodies": {
+    "hatchback": {
+      "town": { "t1": 1.75, "t2": 1.5, "t3": 1.3, "t4": 1.0, "t5": 0.85 },
+      "rural": { "t1": 1.45, "t2": 1.3, "t3": 1.18, "t4": 1.0, "t5": 0.92 },
+      "motorway": { "t1": 1.7, "t2": 1.55, "t3": 1.45, "t4": 1.3, "t5": 1.22 }
+    },
+    "sedan": {
+      "town": { "t1": 1.7, "t2": 1.45, "t3": 1.28, "t4": 1.0, "t5": 0.85 },
+      "rural": { "t1": 1.4, "t2": 1.26, "t3": 1.15, "t4": 0.98, "t5": 0.9 },
+      "motorway": { "t1": 1.6, "t2": 1.46, "t3": 1.36, "t4": 1.22, "t5": 1.15 }
+    },
+    "suv": {
+      "town": { "t1": 1.75, "t2": 1.5, "t3": 1.3, "t4": 1.0, "t5": 0.86 },
+      "rural": { "t1": 1.48, "t2": 1.33, "t3": 1.2, "t4": 1.02, "t5": 0.94 },
+      "motorway": { "t1": 1.8, "t2": 1.64, "t3": 1.53, "t4": 1.38, "t5": 1.3 }
+    }
+  },
+  "body_alias": {
+    "estate": "sedan",
+    "coupe": "sedan",
+    "crossover": "suv",
+    "mpv": "suv",
+    "cabrio": "hatchback"
+  },
+  "default_body": "hatchback",
+  "country_motorway_factor": { "nl": 0.9, "be": 1.0, "de": 1.05, "fr": 1.05, "uk": 1.0 },
+  "warmup_kwh_per_start": { "t1": 2.5, "t2": 2.0, "t3": 1.5, "t4": 0.5, "t5": 0 },
+  "starts_per_round_trip": 2,
+  "road_split": {
+    "town": { "town": 0.7, "rural": 0.3 },
+    "mixed": { "town": 0.5, "rural": 0.5 },
+    "motorway": { "town": 0.3, "rural": 0.7 }
+  },
+  "default_motorway_pct": { "town": 10, "mixed": 35, "motorway": 70 },
+  "extras_factor": { "tow": 1.6, "roofbox": 1.15, "full": 1.05 },
+  "battery_health": { "new": 1.0, "used": 0.9, "keep8": 0.85 },
+  "daily_charge_limit": { "default": 0.8, "charge_100_daily": 1.0 },
+  "arrival_buffer": 0.1,
+  "uncertainty_pct": 15,
+  "tight_margin": 0.15,
+  "cold_snap_offset_c": -6
+}

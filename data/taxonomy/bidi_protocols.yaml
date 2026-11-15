@@ -1,0 +1,51 @@
+# Bidirectional communication protocols (Decision 011, T-019). Rows = schema $defs/BidiProtocol.
+# Spec §3.1; research/R-01 §1. Copy rule: 2027 wallboxes "speak the standard that allows it",
+# they are not "bidirectional". EN + NL; other languages still to do.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+bidi_protocols:
+  - id: iso15118-20
+    label: {en: "Ready for the 2027 charger standard", nl: "Klaar voor de laadstandaard van 2027"}
+    technical: {en: "ISO 15118-20", nl: "ISO 15118-20"}
+    short:
+      en: "The language new EU chargers must speak from 2027. It allows two-way charging but doesn't guarantee it."
+      nl: "De taal die nieuwe EU-laders vanaf 2027 moeten spreken. Maakt terugleveren mogelijk, niet zeker."
+    explainer:
+      en: >-
+        From 1 January 2027 every newly installed or renovated EU charging point, home wallboxes
+        included, must speak ISO 15118-20. That makes a wallbox ready on the software side, but most
+        will still not be able to send power back. The car must speak it too, and makers rarely say.
+      nl: >-
+        Vanaf 1 januari 2027 moet elk nieuw of vernieuwd EU-laadpunt, ook thuis, ISO 15118-20
+        spreken. Dat maakt de wallbox softwarematig klaar, maar de meeste kunnen nog steeds geen
+        stroom terugleveren.
+    standard: "EN ISO 15118-20:2022"
+
+  - id: iso15118-2-ext
+    label: {en: "Older standard with maker add-on", nl: "Oudere standaard met uitbreiding van het merk"}
+    technical: {en: "ISO 15118-2 with maker extension", nl: "ISO 15118-2 met uitbreiding van het merk"}
+    short:
+      en: "Two-way charging built on the older ISO 15118-2 standard, as in Volkswagen's current system."
+      nl: "Terugleveren op basis van de oudere ISO 15118-2, zoals in het huidige systeem van Volkswagen."
+    standard: "ISO 15118-2 (maker extension)"
+
+  - id: chademo
+    label: {en: "CHAdeMO", nl: "CHAdeMO"}
+    technical: {en: "CHAdeMO bidirectional", nl: "CHAdeMO bidirectioneel"}
+    short:
+      en: "The Japanese fast-charge standard that did two-way charging first. Mostly older cars in Europe."
+      nl: "De Japanse snellaadstandaard die als eerste terugleverde. In Europa vooral oudere auto's."
+    standard: "CHAdeMO"
+
+  - id: proprietary
+    label: {en: "Maker's own", nl: "Eigen protocol van het merk"}
+    technical: {en: "Proprietary protocol", nl: "Merkgebonden protocol"}
+    short:
+      en: "A maker-specific way of talking to the box. Works only with approved equipment."
+      nl: "Een merkeigen manier van communiceren met de box. Werkt alleen met goedgekeurde apparatuur."
+
+  - id: not-disclosed
+    label: {en: "Not disclosed", nl: "Niet bekendgemaakt"}
+    technical: {en: "Protocol not disclosed by the maker", nl: "Protocol niet bekendgemaakt door het merk"}
+    short:
+      en: "The maker doesn't say which protocol the car uses. We never guess it from the model year."
+      nl: "Het merk zegt niet welk protocol de auto gebruikt. We gokken het nooit op basis van bouwjaar."

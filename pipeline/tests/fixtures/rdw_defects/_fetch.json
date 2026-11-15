@@ -1,0 +1,61 @@
+{
+  "fetched_at": "2026-11-15T01:57:40+00:00",
+  "url": "https://opendata.rdw.nl/resource/a34c-vvps.json",
+  "licence": "CC0-1.0",
+  "licence_metadata": {
+    "m9d7-ebf2": {
+      "dataset_name": "Open Data RDW: Gekentekende_voertuigen",
+      "dataset_rows_updated_at": 1794641309,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    },
+    "a34c-vvps": {
+      "dataset_name": "Open Data RDW: Geconstateerde Gebreken",
+      "dataset_rows_updated_at": 1794643138,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    },
+    "hx2c-gt7k": {
+      "dataset_name": "Open Data RDW: Gebreken",
+      "dataset_rows_updated_at": 1789021930,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    },
+    "vkij-7mwc": {
+      "dataset_name": "Open Data RDW: Keuringen",
+      "dataset_rows_updated_at": 1794643111,
+      "license": {
+        "name": "Public Domain"
+      },
+      "licenseId": "PUBLIC_DOMAIN",
+      "custom_fields.Licentie": "Creative Commons 0 (CC0)"
+    }
+  },
+  "sample_rule": "BEV proxy (voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101) AND kenteken like '___7%' (deterministic ~10% plate sample), first admission <= fetch year - 3; defects with soort_erkenning_keuringsinstantie = 'AL'",
+  "main_query": {
+    "$select": "kenteken, merk, handelsbenaming, date_extract_y(datum_eerste_toelating_dt) AS jaar",
+    "$where": "voertuigsoort = 'Personenauto' AND cilinderinhoud IS NULL AND datum_eerste_toelating >= 20100101 AND kenteken like '___7%' AND datum_eerste_toelating < 20240101",
+    "$order": "kenteken"
+  },
+  "max_first_admission_year": 2023,
+  "batch_size": 300,
+  "sampled_cars": 47689,
+  "plate_code_rows": 21832,
+  "groups": 943,
+  "codes": 1002,
+  "report_window": {
+    "from": "2022-06-02",
+    "to": "2026-11-13"
+  },
+  "note": "Plates are joined in memory and never stored; only per-group counts.",
+  "fixture_note": "Recorded 2026-11-15: 8 of 943 groups, top 25 codes each; per-group counts only, no plates."
+}

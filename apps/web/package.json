@@ -7,13 +7,21 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/countries.mjs && node scripts/listings.mjs && node scripts/charging-links.mjs && node scripts/sources.mjs && node scripts/finance.mjs && node scripts/learn.mjs && node scripts/theme.mjs && next dev",
+    "build": "node scripts/check-app-url.mjs && node scripts/countries.mjs && node scripts/listings.mjs && node scripts/charging-links.mjs && node scripts/sources.mjs && node scripts/finance.mjs && node scripts/learn.mjs && node scripts/theme.mjs && next build && node scripts/csp-hashes.mjs",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "listings": "node scripts/listings.mjs",
+    "countries": "node scripts/countries.mjs",
+    "finance": "node scripts/finance.mjs",
+    "learn": "node scripts/learn.mjs",
+    "sources": "node scripts/sources.mjs",
+    "charging-links": "node scripts/charging-links.mjs",
+    "budget": "node scripts/budget.mjs",
+    "theme": "node scripts/theme.mjs"
   },
   "dependencies": {
     "@ev/schema": "workspace:*",
@@ -22,6 +30,7 @@
     "react-dom": "19.3.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^9.0.0",
     "@next/eslint-plugin-next": "16.4.6",
     "@playwright/test": "^1.65.1",
@@ -32,9 +41,10 @@
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-react-hooks": "^7.0.0",
+    "js-yaml": "4.3.2",
     "tailwindcss": "^4.3.5",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.0.0",
-    "vitest": "^2.1.8"
+    "vitest": "^5.1.0"
   }
 }

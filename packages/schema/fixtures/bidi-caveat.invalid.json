@@ -1,0 +1,7 @@
+{
+  "id": "battery-min",
+  "label": {
+    "en": "Large battery only"
+  },
+  "param_kind": "integer"
+}

@@ -1,0 +1,133 @@
+# EV Finder on the shared AppInfra server (T-013, Decision 006).
+# NOT APPLIED. Written for review; Menno applies it by hand (infra/README.md).
+#
+# Pattern (Decision 006): the server's Caddy sits in front and reaches the web containers over
+# the shared proxy network; the shared Postgres 17 + PostGIS is reached over EV Finder's own
+# private network. No database container here. Env files live on the server under /srv/ev/;
+# this file holds no secrets.
+#
+# 🟡 To confirm on the server (Q-001 / AppInfra): the two external network names, the /srv/ev
+# layout, and the 00:30–02:30 UTC job window.
+#
+# Usage on the server (see infra/README.md):
+#   docker compose -f compose.ev.yml pull
+#   docker compose -f compose.ev.yml up -d ev-web ev-web-staging
+#   docker compose -f compose.ev.yml --profile jobs run --rm ev-jobs release   # from the nightly timer only
+
+name: ev
+
+x-hardening: &hardening
+  read_only: true
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  init: true
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+x-web-healthcheck:
+  &web-healthcheck # Same probe as the image's HEALTHCHECK (node:*-slim has no curl/wget).
+  test:
+    - CMD
+    - node
+    - -e
+    - "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+  interval: 30s
+  timeout: 5s
+  start_period: 20s
+  retries: 3
+
+services:
+  ev-web:
+    <<: *hardening
+    # Pin a sha-<short> tag from CI (images.yml) for each deploy; `main` = newest main build.
+    image: ghcr.io/zkmenno/ev-finder-web:${EV_WEB_TAG:-main}
+    restart: unless-stopped
+    env_file:
+      - /srv/ev/env/web.env # APP_URL, DATABASE_URL (later), AUTH_SECRET (later), …; names in .env.example
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    # Decision 006: 768 MB / 1 CPU.
+    mem_limit: 768m
+    memswap_limit: 768m
+    cpus: 1.0
+    pids_limit: 256
+    tmpfs:
+      - /tmp:size=64m
+      # Next's runtime cache (the only path the app writes); uid/gid 1000 = `node` in the image.
+      - /app/apps/web/.next/cache:size=128m,uid=1000,gid=1000
+    healthcheck: *web-healthcheck
+    networks:
+      - proxy
+      - ev-db
+    # No published ports: only Caddy reaches it, over the proxy network.
+
+  ev-web-staging:
+    <<: *hardening
+    image: ghcr.io/zkmenno/ev-finder-web:${EV_WEB_STAGING_TAG:-main}
+    restart: unless-stopped
+    env_file:
+      - /srv/ev/env/web-staging.env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    # Decision 006: 256 MB / 0.5 CPU.
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
+    pids_limit: 128
+    tmpfs:
+      - /tmp:size=32m
+      - /app/apps/web/.next/cache:size=64m,uid=1000,gid=1000
+    healthcheck: *web-healthcheck
+    networks:
+      - proxy
+      - ev-db
+
+  ev-jobs:
+    <<: *hardening
+    image: ghcr.io/zkmenno/ev-finder-jobs:${EV_JOBS_TAG:-main}
+    # One-shot: never starts with `up`; the nightly timer runs it with `--profile jobs run --rm`.
+    profiles: ["jobs"]
+    restart: "no"
+    env_file:
+      - /srv/ev/env/jobs.env # EV_DATA_DIR override, S3_*, DATABASE_URL (later); names in .env.example
+    environment:
+      EV_DATA_DIR: /data
+    # Decision 006: 1 GB / 1 CPU, low priority, nightly only.
+    mem_limit: 1g
+    memswap_limit: 1g
+    cpus: 1.0
+    # Low priority: 256 vs the default 1024 shares, so web traffic (and the other apps) win
+    # under contention. This is the container equivalent of `nice`.
+    cpu_shares: 256
+    # Under memory pressure the kernel kills the batch job before any web container.
+    oom_score_adj: 500
+    pids_limit: 256
+    tmpfs:
+      - /tmp:size=256m
+    volumes:
+      # Pipeline working data (seed, staging, review, releases). The only writable mount.
+      - /srv/ev/data:/data
+    # 🟡 Window 00:30–02:30 UTC is to confirm (Q-001). The host timer enforces the 2 h cap
+    # (`timeout 2h`, see infra/README.md); pg-boss scheduling replaces this later.
+    networks:
+      - ev-db
+    healthcheck:
+      disable: true
+
+networks:
+  # Shared network the server's Caddy is on. 🟡 Real name to confirm on the server.
+  proxy:
+    name: appinfra-proxy
+    external: true
+  # EV Finder's private network to the shared Postgres (own DB + login, Decision 006).
+  # 🟡 Real name to confirm; created by AppInfra, not by this file.
+  ev-db:
+    name: ev-db
+    external: true

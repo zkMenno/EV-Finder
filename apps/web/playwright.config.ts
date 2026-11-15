@@ -1,7 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const PORT = Number(process.env.E2E_PORT ?? 3100);
-// Set E2E_CATALOGUE_DIR=../../data/releases to smoke-test against the real published release.
+/** Test-only staff credentials (not a secret; the e2e server is local). */
+export const E2E_STAFF_AUTH = "e2e:e2e-only-not-a-secret";
+// Runs on the published release (data/releases/latest), the same data `pnpm build` bakes into the
+// static model / generation / variant / learn pages (Decision 015). E2E_CATALOGUE_DIR overrides.
 
 // Runs against a production build: `pnpm build` first (CI does), then `pnpm e2e`.
 export default defineConfig({
@@ -15,10 +18,22 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: `pnpm exec next start -p ${PORT}`,
-    url: `http://localhost:${PORT}/nl`,
+    url: `http://localhost:${PORT}/health`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
-    // Deterministic data: a releases dir with no release → the app serves the dev fixture.
-    env: { CATALOGUE_DIR: process.env.E2E_CATALOGUE_DIR ?? "e2e/no-release" },
+    // Same catalogue at build and run time: static pages and Explore must agree.
+    // TRIP_FIT=1 so e2e/trip.spec.ts can test the trip check (E2E_TRIP_FIT=0 to run with it off);
+    // charging link-outs come from a fixture until T-024 fills config/countries (T-026).
+    // Staff pages on with throw-away test credentials, so e2e/security.spec.ts can prove the guard
+    // holds against prefetch headers (A-05 F2). APP_URL: the same placeholder origin as the image
+    // build (build with APP_URL=https://ev.example.com, or in CI, where the build is a test build).
+    env: {
+      APP_URL: process.env.APP_URL ?? "https://ev.example.com",
+      STAFF_PAGES: "1",
+      STAFF_BASIC_AUTH: E2E_STAFF_AUTH,
+      CATALOGUE_DIR: process.env.E2E_CATALOGUE_DIR ?? "../../data/releases",
+      TRIP_FIT: process.env.E2E_TRIP_FIT ?? "1",
+      CHARGING_LINKS_FILE: process.env.E2E_CHARGING_LINKS_FILE ?? "e2e/fixtures/charging-links.json",
+    },
   },
 });

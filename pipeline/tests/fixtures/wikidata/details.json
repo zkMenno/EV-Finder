@@ -1,0 +1,2089 @@
+{
+ "head": {
+  "vars": [
+   "model",
+   "item",
+   "itemLabel",
+   "rel",
+   "prop",
+   "when",
+   "sub"
+  ]
+ },
+ "results": {
+  "bindings": [
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q105975708"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q105975708"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q875600"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Kia EV6"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q105975708"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q105975708"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Kia EV6"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q106576693"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q106576693"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Peugeot e-2008"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q108380585"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q108380585"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Renault Mégane E-Tech Electric"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q108380585"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q108380585"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q946808"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Renault Mégane E-Tech Electric"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q111971355"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q111971355"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q10337976"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Citroën e-C4"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX1"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q875600"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX1"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q946808"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX1"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112964039"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112964039"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1420"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "MG 4 EV"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116769123"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116769123"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q192152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX30"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2024-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116769123"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116769123"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX30"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2024-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116769123"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116769123"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX30"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2024-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q117234931"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q117234931"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1420"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Ford Explorer EV"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136333937"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136333937"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q192152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX40"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136333937"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136333937"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX40"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136333937"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136333937"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX40"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1516380"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1516380"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Renault Zoe"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P729"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2013-03-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1516380"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1516380"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Renault Zoe"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P2669"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2024-03-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q17632770"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q17632770"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen e-Golf"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q137636786"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Waymo Jaguar I-Pace"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q137636786"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116285085"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Waymo Jaguar I-Pace"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q192152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Jaguar I-Pace"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Jaguar I-Pace"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q30753091"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q30753091"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Škoda Enyaq iV"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2017-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q135395682"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model Y L"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model Y"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q875600"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model Y"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "chain"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q190578"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model 3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "chain"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model 3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "chain"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1940287"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model 3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q50886612"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q50886612"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW i4"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56307011"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56307011"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Porsche Taycan"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56319401"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56319401"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q192152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQC"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2019-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56319401"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56319401"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQC"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2019-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56319401"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56319401"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQC"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2019-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56367800"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56367800"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQA"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56669231"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56669231"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q192152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Audi Q8 e-tron"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56669231"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56669231"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Audi Q8 e-tron"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1420"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Polestar 2"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2020-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Polestar 2"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2020-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1144312"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Polestar 2"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2020-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1580019"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Polestar 2"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2020-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62098509"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62098509"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Kia Niro EV"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62098523"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62098523"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Hyundai KONA Electric"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62107422"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62107422"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Audi Q4 e-tron"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63558522"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63558522"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Peugeot e-208"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63636478"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q125739580"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63636478"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.3 Chuzhong"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2024-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63636478"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63636478"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.3"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2019-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63636478"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63636478"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q946808"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.3"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2019-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q64414857"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q64414857"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Opel Corsa Electric"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q65551003"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q65551003"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mini Electric"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q71140662"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q71140662"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "MG ZS EV"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q71140662"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q71140662"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q10863152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "MG ZS EV"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q75419891"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q75419891"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1420"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Ford Mustang Mach-E"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q190578"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model 3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model 3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1940287"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model 3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q796785"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q796785"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW i3 (2013)"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86663388"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86663388"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q192152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86663388"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86663388"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86663388"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86663388"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q875600"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86668068"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86668068"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q192152"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.4"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86668068"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86668068"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.4"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86671945"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86671945"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q875600"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQB"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86671945"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86671945"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQB"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P5204"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86991003"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86991003"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Fiat New 500"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86991003"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86991003"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q815423"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Fiat New 500"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q38278176"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "chain"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf (first generation)"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q38278176"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf (first generation)"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q38278176"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "chain"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf (first generation)"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q38278176"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf (first generation)"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q216762"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q946808"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q97159640"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136100817"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q97159640"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136100817"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "child"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q115579744"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX3"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q97159640"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q97159640"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q193692"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX3"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P571"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2020-01-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q99342695"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q99342695"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1076882"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Hyundai Ioniq 5"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P729"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-03-01T00:00:00Z"
+    }
+   },
+   {
+    "model": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q99342695"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q99342695"
+    },
+    "rel": {
+     "type": "literal",
+     "value": "self"
+    },
+    "sub": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q4010528"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Hyundai Ioniq 5"
+    },
+    "prop": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/prop/direct/P729"
+    },
+    "when": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+     "type": "literal",
+     "value": "2021-03-01T00:00:00Z"
+    }
+   }
+  ]
+ }
+}

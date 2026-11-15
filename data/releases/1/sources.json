@@ -1,0 +1,159 @@
+{
+ "schema": "release-sources/v1",
+ "release": 1,
+ "generated_at": "2026-11-15T06:58:53+00:00",
+ "sources": {
+  "ademe": {
+   "id": "ademe",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "ADEME Car Labelling",
+   "licence": "Licence-Ouverte-2.0",
+   "cadence": "quarterly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "bnetza": {
+   "id": "bnetza",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "Bundesnetzagentur Ladesäulenregister: Ladeinfrastruktur in Zahlen",
+   "licence": "CC-BY-4.0",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": false,
+   "in_charging_stats": true
+  },
+  "dft-charging": {
+   "id": "dft-charging",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "DfT electric vehicle charging infrastructure statistics (EVCI tables)",
+   "licence": "OGL-UK-3.0",
+   "cadence": "quarterly",
+   "registry_status": "active",
+   "in_catalogue": false,
+   "in_charging_stats": true
+  },
+  "dft-veh": {
+   "id": "dft-veh",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "DfT vehicle licensing data files (VEH0120/0160)",
+   "licence": "OGL-UK-3.0",
+   "cadence": "quarterly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "eea": {
+   "id": "eea",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "EEA CO2 monitoring of new cars (Reg. 2019/631)",
+   "licence": "CC-BY-4.0",
+   "cadence": "yearly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "fueleconomy": {
+   "id": "fueleconomy",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "fueleconomy.gov vehicles dataset (EPA)",
+   "licence": "US-Government-Public-Domain",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "kba-fz10": {
+   "id": "kba-fz10",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "KBA FZ10 new registrations by make and model series",
+   "licence": "dl-de/by-2-0",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "kilowatt-openev": {
+   "id": "kilowatt-openev",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "Open EV Data (KilowattApp)",
+   "licence": "MIT-with-attribution",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "model-estimate": {
+   "id": "model-estimate",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "EV Finder estimate models",
+   "licence": "CC-BY-4.0",
+   "cadence": "per release",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "openev": {
+   "id": "openev",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "Open EV Data",
+   "licence": "CDLA-Permissive-2.0",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "rdw": {
+   "id": "rdw",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "RDW Open Data",
+   "licence": "CC0-1.0",
+   "cadence": "weekly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "rdw-defects": {
+   "id": "rdw-defects",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "RDW Open Data: APK defects (Geconstateerde Gebreken)",
+   "licence": "CC0-1.0",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "rdw-tgk": {
+   "id": "rdw-tgk",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "RDW Open Data: type-approval register (TGK)",
+   "licence": "CC0-1.0",
+   "cadence": "weekly",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "seed-manual": {
+   "id": "seed-manual",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "EV Finder seed (hand-entered, unchecked)",
+   "licence": "CC-BY-4.0",
+   "cadence": "ad hoc",
+   "registry_status": "active",
+   "in_catalogue": true
+  },
+  "wikidata": {
+   "id": "wikidata",
+   "status": "not_refreshed",
+   "refresh": "none",
+   "name": "Wikidata",
+   "licence": "CC0-1.0",
+   "cadence": "monthly",
+   "registry_status": "active",
+   "in_catalogue": true
+  }
+ }
+}

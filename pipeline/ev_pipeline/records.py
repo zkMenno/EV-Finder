@@ -23,7 +23,9 @@ class SpecValue(BaseModel):
 class SourceRecord(BaseModel):
     source: Source
     record_key: str = Field(description="Stable key of the raw record, e.g. a file path or row id.")
-    kind: Literal["spec", "registration_count"] = "spec"
+    # corroboration (Q-019): a generation-level value that may only confirm a merged value,
+    # never set one (EEA registration-weighted averages; matcher.EEA_CORROBORATION_ENV).
+    kind: Literal["spec", "registration_count", "corroboration"] = "spec"
     make: str
     model: str
     variant_name: str | None = None

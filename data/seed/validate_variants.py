@@ -11,6 +11,7 @@ Exit code 0 = valid, 1 = errors found.
 from __future__ import annotations
 
 import re
+from datetime import date
 import sys
 from pathlib import Path
 from typing import Any
@@ -22,7 +23,14 @@ ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 DRIVETRAINS = {"fwd", "rwd", "awd"}
 CONFIDENCE = {"low", "medium", "high"}
 YEAR_TOLERANCE = 1
-TOP_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "notes", "confidence"}
+TOP_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "notes", "confidence",
+            "source_names", "cited"}
+# `cited` (A-05 follow-up): field -> one value with its own public source. Unlike `specs`
+# (unchecked, from model knowledge), each entry names the page it was read from.
+CITED_REQUIRED = {"value", "source_url", "retrieved", "confidence"}
+# `source_id` (A-06 F3, optional): the registered source of the cited document; default
+# maker-docs. Never seed-manual: a cited value is the document's fact, not seed data.
+CITED_KEYS = CITED_REQUIRED | {"source_name", "source_id", "quote", "locator", "notes"}
 REQUIRED_KEYS = {"generation_id", "id", "name", "years", "drivetrain", "specs", "confidence"}
 SOURCE_KEYS = {"id", "name", "licence", "attribution"}
 
@@ -81,6 +89,61 @@ def is_num(x: Any) -> bool:
     return isinstance(x, (int, float)) and not isinstance(x, bool)
 
 
+def validate_cited(
+    cited: Any, specs: Any, where: str, today: date | None = None, vid: Any = None
+) -> list[str]:
+    """`cited`: {field: {value, source_url (https), retrieved (date, not future), confidence,
+    quote and/or locator, optional source_name/notes}}. A field is cited or in specs, not both.
+    `vid` applies the same AC_EXCEPTIONS as `specs` (Zoe Q-motor 43 kW AC)."""
+    if cited is None:
+        return []
+    if not isinstance(cited, dict) or not cited:
+        return [f"{where}: cited must map spec fields to cited values"]
+    today = today or date.today()
+    errors: list[str] = []
+    for k, c in cited.items():
+        w = f"{where}: cited {k}"
+        if k not in SPEC_RANGES:
+            errors.append(f"{w}: field not allowed")
+            continue
+        if isinstance(specs, dict) and specs.get(k) is not None:
+            errors.append(f"{w}: also in specs; keep one")
+        if not isinstance(c, dict):
+            errors.append(f"{w}: must be a mapping")
+            continue
+        missing = CITED_REQUIRED - set(c)
+        if missing:
+            errors.append(f"{w}: missing keys {sorted(missing)}")
+        extra = set(c) - CITED_KEYS
+        if extra:
+            errors.append(f"{w}: unknown keys {sorted(extra)}")
+        if not (c.get("quote") or c.get("locator")):
+            errors.append(f"{w}: needs a quote or a locator")
+        sid = c.get("source_id")
+        if sid is not None and (not isinstance(sid, str) or not sid or sid == "seed-manual"):
+            errors.append(f"{w}: source_id must be a registered source other than seed-manual")
+        val = c.get("value")
+        if not is_num(val):
+            errors.append(f"{w}: value must be a number")
+        else:
+            lo, hi = SPEC_RANGES[k] or (0, float("inf"))
+            if k == "ac_kw" and vid in AC_EXCEPTIONS:
+                hi = AC_EXCEPTION_MAX
+            if not lo <= val <= hi:
+                errors.append(f"{w}: value {val} outside plausible range {lo}-{hi}")
+        url = c.get("source_url")
+        if not isinstance(url, str) or not re.match(r"^https://[^/\s]+\.[^/\s]+/\S*$", url):
+            errors.append(f"{w}: source_url must be a public https URL")
+        got = c.get("retrieved")
+        if not isinstance(got, date):
+            errors.append(f"{w}: retrieved must be a date (YYYY-MM-DD)")
+        elif got > today:
+            errors.append(f"{w}: retrieved is in the future")
+        if c.get("confidence") not in CONFIDENCE:
+            errors.append(f"{w}: confidence must be one of {sorted(CONFIDENCE)}")
+    return errors
+
+
 def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list[str]:
     errors: list[str] = []
     if not isinstance(variants_doc, dict):
@@ -96,6 +159,9 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
     find_price_keys(variants_doc, "$", errors)
 
     seen: set[str] = set()
+    # source_names (Q-062): (generation, source, normalised name) -> [(years, variant id)];
+    # one name may sit on two variants only with non-overlapping year spans.
+    named: dict[tuple[str, str, str], list[tuple[Any, str]]] = {}
     for i, v in enumerate(variants):
         where = f"variants[{i}]"
         if not isinstance(v, dict):
@@ -129,6 +195,31 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
             errors.append(f"{where}: confidence must be one of {sorted(CONFIDENCE)}")
         if "notes" in v and v["notes"] is not None and not isinstance(v["notes"], str):
             errors.append(f"{where}: notes must be a string")
+        sn = v.get("source_names")
+        if sn is not None:
+            if not isinstance(sn, dict) or not sn:
+                errors.append(f"{where}: source_names must map source ids to lists of names")
+            else:
+                for keys, names in sn.items():
+                    sids = [x.strip() for x in str(keys).split(",") if x.strip()]
+                    if not sids or not all(ID_RE.match(x) for x in sids):
+                        errors.append(f"{where}: source_names key {keys!r} must be source ids")
+                    entries = [name_entry(n, f"{where}: source_names[{keys}]", errors)
+                               for n in names] if isinstance(names, list) else []
+                    if not entries or any(e is None for e in entries):
+                        errors.append(f"{where}: source_names[{keys}] must be non-empty names")
+                        continue
+                    for sid in sids:
+                        for n, span in entries:  # type: ignore[misc]
+                            nk = re.sub(r"[^a-z0-9]", "", n.lower())
+                            others = named.setdefault((str(gid), sid, nk), [])
+                            for prev_span, prev in others:
+                                if spans_overlap(prev_span, span):
+                                    errors.append(
+                                        f"{where}: source name {sid} {n!r} also on {prev}"
+                                        + (" (years overlap)" if prev != vid else "")
+                                    )
+                            others.append((span, str(vid)))
 
         years = v.get("years")
         if not (isinstance(years, list) and len(years) == 2 and isinstance(years[0], int)
@@ -147,6 +238,8 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
                         errors.append(f"{where}: end {y1} outside generation span {g0}-{g1}")
                 elif g1 is not None:
                     errors.append(f"{where}: open end but generation ended {g1}")
+
+        errors += validate_cited(v.get("cited"), v.get("specs"), where, vid=vid)
 
         specs = v.get("specs")
         if not isinstance(specs, dict):
@@ -171,6 +264,75 @@ def validate(variants_doc: Any, gens: dict[str, tuple[int, int | None]]) -> list
             errors.append(f"{where}: battery_kwh_net > battery_kwh_gross")
         if specs.get("seats") is not None and not isinstance(specs.get("seats"), int):
             errors.append(f"{where}: seats must be an integer")
+    return errors + validate_holds(variants_doc, gens)
+
+
+def year_span(raw: Any, where: str, errors: list[str]) -> tuple[Any, Any] | None:
+    """`[start, end]`, one bound may be null; None (and an error) when malformed."""
+    ok = (isinstance(raw, list) and len(raw) == 2 and raw != [None, None]
+          and all(y is None or (isinstance(y, int) and not isinstance(y, bool)) for y in raw))
+    if not ok:
+        errors.append(f"{where}: years must be [start, end] (one bound may be null)")
+        return None
+    if raw[0] is not None and raw[1] is not None and raw[1] < raw[0]:
+        errors.append(f"{where}: years end before start")
+        return None
+    return (raw[0], raw[1])
+
+
+def spans_overlap(a: Any, b: Any) -> bool:
+    if a is None or b is None:
+        return True
+    lo = max(x for x in (a[0], b[0], -(10**6)) if x is not None)
+    hi = min(x for x in (a[1], b[1], 10**6) if x is not None)
+    return lo <= hi
+
+
+def name_entry(n: Any, where: str, errors: list[str]) -> tuple[str, Any] | None:
+    """A source name: a string, or {name, years: [start, end], note} (year-scoped)."""
+    if isinstance(n, str) and n.strip():
+        return (n, None)
+    if isinstance(n, dict) and isinstance(n.get("name"), str) and n["name"].strip():
+        extra = set(n) - {"name", "years", "note"}
+        if extra:
+            errors.append(f"{where}: unknown keys {sorted(extra)} in {n!r}")
+            return None
+        if "years" not in n:
+            return (n["name"], None)
+        span = year_span(n["years"], f"{where} {n['name']!r}", errors)
+        return None if span is None else (n["name"], span)
+    return None
+
+
+def validate_holds(doc: dict[str, Any], gens: dict[str, tuple[int, int | None]]) -> list[str]:
+    """Top-level `source_holds`: records sent to review by source, name and model years."""
+    errors: list[str] = []
+    holds = doc.get("source_holds")
+    if holds is None:
+        return errors
+    if not isinstance(holds, list):
+        return ["source_holds must be a list"]
+    allowed = {"generation_id", "source", "names", "years", "reason"}
+    for i, h in enumerate(holds):
+        where = f"source_holds[{i}]"
+        if not isinstance(h, dict):
+            errors.append(f"{where}: must be a mapping")
+            continue
+        if set(h) - allowed:
+            errors.append(f"{where}: unknown keys {sorted(set(h) - allowed)}")
+        if h.get("generation_id") not in gens:
+            errors.append(f"{where}: generation_id {h.get('generation_id')!r} not in models.yaml")
+        if not isinstance(h.get("source"), str) or not ID_RE.match(h["source"]):
+            errors.append(f"{where}: source must be a source id")
+        names = h.get("names")
+        if not isinstance(names, list) or not names or not all(
+            isinstance(n, str) and n.strip() for n in names
+        ):
+            errors.append(f"{where}: names must be a non-empty list of names")
+        if not isinstance(h.get("reason"), str) or not h["reason"].strip():
+            errors.append(f"{where}: needs a reason")
+        if "years" in h:
+            year_span(h["years"], where, errors)
     return errors
 
 

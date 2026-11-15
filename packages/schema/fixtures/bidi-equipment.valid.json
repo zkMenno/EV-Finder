@@ -1,0 +1,20 @@
+{
+  "id": "elli-chargeline-bidi",
+  "name": "ChargeLine BiDi",
+  "maker": "Elli",
+  "route_id": "dc-offboard",
+  "current": "dc",
+  "max_kw": 11,
+  "mode_ids": ["v2h", "v2g"],
+  "protocol_ids": ["iso15118-2-ext"],
+  "price_band": {
+    "min": 1990,
+    "max": 2990,
+    "as_of": "2026-11-15",
+    "note": "intro vs list price"
+  },
+  "markets": ["DE"],
+  "compatible_platform_ids": ["vw-meb"],
+  "source_ids": ["fixture"],
+  "retrieved_at": "2026-11-15"
+}

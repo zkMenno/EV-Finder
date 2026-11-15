@@ -1,5 +1,5 @@
-# Keeps GitHub Actions up to date now.
-# Add npm (/apps/web) and pip (/pipeline) entries once those folders have manifests.
+# Dependency updates (A-02 #4). Weekly, one grouped PR per ecosystem so a solo maintainer
+# isn't flooded; security updates still open on their own as soon as an advisory lands.
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -8,4 +8,37 @@ updates:
       interval: weekly
     groups:
       actions:
+        patterns: ["*"]
+
+  # pnpm workspace: one lockfile at the root covers apps/web and packages/schema.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      npm-dev:
+        dependency-type: development
+        update-types: [minor, patch]
+      npm-prod:
+        dependency-type: production
+        update-types: [minor, patch]
+
+  # Python pipeline (pyproject.toml + uv.lock).
+  - package-ecosystem: uv
+    directory: /pipeline
+    schedule:
+      interval: weekly
+    groups:
+      python:
+        patterns: ["*"]
+        update-types: [minor, patch]
+
+  # Base images (node:*-slim, busybox, python) in the two Dockerfiles.
+  - package-ecosystem: docker
+    directories: [/apps/web, /pipeline]
+    schedule:
+      interval: weekly
+    groups:
+      docker:
         patterns: ["*"]

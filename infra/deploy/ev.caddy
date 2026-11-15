@@ -1,0 +1,65 @@
+# EV Finder site blocks for the shared AppInfra Caddy (T-013, Decision 006).
+# NOT APPLIED. Imported from the server's main Caddyfile (`import /srv/ev/ev.caddy`), see infra/README.md.
+#
+# 🟡 The real domain is still open (the brand is undecided): ev.example.com and
+# staging.ev.example.com are placeholders. Replace both before applying.
+#
+# CSP note: Next.js (App Router) streams its RSC payload in inline <script> tags
+# (`self.__next_f.push(...)`, checked on /nl, 2026-11-15), so script-src needs 'unsafe-inline'
+# unless the app moves to per-request nonces. style-src 'unsafe-inline' matches the app's own
+# policy in apps/web/next.config.ts. Keep the two in step (this one only adds object-src 'none');
+# Caddy's copy replaces the app's (deferred header), so a mismatch here wins.
+
+(ev_headers) {
+	encode zstd gzip
+
+	header {
+		# Deferred so these replace any upstream value instead of duplicating it.
+		defer
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		# CSP is set per request by the app (nonces + hashes, A5.6); do not set it here (Q-073).
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+		X-Frame-Options "DENY"
+		-Server
+		-X-Powered-By
+		-Via
+	}
+
+	# Hashed build assets never change.
+	@next_static path /_next/static/*
+	header @next_static {
+		defer
+		Cache-Control "public, max-age=31536000, immutable"
+	}
+
+	# Numbered client catalogues are immutable per release (catalogue-dev.json is not, so it is left alone).
+	@catalogue path_regexp catalogue ^/data/catalogue-[0-9]+\.json$
+	header @catalogue {
+		defer
+		Cache-Control "public, max-age=31536000, immutable"
+	}
+}
+
+ev.example.com {
+	import ev_headers
+	reverse_proxy ev-web:3000 {
+		health_uri /health
+		health_interval 30s
+	}
+}
+
+staging.ev.example.com {
+	import ev_headers
+	# Keep staging out of search engines.
+	header {
+		defer
+		X-Robots-Tag "noindex, nofollow"
+	}
+	# 🟡 Optional: put staging behind basic_auth; the hash lives on the server, never in this repo.
+	reverse_proxy ev-web-staging:3000 {
+		health_uri /health
+		health_interval 30s
+	}
+}

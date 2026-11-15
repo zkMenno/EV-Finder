@@ -1,0 +1,106 @@
+{
+  "brand_id": "481793f5-c8b0-4dc9-b3d4-cc615085ac07",
+  "brand_name": "Volkswagen",
+  "models": [
+    {
+      "id": "a3568004-5350-923a-9e4e-f85678d0746c",
+      "brand": "Volkswagen",
+      "vehicle_type": "car",
+      "brand_id": "481793f5-c8b0-4dc9-b3d4-cc615085ac07",
+      "model": "ID.3",
+      "release_year": 2023,
+      "variant": "Pro",
+      "usable_battery_size": 58,
+      "ac_charger": {
+        "usable_phases": 3,
+        "ports": [
+          "type2"
+        ],
+        "max_power": 11
+      },
+      "dc_charger": {
+        "ports": [
+          "ccs"
+        ],
+        "max_power": 120,
+        "charging_curve": [
+          {
+            "percentage": 0,
+            "power": 110
+          },
+          {
+            "percentage": 5,
+            "power": 120
+          },
+          {
+            "percentage": 35,
+            "power": 120
+          },
+          {
+            "percentage": 50,
+            "power": 95
+          },
+          {
+            "percentage": 75,
+            "power": 60
+          },
+          {
+            "percentage": 90,
+            "power": 35
+          },
+          {
+            "percentage": 100,
+            "power": 20
+          }
+        ],
+        "is_default_charging_curve": false
+      },
+      "energy_consumption": {
+        "average_consumption": 16.6
+      },
+      "charging_voltage": 400
+    },
+    {
+      "id": "0461072e-7b1e-87b2-59e6-50030d56f7a4",
+      "brand": "Volkswagen",
+      "vehicle_type": "car",
+      "brand_id": "481793f5-c8b0-4dc9-b3d4-cc615085ac07",
+      "model": "ID.3",
+      "release_year": 2023,
+      "variant": "Pro S",
+      "usable_battery_size": 77,
+      "ac_charger": {
+        "usable_phases": 3,
+        "ports": [
+          "type2"
+        ],
+        "max_power": 11
+      },
+      "dc_charger": {
+        "ports": [
+          "ccs"
+        ],
+        "max_power": 170,
+        "charging_curve": [
+          {
+            "percentage": 0,
+            "power": 161.5
+          },
+          {
+            "percentage": 75,
+            "power": 170
+          },
+          {
+            "percentage": 100,
+            "power": 11
+          }
+        ],
+        "is_default_charging_curve": true
+      },
+      "energy_consumption": {
+        "average_consumption": 16.9
+      },
+      "charging_voltage": 400
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "fr:2026-09-30:public-points",
+  "country": "FR",
+  "period_end": "2026-09-30",
+  "metric_id": "public-points",
+  "value": -1,
+  "unit": "count",
+  "source_id": "fixture",
+  "definition_id": "afir-recharging-point",
+  "confidence": "medium",
+  "entered_by": "staff",
+  "retrieved_at": "2026-11-15"
+}

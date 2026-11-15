@@ -1,0 +1,12 @@
+{
+  "generation_id": "nissan-leaf-ze1",
+  "country": "NL",
+  "currency": "EUR",
+  "p25": 11000,
+  "median": 13500,
+  "p75": 15900,
+  "samples": 42,
+  "period": "2026-10",
+  "age_band_years": "5-7",
+  "source_id": "fixture"
+}

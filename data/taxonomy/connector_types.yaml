@@ -1,0 +1,95 @@
+# Charging plug types (Decision 011, T-019). Rows = schema $defs/ConnectorType.
+# Spec §3.1; research/R-01 §5. `regions` is a display hint, not a rule. Standard names are
+# general knowledge (not from a fetched source): check before Nerd mode shows them.
+# EN + NL; other languages still to do.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+connector_types:
+  - id: type2
+    label: {en: "Type 2 (home and AC plug, Europe)", nl: "Type 2 (thuis- en AC-stekker, Europa)"}
+    technical: {en: "IEC 62196-2 Type 2 (Mennekes)", nl: "IEC 62196-2 Type 2 (Mennekes)"}
+    short:
+      en: "The standard plug for home wallboxes and street posts in Europe, the UK and Australia."
+      nl: "De standaardstekker voor wallboxen en laadpalen in Europa, het VK en Australië."
+    current: [ac]
+    standard: "IEC 62196-2 Type 2"
+    regions: [EU, UK, AU, NZ]
+
+  - id: ccs2
+    label: {en: "CCS2 (fast-charge plug, Europe)", nl: "CCS2 (snellaadstekker, Europa)"}
+    technical: {en: "Combined Charging System Combo 2", nl: "Combined Charging System Combo 2"}
+    short:
+      en: "The fast-charge plug on every new EV in Europe. The cable is fixed to the charger."
+      nl: "De snellaadstekker op elke nieuwe EV in Europa. De kabel zit vast aan de lader."
+    current: [ac, dc]
+    standard: "IEC 62196-3 (CCS Combo 2)"
+    regions: [EU, UK, AU, NZ]
+
+  - id: chademo
+    label: {en: "CHAdeMO (older fast-charge plug)", nl: "CHAdeMO (oudere snellaadstekker)"}
+    technical: {en: "CHAdeMO", nl: "CHAdeMO"}
+    short:
+      en: "Japanese fast-charge plug on older Nissan Leafs and some others. Fewer chargers each year."
+      nl: "Japanse snellaadstekker op oudere Nissan Leafs en enkele andere. Elk jaar minder laders."
+    current: [dc]
+    standard: "CHAdeMO (IEC 62196-3 configuration AA)"
+    regions: [JP, EU, US]
+
+  - id: tesla-eu-legacy
+    label: {en: "Early Tesla Supercharger plug (Europe)", nl: "Vroege Tesla Supercharger-stekker (Europa)"}
+    technical: {en: "Tesla modified Type 2 (pre-2019 Model S/X)", nl: "Tesla aangepaste Type 2 (Model S/X vóór 2019)"}
+    short:
+      en: "Pre-2019 Model S and X used a modified Type 2 plug for Superchargers. Newer Teslas use CCS2."
+      nl: "Model S en X van vóór 2019 gebruikten een aangepaste Type 2 bij Superchargers. Nieuwere: CCS2."
+    current: [ac, dc]
+    standard: "Tesla-modified IEC 62196-2 Type 2"
+    regions: [EU]
+
+  - id: type1-j1772
+    label: {en: "Type 1 / J1772 (AC plug, North America)", nl: "Type 1 / J1772 (AC-stekker, Noord-Amerika)"}
+    technical: {en: "SAE J1772 (IEC 62196-2 Type 1)", nl: "SAE J1772 (IEC 62196-2 Type 1)"}
+    short:
+      en: "The common home and AC plug in North America, also on some older imported cars."
+      nl: "De gangbare thuis- en AC-stekker in Noord-Amerika, ook op sommige oudere importauto's."
+    current: [ac]
+    standard: "SAE J1772"
+    regions: [US, CA, JP]
+
+  - id: ccs1
+    label: {en: "CCS1 (fast-charge plug, North America)", nl: "CCS1 (snellaadstekker, Noord-Amerika)"}
+    technical: {en: "Combined Charging System Combo 1", nl: "Combined Charging System Combo 1"}
+    short:
+      en: "North America's older fast-charge plug. Being replaced by NACS from about 2025."
+      nl: "De oudere Noord-Amerikaanse snellaadstekker. Wordt vanaf ongeveer 2025 vervangen door NACS."
+    current: [ac, dc]
+    standard: "SAE J1772 Combo (CCS1)"
+    regions: [US, CA]
+
+  - id: nacs-j3400
+    label: {en: "NACS / J3400 (Tesla-style plug, North America)", nl: "NACS / J3400 (Tesla-stekker, Noord-Amerika)"}
+    technical: {en: "North American Charging Standard, SAE J3400", nl: "North American Charging Standard, SAE J3400"}
+    short:
+      en: "The Tesla-style plug most North American makers are moving to. Model year decides which plug."
+      nl: "De Tesla-stekker waar de meeste Noord-Amerikaanse merken naartoe gaan. Bouwjaar bepaalt de stekker."
+    current: [ac, dc]
+    standard: "SAE J3400"
+    regions: [US, CA]
+
+  - id: gbt-ac
+    label: {en: "GB/T AC (China)", nl: "GB/T AC (China)"}
+    technical: {en: "GB/T 20234.2", nl: "GB/T 20234.2"}
+    short:
+      en: "China's AC plug. Not used on European cars (parked, spec §4)."
+      nl: "De Chinese AC-stekker. Niet op Europese auto's (geparkeerd, spec §4)."
+    current: [ac]
+    standard: "GB/T 20234.2"
+    regions: [CN]
+
+  - id: gbt-dc
+    label: {en: "GB/T DC (China)", nl: "GB/T DC (China)"}
+    technical: {en: "GB/T 20234.3", nl: "GB/T 20234.3"}
+    short:
+      en: "China's fast-charge plug. Not used on European cars (parked, spec §4)."
+      nl: "De Chinese snellaadstekker. Niet op Europese auto's (geparkeerd, spec §4)."
+    current: [dc]
+    standard: "GB/T 20234.3"
+    regions: [CN]

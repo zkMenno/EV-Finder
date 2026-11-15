@@ -1,0 +1,240 @@
+{
+  "nl": [
+    {
+      "job": "map",
+      "label": {
+        "en": "Chargemap"
+      },
+      "url": "https://chargemap.com/",
+      "order": 1,
+      "tool": "chargemap",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "route-planner",
+      "label": {
+        "en": "A Better Routeplanner (ABRP)"
+      },
+      "url": "https://abetterrouteplanner.com/",
+      "order": 2,
+      "tool": "abrp",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "price-compare",
+      "label": {
+        "en": "Chargeprice"
+      },
+      "url": "https://www.chargeprice.app/",
+      "order": 3,
+      "tool": "chargeprice",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "map",
+      "label": {
+        "en": "PlugShare"
+      },
+      "url": "https://www.plugshare.com/",
+      "order": 4,
+      "tool": "plugshare",
+      "official": false,
+      "utm": true,
+      "verified": false
+    }
+  ],
+  "de": [
+    {
+      "job": "official-map",
+      "label": {
+        "en": "Bundesnetzagentur Ladesäulenkarte"
+      },
+      "url": "https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/start.html",
+      "order": 1,
+      "tool": "bnetza-ladesaeulenkarte",
+      "official": true,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "route-planner",
+      "label": {
+        "en": "A Better Routeplanner (ABRP)"
+      },
+      "url": "https://abetterrouteplanner.com/",
+      "order": 2,
+      "tool": "abrp",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "map",
+      "label": {
+        "en": "Chargemap"
+      },
+      "url": "https://chargemap.com/",
+      "order": 3,
+      "tool": "chargemap",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "price-compare",
+      "label": {
+        "en": "Chargeprice"
+      },
+      "url": "https://www.chargeprice.app/",
+      "order": 4,
+      "tool": "chargeprice",
+      "official": false,
+      "utm": true,
+      "verified": false
+    }
+  ],
+  "fr": [
+    {
+      "job": "map",
+      "label": {
+        "en": "Chargemap"
+      },
+      "url": "https://chargemap.com/",
+      "order": 1,
+      "tool": "chargemap",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "route-planner",
+      "label": {
+        "en": "A Better Routeplanner (ABRP)"
+      },
+      "url": "https://abetterrouteplanner.com/",
+      "order": 2,
+      "tool": "abrp",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "price-compare",
+      "label": {
+        "en": "Chargeprice"
+      },
+      "url": "https://www.chargeprice.app/",
+      "order": 3,
+      "tool": "chargeprice",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "map",
+      "label": {
+        "en": "Electromaps"
+      },
+      "url": "https://www.electromaps.com/",
+      "order": 4,
+      "tool": "electromaps",
+      "official": false,
+      "utm": true,
+      "verified": false
+    }
+  ],
+  "be": [
+    {
+      "job": "map",
+      "label": {
+        "en": "Chargemap"
+      },
+      "url": "https://chargemap.com/",
+      "order": 1,
+      "tool": "chargemap",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "route-planner",
+      "label": {
+        "en": "A Better Routeplanner (ABRP)"
+      },
+      "url": "https://abetterrouteplanner.com/",
+      "order": 2,
+      "tool": "abrp",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "price-compare",
+      "label": {
+        "en": "Chargeprice"
+      },
+      "url": "https://www.chargeprice.app/",
+      "order": 3,
+      "tool": "chargeprice",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "map",
+      "label": {
+        "en": "PlugShare"
+      },
+      "url": "https://www.plugshare.com/",
+      "order": 4,
+      "tool": "plugshare",
+      "official": false,
+      "utm": true,
+      "verified": false
+    }
+  ],
+  "uk": [
+    {
+      "job": "local-app",
+      "label": {
+        "en": "Zapmap"
+      },
+      "url": "https://www.zapmap.com/",
+      "order": 1,
+      "tool": "zapmap",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "route-planner",
+      "label": {
+        "en": "A Better Routeplanner (ABRP)"
+      },
+      "url": "https://abetterrouteplanner.com/",
+      "order": 2,
+      "tool": "abrp",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "map",
+      "label": {
+        "en": "PlugShare"
+      },
+      "url": "https://www.plugshare.com/",
+      "order": 3,
+      "tool": "plugshare",
+      "official": false,
+      "utm": true,
+      "verified": false
+    }
+  ]
+}

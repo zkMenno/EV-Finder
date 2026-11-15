@@ -1,0 +1,12 @@
+{
+  "id": "volkswagen-id3-gen1-pro-trim-name-nl",
+  "variant_id": "volkswagen-id3-gen1-pro",
+  "clue_type_id": "trim_name",
+  "market": "nl",
+  "value": "Pro",
+  "strength": "certain",
+  "rules_out": ["volkswagen-id3-gen1-pro-s", "volkswagen-id3-gen1-pro-s"],
+  "sources": [],
+  "retrieved_at": "2026-11-15",
+  "confidence": "medium"
+}

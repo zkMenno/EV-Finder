@@ -1,0 +1,13 @@
+{
+  "_note": "E2E FIXTURE (T-026): stands in for config/countries/*.yaml charging_links until T-024 writes them. Loaded via CHARGING_LINKS_FILE. Germany is left empty on purpose (block must render nothing).",
+  "nl": [
+    { "job": "map", "label": "Chargemap", "url": "https://chargemap.com/", "order": 1, "tool": "chargemap", "official": false, "utm": true },
+    { "job": "route-planner", "label": "A Better Routeplanner", "url": "https://abetterrouteplanner.com/", "order": 2, "tool": "abrp", "official": false, "utm": true },
+    { "job": "price-compare", "label": "Chargeprice", "url": "https://www.chargeprice.app/", "order": 3, "tool": "chargeprice", "official": false, "utm": true },
+    { "job": "map", "label": "PlugShare", "url": "https://www.plugshare.com/", "order": 4, "tool": "plugshare", "official": false, "utm": true }
+  ],
+  "de": [],
+  "fr": [],
+  "be": [],
+  "uk": []
+}

@@ -1,0 +1,35 @@
+# /learn articles: order and titles per language (WS3 content lane).
+# `order` sets the list order on /learn. `langs` lists the languages that have a file
+# (content/learn/<slug>/<lang>.md); other languages fall back to EN.
+# Titles here must match the `title` in each file's front matter.
+articles:
+  - slug: charging-2026
+    order: 1
+    langs: [en, nl]
+    title:
+      en: "Charging in 2026: what's changed"
+      nl: "Laden in 2026: wat er veranderd is"
+  - slug: plugs-and-bidirectional
+    order: 2
+    langs: [en, nl]
+    title:
+      en: "Plugs and two-way charging"
+      nl: "Stekkers en tweerichtingsladen"
+  - slug: winter-range
+    order: 3
+    langs: [en, nl]
+    title:
+      en: "Winter range explained"
+      nl: "Winterbereik uitgelegd"
+  - slug: chemistries
+    order: 4
+    langs: [en, nl]
+    title:
+      en: "Battery types (chemistries) explained"
+      nl: "Accusoorten uitgelegd"
+  - slug: voltage-classes
+    order: 5
+    langs: [en, nl]
+    title:
+      en: "400 V, 800 V and more: battery voltage explained"
+      nl: "400V, 800V en hoger: accuspanning uitgelegd"

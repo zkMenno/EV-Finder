@@ -1,0 +1,436 @@
+{
+ "targets": [
+  {
+   "model_id": "tesla-model-3",
+   "make": "Tesla",
+   "model": "Model 3",
+   "search": "Tesla Model 3"
+  },
+  {
+   "model_id": "tesla-model-y",
+   "make": "Tesla",
+   "model": "Model Y",
+   "search": "Tesla Model Y"
+  },
+  {
+   "model_id": "kia-niro-ev",
+   "make": "Kia",
+   "model": "Niro EV",
+   "search": "Kia Niro EV"
+  },
+  {
+   "model_id": "volkswagen-id3",
+   "make": "Volkswagen",
+   "model": "ID.3",
+   "search": "Volkswagen ID.3"
+  },
+  {
+   "model_id": "skoda-enyaq",
+   "make": "Skoda",
+   "model": "Enyaq",
+   "search": "Skoda Enyaq"
+  },
+  {
+   "model_id": "hyundai-kona-electric",
+   "make": "Hyundai",
+   "model": "Kona Electric",
+   "search": "Hyundai Kona Electric"
+  },
+  {
+   "model_id": "audi-q4-e-tron",
+   "make": "Audi",
+   "model": "Q4 e-tron",
+   "search": "Audi Q4 e-tron"
+  },
+  {
+   "model_id": "volvo-xc40-recharge",
+   "make": "Volvo",
+   "model": "XC40 Recharge",
+   "search": "Volvo XC40 Recharge"
+  },
+  {
+   "model_id": "volkswagen-id4",
+   "make": "Volkswagen",
+   "model": "ID.4",
+   "search": "Volkswagen ID.4"
+  },
+  {
+   "model_id": "nissan-leaf",
+   "make": "Nissan",
+   "model": "Leaf",
+   "search": "Nissan Leaf"
+  },
+  {
+   "model_id": "audi-e-tron",
+   "make": "Audi",
+   "model": "e-tron",
+   "search": "Audi e-tron"
+  },
+  {
+   "model_id": "polestar-2",
+   "make": "Polestar",
+   "model": "2",
+   "search": "Polestar 2"
+  },
+  {
+   "model_id": "peugeot-e-208",
+   "make": "Peugeot",
+   "model": "e-208",
+   "search": "Peugeot e-208"
+  },
+  {
+   "model_id": "bmw-i4",
+   "make": "BMW",
+   "model": "i4",
+   "search": "BMW i4"
+  },
+  {
+   "model_id": "mini-cooper-se",
+   "make": "Mini",
+   "model": "Cooper SE",
+   "search": "Mini Electric"
+  },
+  {
+   "model_id": "renault-zoe",
+   "make": "Renault",
+   "model": "Zoe",
+   "search": "Renault Zoe"
+  },
+  {
+   "model_id": "mg-mg4",
+   "make": "MG",
+   "model": "MG4",
+   "search": "MG4 EV"
+  },
+  {
+   "model_id": "volvo-ex30",
+   "make": "Volvo",
+   "model": "EX30",
+   "search": "Volvo EX30"
+  },
+  {
+   "model_id": "peugeot-e-2008",
+   "make": "Peugeot",
+   "model": "e-2008",
+   "search": "Peugeot e-2008"
+  },
+  {
+   "model_id": "cupra-born",
+   "make": "Cupra",
+   "model": "Born",
+   "search": "Cupra Born"
+  },
+  {
+   "model_id": "opel-corsa-e",
+   "make": "Opel",
+   "model": "Corsa-e",
+   "search": "Opel Corsa Electric"
+  },
+  {
+   "model_id": "mercedes-eqa",
+   "make": "Mercedes-Benz",
+   "model": "EQA",
+   "search": "Mercedes-Benz EQA"
+  },
+  {
+   "model_id": "kia-ev6",
+   "make": "Kia",
+   "model": "EV6",
+   "search": "Kia EV6"
+  },
+  {
+   "model_id": "mg-zs-ev",
+   "make": "MG",
+   "model": "ZS EV",
+   "search": "MG ZS EV"
+  },
+  {
+   "model_id": "hyundai-ioniq-5",
+   "make": "Hyundai",
+   "model": "Ioniq 5",
+   "search": "Hyundai Ioniq 5"
+  },
+  {
+   "model_id": "bmw-ix1",
+   "make": "Bmw",
+   "model": "iX1",
+   "search": "Bmw iX1"
+  },
+  {
+   "model_id": "bmw-ix3",
+   "make": "Bmw",
+   "model": "iX3",
+   "search": "Bmw iX3"
+  },
+  {
+   "model_id": "fiat-500e",
+   "make": "Fiat",
+   "model": "500e",
+   "search": "Fiat 500e"
+  },
+  {
+   "model_id": "opel-mokka",
+   "make": "Opel",
+   "model": "Opel/Vauxhall Mokka Electric",
+   "search": "Opel Mokka-e"
+  },
+  {
+   "model_id": "bmw-i3",
+   "make": "BMW",
+   "model": "i3",
+   "search": "BMW i3"
+  },
+  {
+   "model_id": "jaguar-i-pace",
+   "make": "Jaguar",
+   "model": "I-Pace",
+   "search": "Jaguar I-Pace"
+  },
+  {
+   "model_id": "ford-mustang-mach-e",
+   "make": "Ford",
+   "model": "Mustang Mach-E",
+   "search": "Ford Mustang Mach-E"
+  },
+  {
+   "model_id": "renault-megane-e-tech",
+   "make": "Renault",
+   "model": "Megane E-Tech Electric",
+   "search": "Renault Megane E-Tech Electric"
+  },
+  {
+   "model_id": "mercedes-eqb",
+   "make": "Mercedes",
+   "model": "EQB / GLB",
+   "search": "Mercedes-Benz EQB"
+  },
+  {
+   "model_id": "volkswagen-e-golf",
+   "make": "Volkswagen",
+   "model": "e-Golf",
+   "search": "Volkswagen e-Golf"
+  },
+  {
+   "model_id": "porsche-taycan",
+   "make": "Porsche",
+   "model": "Taycan",
+   "search": "Porsche Taycan"
+  },
+  {
+   "model_id": "bmw-ix",
+   "make": "Bmw",
+   "model": "iX",
+   "search": "Bmw iX"
+  },
+  {
+   "model_id": "citroen-e-c4",
+   "make": "Citroën",
+   "model": "ë-C4",
+   "search": "Citroen e-C4"
+  },
+  {
+   "model_id": "ford-explorer",
+   "make": "Ford",
+   "model": "Explorer EV",
+   "search": "Ford Explorer EV"
+  },
+  {
+   "model_id": "mercedes-eqc",
+   "make": "Mercedes-Benz",
+   "model": "EQC",
+   "search": "Mercedes-Benz EQC"
+  }
+ ],
+ "picked": {
+  "tesla-model-3": {
+   "qid": "Q7705507",
+   "label": "Tesla Model 3",
+   "search": "Tesla Model 3"
+  },
+  "tesla-model-y": {
+   "qid": "Q42298250",
+   "label": "Tesla Model Y",
+   "search": "Tesla Model Y"
+  },
+  "kia-niro-ev": {
+   "qid": "Q62098509",
+   "label": "Kia Niro EV",
+   "search": "Kia Niro EV"
+  },
+  "volkswagen-id3": {
+   "qid": "Q63636478",
+   "label": "Volkswagen ID.3",
+   "search": "Volkswagen ID.3"
+  },
+  "skoda-enyaq": {
+   "qid": "Q30753091",
+   "label": "Škoda Enyaq iV",
+   "search": "Skoda Enyaq"
+  },
+  "hyundai-kona-electric": {
+   "qid": "Q62098523",
+   "label": "Hyundai KONA Electric",
+   "search": "Hyundai Kona Electric"
+  },
+  "audi-q4-e-tron": {
+   "qid": "Q62107422",
+   "label": "Audi Q4 e-tron",
+   "search": "Audi Q4 e-tron"
+  },
+  "volvo-xc40-recharge": {
+   "qid": "Q136333937",
+   "label": "Volvo EX40",
+   "search": "Volvo XC40 Recharge"
+  },
+  "volkswagen-id4": {
+   "qid": "Q86668068",
+   "label": "Volkswagen ID.4",
+   "search": "Volkswagen ID.4"
+  },
+  "nissan-leaf": {
+   "qid": "Q911323",
+   "label": "Nissan Leaf",
+   "search": "Nissan Leaf"
+  },
+  "audi-e-tron": {
+   "qid": "Q56669231",
+   "label": "Audi Q8 e-tron",
+   "search": "Audi e-tron"
+  },
+  "polestar-2": {
+   "qid": "Q60965166",
+   "label": "Polestar 2",
+   "search": "Polestar 2"
+  },
+  "peugeot-e-208": {
+   "qid": "Q63558522",
+   "label": "Peugeot e-208",
+   "search": "Peugeot e-208"
+  },
+  "bmw-i4": {
+   "qid": "Q50886612",
+   "label": "BMW i4",
+   "search": "BMW i4"
+  },
+  "mini-cooper-se": {
+   "qid": "Q65551003",
+   "label": "Mini Electric",
+   "search": "Mini Electric"
+  },
+  "renault-zoe": {
+   "qid": "Q1516380",
+   "label": "Renault Zoe",
+   "search": "Renault Zoe"
+  },
+  "mg-mg4": {
+   "qid": "Q112964039",
+   "label": "MG 4 EV",
+   "search": "MG4 EV"
+  },
+  "volvo-ex30": {
+   "qid": "Q116769123",
+   "label": "Volvo EX30",
+   "search": "Volvo EX30"
+  },
+  "peugeot-e-2008": {
+   "qid": "Q106576693",
+   "label": "Peugeot e-2008",
+   "search": "Peugeot e-2008"
+  },
+  "opel-corsa-e": {
+   "qid": "Q64414857",
+   "label": "Opel Corsa Electric",
+   "search": "Opel Corsa Electric"
+  },
+  "mercedes-eqa": {
+   "qid": "Q56367800",
+   "label": "Mercedes-Benz EQA",
+   "search": "Mercedes-Benz EQA"
+  },
+  "kia-ev6": {
+   "qid": "Q105975708",
+   "label": "Kia EV6",
+   "search": "Kia EV6"
+  },
+  "mg-zs-ev": {
+   "qid": "Q71140662",
+   "label": "MG ZS EV",
+   "search": "MG ZS EV"
+  },
+  "hyundai-ioniq-5": {
+   "qid": "Q99342695",
+   "label": "Hyundai Ioniq 5",
+   "search": "Hyundai Ioniq 5"
+  },
+  "bmw-ix1": {
+   "qid": "Q112190791",
+   "label": "BMW iX1",
+   "search": "Bmw iX1"
+  },
+  "bmw-ix3": {
+   "qid": "Q97159640",
+   "label": "BMW iX3",
+   "search": "Bmw iX3"
+  },
+  "fiat-500e": {
+   "qid": "Q86991003",
+   "label": "Fiat New 500",
+   "search": "Fiat 500e"
+  },
+  "bmw-i3": {
+   "qid": "Q796785",
+   "label": "BMW i3 (2013)",
+   "search": "BMW i3"
+  },
+  "jaguar-i-pace": {
+   "qid": "Q27941336",
+   "label": "Jaguar I-Pace",
+   "search": "Jaguar I-Pace"
+  },
+  "ford-mustang-mach-e": {
+   "qid": "Q75419891",
+   "label": "Ford Mustang Mach-E",
+   "search": "Ford Mustang Mach-E"
+  },
+  "renault-megane-e-tech": {
+   "qid": "Q108380585",
+   "label": "Renault Mégane E-Tech Electric",
+   "search": "Renault Megane E-Tech Electric"
+  },
+  "mercedes-eqb": {
+   "qid": "Q86671945",
+   "label": "Mercedes-Benz EQB",
+   "search": "Mercedes-Benz EQB"
+  },
+  "volkswagen-e-golf": {
+   "qid": "Q17632770",
+   "label": "Volkswagen e-Golf",
+   "search": "Volkswagen e-Golf"
+  },
+  "porsche-taycan": {
+   "qid": "Q56307011",
+   "label": "Porsche Taycan",
+   "search": "Porsche Taycan"
+  },
+  "bmw-ix": {
+   "qid": "Q86663388",
+   "label": "BMW iX",
+   "search": "Bmw iX"
+  },
+  "citroen-e-c4": {
+   "qid": "Q111971355",
+   "label": "Citroën e-C4",
+   "search": "Citroen e-C4"
+  },
+  "ford-explorer": {
+   "qid": "Q117234931",
+   "label": "Ford Explorer EV",
+   "search": "Ford Explorer EV"
+  },
+  "mercedes-eqc": {
+   "qid": "Q56319401",
+   "label": "Mercedes-Benz EQC",
+   "search": "Mercedes-Benz EQC"
+  }
+ }
+}

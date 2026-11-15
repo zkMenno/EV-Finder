@@ -1,5 +1,7 @@
 # Hand-entered key variants for used-EV generations that OpenEV Data (2023+) is likely to miss.
 # UNCHECKED, LOW-CONFIDENCE data written from model knowledge, no sources fetched. To be replaced by sourced data.
+# Exception: values under `cited:` were read from the public page they name (source_url, retrieved, confidence).
+# Cited values are facts of that page's source (maker-docs unless `source_id:` says otherwise), not seed data (A-06 F3).
 # Units are implied by the field name (metric). Fields left out = not known well enough. No prices, ever.
 # wltp_range_km is only set where a WLTP figure is reasonably well known; approximate WLTP ranges are in notes.
 # Merge rule downstream: OpenEV wins on duplicates.
@@ -232,13 +234,28 @@ variants:
     years: [2013, 2015]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 22
-      ac_kw: 43
       power_kw: 65
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      battery_kwh_net:
+        value: 22
+        source_url: https://xr793.com/wp-content/uploads/2022/12/2016-Renault-Zoe-UK.pdf
+        source_name: "Renault UK, ZOE brochure and price list (7701 380 801, 12 April 2016), third-party copy"
+        retrieved: 2026-11-15
+        locator: "Technical specification, BATTERY, On-board power (kWh): 22 in both columns (Expression Nav / Dynamique Nav, engine 5AGEN3; Dynamique Nav Rapid Charge, engine 5AGEN2, Chameleon 3 - 43 kW)"
+        confidence: low
+        notes: "Low: names trims, not the Q210 motor (the 43 kW Rapid Charge column is the Q-motor car), says 'on-board power' rather than usable, and is a third-party copy. Contradicts KilowattApp's 23.3 kWh usable. An Italian tech sheet ('Renault ZOE Caratteristiche tecniche', vaielettrico.it, Feb 2018) gives 'Capacita utile (kWh) 22' for the 22 kWh ZOE."
+      ac_kw:
+        value: 43
+        source_url: https://www.rinnovabili.it/wp-content/uploads/2015/03/Listino-Cliente-ZOE.pdf
+        source_name: "Renault Italia, ZOE customer price list (Listino Prezzi del 05/02/2015), copy hosted by rinnovabili.it"
+        retrieved: 2026-11-15
+        locator: "Price table, column 'Potenza max in 30' kW': 43 for ZOE Life, Intens and Zen (65 kW / 88 CV)"
+        confidence: low
+        notes: "Low: the list names trims, not the Q210 motor, and is a third-party copy. In Feb 2015 the 65 kW motor was the only ZOE motor (R240 came in spring 2015). Consistent with the Renault UK brochure of 12 Apr 2016 (Dynamique Nav Rapid Charge: 'Adaptable for single or three-phase power from 3 - 43 kW') and the Alliance press release on the 2012 24-hour record ('fast-charged at 43 kW', alliance-renault-nissan.com/content/1618-km-24-hours-new-world-record-zoe). No source found that names Q210 with its AC power."
     notes: "Chameleon charger: up to 43 kW AC on 3-phase, no DC socket. NEDC 210 km; no WLTP figure. Battery often rented (battery lease)."
     confidence: low
   - generation_id: renault-zoe-ph1
@@ -247,13 +264,29 @@ variants:
     years: [2015, 2016]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 22
-      ac_kw: 22
       power_kw: 65
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      battery_kwh_net:
+        value: 22
+        source_url: https://xr793.com/wp-content/uploads/2022/12/2016-Renault-Zoe-UK.pdf
+        source_name: "Renault UK, ZOE brochure and price list (7701 380 801, 12 April 2016), third-party copy"
+        retrieved: 2026-11-15
+        locator: "Technical specification, BATTERY, On-board power (kWh): 22, column Expression Nav / Dynamique Nav (engine 5AGEN3, Chameleon 3 - 22 kW = the R240)"
+        confidence: low
+        notes: "Low: names trims, not the R240 motor, says 'on-board power' rather than usable, and is a third-party copy. Contradicts KilowattApp's 23.3 kWh usable. An Italian tech sheet ('Renault ZOE Caratteristiche tecniche', vaielettrico.it, Feb 2018) gives 'Capacita utile (kWh) 22' for the 22 kWh ZOE R90 (the renamed R240)."
+      ac_kw:
+        value: 22
+        source_url: https://xr793.com/wp-content/uploads/2022/12/2016-Renault-Zoe-UK.pdf
+        source_name: "Renault UK, ZOE brochure and price list (7701 380 801, 12 April 2016), third-party copy"
+        retrieved: 2026-11-15
+        quote: "Chameleon™ Charger Adaptable for single or three-phase power from 3 - 22 kW"
+        locator: "Technical specifications, Charging row, Expression Nav and Dynamique Nav columns (the Rapid Charge column says 3 - 43 kW)"
+        confidence: low
+        notes: "Low: the brochure names trims, not the R240 motor (in the UK in 2016 the non-Rapid-Charge ZOE had the R240), and is a third-party copy. Renault Press (2016, Z.E. 40 launch): 'The R75/90 motor was previously known as the R240'; Renault UK's July 2017 press kit gives the 22 kWh Expression Nav R90 3 - 22 kW."
     notes: "R240 motor: longer range than Q210 but AC capped at 22 kW. NEDC 240 km."
     confidence: low
   - generation_id: renault-zoe-ph1
@@ -262,13 +295,28 @@ variants:
     years: [2017, 2019]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 41
-      ac_kw: 43
       power_kw: 65
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      ac_kw:
+        value: 43
+        source_url: https://www.press.renault.co.uk/assets/documents/original/10706-RenaultZOEPressKitJuly2017.pdf
+        source_name: "Renault UK Press, Renault ZOE Press Information, July 2017"
+        retrieved: 2026-11-15
+        quote: "A rapid charge version of the latest Z.E.40 is also available, which allows charging at 43kW and a 0-80% charge in one hour."
+        locator: "At a glance; technical specifications, column 'Dynamique Nav / Signature Nav Q90 Z.E. 40 Quick Charge option', Chameleon charger 3 - 43 kW, 43 kW charge point 65 mins (80%)"
+        confidence: medium
+      battery_kwh_net:
+        value: 41
+        source_url: https://www.press.renault.co.uk/assets/documents/original/10706-RenaultZOEPressKitJuly2017.pdf
+        source_name: "Renault UK Press, Renault ZOE Press Information, July 2017"
+        retrieved: 2026-11-15
+        quote: "The ZOE's new Z.E. 40 battery boasts 41kWh of useful energy"
+        locator: "Z.E. 40 battery section; technical specifications table, On-board power (kWh) 41"
+        confidence: medium
     notes: "41 kWh with Q motor: 43 kW AC, no DC. Not offered in every market."
     confidence: low
   - generation_id: renault-zoe-ph1
@@ -277,14 +325,30 @@ variants:
     years: [2017, 2019]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 41
-      ac_kw: 22
       power_kw: 68
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
-    notes: "41 kWh, 22 kW AC, no DC. NEDC 400 km; Renault later quoted roughly 300 km WLTP."
+    cited:
+      ac_kw:
+        value: 22
+        source_url: https://www.vaielettrico.it/wp-content/uploads/Scheda-tecnica-Nuova-ZOE-pdf.pdf
+        source_name: "'Renault ZOE Caratteristiche tecniche' (Italian tech sheet, PDF of 7 Feb 2018), hosted by vaielettrico.it"
+        retrieved: 2026-11-15
+        quote: "Caricatore Adattivo mono-trifase: da 2 a 22 kW"
+        locator: "Column 'ZOE con nuova batteria Z.E. 40, Versione R90' (Q90 column: da 2 a 43 kW); 43 kW charge point 1 h e 40 min for R90 vs 65 min for Q90"
+        confidence: low
+        notes: "Low: the sheet shows no Renault imprint and is a third-party copy, so it can't be confirmed as a Renault document; it does name the R90 version. The Renault UK July 2017 press kit's R90 column reads '3 - 43 kW' but gives 1h40 (80%) at a 43 kW point, which fits 22 kW. Contradicts KilowattApp's 11 kW."
+      battery_kwh_net:
+        value: 41
+        source_url: https://www.press.renault.co.uk/assets/documents/original/10706-RenaultZOEPressKitJuly2017.pdf
+        source_name: "Renault UK Press, Renault ZOE Press Information, July 2017"
+        retrieved: 2026-11-15
+        quote: "The ZOE's new Z.E. 40 battery boasts 41kWh of useful energy"
+        locator: "Z.E. 40 battery section; technical specifications table, On-board power (kWh) 41"
+        confidence: medium
+    notes: "41 kWh, 22 kW AC, no DC. NEDC 400 km; Renault later quoted roughly 300 km WLTP. ac_kw 22 is now cited at low confidence (Italian tech sheet naming R90; 2026-11-15): still no page with a Renault imprint found that states the R90's AC limit plainly. The July 2017 UK press kit's R90 Z.E. 40 column reads 'from 3 - 43 kW' but gives 1h40 (80%) at a 43 kW point, which fits a 22 kW limit, so it is not usable either way; Renault Press 2016 and 2018 releases give no charge power."
     confidence: low
   - generation_id: renault-zoe-ph1
     id: renault-zoe-ph1-r110
@@ -293,12 +357,21 @@ variants:
     drivetrain: fwd
     specs:
       battery_kwh_net: 41
-      ac_kw: 22
       power_kw: 80
       boot_l: 338
       length_mm: 4084
       towing_kg: 0
       seats: 5
+    cited:
+      ac_kw:
+        value: 22
+        source_url: https://projekt-renault.de/images/pdf/21204255_Technical_characteristics_ZOE_R110.pdf
+        source_name: "Renault Press, 'R110 MOTOR - Renault ZOE' technical characteristics (21204255), copy hosted by a Renault dealer (projekt-renault.de)"
+        retrieved: 2026-11-15
+        quote: "Charger Adaptable for single or three-phase power from 2 to 22 kW"
+        locator: "Charge section; same sheet: maximum power 80 (108) kW (hp), on-board power 41 kWh"
+        confidence: medium
+        notes: "Renault Press document (footer media.renault.com) on a dealer site; no copy found on a Renault domain."
     notes: "More powerful R110 motor, 41 kWh, 22 kW AC, no DC. Roughly 300 km WLTP."
     confidence: low
   - generation_id: renault-zoe-ph2
@@ -339,30 +412,64 @@ variants:
     id: renault-megane-e-tech-gen1-ev40
     name: "EV40 (40 kWh)"
     years: [2022, 2024]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "40 kWh" (38 net / 40 gross, 96 kW, MY2023-25).
+    source_names:
+      openev: ["40 kWh"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 40
-      ac_kw: 7.4
-      dc_peak_kw: 85
       power_kw: 96
       boot_l: 440
       length_mm: 4200
       seats: 5
+    cited:
+      ac_kw:
+        value: 22
+        source_url: https://www.renault.ie/electric-vehicles/megane-e-tech-electric/electric-faq.html
+        source_name: "Renault Ireland, Megane E-Tech electric FAQ"
+        retrieved: 2026-11-15
+        quote: "full power of AC public charging stations up to 22 kW with this version"
+        locator: "FAQ, 40 kWh battery, Boost Charge version"
+        confidence: low
+        notes: "Low: trim dependent, not year dependent. 22 kW AC is the EV40 Boost Charge; the EV40 Standard Charge has the 7.4 kW charger (the page does not state its AC figure). Renault Finland brochure 03/2023 lists '40kWh 130hv (boost charge)' with 'Type 2 AC 2-22 kW ja pikalataus CCS DC jopa 85 kW'. The seed's uncited 7.4 was the Standard Charge figure."
+      dc_peak_kw:
+        value: 85
+        source_url: https://www.renault.ie/electric-vehicles/megane-e-tech-electric/electric-faq.html
+        source_name: "Renault Ireland, Megane E-Tech electric FAQ"
+        retrieved: 2026-11-15
+        quote: "Standard Charge and Boost Charge versions with the 40 kWh battery are equipped with a DC fast charger providing a maximum power peak of 85 kW."
+        locator: "FAQ 'Is quick charging an option?'; footnote (3): 'up to 85 kW on a 40 kWh battery and 130 kW on a 60 kWh battery'"
+        confidence: medium
+        notes: "Re-read 2026-11-15 for the dedup of OpenEV row renault-megane-e-tech-gen1-40-kwh (OpenEV DC 130), which now joins this variant; same figure as the A-06 manual entry on that old row id."
     notes: "WLTP roughly 300 km. AC 7.4 kW standard, 22 kW optional on some trims. Availability per market varied."
     confidence: low
   - generation_id: renault-megane-e-tech-gen1
     id: renault-megane-e-tech-gen1-ev60
     name: "EV60 (60 kWh)"
     years: [2022, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (57 net / 60 gross, 160 kW, MY2023-25).
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
-      battery_kwh_net: 60
       ac_kw: 7.4
       dc_peak_kw: 130
       power_kw: 160
       boot_l: 440
       length_mm: 4200
       seats: 5
+    cited:
+      battery_kwh_net:
+        value: 60
+        source_url: https://cdn.group.renault.com/ren/es/modelos/megane-etech-electrico/CATALOGO_MEGANE_E-TECH_100_ELEC_ES.pdf
+        source_name: "Renault Spain, Mégane E-Tech 100% eléctrico catalogue (October 2025)"
+        retrieved: 2026-11-15
+        quote: "capacidad útil de la batería (kWh) 60"
+        locator: "p. 24 'baterías y motorizaciones', 60 kWh 220 CV column"
+        confidence: medium
+        notes: "OpenEV gives 57 usable for this row. Same catalogue: WLTP 468 km; AC 7.4 or 22 kW by version (p. 9). Renault Finland 03/2023: DC up to 130 kW."
     notes: "WLTP roughly 450-470 km. AC 7.4 kW or 22 kW depending on version."
     confidence: low
   - generation_id: nissan-leaf-ze0
@@ -402,6 +509,10 @@ variants:
     id: nissan-leaf-ze1-40kwh
     name: "40 kWh"
     years: [2018, 2025]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (40 kWh, 110 kW, MY2023-24).
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 39
@@ -958,9 +1069,26 @@ variants:
     notes: "WLTP roughly 285-310 km. REx dropped in Europe around 2019 (unverified)."
     confidence: low
   - generation_id: bmw-i3-i01
+    id: bmw-i3-i01-i3s-94ah
+    name: "i3s 94 Ah (33 kWh)"
+    years: [2017, 2018]
+    drivetrain: rwd
+    specs:
+      battery_kwh_net: 27.2
+      battery_kwh_gross: 33
+      ac_kw: 11
+      dc_peak_kw: 50
+      power_kw: 135
+      boot_l: 260
+      length_mm: 4006
+      towing_kg: 0
+      seats: 4
+    notes: "A-06 F7: the 2017-18 i3s with the 94 Ah pack, split from bmw-i3-i01-i3s (which keeps its id and is now the 120 Ah i3s). Battery as the plain i3 94 Ah row (uncited)."
+    confidence: low
+  - generation_id: bmw-i3-i01
     id: bmw-i3-i01-i3s
-    name: "i3s (94 Ah / 120 Ah)"
-    years: [2017, 2022]
+    name: "i3s 120 Ah (42 kWh)"
+    years: [2018, 2022]
     drivetrain: rwd
     specs:
       ac_kw: 11
@@ -970,7 +1098,16 @@ variants:
       length_mm: 4006
       towing_kg: 0
       seats: 4
-    notes: "Sportier i3s: wider track, lower suspension, 135 kW. 94 Ah battery until 2018, 120 Ah after."
+    cited:
+      battery_kwh_gross:
+        value: 42.2
+        source_url: https://newsroom.bmwgroup.com/emea/the-all-electric-bmw-i3-120ah
+        source_name: "BMW Group PressClub, 'The all-electric BMW i3 (120Ah)', 28 Sep 2018"
+        retrieved: 2026-11-15
+        quote: "now has a capacity of 120Ah and a gross energy content of 42.2kWh"
+        confidence: medium
+        notes: "120 Ah pack (i3 and i3s from late 2018). The 2017-18 94 Ah i3s is its own row (bmw-i3-i01-i3s-94ah, A-06 F7). The press page gives no usable kWh, so battery_kwh_net is left out."
+    notes: "Sportier i3s: wider track, lower suspension, 135 kW. This row is the 120 Ah i3s (late 2018 on); the 94 Ah i3s is bmw-i3-i01-i3s-94ah. Battery figure = the 120 Ah pack (cited)."
     confidence: low
   - generation_id: bmw-i4-g26
     id: bmw-i4-g26-edrive35
@@ -1024,6 +1161,10 @@ variants:
     id: peugeot-e-208-p21-50kwh
     name: "50 kWh / 100 kW"
     years: [2019, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" up to MY2023 (46 net / 50 gross, 100 kW); from MY2024 it is the 51 kWh car.
+    source_names:
+      openev: [{name: "Base", years: [null, 2023]}]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 50
@@ -1040,9 +1181,12 @@ variants:
     id: peugeot-e-208-p21-51kwh
     name: "51 kWh / 115 kW"
     years: [2023, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" from MY2024 (50 net / 54 gross, 115 kW).
+    source_names:
+      openev: [{name: "Base", years: [2024, null]}]
     drivetrain: fwd
     specs:
-      battery_kwh_gross: 51
       ac_kw: 7.4
       dc_peak_kw: 100
       power_kw: 115
@@ -1050,12 +1194,33 @@ variants:
       length_mm: 4055
       towing_kg: 0
       seats: 5
+    cited:
+      battery_kwh_gross:
+        value: 51
+        source_url: https://www.media.stellantis.com/es-es/peugeot/press/nuevo-peugeot-e-208-100-electrico-mas-divertido-mas-eficiente-y-con-hasta-400-km-de-autonomia-con-un-nuevo-motor-electrico
+        source_name: "Stellantis media (Peugeot Spain), 'Nuevo Peugeot e-208 100% eléctrico ...', 27 Sep 2022"
+        retrieved: 2026-11-15
+        quote: "con una capacidad bruta de 51 kWh"
+        confidence: low
+        notes: "Low: the press release is for the 2023 car (115 kW); the row spans 2023 on and later cars reportedly use a 54 kWh gross pack (OpenEV MY2024-25: 50 net / 54 gross; not confirmed from a maker page). Same figure in the Dutch release (media.stellantis.com/nl-nl, same date)."
+      battery_kwh_net:
+        value: 48.1
+        source_url: https://www.media.stellantis.com/es-es/peugeot/press/nuevo-peugeot-e-208-100-electrico-mas-divertido-mas-eficiente-y-con-hasta-400-km-de-autonomia-con-un-nuevo-motor-electrico
+        source_name: "Stellantis media (Peugeot Spain), 'Nuevo Peugeot e-208 100% eléctrico ...', 27 Sep 2022"
+        retrieved: 2026-11-15
+        quote: "48,1 kWh útiles"
+        confidence: low
+        notes: "Low for the same year-band reason (row 2023 on; a later 54 kWh gross pack would be about 51 usable). Same release: 115 kW, WLTP up to 400 km (homologation pending), 7.4 kW single-phase standard, 11 kW three-phase optional, 100 kW DC."
     notes: "Updated motor and battery. WLTP roughly 400 km."
     confidence: low
   - generation_id: peugeot-e-2008-p24
     id: peugeot-e-2008-p24-50kwh
     name: "50 kWh / 100 kW"
     years: [2020, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" up to MY2023 (46 net / 50 gross, 100 kW); from MY2024 it is the 54 kWh car.
+    source_names:
+      openev: [{name: "Base", years: [null, 2023]}]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 50
@@ -1072,6 +1237,10 @@ variants:
     id: peugeot-e-2008-p24-54kwh
     name: "54 kWh / 115 kW"
     years: [2023, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" from MY2024 (50 net / 54 gross, 115 kW).
+    source_names:
+      openev: [{name: "Base", years: [2024, null]}]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 54
@@ -1118,6 +1287,10 @@ variants:
     id: citroen-e-c4-c41-50kwh
     name: "50 kWh / 100 kW"
     years: [2020, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (46 net / 50 gross, 100 kW, MY2023-25; also its e-C4 X records).
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 50
@@ -1178,6 +1351,11 @@ variants:
     id: fiat-500e-332-42kwh
     name: "42 kWh"
     years: [2020, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (37.3 net / 42 gross, 87 kW, MY2023-25). Its trims Icon / La Prima / Pop are
+    # the same figures but stay rows of their own until trims vs variants is decided.
+    source_names:
+      openev: ["Base"]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 42
@@ -1188,6 +1366,16 @@ variants:
       length_mm: 3632
       towing_kg: 0
       seats: 4
+    cited:
+      wltp_range_km:
+        value: 320
+        source_url: https://www.media.stellantis.com/ch-de/fiat/press/die-gesamte-baureihe-des-neuen-500-ist-nun-in-der-schweiz-erhltlich
+        source_name: "Stellantis media (Fiat Switzerland), 'Die gesamte Baureihe des neuen 500 ist nun in der Schweiz erhältlich', 4 May 2021"
+        retrieved: 2026-11-15
+        quote: "Im WLTP-Zyklus erreicht die Reichweite 320 km, die im reinen Stadtzyklus auf 460 km ansteigt."
+        locator: "Versions PASSION, ICON and la Prima (87 kW)"
+        confidence: low
+        notes: "Low: the page names the trims and the 87 kW motor but not the 42 kWh battery. Same page: 87 kW, AC up to 11 kW, DC up to 85 kW. The release shows 337 km (RDW TGK + ADEME best case of the WLTP family); 320 is Fiat's headline figure, so this is likely a best-case vs typical difference, not an error."
     notes: "WLTP roughly 310-320 km. Hatchback, cabrio and 3+1 bodies."
     confidence: low
   - generation_id: fiat-500e-332
@@ -1283,14 +1471,27 @@ variants:
     id: cupra-born-gen1-58kwh
     name: "58 kWh"
     years: [2021, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (58 net / 62 gross, 150 kW, MY2023-25).
+    source_names:
+      openev: ["Base"]
     drivetrain: rwd
     specs:
       battery_kwh_net: 58
       ac_kw: 11
-      dc_peak_kw: 120
       boot_l: 385
       length_mm: 4322
       seats: 5
+    cited:
+      dc_peak_kw:
+        value: 120
+        source_url: https://cdn.uc.assets.prezly.com/34359316-f25e-44da-a593-c7ea94745496/-/inline/no/CU21-34N%20-%20Born%20press%20pack%20(22p).pdf
+        source_name: "SEAT Import Belgium (CUPRA), press release CU21/34N 'CUPRA Born', 4 October 2021"
+        retrieved: 2026-11-15
+        quote: "Max. oplaadvermogen DC (120 kW)"
+        locator: "Technical data, columns 58 kWh 204 pk (150 kW) and 58 kWh e-Boost 231 pk (170 kW)"
+        confidence: low
+        notes: "Low: launch press pack (MY2022), figures marked indicative; the row spans 2021 on, and OpenEV gives 135 kW for MY2023-25. No maker source for 135 kW on the 58 kWh was found, so a later update can't be confirmed or ruled out. Same pack: 58 kWh net, WLTP about 424 km (150 kW) / 420 km (e-Boost), AC up to 11 kW."
     notes: "150 kW, or 170 kW with e-Boost. WLTP roughly 420 km."
     confidence: low
   - generation_id: cupra-born-gen1
@@ -1401,21 +1602,56 @@ variants:
     id: mg-mg4-gen1-standard
     name: "Standard Range (51 kWh)"
     years: [2022, null]
+    # Q-062: OpenEV lists this car twice, as "Standard" and "Standard Range" (both 51 kWh gross /
+    # 49 net, 125 kW, WLTP 350 km in openev 2023-2025), so both names join this row.
+    source_names:
+      openev: ["Standard", "Standard Range"]
+      kilowatt-openev: ["Standard Range"]
     drivetrain: rwd
     specs:
-      battery_kwh_net: 51
-      ac_kw: 6.6
-      dc_peak_kw: 117
       power_kw: 125
       boot_l: 363
       length_mm: 4287
       seats: 5
-    notes: "LFP. WLTP roughly 350 km. 6.6 kW AC on many versions, 11 kW on others."
+    cited:
+      battery_kwh_net:
+        value: 50.8
+        source_url: https://www.mg.co.uk/sites/default/files/2022-10/MG4-EV-Brochure.pdf
+        source_name: "MG Motor UK, MG4 EV brochure (October 2022)"
+        retrieved: 2026-11-15
+        quote: "Battery capacity (usable), kWh 50.8 kWh 61.7 kWh"
+        locator: "Technical specification, pp. 28-29, column SE Standard Range (51 kWh nominal)"
+        confidence: medium
+        notes: "Re-checked after the Decision 033 dedup: OpenEV publishes 49 usable for this row (MY2023-25); MG UK gives 50.8. Nominal 51 kWh in the same table."
+      dc_peak_kw:
+        value: 117
+        source_url: https://www.mg.co.uk/sites/default/files/2022-10/MG4-EV-Brochure.pdf
+        source_name: "MG Motor UK, MG4 EV brochure (October 2022)"
+        retrieved: 2026-11-15
+        quote: "Maximum rapid charge capability, DC 117kW 135kW"
+        locator: "Technical specification, pp. 28-29, column SE Standard Range (117 kW; 135 kW is the 64 kWh Long Range)"
+        confidence: medium
+        notes: "OpenEV gives 135 kW for this row, which is the 64 kWh car's figure in MG's table. An MG Austria brochure copy (July 2023, dealer-hosted, table text garbled) seems to give 88 kW for the Standard; not used, needs a clean maker source."
+      ac_kw:
+        value: 7
+        source_url: https://www.mg.co.uk/sites/default/files/2022-10/MG4-EV-Brochure.pdf
+        source_name: "MG Motor UK, MG4 EV brochure (October 2022)"
+        retrieved: 2026-11-15
+        quote: "On-board charger, AC 7kW 7kW"
+        locator: "Technical specification, pp. 28-29 (SE Standard Range and SE Long Range)"
+        confidence: medium
+        notes: "MG UK rounds the 6.6 kW single-phase charger to 7 kW. Market and year dependent: OpenEV/KilowattApp give 11 kW (MY2023-25); MG Austria (July 2023 brochure copy) lists 6.6 kW standard and no 11 kW option on the Standard."
+    notes: "LFP. WLTP 350 km (MG UK). 6.6 kW AC on many versions, 11 kW on others."
     confidence: low
   - generation_id: mg-mg4-gen1
     id: mg-mg4-gen1-long-range
     name: "Long Range (64 kWh)"
     years: [2022, null]
+    # Q-062: OpenEV "Trophy" is this car (64 kWh gross / 61 net, 150 kW, like the seed). OpenEV
+    # "Standard Long Range" has the same pack but 125 kW, so it stays its own row.
+    source_names:
+      openev: ["Trophy"]
+      kilowatt-openev: ["Long Range"]
     drivetrain: rwd
     specs:
       battery_kwh_net: 61.7
@@ -1646,6 +1882,10 @@ variants:
     id: jaguar-i-pace-x590-ev400
     name: "EV400"
     years: [2018, 2024]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Base" (84.7 net / 90 gross, 294 kW, MY2023-24).
+    source_names:
+      openev: ["Base"]
     drivetrain: awd
     specs:
       battery_kwh_gross: 90
@@ -1656,6 +1896,15 @@ variants:
       length_mm: 4682
       towing_kg: 750
       seats: 5
+    cited:
+      wltp_range_km:
+        value: 470
+        source_url: https://www.jaguar.fr/content/dam/jdx/pdfs/fr/Infographies%20I-PACE%2021MY.pdf
+        source_name: "Jaguar France, I-PACE infographic (file name '21MY')"
+        retrieved: 2026-11-15
+        quote: "470km (292 miles) D'AUTONOMIE SELON LE CYCLE WLTP"
+        confidence: low
+        notes: "Low: no model year in the text (only the file name says 21MY), and the row spans 2018-2024. Same sheet: 90 kWh battery, 100 kW DC, 11 kW wall box, 400 ch. jaguar.com specifications page (read same day) also says up to 470 km WLTP. AC is year dependent: 7 kW on-board charger until MY2020, 11 kW from MY2021 (seed note, not maker-cited)."
     notes: "90 kWh gross. WLTP roughly 470 km. 7 kW AC until MY21, then 11 kW. Check battery replacement campaign status."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
@@ -1664,14 +1913,29 @@ variants:
     years: [2021, null]
     drivetrain: rwd
     specs:
-      battery_kwh_gross: 75
       ac_kw: 11
       dc_peak_kw: 115
       boot_l: 402
       frunk_l: 100
       length_mm: 4713
       seats: 5
-    notes: "75 kWh gross (about 70 usable). WLTP roughly 440 km."
+    cited:
+      battery_kwh_net:
+        value: 68
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+        notes: "First cars (MY 2021-23 in Europe). Ford quotes 72/91 kWh usable (SR/ER) for MY 2024 (US 2024 tech specs); not split into its own row yet."
+      battery_kwh_gross:
+        value: 75.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+    notes: "Battery: Ford EU tech specs (cited), 75.7 kWh gross / 68 usable for the first cars. WLTP roughly 440 km."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
     id: ford-mustang-mach-e-gen1-er-rwd
@@ -1679,14 +1943,29 @@ variants:
     years: [2021, null]
     drivetrain: rwd
     specs:
-      battery_kwh_gross: 98
       ac_kw: 11
       dc_peak_kw: 150
       boot_l: 402
       frunk_l: 100
       length_mm: 4713
       seats: 5
-    notes: "98 kWh gross (about 88, later 91 usable). WLTP roughly 600 km."
+    cited:
+      battery_kwh_net:
+        value: 88
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+        notes: "First cars (MY 2021-23 in Europe). Ford quotes 72/91 kWh usable (SR/ER) for MY 2024 (US 2024 tech specs); not split into its own row yet."
+      battery_kwh_gross:
+        value: 98.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+    notes: "Battery: Ford EU tech specs (cited), 98.7 kWh gross / 88 usable for the first cars (91 usable from MY 2024). WLTP roughly 600 km."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
     id: ford-mustang-mach-e-gen1-er-awd
@@ -1694,13 +1973,28 @@ variants:
     years: [2021, null]
     drivetrain: awd
     specs:
-      battery_kwh_gross: 98
       ac_kw: 11
       dc_peak_kw: 150
       boot_l: 402
       length_mm: 4713
       seats: 5
-    notes: "Dual motor. WLTP roughly 540 km."
+    cited:
+      battery_kwh_net:
+        value: 88
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+        notes: "First cars (MY 2021-23 in Europe). Ford quotes 72/91 kWh usable (SR/ER) for MY 2024 (US 2024 tech specs); not split into its own row yet."
+      battery_kwh_gross:
+        value: 98.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh; usable energy SR/ER 68/88 kWh"
+        confidence: medium
+    notes: "Dual motor. Battery: Ford EU tech specs (cited), 98.7 kWh gross / 88 usable for the first cars. WLTP roughly 540 km."
     confidence: low
   - generation_id: ford-mustang-mach-e-gen1
     id: ford-mustang-mach-e-gen1-gt
@@ -1708,17 +2002,37 @@ variants:
     years: [2022, null]
     drivetrain: awd
     specs:
-      battery_kwh_gross: 98
       ac_kw: 11
       dc_peak_kw: 150
       length_mm: 4713
       seats: 5
-    notes: "Dual motor, about 358 kW. WLTP roughly 500 km."
+    cited:
+      battery_kwh_net:
+        value: 88
+        source_url: https://media.ford.com/content/fordmedia/feu/en/news/2021/07/09/exhilarating-electric-performance--online-ordering-for-ford-must.html
+        source_name: "Ford of Europe Media Center, Mustang Mach-E GT online ordering starts, 9 Jul 2021"
+        retrieved: 2026-11-15
+        quote: "88 kWh (useable) extended range battery"
+        confidence: medium
+        notes: "Same figure in the GT launch release of 24 Sep 2020 (fordpers.be). OpenEV gives 82 net / 88 gross for MY 2023-25, matching no Ford figure; Ford US 2024 tech specs give GT ER 91 kWh usable for MY 2024."
+      battery_kwh_gross:
+        value: 98.7
+        source_url: https://www.fordpers.be/editor/files/ford_mustang_mach_e_2020_techspecs_eu_2.pdf
+        source_name: "Ford Europe press (fordpers.be), Mustang Mach-E Technical Specifications (EU), availability early/late 2021"
+        retrieved: 2026-11-15
+        locator: "Battery System section: gross energy (installed) SR/ER 75.7/98.7 kWh (the GT uses the Extended Range pack, Ford GT release 24 Sep 2020)"
+        confidence: medium
+    notes: "Dual motor, about 358 kW. Extended Range pack: 88 kWh usable / 98.7 gross (Ford, cited); 91 usable from MY 2024. WLTP up to 500 km (Ford target)."
     confidence: low
   - generation_id: byd-atto-3-gen1
     id: byd-atto-3-gen1-60kwh
     name: "60.5 kWh"
     years: [2022, null]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "Extended Range" (MY2025: 60.48 kWh, 150 kW, DC 88). Its MY2023-24 "Standard Range Extended
+    # Range" (60 kWh, 150 kW) is left as its own row: DC 70 there is the 49.9 kWh car's figure.
+    source_names:
+      openev: ["Extended Range"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 60.5
@@ -1839,10 +2153,28 @@ variants:
     id: mini-cooper-se-f56-cooper-se
     name: "Cooper SE"
     years: [2020, 2023]
+    # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
+    # OpenEV "SE" (28.9 / 32.6 kWh, 135 kW, MY2023).
+    source_names:
+      openev: ["SE"]
     drivetrain: fwd
+    cited:
+      battery_kwh_net:
+        value: 28.9
+        source_url: https://press.bmwgroup.com/global/article/attachment/T0306501EN/447528
+        source_name: "MINI Media Information, Technical Specifications MINI Cooper SE (03/2020)"
+        retrieved: 2026-11-15
+        quote: "Energy capacity (gross / net) kWh 32,6 / 28,9"
+        confidence: medium
+      battery_kwh_gross:
+        value: 32.6
+        source_url: https://press.bmwgroup.com/global/article/attachment/T0306501EN/447528
+        source_name: "MINI Media Information, Technical Specifications MINI Cooper SE (03/2020)"
+        retrieved: 2026-11-15
+        quote: "Energy capacity (gross / net) kWh 32,6 / 28,9"
+        confidence: medium
+        notes: "Same sheet: 135 kW, DC 50 kW, 11 kW three-phase wall box. Its range (235-270 km) is NEDC-correlated, not pure WLTP, so it is not cited."
     specs:
-      battery_kwh_net: 28.9
-      battery_kwh_gross: 32.6
       ac_kw: 11
       dc_peak_kw: 50
       power_kw: 135
@@ -1852,3 +2184,21 @@ variants:
       seats: 4
     notes: "32.6 kWh gross (about 28.9 usable). WLTP roughly 225-235 km."
     confidence: low
+
+# Source holds: source records that go to review (data/review/unmatched.csv) with the reason
+# below instead of making or joining a row (see ev_pipeline/match/matcher.py, 4). For records
+# that fit no real variant of their model years, or whose figures a maker document contradicts
+# across the board. A hold never sets or changes a value.
+source_holds:
+  - generation_id: audi-q4-e-tron-gen1
+    source: openev
+    names: ["40", "40 Sportback", "50", "50 Sportback", "quattro", "quattro Sportback"]
+    reason: >-
+      OpenEV's Q4 e-tron file is mis-modelled. Its names are one step off: MY2023 "40" / "40
+      Sportback" carry the 35's figures (125 kW, 9.0 s), "50" / "50 Sportback" the 40's (RWD,
+      150 kW, 8.5 s; a 50 is always quattro), "quattro" the 50 quattro's (220 kW, 6.2 s). Its
+      usable battery is about 4 kWh low on every trim (48 / 73 vs Audi 51.5 / 77 / 76.6), and
+      MY2024-25 records repeat MY2023 unchanged although that lineup changed (45 and 55
+      quattro). Audi technical data 'Audi Q4 e-tron 35 / 40 / 50 quattro', program for Germany,
+      status 04-05/2021 (media.audi.com, Audi Estonia), read 2026-11-15. Joining them to the seed
+      35 / 40 / 50 quattro would replace correct seed figures with these; review instead.

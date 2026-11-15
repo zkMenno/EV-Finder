@@ -3,15 +3,21 @@
 // hydrates them, then fetches the compact catalogue JSON from our own origin and filters
 // and sorts the full list in the browser. All state lives in the URL (see lib/state.ts).
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
-import type { Country, Currency } from "@ev/schema";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import type { Country, Currency, FieldProvenance } from "@ev/schema";
+import Link from "next/link";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
+import { generationHref, variantHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import type { CountrySlug, Lang } from "@/config/countries";
-import { makeT, type Dict, type MsgKey, type T } from "@/i18n";
+import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
+import { hasDcData } from "@/lib/dc";
 import type { ClientCatalogue, ExploreRow } from "@/lib/explore-data";
 import { favouriteStore } from "@/lib/favourites";
-import { applyFilters, displayName, priceFor, sortRows } from "@/lib/filters";
+import { applyFilters, displayName, mostRestrictive, priceFor, sortRows, withoutGroup, type FilterGroup } from "@/lib/filters";
 import { formatMoney, formatYears, localeFor } from "@/lib/format";
+import { effectiveLoan, monthlyFor, readPayMode, writePayMode, type EffectiveLoan, type FinanceProfileView, type PayMode } from "@/lib/finance";
+import { LeaseNotice, LoanBox, PayModeToggle, useLoanSettings, type FinanceUi } from "@/components/PriceMode";
+import { siteBase } from "@/lib/site-paths";
 import {
   activeFilterCount,
   BODIES,
@@ -29,16 +35,26 @@ import {
   type Level,
   type NumericFilter,
   type SortKey,
+  TRIP_KEY,
   type View,
 } from "@/lib/state";
 import { readStorage, writeStorage } from "@/lib/storage";
 import { voltageBounds, type UiTaxonomy } from "@/lib/taxonomy";
 import { useListStore } from "@/lib/use-list-store";
-import { Num } from "./Num";
+import { Missing, Num } from "./Num";
 import { numLabels, type NumLabels } from "./num-labels";
 import { PriceBand } from "./PriceBand";
 import { QualityBadge } from "./QualityBadge";
 import { InfoTip, TermInfo, TermLabel, type TermText } from "./Term";
+import { usePopover } from "./use-popover";
+// Type only: the trip module itself is loaded with import() on demand (T-036, JS budget).
+import type * as TripModuleNs from "./trip/TripModule";
+
+type TripModule = typeof TripModuleNs;
+type CarFit = TripModuleNs.CarFit;
+type TripSettings = TripModuleNs.TripSettings;
+
+const loadTripModule = (): Promise<TripModule> => import("./trip/TripModule");
 
 const PAGE = 50;
 
@@ -59,6 +75,12 @@ export interface ExploreProps {
   taxonomy: UiTaxonomy;
   /** Release date (YYYY-MM-DD), shown with sources at nerd level. */
   asOf: string;
+  /** TRIP_FIT=1 (server env): shows the trip fit quick check. Off → no trip UI at all. */
+  tripFit?: boolean;
+  /** This country's finance profile (data/taxonomy/finance_profiles.yaml), Decision 017. */
+  finance: FinanceProfileView | null;
+  /** The URL sets ?pay= (else the remembered price mode wins). */
+  payFromUrl: boolean;
 }
 
 interface Ctx {
@@ -69,11 +91,23 @@ interface Ctx {
   code: Country;
   currency: Currency;
   country: CountrySlug;
+  /** "/{country}/{lang}": prefix for every link (Decision 015). */
+  base: string;
   tax: UiTaxonomy;
   names: { voltage: Map<string, string>; chem: Map<string, string>; cool: Map<string, string> };
   termText: TermText;
   level: Level;
   asOf: string;
+  /** Price mode and the effective loan inputs (Decision 017). */
+  pay: PayMode;
+  loan: EffectiveLoan;
+  /**
+   * Inside the table, numbers and secondary links are not Tab stops (one stop per row for the
+   * name link, heart and compare; provenance via the variant page or the Nerd "sources" button).
+   */
+  inTable?: boolean;
+  /** Trip fit verdicts (T-036) once the user entered a trip; drives the "Your trips" column. */
+  trip?: { mod: TripModule; fits: Map<string, CarFit>; ui: TripModuleNs.TripUi };
 }
 
 export function Explore(props: ExploreProps) {
@@ -87,16 +121,30 @@ export function Explore(props: ExploreProps) {
   // True once the user changed anything: from then on counts come from the (partial or full) client list.
   const [dirty, setDirty] = useState(false);
   const lastUrl = useRef(toSearchParams(props.initialState).toString());
+  // Trip fit (T-036): module loaded on demand, answers from localStorage only.
+  const [tripMod, setTripMod] = useState<TripModule | null>(null);
+  const [tripSettings, setTripSettings] = useState<TripSettings | null>(null);
+  const [tripOpen, setTripOpen] = useState(false);
+  const tripFit = props.tripFit === true;
+  const [loanSettings, setLoanSettings] = useLoanSettings();
+  const loan = useMemo(() => effectiveLoan(props.finance, loanSettings), [props.finance, loanSettings]);
+
+  const tripRows = all ?? props.initialRows;
+  const fits = useMemo(
+    () => (tripMod && tripFit ? tripMod.computeFits(tripRows, tripSettings, props.country) : null),
+    [tripMod, tripFit, tripRows, tripSettings, props.country],
+  );
 
   const ctx: Ctx = useMemo(
     () => ({
       t,
       locale,
-      labels: numLabels(t),
+      labels: numLabels(t, { base: siteBase(props.country, props.lang), terms: props.taxonomy.terms }),
       sources,
       code: props.code,
       currency: props.currency,
       country: props.country,
+      base: siteBase(props.country, props.lang),
       tax: props.taxonomy,
       names: {
         voltage: new Map(props.taxonomy.voltageClasses.map((v) => [v.id, v.label])),
@@ -106,9 +154,58 @@ export function Explore(props: ExploreProps) {
       termText: { about: t("term.about"), learnMore: t("term.learnMore") },
       level: state.level,
       asOf: props.asOf,
+      pay: state.pay,
+      loan,
+      trip: tripMod && fits ? { mod: tripMod, fits, ui: {
+              t,
+              level: state.level,
+              locale,
+              labels: numLabels(t, { base: siteBase(props.country, props.lang), terms: props.taxonomy.terms }),
+              country: props.country,
+              gloss: { base: siteBase(props.country, props.lang), terms: props.taxonomy.terms, text: { about: t("term.about"), learnMore: t("term.learnMore") } },
+            } } : undefined,
     }),
-    [t, locale, sources, props.code, props.currency, props.country, props.taxonomy, state.level, props.asOf],
+    [t, locale, sources, props.code, props.currency, props.country, props.lang, props.taxonomy, state.level, props.asOf, state.pay, loan, tripMod, fits],
   );
+
+  const openTrip = () => {
+    setTripOpen(true);
+    if (tripMod) return;
+    loadTripModule()
+      .then((m) => {
+        setTripMod(m);
+        setTripSettings(m.loadTripSettings() ?? m.normalizeTripSettings(null));
+      })
+      .catch(() => setTripOpen(false));
+  };
+
+  // A trip saved earlier: load the module after first paint so the column comes back.
+  useEffect(() => {
+    if (!tripFit || !readStorage(TRIP_KEY)) return;
+    let live = true;
+    loadTripModule()
+      .then((m) => {
+        if (!live) return;
+        setTripMod(m);
+        setTripSettings(m.loadTripSettings());
+      })
+      .catch(() => {
+        /* no trip column; Explore works as before */
+      });
+    return () => {
+      live = false;
+    };
+  }, [tripFit]);
+
+  const changeTrip = (next: TripSettings) => {
+    setTripSettings(next);
+    tripMod?.saveTripSettings(next);
+  };
+  const clearTrip = () => {
+    tripMod?.clearTripSettings();
+    setTripSettings(tripMod ? tripMod.normalizeTripSettings(null) : null);
+    if (state.filters.tripFit) update({ ...state, filters: { ...state.filters, tripFit: false } });
+  };
 
   // Full list, fetched from our own origin after first paint.
   useEffect(() => {
@@ -142,11 +239,15 @@ export function Explore(props: ExploreProps) {
       const stored = readStorage(LEVEL_KEY);
       if ((LEVELS as readonly string[]).includes(stored ?? "") && stored !== props.initialState.level) patch.level = stored as Level;
     }
+    if (!props.payFromUrl) {
+      const stored = readPayMode();
+      if (stored && stored !== props.initialState.pay) patch.pay = stored;
+    }
     // One-off read of browser-only preferences after hydration (reading them during render would
     // mismatch the server HTML), so a setState here is intended.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (Object.keys(patch).length) setState((s) => ({ ...s, ...patch }));
-  }, [props.viewFromUrl, props.levelFromUrl, props.initialState.view, props.initialState.level]);
+  }, [props.viewFromUrl, props.levelFromUrl, props.payFromUrl, props.initialState.view, props.initialState.level, props.initialState.pay]);
 
   // State → URL (replaceState: no server round trip, links stay shareable).
   useEffect(() => {
@@ -173,12 +274,43 @@ export function Explore(props: ExploreProps) {
     writeStorage(LEVEL_KEY, level);
     setState({ ...state, level });
   };
+  const setPay = (pay: PayMode) => {
+    writePayMode(pay);
+    setState({ ...state, pay });
+  };
+  const financeUi: FinanceUi = {
+    t,
+    locale,
+    currency: props.currency,
+    code: props.code,
+    level: state.level,
+    base: ctx.base,
+    terms: props.taxonomy.terms,
+    termText: ctx.termText,
+  };
 
+  // The filter pipeline Explore shows: filters + (with a trip entered) the winter trip fit.
+  const runFilters = useCallback(
+    (f: ExploreFilters) => {
+      let out = applyFilters(all ?? props.initialRows, f, props.code);
+      // "Does my trips in winter": keeps ✓ and ⚠; only with a trip entered (the URL flag alone does nothing).
+      if (f.tripFit && fits) out = out.filter((r) => {
+        const v = fits.get(r.variant_id)?.verdict;
+        return v === "ok" || v === "tight";
+      });
+      return out;
+    },
+    [all, props.initialRows, props.code, fits],
+  );
   const matches = useMemo(() => {
     if (!all && !dirty) return props.initialRows;
-    const base = all ?? props.initialRows;
-    return sortRows(applyFilters(base, state.filters, props.code), state.sort, state.dir, props.code);
-  }, [all, dirty, state.filters, state.sort, state.dir, props.code, props.initialRows]);
+    return sortRows(runFilters(state.filters), state.sort, state.dir, props.code);
+  }, [all, dirty, runFilters, state.filters, state.sort, state.dir, props.code, props.initialRows]);
+  // Empty state with a reason: the one filter whose removal brings back the most cars.
+  const relax = useMemo(
+    () => (matches.length === 0 && (all || dirty) ? mostRestrictive(state.filters, (f) => runFilters(f).length) : null),
+    [matches.length, all, dirty, state.filters, runFilters],
+  );
 
   const matchCount = all || dirty ? matches.length : props.initialMatches;
   const rows = matches.slice(0, limit);
@@ -196,13 +328,16 @@ export function Explore(props: ExploreProps) {
             {!all ? <span className="ml-2 text-slate-600">{t("explore.loading")}</span> : null}
           </p>
           <div className="flex flex-wrap gap-2">
-            <Toggle
-              label={t("level")}
-              options={LEVELS.map((l) => ({ value: l, label: t(`level.${l}`) }))}
-              value={state.level}
-              onChange={setLevel}
-              testId="level-switch"
-            />
+            <span className="inline-flex items-center">
+              <Toggle
+                label={t("level")}
+                options={LEVELS.map((l) => ({ value: l, label: t(`level.${l}`) }))}
+                value={state.level}
+                onChange={setLevel}
+                testId="level-switch"
+              />
+              <TermInfo term={props.taxonomy.terms["detail-level"]} base={ctx.base} text={ctx.termText} />
+            </span>
             <Toggle
               label={t("explore.view")}
               options={(["table", "cards"] as const).map((v) => ({ value: v, label: t(`explore.view.${v}`) }))}
@@ -212,8 +347,46 @@ export function Explore(props: ExploreProps) {
           </div>
         </div>
 
+        <div className="mb-3 flex flex-col gap-2">
+          <PayModeToggle value={state.pay} onChange={setPay} ui={financeUi} />
+          {state.pay === "loan" ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={financeUi} /> : null}
+          {state.pay === "lease" ? <LeaseNotice ui={financeUi} /> : null}
+        </div>
+
+        {tripFit ? (
+          <TripBar
+            ctx={ctx}
+            open={tripOpen}
+            settings={tripSettings}
+            mod={tripMod}
+            filterOn={state.filters.tripFit}
+            onOpen={openTrip}
+            onFilter={(on) => setFilter({ tripFit: on })}
+          />
+        ) : null}
+        {tripFit && tripOpen ? (
+          tripMod && tripSettings ? (
+            <tripMod.TripPanel
+              settings={tripSettings}
+              onChange={changeTrip}
+              onClose={() => setTripOpen(false)}
+              onClear={clearTrip}
+              fits={fits}
+              ui={{ t, level: state.level, locale, labels: ctx.labels, country: props.country, gloss: { base: ctx.base, terms: ctx.tax.terms, text: ctx.termText } }}
+            />
+          ) : (
+            <p className="mb-4 text-sm text-slate-700">{t("trip.loading")}</p>
+          )
+        ) : null}
+
         {rows.length === 0 ? (
-          <p className="rounded-md border border-dashed border-slate-400 p-6 text-center text-slate-800">{t("explore.noResults")}</p>
+          <EmptyState
+            ctx={ctx}
+            filters={state.filters}
+            relax={relax}
+            onRemove={(g) => update({ ...state, filters: withoutGroup(state.filters, g) })}
+            onReset={() => update({ ...state, filters: defaultFilters() })}
+          />
         ) : state.view === "table" ? (
           <ExploreTable rows={rows} state={state} onSort={(k) => update(nextSort(state, k))} ctx={ctx} />
         ) : (
@@ -230,12 +403,135 @@ export function Explore(props: ExploreProps) {
               type="button"
               onClick={() => setLimit((l) => l + PAGE * 2)}
               className="rounded-md border border-slate-500 px-4 py-2 text-sm font-medium hover:bg-slate-100"
+              data-testid="show-more"
             >
-              + {Math.min(PAGE * 2, matches.length - rows.length)}
+              {t("explore.showMore", { n: Math.min(PAGE * 2, matches.length - rows.length) })}
             </button>
           </div>
         ) : null}
       </section>
+    </div>
+  );
+}
+
+/* ---------- trip fit entry point (T-036) ---------- */
+
+/** Label of one filter group as the filters panel shows it, with chosen values where it has them. */
+function groupLabel(g: FilterGroup, f: ExploreFilters, c: Ctx): string {
+  const { t } = c;
+  const list = (label: string, values: string[]) => (values.length ? `${label}: ${values.join(", ")}` : label);
+  switch (g) {
+    case "priceMax": return t("filters.price");
+    case "eras": return list(t("filters.era"), f.eras);
+    case "segments": return list(t("filters.segment"), f.segments.map((v) => t(`segment.${v}` as MsgKey)));
+    case "bodies": return list(t("filters.body"), f.bodies.map((v) => t(`body.${v}` as MsgKey)));
+    case "rangeMin": return t("filters.range");
+    case "batteryMin": return t("filters.battery");
+    case "dcMin": return t("filters.dc");
+    case "bootMin": return t("filters.boot");
+    case "lengthMax": return t("filters.length");
+    case "towingMin": return t("filters.towing");
+    case "voltageClasses": return list(t("filters.voltage"), f.voltageClasses.map((v) => named(c.names.voltage, v, c)));
+    case "voltageMin": return t("filters.vrange");
+    case "fast400": return t("filters.fast400");
+    case "chemistries": return list(t("filters.chemistry"), f.chemistries.map((v) => named(c.names.chem, v, c)));
+    case "coolings": return list(t("filters.cooling"), f.coolings.map((v) => named(c.names.cool, v, c)));
+    case "charge100": return t("filters.charge100");
+    case "tripFit": return t("trip.filter");
+  }
+}
+
+/** "No cars match": names the most restrictive filter and offers to remove it (or reset all). */
+function EmptyState({
+  ctx,
+  filters,
+  relax,
+  onRemove,
+  onReset,
+}: {
+  ctx: Ctx;
+  filters: ExploreFilters;
+  relax: { group: FilterGroup; count: number } | null;
+  onRemove: (g: FilterGroup) => void;
+  onReset: () => void;
+}) {
+  const { t } = ctx;
+  const name = relax ? groupLabel(relax.group, filters, ctx) : "";
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-md border border-dashed border-slate-400 p-6 text-center text-slate-800" data-testid="explore-empty" role="status">
+      <p>{relax ? t("explore.noResults.reason", { filter: name, n: relax.count }) : t("explore.noResults")}</p>
+      <div className="flex flex-wrap justify-center gap-3">
+        {relax ? (
+          <button
+            type="button"
+            onClick={() => onRemove(relax.group)}
+            className="min-h-9 rounded-md border border-blue-800 bg-blue-800 px-3 text-sm font-semibold text-white hover:bg-blue-900"
+            data-testid="explore-empty-remove"
+            data-group={relax.group}
+          >
+            {t("explore.noResults.remove", { filter: name })}
+          </button>
+        ) : null}
+        <button type="button" onClick={onReset} className="min-h-9 rounded-md border border-slate-400 px-3 text-sm text-blue-800 underline underline-offset-2">
+          {t("filters.reset")}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function TripBar({
+  ctx,
+  open,
+  settings,
+  mod,
+  filterOn,
+  onOpen,
+  onFilter,
+}: {
+  ctx: Ctx;
+  open: boolean;
+  settings: TripSettings | null;
+  mod: TripModule | null;
+  filterOn: boolean;
+  onOpen: () => void;
+  onFilter: (on: boolean) => void;
+}) {
+  const { t } = ctx;
+  const has = !!mod && mod.hasTrip(settings);
+  return (
+    <div className="mb-3 flex flex-wrap items-center gap-3" data-testid="trip-bar">
+      {has ? (
+        <>
+          <button
+            type="button"
+            onClick={onOpen}
+            aria-expanded={open}
+            className="inline-flex min-h-9 items-center gap-1 rounded-full border border-blue-800 bg-blue-50 px-3 text-sm font-medium text-blue-900 hover:bg-blue-100"
+            data-testid="trip-chip"
+          >
+            {t("trip.chip", { km: settings!.roundTripKm! })} <span className="underline underline-offset-2">{t("trip.edit")}</span>
+          </button>
+          <span className="flex items-center gap-1">
+            <label htmlFor="f-trip" className="flex items-center gap-2 text-sm font-medium">
+              <input id="f-trip" type="checkbox" checked={filterOn} onChange={(e) => onFilter(e.target.checked)} className="h-4 w-4 accent-blue-800" />
+              {t("trip.filter")}
+            </label>
+            <TermInfo term={ctx.tax.terms["trip-fit"]} base={ctx.base} text={ctx.termText} />
+          </span>
+        </>
+      ) : (
+        <button
+          type="button"
+          onClick={onOpen}
+          aria-expanded={open}
+          className="min-h-9 rounded-md border border-blue-800 px-3 text-sm font-semibold text-blue-900 hover:bg-blue-50"
+          data-testid="trip-open"
+        >
+          {t("trip.open")}
+        </button>
+      )}
+      {has ? null : <TermInfo term={ctx.tax.terms["trip-fit"]} base={ctx.base} text={ctx.termText} />}
     </div>
   );
 }
@@ -280,7 +576,7 @@ function FilterLabel({ htmlFor, termId, fallback, ctx }: { htmlFor?: string; ter
       <Tag {...(htmlFor ? { htmlFor } : {})} className="text-sm font-medium">
         <TermLabel term={term ? { ...term, label: fallback } : undefined} fallback={fallback} showTechnical={ctx.level !== "simple"} />
       </Tag>
-      <TermInfo term={term} country={ctx.country} text={ctx.termText} />
+      <TermInfo term={term} base={ctx.base} text={ctx.termText} />
     </span>
   );
 }
@@ -346,7 +642,7 @@ function Chips<V extends string>({
     <fieldset>
       <legend className="mb-1 flex w-full items-start justify-between gap-1 text-sm font-medium">
         <span>{legend}</span>
-        <TermInfo term={term} country={ctx.country} text={ctx.termText} />
+        <TermInfo term={term} base={ctx.base} text={ctx.termText} />
       </legend>
       <div className="flex flex-wrap gap-1.5">
         {options.map((o) => (
@@ -378,7 +674,7 @@ function Flag({ id, termId, label, checked, onChange, ctx }: { id: string; termI
         <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-0.5 h-4 w-4 accent-blue-800" />
         {label}
       </label>
-      <TermInfo term={ctx.tax.terms[termId]} country={ctx.country} text={ctx.termText} />
+      <TermInfo term={ctx.tax.terms[termId]} base={ctx.base} text={ctx.termText} />
     </div>
   );
 }
@@ -428,7 +724,7 @@ function ChemistryInfo({ id, ctx }: { id: string; ctx: Ctx }) {
       </span>
     ) : null;
   return (
-    <InfoTip label={c.label} href={`/${ctx.country}/learn/chemistry`} text={ctx.termText}>
+    <InfoTip label={c.label} href={`${ctx.base}/learn/chemistry`} text={ctx.termText}>
       {c.explainer ? <span className="block">{c.explainer}</span> : null}
       {list(t("chem.pros"), c.pros)}
       {list(t("chem.cons"), c.cons)}
@@ -549,9 +845,11 @@ function num(r: ExploreRow, c: Ctx, v: number | null | undefined, field: string,
       labels={c.labels}
       digits={digits}
       note={note}
+      noteTerm={field === "real_range_km" && note ? "rung" : undefined}
       claim={claim}
       level={c.level}
       asOf={c.asOf}
+      focusable={!c.inTable}
     />
   );
 }
@@ -562,6 +860,8 @@ function rangeNote(r: ExploreRow, c: Ctx): string | undefined {
   return c.level === "nerd" ? `${label} [${r.real_range_rung}]` : label;
 }
 
+const NO_NAMES = new Map<string, string>();
+
 function named(map: Map<string, string>, id: string | null | undefined, c: Ctx): string {
   if (!id) return "—";
   if (id === "not-disclosed") return c.t("notDisclosed");
@@ -571,23 +871,36 @@ function named(map: Map<string, string>, id: string | null | undefined, c: Ctx):
 function priceCell(r: ExploreRow, c: Ctx) {
   const amount = priceFor(r, c.code);
   const currency = r.price_new?.[c.code]?.currency ?? c.currency;
+  if (c.pay === "lease") return <Missing label={c.t("pay.lease.none")} />;
+  // Loan: the monthly estimate from this price + the shown loan inputs; hover = the price's source.
+  const monthly = c.pay === "loan" ? monthlyFor(amount, c.loan) : null;
+  if (c.pay === "loan" && !monthly) return <Missing label={amount === null ? c.t("num.noData") : c.t("pay.needRate")} />;
   return (
     <Num
       value={amount}
-      text={amount !== null ? formatMoney(amount, currency, c.locale) : undefined}
+      text={
+        monthly
+          ? `≈ ${c.t("pay.perMonth", { amount: formatMoney(monthly.monthly, currency, c.locale) })}`
+          : amount !== null
+            ? formatMoney(amount, currency, c.locale)
+            : undefined
+      }
+      note={monthly ? c.t("pay.estimate") : undefined}
       provenance={r.provenance[`price_new.${c.code}`] ?? r.provenance.price_new}
       sources={c.sources}
       locale={c.locale}
       labels={c.labels}
       level={c.level}
       asOf={c.asOf}
+      focusable={!c.inTable}
     />
   );
 }
 
 function charger400(r: ExploreRow, c: Ctx) {
-  // No DC figure means "no DC data": never imply the car fast-charges (coordinator note, release 1).
-  if (!r.charger_400v_mode || r.dc_peak_kw == null) return "—";
+  // No DC figure means "no DC data": never imply the car fast-charges (shared rule, src/lib/dc.ts).
+  if (!hasDcData(r)) return <Missing label={c.t("num.noDc")} />;
+  if (!r.charger_400v_mode) return <Missing label={c.t("num.noData")} />;
   return (
     <span className="flex flex-col">
       <span>
@@ -601,7 +914,11 @@ function charger400(r: ExploreRow, c: Ctx) {
 
 const COLS: Col[] = [
   { id: "car", key: "name", label: "col.car", levels: ALL, cell: () => null },
-  { id: "gen", key: null, label: "col.generation", term: "generation", levels: DN, cell: (r) => r.generation_name },
+  { id: "gen", key: null, label: "col.generation", term: "generation", levels: DN, cell: (r, c) => (
+      <Link href={generationHref(c.base, r)} tabIndex={c.inTable ? -1 : undefined} className="underline decoration-slate-400 underline-offset-2 hover:text-blue-900">
+        {r.generation_name}
+      </Link>
+    ) },
   { id: "variant", key: null, label: "col.variant", term: "variant", levels: DN, cell: (r) => r.variant_name },
   { id: "years", key: "years", label: "col.years", term: "model-years", levels: ALL, cell: (r, c) => formatYears(r.year_start, r.year_end, c.t("years.now")) },
   { id: "era", key: "era", label: "col.era", term: "era", levels: DN, cell: (r) => r.era },
@@ -614,10 +931,10 @@ const COLS: Col[] = [
   { id: "voltage", key: null, label: "col.voltage", term: "voltage-class", levels: DN, cell: (r, c) => named(c.names.voltage, r.voltage_class_id, c) },
   { id: "nominal", key: null, label: "col.voltage", term: "nominal-voltage", num: true, levels: N, cell: (r, c) => num(r, c, r.voltage_nominal_v, "voltage_nominal_v", "V", 0) },
   { id: "charger400", key: null, label: "col.charger400", term: "400v-charger-behaviour", levels: N, cell: charger400 },
-  { id: "chem", key: null, label: "col.chemistry", term: "chemistry", levels: DN, cell: (r, c) => named(c.names.chem, r.chemistry_id, c) + (c.level === "nerd" && r.cell_format ? ` · ${r.cell_format}` : "") },
+  { id: "chem", key: null, label: "col.chemistry", term: "chemistry", levels: DN, cell: (r, c) => named(c.names.chem, r.chemistry_id, c) + (c.level === "nerd" && r.cell_format ? ` · ${named(NO_NAMES, r.cell_format, c)}` : "") },
   { id: "cool", key: null, label: "col.cooling", term: "cooling", levels: N, cell: (r, c) => named(c.names.cool, r.cooling_id, c) },
-  { id: "platform", key: null, label: "col.platform", levels: N, cell: (r) => r.platform_name ?? "—" },
-  { id: "pack", key: null, label: "col.pack", levels: N, cell: (r, c) => named(new Map(), r.battery_pack_id, c) },
+  { id: "platform", key: null, label: "col.platform", term: "platform", levels: N, cell: (r) => r.platform_name ?? "—" },
+  { id: "pack", key: null, label: "col.pack", term: "battery-pack", levels: N, cell: (r, c) => named(NO_NAMES, r.battery_pack_id, c) },
   { id: "quality", key: "quality", label: "col.quality", term: "quality-tier", levels: ALL, cell: (r, c) => <QualityBadge tier={r.quality_tier} label={c.t(`tier.${r.quality_tier}`)} help={c.t(`tier.${r.quality_tier}.help`)} /> },
 ];
 
@@ -628,19 +945,25 @@ export function columnsFor(level: Level): string[] {
 
 /* ---------- table ---------- */
 
-function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state: ExploreState; onSort: (k: SortKey) => void; ctx: Ctx }) {
+function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[]; state: ExploreState; onSort: (k: SortKey) => void; ctx: Ctx }) {
+  const ctx = useMemo(() => ({ ...outer, inTable: true }), [outer]);
   const { t, level } = ctx;
   const cols = COLS.filter((c) => c.levels.includes(level));
+  const trip = ctx.trip;
+  // "Sort by {col}" split around the column name, so the words work in any language's order.
+  const [sortBefore = "", sortAfter = ""] = t("sort.by", { col: "\u0000" }).split("\u0000");
   return (
-    <div className="max-h-[75vh] overflow-auto rounded-lg border border-slate-300" tabIndex={0} aria-labelledby="results-heading">
+    <div className="relative max-h-[75vh] overflow-auto rounded-lg border border-slate-300" tabIndex={0} aria-labelledby="results-heading" data-testid="explore-scroll">
       <table className="w-max min-w-full border-collapse text-sm" data-testid="explore-table">
         <thead>
           <tr>
             {cols.map((col, i) => {
               const sorted = col.key && state.sort === col.key;
               const ariaSort = sorted ? (state.dir === "asc" ? "ascending" : "descending") : col.key ? "none" : undefined;
-              const term = col.term ? ctx.tax.terms[col.term] : undefined;
-              const label = <TermLabel term={term} fallback={t(col.label)} showTechnical={level !== "simple"} />;
+              // Price column follows the price mode (Decision 017).
+              const payCol = col.id === "price" && ctx.pay !== "buy" ? ctx.pay : null;
+              const term = payCol ? ctx.tax.terms[payCol] : col.term ? ctx.tax.terms[col.term] : undefined;
+              const label = <TermLabel term={term} fallback={payCol ? t(`pay.col.${payCol}`) : t(col.label)} showTechnical={level !== "simple"} />;
               return (
                 <th
                   key={col.id}
@@ -653,10 +976,13 @@ function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state:
                       <button
                         type="button"
                         onClick={() => onSort(col.key!)}
-                        aria-label={t("sort.by", { col: term?.label ?? t(col.label) })}
-                        className="inline-flex items-end gap-1 rounded-sm text-left hover:underline"
+                        // No aria-label: the accessible name must contain the visible label (WCAG 2.5.3,
+                        // axe label-content-name-mismatch), so "Sort by" is sr-only text around it.
+                        className="inline-flex min-h-6 items-end gap-1 rounded-sm text-left hover:underline"
                       >
+                        {sortBefore.trim() ? <span className="sr-only">{sortBefore}</span> : null}
                         {label}
+                        {sortAfter.trim() ? <span className="sr-only">{sortAfter}</span> : null}
                         <span aria-hidden="true" className="text-xs text-slate-600">
                           {sorted ? (state.dir === "asc" ? "▲" : "▼") : "↕"}
                         </span>
@@ -664,23 +990,41 @@ function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state:
                     ) : (
                       label
                     )}
-                    <TermInfo term={term} country={ctx.country} text={ctx.termText} />
+                    <TermInfo term={term} base={ctx.base} text={ctx.termText} />
                   </span>
                 </th>
               );
             })}
+            {trip ? (
+              <th scope="col" className="sticky top-0 z-20 min-w-36 border-b border-slate-300 bg-slate-100 px-3 py-2 text-left align-bottom font-semibold" data-testid="trip-col">
+                <span className="inline-flex items-end gap-1">
+                  {t("trip.col")}
+                  <TermInfo term={ctx.tax.terms["trip-fit"]} base={ctx.base} text={ctx.termText} />
+                </span>
+              </th>
+            ) : null}
           </tr>
         </thead>
         <tbody>
-          {rows.map((r) => (
-            <tr key={r.variant_id} className="border-b border-slate-200 last:border-0 hover:bg-slate-50" data-testid="explore-row">
+          {rows.map((r) => {
+            const fit = trip?.fits.get(r.variant_id);
+            const grey = fit?.verdict === "fail";
+            return (
+            <tr
+              key={r.variant_id}
+              className={`border-b border-slate-200 last:border-0 hover:bg-slate-50 ${grey ? "text-slate-600 [&>td]:opacity-70" : ""}`}
+              data-testid="explore-row"
+              data-trip={fit?.verdict}
+            >
               <th scope="row" className="sticky left-0 z-10 bg-white px-3 py-2 text-left font-medium">
                 <div className="flex items-center gap-2">
                   <RowActions row={r} t={t} />
                   <span className="flex flex-col">
-                    <span className="whitespace-nowrap">
+                    <Link href={variantHref(ctx.base, r)} className="inline-block min-h-6 whitespace-nowrap py-0.5 text-blue-800 underline underline-offset-2 hover:text-blue-950">
                       {r.make_name} {r.model_name}
-                    </span>
+                      {level !== "simple" ? <span className="sr-only"> {r.generation_name} {r.variant_name}</span> : null}
+                    </Link>
+                    {level === "nerd" ? <RowSources row={r} ctx={ctx} /> : null}
                     {level === "simple" ? (
                       <span className="whitespace-nowrap text-xs font-normal text-slate-700">
                         {r.generation_name} · {r.variant_name}
@@ -694,11 +1038,79 @@ function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state:
                   {col.cell(r, ctx)}
                 </td>
               ))}
+              {trip ? (
+                <td className="px-3 py-2">
+                  <trip.mod.TripCell fit={fit} ui={trip.ui} />
+                </td>
+              ) : null}
             </tr>
-          ))}
+            );
+          })}
         </tbody>
       </table>
     </div>
+  );
+}
+
+/* ---------- per-row sources (Nerd level, keyboard access to provenance) ---------- */
+
+/** Provenance key → column label, in display order. Price uses `price_new.<CC>`. */
+const PROV_LABELS: readonly [string, MsgKey][] = [
+  ["real_range_km", "col.range"],
+  ["battery_kwh_net", "col.battery"],
+  ["dc_km_per_20min", "col.dc"],
+  ["dc_km_per_10min", "col.dc"],
+  ["dc_peak_kw", "col.dcPeak"],
+  ["ac_km_per_h", "col.ac"],
+  ["price_new", "col.price"],
+  ["registered_count_nl", "col.rdw"],
+  ["voltage_nominal_v", "col.voltage"],
+  ["charger_400v_kw", "col.charger400"],
+  ["boot_l", "filters.boot"],
+  ["length_mm", "filters.length"],
+  ["towing_kg", "filters.towing"],
+];
+
+/** Rows of the per-row sources list: label, source names, confidence. Exported for tests. */
+export function rowSources(r: ExploreRow, code: Country, sources: Record<string, string>) {
+  const out: { key: string; label: MsgKey; names: string; confidence: FieldProvenance["confidence"]; estimate: boolean }[] = [];
+  const dc = hasDcData(r);
+  for (const [key, label] of PROV_LABELS) {
+    if (key === "charger_400v_kw" && !dc) continue;
+    const p = key === "price_new" ? (r.provenance[`price_new.${code}`] ?? r.provenance.price_new) : r.provenance[key];
+    const value = key === "price_new" ? priceFor(r, code) : (r as unknown as Record<string, unknown>)[key];
+    if (!p || value === null || value === undefined) continue;
+    out.push({ key, label, names: p.source_ids.map((s) => sources[s] ?? s).join(", "), confidence: p.confidence, estimate: !!p.estimate });
+  }
+  return out;
+}
+
+function RowSources({ row, ctx }: { row: ExploreRow; ctx: Ctx }) {
+  const { buttonProps, popoverProps } = usePopover();
+  const list = rowSources(row, ctx.code, ctx.sources);
+  if (!list.length) return null;
+  const { t } = ctx;
+  return (
+    <span className="inline-flex">
+      <button
+        {...buttonProps}
+        aria-label={t("explore.rowSources", { name: displayName(row) })}
+        className="min-h-6 w-fit whitespace-nowrap rounded-sm text-left text-xs font-normal text-blue-800 underline decoration-dotted underline-offset-2"
+        data-testid="row-sources"
+      >
+        {t("explore.sources")}
+      </button>
+      <span {...popoverProps}>
+        <span className="mb-1 block font-semibold">{displayName(row)}</span>
+        {list.map((x) => (
+          <span key={x.key} className="block">
+            <span className="font-semibold">{t(x.label)}:</span> {x.names} · {ctx.labels.conf[x.confidence]}
+            {x.estimate ? ` · ${ctx.labels.estimate}` : ""}
+          </span>
+        ))}
+        <span className="mt-1 block text-slate-700">{ctx.asOf}</span>
+      </span>
+    </span>
   );
 }
 
@@ -706,36 +1118,60 @@ function ExploreTable({ rows, state, onSort, ctx }: { rows: ExploreRow[]; state:
 
 function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
   const { t, level } = c;
-  const item = (label: string, value: ReactNode) => (
-    <div className="flex flex-col">
+  const item = (label: ReactNode, value: ReactNode) => (
+    <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]">
       <dt className="text-xs text-slate-700">{label}</dt>
       <dd>{value}</dd>
     </div>
   );
-  const term = (id: string, fallback: MsgKey) => c.tax.terms[id]?.label ?? t(fallback);
+  // Label + glossary ⓘ (glossary sweep item 4); a missing term renders the plain label.
+  const term = (id: string, fallback: MsgKey, suffix = "") => (
+    <span className="inline-flex items-center gap-0.5">
+      {(c.tax.terms[id]?.label ?? t(fallback)) + suffix}
+      <TermInfo term={c.tax.terms[id]} base={c.base} text={c.termText} />
+    </span>
+  );
   const more = level !== "simple";
   return (
-    <li className="flex flex-col gap-3 rounded-lg border border-slate-300 bg-white p-4" data-testid="explore-card">
+    <li
+      className={`flex flex-col gap-3 rounded-lg border border-slate-300 bg-white p-4 ${c.trip?.fits.get(r.variant_id)?.verdict === "fail" ? "opacity-70" : ""}`}
+      data-testid="explore-card"
+      data-trip={c.trip?.fits.get(r.variant_id)?.verdict}
+    >
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="font-semibold">
-            {r.make_name} {r.model_name}
+            <Link href={variantHref(c.base, r)} className="text-blue-800 underline underline-offset-2 hover:text-blue-950">
+              {r.make_name} {r.model_name}
+            </Link>
           </h3>
           <p className="text-sm text-slate-700">
             {r.generation_name} · {r.variant_name} · {formatYears(r.year_start, r.year_end, t("years.now"))}
           </p>
         </div>
-        <QualityBadge tier={r.quality_tier} label={t(`tier.${r.quality_tier}`)} help={t(`tier.${r.quality_tier}.help`)} />
+        <span className="inline-flex items-center gap-1">
+          <QualityBadge tier={r.quality_tier} label={t(`tier.${r.quality_tier}`)} help={t(`tier.${r.quality_tier}.help`)} />
+          <TermInfo term={c.tax.terms["quality-tier"]} base={c.base} text={c.termText} />
+        </span>
       </div>
+      {c.trip ? (
+        <div className="text-sm">
+          <span className="inline-flex items-center gap-0.5 text-xs text-slate-700">
+            {t("trip.col")}
+            <TermInfo term={c.tax.terms["trip-fit"]} base={c.base} text={c.termText} />
+          </span>
+          <c.trip.mod.TripCell fit={c.trip.fits.get(r.variant_id)} ui={c.trip.ui} inTable={false} />
+        </div>
+      ) : null}
       <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
         {item(term("real-range", "col.range"), num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c)))}
-        {item(`${term("dc-km-20min", "col.dc")} (${t("col.dc20.unit")})`, num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0))}
-        {item(term("new-price", "col.price"), priceCell(r, c))}
-        {item(t("price.used"), <PriceBand currency={c.currency} locale={c.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />)}
+        {item(term("dc-km-20min", "col.dc", ` (${t("col.dc20.unit")})`), num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0))}
+        {item(c.pay === "buy" ? term("new-price", "col.price") : term(c.pay, `pay.col.${c.pay}`), priceCell(r, c))}
+        {item(term("used-price", "price.used"), <PriceBand currency={c.currency} locale={c.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />)}
         {more ? (
           <>
             {item(term("usable-vs-gross", "col.battery"), num(r, c, r.battery_kwh_net, "battery_kwh_net", "kWh"))}
-            {item(`${t("col.dc")} (${t("col.dc.unit")})`, num(r, c, r.dc_km_per_10min, "dc_km_per_10min", "km", 0))}
+            {item(term("dc-km-10min", "col.dc", ` (${t("col.dc.unit")})`), num(r, c, r.dc_km_per_10min, "dc_km_per_10min", "km", 0))}
             {item(term("peak-kw", "col.dcPeak"), num(r, c, r.dc_peak_kw, "dc_peak_kw", "kW", 0, undefined, r.dc_peak_kw_is_claim === true))}
             {item(term("ac-charging", "col.ac"), num(r, c, r.ac_km_per_h, "ac_km_per_h", "km/h", 0))}
             {item(term("voltage-class", "col.voltage"), named(c.names.voltage, r.voltage_class_id, c))}
@@ -749,8 +1185,8 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
             {item(term("cooling", "col.cooling"), named(c.names.cool, r.cooling_id, c))}
             {item(term("400v-charger-behaviour", "col.charger400"), charger400(r, c))}
             {item(term("nominal-voltage", "col.voltage"), num(r, c, r.voltage_nominal_v, "voltage_nominal_v", "V", 0))}
-            {item(t("col.platform"), r.platform_name ?? "—")}
-            {item(t("col.pack"), named(new Map(), r.battery_pack_id, c))}
+            {item(term("platform", "col.platform"), r.platform_name ?? "—")}
+            {item(term("battery-pack", "col.pack"), named(NO_NAMES, r.battery_pack_id, c))}
           </>
         ) : null}
       </dl>
@@ -766,6 +1202,7 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
 function RowActions({ row, t, withText = false }: { row: ExploreRow; t: T; withText?: boolean }) {
   const favs = useListStore(favouriteStore);
   const cmp = useListStore(compareStore);
+  const fullId = useId();
   const name = displayName(row);
   const fav = favs.includes(row.variant_id);
   const inCmp = cmp.some((c) => c.id === row.variant_id);
@@ -783,19 +1220,29 @@ function RowActions({ row, t, withText = false }: { row: ExploreRow; t: T; withT
           <path d="M12 21s-7.5-4.6-9.5-9.2C1 8.2 3.4 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.6 0 6 3.7 4.5 7.3C19.5 16.4 12 21 12 21z" />
         </svg>
       </button>
+      {/* Full tray: aria-disabled (not disabled) so keyboard and screen-reader users still reach it and hear why. */}
       <button
         type="button"
         aria-pressed={inCmp}
-        aria-label={inCmp ? t("compare.removeLabel", { name }) : full ? t("compare.full", { max: COMPARE_MAX }) : t("compare.addLabel", { name })}
+        aria-label={inCmp ? t("compare.removeLabel", { name }) : t("compare.addLabel", { name })}
+        aria-disabled={full || undefined}
+        aria-describedby={full ? fullId : undefined}
         title={full ? t("compare.full", { max: COMPARE_MAX }) : undefined}
-        disabled={full}
         data-testid="compare-toggle"
-        onClick={() => (inCmp ? compareStore.remove(row.variant_id) : compareStore.add({ id: row.variant_id, label: name }))}
-        className={`flex h-8 items-center gap-1 rounded-full border px-2 text-xs font-medium disabled:cursor-not-allowed disabled:opacity-50 ${inCmp ? "border-blue-800 bg-blue-800 text-white" : "border-slate-500 text-slate-900 hover:bg-slate-100"}`}
+        onClick={() => {
+          if (inCmp) compareStore.remove(row.variant_id);
+          else if (!full) compareStore.add({ id: row.variant_id, label: name });
+        }}
+        className={`flex h-8 items-center gap-1 rounded-full border px-2 text-xs font-medium aria-disabled:cursor-not-allowed aria-disabled:opacity-50 ${inCmp ? "border-blue-800 bg-blue-800 text-white" : "border-slate-500 text-slate-900 hover:bg-slate-100"}`}
       >
         <span aria-hidden="true">{inCmp ? "✓" : "+"}</span>
         <span className={withText ? "" : "sr-only"}>{t("compare.add")}</span>
       </button>
+      {full ? (
+        <span id={fullId} className="sr-only">
+          {t("compare.full", { max: COMPARE_MAX })}
+        </span>
+      ) : null}
     </div>
   );
 }

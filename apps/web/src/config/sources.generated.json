@@ -1,0 +1,245 @@
+{
+  "adac": {
+    "name": "ADAC tests and Ecotest",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "ADAC"
+  },
+  "ademe": {
+    "name": "ADEME Car Labelling",
+    "licence": "Licence-Ouverte-2.0",
+    "status": "active",
+    "owner": "ADEME (FR)"
+  },
+  "automobile-propre": {
+    "name": "Automobile Propre",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "Automobile Propre (FR)"
+  },
+  "aviloo": {
+    "name": "Aviloo battery reports",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "Aviloo"
+  },
+  "be-mobilit": {
+    "name": "FPS Mobility (DIV) vehicle registrations",
+    "licence": "CC0-1.0 (to confirm)",
+    "status": "blocked",
+    "owner": "SPF Mobilité et Transports (BE)"
+  },
+  "bnetza": {
+    "name": "Bundesnetzagentur Ladesäulenregister: Ladeinfrastruktur in Zahlen",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "Bundesnetzagentur (DE)"
+  },
+  "cbs": {
+    "name": "CBS StatLine 86402NED",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "CBS (NL)"
+  },
+  "consumer-reports": {
+    "name": "Consumer Reports",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "Consumer Reports"
+  },
+  "dft-charging": {
+    "name": "DfT electric vehicle charging infrastructure statistics (EVCI tables)",
+    "licence": "OGL-UK-3.0",
+    "status": "active",
+    "owner": "UK Department for Transport"
+  },
+  "dft-veh": {
+    "name": "DfT vehicle licensing data files (VEH0120/0160)",
+    "licence": "OGL-UK-3.0",
+    "status": "active",
+    "owner": "UK Department for Transport",
+    "attribution": "Contains public sector information licensed under the Open Government Licence v3.0."
+  },
+  "dft-veh0160": {
+    "name": "DfT VEH0160 licensed vehicles",
+    "licence": "OGL-UK-3.0",
+    "status": "active",
+    "owner": "UK Department for Transport"
+  },
+  "dvla": {
+    "name": "DVLA vehicle register",
+    "licence": "none (not open in bulk)",
+    "status": "blocked",
+    "owner": "DVLA (UK)"
+  },
+  "dvsa-mot": {
+    "name": "DVSA MOT history",
+    "licence": "OGL-UK-3.0",
+    "status": "blocked",
+    "owner": "DVSA (UK)"
+  },
+  "eafo": {
+    "name": "European Alternative Fuels Observatory (recharging points per power level",
+    "licence": "EC reuse policy CC-BY-4.0 for EU-owned content; third-party content excluded (unclear)",
+    "status": "blocked",
+    "owner": "European Commission DG MOVE"
+  },
+  "edmunds": {
+    "name": "Edmunds range tests",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "Edmunds"
+  },
+  "eea": {
+    "name": "EEA CO2 monitoring of new cars (Reg. 2019/631)",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "European Environment Agency"
+  },
+  "eu-safety-gate": {
+    "name": "EU Safety Gate",
+    "licence": "CC-BY-4.0 (to confirm)",
+    "status": "blocked",
+    "owner": "European Commission"
+  },
+  "euroncap": {
+    "name": "Euro NCAP",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "Euro NCAP"
+  },
+  "fastned": {
+    "name": "Fastned charging curves",
+    "licence": "none",
+    "status": "waiting_permission",
+    "owner": "Fastned"
+  },
+  "fueleconomy": {
+    "name": "fueleconomy.gov vehicles dataset (EPA)",
+    "licence": "US-Government-Public-Domain",
+    "status": "active",
+    "owner": "US DOE / EPA"
+  },
+  "insideevs": {
+    "name": "InsideEVs range tests",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "InsideEVs"
+  },
+  "kba": {
+    "name": "KBA stock tables (FZ2/FZ6/FZ28)",
+    "licence": "dl-de/by-2-0 (to confirm per file)",
+    "status": "blocked",
+    "owner": "Kraftfahrt-Bundesamt (DE)"
+  },
+  "kba-fz10": {
+    "name": "KBA FZ10 new registrations by make and model series",
+    "licence": "dl-de/by-2-0",
+    "status": "active",
+    "owner": "Kraftfahrt-Bundesamt (DE)",
+    "attribution": "© Kraftfahrt-Bundesamt, Flensburg"
+  },
+  "kilowatt-openev": {
+    "name": "Open EV Data (KilowattApp)",
+    "licence": "MIT-with-attribution",
+    "status": "active",
+    "owner": "Tijs Teulings / KilowattApp (GitHub)",
+    "attribution": "Open EV Data (https://github.com/KilowattApp/open-ev-data)"
+  },
+  "maker-docs": {
+    "name": "Maker documents and price lists",
+    "licence": "none (individual facts cited by URL and date)",
+    "status": "blocked",
+    "owner": "various OEMs"
+  },
+  "manual": {
+    "name": "Manual entries (hand-entered, cited by URL)",
+    "licence": "none (individual facts cited by URL and date)",
+    "status": "blocked",
+    "owner": "EV Finder staff"
+  },
+  "model-estimate": {
+    "name": "EV Finder estimate models",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "EV Finder"
+  },
+  "naf": {
+    "name": "NAF El Prix tests",
+    "licence": "none",
+    "status": "waiting_permission",
+    "owner": "NAF / Motor (NO)"
+  },
+  "nhtsa": {
+    "name": "NHTSA recalls",
+    "licence": "US-Government-Public-Domain",
+    "status": "active",
+    "owner": "US NHTSA"
+  },
+  "nyland": {
+    "name": "Bjørn Nyland range/charging tests",
+    "licence": "none",
+    "status": "waiting_permission",
+    "owner": "Bjørn Nyland"
+  },
+  "openev": {
+    "name": "Open EV Data",
+    "licence": "CDLA-Permissive-2.0",
+    "status": "active",
+    "owner": "open-ev-data (GitHub)"
+  },
+  "rdw": {
+    "name": "RDW Open Data",
+    "licence": "CC0-1.0",
+    "status": "active",
+    "owner": "RDW (NL)"
+  },
+  "rdw-defects": {
+    "name": "RDW Open Data: APK defects (Geconstateerde Gebreken)",
+    "licence": "CC0-1.0",
+    "status": "active",
+    "owner": "RDW (NL)"
+  },
+  "rdw-tgk": {
+    "name": "RDW Open Data: type-approval register (TGK)",
+    "licence": "CC0-1.0",
+    "status": "active",
+    "owner": "RDW (NL)"
+  },
+  "recurrent": {
+    "name": "Recurrent battery data",
+    "licence": "none",
+    "status": "blocked",
+    "owner": "Recurrent"
+  },
+  "rvo": {
+    "name": "RVO Dashboard Elektrisch vervoer",
+    "licence": "CC-BY-SA-4.0",
+    "status": "blocked",
+    "owner": "RVO for the Ministry of I&W (NL)"
+  },
+  "sdes": {
+    "name": "SDES vehicle fleet",
+    "licence": "Licence-Ouverte-2.0",
+    "status": "active",
+    "owner": "SDES (FR)"
+  },
+  "seed-manual": {
+    "name": "EV Finder seed (hand-entered, unchecked)",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "EV Finder"
+  },
+  "spritmonitor": {
+    "name": "Spritmonitor",
+    "licence": "none",
+    "status": "waiting_permission",
+    "owner": "Spritmonitor.de"
+  },
+  "wikidata": {
+    "name": "Wikidata",
+    "licence": "CC0-1.0",
+    "status": "active",
+    "owner": "Wikimedia Foundation"
+  }
+}

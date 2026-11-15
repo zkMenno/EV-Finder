@@ -1,0 +1,60 @@
+{
+  "brand_id": "5686f8db-6a36-41e7-a78c-fbf957ca103a",
+  "brand_name": "Zero Motorcycles",
+  "models": [
+    {
+      "id": "561fc8d5-547d-4461-8793-43b699ae5fd1",
+      "brand": "Zero Motorcycles",
+      "vehicle_type": "motorbike",
+      "brand_id": "5686f8db-6a36-41e7-a78c-fbf957ca103a",
+      "model": "DS",
+      "release_year": 2019,
+      "variant": "ZF14.4 11 KW",
+      "usable_battery_size": 12.6,
+      "ac_charger": {
+        "usable_phases": 1,
+        "ports": [
+          "type2"
+        ],
+        "max_power": 3.7
+      },
+      "dc_charger": {
+        "ports": [
+          "ccs"
+        ],
+        "max_power": 150,
+        "charging_curve": [
+          {
+            "percentage": 0,
+            "power": 150
+          },
+          {
+            "percentage": 20,
+            "power": 150
+          },
+          {
+            "percentage": 40,
+            "power": 120
+          },
+          {
+            "percentage": 60,
+            "power": 90
+          },
+          {
+            "percentage": 80,
+            "power": 60
+          },
+          {
+            "percentage": 100,
+            "power": 11
+          }
+        ],
+        "is_default_charging_curve": true
+      },
+      "energy_consumption": {
+        "average_consumption": 6.6
+      },
+      "charging_voltage": 400
+    }
+  ]
+}

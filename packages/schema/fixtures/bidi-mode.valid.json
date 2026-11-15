@@ -1,0 +1,14 @@
+{
+  "id": "v2h",
+  "label": {
+    "en": "Can power your home",
+    "nl": "Kan je huis van stroom voorzien"
+  },
+  "technical": {
+    "en": "V2H (vehicle-to-home)"
+  },
+  "short": {
+    "en": "The car can run your house during a power cut or at expensive hours."
+  },
+  "order": 2
+}

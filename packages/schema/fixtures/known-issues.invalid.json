@@ -1,0 +1,23 @@
+{
+  "country": "NL",
+  "source_id": "rdw-defects",
+  "retrieved_at": "2026-11-15",
+  "confidence": "medium",
+  "rate_basis": "per 100 sampled cars",
+  "codes": [],
+  "by_generation": {
+    "Tesla Model 3": [
+      {
+        "first_registration_year": 2019,
+        "age_years": 7,
+        "age_band": "7-9 years",
+        "sample_cars": 0,
+        "cars_with_any_defect": 1,
+        "any_defect_per_100": 5,
+        "few_reports": false,
+        "cohort": { "generations": 1, "sample_cars": 1, "any_defect_per_100": 1 },
+        "defects": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+# "See listings" deep links for this country (T-009, moved here in wave 4).
+# Public search URLs only: we link out and never fetch them. No sampling targets, rates or
+# partner/affiliate ids here (Decision 004). Every pattern is an unverified guess until someone
+# opens it by hand (verified: false, Q-028).
+#
+# Fields per site:
+#   site          stable id
+#   label         button text
+#   url_template  https URL; placeholders {make} {model} (our slugs), {makeName} {modelName}
+#                 (display names), {MAKE} {MODEL} (upper-cased names); all URL-encoded
+#   filters       our filter -> query parameters added to the URL (only "electric" today)
+#   slug_overrides  our make/model slug -> the site's slug (optional)
+#   priority      lower = shown first
+#   verified      true only after a manual check of the live site
+# Loaded at build time by apps/web/scripts/listings.mjs.
+
+country: uk
+# UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
+# these languages plus English. /{country}/ redirects to default_language. Read by
+# apps/web/scripts/countries.mjs.
+languages: [en]
+default_language: en
+listings:
+  - site: autotrader-uk
+    label: Autotrader
+    url_template: "https://www.autotrader.co.uk/car-search?make={makeName}&model={modelName}"
+    filters:
+      electric: { fuel-type: Electric }
+    priority: 1
+    verified: false
+
+# "Find a charger / plan a trip" link-out block (T-024; spec docs/spec/charging-buildout.md,
+# "Where we link out"). Read by apps/web/scripts/charging-links.mjs (keys: job, label, url, order,
+# tool, official, utm, deep_link_template, note). At most five links, in spec order. URLs are
+# copied from the spec only. Not yet opened by hand: the web loader has no `verified` key, so
+# that is recorded here and in tasks/T-024 (unverified). job values = schema
+# CountryChargingLink.job (official-map | local-app | map | route-planner | price-compare).
+# UK: spec lists Zapmap, ABRP, PlugShare only (no Chargeprice row for the UK).
+charging_links:
+  - {order: 1, job: local-app, tool: zapmap, label: Zapmap, url: "https://www.zapmap.com/"}
+  - {order: 2, job: route-planner, tool: abrp, label: "A Better Routeplanner (ABRP)", url: "https://abetterrouteplanner.com/"}
+  - {order: 3, job: map, tool: plugshare, label: PlugShare, url: "https://www.plugshare.com/"}

@@ -1,0 +1,12 @@
+{
+  "id": "battery-min",
+  "label": {
+    "en": "Large battery only (≥ {param} kWh)"
+  },
+  "short": {
+    "en": "Only cars with at least {param} kWh usable battery can do this."
+  },
+  "param_kind": "number",
+  "param_unit": "kWh",
+  "severity": "condition"
+}

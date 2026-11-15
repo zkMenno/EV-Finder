@@ -87,6 +87,11 @@ def default_curve(dc_peak_kw: float) -> list[tuple[float, float]]:
     return [(soc, share * dc_peak_kw) for soc, share in DEFAULT_CURVE_SHAPE]
 
 
+def cap_curve(points: list[tuple[float, float]], peak_kw: float) -> list[tuple[float, float]]:
+    """The curve with every point above `peak_kw` lowered to it (shape kept below the cap)."""
+    return [(soc, min(kw, peak_kw)) for soc, kw in points]
+
+
 def _kw_at(points: list[tuple[float, float]], soc: float) -> float:
     pts = sorted(points)
     if soc <= pts[0][0]:

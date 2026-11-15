@@ -1,0 +1,105 @@
+# What a charging statistic can count (Decision 012, T-024). Rows = schema $defs/ChargingMetric.
+# Spec: docs/spec/charging-buildout.md, "Data model". Ids use hyphens (Decision 020).
+# EN + NL written tonight; de/fr/es/it still to do (no `review` field in the schema, so the
+# missing languages are simply absent and fall back to EN).
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+charging_metrics:
+  - id: public-points
+    label: {en: "Public charging points", nl: "Openbare laadpunten"}
+    technical: {en: "Publicly accessible recharging points (EVSE)", nl: "Openbaar toegankelijke laadpunten (EVSE)"}
+    short:
+      en: "Places where one car at a time can charge, open to anyone. Counting rules differ by country."
+      nl: "Plekken waar één auto tegelijk kan laden, open voor iedereen. Telregels verschillen per land."
+    unit: count
+    higher_is_better: true
+    derived: false
+
+  - id: public-points-dc
+    label: {en: "Fast (DC) public charging points", nl: "Openbare snellaadpunten (DC)"}
+    technical: {en: "Publicly accessible DC recharging points", nl: "Openbaar toegankelijke DC-laadpunten"}
+    short:
+      en: "Public points that charge with direct current, usually 50 kW or more. Used on trips."
+      nl: "Openbare punten die met gelijkstroom laden, meestal 50 kW of meer. Voor onderweg."
+    unit: count
+    higher_is_better: true
+    derived: false
+
+  - id: public-devices
+    label: {en: "Public charging devices", nl: "Openbare laadpalen"}
+    technical: {en: "Charging devices (one device can hold several points)", nl: "Laadpalen (één paal kan meerdere laadpunten hebben)"}
+    short:
+      en: "Charging posts or units. One device can charge two cars, so devices are fewer than points."
+      nl: "Laadpalen of -units. Eén paal kan twee auto's laden, dus er zijn minder palen dan punten."
+    unit: count
+    higher_is_better: true
+    derived: false
+
+  - id: public-locations
+    label: {en: "Public charging locations", nl: "Openbare laadlocaties"}
+    technical: {en: "Charging sites / stations", nl: "Laadlocaties / -stations"}
+    short:
+      en: "Sites with one or more chargers, like a car park or motorway stop."
+      nl: "Locaties met één of meer laders, zoals een parkeerplaats of snelwegstop."
+    unit: count
+    higher_is_better: true
+    derived: false
+
+  - id: installed-kw
+    label: {en: "Total public charging power", nl: "Totaal openbaar laadvermogen"}
+    technical: {en: "Installed public charging capacity (kW)", nl: "Geïnstalleerd openbaar laadvermogen (kW)"}
+    short:
+      en: "All public chargers' power added up. Shows capacity better than counting points alone."
+      nl: "Het vermogen van alle openbare laders opgeteld. Zegt meer dan alleen punten tellen."
+    unit: kW
+    higher_is_better: true
+    derived: false
+
+  - id: points-per-100k-people
+    label: {en: "Public points per 100,000 people", nl: "Openbare laadpunten per 100.000 inwoners"}
+    technical: {en: "Public recharging points per 100,000 inhabitants", nl: "Openbare laadpunten per 100.000 inwoners"}
+    short:
+      en: "How many public points there are for every 100,000 residents."
+      nl: "Hoeveel openbare laadpunten er zijn per 100.000 inwoners."
+    unit: per 100k people
+    higher_is_better: true
+    derived: true
+
+  - id: evs-per-point
+    label: {en: "Electric cars per public point", nl: "Elektrische auto's per openbaar laadpunt"}
+    technical: {en: "Battery-electric fleet divided by public recharging points", nl: "Elektrisch wagenpark gedeeld door openbare laadpunten"}
+    short:
+      en: "How many electric cars share each public point. Lower is better."
+      nl: "Hoeveel elektrische auto's één openbaar laadpunt delen. Lager is beter."
+    unit: EVs per point
+    higher_is_better: false
+    derived: true
+
+  - id: kw-per-ev
+    label: {en: "Public charging power per electric car", nl: "Openbaar laadvermogen per elektrische auto"}
+    technical: {en: "Installed public kW per battery-electric car (IEA metric)", nl: "Geïnstalleerd openbaar kW per elektrische auto (IEA-maatstaf)"}
+    short:
+      en: "Public charging power available for each electric car on the road. Higher is better."
+      nl: "Openbaar laadvermogen per elektrische auto op de weg. Hoger is beter."
+    unit: kW per EV
+    higher_is_better: true
+    derived: true
+
+  - id: technical-availability-pct
+    label: {en: "Share of points working", nl: "Aandeel werkende laadpunten"}
+    technical: {en: "Technical availability (%)", nl: "Technische beschikbaarheid (%)"}
+    short:
+      en: "Share of public points that are technically working. Only some countries publish this."
+      nl: "Aandeel openbare laadpunten dat technisch werkt. Niet elk land publiceert dit."
+    unit: "%"
+    higher_is_better: true
+    derived: false
+
+  - id: reliability-index
+    label: {en: "Charger reliability score", nl: "Betrouwbaarheidsscore laders"}
+    technical: {en: "Reliability index (source-specific scale)", nl: "Betrouwbaarheidsindex (schaal per bron)"}
+    short:
+      en: "A source's own score for how often chargers work. Scales differ, so compare within one source."
+      nl: "Eigen score van een bron voor hoe vaak laders werken. Vergelijk alleen binnen één bron."
+    unit: index
+    higher_is_better: true
+    derived: false

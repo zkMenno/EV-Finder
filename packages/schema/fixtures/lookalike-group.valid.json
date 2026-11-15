@@ -1,0 +1,13 @@
+{
+  "id": "volkswagen-id3-gen1-same-generation",
+  "variant_ids": [
+    "volkswagen-id3-gen1-pure",
+    "volkswagen-id3-gen1-pro",
+    "volkswagen-id3-gen1-pro-s"
+  ],
+  "reason": "same-generation",
+  "built_by": "pipeline",
+  "generation_id": "volkswagen-id3-gen1",
+  "label": { "en": "ID.3 (gen 1): three battery sizes", "nl": "ID.3 (gen 1): drie accugroottes" },
+  "built_at": "2026-11-15"
+}

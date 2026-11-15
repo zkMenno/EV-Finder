@@ -1,0 +1,147 @@
+# Charging power bands (Decision 012, T-024). Rows = schema $defs/PowerBand.
+# `ours: true` = one of our five display bands (spec: AC <22 kW, AC 22 kW, DC 50–149, DC 150–349,
+# DC 350+). Source bands carry `source_id` and map into ours with `maps_to`.
+# Bounds: min_kw inclusive, max_kw exclusive, null = open-ended.
+# German bands are "up to and including 22 kW" vs "above 22 kW"; with an exclusive upper bound
+# that is written as 22.1 (no real charger sits between 22 and 22.1 kW).
+# Gaps (see T-024 handoff): our bands have no DC <50 kW band, so source bands that include DC
+# 22–49 kW or AC 43 kW map only to the nearest bands of ours; DfT slow/fast bands, AFDC bands and
+# Avere-France bands below 150 kW are not in the spec and are left out.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+power_bands:
+  # --- ours --------------------------------------------------------------------------------
+  - id: ac-under-22
+    label: {en: "AC, under 22 kW", nl: "AC, onder 22 kW"}
+    technical: {en: "AC normal charging, < 22 kW", nl: "AC normaal laden, < 22 kW"}
+    short:
+      en: "Slow posts in streets and car parks. Fine overnight or while shopping."
+      nl: "Langzame palen op straat en in parkeergarages. Prima 's nachts of tijdens het winkelen."
+    current: ac
+    min_kw: 0
+    max_kw: 22
+    ours: true
+
+  - id: ac-22
+    label: {en: "AC, 22 kW", nl: "AC, 22 kW"}
+    technical: {en: "AC three-phase 22 kW and above", nl: "AC driefasig 22 kW en hoger"}
+    short:
+      en: "The fastest AC posts. Most cars take only 11 kW from them."
+      nl: "De snelste AC-palen. De meeste auto's laden daar maar met 11 kW."
+    current: ac
+    min_kw: 22
+    max_kw: null
+    ours: true
+
+  - id: dc-50-149
+    label: {en: "Fast, 50–149 kW", nl: "Snel, 50–149 kW"}
+    technical: {en: "DC fast, 50 to < 150 kW", nl: "DC snel, 50 tot < 150 kW"}
+    short:
+      en: "Common fast chargers. A typical car adds 100 km in about 20 to 30 minutes."
+      nl: "Gangbare snelladers. Een gewone auto laadt 100 km bij in ongeveer 20 tot 30 minuten."
+    current: dc
+    min_kw: 50
+    max_kw: 150
+    ours: true
+
+  - id: dc-150-349
+    label: {en: "Ultra-fast, 150–349 kW", nl: "Ultrasnel, 150–349 kW"}
+    technical: {en: "DC high power, 150 to < 350 kW", nl: "DC hoog vermogen, 150 tot < 350 kW"}
+    short:
+      en: "Motorway hubs. Speed then depends on the car more than on the charger."
+      nl: "Snelweghubs. De snelheid hangt dan meer af van de auto dan van de lader."
+    current: dc
+    min_kw: 150
+    max_kw: 350
+    ours: true
+
+  - id: dc-350-plus
+    label: {en: "Ultra-fast, 350 kW and more", nl: "Ultrasnel, 350 kW en meer"}
+    technical: {en: "DC high power, ≥ 350 kW", nl: "DC hoog vermogen, ≥ 350 kW"}
+    short:
+      en: "The fastest chargers. Only a few cars can use their full power."
+      nl: "De snelste laders. Maar weinig auto's kunnen het volle vermogen gebruiken."
+    current: dc
+    min_kw: 350
+    max_kw: null
+    ours: true
+
+  # --- AFIR (DC split as in the spec; ids keep "eafo", the source is blocked: A-05 L5) -----------------------------------------------
+  - id: eafo-dc-50-149
+    label: {en: "EU (AFIR): DC 50–149 kW", nl: "EU (AFIR): DC 50–149 kW"}
+    current: dc
+    min_kw: 50
+    max_kw: 150
+    ours: false
+    source_id: eafo
+    maps_to: [dc-50-149]
+
+  - id: eafo-dc-150-349
+    label: {en: "EU (AFIR): DC 150–349 kW", nl: "EU (AFIR): DC 150–349 kW"}
+    current: dc
+    min_kw: 150
+    max_kw: 350
+    ours: false
+    source_id: eafo
+    maps_to: [dc-150-349]
+
+  - id: eafo-dc-350-plus
+    label: {en: "EU (AFIR): DC 350 kW+", nl: "EU (AFIR): DC 350 kW+"}
+    current: dc
+    min_kw: 350
+    max_kw: null
+    ours: false
+    source_id: eafo
+    maps_to: [dc-350-plus]
+
+  # --- Germany (Bundesnetzagentur: Normal- vs Schnellladepunkt) ----------------------------
+  - id: de-bnetza-normal
+    label: {en: "Germany: normal charging (up to 22 kW)", nl: "Duitsland: normaal laden (tot en met 22 kW)"}
+    technical: {en: "Normalladepunkt (≤ 22 kW)", nl: "Normalladepunkt (≤ 22 kW)"}
+    current: any
+    min_kw: 0
+    max_kw: 22.1
+    ours: false
+    source_id: bnetza-ladesaeulenregister
+    maps_to: [ac-under-22, ac-22]
+
+  - id: de-bnetza-fast
+    label: {en: "Germany: fast charging (above 22 kW)", nl: "Duitsland: snelladen (boven 22 kW)"}
+    technical: {en: "Schnellladepunkt (> 22 kW)", nl: "Schnellladepunkt (> 22 kW)"}
+    short:
+      en: "German 'fast' starts above 22 kW, so it includes slower DC points than ours."
+      nl: "Duits 'snel' begint boven 22 kW, dus er zitten langzamere DC-punten in dan bij ons."
+    current: any
+    min_kw: 22.1
+    max_kw: null
+    ours: false
+    source_id: bnetza-ladesaeulenregister
+    maps_to: [dc-50-149, dc-150-349, dc-350-plus]
+
+  # --- UK (DfT) ----------------------------------------------------------------------------
+  - id: uk-dft-rapid
+    label: {en: "UK: rapid (50–149 kW)", nl: "VK: rapid (50–149 kW)"}
+    current: dc
+    min_kw: 50
+    max_kw: 150
+    ours: false
+    source_id: dft-ev-charging-infrastructure
+    maps_to: [dc-50-149]
+
+  - id: uk-dft-ultra-rapid
+    label: {en: "UK: ultra-rapid (150 kW+)", nl: "VK: ultra-rapid (150 kW+)"}
+    current: dc
+    min_kw: 150
+    max_kw: null
+    ours: false
+    source_id: dft-ev-charging-infrastructure
+    maps_to: [dc-150-349, dc-350-plus]
+
+  # --- France (Avere-France) ---------------------------------------------------------------
+  - id: fr-avere-dc-150-plus
+    label: {en: "France: DC above 150 kW", nl: "Frankrijk: DC boven 150 kW"}
+    current: dc
+    min_kw: 150
+    max_kw: null
+    ours: false
+    source_id: avere-france-barometre
+    maps_to: [dc-150-349, dc-350-plus]

@@ -1,0 +1,81 @@
+# Sources cited by taxonomy rows (T-024, T-019): charging_definitions.source_id,
+# power_bands.source_id and bidi_equipment.source_ids. Rows = schema $defs/Source.
+# URLs come only from docs/spec/charging-buildout.md and research/R-01-bidirectional-and-connectors.md;
+# a source without a URL there has no `url` here.
+#
+# This is NOT the licence registry. data/sources.yaml (WS1) decides what reaches a release.
+# Ids here that are not in data/sources.yaml are not releasable yet, so the pipeline ships the
+# description tables (definitions, bands) but holds back bidi_equipment until its sources are
+# registered and releasable (see pipeline/ev_pipeline/release/taxonomy.py). WS1 should move these
+# into data/sources.yaml with a checked licence and status; then this file can shrink.
+# Licence text mirrors the spec's own note (🟢/🟡/🔴); "(to confirm)" means not checked.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+sources:
+  # --- charging statistics (docs/spec/charging-buildout.md, "Data sources per country") ---
+  - id: eafo
+    name: European Alternative Fuels Observatory (European Commission)
+    url: https://alternative-fuels-observatory.ec.europa.eu/
+    licence: EC reuse policy (to confirm)
+  - id: iea-gev-data-explorer
+    name: IEA Global EV Data Explorer
+    url: https://www.iea.org/data-and-statistics/data-tools/global-ev-data-explorer
+    licence: CC-BY-4.0
+    attribution: "IEA, Global EV Data Explorer"
+  - id: rvo-ev-cijfers
+    name: RVO, Elektrisch rijden – stand van zaken (cijfers)
+    url: https://www.rvo.nl/onderwerpen/duurzaam-ondernemen/energie-en-milieu-innovaties/elektrisch-rijden/stand-van-zaken/cijfers
+    licence: government open data (to confirm)
+  - id: bnetza-ladesaeulenregister
+    name: Bundesnetzagentur Ladesäulenregister
+    url: https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/E-Mobilitaet/start.html
+    licence: stated on the download (to confirm)
+  - id: dft-ev-charging-infrastructure
+    name: DfT electric vehicle charging infrastructure statistics
+    url: https://www.gov.uk/government/statistics/electric-vehicle-charging-infrastructure-statistics-1-july-2026
+    licence: OGL-UK-3.0 (to confirm)
+  - id: avere-france-barometre
+    name: Avere-France barometer
+    url: https://www.avere-france.org/
+    licence: none (PDF figures cited by URL and date)
+  - id: ev-belgium
+    name: EV Belgium press releases
+    licence: none (figures cited by URL and date)
+  - id: afdc-station-counts
+    name: AFDC station counts (US DOE)
+    url: https://afdc.energy.gov/stations/states
+    licence: US-Government-Public-Domain (to confirm)
+  - id: ev-council-state-of-evs
+    name: Electric Vehicle Council, State of EVs
+    licence: none (report figures cited by URL and date)
+
+  # --- bidirectional equipment (research/R-01, §3, §4, §6) ---
+  - id: ev-finder-r01
+    name: "EV Finder research note R-01 (bidirectional charging), 2026-11-15"
+    licence: CC-BY-4.0
+  - id: mobilize-v2g
+    name: Mobilize, V2G
+    url: https://www.mobilize.com/en/smart-charging/v2g/
+    licence: none (facts cited by URL and date)
+  - id: vw-bidirektionales-laden
+    name: Volkswagen Austria, bidirektionales Laden (incl. compatible wallbox PDF)
+    url: https://www.volkswagen.at/elektroauto/laden/bidirektionales-laden
+    licence: none (facts cited by URL and date)
+  - id: bmw-press-ix3-v2g-2026-02-09
+    name: "BMW Group press release: iX3 V2G with E.ON (2026-02-09)"
+    licence: none (facts cited by URL and date)
+  - id: electrive-vw-elli-v2g-2026-06-23
+    name: "electrive: VW / Elli V2G (2026-06-23)"
+    licence: none (facts cited by URL and date)
+  - id: tmh-v2g-capable-cars
+    name: The Mobility House, which cars are V2G-capable
+    url: https://mobilityhouse-energy.com/int_en/knowledge-center/article/which-cars-are-v2g-capable
+    licence: none (facts cited by URL and date)
+  - id: cali-energy-us-v2h
+    name: cali-energy.com, US V2H table (GM model years + hardware)
+    licence: none (facts cited by URL and date)
+  - id: tesla-powershare-oct-2026
+    name: "CleanTechnica / Notebookcheck: Tesla Model 3/Y Powershare (Oct 2026)"
+    licence: none (facts cited by URL and date)
+  - id: bestchargers-uk-v2g
+    name: bestchargers.co.uk, UK V2G compatibility
+    licence: none (facts cited by URL and date)

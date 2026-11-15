@@ -1,0 +1,17 @@
+{
+  "id": "fixture:vw-id3-pro-58kwh:drag_coefficient",
+  "subject_type": "variant",
+  "subject_id": "vw-id3-pro-58kwh",
+  "field": "drag_coefficient",
+  "value": 0.267,
+  "unit": "Cd",
+  "source": {
+    "id": "fixture",
+    "name": "Fixture source",
+    "url": "https://example.org/fixture",
+    "licence": "CC0-1.0"
+  },
+  "retrieved_at": "2026-11-15",
+  "confidence": "low",
+  "claim": true
+}

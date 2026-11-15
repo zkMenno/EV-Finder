@@ -1,0 +1,7 @@
+{
+  "id": "vin-position",
+  "label": { "nl": "Positie in het chassisnummer" },
+  "value_kind": "character",
+  "found_in": [],
+  "paper_fields": { "fr": "E" }
+}

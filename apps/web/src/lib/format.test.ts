@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { numBadges } from "@/components/Num";
 import { numLabels } from "@/components/num-labels";
-import { quartiles } from "@/components/PriceBand";
-import { swapCountry, withLang } from "@/components/Switchers";
-import { COUNTRIES, listingLinks } from "@/config/countries";
+import { quartiles, showable } from "@/components/PriceBand";
+import { swapCountry, swapLang } from "@/components/Switchers";
+import { COUNTRIES } from "@/config/countries";
+import { listingLinks } from "@/lib/listings";
 import { getT } from "@/i18n";
 import { DASH, formatMoney, formatNumber, formatYears, localeFor } from "./format";
 
@@ -50,15 +51,26 @@ describe("price band", () => {
   it("quartiles", () => {
     expect(quartiles([1, 2, 3, 4, 5])).toEqual([2, 4]);
   });
+  it("shows a schema band only with a source, ≥ 5 samples and the market's currency", () => {
+    const b = { generation_id: "g", country: "NL", currency: "EUR" as const, p25: 9000, median: 10000, p75: 11000, samples: 5, period: "2026-10", source_id: "s" };
+    expect(showable(b, "EUR")).toBe(true);
+    expect(showable(undefined, "EUR")).toBe(false);
+    expect(showable({ ...b, samples: 4 }, "EUR")).toBe(false);
+    expect(showable({ ...b, source_id: "" }, "EUR")).toBe(false);
+    expect(showable(b, "GBP")).toBe(false);
+  });
 });
 
 describe("switchers and listing links", () => {
-  it("country switch keeps the path and query", () => {
-    expect(swapCountry("/nl/compare", "?ids=a,b", "de")).toBe("/de/compare?ids=a,b");
-    expect(swapCountry("/nl", "", "uk")).toBe("/uk");
+  it("country switch keeps the path and query; keeps the language if served, else the default", () => {
+    expect(swapCountry("/nl/nl/compare", "?ids=a,b", "de")).toBe("/de/de/compare?ids=a,b");
+    expect(swapCountry("/nl/en/compare", "?ids=a,b", "de")).toBe("/de/en/compare?ids=a,b");
+    expect(swapCountry("/nl/nl", "", "uk")).toBe("/uk/en");
+    expect(swapCountry("/nl/nl", "?range=300", "be")).toBe("/be/nl?range=300");
   });
-  it("language switch keeps the URL and sets ?lang", () => {
-    expect(withLang("/nl", "?price=30000&lang=nl", "en")).toBe("/nl?price=30000&lang=en");
+  it("language switch swaps the language segment and keeps path + query", () => {
+    expect(swapLang("/nl/nl", "?price=30000", "en")).toBe("/nl/en?price=30000");
+    expect(swapLang("/be/nl/ev/a/b/c", "", "fr")).toBe("/be/fr/ev/a/b/c");
   });
   it("builds unverified deep links, priority order", () => {
     const links = listingLinks("nl", "Volkswagen", "ID.3");

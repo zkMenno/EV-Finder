@@ -1,0 +1,109 @@
+{
+  "voltage_classes": [],
+  "chemistries": [],
+  "cooling_types": [],
+  "glossary_terms": [],
+  "bidi_modes": [
+    {
+      "id": "v2h",
+      "label": {
+        "en": "Can power your home",
+        "nl": "Kan je huis van stroom voorzien"
+      },
+      "technical": {
+        "en": "V2H (vehicle-to-home)"
+      },
+      "short": {
+        "en": "The car can run your house during a power cut or at expensive hours."
+      },
+      "order": 2
+    }
+  ],
+  "bidi_status": [
+    {
+      "id": "pilot",
+      "label": {
+        "en": "Pilot",
+        "nl": "Proef"
+      },
+      "short": {
+        "en": "Only in a trial with a limited number of households."
+      },
+      "filter_group": "pilot-or-announced",
+      "order": 2
+    }
+  ],
+  "connector_types": [
+    {
+      "id": "ccs2",
+      "label": {
+        "en": "CCS (Europe)"
+      },
+      "technical": {
+        "en": "CCS Combo 2"
+      },
+      "current": ["ac", "dc"],
+      "standard": "IEC 62196-3",
+      "regions": ["EU", "AU"]
+    }
+  ],
+  "power_bands": [
+    {
+      "id": "dc-150-349",
+      "label": {
+        "en": "DC 150–349 kW"
+      },
+      "current": "dc",
+      "min_kw": 150,
+      "max_kw": 350,
+      "ours": true
+    }
+  ],
+  "temperature_bands": [
+    {
+      "id": "t-0",
+      "label": {
+        "en": "Around 0 °C"
+      },
+      "min_c": -3,
+      "max_c": 3,
+      "representative_c": 0,
+      "order": 2
+    }
+  ],
+  "usage_profiles": [
+    {
+      "id": "main-car-monthly-road-trips",
+      "label": {
+        "en": "Main car, monthly road trips"
+      },
+      "kind": "base",
+      "applies_when": {
+        "car_role": ["main"],
+        "long_trips": ["monthly"]
+      },
+      "weights": {
+        "price": "medium",
+        "efficiency": "medium",
+        "dc_km_20min_winter": "high",
+        "winter_1000km_time": "high",
+        "ac_speed": "low",
+        "battery_risk": "medium"
+      }
+    }
+  ],
+  "finance_profiles": [
+    {
+      "id": "xx-private-lease",
+      "country": "XX",
+      "product": "private-lease",
+      "typical_apr": null,
+      "default_term_months": null,
+      "default_deposit_pct": null,
+      "source": null,
+      "retrieved_at": null,
+      "notes": "Fixture: no citable figure, so everything is null.",
+      "review": true
+    }
+  ]
+}

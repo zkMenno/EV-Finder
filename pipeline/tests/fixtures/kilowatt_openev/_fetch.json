@@ -1,0 +1,7 @@
+{
+  "fetched_at": "2026-11-15T01:45:00+00:00",
+  "url": "https://github.com/KilowattApp/open-ev-data",
+  "commit": "32d7dc59e7b8b7391572ca1e132a1517be9a3b5e",
+  "licence_file_first_line": "MIT License with Attribution Requirement",
+  "note": "Fixture subset: 14 vehicles from data/v2, unmodified; meta.overall_count recomputed."
+}

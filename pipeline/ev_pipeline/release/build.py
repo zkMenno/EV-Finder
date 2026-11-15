@@ -32,15 +32,19 @@ from typing import Any
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+from ev_pipeline.derive.known_issues import build_known_issues, read_defects
 from ev_pipeline.derive.links import (
+    apply_rule_links,
     catalogue_parts,
     finish_voltage,
     id_errors,
     inherited_for,
+    link_coverage,
     load_links,
     pack_facts,
 )
 from ev_pipeline.derive.rows import ESTIMATE_SOURCE, build_rows
+from ev_pipeline.manual.facts import attach_manual_facts, issue_problems, load_manual_dir
 from ev_pipeline.match.matcher import (
     EXCLUDED_SOURCES,
     MatchedFact,
@@ -49,23 +53,41 @@ from ev_pipeline.match.matcher import (
     UnmatchedRow,
     aggregate_counts,
     match_records,
+    registration_entries,
 )
 from ev_pipeline.match.review import unmatched_rows, write_unmatched
-from ev_pipeline.match.seed import ManualVariant, Seed, load_manual_variants, load_seed
-from ev_pipeline.merge.merge import Merged, merge_variant_facts
+from ev_pipeline.match.seed import (
+    ManualVariant,
+    Seed,
+    SourceHold,
+    load_manual_variants,
+    load_seed,
+    load_source_holds,
+)
+from ev_pipeline.merge.corroborate import apply_corroboration
+from ev_pipeline.merge.generation_years import corroborate_years
+from ev_pipeline.merge.merge import Merged, has_citation, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
+from ev_pipeline.qa.pack_guard import fill_winning_values, guard_usable_vs_pack
+from ev_pipeline.qa.value_guard import citation_values, run_guards
 from ev_pipeline.records import SourceRecord
-from ev_pipeline.release.gate import load_registry
+from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
+from ev_pipeline.release.charging_stats import build_charging_stats
+from ev_pipeline.release.gate import MISSING_REGISTRY, load_registry
+from ev_pipeline.release.taxonomy import load_optional_taxonomy, optional_taxonomy_errors
 from ev_pipeline.release.validate import (
     ROW_NUMBER_FIELDS,
     ReleaseError,
     check_fact_ranges,
+    enum_fact_errors,
     excluded_source_errors,
     licence_errors,
     provenance_errors,
     schema_errors,
     write_validation,
 )
+from ev_pipeline.review_queue import annotate_review_dir, snapshot_statuses
+from ev_pipeline.sources._common import rel
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DIFF_IGNORE = {"release", "provenance"}
@@ -92,6 +114,11 @@ class ReleaseResult:
     out_dir: Path | None = None
     catalogue_bytes: int = 0
     catalogue_gzip_bytes: int = 0
+    taxonomy_tables: dict[str, int] = field(default_factory=dict)
+    taxonomy_held_back: dict[str, dict[str, str]] = field(default_factory=dict)
+    # T-059: charging_stats.json (None = not shipped) and the run-log lines of the sections.
+    charging_stats: dict[str, Any] | None = None
+    sections: dict[str, Any] = field(default_factory=dict)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -126,6 +153,50 @@ def load_staging(staging: Path) -> tuple[list[SourceRecord], list[dict[str, Any]
                 n += 1
         inputs.append({"path": str(path), "records": n, "modified": _mtime(path)})
     return records, inputs, problems
+
+
+def log_path(path: Path | str, data_dir: Path) -> str:
+    """A machine-independent path for the run log: repo-relative (sources._common.rel), else
+    relative to the data folder as `data/...`, else just the file name. Never an absolute
+    host path (T-006 review)."""
+    p = Path(path)
+    r = rel(p)
+    if not Path(r).is_absolute():
+        return r
+    try:
+        return str(Path("data") / p.resolve().relative_to(data_dir.resolve()))
+    except ValueError:
+        return p.name
+
+
+def generation_pack_kwh(links: Any, manual: list[ManualVariant]) -> dict[str, set[float]]:
+    """Battery sizes per generation from battery_packs.yaml via variant_links.yaml (generation
+    links, and variant links of seed-manual variants). Evidence for shared-year matching."""
+    gen_of = {mv.id: mv.generation_id for mv in manual}
+    out: dict[str, set[float]] = {}
+
+    def add(gid: str | None, link: dict[str, Any]) -> None:
+        if not gid:
+            return
+        ids = [link.get("battery_pack_id"), *(link.get("battery_pack_options") or [])]
+        for pid in ids:
+            pack = links.packs.get(pid) if pid else None
+            for k in ("gross_kwh", "usable_kwh"):
+                v = (pack or {}).get(k)
+                if isinstance(v, int | float) and not isinstance(v, bool):
+                    out.setdefault(gid, set()).add(float(v))
+
+    for gid, link in links.by_generation.items():
+        add(gid, link)
+    for vid, link in links.by_variant.items():
+        add(gen_of.get(vid), link)
+    return out
+
+
+def _merged_number(merged: dict[str, Any], field: str) -> float | None:
+    mg = merged.get(field)
+    v = getattr(mg, "value", None)
+    return float(v) if isinstance(v, int | float) and not isinstance(v, bool) else None
 
 
 def _mtime(path: Path) -> str:
@@ -213,12 +284,14 @@ def build_release(
         raise ReleaseError(f"seed not found: {seed_path}")
     seed = load_seed(seed_path)
     manual: list[ManualVariant] = []
+    holds: list[SourceHold] = []
     problems: list[Problem] = []
     records, inputs, parse_problems = load_staging(data_dir / "staging")
     problems += parse_problems
     variants_path = data_dir / "seed" / "variants.yaml"
     if variants_path.exists():
         manual, manual_problems = load_manual_variants(variants_path)
+        holds = load_source_holds(variants_path)
         problems += [Problem("seed", "seed-manual", "", "", "", "", "", p) for p in manual_problems]
         inputs.append(
             {"path": str(variants_path), "records": len(manual), "modified": _mtime(variants_path)}
@@ -226,6 +299,9 @@ def build_release(
     inputs.insert(0, {"path": str(seed_path), "modified": _mtime(seed_path)})
 
     registry = load_registry(data_dir / "sources.yaml")
+    if not registry.loaded:
+        # Fail closed (T-006 review): without the registry nothing proves a licence.
+        raise ReleaseError(MISSING_REGISTRY)
     policies = load_policies(data_dir / "field_sources.yaml")
     gated: dict[str, dict[str, Any]] = {}
 
@@ -239,22 +315,66 @@ def build_release(
 
     records = [r for r in records if gate(r.source.id.root)]
     manual = [mv for mv in manual if gate(mv.record.source.id.root)]
+    # P7: hand-entered facts (data/manual/), source `manual`; blocked until Q-008. Like seed
+    # `cited:` values (source maker-docs, A-06 F3) they are gated after matching below: a
+    # blocked citation never ships, but it is kept as evidence for guard_contradicted.
+    hand = load_manual_dir(data_dir, today, registry)
+    problems += issue_problems(hand.issues)
+    inputs += [{"path": str(data_dir / Path(p).relative_to("data"))} for p in hand.files]
+    hand_facts = list(hand.facts)
 
-    result = match_records(records, seed, manual)
+    links = load_links(data_dir)
+    result = match_records(records, seed, manual, generation_pack_kwh(links, manual), holds=holds)
     problems += result.problems
+    hand_matched, hand_problems = attach_manual_facts(hand_facts, result, seed)
+    result.spec_facts += hand_matched
+    problems += hand_problems
     spec_facts, dropped = check_fact_ranges(result.spec_facts)
     problems += dropped
+    # A-06 F3: citations from a source that is not releasable (maker-docs, manual: Q-008) are
+    # evidence only, never values; anything else unreleasable here would be a bug: drop it.
+    evidence: dict[str, list[MatchedFact]] = {}
+    shipping: list[MatchedFact] = []
+    for mf in spec_facts:
+        if gate(mf.source_id):
+            shipping.append(mf)
+        elif has_citation(mf):
+            evidence.setdefault(mf.fact.subject_id.root, []).append(mf)
+    spec_facts = shipping
+    for info in result.variants.values():
+        info.source_ids = {s for s in info.source_ids if registry.releasable(s)}
 
     by_variant: dict[str, list[MatchedFact]] = {}
     for mf in spec_facts:
         by_variant.setdefault(mf.fact.subject_id.root, []).append(mf)
+    # T-057: usable kWh above the linked pack's gross never merges; it goes to conflicts.csv.
+    by_variant, pack_conflicts = guard_usable_vs_pack(
+        by_variant, links, {vid: info.generation_id for vid, info in result.variants.items()}
+    )
     merged = {vid: merge_variant_facts(fs, policies) for vid, fs in by_variant.items()}
-    conflicts = conflict_rows(merged)
+    # A-05 F9 / F7, A-06: contradicted, mixed-up, unbacked values and impossible pairs go to
+    # review, not into rows (qa/value_guard.run_guards repeats them until nothing changes).
+    pack_conflicts += run_guards(merged, by_variant, policies, evidence)
+    fill_winning_values(pack_conflicts, merged)
+    # Q-019 (a): generation averages may confirm a merged value, never set one (flag-gated).
+    corro_facts, corro_dropped = check_fact_ranges(result.corroboration_facts)
+    problems += corro_dropped
+    corro_used, result.corroboration_log = apply_corroboration(
+        merged, result.variants, corro_facts, policies
+    )
+    conflicts = conflict_rows(merged) + pack_conflicts
     nl_counts = aggregate_counts(result.count_facts, seed, "rdw", "NL")
+    registrations = registration_entries(result.count_facts, seed)
 
     n = release or next_release_number(data_dir / "releases")
-    links = load_links(data_dir)
     inputs += [{"path": p} for p in links.inputs]
+    # T-060: rows the file leaves without a pack or platform get one by rule (same generation,
+    # capacity fit); everything else is reported in coverage.md and the run log.
+    link_report = apply_rule_links(
+        links,
+        {vid: info.generation_id for vid, info in result.variants.items()},
+        {vid: _merged_number(merged.get(vid, {}), "battery_kwh_net") for vid in result.variants},
+    )
     inherited = {
         vid: inherited_for(
             links,
@@ -265,7 +385,16 @@ def build_release(
         for vid, info in result.variants.items()
     }
     rows, row_problems = build_rows(
-        result.variants, merged, seed, nl_counts, today, n, policies=policies, inherited=inherited
+        result.variants,
+        merged,
+        seed,
+        nl_counts,
+        today,
+        n,
+        policies=policies,
+        inherited=inherited,
+        registrations=registrations,
+        citations=citation_values(evidence, by_variant),
     )
     for row in rows:
         finish_voltage(links, row, row.get("platform_id"))
@@ -276,7 +405,7 @@ def build_release(
                 row["provenance"].pop(f, None)
     problems += row_problems
 
-    all_facts = spec_facts + result.count_facts
+    all_facts = spec_facts + result.count_facts + corro_used
     sources: dict[str, dict[str, Any]] = {}
     for mf in all_facts:
         sources.setdefault(mf.source_id, mf.fact.source.model_dump(mode="json", exclude_none=True))
@@ -287,20 +416,59 @@ def build_release(
             "licence": "CC-BY-4.0",
         }
         sources.setdefault(ESTIMATE_SOURCE, est)
+    # T-059: Wikidata years corroborate generations; RDW APK defects -> known_issues.
+    years = corroborate_years(result.year_records, seed)
+    generations = _generation_dicts(seed)
+    for g in generations:
+        if g["id"] in years.by_generation:
+            g["years_corroboration"] = years.by_generation[g["id"]]
+    for sid, src in years.sources.items():
+        sources.setdefault(sid, src)
+    defects = read_defects(data_dir / "staging")
+    if defects:
+        inputs.append({"path": str(data_dir / "staging" / "rdw-defects.defects.jsonl"),
+                       "records": len(defects)})  # fmt: skip
+    known = build_known_issues(
+        defects, seed, {r["generation_id"] for r in rows}, registry.releasable,
+        result.scoped_aliases,
+    )  # fmt: skip
+    if known.source is not None:
+        sources.setdefault(known.source["id"], known.source)
     catalogue = {
         "release": n,
         "generated_at": now.isoformat(timespec="seconds"),
         "sources": [sources[k] for k in sorted(sources)],
-        "generations": _generation_dicts(seed),
+        "generations": generations,
         "rows": rows,
         **catalogue_parts(links),
     }
+    if known.section is not None:
+        catalogue["known_issues"] = known.section
+    # Optional taxonomy tables (T-024, T-019): only next to the base four, which Taxonomy requires.
+    optional = load_optional_taxonomy(data_dir, registry.reason_blocked)
+    taxonomy_errs: list[str] = []
+    if "taxonomy" in catalogue and optional.tables:
+        catalogue["taxonomy"] = {**catalogue["taxonomy"], **optional.tables}
+        inputs += [{"path": p} for p in optional.inputs]
+        taxonomy_errs = optional_taxonomy_errors(optional.tables, set(links.platforms))
+    elif optional.tables:
+        optional.held_back["(all)"] = {
+            t: "base taxonomy files missing, so no Taxonomy object ships" for t in optional.tables
+        }
+        optional.tables = {}
     if links.packs and links.retrieved_at:
         sources.setdefault(links.source["id"], links.source)
         catalogue["sources"] = [sources[k] for k in sorted(sources)]
+    charging = build_charging_stats(
+        data_dir / "staging", registry, catalogue.get("taxonomy"), n, catalogue["generated_at"]
+    )
+    inputs += charging.inputs
     facts = [_fact_dict(mf) for mf in all_facts]
     pfacts = pack_facts(links)
     facts += pfacts
+
+    for inp in inputs:
+        inp["path"] = log_path(inp["path"], data_dir)
 
     errors = (
         schema_errors(catalogue, facts)
@@ -308,6 +476,9 @@ def build_release(
         + excluded_source_errors(catalogue, facts, registry.releasable)
         + licence_errors(catalogue["sources"])
         + id_errors(links, catalogue)
+        + taxonomy_errs
+        + enum_fact_errors(facts)
+        + section_gate_errors(catalogue, charging.document, registry.releasable)
     )
     if errors:
         raise ReleaseError("release failed validation:\n  " + "\n  ".join(errors[:50]))
@@ -333,11 +504,63 @@ def build_release(
         unmatched_rows=unmatched,
         conflicts=conflicts,
         gated=gated,
+        taxonomy_tables=optional.counts(),
+        taxonomy_held_back=optional.held_back,
+        charging_stats=charging.document,
+        sections={
+            "epa_range_km": epa_summary(rows),
+            "generation_years": years.log,
+            "known_issues": known.log,
+            "charging_stats": charging.log,
+            "pack_links": link_coverage(link_report),
+        },
     )
     raw = catalogue_bytes(catalogue)
     res.catalogue_bytes = len(raw)
     res.catalogue_gzip_bytes = len(gzip.compress(raw, mtime=0))
     return res
+
+
+def section_gate_errors(
+    catalogue: dict[str, Any], charging: dict[str, Any] | None, releasable: Any
+) -> list[str]:
+    """T-059 last guard: the known_issues source, generation year checks and every charging
+    stat come from a releasable source (aliases resolve through data/sources.yaml)."""
+    errors: list[str] = []
+    ki = catalogue.get("known_issues")
+    if ki is not None and not releasable(ki["source_id"]):
+        errors.append(f"known_issues uses blocked source {ki['source_id']}")
+    for g in catalogue.get("generations", []):
+        for c in (g.get("years_corroboration") or {}).get("checks", []):
+            if not releasable(c["source_id"]):
+                errors.append(f"{g['id']}: years_corroboration uses blocked {c['source_id']}")
+    for s in (charging or {}).get("sources", []):
+        if not releasable(s["id"]):
+            errors.append(f"charging_stats lists blocked source {s['id']}")
+    bad = Counter(
+        st["source_id"]
+        for st in (charging or {}).get("stats", [])
+        if not releasable(st["source_id"])
+    )
+    errors += [f"charging_stats: {k} rows from blocked {s}" for s, k in sorted(bad.items())]
+    return errors
+
+
+def epa_summary(rows: list[dict[str, Any]]) -> dict[str, int]:
+    """EPA range rows (T-059): how many, and how many have a second agreeing EPA source."""
+    out = Counter()
+    for r in rows:
+        p = (r.get("provenance") or {}).get("epa_range_km")
+        if r.get("epa_range_km") is None or p is None:
+            continue
+        src = set(p.get("source_ids") or [])
+        out["rows"] += 1
+        out["with_fueleconomy"] += "fueleconomy" in src
+        out["fueleconomy_only"] += src == {"fueleconomy"}
+        if p.get("agreeing_sources", 1) >= 2:
+            out["two_plus_agreeing"] += 1
+            out["second_source_via_fueleconomy"] += "fueleconomy" in src
+    return dict(sorted(out.items()))
 
 
 CONFLICT_COLUMNS = [
@@ -418,7 +641,68 @@ def coverage_md(res: ReleaseResult) -> str:
     for f, c in coverage(rows).items():
         cells = [f"{100 * c[b] / n:.0f}% ({c[b]})" for b in COVERAGE_BUCKETS]
         lines.append(f"| {f} | " + " | ".join(cells) + " |")
+    lines += pack_links_md(res.sections.get("pack_links"))
+    lines += sections_md(res.sections)
     return "\n".join(lines) + "\n"
+
+
+def pack_links_md(cov: dict[str, Any] | None) -> list[str]:
+    """coverage.md lines for battery pack / platform links per row (T-060)."""
+    if not cov:
+        return []
+    n = cov["rows"] or 1
+    lines = [
+        "",
+        "## Battery pack and platform links",
+        "",
+        "Per row: linked in data/seed/variant_links.yaml, linked by rule (same generation;"
+        " for packs, usable kWh fits exactly one of the generation's packs), or missing.",
+        "",
+        "| Link | variant_links.yaml | rule | missing |",
+        "|---|---|---|---|",
+    ]
+    for key in ("battery_pack_id", "platform_id"):
+        c = cov[key]
+        cells = [f"{100 * c[b] / n:.0f}% ({c[b]})" for b in ("file", "rule", "missing")]
+        lines.append(f"| {key} | " + " | ".join(cells) + " |")
+    if cov["unlinked"]:
+        lines += ["", f"Rows missing a link ({len(cov['unlinked'])}):", ""]
+        lines += [f"- `{u['variant_id']}`: {u['reason']}" for u in cov["unlinked"]]
+    return lines
+
+
+def sections_md(sections: dict[str, Any]) -> list[str]:
+    """coverage.md lines for the T-059 sections (EPA, generation years, known issues, charging)."""
+    if not sections:
+        return []
+    epa = sections.get("epa_range_km") or {}
+    gy = sections.get("generation_years") or {}
+    ki = sections.get("known_issues") or {}
+    cs = sections.get("charging_stats") or {}
+    lines = [
+        "",
+        "## Other sections",
+        "",
+        f"- **EPA range** (`epa_range_km`, compared with EPA figures only): {epa.get('rows', 0)}"
+        f" variants; {epa.get('two_plus_agreeing', 0)} with 2+ agreeing sources, of which"
+        f" {epa.get('second_source_via_fueleconomy', 0)} through fueleconomy.gov.",
+        f"- **Generation years vs Wikidata** (corroboration only, +/-1 year):"
+        f" {gy.get('generations_checked', 0)} generations checked,"
+        f" {gy.get('generations_corroborated', 0)} corroborated; {gy.get('agree', 0)} of"
+        f" {gy.get('checks', 0)} years agree.",
+    ]
+    if ki.get("status") == "shipped":
+        lines.append(
+            f"- **Known issues** (RDW APK defects, NL): {ki['generations']} generations,"
+            f" {ki['cohorts']} first-registration-year cohorts ({ki['cohorts_few_reports']}"
+            f" marked few reports), {ki['codes']} defect codes."
+        )
+    else:
+        lines.append(f"- **Known issues**: not shipped ({ki.get('status', 'no input')}).")
+    for name, f in sorted((cs.get("files") or {}).items()):
+        state = f"gated: {f['gated']}" if f.get("gated") else f"{f['shipped']} rows shipped"
+        lines.append(f"- **Charging stats** `{name}`: {f['rows_in']} rows in, {state}.")
+    return lines
 
 
 # --- writing -----------------------------------------------------------------------------
@@ -463,6 +747,7 @@ def _flat_facts(facts: list[dict[str, Any]], years: list[int | None]) -> list[di
                 "source_id": f["source"]["id"],
                 "source_name": f["source"]["name"],
                 "source_licence": f["source"]["licence"],
+                "source_url": f["source"].get("url"),
                 "source_record": f.get("source_record"),
                 "retrieved_at": f["retrieved_at"],
                 "confidence": f["confidence"],
@@ -524,13 +809,61 @@ def release_readme(res: ReleaseResult) -> str:
         " (mild-weather mixed driving), not measurements.",
         "- `seed-manual` values are hand-entered and unchecked (confidence low).",
         "- `registered_count_nl` is per generation: every variant of a generation shows the"
-        " same RDW total.",
+        " same RDW total (also in `registrations.NL`, kind fleet).",
+        "- `registrations` holds official counts per country, one per source and period:"
+        " `fleet` = cars on the road (RDW NL, DfT UK), `new_registrations` = first registrations"
+        " in the period (KBA DE year-to-date, EEA NL/DE/FR/BE per year). They are never added"
+        " together. `level: model` (DfT has no model year) repeats the whole model's count on"
+        " every generation.",
+        "- Charge curves from KilowattApp are `estimated` (upstream does not say how they were"
+        " obtained); km-in-N-minutes also uses an estimated motorway consumption.",
         "",
     ]
     return "\n".join(lines)
 
 
-def write_release(res: ReleaseResult, data_dir: Path) -> Path:
+def write_latest(releases: Path, n: int) -> None:
+    """Point `latest` at release n atomically: write a temp file, then rename over it, so a
+    reader sees the old number or the new one, never an empty file (addendum 6 P2)."""
+    tmp = releases / f".latest.tmp-{os.getpid()}"
+    with tmp.open("w", encoding="utf-8") as fh:
+        fh.write(f"{n}\n")
+        fh.flush()
+        os.fsync(fh.fileno())  # A-05 L2: the bytes are on disk before the rename
+    os.replace(tmp, releases / "latest")
+    fsync_dir(releases)  # ...and the rename itself survives a power loss
+
+
+def fsync_dir(path: Path) -> None:
+    """fsync a directory so a rename inside it is durable (no-op where unsupported)."""
+    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
+    try:
+        fd = os.open(path, flags)
+    except OSError:
+        return  # e.g. Windows cannot open directories
+    try:
+        os.fsync(fd)
+    except OSError:
+        pass
+    finally:
+        os.close(fd)
+
+
+def _default_extras(res: ReleaseResult, data_dir: Path) -> dict[str, Any]:
+    """sources.json (source health, addendum 6 P3) for releases made by plain `ev release`."""
+    from ev_pipeline.health.state import release_sources_doc
+    from ev_pipeline.refresh.plan import registry_entries
+
+    return {
+        "sources.json": release_sources_doc(
+            data_dir, res.catalogue, registry_entries(data_dir), res.charging_stats
+        )
+    }
+
+
+def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | None = None) -> Path:
+    """`extras`: more JSON files for the release folder (name -> document), written before QA
+    so they move into place with everything else. Default: sources.json."""
     releases = data_dir / "releases"
     releases.mkdir(parents=True, exist_ok=True)
     final = releases / str(res.release)
@@ -551,12 +884,32 @@ def write_release(res: ReleaseResult, data_dir: Path) -> Path:
     (tmp / "run_log.json").write_text(
         json.dumps(run_log(res, "published"), indent=1) + "\n", encoding="utf-8"
     )
+    if res.charging_stats is not None:  # T-059, Decision 012: aggregates only
+        (tmp / CHARGING_STATS_FILE).write_text(
+            json.dumps(res.charging_stats, separators=(",", ":"), ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+    for name, doc in (_default_extras(res, data_dir) if extras is None else extras).items():
+        if "/" in name or name.startswith("."):
+            raise ReleaseError(f"bad extra file name: {name!r}")
+        (tmp / name).write_text(
+            json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
+    # Release QA + back-test (qa.json, qa.md) and open data bundle (open/); a blocking QA
+    # failure raises ReleaseError and removes tmp (R-05 §1, T-035, Decision 016).
+    from ev_pipeline.qa.release_step import finish_release
+
+    finish_release(res.catalogue, res.facts, tmp, data_dir)
     tmp.rename(final)
-    (releases / "latest").write_text(f"{res.release}\n", encoding="utf-8")
+    write_latest(releases, res.release)
     review = data_dir / "review"
+    previous_status = snapshot_statuses(review)  # P7: keep staff decisions
     write_unmatched(review / "unmatched.csv", res.unmatched_rows)
     write_validation(review / "validation.csv", res.problems)
     write_conflicts(review / "conflicts.csv", res.conflicts)
+    annotate_review_dir(
+        review, previous_status, date.fromisoformat(res.catalogue["generated_at"][:10])
+    )
     res.out_dir = final
     return final
 
@@ -571,6 +924,23 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "sources": [s["id"] for s in res.catalogue["sources"]],
         "matched_records": res.match.matched_records,
         "excluded_records": dict(res.match.excluded),
+        "count_only_spec_records_skipped": dict(res.match.count_only_skipped),
+        "match_flags": {
+            "scoped_aliases": res.match.scoped_aliases,
+            "eea_corroboration": res.match.eea_corroboration,
+        },
+        "corroboration": {
+            "skipped": dict(res.match.corroboration_skipped),
+            **res.match.corroboration_log,
+        },
+        "attach_only_records_attached": dict(res.match.attached),
+        "ignored_fields": dict(res.match.ignored_fields),
+        "registrations_coverage": registrations_coverage(rows),
+        "dc_curve_status": dict(Counter(r.get("dc_curve_status") or "none" for r in rows)),
+        "price_new_coverage": dict(
+            sorted(Counter(cc for r in rows for cc in (r.get("price_new") or {})).items())
+        ),
+        "year_bands": res.match.year_bands,
         "unmatched_records": res.unmatched_count,
         "unmatched_seed_makes": len(res.match.unmatched),
         "validation_problems": len(res.problems),
@@ -578,10 +948,25 @@ def summary(res: ReleaseResult) -> dict[str, Any]:
         "gated_sources": res.gated,
         "real_range_rungs": dict(Counter(r.get("real_range_rung") or "none" for r in rows)),
         "quality_tiers": dict(Counter(r["quality_tier"] for r in rows)),
+        "optional_taxonomy_rows": res.taxonomy_tables,
+        "taxonomy_rows_held_back": res.taxonomy_held_back,
+        "sections": res.sections,
         "catalogue_json_bytes": res.catalogue_bytes,
         "catalogue_json_gzip_bytes": res.catalogue_gzip_bytes,
         "diff": res.diff["counts"],
     }
+
+
+def registrations_coverage(rows: list[dict[str, Any]]) -> dict[str, dict[str, int]]:
+    """Per country: variants with any count, and per source+kind how many variants have one."""
+    out: dict[str, dict[str, int]] = {}
+    for r in rows:
+        for cc, entries in (r.get("registrations") or {}).items():
+            c = out.setdefault(cc, {"variants": 0})
+            c["variants"] += 1
+            for key in sorted({f"{e['source_id']}:{e['kind']}:{e['level']}" for e in entries}):
+                c[key] = c.get(key, 0) + 1
+    return dict(sorted(out.items()))
 
 
 def run_log(res: ReleaseResult, outcome: str) -> dict[str, Any]:
@@ -617,5 +1002,5 @@ def release_cmd(
     except ReleaseError as exc:
         print(f"release failed: {exc}", file=sys.stderr)
         return 1
-    print(json.dumps(run_log(res, f"published {out}"), indent=1))
+    print(json.dumps(run_log(res, f"published {log_path(out, data_dir)}"), indent=1))
     return 0

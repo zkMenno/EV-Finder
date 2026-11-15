@@ -1,0 +1,12 @@
+{
+  "id": "evs-per-point",
+  "label": {
+    "en": "EVs per public charging point"
+  },
+  "short": {
+    "en": "How many electric cars share one public point. Lower is better."
+  },
+  "unit": "EVs per point",
+  "higher_is_better": false,
+  "derived": true
+}

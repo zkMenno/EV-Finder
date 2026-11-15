@@ -73,3 +73,15 @@ makes:
           - id: renault-zoe-ph2
             name: Phase 2
             years: [2019, 2024]
+  # Synthetic make/model so the nyland exclusion tests have a record that WOULD match.
+  - id: testmake
+    name: Testmake
+    models:
+      - id: testmake-testcar-alpha
+        name: Testcar Alpha
+        segment: C
+        body: hatchback
+        generations:
+          - id: testmake-testcar-alpha-gen1
+            name: Testcar Alpha (synthetic)
+            years: [2020, null]

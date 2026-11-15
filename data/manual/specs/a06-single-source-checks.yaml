@@ -1,0 +1,125 @@
+# A-06 spot check (2026-11-15): maker figures for single-source values on release rows that
+# have no seed variant (OpenEV/KilowattApp-only ids), so a seed `cited:` value can't reach them.
+# Source `manual` is blocked until Q-008: none of these ship. Under Decision 031 each one only
+# withholds a lone-source value it contradicts (qa/value_guard.guard_contradicted).
+# Every value below was read on the page named, on the date given. Confidence: medium when the
+# page names the exact version, low otherwise (see notes).
+# Megane 40 kWh and Audi Q4 entries removed 2026-11-15: those rows were merged or held (Decision 033);
+# the Megane citation lives on the seed variant -ev40, the Q4 records go to review.
+schema: manual-facts/v1
+entered_by: pipeline-builder (agent)
+facts:
+  # --- Renault 5 E-Tech 40 kWh (OpenEV "40 kWh", 2024-2025): OpenEV DC 100 ------------------
+  - variant_id: renault-5-e-tech-gen1-40-kwh
+    field: dc_peak_kw
+    value: 80
+    unit: kW
+    source_url: https://cdn.group.renault.com/ren/gb/transversal-assets/brochures/mobile-brochure-tech-spec/mobile-tech-spec-R5.pdf
+    source_name: "Renault UK, Renault 5 E-Tech electric technical specifications (PDF created 2026-09-29)"
+    retrieved: 2026-11-15
+    quote: "DC (kW) up to 80 at peak"
+    locator: "03. engines, column 'EV40 120 hp urban range' (EV52 150 hp column: up to 100 at peak); options table: 'AC 11kW + DC 80kW' on the 40 kWh version"
+    confidence: medium
+    notes: "Same table gives usable capacity 40 kWh for EV40 (OpenEV: 38); not entered here."
+
+  # --- VW ID.3 Pro 58 kWh, 2023+ year band (OpenEV "PRO" 2023-2025): OpenEV DC 135 ------------
+  - variant_id: volkswagen-id3-gen1-pro-2023
+    field: dc_peak_kw
+    value: 120
+    unit: kW
+    source_url: https://www.volkswagen-newsroom.com/en/press-releases/the-id3-product-line-is-becoming-more-diverse-start-of-pre-sales-for-gtx-pro-and-pure-models-18417
+    source_name: "Volkswagen Newsroom, 'The ID.3 product line is becoming more diverse' (2024-05-30)"
+    retrieved: 2026-11-15
+    quote: "The new 59 kWh lithium-ion battery (net) provides a combined WLTP range of up to 434 kilometres. The maximum charging capacity increases from 120 kW to 165 kW."
+    locator: "Section 'ID.3 Pro receives upgrade'"
+    confidence: low
+    notes: "Low: 120 kW is stated as the previous ID.3 Pro figure (58 kWh, before the MY2025 59 kWh update), not with a model year; the row spans 2023-2025, and the 59 kWh Pro charges at up to 165 kW."
+
+  # --- Mercedes EQA H243 facelift (OpenEV 2023-2025): OpenEV usable 60 kWh -------------------
+  - variant_id: mercedes-eqa-h243-base
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 12, 'The most important technical data', EQA 250 column: Usable battery capacity kWh 66.5 (EQA 250+: 70.5)"
+    confidence: low
+    notes: "Low: the row is OpenEV 'Base' (140 kW, FWD), which is either the EQA 250 (66.5) or the EQA 250+ (70.5); both 140 kW. Either way not 60."
+  - variant_id: mercedes-eqa-h243-300-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 12, 'The most important technical data', EQA 300 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+  - variant_id: mercedes-eqa-h243-350-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 12, 'The most important technical data', EQA 350 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+
+  # --- Mercedes EQB X243 facelift (OpenEV 2023-2025): OpenEV usable 60 kWh -------------------
+  - variant_id: mercedes-eqb-gen1-base
+    field: battery_kwh_net
+    value: 70.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 250+ column: Power 140 kW, Usable battery capacity kWh 70.5"
+    confidence: low
+    notes: "Low: the row is OpenEV 'Base' (140 kW, FWD); the only 140 kW EQB in the table is the EQB 250+, but the page does not call it 'Base'."
+  - variant_id: mercedes-eqb-gen1-7-seater
+    field: battery_kwh_net
+    value: 70.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 250+ column: Power 140 kW, Usable battery capacity kWh 70.5 (boot volume given for five/seven-seater)"
+    confidence: low
+    notes: "Low: OpenEV '7-Seater' (140 kW, FWD) read as the EQB 250+ seven-seater; the page names no '7-Seater' version."
+  - variant_id: mercedes-eqb-gen1-300-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 300 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+  - variant_id: mercedes-eqb-gen1-300-4matic-7-seater
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 300 4MATIC column: Usable battery capacity kWh 66.5 (one column for five- and seven-seat)"
+    confidence: medium
+  - variant_id: mercedes-eqb-gen1-350-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 350 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+  - variant_id: mercedes-eqb-gen1-350-4matic-7-seater
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 350 4MATIC column: Usable battery capacity kWh 66.5 (one column for five- and seven-seat)"
+    confidence: medium
+

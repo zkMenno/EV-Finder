@@ -1,0 +1,8 @@
+{
+  "id": "uk-default",
+  "country": "UK",
+  "speeds_kmh": {
+    "town": 48,
+    "motorway_mph": 70
+  }
+}

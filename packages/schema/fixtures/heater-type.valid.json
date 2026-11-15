@@ -1,0 +1,15 @@
+{
+  "id": "heat-pump",
+  "label": {
+    "en": "Heat pump"
+  },
+  "temperature_curve": [
+    [-10, 1.35],
+    [0, 1.2],
+    [10, 1.08],
+    [20, 1.0]
+  ],
+  "warm_up_kwh": 1.0,
+  "source_ids": ["fixture"],
+  "confidence": "low"
+}

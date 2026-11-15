@@ -1,0 +1,9 @@
+# SYNTHETIC QA FIXTURE: test registry (invented sources).
+schema: sources/v1
+sources:
+  - {id: testsrc, name: Test source (fixture), owner: tests, licence: CC0-1.0, access: bulk, cadence: n/a, status: active}
+  - {id: testreg, name: Test register (fixture), owner: tests, licence: CC0-1.0, access: bulk, cadence: n/a, status: active}
+  - {id: model-estimate, name: Estimate models, owner: tests, licence: CC-BY-4.0, access: manual, cadence: n/a, status: active}
+  - {id: seed-manual, name: Seed (fixture), owner: tests, licence: CC-BY-4.0, access: manual, cadence: n/a, status: active}
+  - {id: testosm, name: ODbL map data (fixture), owner: tests, licence: ODbL-1.0, access: bulk, cadence: n/a, status: active}
+  - {id: testpending, name: Pending source (fixture), owner: tests, licence: none, access: manual, cadence: n/a, status: waiting_permission}

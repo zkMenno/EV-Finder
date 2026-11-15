@@ -1,0 +1,22 @@
+# Test fixture: synthetic values for a fixture variant/generation; example.org URLs.
+schema: manual-facts/v1
+entered_by: test
+facts:
+  - variant_id: tesla-model-3-gen1-lr
+    field: warranty_km
+    value: 192000
+    unit: km
+    source_url: https://example.org/fixture/warranty.pdf
+    source_name: "Fixture warranty booklet"
+    retrieved: 2026-11-01
+    locator: "p. 3"
+    confidence: medium
+  - generation_id: nissan-leaf-ze0
+    field: warranty_years
+    value: 5
+    unit: years
+    source_url: https://example.org/fixture/leaf.pdf
+    retrieved: 2026-11-01
+    quote: "5 years"
+    confidence: low
+    claim: false

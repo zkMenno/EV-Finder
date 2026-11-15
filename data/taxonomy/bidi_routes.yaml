@@ -1,0 +1,56 @@
+# Bidirectional hardware routes (Decision 011, T-019). Rows = schema $defs/BidiRoute.
+# Spec §3.1; research/R-01 §3 (where the inverter sits decides the home box price).
+# EN + NL; other languages still to do.
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+bidi_routes:
+  - id: ac-onboard
+    label: {en: "No expensive special box needed", nl: "Geen dure speciale box nodig"}
+    technical: {en: "AC bidirectional (inverter in the car)", nl: "AC-bidirectioneel (omvormer in de auto)"}
+    short:
+      en: "The car converts the power itself, so a matching wallbox costs about as much as a normal one."
+      nl: "De auto zet de stroom zelf om, dus een passende wallbox kost ongeveer zoveel als een gewone."
+    explainer:
+      en: >-
+        The inverter sits in the car's on-board charger. You still need a wallbox the maker
+        approves, but it is priced close to a normal wallbox. Examples: Renault 5 and 4, Alpine
+        A290, BMW iX3 (Neue Klasse), Nissan Leaf third generation.
+      nl: >-
+        De omvormer zit in de lader van de auto. Je hebt nog wel een goedgekeurde wallbox nodig,
+        maar die kost ongeveer zoveel als een gewone.
+    inverter_location: car
+    needs_special_box: false
+
+  - id: dc-offboard
+    label: {en: "Needs a special DC wallbox", nl: "Vraagt een speciale DC-wallbox"}
+    technical: {en: "DC bidirectional (inverter in the wallbox)", nl: "DC-bidirectioneel (omvormer in de wallbox)"}
+    short:
+      en: "The wallbox converts the power, so it costs more, roughly €2,000–3,000 or above."
+      nl: "De wallbox zet de stroom om en is daardoor duurder, grofweg €2.000–3.000 of meer."
+    explainer:
+      en: >-
+        The inverter sits in the wallbox, which makes the box much dearer than a normal one.
+        Examples: Volkswagen group cars on MEB with a large battery and recent software, Mercedes
+        GLC and C-Class EQ, Ford Explorer and Capri.
+      nl: >-
+        De omvormer zit in de wallbox, waardoor die veel duurder is dan een gewone. Voorbeelden:
+        VW-groep op MEB met grote accu en recente software, Mercedes GLC en C-Klasse EQ.
+    inverter_location: wallbox
+    needs_special_box: true
+
+  - id: chademo-dc
+    label: {en: "Old CHAdeMO plug route", nl: "Oude CHAdeMO-route"}
+    technical: {en: "CHAdeMO DC bidirectional (legacy)", nl: "CHAdeMO DC-bidirectioneel (oud)"}
+    short:
+      en: "Older cars with a CHAdeMO plug, like early Nissan Leafs. Matching boxes are getting scarce."
+      nl: "Oudere auto's met CHAdeMO-stekker, zoals vroege Nissan Leafs. Passende boxen worden schaars."
+    inverter_location: wallbox
+    needs_special_box: true
+
+  - id: proprietary
+    label: {en: "Maker's own system", nl: "Eigen systeem van het merk"}
+    technical: {en: "Proprietary route", nl: "Eigen (merkgebonden) route"}
+    short:
+      en: "Works only with the maker's own equipment. Check what is needed before you buy."
+      nl: "Werkt alleen met apparatuur van het merk zelf. Kijk vóór aankoop wat nodig is."
+    inverter_location: varies
+    needs_special_box: null

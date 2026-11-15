@@ -106,13 +106,14 @@ links:
   - {variant_id: hyundai-ioniq-6-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
   - {variant_id: kia-ev6-gen1-58kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-58, voltage: {nominal_v: 522.7, max_v: not-disclosed, marketing_label: "800V", class_id: 800v, switchable: false}, charger_400v: *egmp_booster, uncertain: true, class_override_note: "Marketed as 800 V; 522.7 V nominal falls below the 550 V class boundary.", notes: "63 kWh after the facelift."}
   - {variant_id: kia-ev6-gen1-77kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "84 kWh after the facelift."}
-  - {variant_id: kia-ev6-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
-  - {variant_id: kia-ev6-gen1-gt, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
+  - {variant_id: kia-ev6-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above). T-057: KilowattApp MY2024/2025 records (80 kWh usable, 263 kW DC) describe the facelift 84 kWh pack (egmp-84), not egmp-77-4; the pack guard keeps them out of this row (conflicts.csv) until the facelift has its own variant or year band."}
+  - {variant_id: kia-ev6-gen1-gt, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above). T-057: KilowattApp MY2024/2025 records (80 kWh usable, 263 kW DC) describe the facelift 84 kWh pack (egmp-84), not egmp-77-4; the pack guard keeps them out of this row (conflicts.csv) until the facelift has its own variant or year band."}
   # --- BMW / Mini ---
   - {variant_id: bmw-i3-i01-60ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-60ah, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i3-i01-94ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-94ah, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i3-i01-120ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native}
-  - {variant_id: bmw-i3-i01-i3s, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native, uncertain: true, notes: "i3s had the 94 Ah pack until 2018 and the 120 Ah pack after; linked to 120 Ah."}
+  - {variant_id: bmw-i3-i01-i3s-94ah, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-94ah, voltage: *v400, charger_400v: *native, notes: "2017-18 i3s, 94 Ah pack (A-06 F7 split)."}
+  - {variant_id: bmw-i3-i01-i3s, platform_id: bmw-i3-lifedrive, battery_pack_id: bmw-i3-120ah, voltage: *v400, charger_400v: *native, notes: "120 Ah i3s (late 2018 on); the 94 Ah i3s is bmw-i3-i01-i3s-94ah (A-06 F7)."}
   - {variant_id: bmw-i4-g26-edrive35, platform_id: bmw-clar, battery_pack_id: bmw-gen5-67, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i4-g26-edrive40, platform_id: bmw-clar, battery_pack_id: bmw-gen5-81, voltage: *v400, charger_400v: *native}
   - {variant_id: bmw-i4-g26-m50, platform_id: bmw-clar, battery_pack_id: bmw-gen5-81, voltage: *v400, charger_400v: *native}
@@ -162,3 +163,47 @@ links:
   - {variant_id: smart-eq-fortwo-453-eq, platform_id: smart-453, battery_pack_id: smart-453-17-6, voltage: *vnd, charger_400v: *native, notes: "No DC charging. Pack voltage not known to us."}
   - {variant_id: honda-e-gen1-e, platform_id: honda-e, battery_pack_id: honda-e-35-5, voltage: *v400, charger_400v: *native}
   - {variant_id: honda-e-gen1-advance, platform_id: honda-e, battery_pack_id: honda-e-35-5, voltage: *v400, charger_400v: *native}
+  # --- T-060: platform-only generation defaults, cited from manufacturer pages ---
+  # No battery pack: none of these packs is in battery_packs.yaml yet. Voltage class comes from the platform.
+  - generation_id: volkswagen-id7-gen1
+    platform_id: vw-meb
+    cited:
+      platform_id:
+        value: vw-meb
+        source_url: https://www.volkswagen-newsroom.com/en/press-releases/world-premiere-for-the-efficiency-champion-volkswagen-id7-with-a-range-of-up-to-700-km-wltp-15735
+        source_name: "Volkswagen Newsroom, press release 'World premiere for the efficiency champion: Volkswagen ID.7' (2023-04-17)"
+        retrieved: 2026-11-15
+        quote: "The ID.7 sets new efficiency standards on the basis of the modular electric drive matrix (MEB)."
+        confidence: high
+  - generation_id: volkswagen-id-buzz-gen1
+    platform_id: vw-meb
+    cited:
+      platform_id:
+        value: vw-meb
+        source_url: https://volkswagen-newsroom.com/en/the-new-id-buzz-and-id-buzz-cargo-international-media-drive-15144/electric-drive-system-agile-powerful-and-efficient-15146
+        source_name: "Volkswagen Newsroom, ID. Buzz international media drive, 'Electric drive system' (2022-09-07)"
+        retrieved: 2026-11-15
+        quote: "In engineering terms the ID. Buzz and ID. Buzz Cargo are based on the Volkswagen Group’s Modular Electric Drive Matrix (MEB)."
+        confidence: high
+  - generation_id: skoda-elroq-gen1
+    platform_id: vw-meb
+    cited:
+      platform_id:
+        value: vw-meb
+        source_url: https://skoda-storyboard.com/en/press-kits/the-all-electric-skoda-elroq-breaking-new-ground-in-the-compactsuv-segment-with-a-covered-design
+        source_name: "Skoda Storyboard, Elroq press kit (2024-07-01)"
+        retrieved: 2026-11-15
+        quote: "built on the Volkswagen Group’s Modular Electrification Toolkit (MEB)"
+        confidence: high
+        notes: "Partial quote from the powertrain section; Skoda calls MEB the Modular Electrification Toolkit."
+  - generation_id: renault-5-e-tech-gen1
+    platform_id: renault-cmf-bev
+    cited:
+      platform_id:
+        value: renault-cmf-bev
+        source_url: https://media.renault.com/renault-5-e-tech-electric-the-electric-renaulutionary-pop-icon?lang=eng
+        source_name: "Renault Group media, 'Renault 5 E-Tech electric: the electric & renaulutionary pop icon' (2024-02-26)"
+        retrieved: 2026-11-15
+        quote: "designed entirely on AmpR Small, the new Ampere platform dedicated to B-segment electric vehicles"
+        confidence: high
+        notes: "Our platform row renault-cmf-bev is named 'CMF-BEV (AmpR Small)'; the page uses the AmpR Small name only."

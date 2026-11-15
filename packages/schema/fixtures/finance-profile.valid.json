@@ -1,0 +1,18 @@
+{
+  "id": "xx-used-car-loan",
+  "country": "XX",
+  "product": "used-car-loan",
+  "typical_apr": 7.5,
+  "default_term_months": null,
+  "default_deposit_pct": null,
+  "source": {
+    "name": "FIXTURE ONLY: placeholder central-bank series",
+    "url": "https://example.org/fixture",
+    "licence": "fixture",
+    "series_id": "FIXTURE.SERIES",
+    "period": "2026-09"
+  },
+  "retrieved_at": "2026-11-15",
+  "notes": "Fixture values, not real data.",
+  "review": true
+}

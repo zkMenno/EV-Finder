@@ -1,0 +1,22 @@
+{
+  "id": "volkswagen-id3-gen1-pro-s-build-date-range",
+  "variant_id": "volkswagen-id3-gen1-pro-s",
+  "clue_type_id": "build-date-range",
+  "market": "global",
+  "range": { "min": "2021-06", "max": null },
+  "strength": "weak",
+  "rules_out": ["volkswagen-id3-gen1-pure"],
+  "lookalike_group_id": "volkswagen-id3-gen1-same-generation",
+  "sources": [
+    {
+      "source_id": "volkswagen-press",
+      "url": "https://example.org/fixture-only",
+      "locator": "technical data table",
+      "retrieved_at": "2026-11-15"
+    }
+  ],
+  "retrieved_at": "2026-11-15",
+  "confidence": "low",
+  "entered_by": "staff",
+  "notes": "Fixture only: illustrative values, not a sourced clue."
+}

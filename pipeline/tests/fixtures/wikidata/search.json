@@ -1,0 +1,1488 @@
+{
+ "head": {
+  "vars": [
+   "search",
+   "item",
+   "itemLabel",
+   "ord",
+   "electric"
+  ]
+ },
+ "results": {
+  "bindings": [
+   {
+    "search": {
+     "type": "literal",
+     "value": "Audi Q4 e-tron"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62107422"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Audi Q4 e-tron"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Audi e-tron"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56669231"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Audi Q8 e-tron"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Audi e-tron"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62018656"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "3"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Audi e-tron Sportback"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Audi e-tron"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60849683"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "4"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Audi e-tron GT"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "BMW i3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q796785"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW i3 (2013)"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "BMW i3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q111446755"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "3"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW i3 (2022)"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "BMW i4"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q50886612"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW i4"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86663388"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q97159640"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX3"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "3"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX1"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136100817"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "5"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX3"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112222244"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "9"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW X1 (U11)"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX1"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112190791"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX1"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX1"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112222244"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW X1 (U11)"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q97159640"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX3"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Bmw iX3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136100817"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "BMW iX3"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Citroen e-C4"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q111971355"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Citroën e-C4"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Fiat 500e"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86991003"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Fiat New 500"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Fiat 500e"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q5861472"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Fiat 500e"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Ford Explorer EV"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q117234931"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Ford Explorer EV"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Ford Mustang Mach-E"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q75419891"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Ford Mustang Mach-E"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Hyundai Ioniq 5"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q99342695"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Hyundai Ioniq 5"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Hyundai Ioniq 5"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q126028569"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Hyundai Ioniq 5 N"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Hyundai Kona Electric"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62098523"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Hyundai KONA Electric"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Jaguar I-Pace"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q27941336"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Jaguar I-Pace"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Kia EV6"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q105975708"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Kia EV6"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Kia Niro EV"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q62098509"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Kia Niro EV"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Kia Niro EV"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q22754238"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Kia Niro"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "MG ZS EV"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q71140662"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "MG ZS EV"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "MG ZS EV"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q30635583"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "MG ZS"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "MG4 EV"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q112964039"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "MG 4 EV"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Mercedes-Benz EQA"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56367800"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQA"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Mercedes-Benz EQB"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86671945"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQB"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Mercedes-Benz EQC"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56319401"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mercedes-Benz EQC"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Mini Electric"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q65551003"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Mini Electric"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Nissan Leaf"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q911323"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Nissan Leaf"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q38278176"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Nissan Leaf (first generation)"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Opel Corsa Electric"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q64414857"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Opel Corsa Electric"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Peugeot e-2008"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q106576693"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Peugeot e-2008"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Peugeot e-2008"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q131471151"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "type": "literal",
+     "value": "Q131471151"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Peugeot e-208"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63558522"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Peugeot e-208"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Polestar 2"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q60965166"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Polestar 2"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Porsche Taycan"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q56307011"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Porsche Taycan"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Porsche Taycan"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q125057217"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Porsche Taycan Cross Turismo"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Renault Megane E-Tech Electric"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q108380585"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Renault Mégane E-Tech Electric"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Renault Zoe"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q1516380"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Renault Zoe"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Skoda Enyaq"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q30753091"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Škoda Enyaq iV"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Skoda Enyaq"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q125844347"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "type": "literal",
+     "value": "Q125844347"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "false"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Tesla Model 3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q7705507"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model 3"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Tesla Model Y"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q42298250"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model Y"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Tesla Model Y"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q135395682"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Tesla Model Y L"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volkswagen ID.3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q63636478"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.3"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volkswagen ID.3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q140850894"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.3 Neo"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volkswagen ID.3"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q125739580"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "2"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.3 Chuzhong"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volkswagen ID.4"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q86668068"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.4"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volkswagen ID.4"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q124471809"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "1"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen ID.4 Crozz"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volkswagen e-Golf"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q17632770"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volkswagen e-Golf"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volvo EX30"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q116769123"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX30"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   },
+   {
+    "search": {
+     "type": "literal",
+     "value": "Volvo XC40 Recharge"
+    },
+    "item": {
+     "type": "uri",
+     "value": "http://www.wikidata.org/entity/Q136333937"
+    },
+    "ord": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#int",
+     "type": "literal",
+     "value": "0"
+    },
+    "itemLabel": {
+     "xml:lang": "en",
+     "type": "literal",
+     "value": "Volvo EX40"
+    },
+    "electric": {
+     "datatype": "http://www.w3.org/2001/XMLSchema#boolean",
+     "type": "literal",
+     "value": "true"
+    }
+   }
+  ]
+ }
+}

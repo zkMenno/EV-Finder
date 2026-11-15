@@ -1,0 +1,59 @@
+# Field mix-up cases for qa/value_guard.guard_mixups (hand-written, numbers only; shaped on
+# KilowattApp's Zoe Phase 1 records, where ac_kw repeats the record's battery kWh).
+# Each case: facts for one variant (source, field, value, record, cited?, confidence) and the
+# expected outcome: merged ac_kw after the guard (null = withheld) and the reviewed values.
+cases:
+  - name: r240_ac_is_the_gross_battery
+    facts:
+      - {source: kilowatt-openev, field: battery_kwh_gross, value: 23.3, record: k1}
+      - {source: kilowatt-openev, field: ac_kw, value: 23.3, record: k1}
+      - {source: seed-manual, field: ac_kw, value: 22, record: "v#cited:ac_kw", confidence: low}
+      - {source: seed-manual, field: battery_kwh_net, value: 22, record: v}
+    expect: {ac_kw: 22, reviewed: [23.3]}
+  - name: r110_one_record_copies_the_usable_battery
+    facts:
+      - {source: kilowatt-openev, field: battery_kwh_net, value: 41, record: k1}
+      - {source: kilowatt-openev, field: ac_kw, value: 41, record: k1}
+      - {source: kilowatt-openev, field: battery_kwh_net, value: 41, record: k2}
+      - {source: kilowatt-openev, field: ac_kw, value: 22, record: k2}
+    expect: {ac_kw: 22, reviewed: [41]}
+  - name: row_battery_only_still_counts
+    # The record carries no battery itself; the merged row's 41 kWh net is enough.
+    facts:
+      - {source: openev, field: battery_kwh_net, value: 41, record: o1}
+      - {source: kilowatt-openev, field: ac_kw, value: 41.4, record: k1}
+    expect: {ac_kw: null, reviewed: [41.4]}
+  - name: just_outside_half_a_unit_is_kept
+    facts:
+      - {source: openev, field: battery_kwh_net, value: 22, record: o1}
+      - {source: kilowatt-openev, field: ac_kw, value: 22.6, record: k1}
+    expect: {ac_kw: 22.6, reviewed: []}
+  - name: second_independent_source_backs_it
+    # A real 22 kW charger on a 22 kWh car: OpenEV and KilowattApp agree, nothing is reviewed.
+    facts:
+      - {source: openev, field: battery_kwh_net, value: 22, record: o1}
+      - {source: openev, field: ac_kw, value: 22, record: o1}
+      - {source: kilowatt-openev, field: ac_kw, value: 22, record: k1}
+    expect: {ac_kw: 22, reviewed: []}
+  - name: same_origin_does_not_back_itself
+    # Two KilowattApp records repeating the battery are still one origin: both go to review.
+    facts:
+      - {source: kilowatt-openev, field: battery_kwh_net, value: 41, record: k1}
+      - {source: kilowatt-openev, field: ac_kw, value: 41, record: k1}
+      - {source: kilowatt-openev, field: battery_kwh_net, value: 41, record: k2}
+      - {source: kilowatt-openev, field: ac_kw, value: 41, record: k2}
+    expect: {ac_kw: null, reviewed: [41, 41]}
+  - name: uncited_seed_does_not_back_a_source
+    # Seed values are not independent, so they back nothing; the seed's own 22 is backed by the
+    # (independent) KilowattApp value and stays, the KilowattApp fact goes to review.
+    facts:
+      - {source: kilowatt-openev, field: battery_kwh_net, value: 22, record: k1}
+      - {source: kilowatt-openev, field: ac_kw, value: 22, record: k1}
+      - {source: seed-manual, field: ac_kw, value: 22, record: v}
+    expect: {ac_kw: 22, reviewed: [22]}
+  - name: a_citation_backs_it
+    facts:
+      - {source: kilowatt-openev, field: battery_kwh_net, value: 22, record: k1}
+      - {source: kilowatt-openev, field: ac_kw, value: 22, record: k1}
+      - {source: seed-manual, field: ac_kw, value: 22, record: "v#cited:ac_kw", confidence: low}
+    expect: {ac_kw: 22, reviewed: []}

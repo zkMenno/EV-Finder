@@ -1,0 +1,650 @@
+[
+{
+"merk": "HYUNDAI",
+"handelsbenaming": "IONIQ5",
+"jaar": "2021",
+"n": "1639",
+"med": "55400",
+"mn": "42505",
+"mx": "59800"
+},
+{
+"merk": "HYUNDAI",
+"handelsbenaming": "IONIQ5",
+"jaar": "2023",
+"n": "2242",
+"med": "58595",
+"mn": "46495",
+"mx": "68690"
+},
+{
+"merk": "HYUNDAI",
+"handelsbenaming": "IONIQ5",
+"jaar": "2026",
+"n": "580",
+"med": "50795",
+"mn": "41900",
+"mx": "62890"
+},
+{
+"merk": "HYUNDAI",
+"handelsbenaming": "IONIQ5 N",
+"jaar": "2024",
+"n": "59",
+"med": "73995",
+"mn": "73595",
+"mx": "74890"
+},
+{
+"merk": "HYUNDAI",
+"handelsbenaming": "IONIQ5 N",
+"jaar": "2025",
+"n": "33",
+"med": "74490",
+"mn": "72900",
+"mx": "74890"
+},
+{
+"merk": "HYUNDAI",
+"handelsbenaming": "IONIQ5 N",
+"jaar": "2026",
+"n": "18",
+"med": "74292.5",
+"mn": "73595",
+"mx": "74990"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"jaar": "2011",
+"n": "118",
+"med": "35555",
+"mn": "33448",
+"mx": "35882"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"jaar": "2012",
+"n": "90",
+"med": "35844",
+"mn": "29655",
+"mx": "36819"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"jaar": "2013",
+"n": "243",
+"med": "34020",
+"mn": "29789",
+"mx": "37055"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"jaar": "2014",
+"n": "230",
+"med": "34020",
+"mn": "29789",
+"mx": "37275"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"jaar": "2015",
+"n": "144",
+"med": "35010",
+"mn": "28933",
+"mx": "37275"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"jaar": "2016",
+"n": "7",
+"med": "36001",
+"mn": "27039",
+"mx": "40280"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF",
+"jaar": "2026",
+"n": "263",
+"med": "43150",
+"mn": "33750",
+"mx": "54718"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 24KWH",
+"jaar": "2016",
+"n": "14",
+"med": "34475",
+"mn": "30741",
+"mx": "36545"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 24KWH",
+"jaar": "2017",
+"n": "6",
+"med": "31516",
+"mn": "30891",
+"mx": "33691"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 30KWH",
+"jaar": "2016",
+"n": "330",
+"med": "36546",
+"mn": "29345",
+"mx": "38616"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 30KWH",
+"jaar": "2017",
+"n": "277",
+"med": "35691",
+"mn": "34141",
+"mx": "38791"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 30KWH",
+"jaar": "2018",
+"n": "17",
+"med": "34791",
+"mn": "34691",
+"mx": "34791"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2018",
+"n": "2198",
+"med": "37182",
+"mn": "12100",
+"mx": "43241"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2019",
+"n": "1824",
+"med": "38941",
+"mn": "32549",
+"mx": "42641"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2020",
+"n": "862",
+"med": "38841",
+"mn": "34141",
+"mx": "42391"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2021",
+"n": "379",
+"med": "36841",
+"mn": "34141",
+"mx": "40241"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2022",
+"n": "479",
+"med": "36941",
+"mn": "29851",
+"mx": "42891"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2023",
+"n": "151",
+"med": "36850",
+"mn": "32000",
+"mx": "40400"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2024",
+"n": "347",
+"med": "36750",
+"mn": "24960",
+"mx": "39900"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 40KWH",
+"jaar": "2025",
+"n": "121",
+"med": "26777",
+"mn": "25510",
+"mx": "29377"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 62KWH",
+"jaar": "2019",
+"n": "1033",
+"med": "47851",
+"mn": "45000",
+"mx": "49551"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 62KWH",
+"jaar": "2020",
+"n": "486",
+"med": "44341",
+"mn": "41091",
+"mx": "51731"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 62KWH",
+"jaar": "2021",
+"n": "595",
+"med": "41941",
+"mn": "37141",
+"mx": "45541"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 62KWH",
+"jaar": "2022",
+"n": "394",
+"med": "42341",
+"mn": "36541",
+"mx": "45341"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 62KWH",
+"jaar": "2023",
+"n": "374",
+"med": "41850",
+"mn": "37140",
+"mx": "45400"
+},
+{
+"merk": "NISSAN",
+"handelsbenaming": "NISSAN LEAF 62KWH",
+"jaar": "2024",
+"n": "34",
+"med": "43700",
+"mn": "39350",
+"mx": "44200"
+},
+{
+"merk": "RENAULT",
+"handelsbenaming": "MEGANE E-TECH ELECTRIC",
+"jaar": "2012",
+"n": "1",
+"med": "40750",
+"mn": "40750",
+"mx": "40750"
+},
+{
+"merk": "RENAULT",
+"handelsbenaming": "MEGANE E-TECH ELECTRIC",
+"jaar": "2022",
+"n": "885",
+"med": "44700",
+"mn": "35750",
+"mx": "51149"
+},
+{
+"merk": "RENAULT",
+"handelsbenaming": "MEGANE E-TECH ELECTRIC",
+"jaar": "2023",
+"n": "3659",
+"med": "44600",
+"mn": "35300",
+"mx": "52849"
+},
+{
+"merk": "RENAULT",
+"handelsbenaming": "MEGANE E-TECH ELECTRIC",
+"jaar": "2024",
+"n": "1819",
+"med": "41600",
+"mn": "35300",
+"mx": "47749"
+},
+{
+"merk": "RENAULT",
+"handelsbenaming": "MEGANE E-TECH ELECTRIC",
+"jaar": "2025",
+"n": "1594",
+"med": "39095",
+"mn": "35300",
+"mx": "46800"
+},
+{
+"merk": "RENAULT",
+"handelsbenaming": "MEGANE E-TECH ELECTRIC",
+"jaar": "2026",
+"n": "875",
+"med": "38395",
+"mn": "31695",
+"mx": "44350"
+},
+{
+"merk": "TESLA",
+"handelsbenaming": "MODEL 3",
+"jaar": "2017",
+"n": "1",
+"med": "55000",
+"mn": "55000",
+"mx": "55000"
+},
+{
+"merk": "TESLA",
+"handelsbenaming": "MODEL 3",
+"jaar": "2018",
+"n": "3",
+"med": "62099",
+"mn": "62099",
+"mx": "62099"
+},
+{
+"merk": "TESLA",
+"handelsbenaming": "MODEL 3",
+"jaar": "2019",
+"n": "24323",
+"med": "59830",
+"mn": "29040",
+"mx": "78750"
+},
+{
+"merk": "TESLA",
+"handelsbenaming": "MODEL 3",
+"jaar": "2024",
+"n": "10685",
+"med": "44290",
+"mn": "4990",
+"mx": "68190"
+},
+{
+"merk": "TESLA",
+"handelsbenaming": "TESLA MODEL 3",
+"jaar": "2020",
+"n": "2",
+"med": "58980",
+"mn": "58980",
+"mx": "58980"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 GTX PERF. 240 KW",
+"jaar": "2024",
+"n": "2",
+"med": "54300",
+"mn": "54215",
+"mx": "54385"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 GTX PERF. 240 KW",
+"jaar": "2025",
+"n": "62",
+"med": "51505",
+"mn": "46850",
+"mx": "55890"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 GTX PERF. 240 KW",
+"jaar": "2026",
+"n": "30",
+"med": "50135",
+"mn": "46725",
+"mx": "52475"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 NEO 125KW",
+"jaar": "2026",
+"n": "208",
+"med": "35615",
+"mn": "31725",
+"mx": "39495"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 NEO 140KW",
+"jaar": "2026",
+"n": "287",
+"med": "38295",
+"mn": "36225",
+"mx": "45945"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 NEO 170KW",
+"jaar": "2026",
+"n": "197",
+"med": "43105",
+"mn": "39115",
+"mx": "50815"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 107 KW",
+"jaar": "2021",
+"n": "429",
+"med": "37515",
+"mn": "35115",
+"mx": "46315"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 107 KW",
+"jaar": "2022",
+"n": "929",
+"med": "38275",
+"mn": "35825",
+"mx": "48191"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 107 KW",
+"jaar": "2023",
+"n": "398",
+"med": "41020",
+"mn": "37440",
+"mx": "49810"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150KW",
+"jaar": "2020",
+"n": "74",
+"med": "43675",
+"mn": "37675",
+"mx": "49175"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150 KW",
+"jaar": "2020",
+"n": "10667",
+"med": "43675",
+"mn": "35779",
+"mx": "59796"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150 KW",
+"jaar": "2021",
+"n": "822",
+"med": "39161",
+"mn": "36615",
+"mx": "51375"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150 KW",
+"jaar": "2022",
+"n": "547",
+"med": "41430",
+"mn": "38005",
+"mx": "51355"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150 KW",
+"jaar": "2023",
+"n": "2599",
+"med": "43920",
+"mn": "37071",
+"mx": "55041"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150 KW",
+"jaar": "2024",
+"n": "1112",
+"med": "41395",
+"mn": "38110",
+"mx": "50325"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150 KW",
+"jaar": "2025",
+"n": "882",
+"med": "38920",
+"mn": "29650",
+"mx": "48600"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO 150 KW",
+"jaar": "2026",
+"n": "485",
+"med": "37305",
+"mn": "36725",
+"mx": "46455"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO S 150 KW",
+"jaar": "2021",
+"n": "385",
+"med": "44625",
+"mn": "40865",
+"mx": "47925"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO S 150 KW",
+"jaar": "2022",
+"n": "211",
+"med": "44535",
+"mn": "41625",
+"mx": "48305"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO S 150 KW",
+"jaar": "2023",
+"n": "195",
+"med": "48910",
+"mn": "41892",
+"mx": "55740"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO S 150 KW",
+"jaar": "2024",
+"n": "616",
+"med": "44935",
+"mn": "41885",
+"mx": "55675"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO S 150 KW",
+"jaar": "2025",
+"n": "699",
+"med": "40430",
+"mn": "33859",
+"mx": "52890"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PRO S 150 KW",
+"jaar": "2026",
+"n": "361",
+"med": "40195",
+"mn": "38725",
+"mx": "49245"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PURE 110 KW",
+"jaar": "2021",
+"n": "364",
+"med": "34050",
+"mn": "31085",
+"mx": "40661"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PURE 110 KW",
+"jaar": "2022",
+"n": "200",
+"med": "39235",
+"mn": "33775",
+"mx": "46050"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PURE 110 KW",
+"jaar": "2023",
+"n": "83",
+"med": "40620",
+"mn": "35780",
+"mx": "47531"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PURE 125 KW",
+"jaar": "2024",
+"n": "143",
+"med": "36535",
+"mn": "34895",
+"mx": "38875"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PURE 125 KW",
+"jaar": "2025",
+"n": "1668",
+"med": "31430",
+"mn": "28860",
+"mx": "44670"
+},
+{
+"merk": "VOLKSWAGEN",
+"handelsbenaming": "ID.3 PURE 125 KW",
+"jaar": "2026",
+"n": "404",
+"med": "30425",
+"mn": "28735",
+"mx": "41672"
+}
+]

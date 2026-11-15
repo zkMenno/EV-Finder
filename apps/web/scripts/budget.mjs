@@ -1,0 +1,119 @@
+// Performance budget check (A-01, apps/web/AGENTS.md rule 4). Run after `next build`:
+//
+//   node apps/web/scripts/budget.mjs        (from the repo root or apps/web)
+//
+// 1. Explore first-load JS: the JS chunks the browser loads on /[country]/[lang], read from the build
+//    manifests (build-manifest.json rootMainFiles + the client-reference manifest's entryJSFiles
+//    for app/[country]/[lang]/layout and app/[country]/[lang]/page), each gzipped (level 9) and
+//    summed. Fails above 200 KB. noModule polyfills are reported but not counted (modern browsers
+//    skip them), matching how A-01 measured.
+// 2. Client catalogue (/data/catalogue-<n>.json): built from the latest release (CATALOGUE_DIR or
+//    data/releases, else the dev fixture) with the app's own toClientCatalogue(), gzipped. Fails
+//    at 300 KB or more.
+//
+// Sizes are KB = 1000 bytes, as in A-01. No dependencies beyond Node (>= 22.18 for .ts import).
+/* global process, console, Buffer */
+import { existsSync, readFileSync, statSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { gzipSync } from "node:zlib";
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+export const WEB_DIR = path.resolve(here, "..");
+export const JS_BUDGET_KB = 200;
+export const CATALOGUE_BUDGET_KB = 300;
+
+/** The app entries whose client chunks load on /[country]/[lang] (Explore). */
+// Since Decision 015 the root layout is app/[country]/[lang]/layout (no app/layout).
+export const EXPLORE_ENTRIES = ["[project]/apps/web/src/app/[country]/[lang]/layout", "[project]/apps/web/src/app/[country]/[lang]/page"];
+
+export const gzipBytes = (buf) => gzipSync(buf, { level: 9 }).length;
+export const kb = (bytes) => Math.round(bytes / 100) / 10;
+
+/** Reads `globalThis.__RSC_MANIFEST[...] = {...}` from a client-reference manifest file. */
+export function parseClientReferenceManifest(src) {
+  const i = src.indexOf("= {", src.indexOf("__RSC_MANIFEST["));
+  if (i < 0) throw new Error("client-reference manifest: unexpected format");
+  const json = src.slice(i + 2).trim().replace(/;\s*$/, "");
+  return JSON.parse(json);
+}
+
+/** Chunk paths (relative to .next) loaded by Explore, plus the noModule polyfills. */
+export function exploreChunks(buildManifest, clientManifest, entries = EXPLORE_ENTRIES) {
+  const files = new Set(buildManifest.rootMainFiles ?? []);
+  const entryJS = clientManifest.entryJSFiles ?? {};
+  for (const e of entries) {
+    const list = entryJS[e];
+    if (!list) throw new Error(`client-reference manifest has no entry ${e} (did the route move?)`);
+    for (const f of list) files.add(f);
+  }
+  const polyfills = new Set(buildManifest.polyfillFiles ?? []);
+  return {
+    modern: [...files].filter((f) => f.endsWith(".js") && !polyfills.has(f)),
+    polyfills: [...polyfills].filter((f) => f.endsWith(".js")),
+  };
+}
+
+/** Same lookup as src/lib/catalogue.ts latestCataloguePath(). */
+export function latestCatalogue(dir) {
+  try {
+    const latest = path.join(dir, "latest");
+    const st = statSync(latest);
+    const p = st.isDirectory() ? path.join(latest, "catalogue.json") : path.join(dir, readFileSync(latest, "utf8").trim(), "catalogue.json");
+    return existsSync(p) ? p : null;
+  } catch {
+    return null;
+  }
+}
+
+function measureJs(nextDir) {
+  const buildManifest = JSON.parse(readFileSync(path.join(nextDir, "build-manifest.json"), "utf8"));
+  const crm = path.join(nextDir, "server/app/[country]/[lang]/page_client-reference-manifest.js");
+  if (!existsSync(crm)) throw new Error(`${crm} not found: run \`pnpm --filter @ev/web build\` first`);
+  const { modern, polyfills } = exploreChunks(buildManifest, parseClientReferenceManifest(readFileSync(crm, "utf8")));
+  const size = (f) => {
+    const buf = readFileSync(path.join(nextDir, f));
+    return { file: f, raw: buf.length, gz: gzipBytes(buf) };
+  };
+  return { modern: modern.map(size).sort((a, b) => b.gz - a.gz), polyfills: polyfills.map(size) };
+}
+
+async function measureCatalogue() {
+  const dir = process.env.CATALOGUE_DIR ? path.resolve(WEB_DIR, process.env.CATALOGUE_DIR) : path.resolve(WEB_DIR, "../../data/releases");
+  const file = latestCatalogue(dir) ?? path.join(WEB_DIR, "src/fixtures/catalogue.sample.json");
+  const cat = JSON.parse(readFileSync(file, "utf8"));
+  // The app's own transform (type-only imports, so Node's type stripping can load it).
+  const { toClientCatalogue } = await import(pathToFileURL(path.join(WEB_DIR, "src/lib/explore-data.ts")).href);
+  const body = Buffer.from(JSON.stringify(toClientCatalogue(cat.release, cat.sources, cat.rows)));
+  return { file: path.relative(process.cwd(), file), rows: cat.rows.length, raw: body.length, gz: gzipBytes(body) };
+}
+
+async function main() {
+  const nextDir = path.join(WEB_DIR, ".next");
+  const js = measureJs(nextDir);
+  const jsGz = js.modern.reduce((s, f) => s + f.gz, 0);
+  const jsRaw = js.modern.reduce((s, f) => s + f.raw, 0);
+  const polyGz = js.polyfills.reduce((s, f) => s + f.gz, 0);
+  const cat = await measureCatalogue();
+
+  console.log(`Explore /[country]/[lang] first-load JS: ${js.modern.length} chunks, ${kb(jsGz)} KB gzip (${kb(jsRaw)} KB raw); budget < ${JS_BUDGET_KB} KB`);
+  for (const f of js.modern) console.log(`  ${kb(f.gz).toFixed(1).padStart(6)} KB  ${f.file}`);
+  console.log(`  + noModule polyfills (not counted): ${kb(polyGz)} KB gzip`);
+  console.log(`Client catalogue (${cat.file}, ${cat.rows} rows): ${kb(cat.gz)} KB gzip (${kb(cat.raw)} KB raw); budget < ${CATALOGUE_BUDGET_KB} KB`);
+
+  const fails = [];
+  if (jsGz > JS_BUDGET_KB * 1000) fails.push(`Explore JS ${kb(jsGz)} KB gzip is over ${JS_BUDGET_KB} KB`);
+  if (cat.gz >= CATALOGUE_BUDGET_KB * 1000) fails.push(`client catalogue ${kb(cat.gz)} KB gzip is not under ${CATALOGUE_BUDGET_KB} KB`);
+  if (fails.length) {
+    for (const f of fails) console.error(`::error::Perf budget: ${f}`);
+    process.exit(1);
+  }
+  console.log("Perf budget: OK");
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error(`::error::Perf budget check failed to run: ${err.message}`);
+    process.exit(1);
+  });
+}

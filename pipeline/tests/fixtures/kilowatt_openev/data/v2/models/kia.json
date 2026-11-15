@@ -1,0 +1,48 @@
+{
+  "brand_id": "3337d5f0-39de-4ded-831b-843dfec1ebbd",
+  "brand_name": "Kia",
+  "models": [
+    {
+      "id": "776644a5-1ec8-cb13-92d1-ac9d10c36826",
+      "brand": "Kia",
+      "vehicle_type": "car",
+      "brand_id": "3337d5f0-39de-4ded-831b-843dfec1ebbd",
+      "model": "EV6",
+      "release_year": 2021,
+      "variant": "Long Range 2WD",
+      "usable_battery_size": 77.4,
+      "ac_charger": {
+        "usable_phases": 3,
+        "ports": [
+          "type2"
+        ],
+        "max_power": 11
+      },
+      "dc_charger": {
+        "ports": [
+          "ccs"
+        ],
+        "max_power": 250,
+        "charging_curve": [
+          {
+            "percentage": 0,
+            "power": 237.5
+          },
+          {
+            "percentage": 75,
+            "power": 250
+          },
+          {
+            "percentage": 100,
+            "power": 11
+          }
+        ],
+        "is_default_charging_curve": true
+      },
+      "energy_consumption": {
+        "average_consumption": 18.5
+      },
+      "charging_voltage": 800
+    }
+  ]
+}
