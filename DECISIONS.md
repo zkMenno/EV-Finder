@@ -623,4 +623,10 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** No URL changes, nothing hidden for lack of data. WS3 should state units on each rule row (`unit:`) to remove the DC ambiguity; WS1/WS0 to publish a winter range field and used price bands, which the hero picks up without code changes.
 
+## Decision 054: Dependabot runs monthly, one npm group
+
+**Decision:** Dependabot version updates move from weekly to monthly (the 1st, 09:00 Paris), and the two npm groups (dev, prod) merge into one. Security updates are unchanged and still open straight away.
+
+**Consequences:** About 4 routine PRs a month instead of ~5 a week, so far fewer notifications for Menno. Updates arrive in bigger batches, so a failing batch may need a little more untangling.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

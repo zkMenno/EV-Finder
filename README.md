@@ -81,3 +81,5 @@ Stack: Next.js + TypeScript · Python pipeline (uv) · JSON Schema for shared ty
 Found a wrong number? [Report a data issue](../../issues/new?template=data-issue.yml). For anything else, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Security issues: see [SECURITY.md](SECURITY.md). Please don't open public issues for them.
+
+Architecture overview (system map, data model, tech board): https://claude.ai/artifact/9wDnjtwg7iFcFtfSAoATKH

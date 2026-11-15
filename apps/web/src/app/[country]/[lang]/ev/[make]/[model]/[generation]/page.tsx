@@ -14,6 +14,7 @@ import { financeTerms } from "@/lib/finance";
 import { financeProfile } from "@/lib/finance-profiles";
 
 import { SeeListings } from "@/components/SeeListings";
+import { DiffOnly } from "@/components/DiffOnly";
 import { SpecDiff } from "@/components/SpecDiff";
 import { Term } from "@/components/Term";
 import { isCountrySlug, isServed } from "@/config/countries";
@@ -21,9 +22,9 @@ import { getCatalogue } from "@/lib/catalogue";
 import { usedBandFor } from "@/lib/used-rankings";
 import { hasDcData, isDcDependent } from "@/lib/dc";
 import { registrationsFor } from "@/lib/registrations";
-import { DASH, formatYears } from "@/lib/format";
+import { DASH, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { seeListings } from "@/lib/listings";
-import { DIFF_KEYS, fieldsFor, specDiff, SPEC_FIELDS, type SpecField } from "@/lib/spec-diff";
+import { DIFF_KEYS, fieldsFor, specDiff, SPEC_FIELDS, variantDeltas, type SpecField } from "@/lib/spec-diff";
 import { KnownIssues } from "../../../_components/KnownIssues";
 import { Registrations } from "../../../_components/Registrations";
 import { YearsBadge } from "../../../_components/YearsBadge";
@@ -69,6 +70,8 @@ export default async function GenerationPage({ params }: Props) {
   const modelName = `${first.make_name} ${first.model_name}`;
   const fullName = generationTitle({ ...first, generation_name: g.name });
   const diff = specDiff(g.rows, fieldsFor(DIFF_KEYS), cfg.code);
+  const deltas = variantDeltas(diff.columns);
+  const locale = localeFor(lang);
   const rdw = firstWith(g.rows, "registered_count_nl");
   const rdwTerm = ctx.tax.terms["registrations-nl"];
   const textField = (key: string) => SPEC_FIELDS.find((f) => f.key === key) as Extract<SpecField, { kind: "text" }>;
@@ -186,6 +189,7 @@ export default async function GenerationPage({ params }: Props) {
           {t("gen.diff")}
         </h2>
         <p className="mb-2 mt-1 text-sm text-slate-700">{t("gen.diff.legend")}</p>
+        <DiffOnly label={t("gen.diff.only")} enabled={diff.columns.length > 1 && diff.rows.some((r) => !r.changes)}>
         <SpecDiff
           caption={t("gen.diff.caption", { name: fullName })}
           fieldHeader={t("gen.diff.fieldHeader")}
@@ -205,8 +209,30 @@ export default async function GenerationPage({ params }: Props) {
             key: dr.field.key,
             label: <FieldLabel ctx={ctx} field={dr.field} />,
             cells: dr.cells.map((c, i) => ({ changed: c.changed, content: <SpecValue ctx={ctx} row={diff.columns[i]!} field={dr.field} /> })),
+            same: !dr.changes,
           }))}
         />
+        </DiffOnly>
+        {deltas.length ? (
+          <div className="mt-4" data-testid="variant-deltas">
+            <h3 className="text-base font-semibold">{t("gen.delta.title")}</h3>
+            <ul className="mt-2 grid gap-1 text-sm">
+              {deltas.map((d) => (
+                <li key={d.to.variant_id}>
+                  <span className="font-semibold">{t("gen.delta.pair", { to: d.to.variant_name, from: d.from.variant_name })}</span>{" "}
+                  {d.items
+                    .map((it) =>
+                      t(`gen.delta.${it.field}` as Parameters<typeof t>[0], {
+                        n: `${it.delta > 0 ? "+" : "−"}${formatNumber(Math.abs(it.delta), locale, 1)}`,
+                      }),
+                    )
+                    .join(", ")}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-1 text-xs text-slate-700">{t("gen.delta.note")}</p>
+          </div>
+        ) : null}
       </section>
       <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} statsHref={`${base}/charging`} />
     </>
