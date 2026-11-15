@@ -96,7 +96,7 @@ _(at the end of the run)_
 |---|---|---|
 | A7.1 decision clash | done | overnight schema decision renumbered 019 → 020 (main's 019 = Variant finder) |
 | A7.2 task numbers | done | overnight task files start at T-050 |
-| A7.3 T-044 VariantClue + LookalikeGroup schema | running | |
+| A7.3 T-044 VariantClue + LookalikeGroup schema | done | + ClueType taxonomy row; release checks left for T-047 (WS1), clue_types validator for T-046 (WS3) |
 | A6 P1–P4 refresh, snapshots, rollback/diff, source health, weekly data-refresh workflow | running | |
 | A6 P5 top-40 initial dataset + Wikidata | queued | after the seed-quality builder finishes |
 | A6 P6 RDW defects, fueleconomy.gov, charging stats (EAFO, BNetzA, DfT) | running | DVSA MOT skipped (no key) |
