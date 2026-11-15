@@ -118,6 +118,7 @@ All 70+ open questions are in [QUESTIONS.md](QUESTIONS.md); most only record a d
 | 7 | EEA as corroboration | done (off) | with the flag on, sourced rows 2 → 6, but EEA averages blend variants, so it stays off (Q-019) |
 | 9 | Docs for new builders | done | root, pipeline, infra READMEs; every command run; web README queued |
 | — | T-051 part 1: 8 missing top-40 models | done | 40/40 top-40 now in the seed; rows 197 → 218; NL used fleet placed 79% → 87%, UK 63% → 72%, DE 2025 39% → 49%; segments are best-effort (Q-081) |
+| — | T-053 registration history | done | KBA FZ10 2019–2026 (2018 file names no licence → skipped), EEA 2018–2025 (final years = high confidence); RDW change probe: weekly refetch drops from ~265 s to ~1 s when unchanged |
 | 10 | Proposed tasks | done | T-051–T-060 on BOARD under "Proposed by overnight 1" |
 | — | Seed quality (MG4 dupes, year evidence, shared years) | done | MG4 8 → 6 rows; ID.4 starts 2020 and Soul SK3 ends 2024 (RDW counts in notes); 10,413 NL cars in shared years now counted at model level instead of dropped; new BMW i3 in RDW/EEA not invented (Q-065) |
 | — | RDW WLTP + catalogue price (from item 5) | done | 56 variants get an RDW WLTP figure, 25 an NL price (catalogusprijs incl. VAT + BPM); wide-spread groups dropped; WLTP from a 10% plate sample (no joins possible) |
