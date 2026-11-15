@@ -363,3 +363,17 @@ def run_guards(
             seen.add(k)
             out.append(r)
     return out
+
+
+def citation_values(evidence: Pool, facts_by_variant: Pool) -> dict[str, dict[str, list[float]]]:
+    """Per variant and field, the numbers of citations that don't ship: blocked ones
+    (`evidence`) and low-confidence ones in the pool. The derive step uses them so that a
+    value withheld by `guard_contradicted` is not re-estimated from another field."""
+    out: dict[str, dict[str, list[float]]] = {}
+    for vid in sorted(set(evidence) | set(facts_by_variant)):
+        low = [mf for mf in facts_by_variant.get(vid, []) if has_citation(mf) and not is_cited(mf)]
+        for mf in [*evidence.get(vid, []), *low]:
+            v = _num(mf.fact.value)
+            if v is not None:
+                out.setdefault(vid, {}).setdefault(mf.fact.field.value, []).append(v)
+    return out

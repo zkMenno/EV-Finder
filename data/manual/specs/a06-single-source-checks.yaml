@@ -1,0 +1,193 @@
+# A-06 spot check (2026-11-15): maker figures for single-source values on release rows that
+# have no seed variant (OpenEV/KilowattApp-only ids), so a seed `cited:` value can't reach them.
+# Source `manual` is blocked until Q-008: none of these ship. Under Decision 031 each one only
+# withholds a lone-source value it contradicts (qa/value_guard.guard_contradicted).
+# Every value below was read on the page named, on the date given. Confidence: medium when the
+# page names the exact version, low otherwise (see notes).
+schema: manual-facts/v1
+entered_by: pipeline-builder (agent)
+facts:
+  # --- Renault Megane E-Tech 40 kWh (OpenEV "40 kWh", 2023-2025): OpenEV DC 130 ---------------
+  - variant_id: renault-megane-e-tech-gen1-40-kwh
+    field: dc_peak_kw
+    value: 85
+    unit: kW
+    source_url: https://www.renault.ie/electric-vehicles/megane-e-tech-electric/electric-faq.html
+    source_name: "Renault Ireland, Megane E-Tech electric FAQ"
+    retrieved: 2026-11-15
+    quote: "Standard Charge and Boost Charge versions with the 40 kWh battery are equipped with a DC fast charger providing a maximum power peak of 85 kW."
+    locator: "FAQ 'Is quick charging an option?'; same page, charging table footnote (3): 'up to 85 kW on a 40 kWh battery and 130 kW on a 60 kWh battery'"
+    confidence: medium
+    notes: "Same figure on renault.ie/cars/megane-e-tech-electric/charging-solutions.html. Row duplicates seed renault-megane-e-tech-gen1-ev40 (which already shows 85)."
+
+  # --- Renault 5 E-Tech 40 kWh (OpenEV "40 kWh", 2024-2025): OpenEV DC 100 ------------------
+  - variant_id: renault-5-e-tech-gen1-40-kwh
+    field: dc_peak_kw
+    value: 80
+    unit: kW
+    source_url: https://cdn.group.renault.com/ren/gb/transversal-assets/brochures/mobile-brochure-tech-spec/mobile-tech-spec-R5.pdf
+    source_name: "Renault UK, Renault 5 E-Tech electric technical specifications (PDF created 2026-09-29)"
+    retrieved: 2026-11-15
+    quote: "DC (kW) up to 80 at peak"
+    locator: "03. engines, column 'EV40 120 hp urban range' (EV52 150 hp column: up to 100 at peak); options table: 'AC 11kW + DC 80kW' on the 40 kWh version"
+    confidence: medium
+    notes: "Same table gives usable capacity 40 kWh for EV40 (OpenEV: 38); not entered here."
+
+  # --- VW ID.3 Pro 58 kWh, 2023+ year band (OpenEV "PRO" 2023-2025): OpenEV DC 135 ------------
+  - variant_id: volkswagen-id3-gen1-pro-2023
+    field: dc_peak_kw
+    value: 120
+    unit: kW
+    source_url: https://www.volkswagen-newsroom.com/en/press-releases/the-id3-product-line-is-becoming-more-diverse-start-of-pre-sales-for-gtx-pro-and-pure-models-18417
+    source_name: "Volkswagen Newsroom, 'The ID.3 product line is becoming more diverse' (2024-05-30)"
+    retrieved: 2026-11-15
+    quote: "The new 59 kWh lithium-ion battery (net) provides a combined WLTP range of up to 434 kilometres. The maximum charging capacity increases from 120 kW to 165 kW."
+    locator: "Section 'ID.3 Pro receives upgrade'"
+    confidence: low
+    notes: "Low: 120 kW is stated as the previous ID.3 Pro figure (58 kWh, before the MY2025 59 kWh update), not with a model year; the row spans 2023-2025, and the 59 kWh Pro charges at up to 165 kW."
+
+  # --- Mercedes EQA H243 facelift (OpenEV 2023-2025): OpenEV usable 60 kWh -------------------
+  - variant_id: mercedes-eqa-h243-base
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 12, 'The most important technical data', EQA 250 column: Usable battery capacity kWh 66.5 (EQA 250+: 70.5)"
+    confidence: low
+    notes: "Low: the row is OpenEV 'Base' (140 kW, FWD), which is either the EQA 250 (66.5) or the EQA 250+ (70.5); both 140 kW. Either way not 60."
+  - variant_id: mercedes-eqa-h243-300-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 12, 'The most important technical data', EQA 300 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+  - variant_id: mercedes-eqa-h243-350-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 12, 'The most important technical data', EQA 350 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+
+  # --- Mercedes EQB X243 facelift (OpenEV 2023-2025): OpenEV usable 60 kWh -------------------
+  - variant_id: mercedes-eqb-gen1-base
+    field: battery_kwh_net
+    value: 70.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 250+ column: Power 140 kW, Usable battery capacity kWh 70.5"
+    confidence: low
+    notes: "Low: the row is OpenEV 'Base' (140 kW, FWD); the only 140 kW EQB in the table is the EQB 250+, but the page does not call it 'Base'."
+  - variant_id: mercedes-eqb-gen1-7-seater
+    field: battery_kwh_net
+    value: 70.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 250+ column: Power 140 kW, Usable battery capacity kWh 70.5 (boot volume given for five/seven-seater)"
+    confidence: low
+    notes: "Low: OpenEV '7-Seater' (140 kW, FWD) read as the EQB 250+ seven-seater; the page names no '7-Seater' version."
+  - variant_id: mercedes-eqb-gen1-300-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 300 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+  - variant_id: mercedes-eqb-gen1-300-4matic-7-seater
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 300 4MATIC column: Usable battery capacity kWh 66.5 (one column for five- and seven-seat)"
+    confidence: medium
+  - variant_id: mercedes-eqb-gen1-350-4matic
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 350 4MATIC column: Usable battery capacity kWh 66.5"
+    confidence: medium
+  - variant_id: mercedes-eqb-gen1-350-4matic-7-seater
+    field: battery_kwh_net
+    value: 66.5
+    unit: kWh
+    source_url: https://media.mercedes-benz.ch/download/0941a7a7-2ec8-4e8e-a6a6-bc46cc0b7502/230824-en-pi-mercedes-benz-eqa-eqb.pdf
+    source_name: "Mercedes-Benz press information 'EQA and EQB upgraded throughout', 24 Aug 2023 (Mercedes-Benz Switzerland media site)"
+    retrieved: 2026-11-15
+    locator: "p. 14, 'The most important technical data', EQB 350 4MATIC column: Usable battery capacity kWh 66.5 (one column for five- and seven-seat)"
+    confidence: medium
+
+  # --- Audi Q4 Sportback 40 e-tron (OpenEV "40 Sportback", 2023-2025): OpenEV usable 48 kWh ---
+  - variant_id: audi-q4-e-tron-gen1-40-sportback
+    field: battery_kwh_net
+    value: 59
+    unit: kWh
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1289/file_de/e7569fdc713339d07f82a0da5cede7357ea4eae2/TD-Audi-Q4-Sportback-40-e-tron-150kW_250508.pdf
+    source_name: "Audi MediaCenter, technical data 'Audi Q4 Sportback 40 e-tron 150 kW' (file dated 2025-05-08, German)"
+    retrieved: 2026-11-15
+    quote: "Batterie-Kapazität brutto / netto in kWh 63 / 59"
+    confidence: low
+    notes: "Low: this is the MY2025 Sportback 40 e-tron (59 kWh net, DC 165 kW, 8.1 s); the 2021-23 40 e-tron had 77 kWh net (Audi tech data 'Audi Q4 e-tron 40 150 kW', media.audi.com Estonia, 82 / 77), and the row spans 2023-2025. Neither is 48. The row's other figures (125 kW, 9.0 s, WLTP 348) match the Sportback 35 (Audi tech data, 125 kW, 9.0 s, WLTP 349-314), so the row looks mis-modelled."
+
+  # --- Audi Q4 "50" / "50 Sportback" (OpenEV, RWD, 2023-2025): power 150, 0-100 8.5 -----------
+  - variant_id: audi-q4-e-tron-gen1-50
+    field: power_kw
+    value: 220
+    unit: kW
+    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline_info_Q4_e-tron.pdf
+    source_name: "Audi technical data 'Audi Q4 e-tron 50 quattro 220 kW', program for Germany, status 05/12/21 (Audi Estonia, media.audi.com)"
+    retrieved: 2026-11-15
+    quote: "Peak electrical output in kW (PS) 220 (299)"
+    locator: "p. 5, Engine / electrics; same page: Drive type All-wheel drive, battery gross / net 82 / 76.6 kWh"
+    confidence: low
+    notes: "Low: names the 2021 Q4 e-tron 50 quattro; the OpenEV row is called '50' with RWD, 150 kW and 8.5 s, which are the Q4 40 e-tron's figures (same PDF, p. 3: 150 kW, rear-wheel drive, 8.5 s). Row looks mis-modelled; drivetrain can't be cited as a number."
+  - variant_id: audi-q4-e-tron-gen1-50
+    field: accel_0_100_s
+    value: 6.2
+    unit: s
+    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline_info_Q4_e-tron.pdf
+    source_name: "Audi technical data 'Audi Q4 e-tron 50 quattro 220 kW', program for Germany, status 05/12/21 (Audi Estonia, media.audi.com)"
+    retrieved: 2026-11-15
+    quote: "Electrical acceleration, 0-100 km/h (62.1 mph) in s 6.2"
+    locator: "p. 5, Performance / acoustics"
+    confidence: low
+    notes: "Low: see power_kw above."
+  - variant_id: audi-q4-e-tron-gen1-50-sportback
+    field: power_kw
+    value: 220
+    unit: kW
+    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline%20info_Q4%20e-tron%20Sportback.pdf
+    source_name: "Audi technical data 'Audi Q4 e-tron Sportback 50 quattro 220 kW', program for Germany, status 05/10/21 (Audi Estonia, media.audi.com)"
+    retrieved: 2026-11-15
+    quote: "Peak electrical output in kW (PS) 220 (299)"
+    locator: "p. 3, Engine / electrics; same page: Drive type All-wheel drive, battery gross / net 82 / 76.6 kWh"
+    confidence: low
+    notes: "Low: names the 2021 Sportback 50 quattro; the OpenEV row '50 Sportback' is RWD with 150 kW and 8.5 s (Q4 40 e-tron figures). Row looks mis-modelled."
+  - variant_id: audi-q4-e-tron-gen1-50-sportback
+    field: accel_0_100_s
+    value: 6.2
+    unit: s
+    source_url: https://media.audi.com/is/content/audi/nemo/ee/Mudelikataloogid/tehniline_info/Tehniline%20info_Q4%20e-tron%20Sportback.pdf
+    source_name: "Audi technical data 'Audi Q4 e-tron Sportback 50 quattro 220 kW', program for Germany, status 05/10/21 (Audi Estonia, media.audi.com)"
+    retrieved: 2026-11-15
+    quote: "Electrical acceleration, 0-100 km/h (62.1 mph) in s 6.2"
+    locator: "p. 3, Performance / acoustics"
+    confidence: low
+    notes: "Low: see power_kw above."

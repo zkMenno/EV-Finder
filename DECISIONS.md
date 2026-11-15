@@ -469,4 +469,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** 0 of 15 cited facts ship; 16 rows regain a DC peak; Zoe Q210/Q90/R240 AC withheld; R90 still 11 kW (uncited); BMW i3s split into 94 Ah and 120 Ah rows (new id `bmw-i3-i01-i3s-94ah`).
 
+## Decision 032: Citations for release-only rows live in data/manual; estimated curves never beat the peak
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** Single-source values on rows that exist only in the release (no seed variant) couldn't be checked against a citation, and an estimated charge curve produced an average above the car's DC peak (e-Golf 24 kWh).
+
+**Decision:**
+- Citations for release-only rows go in `data/manual/specs/*.yaml` (source `manual`, attached by release id, blocked like maker documents until Q-008). They act as evidence for the withhold rule (Decision 031) but never ship.
+- An estimated (not measured) curve is capped at the row's DC peak before integrating; a sourced average above the peak goes to validation.csv.
+- A value withheld by a citation is not re-estimated from the same wrong record (e.g. net from gross).
+
+**Consequences:** withheld: Mégane 40 kWh DC 130, R5 40 kWh DC 100, ID.3 Pro 2023 DC 135, EQA/EQB 60 kWh, Q4 40 Sportback 48 kWh, Q4 50 power/0–100, Zoe R90 AC 11. Zoe Q210/R240 usable 23.3 → 22. Five charging averages capped. Open: the OpenEV "Q4 50" rows are really Q4 40 data (drivetrain still RWD) and need restructuring.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

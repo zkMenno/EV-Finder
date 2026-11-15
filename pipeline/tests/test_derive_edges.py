@@ -445,3 +445,100 @@ def test_link_voltage_labels_and_charger_kw() -> None:
     assert inh["labels"]["charger_400v_mode"] == "booster"
     assert inh["numbers"]["charger_400v_kw"][0] == 50.0
     assert "voltage_nominal_v" not in inh["numbers"] and "voltage_nominal_v" not in inh["labels"]
+
+
+# --- DC average never above the DC peak (A-06 QA flag: e-Golf 24 kWh, avg 41.8 > peak 40) --
+
+
+def test_estimated_curve_above_the_peak_is_capped_at_the_peak() -> None:
+    # SYNTHETIC: the e-Golf shape: an estimated curve peaking at 44 kW, a 40 kW peak from
+    # another source (KilowattApp's own 44 kW peak was taken out by a guard).
+    curve = ChargeCurve.model_validate(
+        {"points": [[0, 40], [76, 44], [81, 25], [93, 16], [100, 8]], "status": "estimated"}
+    )
+    row, problems = _row(
+        [
+            _fact("battery_kwh_net", 21.2, "kWh"),
+            _fact("dc_peak_kw", 40, "kW", source="seed-manual"),
+            _curve_fact(curve),
+        ]
+    )
+    assert problems == []
+    assert row["dc_peak_kw"] == 40.0
+    assert row["dc_avg_10_80_kw"] is not None and row["dc_avg_10_80_kw"] <= 40.0
+    assert (
+        "capped at dc_peak_kw 40 kW (curve peak 44 kW)"
+        in (row["provenance"]["dc_avg_10_80_kw"]["note"])
+    )
+    assert provenance_errors([row]) == []
+
+
+def test_curve_at_or_below_the_peak_is_not_capped() -> None:
+    curve = ChargeCurve.model_validate({"points": [[10, 100], [80, 100]], "status": "estimated"})
+    row, _ = _row(
+        [
+            _fact("battery_kwh_net", 70, "kWh"),
+            _fact("dc_peak_kw", 100, "kW", source="eea"),
+            _curve_fact(curve),
+        ]
+    )
+    assert row["dc_avg_10_80_kw"] == 100.0
+    assert "capped" not in row["provenance"]["dc_avg_10_80_kw"]["note"]
+
+
+def test_measured_curve_average_above_the_peak_goes_to_review() -> None:
+    # A measured curve is not reshaped; an average above the published peak is withheld.
+    curve = ChargeCurve.model_validate({"points": [[10, 60], [80, 60]], "status": "measured"})
+    row, problems = _row(
+        [
+            _fact("battery_kwh_net", 50, "kWh"),
+            _fact("dc_peak_kw", 50, "kW", source="eea"),
+            _curve_fact(curve),
+        ]
+    )
+    assert row["dc_avg_10_80_kw"] is None
+    assert row["dc_peak_kw"] == 50.0
+    [p] = [p for p in problems if p.field == "dc_avg_10_80_kw"]
+    assert "DC average above the published DC peak" in p.reason
+
+
+def test_sourced_average_above_the_peak_goes_to_review() -> None:
+    row, problems = _row(
+        [
+            _fact("battery_kwh_net", 60, "kWh"),
+            _fact("dc_peak_kw", 50, "kW", source="eea"),
+            _fact("dc_avg_10_80_kw", 80, "kW"),
+        ]
+    )
+    assert row["dc_avg_10_80_kw"] is None and row["dc_minutes_10_80"] is None
+    assert "dc_avg_10_80_kw" in [p.field for p in problems]
+    assert provenance_errors([row]) == []
+
+
+# --- a value a citation withheld is not re-estimated (A-06 follow-up) -----------------------
+
+
+def _rows_cited(facts, citations):
+    seed = load_seed(FIX / "models.yaml")
+    info = VariantInfo(VID, GEN, "Long Range", years={2022})
+    merged = {info.id: merge_variant_facts(facts)}
+    return build_rows({info.id: info}, merged, seed, {}, TODAY, 1, citations=citations)
+
+
+def test_net_estimate_from_gross_that_a_citation_contradicts_is_dropped() -> None:
+    # SYNTHETIC: usable was withheld (a citation says 66.5); gross 66.5 x 0.93 = 61.8.
+    rows, problems = _rows_cited(
+        [_fact("battery_kwh_gross", 66.5, "kWh")], {VID: {"battery_kwh_net": [66.5]}}
+    )
+    assert rows[0]["battery_kwh_net"] is None
+    [p] = [p for p in problems if p.field == "battery_kwh_net"]
+    assert "contradicted by a citation" in p.reason
+
+
+def test_net_estimate_that_a_citation_agrees_with_is_kept() -> None:
+    rows, problems = _rows_cited(
+        [_fact("battery_kwh_gross", 82, "kWh")],
+        {VID: {"battery_kwh_net": [round(82 * m.NET_PER_GROSS, 1)]}},
+    )
+    assert rows[0]["battery_kwh_net"] is not None
+    assert "battery_kwh_net" not in [p.field for p in problems]

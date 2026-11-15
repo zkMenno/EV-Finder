@@ -21,6 +21,9 @@ Row rules:
   * else a generic default curve from dc_peak_kw (dc_curve_status `default`, estimate);
   * dc_km_per_10min / dc_km_per_20min use motorway consumption;
   * dc_peak_kw_is_claim = the winning dc_peak_kw fact is a maker claim.
+  * the average never exceeds the peak: a modelled (non-measured) curve above dc_peak_kw is
+    capped at it first; a sourced or measured average above dc_peak_kw goes to
+    validation.csv instead of the row.
 - Every non-null number gets a provenance entry. Derived numbers get `derived: true`; values
   from a model or ratio rather than a source also get `estimate: true` and list the
   `model-estimate` source. Derived entries carry the lowest `agreeing_sources` of their inputs.
@@ -41,6 +44,10 @@ from ev_pipeline.merge.policy import Policies
 from ev_pipeline.release.validate import in_range, range_reason
 
 ESTIMATE_SOURCE = "model-estimate"
+EPS = 1e-9
+# validation.csv reason when a DC average would exceed the row's DC peak.
+DC_AVG_ABOVE_PEAK = "DC average above the published DC peak"
+ESTIMATE_CONTRADICTED = "estimate from battery_kwh_gross contradicted by a citation"
 
 DIRECT_FIELDS = (
     "battery_kwh_net",
@@ -185,9 +192,20 @@ def _charging(vid, values, pv, mv, drop) -> dict[str, Any]:
     curve = None
     curve_p: dict[str, Any] | None = None
     status = None
+    cap_note = ""
     if (cmg := mv.get("dc_curve")) is not None and (cp := _curve_points(cmg.value)):
         curve, status = cp
         curve_p = from_merged(cmg)
+        # The row's average must never exceed its peak. A curve modelled (not measured) above
+        # the published dc_peak_kw (e.g. an estimated KilowattApp curve peaking at 44 kW on
+        # a row whose 40 kW peak comes from another source) is capped at that peak first.
+        peak_now = values.get("dc_peak_kw")
+        if status != "measured" and peak_now and max(p for _, p in curve) > peak_now + EPS:
+            cap_note = (
+                f"; curve capped at dc_peak_kw {peak_now:g} kW"
+                f" (curve peak {max(p for _, p in curve):g} kW)"
+            )
+            curve = m.cap_curve(curve, peak_now)
     stats = m.integrate_curve(curve, net) if curve else None
     if curve and stats is None:
         drop(vid, "dc_curve", "", "kW", "unusable charge curve (zero or negative kW)")
@@ -211,7 +229,7 @@ def _charging(vid, values, pv, mv, drop) -> dict[str, Any]:
             if in_range("dc_avg_10_80_kw", stats.avg_kw):
                 values["dc_avg_10_80_kw"] = stats.avg_kw
                 pv["dc_avg_10_80_kw"] = derived_prov(
-                    [curve_p], f"integrated {label} curve, 10-80%", estimate=est
+                    [curve_p], f"integrated {label} curve, 10-80%{cap_note}", estimate=est
                 )
             else:
                 drop(
@@ -224,14 +242,22 @@ def _charging(vid, values, pv, mv, drop) -> dict[str, Any]:
         if stats.minutes is not None and ("dc_minutes_10_80" not in values or status == "measured"):
             values["dc_minutes_10_80"] = stats.minutes
             pv["dc_minutes_10_80"] = derived_prov(
-                inputs, f"integrated {label} curve, 10-80%", estimate=est
+                inputs, f"integrated {label} curve, 10-80%{cap_note}", estimate=est
             )
         if stats.peak_held_min is not None:
             values["dc_peak_held_min"] = stats.peak_held_min
             pv["dc_peak_held_min"] = derived_prov(
-                inputs, f"minutes >= 90% of peak, {label} curve", estimate=est
+                inputs, f"minutes >= 90% of peak, {label} curve{cap_note}", estimate=est
             )
         extra["dc_curve_status"] = status
+
+    # A sourced or measured average above the published peak contradicts it: never publish
+    # both. The average goes to review (validation.csv); the peak keeps its own provenance.
+    avg, peak = values.get("dc_avg_10_80_kw"), values.get("dc_peak_kw")
+    if avg is not None and peak and avg > peak + EPS:
+        drop(vid, "dc_avg_10_80_kw", round(avg, 1), "kW", f"{DC_AVG_ABOVE_PEAK} ({peak:g} kW)")
+        del values["dc_avg_10_80_kw"]
+        pv.pop("dc_avg_10_80_kw", None)
 
     if "dc_minutes_10_80" not in values and net and "dc_avg_10_80_kw" in values:
         values["dc_minutes_10_80"] = m.minutes_from_avg(net, values["dc_avg_10_80_kw"])
@@ -302,11 +328,16 @@ def build_rows(
     policies: Policies | None = None,
     inherited: dict[str, dict[str, Any]] | None = None,
     registrations: dict[str, dict[str, list[RegistrationEntry]]] | None = None,
+    citations: dict[str, dict[str, list[float]]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[Problem]]:
     """`inherited`: per variant, extra row values with provenance from links/packs
     (see derive/links.py); applied after merged facts, never over them.
-    `registrations`: generation id -> country -> entries (matcher.registration_entries)."""
+    `registrations`: generation id -> country -> entries (matcher.registration_entries).
+    `citations`: per variant and field, values of citations that don't ship (A-06 F3
+    evidence). An estimate that every such citation contradicts is not published: a value
+    withheld because a citation contradicts it must not come back as a ratio estimate."""
     regs_by_gen = registrations or {}
+    cites_by_vid = citations or {}
     policies = policies or Policies()
     inherited = inherited or {}
     problems: list[Problem] = []
@@ -345,7 +376,17 @@ def build_rows(
         gross = mv.get("battery_kwh_gross")
         if "battery_kwh_net" not in values and gross is not None and _num(gross.value):
             est = m.net_from_gross(float(gross.value))
-            if in_range("battery_kwh_net", est):
+            cited = cites_by_vid.get(vid, {}).get("battery_kwh_net", [])
+            pol = policies.for_field("battery_kwh_net")
+            if cited and not any(pol.agree(est, c) for c in cited):
+                drop(
+                    vid,
+                    "battery_kwh_net",
+                    round(est, 1),
+                    "kWh",
+                    f"{ESTIMATE_CONTRADICTED} ({'/'.join(f'{c:g}' for c in cited)} kWh)",
+                )
+            elif in_range("battery_kwh_net", est):
                 values["battery_kwh_net"] = est
                 pv["battery_kwh_net"] = derived_prov(
                     [from_merged(gross)],

@@ -4,28 +4,28 @@
 
 | Field | 2+ agreeing sources | 1 source | estimate only | missing |
 |---|---|---|---|---|
-| battery_kwh_net | 21% (52) | 76% (187) | 2% (6) | 0% (0) |
+| battery_kwh_net | 21% (52) | 73% (179) | 2% (6) | 3% (8) |
 | wltp_range_km | 30% (73) | 51% (124) | 0% (0) | 20% (48) |
 | epa_range_km | 0% (0) | 43% (105) | 0% (0) | 57% (140) |
-| consumption_kwh_100km | 4% (9) | 57% (140) | 28% (68) | 11% (28) |
-| ac_kw | 27% (66) | 71% (174) | 0% (0) | 2% (5) |
-| dc_peak_kw | 18% (45) | 75% (183) | 0% (0) | 7% (17) |
-| dc_avg_10_80_kw | 0% (0) | 0% (0) | 94% (231) | 6% (14) |
-| ac_km_per_h | 2% (6) | 58% (143) | 27% (67) | 12% (29) |
-| dc_km_per_10min | 0% (0) | 0% (0) | 86% (210) | 14% (35) |
+| consumption_kwh_100km | 4% (9) | 57% (140) | 26% (63) | 13% (33) |
+| ac_kw | 27% (66) | 71% (173) | 0% (0) | 2% (6) |
+| dc_peak_kw | 18% (45) | 73% (180) | 0% (0) | 8% (20) |
+| dc_avg_10_80_kw | 0% (0) | 0% (0) | 93% (228) | 7% (17) |
+| ac_km_per_h | 2% (6) | 58% (143) | 25% (62) | 14% (34) |
+| dc_km_per_10min | 0% (0) | 0% (0) | 82% (202) | 18% (43) |
 | real_range_km | 0% (0) | 0% (0) | 88% (216) | 12% (29) |
-| power_kw | 0% (0) | 89% (217) | 0% (0) | 11% (28) |
-| accel_0_100_s | 0% (0) | 55% (134) | 0% (0) | 45% (111) |
+| power_kw | 0% (0) | 88% (215) | 0% (0) | 12% (30) |
+| accel_0_100_s | 0% (0) | 54% (132) | 0% (0) | 46% (113) |
 | boot_l | 0% (0) | 51% (126) | 0% (0) | 49% (119) |
 | length_mm | 22% (53) | 76% (187) | 0% (0) | 2% (5) |
 | weight_kg | 2% (5) | 52% (127) | 0% (0) | 46% (113) |
 | towing_kg | 0% (0) | 28% (69) | 0% (0) | 72% (176) |
 | seats | 27% (65) | 73% (180) | 0% (0) | 0% (0) |
 | registered_count_nl | 0% (0) | 100% (245) | 0% (0) | 0% (0) |
-| dc_minutes_10_80 | 0% (0) | 0% (0) | 94% (231) | 6% (14) |
-| dc_km_per_20min | 0% (0) | 0% (0) | 86% (210) | 14% (35) |
-| dc_peak_held_min | 0% (0) | 0% (0) | 94% (231) | 6% (14) |
-| consumption_motorway_kwh_100km | 0% (0) | 0% (0) | 89% (217) | 11% (28) |
+| dc_minutes_10_80 | 0% (0) | 0% (0) | 90% (220) | 10% (25) |
+| dc_km_per_20min | 0% (0) | 0% (0) | 82% (202) | 18% (43) |
+| dc_peak_held_min | 0% (0) | 0% (0) | 90% (220) | 10% (25) |
+| consumption_motorway_kwh_100km | 0% (0) | 0% (0) | 87% (212) | 13% (33) |
 | voltage_nominal_v | 0% (0) | 15% (36) | 0% (0) | 85% (209) |
 | voltage_max_v | 0% (0) | 0% (0) | 0% (0) | 100% (245) |
 | charger_400v_kw | 0% (0) | 5% (12) | 0% (0) | 95% (233) |
@@ -43,7 +43,7 @@ Rows missing a link (63):
 
 - `audi-a6-e-tron-gen1-avant`: platform: no link in this generation; pack: no pack linked in this generation
 - `audi-a6-e-tron-gen1-sportback`: platform: no link in this generation; pack: no pack linked in this generation
-- `audi-q4-e-tron-gen1-40-sportback`: pack: usable 48 kWh fits none of meb-52/meb-77
+- `audi-q4-e-tron-gen1-40-sportback`: pack: variant has no usable kWh to compare
 - `audi-q6-e-tron-gen1-quattro`: platform: no link in this generation; pack: no pack linked in this generation
 - `audi-q6-e-tron-gen1-quattro-sportback`: platform: no link in this generation; pack: no pack linked in this generation
 - `audi-q6-e-tron-gen1-sq6`: platform: no link in this generation; pack: no pack linked in this generation
@@ -67,9 +67,9 @@ Rows missing a link (63):
 - `hyundai-kona-electric-sx2-long-range`: pack: usable 58 kWh fits none of hk-kona-sx2-48/hk-kona-sx2-65
 - `hyundai-kona-electric-sx2-standard-range`: pack: variant has no usable kWh to compare
 - `mercedes-cla-gen1-base`: platform: no link in this generation; pack: no pack linked in this generation
-- `mercedes-eqa-h243-300-4matic`: pack: usable 60 kWh fits none of mercedes-eqa-66-5
-- `mercedes-eqa-h243-350-4matic`: pack: usable 60 kWh fits none of mercedes-eqa-66-5
-- `mercedes-eqa-h243-base`: pack: usable 60 kWh fits none of mercedes-eqa-66-5
+- `mercedes-eqa-h243-300-4matic`: pack: variant has no usable kWh to compare
+- `mercedes-eqa-h243-350-4matic`: pack: variant has no usable kWh to compare
+- `mercedes-eqa-h243-base`: pack: variant has no usable kWh to compare
 - `mercedes-eqb-gen1-300-4matic`: platform: no link in this generation; pack: no pack linked in this generation
 - `mercedes-eqb-gen1-300-4matic-7-seater`: platform: no link in this generation; pack: no pack linked in this generation
 - `mercedes-eqb-gen1-350-4matic`: platform: no link in this generation; pack: no pack linked in this generation

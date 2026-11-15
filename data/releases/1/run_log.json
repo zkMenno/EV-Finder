@@ -1,6 +1,6 @@
 {
  "step": "release",
- "at": "2026-11-15T05:58:05+00:00",
+ "at": "2026-11-15T06:17:14+00:00",
  "inputs": [
   {
    "path": "data/seed/models.yaml",
@@ -59,7 +59,10 @@
   {
    "path": "data/seed/variants.yaml",
    "records": 124,
-   "modified": "2026-11-15T05:57:01+00:00"
+   "modified": "2026-11-15T06:15:13+00:00"
+  },
+  {
+   "path": "data/manual/specs/a06-single-source-checks.yaml"
   },
   {
    "path": "data/taxonomy/voltage_classes.yaml"
@@ -133,7 +136,7 @@
   "release": 1,
   "rows": 245,
   "generations_with_rows": 75,
-  "facts": 40114,
+  "facts": 40111,
   "sources": [
    "ademe",
    "dft-veh",
@@ -204,9 +207,9 @@
    }
   },
   "dc_curve_status": {
-   "default": 179,
+   "default": 176,
    "estimated": 52,
-   "none": 14
+   "none": 17
   },
   "price_new_coverage": {
    "DE": 11,
@@ -308,12 +311,16 @@
   ],
   "unmatched_records": 17946,
   "unmatched_seed_makes": 13634,
-  "validation_problems": 3,
-  "conflicts": 4176,
+  "validation_problems": 11,
+  "conflicts": 4225,
   "gated_sources": {
    "maker-docs": {
     "reason": "status blocked",
-    "records": 15
+    "records": 18
+   },
+   "manual": {
+    "reason": "status blocked",
+    "records": 17
    }
   },
   "real_range_rungs": {
@@ -449,7 +456,7 @@
      },
      {
       "variant_id": "audi-q4-e-tron-gen1-40-sportback",
-      "reason": "pack: usable 48 kWh fits none of meb-52/meb-77"
+      "reason": "pack: variant has no usable kWh to compare"
      },
      {
       "variant_id": "audi-q6-e-tron-gen1-quattro",
@@ -545,15 +552,15 @@
      },
      {
       "variant_id": "mercedes-eqa-h243-300-4matic",
-      "reason": "pack: usable 60 kWh fits none of mercedes-eqa-66-5"
+      "reason": "pack: variant has no usable kWh to compare"
      },
      {
       "variant_id": "mercedes-eqa-h243-350-4matic",
-      "reason": "pack: usable 60 kWh fits none of mercedes-eqa-66-5"
+      "reason": "pack: variant has no usable kWh to compare"
      },
      {
       "variant_id": "mercedes-eqa-h243-base",
-      "reason": "pack: usable 60 kWh fits none of mercedes-eqa-66-5"
+      "reason": "pack: variant has no usable kWh to compare"
      },
      {
       "variant_id": "mercedes-eqb-gen1-300-4matic",
@@ -694,8 +701,8 @@
     ]
    }
   },
-  "catalogue_json_bytes": 7904168,
-  "catalogue_json_gzip_bytes": 479111,
+  "catalogue_json_bytes": 7826520,
+  "catalogue_json_gzip_bytes": 470826,
   "diff": {
    "rows_previous": 0,
    "rows": 245,

@@ -20,6 +20,7 @@ from ev_pipeline.qa.value_guard import (
     CITATION_OUTVOTED,
     CONTRADICTED,
     CONTRADICTED_LOW,
+    citation_values,
     guard_contradicted,
     guard_impossible,
     guard_needs_backing,
@@ -340,3 +341,11 @@ def test_git_runs_without_user_or_system_gitconfig(monkeypatch) -> None:  # type
     for f in callers:
         src = (REPO / "pipeline" / "ev_pipeline" / f).read_text(encoding="utf-8")
         assert src.count("subprocess.run(") == src.count("env=net.git_env()"), f
+
+
+def test_citation_values_lists_blocked_and_low_citations_only() -> None:
+    blocked = _blocked_cite("battery_kwh_net", 66.5)
+    low = _mf("seed-manual", "battery_kwh_net", 70.5, cited=True, confidence="low", url=FORD)
+    plain = _mf("openev", "battery_kwh_net", 60)
+    out = citation_values({VID: [blocked]}, {VID: [low, plain]})
+    assert sorted(out[VID]["battery_kwh_net"]) == [66.5, 70.5]

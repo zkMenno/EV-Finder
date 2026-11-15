@@ -62,7 +62,7 @@ from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, has_citation, merge_variant_facts
 from ev_pipeline.merge.policy import load_policies
 from ev_pipeline.qa.pack_guard import fill_winning_values, guard_usable_vs_pack
-from ev_pipeline.qa.value_guard import run_guards
+from ev_pipeline.qa.value_guard import citation_values, run_guards
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.release.charging_stats import FILE_NAME as CHARGING_STATS_FILE
 from ev_pipeline.release.charging_stats import build_charging_stats
@@ -385,6 +385,7 @@ def build_release(
         policies=policies,
         inherited=inherited,
         registrations=registrations,
+        citations=citation_values(evidence, by_variant),
     )
     for row in rows:
         finish_voltage(links, row, row.get("platform_id"))
