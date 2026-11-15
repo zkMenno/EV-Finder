@@ -11,6 +11,12 @@
     "status": "active",
     "owner": "ADEME (FR)"
   },
+  "afdc-stations": {
+    "name": "AFDC station counts (historical-station-counts.xlsx)",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "US DOE / National Laboratory of the Rockies (NLR)"
+  },
   "automobile-propre": {
     "name": "Automobile Propre",
     "licence": "none",
@@ -34,6 +40,12 @@
     "licence": "CC-BY-4.0",
     "status": "active",
     "owner": "Bundesnetzagentur (DE)"
+  },
+  "boe-iumhptl": {
+    "name": "Bank of England IUMHPTL (sterling personal loan, £10k)",
+    "licence": "unknown (to confirm)",
+    "status": "blocked",
+    "owner": "Bank of England"
   },
   "cbs": {
     "name": "CBS StatLine 86402NED",
@@ -80,9 +92,15 @@
   },
   "eafo": {
     "name": "European Alternative Fuels Observatory (recharging points per power level",
-    "licence": "EC reuse policy CC-BY-4.0 for EU-owned content; third-party content excluded (unclear)",
-    "status": "blocked",
+    "licence": "CC-BY-4.0",
+    "status": "active_pending_confirmation",
     "owner": "European Commission DG MOVE"
+  },
+  "ecb-mir": {
+    "name": "ECB MFI interest rate statistics (MIR): consumer credit APRC",
+    "licence": "ECB-statistics-reuse",
+    "status": "active",
+    "owner": "European Central Bank"
   },
   "edmunds": {
     "name": "Edmunds range tests",
@@ -95,6 +113,18 @@
     "licence": "CC-BY-4.0",
     "status": "active",
     "owner": "European Environment Agency"
+  },
+  "eobs": {
+    "name": "E-OBS gridded observations",
+    "licence": "none (non-commercial only)",
+    "status": "blocked",
+    "owner": "ECA&D / KNMI"
+  },
+  "era5-land": {
+    "name": "ERA5-Land daily statistics 1991-2020 (Copernicus C3S)",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "ECMWF / Copernicus Climate Change Service"
   },
   "eu-safety-gate": {
     "name": "EU Safety Gate",
@@ -119,6 +149,18 @@
     "licence": "US-Government-Public-Domain",
     "status": "active",
     "owner": "US DOE / EPA"
+  },
+  "geonames": {
+    "name": "GeoNames cities",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "GeoNames"
+  },
+  "gisco-lau": {
+    "name": "Eurostat GISCO LAU / NUTS / cities",
+    "licence": "none (non-commercial only)",
+    "status": "blocked",
+    "owner": "Eurostat / EuroGeographics"
   },
   "insideevs": {
     "name": "InsideEVs range tests",
@@ -158,6 +200,12 @@
     "status": "blocked",
     "owner": "EV Finder staff"
   },
+  "meteostat": {
+    "name": "Meteostat climate normals",
+    "licence": "CC-BY-4.0",
+    "status": "active",
+    "owner": "Meteostat"
+  },
   "model-estimate": {
     "name": "EV Finder estimate models",
     "licence": "CC-BY-4.0",
@@ -169,6 +217,12 @@
     "licence": "none",
     "status": "waiting_permission",
     "owner": "NAF / Motor (NO)"
+  },
+  "ndw": {
+    "name": "NDW open data: public charging points (DOT-NL)",
+    "licence": "CC0-1.0",
+    "status": "active",
+    "owner": "NDW for Ministerie van IenW (NL)"
   },
   "nhtsa": {
     "name": "NHTSA recalls",
@@ -189,19 +243,19 @@
     "owner": "open-ev-data (GitHub)"
   },
   "rdw": {
-    "name": "RDW Open Data",
+    "name": "Dutch open vehicle register (opendata.rdw.nl)",
     "licence": "CC0-1.0",
     "status": "active",
     "owner": "RDW (NL)"
   },
   "rdw-defects": {
-    "name": "RDW Open Data: APK defects (Geconstateerde Gebreken)",
+    "name": "Dutch open vehicle register (opendata.rdw.nl): APK defects",
     "licence": "CC0-1.0",
     "status": "active",
     "owner": "RDW (NL)"
   },
   "rdw-tgk": {
-    "name": "RDW Open Data: type-approval register (TGK)",
+    "name": "Dutch open vehicle register (opendata.rdw.nl): type-approval register (TGK)",
     "licence": "CC0-1.0",
     "status": "active",
     "owner": "RDW (NL)"
@@ -235,6 +289,12 @@
     "licence": "none",
     "status": "waiting_permission",
     "owner": "Spritmonitor.de"
+  },
+  "wa-dol-ev": {
+    "name": "Washington State Electric Vehicle Population Data",
+    "licence": "ODbL-1.0",
+    "status": "blocked",
+    "owner": "Washington State Department of Licensing"
   },
   "wikidata": {
     "name": "Wikidata",

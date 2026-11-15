@@ -91,7 +91,7 @@ SOURCE = {
     "name": "RDW Open Data: Geconstateerde Gebreken (APK defects)",
     "url": f"{BASE_URL}/d/{DEFECTS}",
     "licence": LICENCE,
-    "attribution": "Bron: RDW Open Data (opendata.rdw.nl), CC0.",
+    "attribution": "Dutch open vehicle register (opendata.rdw.nl), CC0.",
 }
 SAMPLE_RULE = (
     f"BEV proxy ({BEV_WHERE}) AND {SAMPLE_WHERE} (deterministic ~10% plate sample), "

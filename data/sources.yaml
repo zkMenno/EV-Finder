@@ -1,5 +1,7 @@
 # Source registry (Decision 009, provisional). One entry per source.
-# status: active | waiting_permission | blocked
+# status: active | active_pending_confirmation | waiting_permission | blocked
+#   active_pending_confirmation (Decision 037): released now, credited, reuse terms being
+#   confirmed in writing; if the answer is no, the source leaves the next release.
 # hosts: what the fetcher may contact (ev_pipeline/net.py allowlist; redirects are re-checked).
 #   Git-cloned sources list github.com: git does not go through net.py, but net.check_git_url
 #   refuses any clone URL that is not https://github.com/<owner>/<repo> on this list (A-05 L6).
@@ -11,8 +13,8 @@ sources:
      terms: "Licence verified from the LICENCE file in the repo, 2026-11-15."}
   - {id: kilowatt-openev, name: "Open EV Data (KilowattApp)", owner: Tijs Teulings / KilowattApp (GitHub), licence: MIT-with-attribution, access: bulk, cadence: monthly, status: active, hosts: [github.com],
      terms: "Licence verified from LICENSE, 2026-11-15. Must show visible attribution to 'Open EV Data (https://github.com/KilowattApp/open-ev-data)' on the About/credits page. Default curves (is_default_charging_curve) are dropped."}
-  - {id: rdw, name: RDW Open Data, owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active, hosts: [opendata.rdw.nl],
-     terms: "Primary NL register. Registrations, type-approval specs, catalogue price, defects, recalls. Bijsluiter: reusers may not state the data comes from RDW nor use its logo (Q-037)."}
+  - {id: rdw, name: "Dutch open vehicle register (opendata.rdw.nl)", owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active, hosts: [opendata.rdw.nl],
+     terms: "Primary NL register. Registrations, type-approval specs, catalogue price, defects, recalls. Bijsluiter: reusers may not state the data comes from RDW nor use its logo (Q-037). Decision 037: credit 'Dutch open vehicle register (opendata.rdw.nl), CC0' with a link, no RDW logo or house style, until RDW replies."}
   - {id: eea, name: EEA CO2 monitoring of new cars (Reg. 2019/631), owner: European Environment Agency, licence: CC-BY-4.0, access: api, cadence: yearly, status: active, hosts: [discodata.eea.europa.eu, sdi.eea.europa.eu],
      terms: "Licence confirmed in EEA SDI metadata (copyright holder DG CLIMA), 2026-11-15. 2025 data is provisional."}
   - {id: seed-manual, name: "EV Finder seed (hand-entered, unchecked)", owner: EV Finder, licence: CC-BY-4.0, access: manual, cadence: ad hoc, status: active,
@@ -61,13 +63,35 @@ sources:
   - {id: model-estimate, name: EV Finder estimate models, owner: EV Finder, licence: CC-BY-4.0, access: manual, cadence: per release, status: active,
      terms: "Ratio models and generic curves; always shown as 'estimate'."}
   # P6 sources (overnight 2026-11-15, pipeline builder). Charging stats: aggregates only (Decision 012).
-  - {id: rdw-defects, name: "RDW Open Data: APK defects (Geconstateerde Gebreken)", owner: RDW (NL), licence: CC0-1.0, access: api, cadence: monthly, status: active, hosts: [opendata.rdw.nl], aggregates: [rdw],
+  - {id: rdw-defects, name: "Dutch open vehicle register (opendata.rdw.nl): APK defects", owner: RDW (NL), licence: CC0-1.0, access: api, cadence: monthly, status: active, hosts: [opendata.rdw.nl], aggregates: [rdw],
      terms: "Datasets a34c-vvps, hx2c-gt7k, vkij-7mwc (+ m9d7-ebf2 for make/model). Socrata metadata licenseId PUBLIC_DOMAIN, Licentie 'Creative Commons 0 (CC0)', checked on every fetch. 10% plate sample joined in memory; plates never stored. Same RDW naming clause as rdw (Q-037)."}
-  - {id: rdw-tgk, name: "RDW Open Data: type-approval register (TGK)", owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active, hosts: [opendata.rdw.nl],
+  - {id: rdw-tgk, name: "Dutch open vehicle register (opendata.rdw.nl): type-approval register (TGK)", owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active, hosts: [opendata.rdw.nl],
      terms: "Datasets gr7t-qfnb (Energiebron Uitvoering), byxc-wwua (Basis Uitvoering), x5v3-sewk (Handelsbenaming Fabrikant) + m9d7-ebf2 (which TAN|variant|uitvoering NL BEVs carry). Socrata metadata licenseId PUBLIC_DOMAIN, Licentie 'Creative Commons 0 (CC0)', checked on every fetch. Includes foreign EU approvals. Same values RDW copies to plates, so not independent of rdw for WLTP. Same RDW naming clause as rdw (Q-037)."}
-  - {id: eafo, name: European Alternative Fuels Observatory (recharging points per power level, AFIR), owner: European Commission DG MOVE, licence: "EC reuse policy CC-BY-4.0 for EU-owned content; third-party content excluded (unclear)", access: bulk, cadence: monthly, status: blocked, hosts: [alternative-fuels-observatory.ec.europa.eu, commission.europa.eu],
-     terms: "No dataset licence on EAFO; footer links the EC legal notice ('content owned by the EU ... CC BY 4.0 ... may be required to clear additional rights if ... third-party works'). EAFO's FAQ names Eco-Movement (commercial, data from CPOs) as main source. Blocked from release until the EC/DG MOVE confirms reuse (R-02 red flag). Loader runs; staging only."}
+  - {id: eafo, name: European Alternative Fuels Observatory (recharging points per power level, AFIR), owner: European Commission DG MOVE, licence: CC-BY-4.0, access: bulk, cadence: monthly, status: active_pending_confirmation, hosts: [alternative-fuels-observatory.ec.europa.eu, commission.europa.eu],
+     terms: "Decision 037 (Menno, 2026-11-15): aggregates go into releases now, credited 'Source: European Alternative Fuels Observatory (European Commission), [date]'. Basis: EC legal notice, EU-owned content CC BY 4.0 unless otherwise indicated; EAFO states no dataset licence and names Eco-Movement (commercial) as main data provider. Confirmation asked in docs/outreach/drafts/licence-questions.md; a 'no' removes EAFO from the next release. Aggregates only, never point data."}
   - {id: bnetza, name: "Bundesnetzagentur Ladesäulenregister: Ladeinfrastruktur in Zahlen", owner: Bundesnetzagentur (DE), licence: CC-BY-4.0, access: bulk, cadence: monthly, status: active, hosts: [www.bundesnetzagentur.de], aliases: [bnetza-ladesaeulenregister],
      terms: "Page text: 'Die Daten sind durch eine Creative Commons Namensnennung 4.0 International Lizenz lizenziert ... Als Namensnennung ... ist Bundesnetzagentur.de zu verwenden.' Checked on every fetch. Only the aggregate workbook Ladesaeuleninfrastruktur.xlsx is downloaded; the point-level list (data.bundesnetzagentur.de) is never fetched."}
   - {id: dft-charging, name: "DfT electric vehicle charging infrastructure statistics (EVCI tables)", owner: UK Department for Transport, licence: OGL-UK-3.0, access: bulk, cadence: quarterly, status: active, hosts: [www.gov.uk, assets.publishing.service.gov.uk], aliases: [dft-ev-charging-infrastructure],
      terms: "Release page: 'licensed under the terms of the Open Government Licence v3.0 except where otherwise stated'; no third-party marking on the EVCI tables. Figures are CPO open data 'collated by Zapmap for use by DfT' (official statistics in development). Attribution: Contains public sector information licensed under the Open Government Licence v3.0."}
+  # Decision 036 (2026-11-15): research pack R-20, R-26, R-27, R-28 rows.
+  - {id: ndw, name: "NDW open data: public charging points (DOT-NL)", owner: NDW for Ministerie van IenW (NL), licence: CC0-1.0, access: bulk, cadence: daily, status: active, hosts: [opendata.ndw.nu, docs.ndw.nu], aliases: [ndw-dot-nl],
+     terms: "NDW data terms: CC0 1.0 unless a dataset states otherwise; attribution not required, courtesy 'Bron: NDW' (R-26, 2026-11-15). Point files; we derive aggregate counts with our own definition only. Licence-clean replacement for RVO. No adapter yet."}
+  - {id: afdc-stations, name: AFDC station counts (historical-station-counts.xlsx), owner: US DOE / National Laboratory of the Rockies (NLR), licence: CC-BY-4.0, access: bulk, cadence: monthly, status: active, hosts: [afdc.energy.gov],
+     terms: "NLR download terms 'may be used for any purpose whatsoever'; data.gov lists CC BY 4.0 (R-26, 2026-11-15). Credit 'Source: U.S. DOE Alternative Fuels Data Center'; never imply DOE/NLR endorsement. Static xlsx only (the bulk form needs Menno's OK). Phase 4 (US); no adapter yet."}
+  - {id: era5-land, name: "ERA5-Land daily statistics 1991-2020 (Copernicus C3S)", owner: ECMWF / Copernicus Climate Change Service, licence: CC-BY-4.0, access: api, cadence: yearly, status: active, hosts: [cds.climate.copernicus.eu],
+     terms: "Primary climate source (Decision 036). CC BY 4.0 since 2025-07-02 (CDS licence field, R-27). Credit 'Contains modified Copernicus Climate Change Service information [year]' + EC/ECMWF disclaimer + DOI 10.24381/cds.e9c9c792. Needs a CDS API key (server env, via WS4, Q-093); loader stubbed until then."}
+  - {id: meteostat, name: Meteostat climate normals, owner: Meteostat, licence: CC-BY-4.0, access: bulk, cadence: yearly, status: active, hosts: [bulk.meteostat.net, data.meteostat.net],
+     terms: "Second climate source (Decision 036). Licence page checked 2026-11-15 (R-27): CC BY 4.0, not NC. Credit Meteostat and the original provider. Normals are monthly means only."}
+  - {id: geonames, name: GeoNames cities, owner: GeoNames, licence: CC-BY-4.0, access: bulk, cadence: monthly, status: active, hosts: [download.geonames.org],
+     terms: "Town list for climate normals (Decision 036). Readme checked 2026-11-15 (R-27); commercial use allowed. Credit 'GeoNames (geonames.org), CC BY 4.0'. Coordinates rounded."}
+  - {id: eobs, name: E-OBS gridded observations, owner: ECA&D / KNMI, licence: none (non-commercial only), access: bulk, cadence: yearly, status: blocked,
+     terms: "Non-commercial research and education only (R-27); skipped (Decision 036)."}
+  - {id: gisco-lau, name: "Eurostat GISCO LAU / NUTS / cities", owner: Eurostat / EuroGeographics, licence: none (non-commercial only), access: bulk, cadence: yearly, status: blocked,
+     terms: "Non-commercial only, EuroGeographics boundaries (R-27); skipped (Decision 036). GeoNames instead."}
+  - {id: wa-dol-ev, name: Washington State Electric Vehicle Population Data, owner: Washington State Department of Licensing, licence: ODbL-1.0, access: api, cadence: monthly, status: blocked, hosts: [data.wa.gov],
+     terms: "data.wa.gov f6w7-q2d2. ODbL: internal cross-checks only, never in CC BY output (Decision 036, Data rule 3). Public use waits for a separate ODbL output."}
+  - {id: ecb-mir, name: "ECB MFI interest rate statistics (MIR): consumer credit APRC", owner: European Central Bank, licence: ECB-statistics-reuse, access: api, cadence: monthly, status: active, hosts: [data-api.ecb.europa.eu],
+     series: {DE: MIR.M.DE.B.A2B.A.C.A.2250.EUR.N, FR: MIR.M.FR.B.A2B.A.C.A.2250.EUR.N, BE: MIR.M.BE.B.A2B.A.C.A.2250.EUR.N, EA: MIR.M.U2.B.A2B.A.C.A.2250.EUR.N},
+     terms: "Typical loan rate for euro countries (Decision 036, R-20). Series (see `series`): APRC, consumption loans excl. revolving and cards, new business; EA = euro-area reference. NL series stops 2010-05: NL left blank. ECB usage policy: free reuse incl. commercial; credit 'Source: ECB statistics'; don't alter the figures."}
+  - {id: boe-iumhptl, name: "Bank of England IUMHPTL (sterling personal loan, £10k)", owner: Bank of England, licence: unknown (to confirm), access: api, cadence: monthly, status: blocked, hosts: [www.bankofengland.co.uk],
+     terms: "UK typical loan rate (Decision 036, R-20). Quoted rate, not effective. BoE terms page could not be opened (R-20 🔴): blocked until the licence is checked."}

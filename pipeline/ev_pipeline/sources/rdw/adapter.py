@@ -158,14 +158,14 @@ SOURCE = Source(
     name="RDW Open Data",
     url=f"{BASE_URL}/d/{DATASET}",
     licence="CC0-1.0",
-    attribution="Bron: RDW Open Data (opendata.rdw.nl), CC0.",
+    attribution="Dutch open vehicle register (opendata.rdw.nl), CC0.",
 )
 FUEL_SOURCE = Source(
     id="rdw",
     name="RDW Open Data",
     url=f"{BASE_URL}/d/{FUEL_DATASET}",
     licence="CC0-1.0",
-    attribution="Bron: RDW Open Data (opendata.rdw.nl), CC0.",
+    attribution="Dutch open vehicle register (opendata.rdw.nl), CC0.",
 )
 
 HIST_COLS = ("range_km", "wh_km", "price_eur", "kw")

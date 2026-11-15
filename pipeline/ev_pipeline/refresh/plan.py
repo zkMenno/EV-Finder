@@ -24,6 +24,8 @@ from typing import Any
 
 import yaml
 
+from ev_pipeline.release.gate import RELEASABLE_STATUSES
+
 CADENCE_DAYS: dict[str, float] = {
     "hourly": 1 / 24,
     "daily": 1,
@@ -107,7 +109,7 @@ def plan(
         if only and sid not in only:
             continue
         cad = e.get("cadence")
-        if e.get("status") != "active":
+        if e.get("status") not in RELEASABLE_STATUSES:
             if only:
                 out.append(PlannedSource(sid, cad, "skip", f"status {e.get('status')}"))
             continue

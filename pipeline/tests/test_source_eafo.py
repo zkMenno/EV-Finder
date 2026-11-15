@@ -121,11 +121,11 @@ def test_fetch_with_mock_transport(tmp_path: Path) -> None:
         assert adapter.fetch(client, tmp_path) == len(body)
     meta = json.loads((tmp_path / "_fetch.json").read_text())
     assert meta["legal_notice"]["third_party_exclusion"] is True
-    assert "blocked" in meta["status_note"]
+    assert "active_pending_confirmation" in meta["status_note"]  # Decision 037
     assert len(adapter.normalise(tmp_path, date(2026, 11, 15)).rows) == len(rows_by_id())
 
 
-def test_normalise_cmd_writes_stats_and_blocked_meta(
+def test_normalise_cmd_writes_stats_and_pending_meta(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     monkeypatch.setenv("EV_DATA_DIR", str(tmp_path))
@@ -133,4 +133,9 @@ def test_normalise_cmd_writes_stats_and_blocked_meta(
     lines = (tmp_path / "staging" / "eafo.charging_stats.jsonl").read_text().splitlines()
     assert len(lines) == len(rows_by_id())
     meta = json.loads((tmp_path / "staging" / "eafo.charging_stats.meta.json").read_text())
-    assert meta["status"] == "blocked" and meta["releasable"] is False
+    # Decision 037: in use now, credited, confirmation pending.
+    assert meta["status"] == "active_pending_confirmation" and meta["releasable"] is True
+    assert meta["licence"] == "CC-BY-4.0"
+    assert meta["attribution"].startswith(
+        "Source: European Alternative Fuels Observatory (European Commission), 20"
+    )

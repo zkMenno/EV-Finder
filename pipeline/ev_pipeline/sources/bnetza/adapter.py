@@ -43,6 +43,7 @@ import httpx
 import openpyxl
 
 from ev_pipeline import net
+from ev_pipeline.release.gate import RELEASABLE_STATUSES
 from ev_pipeline.sources import _common as c
 from ev_pipeline.sources.eafo import charging_stats as cs
 
@@ -348,7 +349,7 @@ def normalise_cmd(from_fixtures: bool) -> int:
             "source": NAME,
             "taxonomy_source_id": SOURCE_ID,
             "status": status,
-            "releasable": status == "active",
+            "releasable": status in RELEASABLE_STATUSES,
             "licence": LICENCE,
             "attribution": ATTRIBUTION,
             "download": {

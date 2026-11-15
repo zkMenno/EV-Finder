@@ -45,6 +45,7 @@ import httpx
 import openpyxl
 
 from ev_pipeline import net
+from ev_pipeline.release.gate import RELEASABLE_STATUSES
 from ev_pipeline.sources import _common as c
 from ev_pipeline.sources.eafo import charging_stats as cs
 
@@ -57,8 +58,13 @@ LEGAL_NOTICE_URL = "https://commission.europa.eu/legal-notice_en"
 LINK_MARK = "Recharging points per power level (AFIR) dataset"
 FILE_NAME = "eafo_afir_points.xlsx"
 DEFINITION = "afir-recharging-point"
-LICENCE = "EC reuse policy CC-BY-4.0 for EU-owned content; third-party content unclear"
-ATTRIBUTION = "European Alternative Fuels Observatory (European Commission), data from Eco-Movement"
+# Decision 037: used now, aggregates only, credited; reuse terms being confirmed in writing.
+LICENCE = "CC-BY-4.0"
+LICENCE_NOTE = (
+    "EC reuse notice: EU-owned content CC BY 4.0; EAFO states no dataset licence and names "
+    "Eco-Movement as main data provider. In use pending written confirmation (Decision 037)."
+)
+ATTRIBUTION = "Source: European Alternative Fuels Observatory (European Commission), {date}"
 TITLE_RE = re.compile(r"\((\d{4})\s*-\s*([A-Za-z]+)\s+(\d{4})\)")
 
 # AFIR category label prefix -> (current, our power band id or None)
@@ -285,7 +291,8 @@ def fetch(client: httpx.Client, target: Path) -> int:
             "owned by the EU is CC BY 4.0; third-party works may need permission. EAFO FAQ: "
             "main data provider Eco-Movement (data from CPOs).",
             "legal_notice": {"url": LEGAL_NOTICE_URL, **check},
-            "status_note": "blocked: third-party rights unclear (R-02 red flag)",
+            "status_note": "active_pending_confirmation (Decision 037)",
+            "licence_note": LICENCE_NOTE,
         },
     )
     return len(resp.content)
@@ -337,9 +344,9 @@ def normalise_cmd(from_fixtures: bool) -> int:
             "source": NAME,
             "taxonomy_source_id": SOURCE_ID,
             "status": status,
-            "releasable": status == "active",
+            "releasable": status in RELEASABLE_STATUSES,
             "licence": LICENCE,
-            "attribution": ATTRIBUTION,
+            "attribution": ATTRIBUTION.format(date=c.retrieved_at_for(src).isoformat()),
             "download": {
                 k: fetch_meta.get(k)
                 for k in ("url", "title", "fetched_at", "sha256", "licence_basis", "legal_notice")
