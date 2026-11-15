@@ -1,0 +1,37 @@
+# Build context = repo root for apps/web/Dockerfile and pipeline/Dockerfile (T-013).
+# Keep the context small and secret-free: deny by default, then allow what the images need.
+**
+
+# Workspace manifests
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!.npmrc
+!tsconfig.base.json
+
+# Web app and the schema package it imports
+!apps/web/
+!packages/schema/
+
+# Pipeline (needs packages/schema/schemas at runtime too)
+!pipeline/
+
+# Published catalogue releases only (the web Dockerfile copies just the latest one)
+!data/releases/
+
+# Never send these, even inside allowed folders
+**/node_modules
+**/.next
+**/.turbo
+**/test-results
+**/playwright-report
+**/*.tsbuildinfo
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/.env
+**/.env.*
+!**/.env.example
+**/*.pem
+**/*.key

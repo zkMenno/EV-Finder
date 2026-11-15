@@ -46,6 +46,7 @@ Commands run (all green): `pnpm lint`, `pnpm typecheck`, `pnpm test` (59), `pnpm
 
 Open / for the next builder:
 - Questions: Q-024 (glossary ids), Q-025 (no date in FieldProvenance), Q-026 (default level, row links to model pages), Q-027 (`CATALOGUE_DIR` in .env.example), Q-028 (listing URLs unverified). The schema `not-disclosed` oneOf bug is Q-017 (the fixture leaves `Platform.voltage_class_id` out).
+- On release 1, the "On 400 V chargers" cell shows "—" when `dc_peak_kw` is missing (no DC data), so cars without DC figures never look like they fast-charge (22 rows affected). `fast_on_400v: null` is treated as unknown: the filter only keeps `true`.
 - Release 1 from the pipeline (210 variants) landed at 01:02. It validates against the schema and the app serves it automatically (fixture → release, no code change): client JSON `/data/catalogue-1.json` is 912 KB raw / 34.5 KB gzip, immutable. Unit tests and e2e use the fixture for determinism (`CATALOGUE_DIR=e2e/no-release` in `playwright.config.ts`); `E2E_CATALOGUE_DIR=../../data/releases pnpm e2e` runs the smoke test on the real release (passes too). The raw JSON could shrink a lot by de-duplicating provenance objects, if T-016 wants it.
 - Explore rows don't link to model pages yet (route owned by T-009).
 - `/[country]/compare` is linked from the nav and tray but owned by T-010; until it lands it 404s.
