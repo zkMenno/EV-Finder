@@ -102,3 +102,16 @@ Worst cases:
 - Winter or motorway error: EPA cycles are mild-weather lab cycles (adjusted).
 - EU-market differences (wheels, software, packs) between matched US and EU cars.
 - The launch gate needs licence-cleared road tests (Q-059): this is a proxy only.
+
+## Follow-up: EPA records attached to the wrong variant (WS1, 2026-11-15)
+
+The worst range cases are matching errors, not model errors: US "Long Range" EPA rows sit on
+the EU 58 kWh Ioniq 5 and EV6; the US 2024 "Cooper SE" (still the old F56) sits on the J01
+Cooper SE; the US Kona "Standard Range" (99 kW) sits on an EU SX2 row. A trial power gate
+(EPA motor kW vs variant power, the RDW rule of max(2 %, 3 kW)) was tested on staging and
+rejected: US motor ratings differ from EU system power, so it dropped correct Tesla, Polestar
+and Taycan matches and created new wrong ones. Next step (WS1, not started): an EPA-specific
+rule that rules out variants whose "standard/long range" token or battery class contradicts
+the EPA model text, plus model-year → generation checks for US model years that lag the EU
+generation (Mini). Until then these few rows inflate the range error; the median is robust
+to them.
