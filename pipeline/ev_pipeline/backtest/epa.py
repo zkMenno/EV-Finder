@@ -170,6 +170,40 @@ def consumption_check(
     return out
 
 
+def consumption_oos(
+    results: list[dict[str, Any]], params: dict[str, Any], min_models: int = 5
+) -> list[dict[str, Any]]:
+    """Leave-one-model-out version of `consumption_check` results (START §3 item 6).
+
+    The wltp-ratio multipliers were fitted on these same EPA figures (in-sample, A-30). Refitting
+    them without model M is, for a median fit, the same as scaling M's prediction by
+    median(measured / predicted over the other models) / median(over all models), per road band
+    and body class (band-wide when a class has fewer than `min_models` other models).
+    """
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for r in results:
+        groups[(r["band"], cm._ratio_key(r["body"], params))].append(r)
+        groups[(r["band"], "*")].append(r)
+
+    def ratio(rows: list[dict[str, Any]]) -> float:
+        return statistics.median(r["measured_wh_km"] / r["predicted_wh_km"] for r in rows)
+
+    out = []
+    for r in results:
+        key = (r["band"], cm._ratio_key(r["body"], params))
+        pool = groups[key]
+        others = [o for o in pool if o["model_id"] != r["model_id"]]
+        if len({o["model_id"] for o in others}) < min_models:
+            pool = groups[(r["band"], "*")]
+            others = [o for o in pool if o["model_id"] != r["model_id"]]
+        if not others:
+            continue
+        pred = r["predicted_wh_km"] * ratio(others) / ratio(pool)
+        err = 100 * (pred - r["measured_wh_km"]) / r["measured_wh_km"]
+        out.append(r | {"predicted_wh_km": round(pred, 1), "error_pct": round(err, 2)})
+    return out
+
+
 def regressions(current: dict[str, Any], previous: dict[str, Any] | None) -> list[dict[str, Any]]:
     prev = (previous or {}).get("by_model") or {}
     out = []
@@ -211,10 +245,17 @@ def epa_backtest(
         "A check that WLTP-based estimates land near an independent measurement, not the "
         "launch gate (El Prix / Nyland tests, spec §5).",
         "range": _report(range_check(rows, facts), top40),
-        "consumption": _report(consumption_check(rows, by_variant, params), top40),
+        "consumption": _report(cons := consumption_check(rows, by_variant, params), top40),
     }
+    oos = _report(consumption_oos(cons, params), top40)
+    if oos.get("status") != "skipped":
+        oos["note"] = (
+            "Leave-one-model-out: each model's prediction uses ratios fitted without it. This is"
+            " the honest error of the calibrated wltp-ratio rung on an unseen model."
+        )
+    out["consumption_oos"] = oos
     regs = []
-    for part in ("range", "consumption"):
+    for part in ("range", "consumption", "consumption_oos"):
         r = regressions(out[part], (previous or {}).get(part))
         for x in r:
             x["check"] = part
@@ -238,6 +279,7 @@ def audit_md(bt: dict[str, Any], release: int, generated_at: str) -> str:
     parts = (
         ("range", "Real range vs EPA adjusted range"),
         ("consumption", "Consumption (wltp-ratio rung) vs EPA city/highway"),
+        ("consumption_oos", "Consumption, out of sample (leave one model out)"),
     )
     for part, label in parts:
         r = bt.get(part) or {}
