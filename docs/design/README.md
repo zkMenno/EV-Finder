@@ -2,7 +2,7 @@
 
 Compare EVs. Make your shortlist.
 
-The design system for EV Shortlist (working title), a site for comparing used and new electric cars and keeping the ones that fit. It looks like an illustrated holiday map with a hand-kept list taped to it: friendly and fun on the outside, calm and exact wherever someone is deciding how to spend €15,000.
+The design system for EV Shortlist (working title), a site for comparing used and new electric cars and keeping the ones that fit. It looks like a **solarpunk travel map** (Menno, 2026-11-15): a printed road-trip map of a sunny, clean, electric countryside and city, with a hand-kept list taped to it: friendly and fun on the outside, calm and exact wherever someone is deciding how to spend €15,000.
 
 **Design board** (mockups, logo sheet, elements, icons, textures): https://claude.ai/artifact/7oaYaK26i6xQBogFuuctMp. The board shows the system in use and installs this system's tokens; this system is the source of truth for values and rules. When one changes, update the other.
 
@@ -108,7 +108,7 @@ All three are OFL-licensed and self-hosted in `fonts/` (tokens.css declares them
 
 ## Texture
 
-The map is not flat. Faint surface textures give heroes, empty states, Learn headers and illustrations a printed, holiday-map feel: paper grain, contour lines, a map grid, land hatching, a halftone sun and map folds, plus a dotted route divider between big sections. They sit behind content at 5–14% ink and never go behind tables, forms, prices or body copy. Classes: `evs-tex evs-tex--paper` (etc.); see the Texture component.
+The map is not flat. Faint surface textures give heroes, empty states, Learn headers and illustrations a printed, holiday-map feel: paper grain, contour lines, a map grid, land hatching, a halftone sun and map folds, plus a dotted route divider between big sections. They sit behind content at 5–14% ink and never go behind tables, forms, prices or body copy. **No plain coloured background stays flat (Menno, 2026-11-15): every tinted band, callout, empty state and the footer gets the travel-map texture** (`evs-tex evs-tex--map`, or `--map-frame` for centred content): paper grain all over, contour lines at the edges, a strip of solarpunk hills with a dotted sky route along the bottom, and a little sun in the top-right corner (`evs-tex--no-sun` when the block already has an illustration). It is map print and landscape in one, and nothing runs behind text, so WCAG AA holds. Classes: `evs-tex evs-tex--paper` (etc.); see the Texture component.
 
 ## Illustrations: solarpunk, within reach
 

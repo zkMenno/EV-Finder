@@ -84,11 +84,17 @@ def finish_release(
         registry.releasable,
         _previous_qa_section(data_dir, int(catalogue["release"]), "backtest_epa"),
     )
+    # START §3 item 6: quality of the fields the usage profiles read; report only.
+    from ev_pipeline.qa.profile_fields import profile_fields_section
+
+    mx_path = out_dir / "consumption_matrix.json"  # T-033, written by write_release
+    matrix = json.loads(mx_path.read_text(encoding="utf-8")) if mx_path.exists() else None
+    doc["profile_fields"] = profile_fields_section(catalogue, matrix, doc["backtest_epa"])
     if doc["status"] == "fail":
         review = data_dir / "review"
         review.mkdir(parents=True, exist_ok=True)
         (review / "qa.json").write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
-        (review / "qa.md").write_text(qa_md(doc), encoding="utf-8")
+        (review / "qa.md").write_text(_qa_md(doc), encoding="utf-8")
         shutil.rmtree(out_dir, ignore_errors=True)
         raise ReleaseError(
             "release QA failed (blocking): "
@@ -99,5 +105,12 @@ def finish_release(
     (out_dir / "qa.json").write_text(
         json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
     )
-    (out_dir / "qa.md").write_text(qa_md(doc), encoding="utf-8")
+    (out_dir / "qa.md").write_text(_qa_md(doc), encoding="utf-8")
     return doc
+
+
+def _qa_md(doc: dict[str, Any]) -> str:
+    from ev_pipeline.qa.profile_fields import profile_fields_md
+
+    extra = profile_fields_md(doc.get("profile_fields"))
+    return qa_md(doc).rstrip("\n") + "\n" + "\n".join(extra) + "\n" if extra else qa_md(doc)
