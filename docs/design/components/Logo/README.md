@@ -13,7 +13,7 @@
 |---|---|
 | Lockup | 40px tall and up: hero, about, print, share images |
 | Lockup small (thicker tick tip, bigger sun) | 20–39px tall: header (32px desktop, 28px phone), footer, email |
-| Icon (EV + tick on an ink tile) | 32px and up: app icon, social avatar |
+| Icon (EV + tick on an ink tile, with generous padding: the logo stays within the middle 55% of the tile) | 32px and up: app icon, social avatar |
 | Icon small | 16–31px: favicon, browser tab |
 
 Never set the logo as live text, never colour the E and the V differently, and never straighten the tick into a plain V.

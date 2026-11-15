@@ -98,6 +98,7 @@ All three are OFL-licensed and self-hosted in `fonts/` (tokens.css declares them
 - Mobile first. The phone layout is the main one, because many buyers browse listings on the sofa.
 - Content max width is 1240px, and the Explore table may break out to 1440px. Reading text stops at 68 characters a line.
 - Spacing comes from the 8-step scale (`space-1` 4px to `space-8` 72px). Use 16px gutters on phones and 32px on desktop.
+- **Breathing room (rule).** A background, tile, chip, badge or button never touches or crowds its text or mark. Minimum padding: half the cap height of the text inside it on every side, more on tiles and icons (the app icon keeps the logo within its middle 55%). If something has to be smaller, shrink the content, never the padding.
 - Left-aligned text. Numbers in tables are right-aligned. Centre only empty states and the hero.
 - Radius signals hierarchy: chips and inputs are small (6px), buttons and tooltips medium (10px), cards and the map large (18px), pins and the switch thumb round.
 - Elevation is a sticker: a short, solid 2px ink shadow (`shadow-sticker`). Only one floating layer at a time (`shadow-lift`: tooltip, menu, shortlist tray or the taped note).
