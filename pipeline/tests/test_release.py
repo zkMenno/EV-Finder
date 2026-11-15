@@ -115,11 +115,13 @@ def test_release_end_to_end(data_dir: Path) -> None:
     out = data_dir / "releases" / "1"
     assert sorted(p.name for p in out.iterdir()) == [
         "README.md",
+        "catalogue",  # per-generation split (T-064)
         "catalogue.json",
         "catalogue.parquet",
         "coverage.md",
         "diff.json",
         "facts.parquet",
+        "manifest.json",  # sizes + sha256 of every file (T-064, Decision 035)
         "open",  # open data bundle (Decision 016)
         "qa.json",  # release QA (R-05 §1)
         "qa.md",

@@ -485,8 +485,10 @@ def _published_sources(data_dir: Path) -> set[str] | None:
     from ev_pipeline.health.state import latest_release
 
     n = latest_release(data_dir)
-    path = data_dir / "releases" / str(n) / "catalogue.json" if n else None
-    if path is None or not path.exists():
+    from ev_pipeline.release.publish import local_catalogue
+
+    path = local_catalogue(data_dir, n) if n else None  # T-064: fetched by manifest if needed
+    if path is None:
         return None
     doc = json.loads(path.read_text(encoding="utf-8"))
     return {str(src.get("id")) for src in doc.get("sources") or []}

@@ -155,6 +155,46 @@ variants and never create rows. Everything else in `sources.yaml` is either not 
 highest existing `data/releases/<n>/` + 1. `data/releases/latest` holds the current number.
 **Rollback:** `uv run ev release rollback --to <n>` (see "Keeping data fresh").
 
+### Releases live outside git (T-064, Decision 035)
+
+Git keeps only `data/releases/<n>/manifest.json` plus the small files listed under `in_git`
+in `data/releases/publish.yaml` (README, QA report, coverage, diff). Every other file
+(catalogue, parquet, charging stats, open bundle, the per-generation split) is an asset of the
+GitHub Release `data-v<n>`. `.gitignore` keeps the big files out; a test keeps `.gitignore`
+and `in_git` in step.
+
+```sh
+uv run ev release package 1     # per-generation split + manifest.json (ev release does this too)
+uv run ev release verify 1      # local files vs manifest (size + sha256)
+uv run ev release fetch latest  # download what git doesn't hold; every file sha256-checked
+uv run ev release publish 1 --target dir --out /tmp/store   # local mirror (tests, inspection)
+uv run ev release publish 1     # GitHub Release data-v1 via `gh` (needs GH_TOKEN, contents: write)
+```
+
+- **manifest.json:** release number, dates, QA summary, storage (`data-v<n>`, download URL),
+  counts, and every file with path, asset name, bytes, sha256 and `in_git`.
+- **Per-generation split:** `catalogue/index.json` (all rows without `provenance`, taxonomy,
+  sources; `generation_files` maps each generation id to its file) and
+  `catalogue/generations/<generation_id>.json` (that generation, its full rows, its known
+  issues). `catalogue.json` stays as the full file. `package` refuses a split that doesn't
+  round-trip to `catalogue.json`.
+- **Who uploads:** the weekly `data-refresh.yml` uploads assets when it opens the "Data release
+  N" PR (re-runs replace an unmerged release only); `data-publish.yml` runs when a manifest
+  lands on main (normally "unchanged") or by hand for a release still in git. Both use
+  `pipeline/scripts/gh-publish-release.sh` (shell + jq + gh, no pipeline code in the write job).
+  A release that has a manifest on main is never changed.
+- **Who downloads:** the web build (`apps/web/scripts/fetch-release.mjs`, runs first in
+  `pnpm build`/`dev`; `CATALOGUE_SOURCE=auto|manifest|local`), CI `data-qa`
+  (`ev release fetch latest`), and the pipeline itself when it needs an older release (diff
+  for the next release, rollback, `ev refresh`). A failed or wrong download is an error, never
+  "no previous release".
+- **Rollback** is unchanged: `ev release rollback --to <n>` points `latest` at an earlier
+  release; its files are fetched and checked first, then the QA re-check runs. The web
+  build after that fetches release n by its manifest. To preview without switching:
+  `CATALOGUE_RELEASE=<n> node apps/web/scripts/fetch-release.mjs`.
+- **Unmerged release PR closed?** Delete its GitHub Release (`gh release delete data-v<n>
+  --cleanup-tag`) or let the next refresh replace it; the number is reused.
+
 **A release folder** `data/releases/<n>/` contains:
 
 | File | What |

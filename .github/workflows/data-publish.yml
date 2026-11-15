@@ -1,0 +1,56 @@
+name: Data publish
+
+# Releases out of git (T-064, Decision 035). Uploads a release folder's files as assets of the
+# GitHub Release `data-v<n>`, checked against data/releases/<n>/manifest.json (size + sha256).
+#
+# Runs when a manifest lands on main (assets usually exist already: data-refresh.yml uploads
+# them when it opens the "Data release N" PR, so this reports "unchanged") and by hand for a
+# release whose files are still in git (release 1, before they are removed from git).
+#
+# Write job, but no pipeline install and no third-party data parsing: shell + jq + gh only
+# (pipeline/scripts/gh-publish-release.sh). A published release never changes.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/releases/*/manifest.json"
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Release number to publish (files must be in this commit)"
+        required: true
+
+permissions: {}
+
+concurrency:
+  group: data-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write # create the data-v<n> release and upload its assets
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_RELEASE: ${{ inputs.release }}
+        run: |
+          if [ -n "$INPUT_RELEASE" ]; then
+            case "$INPUT_RELEASE" in *[!0-9]*) echo "::error::release must be a number"; exit 1;; esac
+            releases="$INPUT_RELEASE"
+          else
+            releases=$(git diff --name-only HEAD~1 HEAD -- 'data/releases/*/manifest.json' | cut -d/ -f3 | sort -un)
+          fi
+          [ -n "$releases" ] || { echo "No manifest changed."; exit 0; }
+          for n in $releases; do
+            pipeline/scripts/gh-publish-release.sh "data/releases/$n"
+          done
