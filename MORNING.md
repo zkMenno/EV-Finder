@@ -77,5 +77,5 @@ _(at the end of the run)_
 | A5.3 open data bundle | running | |
 | A5.4 /learn drafts | running | |
 | A5.5 release QA | running | |
-| A5.6 security baseline | running (CI + pipeline) | web CSP nonce queued |
+| A5.6 security baseline | partial | done: Actions least privilege + pinned SHAs, audit job (warn only), safe fetch (host allowlist, SSRF guard, size caps); web nonce CSP + staff guard running; server items for WS4 in audits/A-02 |
 | A5.7 back-test skeleton | running | |
