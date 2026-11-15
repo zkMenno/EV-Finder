@@ -54,8 +54,6 @@ cf-074a03f9af,open,audi-e-tron-ge-50,consumption_kwh_100km,rdw-tgk,19.2,kWh/100k
 cf-e7989ffb01,open,audi-e-tron-ge-50,consumption_kwh_100km,rdw-tgk,19.2,kWh/100km,24.79,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1914*16|SBM2RQ1|QE1QE1G1Z01RT31B200GAAEM0|1:consumption_kwh_100km
 cf-672c3ce5af,open,audi-e-tron-ge-50,consumption_kwh_100km,rdw-tgk,19.2,kWh/100km,24.79,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2007/46*1914*16|SBM2RQ1|QE1QE1G1Z01RT31A190GAAEM0|1:consumption_kwh_100km
 cf-293729b2cc,open,audi-e-tron-ge-50,dc_peak_kw,kilowatt-openev,150.0,kW,124.0,±5%,kilowatt-openev:data/v2/models/audi.json#f813b472-d164-41b9-b599-a8347f04adce:dc_peak_kw
-cf-8e9d24b442,open,audi-e-tron-ge-50,dc_peak_kw,kilowatt-openev,155.0,kW,124.0,±5%,kilowatt-openev:data/v2/models/audi.json#e3656381-6eaa-14cb-4e52-b128d46c48ab:dc_peak_kw
-cf-590539b1de,open,audi-e-tron-ge-50,dc_peak_kw,kilowatt-openev,155.0,kW,124.0,±5%,kilowatt-openev:data/v2/models/audi.json#396f3574-dfc0-43d6-b322-17fa29b3d8ac:dc_peak_kw
 cf-5ecf289529,open,audi-e-tron-ge-50,price_new.NL,rdw,63550.0,EUR,81750.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|E-TRON SPORTBACK 50|2020|GE|SBM2RQ1|QE1QE1G1Z01RT31A190GAAEM0U:price_new
 cf-6b6e448af4,open,audi-e-tron-ge-50,price_new.NL,rdw,63550.0,EUR,81750.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|E-TRON SPORTBACK 50|2020|GE|SBM2RQ1|QE1QE1G1Z01RT31A190GAAEM0:price_new
 cf-08d2eb167c,open,audi-e-tron-ge-50,price_new.NL,rdw,61155.0,EUR,81750.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|E-TRON 50|2020|GE|XBM2RQ1|QE1QE1G1Z01RT11A190GAAEM0U:price_new
@@ -478,9 +476,6 @@ cf-0c0265551e,open,audi-q4-e-tron-gen1-35,wltp_range_km,rdw-tgk,389.0,km,333.0,�
 cf-765cfa09af,open,audi-q4-e-tron-gen1-35,wltp_range_km,rdw-tgk,389.0,km,333.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*06|XBL1EH1|HE1HE1G1Z01RT011A210GAAEM0|0:wltp_range_km
 cf-1b7873ef13,open,audi-q4-e-tron-gen1-35,wltp_range_km,rdw-tgk,389.0,km,333.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*06|XBL1EH1|HE1HE1G1Z01RT011A200GAAEM0|0:wltp_range_km
 cf-2c408a2a22,open,audi-q4-e-tron-gen1-35,wltp_range_km,rdw-tgk,389.0,km,333.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*06|XBL1EH1|HE1HE1G1Z01RT011A190GAAEM0|0:wltp_range_km
-cf-fc0487c08e,open,audi-q4-e-tron-gen1-40,battery_kwh_net,kilowatt-openev,76.6,kWh,48.0,±2%,kilowatt-openev:data/v2/models/audi.json#645e2574-40c4-45ca-ba5f-be85d1928e0d:battery_kwh_net
-cf-88d09963aa,open,audi-q4-e-tron-gen1-40,battery_kwh_net,kilowatt-openev,77.0,kWh,48.0,±2%,kilowatt-openev:data/v2/models/audi.json#409a3d54-3dec-b5bb-5d6c-2a48749728c3:battery_kwh_net
-cf-36760c94f2,open,audi-q4-e-tron-gen1-40,battery_kwh_net,seed-manual,77.0,kWh,48.0,±2%,seed-manual:audi-q4-e-tron-gen1-40:battery_kwh_net
 cf-e1a2252fbe,open,audi-q4-e-tron-gen1-40,consumption_kwh_100km,rdw,17.66,kWh/100km,18.28,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 40 E-TRON|2022#consumption_kwh_100km:consumption_kwh_100km
 cf-c4a384c645,open,audi-q4-e-tron-gen1-40,consumption_kwh_100km,rdw,17.1,kWh/100km,18.28,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 40 E-TRON|2023#consumption_kwh_100km:consumption_kwh_100km
 cf-7eeddece3e,open,audi-q4-e-tron-gen1-40,consumption_kwh_100km,rdw,17.4,kWh/100km,18.28,±3%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 40 E-TRON|2024#consumption_kwh_100km:consumption_kwh_100km
@@ -541,8 +536,6 @@ cf-33e6ed8557,open,audi-q4-e-tron-gen1-40,consumption_kwh_100km,rdw-tgk,15.24,kW
 cf-aeb5c25cc2,open,audi-q4-e-tron-gen1-40,consumption_kwh_100km,rdw-tgk,14.52,kWh/100km,18.28,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*07|XBL1FH1|HE1HE1G1Z01RT011A210GAAEM1|0:consumption_kwh_100km
 cf-71978604b4,open,audi-q4-e-tron-gen1-40,consumption_kwh_100km,rdw-tgk,14.52,kWh/100km,18.28,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*07|XBL1FH1|HE1HE1G1Z01RT011A200GAAEM1|0:consumption_kwh_100km
 cf-53fc2d873f,open,audi-q4-e-tron-gen1-40,consumption_kwh_100km,rdw-tgk,14.52,kWh/100km,18.28,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*07|XBL1FH1|HE1HE1G1Z01RT011A190GAAEM1|0:consumption_kwh_100km
-cf-d7507fb6f7,open,audi-q4-e-tron-gen1-40,dc_peak_kw,kilowatt-openev,143.0,kW,125.0,±5%,kilowatt-openev:data/v2/models/audi.json#645e2574-40c4-45ca-ba5f-be85d1928e0d:dc_peak_kw
-cf-db20b3dc09,open,audi-q4-e-tron-gen1-40,power_kw,seed-manual,150.0,kW,125.0,±2%,seed-manual:audi-q4-e-tron-gen1-40:power_kw
 cf-756d2c2ad1,open,audi-q4-e-tron-gen1-40,price_new.NL,rdw,65054.0,EUR,68967.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q4 SPORTBACK 40 E-TRON|2021|FZ|SBL1FH1|HE1HE1G1Z01RT021A200GAAEM1M:price_new
 cf-4484469e12,open,audi-q4-e-tron-gen1-40,price_new.NL,rdw,60639.0,EUR,68967.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q4 SPORTBACK 40 E-TRON|2021|FZ|SBL1FH1|HE1HE1G1Z01RT021A190GAAEM1O:price_new
 cf-734079ccdf,open,audi-q4-e-tron-gen1-40,price_new.NL,rdw,58969.0,EUR,68967.0,±3%,rdw:m9d7-ebf2+8ys7-d773[merk|handelsbenaming|jaar|type|variant|uitvoering]:AUDI|Q4 40 E-TRON|2021|FZ|XBL1FH1|HE1HE1G1Z01RT011A200GAAEM1O:price_new
@@ -554,9 +547,6 @@ cf-d3e8c18d99,open,audi-q4-e-tron-gen1-40,price_new.NL,rdw,60492.0,EUR,68967.0,�
 cf-c0f86c4fa2,open,audi-q4-e-tron-gen1-40,wltp_range_km,rdw,402.0,km,477.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 40 E-TRON|2025#wltp_range_km:wltp_range_km
 cf-e6fd7a4f71,open,audi-q4-e-tron-gen1-40,wltp_range_km,rdw,402.0,km,477.0,±2%,rdw:8ys7-d773+m9d7-ebf2[merk|handelsbenaming|jaar]:AUDI|Q4 40 E-TRON|2026#wltp_range_km:wltp_range_km
 cf-1a04be8584,open,audi-q4-e-tron-gen1-40,wltp_range_km,rdw-tgk,575.0,km,477.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*03|XBL1FH1|HE1HE1G1Z01RT011B190GAAEM1O|0:wltp_range_km
-cf-dd459e33e5,open,audi-q4-e-tron-gen1-40,wltp_range_km,openev,341.0,km,477.0,±2%,openev:src/audi/q4_e_tron/base.json+src/audi/q4_e_tron/2023/q4_e_tron.json:wltp_range_km
-cf-143c7fb23c,open,audi-q4-e-tron-gen1-40,wltp_range_km,openev,341.0,km,477.0,±2%,openev:src/audi/q4_e_tron/base.json+src/audi/q4_e_tron/2024/q4_e_tron.json:wltp_range_km
-cf-7035566d79,open,audi-q4-e-tron-gen1-40,wltp_range_km,openev,341.0,km,477.0,±2%,openev:src/audi/q4_e_tron/base.json+src/audi/q4_e_tron/2025/q4_e_tron.json:wltp_range_km
 cf-68717bc48d,open,audi-q4-e-tron-gen1-40,wltp_range_km,rdw-tgk,575.0,km,477.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*03|XBL1FH1|HE1HE1G1Z01RT011B190GAAEM1M|0:wltp_range_km
 cf-8712460d9d,open,audi-q4-e-tron-gen1-40,wltp_range_km,rdw-tgk,575.0,km,477.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*03|XBL1FH1|HE1HE1G1Z01RT011B190GAAEM0O|0:wltp_range_km
 cf-314ccf81f6,open,audi-q4-e-tron-gen1-40,wltp_range_km,rdw-tgk,575.0,km,477.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00006*03|XBL1FH1|HE1HE1G1Z01RT011A210GAAEM1O|0:wltp_range_km
@@ -1454,9 +1444,6 @@ cf-a0b238cdb1,open,ford-explorer-gen1-base,wltp_range_km,rdw-tgk,605.0,km,530.0,
 cf-e6ee51c3f2,open,ford-explorer-gen1-base,wltp_range_km,rdw-tgk,640.0,km,530.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00364*03|C1DA1RX|5AZAZNBJHAS|0:wltp_range_km
 cf-8aff5524d1,open,ford-explorer-gen1-base,wltp_range_km,rdw-tgk,590.0,km,530.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00364*06|C2DA4RX|5AZAZNBNMAS|0:wltp_range_km
 cf-1b66d5983f,open,ford-explorer-gen1-base,wltp_range_km,rdw-tgk,640.0,km,530.0,±2%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e1*2018/858*00364*06|C1DA1RX|5AZAZNBNLAS|0:wltp_range_km
-cf-de439d8c54,open,ford-mustang-mach-e-gen1-er-awd,battery_kwh_net,kilowatt-openev,88.0,kWh,68.0,±2%,kilowatt-openev:data/v2/models/ford.json#4d84c2e6-2902-4086-aa87-f3852a42d15d:battery_kwh_net
-cf-1114fae500,open,ford-mustang-mach-e-gen1-er-awd,battery_kwh_net,kilowatt-openev,72.6,kWh,68.0,±2%,kilowatt-openev:data/v2/models/ford.json#20a4cd2b-abf4-4218-a3b0-0ca2095cf4ee:battery_kwh_net
-cf-b4a3150c23,open,ford-mustang-mach-e-gen1-er-awd,battery_kwh_net,kilowatt-openev,72.6,kWh,68.0,±2%,kilowatt-openev:data/v2/models/ford.json#00ad1272-18a0-443e-a38f-fb7021270ff1:battery_kwh_net
 cf-1e9d18686a,open,ford-mustang-mach-e-gen1-er-awd,epa_range_km,fueleconomy,339.6,km,434.5,±2%,fueleconomy:vehicles.csv:id=43602;market=us:epa_range_km
 cf-b928811d8f,open,ford-mustang-mach-e-gen1-er-awd,epa_range_km,fueleconomy,502.1,km,434.5,±2%,fueleconomy:vehicles.csv:id=45140;market=us:epa_range_km
 cf-d7237e22dd,open,ford-mustang-mach-e-gen1-er-awd,epa_range_km,fueleconomy,445.8,km,434.5,±2%,fueleconomy:vehicles.csv:id=45139;market=us:epa_range_km
@@ -2329,8 +2316,6 @@ cf-9ef4f80be0,open,renault-zoe-ph1-r110,ac_kw,seed-manual,22.0,kW,11.0,±2%,seed
 cf-55d74ae01e,open,renault-zoe-ph1-r240,ac_kw,seed-manual,22.0,kW,23.3,±2%,seed-manual:renault-zoe-ph1-r240:ac_kw
 cf-526f63eae9,open,renault-zoe-ph1-r240,battery_kwh_net,seed-manual,22.0,kWh,23.3,±2%,seed-manual:renault-zoe-ph1-r240:battery_kwh_net
 cf-fcee215b1a,open,renault-zoe-ph1-r90,ac_kw,seed-manual,22.0,kW,11.0,±2%,seed-manual:renault-zoe-ph1-r90:ac_kw
-cf-c5d284aa29,open,renault-zoe-ph1-r90,battery_kwh_net,kilowatt-openev,41.0,kWh,23.3,±2%,kilowatt-openev:data/v2/models/renault.json#65359747-ec05-47f0-95cf-06e1e8f2b04f:battery_kwh_net
-cf-e1a4f54185,open,renault-zoe-ph1-r90,battery_kwh_net,seed-manual,41.0,kWh,23.3,±2%,seed-manual:renault-zoe-ph1-r90:battery_kwh_net
 cf-426cb47ce9,open,renault-zoe-ph2-r110,ac_kw,kilowatt-openev,11.0,kW,22.0,±2%,kilowatt-openev:data/v2/models/renault.json#3a5aec49-6b1c-49ad-9291-f14a78091b97:ac_kw
 cf-d663a9b2d3,open,renault-zoe-ph2-r110,consumption_kwh_100km,rdw-tgk,16.9,kWh/100km,16.2,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e2*2007/46*0251*16|0V0Y|MDLEA0800000|0:consumption_kwh_100km
 cf-11649ba6c4,open,renault-zoe-ph2-r110,consumption_kwh_100km,rdw-tgk,16.9,kWh/100km,16.2,±3%,rdw-tgk:gr7t-qfnb+byxc-wwua[typegoedkeuringsnummer|variant|uitvoering|revisie]:e2*2007/46*0251*16|0V0Y|MCLEA0800000|0:consumption_kwh_100km
@@ -4087,11 +4072,7 @@ cf-11d56f4596,open,volvo-xc40-recharge-gen1-p8-twin,battery_kwh_net,kilowatt-ope
 cf-79b68ba7b8,open,volvo-xc40-recharge-gen1-twin-motor,battery_kwh_net,kilowatt-openev,75.0,kWh,69.0,±2%,kilowatt-openev:data/v2/models/volvo.json#ed38473a-d731-421c-9ca3-db7fdf4774d1:battery_kwh_net
 cf-cda0123327,open,volvo-xc40-recharge-gen1-twin-motor,battery_kwh_net,kilowatt-openev,79.0,kWh,69.0,±2%,kilowatt-openev:data/v2/models/volvo.json#b52fcc81-16c9-4ca8-b1e9-d78be3801334:battery_kwh_net
 cf-7846ac52be,open,volvo-xc40-recharge-gen1-twin-motor,dc_peak_kw,kilowatt-openev,205.0,kW,150.0,±5%,kilowatt-openev:data/v2/models/volvo.json#b52fcc81-16c9-4ca8-b1e9-d78be3801334:dc_peak_kw
-cf-06fb9bd689,open,audi-e-tron-ge-50,battery_kwh_net,kilowatt-openev,89.0,kWh,64.7,> pack audi-etron-71 gross 71 kWh,kilowatt-openev:data/v2/models/audi.json#21576aad-14d5-42dc-a0ec-8a96005ca574:battery_kwh_net
-cf-43d4522ed8,open,audi-e-tron-ge-50,battery_kwh_net,kilowatt-openev,89.0,kWh,64.7,> pack audi-etron-71 gross 71 kWh,kilowatt-openev:data/v2/models/audi.json#396f3574-dfc0-43d6-b322-17fa29b3d8ac:battery_kwh_net
 cf-fe825a61a8,open,audi-e-tron-ge-50,battery_kwh_net,kilowatt-openev,76.6,kWh,64.7,> pack audi-etron-71 gross 71 kWh,kilowatt-openev:data/v2/models/audi.json#775b258d-59dc-40fb-8f44-a3d732cee8f4:battery_kwh_net
-cf-66544dd919,open,audi-e-tron-ge-50,battery_kwh_net,kilowatt-openev,89.0,kWh,64.7,> pack audi-etron-71 gross 71 kWh,kilowatt-openev:data/v2/models/audi.json#79dbb8f4-78f7-4844-aa41-11e448e3a6b7:battery_kwh_net
-cf-675b24f3e4,open,audi-e-tron-ge-50,battery_kwh_net,kilowatt-openev,89.0,kWh,64.7,> pack audi-etron-71 gross 71 kWh,kilowatt-openev:data/v2/models/audi.json#e3656381-6eaa-14cb-4e52-b128d46c48ab:battery_kwh_net
 cf-b478168d34,open,audi-e-tron-ge-55,battery_kwh_net,kilowatt-openev,106.0,kWh,86.5,> pack audi-etron-95 gross 95 kWh,kilowatt-openev:data/v2/models/audi.json#070b1895-3d80-4717-bc4c-23569a82fc4d:battery_kwh_net
 cf-198a25f898,open,audi-e-tron-ge-55,battery_kwh_net,kilowatt-openev,106.0,kWh,86.5,> pack audi-etron-95 gross 95 kWh,kilowatt-openev:data/v2/models/audi.json#a29d1b2b-3466-c468-abe2-3978f0afaa6f:battery_kwh_net
 cf-28abafdfcc,open,audi-e-tron-ge-55,battery_kwh_net,kilowatt-openev,106.0,kWh,86.5,> pack audi-etron-95 gross 95 kWh,kilowatt-openev:data/v2/models/audi.json#ce9e5c81-96f9-42ab-a569-859431c47df4:battery_kwh_net
@@ -4106,6 +4087,9 @@ cf-8a5c5f3544,open,tesla-model-s-gen1-85,battery_kwh_net,kilowatt-openev,85.5,kW
 cf-5b5385adc9,open,tesla-model-s-gen1-85,battery_kwh_net,kilowatt-openev,85.5,kWh,80.8,> pack tesla-s-85 gross 85 kWh,kilowatt-openev:data/v2/models/tesla.json#b373b864-f112-48af-a612-59ea12fc3bed:battery_kwh_net
 cf-78bd35dcc1,open,tesla-model-s-gen1-85,battery_kwh_net,kilowatt-openev,85.5,kWh,80.8,> pack tesla-s-85 gross 85 kWh,kilowatt-openev:data/v2/models/tesla.json#e1306b62-fd6e-4f70-8174-a21d013babf7:battery_kwh_net
 cf-8ebb06f247,open,volkswagen-id3-gen1-pure,battery_kwh_net,kilowatt-openev,52.0,kWh,45.0,> pack meb-45 gross 48 kWh,kilowatt-openev:data/v2/models/volkswagen.json#438d036a-66dd-4dd0-8d0c-eeaa4e1e82cb:battery_kwh_net
+cf-fd07e4d555,open,audi-q4-e-tron-gen1-40,dc_peak_kw,seed-manual,125.0,kW,,needs backing: only kilowatt-openev,seed-manual:audi-q4-e-tron-gen1-40:dc_peak_kw
+cf-49bf61e7ff,open,audi-q4-e-tron-gen1-40,dc_peak_kw,kilowatt-openev,125.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/audi.json#409a3d54-3dec-b5bb-5d6c-2a48749728c3:dc_peak_kw
+cf-d7507fb6f7,open,audi-q4-e-tron-gen1-40,dc_peak_kw,kilowatt-openev,143.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/audi.json#645e2574-40c4-45ca-ba5f-be85d1928e0d:dc_peak_kw
 cf-9f8bfa4677,open,bmw-i3-i01-60ah,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:bmw-i3-i01-60ah:dc_peak_kw
 cf-2778444bf8,open,bmw-i3-i01-60ah,dc_peak_kw,kilowatt-openev,47.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/bmw.json#e67dc450-d658-4bee-bd0f-a750d445b2f9:dc_peak_kw
 cf-cb3b5e50c6,open,cupra-born-gen1-45kwh,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/cupra.json#ab631897-9d68-4971-8cbc-b81d0ef2ccaa:dc_peak_kw
@@ -4143,9 +4127,7 @@ cf-5a2ef2e6c4,open,renault-zoe-ph1-q90,dc_peak_kw,kilowatt-openev,100.0,kW,,need
 cf-8314711dc7,open,renault-zoe-ph1-r110,dc_peak_kw,kilowatt-openev,45.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#5d224876-e1ac-4eaf-ae79-fb5db90c22cc:dc_peak_kw
 cf-0a1763c84b,open,renault-zoe-ph1-r110,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#91413796-1642-47d9-b3e8-407b52d842d7:dc_peak_kw
 cf-72ce941828,open,renault-zoe-ph1-r110,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#c53b5947-23a3-420c-9798-f3846732e41a:dc_peak_kw
-cf-434a433f0e,open,renault-zoe-ph1-r90,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#37378681-ea22-48bc-a376-1c3d9ba304ca:dc_peak_kw
 cf-ee08cc625f,open,renault-zoe-ph1-r90,dc_peak_kw,kilowatt-openev,100.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#65359747-ec05-47f0-95cf-06e1e8f2b04f:dc_peak_kw
-cf-9b972ee5e1,open,renault-zoe-ph1-r90,dc_peak_kw,kilowatt-openev,150.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#fdd890a5-96fd-4640-82dd-57f851c650cf:dc_peak_kw
 cf-7c1be2ca76,open,renault-zoe-ph2-r110,dc_peak_kw,seed-manual,50.0,kW,,needs backing: only kilowatt-openev,seed-manual:renault-zoe-ph2-r110:dc_peak_kw
 cf-bd2910cc00,open,renault-zoe-ph2-r110,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#3a5aec49-6b1c-49ad-9291-f14a78091b97:dc_peak_kw
 cf-093c224c42,open,renault-zoe-ph2-r110,dc_peak_kw,kilowatt-openev,46.0,kW,,needs backing: only kilowatt-openev,kilowatt-openev:data/v2/models/renault.json#de3a8751-00c9-46d1-9e7a-ad830835c6a7:dc_peak_kw

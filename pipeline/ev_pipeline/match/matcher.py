@@ -28,6 +28,10 @@
    source with the same normalised variant name in one generation share a variant, whatever
    their year; years seen become the variant's year span. A seed-manual variant with the same
    normalised name in the same generation lends its id, so the two merge.
+   Battery gate (as in 9 below): a record whose battery figures are all outside the gate
+   tolerance of the seed-manual variant it would join (by name, `source_names`, or because its
+   `<generation_id>-<slug>` id equals the seed variant's id: OpenEV "Q4 e-tron 40" MY2023+
+   at 48 kWh vs the seed "40 e-tron" at 77 kWh) goes to review instead of merging.
    Year bands (`split_year_bands`): when a variant's records for a later model year differ from
    its earliest year by more than WLTP 5% or DC peak 10%, that is a real change, so the later
    years become their own variant `<variant_id>-<first year>` (the earliest band keeps the
@@ -82,6 +86,18 @@
    year). Only RDW is gated for now (2026-11-15: gating ADEME and KilowattApp too would
    send 28 + 27 more records to review, not yet checked one by one; ADEME's "(57Kw)" in
    names may not be peak power).
+   Battery gate (BATTERY_GATE_REL, every attach-only source): a record that carries battery
+   evidence (battery_kwh_net / _gross, or "<n> kWh" in its names) never attaches to a
+   candidate whose seed battery (the seed-manual variant's net / gross kWh, its cited kWh
+   and any kWh in its name) is more than 15 % away from every one of the record's figures
+   (20 % between net and gross or against a figure in a name)
+   (KilowattApp "Zoe R90 Entry" 23.3 kWh is not the R90 Z.E. 40 at 41 kWh). Candidates of
+   unknown seed battery stay. Once the gate has ruled any candidate out, the pick needs
+   positive evidence: the "only variant left" shortcut does not apply, and the pick needs
+   numeric evidence (kWh within 1 kWh, power, WLTP) or a distinctive shared name word no
+   ruled-out candidate shares (KilowattApp "Enyaq iV 50" at 52 kWh is not the "60 (iV 60)" just
+   because the 80 and 85 are out). Nothing left -> review, reason "battery contradicts the seed
+   variant". The gate applies before the "same name" and "only variant" shortcuts.
    TGK evidence (TGK_EVIDENCE_SOURCES, rdw-tgk; see `tgk_pick`): a type-approval version
    names no battery, so the variant is picked from the version's own figures: years (+-1),
    the battery its range x consumption implies, trade-name words, a range number in the
@@ -216,6 +232,14 @@ def eea_corroboration_enabled(value: bool | None = None) -> bool:
 
 
 KWH_TOLERANCE = 1.0  # "40KWH" in a name vs 39 kWh net / 40 kWh gross
+# Battery gate (see 4 and 9 above): wide enough for net vs gross of one pack (Kona 64 / 67,
+# e-tron 86.5 / 95, Leaf 39 / 40) and a "22 kWh" name on an 18.8 kWh-net i3; narrow enough
+# to keep 22 vs 41 (Zoe), 52 vs 77 (Q4) or 58 vs 77 (ID.3) apart.
+BATTERY_GATE_REL = 0.15
+# Net vs gross of one pack, or a name figure that may be either, differ more on small and
+# older packs (e-Golf 24.2 gross / 20.5 net, i3 22 / 18.8): 20 % across bases.
+BATTERY_GATE_CROSS_REL = 0.20
+NO_BATTERY_MATCH = "battery contradicts the seed variant"
 # Year-band split thresholds (relative difference to the band's first year).
 BAND_THRESHOLDS: dict[str, float] = {"wltp_range_km": 0.05, "dc_peak_kw": 0.10}
 _KWH_RE = re.compile(r"(\d+(?:[.,]\d+)?)\s*-?\s*kwh", re.IGNORECASE)
@@ -332,6 +356,8 @@ class MatchResult:
     corroboration_log: dict[str, object] = field(default_factory=dict)  # set by the release step
     # T-059: production-year records (wikidata) for merge/generation_years.py.
     year_records: list[SourceRecord] = field(default_factory=list)
+    # Battery gate: seed-manual variant id -> its battery figures (net, gross, cited, name).
+    seed_kwh: dict[str, set[tuple[float, str]]] = field(default_factory=dict)
 
 
 def priority_of(source_id: str) -> int:
@@ -471,6 +497,36 @@ def record_kwh(record: SourceRecord) -> set[float]:
         if sv is not None and isinstance(sv.value, int | float) and not isinstance(sv.value, bool):
             out.add(float(sv.value))
     return out
+
+
+def battery_figures(record: SourceRecord, *names: str | None) -> set[tuple[float, str]]:
+    """Battery evidence as (kWh, basis): basis net / gross from the specs, "name" for kWh
+    written in the record's model / variant name (and in `names`)."""
+    out = {(v, "name") for v in kwh_in_text(record.model, record.variant_name, *names)}
+    for f, basis in ((FactField.battery_kwh_net, "net"), (FactField.battery_kwh_gross, "gross")):
+        sv = record.specs.get(f)
+        if sv is not None and isinstance(sv.value, int | float) and not isinstance(sv.value, bool):
+            out.add((float(sv.value), basis))
+    return out
+
+
+def battery_close(a: tuple[float, str], b: tuple[float, str]) -> bool:
+    """Battery gate tolerance, relative to the larger figure: BATTERY_GATE_REL on the same
+    basis, BATTERY_GATE_CROSS_REL between net and gross or against a name figure."""
+    tol = BATTERY_GATE_REL if a[1] == b[1] else BATTERY_GATE_CROSS_REL
+    return abs(a[0] - b[0]) <= tol * max(abs(a[0]), abs(b[0]))
+
+
+def battery_contradicts(rec: set[tuple[float, str]], seed: set[tuple[float, str]]) -> bool:
+    """True when both sides know a battery and no record figure is close to a seed figure.
+    Unknown on either side is no contradiction."""
+    if not rec or not seed:
+        return False
+    return not any(battery_close(a, b) for a in rec for b in seed)
+
+
+def _kwh_text(values: set[tuple[float, str]]) -> str:
+    return "/".join(f"{v:g}" for v in sorted({v for v, _ in values}))
 
 
 @dataclass
@@ -692,6 +748,9 @@ def match_records(
             info.open_end = True
         for rec in mv.records:  # the variant's own record, then one per cited value
             _add_spec_facts(rec, gen, mv.id, info, result)
+        kwhs = set().union(*(battery_figures(r, mv.name) for r in mv.records))
+        if kwhs:
+            result.seed_kwh[mv.id] = kwhs
         result.matched_records += 1
 
     ordered = sorted(
@@ -753,8 +812,21 @@ def match_records(
         name = rec.variant_name or "base"
         vkey = (gen.id, key(name) or "base")
         vid = source_name_ids.get((gen.id, sid, vkey[1])) or variant_ids.get(vkey)
+        new_vid = vid is None
         if vid is None:
             vid = f"{gen.id}-{slug(name) or 'base'}"
+        rk = battery_figures(rec)
+        if battery_contradicts(rk, result.seed_kwh.get(vid, set())):
+            # Battery gate (see 4 above): a different car under the seed variant's name/id.
+            result.unmatched.append(
+                _unmatched(
+                    rec,
+                    f"{NO_BATTERY_MATCH} {vid} ({_kwh_text(rk)} vs "
+                    f"{_kwh_text(result.seed_kwh[vid])} kWh)",
+                )
+            )
+            continue
+        if new_vid:
             variant_ids[vkey] = vid
         info = result.variants.setdefault(vid, VariantInfo(vid, gen.id, rec.variant_name or "Base"))
         if rec.year is not None:
@@ -1007,6 +1079,29 @@ def attach_records(
                     _unmatched(rec, f"attach-only: {NO_POWER_MATCH} ({kw} kW) in {where}")
                 )
                 continue
+        rk = battery_figures(rec)
+        ruled_out: list[_Candidate] = []
+        if rk:
+            # Battery gate (see 9 above): rule out candidates whose seed battery contradicts.
+            known = [c for c in pool if result.seed_kwh.get(c.root)]
+            fit = [c for c in known if not battery_contradicts(rk, result.seed_kwh[c.root])]
+            if len(fit) < len(known):
+                unknown = [c for c in pool if not result.seed_kwh.get(c.root)]
+                if not fit and not unknown:
+                    seeds = set().union(*(result.seed_kwh[c.root] for c in known))
+                    result.unmatched.append(
+                        _unmatched(
+                            rec,
+                            f"attach-only: {NO_BATTERY_MATCH} ({_kwh_text(rk)} vs "
+                            f"{_kwh_text(seeds)} kWh) in {where}",
+                        )
+                    )
+                    continue
+                ruled_out = [c for c in known if c not in fit]
+                pool = fit + unknown
+                # The gate only rules out: "within tolerance" is no evidence for what is left
+                # (Model S "70" at 69 kWh is not the "60" just because the "85" is out).
+                need_evidence = True
         exact = [c for c in pool if result.variants[c.root].named(sid, rec_name)]
         if len(exact) == 1:
             chosen, why = exact[0], ""
@@ -1016,7 +1111,16 @@ def attach_records(
             chosen, why = pool[0], ""  # the generation's only variant, or the only power match
         else:
             chosen, why = _best_candidate(rec, pool, drop, strict=gated)
+            if (
+                chosen is not None
+                and ruled_out
+                and not _beats_ruled_out(rec, chosen, ruled_out, drop)
+            ):
+                why = f"{NO_BATTERY_MATCH}: name points at a ruled-out variant, not {chosen.root}"
+                chosen = None
         if chosen is None:
+            if ruled_out:
+                why += "; battery gate ruled out " + ", ".join(c.root for c in ruled_out)
             result.unmatched.append(_unmatched(rec, f"attach-only: {why} in {where}"))
             continue
         members = chosen.members
@@ -1247,6 +1351,35 @@ def _power_pool(power: set[float], cands: list[_Candidate]) -> tuple[list[_Candi
     if matching:
         return matching, False
     return [c for c in cands if not c.power], True
+
+
+def _numeric_evidence(rec: SourceRecord, c: _Candidate) -> bool:
+    """kWh within KWH_TOLERANCE, power or WLTP within tolerance of the candidate's."""
+    kwh = record_kwh(rec)
+    if any(abs(a - b) <= KWH_TOLERANCE for a in kwh for b in c.kwh):
+        return True
+    if _close_rel(record_power(rec), c.power, POWER_TOLERANCE):
+        return True
+    return _close_rel(_spec_num(rec, "wltp_range_km"), c.wltp, WLTP_TOLERANCE)
+
+
+def _beats_ruled_out(
+    rec: SourceRecord, chosen: _Candidate, ruled_out: list[_Candidate], drop: set[str]
+) -> bool:
+    """Battery gate: a pick made after the gate ruled candidates out needs numeric evidence,
+    or a distinctive name word that no ruled-out candidate shares with the record (and no
+    ruled-out candidate sharing more words). Words the ruled-out candidates share just as
+    well ("iV" on Enyaq 60 and 80, "quattro" on e-tron 50 and 55) say nothing about which
+    of the rest it is: name and battery disagree -> review."""
+    if _numeric_evidence(rec, chosen):
+        return True
+    words = _distinct_tokens(rec.variant_name, drop) | _distinct_tokens(rec.model, drop)
+    if name_score(words, chosen.name_tokens) < max(
+        name_score(words, c.name_tokens) for c in ruled_out
+    ):
+        return False
+    out_words = set().union(*(words & c.name_tokens for c in ruled_out))
+    return bool((words & chosen.name_tokens) - out_words - _GENERIC_TOKENS)
 
 
 def _best_candidate(

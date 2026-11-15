@@ -1,6 +1,6 @@
 {
  "release": 1,
- "generated_at": "2026-11-15T04:33:43+00:00",
+ "generated_at": "2026-11-15T04:46:34+00:00",
  "status": "review",
  "blocking_failures": [],
  "checks": {
@@ -9,12 +9,12 @@
    "title": "Provenance completeness",
    "blocking": true,
    "status": "pass",
-   "summary": "5711 values checked; 0 problem(s)",
+   "summary": "5708 values checked; 0 problem(s)",
    "details": {
-    "values_checked": 5711,
-    "dated_by_fact": 5680,
+    "values_checked": 5708,
+    "dated_by_fact": 5677,
     "dated_by_source": 31,
-    "facts_checked": 40167,
+    "facts_checked": 40104,
     "errors": [],
     "error_count": 0
    }
@@ -24,7 +24,7 @@
    "title": "Licence gate re-check",
    "blocking": true,
    "status": "pass",
-   "summary": "13 sources, 40167 facts; 0 problem(s)",
+   "summary": "13 sources, 40104 facts; 0 problem(s)",
    "details": {
     "sources": [
      "ademe",
@@ -49,10 +49,10 @@
      "kba-fz10": 233,
      "kilowatt-openev": 1111,
      "model-estimate": 1655,
-     "openev": 2500,
+     "openev": 2486,
      "rdw": 1230,
      "rdw-tgk": 1059,
-     "seed-manual": 1807
+     "seed-manual": 1814
     },
     "errors": [],
     "error_count": 0
@@ -74,17 +74,17 @@
    "title": "Outliers and impossible values",
    "blocking": false,
    "status": "flag",
-   "summary": "0 impossible value(s), 32 outside P1-P99 (reference: this release)",
+   "summary": "0 impossible value(s), 33 outside P1-P99 (reference: this release)",
    "details": {
     "impossible_count": 0,
     "impossible_by_rule": {},
     "impossible": [],
-    "percentile_count": 32,
+    "percentile_count": 33,
     "percentile_by_field": {
      "ac_km_per_h": 2,
      "ac_kw": 1,
      "accel_0_100_s": 1,
-     "battery_kwh_net": 1,
+     "battery_kwh_net": 2,
      "consumption_kwh_100km": 1,
      "consumption_motorway_kwh_100km": 1,
      "dc_avg_10_80_kw": 3,
@@ -101,12 +101,20 @@
     },
     "percentile": [
      {
+      "variant_id": "audi-q4-e-tron-gen1-40-sportback",
+      "segment": "J-medium",
+      "field": "battery_kwh_net",
+      "value": 48.0,
+      "p1": 48.78,
+      "p99": 95.0
+     },
+     {
       "variant_id": "audi-q6-e-tron-gen1-sq6",
       "segment": "J-medium",
       "field": "weight_kg",
       "value": 2420.0,
-      "p1": 1720.0,
-      "p99": 2418.0
+      "p1": 1719.4,
+      "p99": 2418.04
      },
      {
       "variant_id": "byd-atto-3-gen1-standard-range",
@@ -129,8 +137,8 @@
       "segment": "J-medium",
       "field": "weight_kg",
       "value": 1690.0,
-      "p1": 1720.0,
-      "p99": 2418.0
+      "p1": 1719.4,
+      "p99": 2418.04
      },
      {
       "variant_id": "byd-atto-3-gen1-standard-range-extended-range",
@@ -665,13 +673,13 @@
        },
        "ac_kw": {
         "covered": false,
-        "one": 5,
-        "two_plus": 3
+        "one": 6,
+        "two_plus": 2
        },
        "dc_peak_kw": {
         "covered": false,
         "one": 7,
-        "two_plus": 1
+        "missing": 1
        },
        "dc_avg_10_80_kw": {
         "covered": false,
@@ -3269,8 +3277,8 @@
    "ATTRIBUTION.md": 4407,
    "LICENSE": 715,
    "README.md": 14164,
-   "variants.csv": 1091082,
-   "variants.json": 2095067
+   "variants.csv": 1091136,
+   "variants.json": 2095149
   }
  }
 }

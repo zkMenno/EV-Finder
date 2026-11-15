@@ -398,4 +398,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** BMW i3s gains a cited battery figure and six more RDW versions place correctly. Honda e, Zoe Z.E. 40 and Model 3 gen1 trims still tie: no official figure separates them.
 
+## Decision 027: Battery gate: records that contradict the seed battery go to review
+
+**Status:** Proposed (provisional, overnight prototype 1)
+**Date:** 2026-11-15
+
+**Context:** A Zoe Z.E. 22 record (23.3 kWh) landed on the Z.E. 40 R90, an OpenEV Q4 40 (48 kWh) merged into the 77 kWh "40 e-tron", and Mach-E SR records landed on ER AWD. Nothing compared batteries before placing a record.
+
+**Decision:**
+- Each seed variant's battery (net, gross, cited, kWh in its name) is an anchor. A record whose battery differs by more than 15% on the same basis, or 20% across net/gross or name figures, never joins that variant; it goes to review with the reason.
+- In the attach pass, ruled-out candidates go first; whatever remains still needs its own positive evidence, so the gate can't push a record onto the next-nearest trim.
+- If either side has no battery figure, the gate rules nothing out.
+
+**Consequences:** Zoe R90 23.3 → 41 kWh, Q4 40 e-tron 48 → 77 kWh (and 150 kW), Mach-E ER AWD 68 → 88 kWh. About 10 more records wait in review.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
