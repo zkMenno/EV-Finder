@@ -413,11 +413,18 @@ export function usedFit(row: ExploreRow, bands: UsedPriceBand[] | undefined, bud
  * typical price fits the budget; the price shown is the newest of those years (no budget: the
  * newest year). Null without bands for this country, or when none fits.
  */
-export function variantFit(row: ExploreRow, country: Country, budget: number | null): PriceFit | null {
+export function variantFit(
+  row: ExploreRow,
+  country: Country,
+  budget: number | null,
+  years: { from?: number | null; to?: number | null } = {},
+): PriceFit | null {
   const list = row.used_bands?.[country];
   if (!list?.length) return null;
-  const end = row.year_end ?? Infinity;
-  const inYears = list.filter(([y]) => y >= row.year_start && y <= end);
+  // Build years: the variant's own, narrowed by the visitor's build-year filter (refine).
+  const start = Math.max(row.year_start, years.from ?? -Infinity);
+  const end = Math.min(row.year_end ?? Infinity, years.to ?? Infinity);
+  const inYears = list.filter(([y]) => y >= start && y <= end);
   const fits = budget === null ? inYears : inYears.filter(([, , median]) => median <= budget);
   if (!fits.length) return null;
   const newest = fits[fits.length - 1]!;
@@ -443,15 +450,16 @@ function newFit(row: ExploreRow, country: Country): PriceFit | null {
 /** The cheapest price that fits the condition and budget; `over` when every known price is over it. */
 export function priceFit(
   row: ExploreRow,
-  opts: { country: Country; cond: Condition; budget: number | null; usedBands?: UsedBands; nowYear: number },
+  opts: { country: Country; cond: Condition; budget: number | null; usedBands?: UsedBands; nowYear: number; yearMin?: number | null; yearMax?: number | null },
 ): { fit: PriceFit | null; over: boolean } {
   const cands: PriceFit[] = [];
   if (opts.cond !== "new" && row.used_bands?.[opts.country]?.length) {
     // Per-variant bands by build year (T-081) win over generation bands.
-    const v = variantFit(row, opts.country, opts.budget);
+    const yrs = { from: opts.yearMin, to: opts.yearMax };
+    const v = variantFit(row, opts.country, opts.budget, yrs);
     if (v) cands.push(v);
     else {
-      const any = variantFit(row, opts.country, null);
+      const any = variantFit(row, opts.country, null, yrs);
       if (any) cands.push({ ...any, amount: Infinity });
     }
   } else if (opts.cond !== "new") {
@@ -518,7 +526,7 @@ export function rankHero(rows: readonly ExploreRow[], rp: ResolvedProfile, q: He
     if (q.cond === "new" && row.on_sale_new !== true) continue;
     const checks = presets.map((p) => [p.field, presetCheck(row, p)] as const);
     if (checks.some(([, c]) => c === "fail")) continue;
-    const { fit, over } = priceFit(row, q);
+    const { fit, over } = priceFit(row, { ...q, yearMin: q.filters.yearMin, yearMax: q.filters.yearMax });
     if (over && q.budget !== null) {
       overBudget++;
       continue;
