@@ -91,3 +91,14 @@ _(at the end of the run)_
 | 9 | Docs for new builders | done | root, pipeline, infra READMEs; every command run; web README queued |
 | — | RDW WLTP + catalogue price (from item 5) | running | |
 
+## Addenda 6 + 7 (WS0, picked up 03:10)
+| Item | Status | Notes |
+|---|---|---|
+| A7.1 decision clash | done | overnight schema decision renumbered 019 → 020 (main's 019 = Variant finder) |
+| A7.2 task numbers | done | overnight task files start at T-050 |
+| A7.3 T-044 VariantClue + LookalikeGroup schema | running | |
+| A6 P1–P4 refresh, snapshots, rollback/diff, source health, weekly data-refresh workflow | running | |
+| A6 P5 top-40 initial dataset + Wikidata | queued | after the seed-quality builder finishes |
+| A6 P6 RDW defects, fueleconomy.gov, charging stats (EAFO, BNetzA, DfT) | running | DVSA MOT skipped (no key) |
+| A6 P7 manual facts path + review ids | queued | |
+
