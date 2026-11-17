@@ -1,15 +1,21 @@
 # Glossary terms for UI tooltips (ⓘ) and /learn/[term] pages (Decision 010). Rows = schema $defs/GlossaryTerm.
 # label = plain language; technical = name shown underneath; short = tooltip (max 20 words, enforced);
 # long = learn page (2-4 sentences); nerd_note = Nerd mode extra. EN complete; NL for label + short.
+# DE, FR, ES and IT label + short are DRAFTS written by an agent (T-117, 2026-11-17), not yet reviewed
+# by a native speaker (Decision 066, REVIEW D6).
 # `related` may point to other glossary ids or to chemistry / cooling / voltage-class ids.
 # Validate: python3 -I data/taxonomy/validate_taxonomy.py
 glossary_terms:
   - id: wltp
-    label: {en: "Official range", nl: "Officiële actieradius"}
+    label: {en: "Official range", nl: "Officiële actieradius", de: "Offizielle Reichweite", fr: "Autonomie officielle", es: "Autonomía oficial", it: "Autonomia ufficiale"}
     technical: {en: "WLTP range"}
     short:
       en: "The range from the official EU lab test. Real-world range is usually lower, especially in winter and on motorways."
       nl: "Het bereik uit de officiële EU-labtest. In de praktijk meestal lager, vooral in de winter en op de snelweg."
+      de: "Die Reichweite aus dem offiziellen EU-Labortest. Im Alltag meist geringer, vor allem im Winter und auf der Autobahn."
+      fr: "L'autonomie du test officiel de l'UE en laboratoire. En réalité, souvent moindre, surtout en hiver et sur autoroute."
+      es: "La autonomía de la prueba oficial de la UE. En la realidad suele ser menor, sobre todo en invierno."
+      it: "L'autonomia del test ufficiale UE in laboratorio. Nella realtà di solito è minore, soprattutto in inverno e in autostrada."
     long:
       en: >-
         WLTP is the standard test cycle used in Europe to rate range and consumption. It is useful
@@ -21,11 +27,15 @@ glossary_terms:
     related: [real-range, consumption, era]
 
   - id: real-range
-    label: {en: "Real-world range", nl: "Praktijkbereik"}
+    label: {en: "Real-world range", nl: "Praktijkbereik", de: "Echte Reichweite", fr: "Autonomie réelle", es: "Autonomía real", it: "Autonomia reale"}
     technical: {en: "Estimated real-world range"}
     short:
       en: "How far the car is likely to go in normal driving, from our own data and calculations."
       nl: "Hoe ver de auto waarschijnlijk komt bij normaal rijden, op basis van onze eigen data en berekeningen."
+      de: "Wie weit das Auto bei normaler Fahrt wahrscheinlich kommt, aus unseren eigenen Daten und Berechnungen."
+      fr: "La distance que la voiture parcourt probablement en conduite normale, d'après nos propres données et calculs."
+      es: "Cuánto recorrerá probablemente el coche en conducción normal, según nuestros propios datos y cálculos."
+      it: "Quanta strada farà probabilmente l'auto con una guida normale, dai nostri dati e calcoli."
     long:
       en: >-
         Our real-world range is an estimate of what an average driver gets on a full battery in
@@ -36,11 +46,15 @@ glossary_terms:
     related: [real-range-rung, wltp, consumption, usable-vs-gross, estimate]
 
   - id: real-range-rung
-    label: {en: "How we got this range", nl: "Hoe we dit bereik bepaalden"}
+    label: {en: "How we got this range", nl: "Hoe we dit bereik bepaalden", de: "Wie wir diese Reichweite ermittelt haben", fr: "Comment nous avons obtenu cette autonomie", es: "Cómo obtuvimos esta autonomía", it: "Come abbiamo ottenuto questa autonomia"}
     technical: {en: "Real-range fallback rung"}
     short:
       en: "Which method produced the real-world range: owner data, a direct test, or an estimate from similar cars."
       nl: "Welke methode het praktijkbereik gaf: eigenaardata, een directe test of een schatting op basis van vergelijkbare auto's."
+      de: "Welche Methode die echte Reichweite lieferte: Halterdaten, ein direkter Test oder eine Schätzung aus ähnlichen Autos."
+      fr: "La méthode qui a donné l'autonomie réelle : données de propriétaires, test direct ou estimation d'après des voitures similaires."
+      es: "Qué método dio la autonomía real: datos de propietarios, una prueba directa o una estimación a partir de coches parecidos."
+      it: "Quale metodo ha dato l'autonomia reale: dati dei proprietari, un test diretto o una stima da auto simili."
     long:
       en: >-
         We use a ladder of methods for real-world range and take the best one available. The top
@@ -52,11 +66,15 @@ glossary_terms:
     related: [real-range, estimate, confidence]
 
   - id: consumption
-    label: {en: "Energy use", nl: "Verbruik"}
+    label: {en: "Energy use", nl: "Verbruik", de: "Energieverbrauch", fr: "Consommation d'énergie", es: "Consumo de energía", it: "Consumo di energia"}
     technical: {en: "Consumption (kWh/100 km)"}
     short:
       en: "How much electricity the car uses per 100 km. Lower is better, like litres per 100 km."
       nl: "Hoeveel stroom de auto per 100 km verbruikt. Lager is beter, net als liters per 100 km."
+      de: "Wie viel Strom das Auto pro 100 km verbraucht. Weniger ist besser, wie Liter pro 100 km."
+      fr: "L'électricité consommée par la voiture aux 100 km. Moins, c'est mieux, comme les litres aux 100 km."
+      es: "Cuánta electricidad gasta el coche cada 100 km. Cuanto menos, mejor, como los litros a los 100 km."
+      it: "Quanta elettricità usa l'auto ogni 100 km. Meno è meglio, come i litri per 100 km."
     long:
       en: >-
         Consumption tells you how efficient a car is. A small, aerodynamic car may use around 14
@@ -67,11 +85,15 @@ glossary_terms:
     related: [wltp, real-range, heat-pump]
 
   - id: ac-charging
-    label: {en: "Home and street charging", nl: "Thuis en aan de paal laden"}
+    label: {en: "Home and street charging", nl: "Thuis en aan de paal laden", de: "Laden zu Hause und an der Straße", fr: "Recharge à domicile et sur voirie", es: "Carga en casa y en la calle", it: "Ricarica a casa e in strada"}
     technical: {en: "AC charging (kW)"}
     short:
       en: "Slower charging at home or at street posts. The car's onboard charger sets the maximum speed."
       nl: "Langzamer laden thuis of aan een laadpaal. De lader in de auto bepaalt de maximale snelheid."
+      de: "Langsameres Laden zu Hause oder an Ladesäulen an der Straße. Das Bordladegerät bestimmt die Höchstleistung."
+      fr: "Recharge plus lente à domicile ou sur les bornes de rue. Le chargeur embarqué fixe la vitesse maximale."
+      es: "Carga más lenta en casa o en puntos de la calle. El cargador de a bordo fija la velocidad máxima."
+      it: "Ricarica più lenta a casa o alle colonnine in strada. Il caricatore di bordo fissa la velocità massima."
     long:
       en: >-
         AC charging uses the car's built-in charger to turn mains power into battery power. Typical
@@ -82,11 +104,15 @@ glossary_terms:
     related: [dc-charging, preconditioning]
 
   - id: dc-charging
-    label: {en: "Fast charging", nl: "Snelladen"}
+    label: {en: "Fast charging", nl: "Snelladen", de: "Schnellladen", fr: "Recharge rapide", es: "Carga rápida", it: "Ricarica rapida"}
     technical: {en: "DC fast charging (kW)"}
     short:
       en: "Fast charging on the road, bypassing the car's onboard charger. Speed depends on the car and the charger."
       nl: "Snel laden onderweg, buiten de lader in de auto om. De snelheid hangt af van auto en laadpaal."
+      de: "Schnelles Laden unterwegs, am Bordladegerät vorbei. Das Tempo hängt von Auto und Ladesäule ab."
+      fr: "Recharge rapide en route, sans passer par le chargeur embarqué. La vitesse dépend de la voiture et de la borne."
+      es: "Carga rápida en carretera, sin pasar por el cargador de a bordo. La velocidad depende del coche y del cargador."
+      it: "Ricarica veloce in viaggio, senza passare dal caricatore di bordo. La velocità dipende da auto e colonnina."
     long:
       en: >-
         DC fast chargers feed power straight into the battery, which allows much higher speeds than
@@ -97,11 +123,15 @@ glossary_terms:
     related: [charge-curve, peak-kw, 10-80, dc-km-20min, voltage-class]
 
   - id: dc-km-20min
-    label: {en: "Range added in 20 minutes", nl: "Bereik erbij in 20 minuten"}
+    label: {en: "Range added in 20 minutes", nl: "Bereik erbij in 20 minuten", de: "Reichweite in 20 Minuten", fr: "Autonomie récupérée en 20 minutes", es: "Autonomía recuperada en 20 minutos", it: "Autonomia recuperata in 20 minuti"}
     technical: {en: "DC km per 20 min"}
     short:
       en: "How many kilometres of real-world range a fast charger adds in 20 minutes. The most practical charging number."
       nl: "Hoeveel kilometer praktijkbereik een snellader in 20 minuten toevoegt. Het meest praktische laadgetal."
+      de: "Wie viele Kilometer echte Reichweite ein Schnelllader in 20 Minuten nachlädt. Die praktischste Ladezahl."
+      fr: "Les kilomètres d'autonomie réelle qu'une borne rapide ajoute en 20 minutes. Le chiffre de recharge le plus utile."
+      es: "Cuántos kilómetros de autonomía real añade un cargador rápido en 20 minutos. La cifra de carga más práctica."
+      it: "Quanti km di autonomia reale aggiunge una colonnina rapida in 20 minuti. Il numero di ricarica più pratico."
     long:
       en: >-
         Peak charging power alone says little about a road trip. This figure combines how fast the
@@ -112,11 +142,15 @@ glossary_terms:
     related: [charge-curve, 10-80, consumption, estimate]
 
   - id: charge-curve
-    label: {en: "Charging speed over time", nl: "Laadsnelheid in de tijd"}
+    label: {en: "Charging speed over time", nl: "Laadsnelheid in de tijd", de: "Ladetempo im Verlauf", fr: "Vitesse de recharge dans le temps", es: "Velocidad de carga en el tiempo", it: "Velocità di ricarica nel tempo"}
     technical: {en: "Charge curve"}
     short:
       en: "How charging power changes as the battery fills. A flat, high curve means quick stops."
       nl: "Hoe het laadvermogen verandert terwijl de accu vol raakt. Een vlakke, hoge curve betekent korte stops."
+      de: "Wie sich die Ladeleistung ändert, während der Akku voller wird. Eine flache, hohe Kurve bedeutet kurze Stopps."
+      fr: "L'évolution de la puissance quand la batterie se remplit. Une courbe haute et plate, ce sont des arrêts courts."
+      es: "Cómo cambia la potencia de carga al llenarse la batería. Una curva alta y plana significa paradas cortas."
+      it: "Come cambia la potenza di ricarica mentre la batteria si riempie. Una curva alta e piatta significa soste brevi."
     long:
       en: >-
         No car charges at its peak speed all the way. Power usually drops as the battery fills, and
@@ -127,11 +161,15 @@ glossary_terms:
     related: [peak-kw, 10-80, dc-km-20min, preconditioning]
 
   - id: peak-kw
-    label: {en: "Top charging speed", nl: "Maximale laadsnelheid"}
+    label: {en: "Top charging speed", nl: "Maximale laadsnelheid", de: "Höchstes Ladetempo", fr: "Vitesse de recharge maximale", es: "Velocidad de carga máxima", it: "Velocità di ricarica massima"}
     technical: {en: "Peak DC power (kW)"}
     short:
       en: "The highest fast-charging power the car reaches, usually only briefly and under ideal conditions."
       nl: "Het hoogste snellaadvermogen dat de auto haalt, meestal maar kort en onder ideale omstandigheden."
+      de: "Die höchste Schnellladeleistung des Autos, meist nur kurz und unter idealen Bedingungen."
+      fr: "La puissance de recharge rapide la plus élevée atteinte, souvent brièvement et dans des conditions idéales."
+      es: "La potencia de carga rápida más alta que alcanza el coche, normalmente solo un momento y en condiciones ideales."
+      it: "La potenza di ricarica rapida più alta che l'auto raggiunge, di solito solo per poco e in condizioni ideali."
     long:
       en: >-
         Makers like to advertise peak charging power. It is reached only for a short time, with a
@@ -142,11 +180,15 @@ glossary_terms:
     related: [charge-curve, 10-80, claim]
 
   - id: 10-80
-    label: {en: "10-80 % charging time", nl: "Laadtijd 10-80 %"}
+    label: {en: "10-80 % charging time", nl: "Laadtijd 10-80 %", de: "Ladezeit 10–80 %", fr: "Temps de recharge 10–80 %", es: "Tiempo de carga 10–80 %", it: "Tempo di ricarica 10–80%"}
     technical: {en: "DC 10-80 % time (min)"}
     short:
       en: "Minutes to fast charge from 10 % to 80 %. The usual way to compare charging speed."
       nl: "Minuten om snel te laden van 10 % naar 80 %. De gebruikelijke manier om laadsnelheid te vergelijken."
+      de: "Minuten, um per Schnellladen von 10 % auf 80 % zu kommen. Der übliche Vergleich für Ladetempo."
+      fr: "Les minutes pour recharger rapidement de 10 % à 80 %. La façon habituelle de comparer la vitesse de recharge."
+      es: "Minutos de carga rápida del 10 % al 80 %. La forma habitual de comparar la velocidad de carga."
+      it: "Minuti per ricaricare in rapida dal 10% all'80%. Il modo abituale per confrontare la velocità di ricarica."
     long:
       en: >-
         Charging is fastest in the middle of the battery, so the industry compares cars on the time
@@ -157,11 +199,15 @@ glossary_terms:
     related: [charge-curve, peak-kw, dc-km-20min]
 
   - id: voltage-class
-    label: {en: "Battery voltage", nl: "Accuspanning"}
+    label: {en: "Battery voltage", nl: "Accuspanning", de: "Akkuspannung", fr: "Tension de la batterie", es: "Tensión de la batería", it: "Tensione della batteria"}
     technical: {en: "Voltage class (400 V / 800 V / 900 V+)"}
     short:
       en: "Whether the car uses a 400 V or 800 V battery. It affects charging speed, especially on older chargers."
       nl: "Of de auto een 400V- of 800V-accu heeft. Dat beïnvloedt de laadsnelheid, vooral op oudere laders."
+      de: "Ob das Auto einen 400-V- oder 800-V-Akku hat. Das beeinflusst das Ladetempo, vor allem an älteren Ladern."
+      fr: "Batterie de 400 V ou de 800 V. Cela joue sur la vitesse de recharge, surtout sur les anciennes bornes."
+      es: "Batería de 400 V u 800 V. Influye en la velocidad de carga, sobre todo en cargadores antiguos."
+      it: "Se l'auto ha una batteria a 400 V o 800 V. Incide sulla velocità di ricarica, soprattutto alle colonnine vecchie."
     long:
       en: >-
         Most electric cars run at around 400 volts; a growing number use around 800 volts. Higher
@@ -172,11 +218,15 @@ glossary_terms:
     related: [400v, 800v, 900v-plus, 400v-charger-behaviour, booster]
 
   - id: 400v-charger-behaviour
-    label: {en: "On older chargers", nl: "Op oudere laders"}
+    label: {en: "On older chargers", nl: "Op oudere laders", de: "An älteren Ladern", fr: "Sur les anciennes bornes", es: "En cargadores antiguos", it: "Alle colonnine vecchie"}
     technical: {en: "400 V charger behaviour"}
     short:
       en: "How fast an 800 V car charges on older 400 V chargers: full speed, via a booster, or limited."
       nl: "Hoe snel een 800V-auto laadt op oudere 400V-laders: volle snelheid, via een booster of beperkt."
+      de: "Wie schnell ein 800-V-Auto an älteren 400-V-Ladern lädt: volles Tempo, über einen Booster oder eingeschränkt."
+      fr: "Vitesse de recharge d'une voiture 800 V sur une ancienne borne 400 V : pleine vitesse, via booster ou limitée."
+      es: "Cómo carga un coche de 800 V en cargadores antiguos de 400 V: a tope, con booster o limitado."
+      it: "Come ricarica un'auto a 800 V alle vecchie colonnine a 400 V: a piena velocità, con booster o limitata."
     long:
       en: >-
         Many fast chargers, especially older ones, can only deliver up to about 500 volts. A 400 V
@@ -187,11 +237,15 @@ glossary_terms:
     related: [voltage-class, booster, dc-charging, 800v]
 
   - id: booster
-    label: {en: "Voltage booster", nl: "Spanningsbooster"}
+    label: {en: "Voltage booster", nl: "Spanningsbooster", de: "Spannungswandler", fr: "Survolteur", es: "Elevador de tensión", it: "Elevatore di tensione"}
     technical: {en: "DC-DC boost converter"}
     short:
       en: "A converter that lets an 800 V car charge on a 400 V charger, often at reduced power."
       nl: "Een omvormer waarmee een 800V-auto aan een 400V-lader kan laden, vaak met minder vermogen."
+      de: "Ein Wandler, mit dem ein 800-V-Auto an einem 400-V-Lader laden kann, oft mit geringerer Leistung."
+      fr: "Un convertisseur qui permet à une voiture 800 V de charger sur une borne 400 V, souvent à puissance réduite."
+      es: "Convertidor para que un coche de 800 V cargue en un cargador de 400 V, a menudo con menos potencia."
+      it: "Un convertitore che fa ricaricare un'auto a 800 V a una colonnina a 400 V, spesso con potenza ridotta."
     long:
       en: >-
         An 800 V car cannot take power directly from a charger that only goes up to about 500 volts.
@@ -203,11 +257,15 @@ glossary_terms:
     related: [400v-charger-behaviour, voltage-class, 800v]
 
   - id: chemistry
-    label: {en: "Battery type", nl: "Accusoort"}
+    label: {en: "Battery type", nl: "Accusoort", de: "Akkutyp", fr: "Type de batterie", es: "Tipo de batería", it: "Tipo di batteria"}
     technical: {en: "Cell chemistry"}
     short:
       en: "The materials inside the battery cells. It affects range, cost, cold weather and how full to charge daily."
       nl: "De materialen in de accucellen. Bepaalt bereik, prijs, gedrag in de kou en hoe vol je dagelijks laadt."
+      de: "Die Materialien in den Akkuzellen. Sie beeinflussen Reichweite, Kosten, Kälteverhalten und wie voll man täglich lädt."
+      fr: "Les matériaux des cellules de la batterie. Ils influencent autonomie, coût, comportement au froid et niveau de charge quotidien."
+      es: "Los materiales de las celdas. Influyen en la autonomía, el coste, el frío y hasta dónde cargar a diario."
+      it: "I materiali delle celle della batteria. Incidono su autonomia, costo, freddo e fino a quanto caricare ogni giorno."
     long:
       en: >-
         Most electric cars use a nickel-based chemistry (NMC or NCA) or iron phosphate (LFP). Nickel
@@ -219,11 +277,15 @@ glossary_terms:
     related: [nmc, nca, lfp, lmfp, lmo-nmc, sodium-ion, semi-solid, all-solid-state, lmr, soh]
 
   - id: cooling
-    label: {en: "Battery cooling", nl: "Accukoeling"}
+    label: {en: "Battery cooling", nl: "Accukoeling", de: "Akkukühlung", fr: "Refroidissement de la batterie", es: "Refrigeración de la batería", it: "Raffreddamento della batteria"}
     technical: {en: "Battery thermal management"}
     short:
       en: "How the car keeps its battery at a good temperature. Matters for fast charging and battery life."
       nl: "Hoe de auto de accu op een goede temperatuur houdt. Belangrijk voor snelladen en levensduur."
+      de: "Wie das Auto seinen Akku auf einer guten Temperatur hält. Wichtig für Schnellladen und Akkulebensdauer."
+      fr: "Comment la voiture garde sa batterie à bonne température. Important pour la recharge rapide et la durée de vie."
+      es: "Cómo mantiene el coche la batería a buena temperatura. Importa para la carga rápida y la vida de la batería."
+      it: "Come l'auto mantiene la batteria alla giusta temperatura. Conta per la ricarica rapida e la durata della batteria."
     long:
       en: >-
         Batteries charge and age best within a comfortable temperature range. Liquid cooling is the
@@ -234,11 +296,15 @@ glossary_terms:
     related: [liquid, refrigerant, air, passive, preconditioning]
 
   - id: cell-to-pack
-    label: {en: "Cells straight in the pack", nl: "Cellen direct in het pakket"}
+    label: {en: "Cells straight in the pack", nl: "Cellen direct in het pakket", de: "Zellen direkt im Akkupaket", fr: "Cellules directement dans le pack", es: "Celdas directas en el paquete", it: "Celle direttamente nel pacco"}
     technical: {en: "Cell-to-pack (CTP)"}
     short:
       en: "Cells are fitted directly into the battery pack without separate modules, saving weight and space."
       nl: "De cellen zitten direct in het accupakket, zonder losse modules. Dat bespaart gewicht en ruimte."
+      de: "Die Zellen sitzen ohne eigene Module direkt im Akkupaket. Das spart Gewicht und Platz."
+      fr: "Les cellules sont montées directement dans le pack, sans modules séparés, ce qui économise poids et place."
+      es: "Las celdas van directamente en el paquete de baterías, sin módulos aparte, lo que ahorra peso y espacio."
+      it: "Le celle sono montate direttamente nel pacco batteria, senza moduli separati, risparmiando peso e spazio."
     long:
       en: >-
         Traditional packs group cells into modules, then modules into a pack. Cell-to-pack skips the
@@ -249,11 +315,15 @@ glossary_terms:
     related: [cell-format, chemistry]
 
   - id: cell-format
-    label: {en: "Cell shape", nl: "Celvorm"}
+    label: {en: "Cell shape", nl: "Celvorm", de: "Zellform", fr: "Forme des cellules", es: "Forma de las celdas", it: "Forma delle celle"}
     technical: {en: "Cell format (pouch / prismatic / cylindrical / blade)"}
     short:
       en: "The physical shape of the battery cells: flat pouches, hard boxes, round cylinders or long blades."
       nl: "De vorm van de accucellen: platte zakjes, harde blokjes, ronde cilinders of lange 'blades'."
+      de: "Die Bauform der Akkuzellen: flache Pouches, feste Prismen, runde Zylinder oder lange Blades."
+      fr: "La forme physique des cellules : poches souples, boîtiers rigides, cylindres ronds ou longues lames."
+      es: "La forma física de las celdas: bolsas planas, cajas rígidas, cilindros redondos o láminas largas."
+      it: "La forma fisica delle celle: sacchetti piatti, scatole rigide, cilindri rotondi o lunghe lame."
     long:
       en: >-
         Battery cells come in a few shapes. Pouch cells are flat and light, prismatic cells are hard
@@ -264,11 +334,15 @@ glossary_terms:
     related: [cell-to-pack, chemistry]
 
   - id: usable-vs-gross
-    label: {en: "Usable vs total battery", nl: "Bruikbare vs totale accu"}
+    label: {en: "Usable vs total battery", nl: "Bruikbare vs totale accu", de: "Nutzbarer vs. gesamter Akku", fr: "Batterie utile ou totale", es: "Batería útil frente a total", it: "Batteria utilizzabile o totale"}
     technical: {en: "Usable (net) vs gross capacity (kWh)"}
     short:
       en: "Usable capacity is what you can actually drive on. Total (gross) includes a hidden reserve."
       nl: "Bruikbare capaciteit is wat je echt kunt gebruiken. Totaal (bruto) bevat een verborgen reserve."
+      de: "Nutzbare Kapazität ist das, womit Sie wirklich fahren. Die Gesamtkapazität (brutto) enthält eine versteckte Reserve."
+      fr: "La capacité utile est celle avec laquelle vous roulez vraiment. La capacité totale (brute) inclut une réserve cachée."
+      es: "La capacidad útil es la que de verdad puedes usar para conducir. La total (bruta) incluye una reserva oculta."
+      it: "La capacità utilizzabile è quella con cui guidi davvero. Quella totale (lorda) include una riserva nascosta."
     long:
       en: >-
         Makers keep part of the battery in reserve to protect it, so the usable capacity is smaller
@@ -279,11 +353,15 @@ glossary_terms:
     related: [real-range, soh]
 
   - id: heat-pump
-    label: {en: "Heat pump", nl: "Warmtepomp"}
+    label: {en: "Heat pump", nl: "Warmtepomp", de: "Wärmepumpe", fr: "Pompe à chaleur", es: "Bomba de calor", it: "Pompa di calore"}
     technical: {en: "Heat pump (cabin heating)"}
     short:
       en: "An efficient heater that uses less battery in winter than a simple electric heater, saving range."
       nl: "Een zuinige verwarming die in de winter minder stroom kost dan een gewone elektrische kachel."
+      de: "Eine sparsame Heizung, die im Winter weniger Akku braucht als eine einfache elektrische Heizung und so Reichweite spart."
+      fr: "Un chauffage efficace qui consomme moins de batterie en hiver qu'un simple chauffage électrique, et préserve l'autonomie."
+      es: "Una calefacción eficiente que gasta menos batería en invierno que una resistencia eléctrica, y así ahorra autonomía."
+      it: "Un riscaldamento efficiente che in inverno consuma meno batteria di una semplice resistenza elettrica, salvando autonomia."
     long:
       en: >-
         Heating the cabin with a plain resistive heater can use a lot of energy in cold weather. A
@@ -294,11 +372,15 @@ glossary_terms:
     related: [consumption, preconditioning, real-range]
 
   - id: preconditioning
-    label: {en: "Warming up the battery", nl: "Accu voorverwarmen"}
+    label: {en: "Warming up the battery", nl: "Accu voorverwarmen", de: "Akku vorwärmen", fr: "Préchauffage de la batterie", es: "Preacondicionar la batería", it: "Precondizionamento della batteria"}
     technical: {en: "Battery preconditioning"}
     short:
       en: "The car heats or cools the battery before fast charging so it charges at full speed."
       nl: "De auto verwarmt of koelt de accu vóór het snelladen, zodat hij op volle snelheid laadt."
+      de: "Das Auto heizt oder kühlt den Akku vor dem Schnellladen, damit er mit voller Leistung lädt."
+      fr: "La voiture chauffe ou refroidit la batterie avant la recharge rapide pour charger à pleine vitesse."
+      es: "El coche calienta o enfría la batería antes de la carga rápida para cargar a toda velocidad."
+      it: "L'auto scalda o raffredda la batteria prima della ricarica rapida, così ricarica alla massima velocità."
     long:
       en: >-
         A cold battery charges slowly. Many cars warm the battery automatically when you navigate to
@@ -309,11 +391,15 @@ glossary_terms:
     related: [cooling, charge-curve, dc-charging, heat-pump]
 
   - id: soh
-    label: {en: "Battery health", nl: "Accugezondheid"}
+    label: {en: "Battery health", nl: "Accugezondheid", de: "Akkugesundheit", fr: "Santé de la batterie", es: "Salud de la batería", it: "Salute della batteria"}
     technical: {en: "State of health (SoH, %)"}
     short:
       en: "How much capacity the battery still has compared with new. Key when buying a used electric car."
       nl: "Hoeveel capaciteit de accu nog heeft ten opzichte van nieuw. Belangrijk bij een tweedehands EV."
+      de: "Wie viel Kapazität der Akku im Vergleich zu neu noch hat. Entscheidend beim Kauf eines gebrauchten E-Autos."
+      fr: "La capacité restante de la batterie par rapport au neuf. Essentiel pour acheter une voiture électrique d'occasion."
+      es: "Cuánta capacidad conserva la batería respecto a cuando era nueva. Clave al comprar un eléctrico de segunda mano."
+      it: "Quanta capacità ha ancora la batteria rispetto a nuova. Fondamentale quando compri un'auto elettrica usata."
     long:
       en: >-
         All batteries slowly lose capacity with age and use. State of health compares today's
@@ -324,11 +410,15 @@ glossary_terms:
     related: [chemistry, usable-vs-gross, lmo-nmc]
 
   - id: generation
-    label: {en: "Generation", nl: "Generatie"}
+    label: {en: "Generation", nl: "Generatie", de: "Generation", fr: "Génération", es: "Generación", it: "Generazione"}
     technical: {en: "Model generation"}
     short:
       en: "A version of a model that stayed broadly the same over several years, until a major redesign."
       nl: "Een versie van een model die jarenlang grotendeels gelijk bleef, tot een grote vernieuwing."
+      de: "Eine Version eines Modells, die über mehrere Jahre weitgehend gleich blieb, bis zu einer großen Neuentwicklung."
+      fr: "Une version d'un modèle restée globalement la même pendant plusieurs années, jusqu'à une refonte majeure."
+      es: "Una versión de un modelo que se mantuvo casi igual durante varios años, hasta un gran rediseño."
+      it: "Una versione di un modello rimasta più o meno uguale per diversi anni, fino a un grande restyling."
     long:
       en: >-
         We group each model into generations: periods with the same basic design. Facelifts and
@@ -339,11 +429,15 @@ glossary_terms:
     related: [variant, era, platform]
 
   - id: variant
-    label: {en: "Version", nl: "Uitvoering"}
+    label: {en: "Version", nl: "Uitvoering", de: "Variante", fr: "Version", es: "Versión", it: "Versione"}
     technical: {en: "Variant"}
     short:
       en: "A specific battery and motor combination within a generation, such as the long-range version."
       nl: "Een specifieke combinatie van accu en motor binnen een generatie, zoals de long range-versie."
+      de: "Eine bestimmte Kombination aus Akku und Motor innerhalb einer Generation, etwa die Langstreckenversion."
+      fr: "Une combinaison précise de batterie et de moteur au sein d'une génération, comme la version grande autonomie."
+      es: "Una combinación concreta de batería y motor dentro de una generación, como la versión de gran autonomía."
+      it: "Una specifica combinazione di batteria e motore in una generazione, come la versione a lunga autonomia."
     long:
       en: >-
         Within one generation, cars come with different batteries, motors and drivetrains. Each of
@@ -354,11 +448,15 @@ glossary_terms:
     related: [generation, battery-pack, platform]
 
   - id: platform
-    label: {en: "Platform", nl: "Platform"}
+    label: {en: "Platform", nl: "Platform", de: "Plattform", fr: "Plateforme", es: "Plataforma", it: "Piattaforma"}
     technical: {en: "Vehicle platform / architecture"}
     short:
       en: "The shared technical base under several models, such as Volkswagen's MEB or Hyundai's E-GMP."
       nl: "De gedeelde technische basis onder meerdere modellen, zoals MEB van Volkswagen of E-GMP van Hyundai."
+      de: "Die gemeinsame technische Basis mehrerer Modelle, etwa MEB von Volkswagen oder E-GMP von Hyundai."
+      fr: "La base technique commune à plusieurs modèles, comme la MEB de Volkswagen ou l'E-GMP de Hyundai."
+      es: "La base técnica compartida por varios modelos, como la MEB de Volkswagen o la E-GMP de Hyundai."
+      it: "La base tecnica condivisa da più modelli, come la MEB di Volkswagen o la E-GMP di Hyundai."
     long:
       en: >-
         Carmakers build several models on one shared base of battery, motors and electronics.
@@ -369,11 +467,15 @@ glossary_terms:
     related: [variant, battery-pack, voltage-class]
 
   - id: battery-pack
-    label: {en: "Battery pack", nl: "Accupakket"}
+    label: {en: "Battery pack", nl: "Accupakket", de: "Akkupaket", fr: "Pack batterie", es: "Paquete de baterías", it: "Pacco batteria"}
     technical: {en: "Battery pack"}
     short:
       en: "The complete battery in the car. Several versions or models often share the same pack."
       nl: "De complete accu in de auto. Meerdere uitvoeringen of modellen delen vaak hetzelfde pakket."
+      de: "Der komplette Akku im Auto. Mehrere Versionen oder Modelle teilen sich oft dasselbe Paket."
+      fr: "La batterie complète de la voiture. Plusieurs versions ou modèles partagent souvent le même pack."
+      es: "La batería completa del coche. Varias versiones o modelos suelen compartir el mismo paquete."
+      it: "La batteria completa dell'auto. Più versioni o modelli spesso condividono lo stesso pacco."
     long:
       en: >-
         A battery pack is the full assembly of cells, cooling, electronics and casing. We store pack
@@ -384,11 +486,15 @@ glossary_terms:
     related: [chemistry, cooling, usable-vs-gross, cell-format]
 
   - id: rapidgate
-    label: {en: "Slow repeat fast charging", nl: "Trager snelladen na herhaling"}
+    label: {en: "Slow repeat fast charging", nl: "Trager snelladen na herhaling", de: "Langsameres wiederholtes Schnellladen", fr: "Recharges rapides répétées plus lentes", es: "Cargas rápidas repetidas más lentas", it: "Ricariche rapide ripetute più lente"}
     technical: {en: "Rapidgate (thermal throttling)"}
     short:
       en: "When a hot battery makes the car charge slower after one or two fast charges on a trip."
       nl: "Als een warme accu de auto trager laat laden na een of twee snellaadbeurten onderweg."
+      de: "Wenn ein heißer Akku das Auto nach ein, zwei Schnellladungen auf einer Fahrt langsamer laden lässt."
+      fr: "Quand une batterie chaude fait recharger la voiture plus lentement après une ou deux recharges rapides en route."
+      es: "Cuando una batería caliente hace que el coche cargue más despacio tras una o dos cargas rápidas en un viaje."
+      it: "Quando una batteria calda fa ricaricare l'auto più lentamente dopo una o due ricariche rapide in viaggio."
     long:
       en: >-
         Without active cooling, a battery heats up during fast charging and stays warm. The car then
@@ -399,11 +505,15 @@ glossary_terms:
     related: [passive, air, cooling, dc-charging]
 
   - id: quality-tier
-    label: {en: "Data quality", nl: "Datakwaliteit"}
+    label: {en: "Data quality", nl: "Datakwaliteit", de: "Datenqualität", fr: "Qualité des données", es: "Calidad de los datos", it: "Qualità dei dati"}
     technical: {en: "Quality tier"}
     short:
       en: "How well checked a figure is: hand-checked by us, confirmed by several sources, or from one source."
       nl: "Hoe goed een gegeven is gecontroleerd: door ons, door meerdere bronnen bevestigd of uit één bron."
+      de: "Wie gut ein Wert geprüft ist: von uns von Hand geprüft, von mehreren Quellen bestätigt oder aus einer Quelle."
+      fr: "Le niveau de vérification d'un chiffre : vérifié à la main par nous, confirmé par plusieurs sources ou source unique."
+      es: "Lo revisada que está una cifra: revisada a mano por nosotros, confirmada por varias fuentes o de una sola fuente."
+      it: "Quanto è verificato un numero: controllato a mano da noi, confermato da più fonti o da una sola fonte."
     long:
       en: >-
         Every number on this site has a quality tier. Checked means a person compared it with a
@@ -414,11 +524,15 @@ glossary_terms:
     related: [sources-agree, confidence, claim]
 
   - id: sources-agree
-    label: {en: "Sources agree", nl: "Bronnen eens"}
+    label: {en: "Sources agree", nl: "Bronnen eens", de: "Quellen stimmen überein", fr: "Les sources concordent", es: "Las fuentes coinciden", it: "Le fonti concordano"}
     technical: {en: "Source agreement"}
     short:
       en: "Two or more independent sources give the same value, within a small tolerance."
       nl: "Twee of meer onafhankelijke bronnen geven dezelfde waarde, binnen een kleine marge."
+      de: "Zwei oder mehr unabhängige Quellen nennen denselben Wert, innerhalb einer kleinen Toleranz."
+      fr: "Au moins deux sources indépendantes donnent la même valeur, à une petite tolérance près."
+      es: "Dos o más fuentes independientes dan el mismo valor, con un pequeño margen de tolerancia."
+      it: "Due o più fonti indipendenti danno lo stesso valore, entro una piccola tolleranza."
     long:
       en: >-
         When different sources report the same figure, we can be more sure it is right. If they
@@ -428,11 +542,15 @@ glossary_terms:
     related: [quality-tier, confidence]
 
   - id: confidence
-    label: {en: "How sure we are", nl: "Hoe zeker we zijn"}
+    label: {en: "How sure we are", nl: "Hoe zeker we zijn", de: "Wie sicher wir sind", fr: "Notre degré de certitude", es: "Lo seguros que estamos", it: "Quanto ne siamo sicuri"}
     technical: {en: "Confidence (high / medium / low)"}
     short:
       en: "Our judgement of how reliable a value is, based on its source and how it was obtained."
       nl: "Ons oordeel over hoe betrouwbaar een waarde is, op basis van de bron en hoe hij is verkregen."
+      de: "Unsere Einschätzung, wie verlässlich ein Wert ist, je nach Quelle und wie er ermittelt wurde."
+      fr: "Notre jugement sur la fiabilité d'une valeur, selon sa source et la façon dont elle a été obtenue."
+      es: "Nuestra valoración de lo fiable que es un valor, según su fuente y cómo se obtuvo."
+      it: "Il nostro giudizio su quanto è affidabile un valore, in base alla fonte e a come è stato ottenuto."
     long:
       en: >-
         Each fact carries a confidence level. High usually means an official or measured value from
@@ -443,11 +561,15 @@ glossary_terms:
     related: [quality-tier, estimate, sources-agree]
 
   - id: estimate
-    label: {en: "Estimate", nl: "Schatting"}
+    label: {en: "Estimate", nl: "Schatting", de: "Schätzung", fr: "Estimation", es: "Estimación", it: "Stima"}
     technical: {en: "Estimated value"}
     short:
       en: "A value we calculated from related data, not measured directly on this exact car."
       nl: "Een waarde die we berekenden uit verwante gegevens, niet direct gemeten aan precies deze auto."
+      de: "Ein Wert, den wir aus verwandten Daten berechnet und nicht direkt an genau diesem Auto gemessen haben."
+      fr: "Une valeur que nous avons calculée à partir de données proches, pas mesurée directement sur cette voiture précise."
+      es: "Un valor que hemos calculado a partir de datos relacionados, no medido directamente en este coche concreto."
+      it: "Un valore che abbiamo calcolato da dati correlati, non misurato direttamente su questa precisa auto."
     long:
       en: >-
         Where no direct measurement exists, we estimate, for example from a sibling variant or a
@@ -458,11 +580,15 @@ glossary_terms:
     related: [real-range-rung, confidence, claim]
 
   - id: claim
-    label: {en: "Maker's claim", nl: "Claim van de fabrikant"}
+    label: {en: "Maker's claim", nl: "Claim van de fabrikant", de: "Herstellerangabe", fr: "Donnée constructeur", es: "Dato del fabricante", it: "Dato del costruttore"}
     technical: {en: "Manufacturer claim"}
     short:
       en: "A figure published by the carmaker, not checked by independent tests."
       nl: "Een getal van de fabrikant zelf, niet gecontroleerd door onafhankelijke tests."
+      de: "Ein vom Hersteller veröffentlichter Wert, nicht durch unabhängige Tests geprüft."
+      fr: "Un chiffre publié par le constructeur, non vérifié par des tests indépendants."
+      es: "Una cifra publicada por el fabricante, sin comprobar con pruebas independientes."
+      it: "Un numero pubblicato dal costruttore, non verificato da test indipendenti."
     long:
       en: >-
         Makers publish figures such as peak charging power or 10-80 % time. These are useful but
@@ -473,11 +599,15 @@ glossary_terms:
     related: [estimate, peak-kw, wltp, quality-tier]
 
   - id: era
-    label: {en: "Era", nl: "Periode"}
+    label: {en: "Era", nl: "Periode", de: "Ära", fr: "Époque", es: "Época", it: "Epoca"}
     technical: {en: "Model-year era"}
     short:
       en: "A group of model years with similar technology, used to compare cars of similar age."
       nl: "Een groep modeljaren met vergelijkbare techniek, om auto's van gelijke leeftijd te vergelijken."
+      de: "Eine Gruppe von Modelljahren mit ähnlicher Technik, um Autos ähnlichen Alters zu vergleichen."
+      fr: "Un groupe de millésimes à la technologie similaire, pour comparer des voitures d'âge proche."
+      es: "Un grupo de años de modelo con tecnología parecida, para comparar coches de edad similar."
+      it: "Un gruppo di anni modello con tecnologia simile, per confrontare auto di età simile."
     long:
       en: >-
         Electric car technology moved quickly, so a 2016 car and a 2024 car are hard to compare
@@ -488,11 +618,15 @@ glossary_terms:
     related: [generation, wltp]
 
   - id: not-disclosed
-    label: {en: "Not disclosed", nl: "Niet bekendgemaakt"}
+    label: {en: "Not disclosed", nl: "Niet bekendgemaakt", de: "Nicht angegeben", fr: "Non communiqué", es: "No indicado", it: "Non dichiarato"}
     technical: {en: "not-disclosed"}
     short:
       en: "The maker has not published this, and we have no reliable source yet. We do not guess."
       nl: "De fabrikant heeft dit niet gepubliceerd en we hebben nog geen betrouwbare bron. We gokken niet."
+      de: "Der Hersteller hat das nicht veröffentlicht, und wir haben noch keine verlässliche Quelle. Wir raten nicht."
+      fr: "Le constructeur ne l'a pas publié et nous n'avons pas encore de source fiable. Nous ne devinons pas."
+      es: "El fabricante no lo ha publicado y aún no tenemos una fuente fiable. No adivinamos."
+      it: "Il costruttore non l'ha pubblicato e non abbiamo ancora una fonte affidabile. Non tiriamo a indovinare."
     long:
       en: >-
         Some technical details, such as cell supplier or exact voltage, are not published for many
@@ -503,11 +637,15 @@ glossary_terms:
     related: [confidence, estimate]
 
   - id: nominal-voltage
-    label: {en: "Battery voltage (nominal)", nl: "Nominale accuspanning"}
+    label: {en: "Battery voltage (nominal)", nl: "Nominale accuspanning", de: "Akkuspannung (nominal)", fr: "Tension de la batterie (nominale)", es: "Tensión de la batería (nominal)", it: "Tensione della batteria (nominale)"}
     technical: {en: "Nominal pack voltage (V)"}
     short:
       en: "The battery's typical working voltage. It changes slightly with charge level; the maximum is higher."
       nl: "De gebruikelijke werkspanning van de accu. Die varieert met de laadstand; het maximum ligt hoger."
+      de: "Die typische Arbeitsspannung des Akkus. Sie schwankt leicht mit dem Ladestand; die Höchstspannung liegt darüber."
+      fr: "La tension de fonctionnement typique de la batterie. Elle varie un peu avec la charge ; la maximale est supérieure."
+      es: "La tensión de trabajo típica de la batería. Varía un poco con la carga; la máxima es más alta."
+      it: "La tensione di lavoro tipica della batteria. Varia un po' con la carica; quella massima è più alta."
     long:
       en: >-
         A battery's voltage rises as it charges and falls as it empties. The nominal voltage is the
@@ -522,12 +660,20 @@ glossary_terms:
     label:
       en: New price
       nl: Nieuwprijs
+      de: "Neupreis"
+      fr: "Prix neuf"
+      es: "Precio nuevo"
+      it: "Prezzo da nuova"
     technical:
       en: List price, base trim
       nl: Catalogusprijs, basisuitvoering
     short:
       en: Price when bought new in this country, if still on sale.
       nl: Prijs bij aankoop nieuw in dit land, als hij nog te koop is.
+      de: "Preis beim Neukauf in diesem Land, falls noch im Handel."
+      fr: "Le prix à l'achat neuf dans ce pays, si la voiture est encore en vente."
+      es: "Precio al comprarlo nuevo en este país, si todavía se vende."
+      it: "Il prezzo da nuova in questo paese, se è ancora in vendita."
     long:
       en: The list price when the car was on sale new in this country, in local currency. Used cars sell
         for much less; this is a reference, not a market value.
@@ -540,12 +686,20 @@ glossary_terms:
     label:
       en: Cars on Dutch roads
       nl: Auto's op Nederlandse wegen
+      de: "Autos auf niederländischen Straßen"
+      fr: "Voitures sur les routes néerlandaises"
+      es: "Coches en las carreteras neerlandesas"
+      it: "Auto sulle strade olandesi"
     technical:
       en: RDW registration count
       nl: Aantal RDW-registraties
     short:
       en: How many of this generation are registered in the Netherlands.
       nl: Hoeveel van deze generatie in Nederland geregistreerd zijn.
+      de: "Wie viele Autos dieser Generation in den Niederlanden zugelassen sind."
+      fr: "Le nombre de voitures de cette génération immatriculées aux Pays-Bas."
+      es: "Cuántos coches de esta generación están matriculados en los Países Bajos."
+      it: "Quante auto di questa generazione sono immatricolate nei Paesi Bassi."
     long:
       en: How many of these cars are registered in the Netherlands, from RDW open data. A high number means
         more choice on the used market and easier parts and servicing.
@@ -559,12 +713,20 @@ glossary_terms:
     label:
       en: Years
       nl: Jaren
+      de: "Jahre"
+      fr: "Années"
+      es: "Años"
+      it: "Anni"
     technical:
       en: Model years on sale in Europe
       nl: Modeljaren te koop in Europa
     short:
       en: The years this version was sold new in Europe.
       nl: De jaren waarin deze versie nieuw te koop was in Europa.
+      de: "Die Jahre, in denen diese Version in Europa neu verkauft wurde."
+      fr: "Les années où cette version était vendue neuve en Europe."
+      es: "Los años en que esta versión se vendió nueva en Europa."
+      it: "Gli anni in cui questa versione era in vendita nuova in Europa."
     long:
       en: The years this generation or variant was sold in Europe. Boundaries marked as not yet checked
         may shift by a year.
@@ -577,12 +739,20 @@ glossary_terms:
     label:
       en: Size class
       nl: Grootteklasse
+      de: "Größenklasse"
+      fr: "Catégorie de taille"
+      es: "Tamaño"
+      it: "Classe di dimensioni"
     technical:
       en: Segment
       nl: Segment
     short:
       en: European size class, from city car (A) to large SUV.
       nl: Europese grootteklasse, van stadsauto (A) tot grote SUV.
+      de: "Europäische Größenklasse, vom Kleinstwagen (A) bis zum großen SUV."
+      fr: "La catégorie de taille européenne, de la citadine (A) au grand SUV."
+      es: "Clase de tamaño europea, del urbano (A) al SUV grande."
+      it: "La classe di dimensioni europea, dalla citycar (A) al SUV grande."
     long:
       en: The European size class, from A (city car) to F (luxury), with J for SUVs. It helps compare cars
         of similar size and price.
@@ -595,12 +765,20 @@ glossary_terms:
     label:
       en: Body
       nl: Carrosserie
+      de: "Karosserie"
+      fr: "Carrosserie"
+      es: "Carrocería"
+      it: "Carrozzeria"
     technical:
       en: Body style
       nl: Carrosserievorm
     short:
       en: Hatchback, saloon, estate, SUV and so on.
       nl: Hatchback, sedan, stationwagen, SUV enzovoort.
+      de: "Schrägheck, Limousine, Kombi, SUV und so weiter."
+      fr: "Berline compacte, berline, break, SUV, etc."
+      es: "Hatchback, berlina, familiar, SUV, etc."
+      it: "Hatchback, berlina, station wagon, SUV e così via."
     long:
       en: 'The shape of the car: hatchback, sedan, estate, SUV and so on. It affects boot space, height
         and real-world range.'
@@ -613,12 +791,20 @@ glossary_terms:
     label:
       en: Boot
       nl: Kofferbak
+      de: "Kofferraum"
+      fr: "Coffre"
+      es: "Maletero"
+      it: "Bagagliaio"
     technical:
       en: Boot volume (litres, VDA)
       nl: Kofferbakvolume (liter, VDA)
     short:
       en: Luggage space behind the rear seats.
       nl: Bagageruimte achter de achterbank.
+      de: "Gepäckraum hinter den Rücksitzen."
+      fr: "L'espace bagages derrière la banquette arrière."
+      es: "Espacio para equipaje detrás de los asientos traseros."
+      it: "Lo spazio per i bagagli dietro i sedili posteriori."
     long:
       en: Luggage space behind the rear seats in litres, seats up. Makers measure it in different ways,
         so small differences mean little.
@@ -632,12 +818,20 @@ glossary_terms:
     label:
       en: Length
       nl: Lengte
+      de: "Länge"
+      fr: "Longueur"
+      es: "Longitud"
+      it: "Lunghezza"
     technical:
       en: Overall length (mm)
       nl: Totale lengte (mm)
     short:
       en: Bumper to bumper, handy for parking spaces and garages.
       nl: Van bumper tot bumper, handig voor parkeerplekken en garages.
+      de: "Von Stoßstange zu Stoßstange, praktisch für Parkplätze und Garagen."
+      fr: "D'un pare-chocs à l'autre, utile pour les places de parking et les garages."
+      es: "De parachoques a parachoques, útil para plazas de aparcamiento y garajes."
+      it: "Da paraurti a paraurti, utile per parcheggi e garage."
     long:
       en: Overall length in millimetres, bumper to bumper. Useful for parking spaces, garages and ferries.
     related:
@@ -649,12 +843,20 @@ glossary_terms:
     label:
       en: Towing
       nl: Trekgewicht
+      de: "Anhängelast"
+      fr: "Remorquage"
+      es: "Remolque"
+      it: "Traino"
     technical:
       en: Braked towing capacity (kg)
       nl: Geremd trekgewicht (kg)
     short:
       en: Heaviest braked trailer the car is approved to tow.
       nl: Zwaarste geremde aanhanger die de auto mag trekken.
+      de: "Schwerster gebremster Anhänger, den das Auto ziehen darf."
+      fr: "La remorque freinée la plus lourde que la voiture est autorisée à tracter."
+      es: "El remolque con freno más pesado que el coche está homologado para arrastrar."
+      it: "Il rimorchio frenato più pesante che l'auto è omologata a trainare."
     long:
       en: The heaviest braked trailer the car is approved to tow, in kilograms. Zero means it is not approved
         for towing.
@@ -667,12 +869,20 @@ glossary_terms:
     label:
       en: OK to charge to 100% daily
       nl: Dagelijks tot 100% laden mag
+      de: "Täglich auf 100 % laden ist okay"
+      fr: "Recharge quotidienne à 100 % possible"
+      es: "Se puede cargar al 100 % a diario"
+      it: "Si può caricare al 100% ogni giorno"
     technical:
       en: Daily 100% state of charge
       nl: Dagelijks 100% laadtoestand
     short:
       en: Some batteries (mostly LFP) are fine at 100% every day; others prefer about 80%.
       nl: Sommige accu's (vooral LFP) kunnen elke dag 100%; andere liever ongeveer 80%.
+      de: "Manche Akkus (vor allem LFP) vertragen täglich 100 %; andere bevorzugen etwa 80 %."
+      fr: "Certaines batteries (surtout LFP) supportent 100 % chaque jour ; d'autres préfèrent environ 80 %."
+      es: "Algunas baterías (sobre todo LFP) aguantan el 100 % cada día; otras prefieren un 80 % más o menos."
+      it: "Alcune batterie (soprattutto LFP) reggono il 100% ogni giorno; altre preferiscono circa l'80%."
     long:
       en: Whether the battery chemistry is happy being charged to 100% every day. LFP batteries usually
         are; most others prefer about 80% for daily use.
@@ -685,11 +895,15 @@ glossary_terms:
 
   # --- price modes: loan / lease (Decision 017, T-043) ---
   - id: loan
-    label: {en: "Car loan", nl: "Autolening"}
+    label: {en: "Car loan", nl: "Autolening", de: "Autokredit", fr: "Crédit auto", es: "Préstamo para el coche", it: "Prestito auto"}
     technical: {en: "Instalment loan (consumer credit)", nl: "Persoonlijke lening of autofinanciering"}
     short:
       en: "You borrow part of the price and pay it back monthly with interest. The car is yours."
       nl: "Je leent een deel van de prijs en betaalt het maandelijks terug met rente. De auto is van jou."
+      de: "Sie leihen einen Teil des Preises und zahlen ihn monatlich mit Zinsen zurück. Das Auto gehört Ihnen."
+      fr: "Vous empruntez une partie du prix et la remboursez chaque mois avec intérêts. La voiture est à vous."
+      es: "Pides prestada parte del precio y la devuelves cada mes con intereses. El coche es tuyo."
+      it: "Prendi in prestito parte del prezzo e la restituisci ogni mese con gli interessi. L'auto è tua."
     long:
       en: >-
         With a loan you buy the car, put down a deposit if you like, and repay the rest in fixed
@@ -701,11 +915,15 @@ glossary_terms:
     related: [total-cost-over-term, balloon-pcp, lease, estimate]
 
   - id: lease
-    label: {en: "Lease", nl: "Lease"}
+    label: {en: "Lease", nl: "Lease", de: "Leasing", fr: "Location (leasing)", es: "Renting", it: "Noleggio a lungo termine"}
     technical: {en: "Operating lease (long-term rental)", nl: "Operationele lease"}
     short:
       en: "You rent the car for a fixed monthly fee and hand it back at the end. You never own it."
       nl: "Je huurt de auto voor een vast bedrag per maand en levert hem aan het eind weer in."
+      de: "Sie mieten das Auto für eine feste Monatsrate und geben es am Ende zurück. Es gehört Ihnen nie."
+      fr: "Vous louez la voiture pour un loyer mensuel fixe et la rendez à la fin. Elle ne vous appartient jamais."
+      es: "Alquilas el coche por una cuota mensual fija y lo devuelves al final. Nunca es tuyo."
+      it: "Prendi l'auto in affitto con un canone mensile fisso e la restituisci alla fine. Non è mai tua."
     long:
       en: >-
         A lease is a long-term rental: you pay a fixed amount each month for an agreed term and
@@ -717,11 +935,15 @@ glossary_terms:
     related: [private-lease, residual-value, loan, balloon-pcp]
 
   - id: private-lease
-    label: {en: "Private lease", nl: "Private lease"}
+    label: {en: "Private lease", nl: "Private lease", de: "Privatleasing", fr: "Location longue durée pour particuliers", es: "Renting para particulares", it: "Noleggio per privati"}
     technical: {en: "Consumer operating lease", nl: "Operationele lease voor particulieren"}
     short:
       en: "A lease for private people, not companies: one monthly price, usually including insurance, maintenance and road tax."
       nl: "Lease voor particulieren: één maandbedrag, meestal inclusief verzekering, onderhoud en wegenbelasting."
+      de: "Leasing für Privatpersonen, nicht Firmen: ein Monatspreis, meist mit Versicherung, Wartung und Kfz-Steuer."
+      fr: "Un leasing pour les particuliers, pas les entreprises : un prix mensuel, souvent avec assurance, entretien et taxes."
+      es: "Un renting para particulares, no empresas: un precio al mes, normalmente con seguro, mantenimiento e impuestos."
+      it: "Un noleggio per privati, non aziende: un prezzo mensile, di solito con assicurazione, manutenzione e bollo."
     long:
       en: >-
         Private lease is the consumer version of a company-car lease and is common in the
@@ -733,11 +955,15 @@ glossary_terms:
     related: [lease, residual-value, total-cost-over-term]
 
   - id: balloon-pcp
-    label: {en: "Balloon payment / PCP", nl: "Slottermijn / ballonfinanciering"}
+    label: {en: "Balloon payment / PCP", nl: "Slottermijn / ballonfinanciering", de: "Schlussrate / Ballonfinanzierung", fr: "Paiement final / LOA", es: "Cuota final / multiopción", it: "Maxirata finale"}
     technical: {en: "Personal contract purchase (balloon finance)", nl: "Financiering met slottermijn"}
     short:
       en: "Lower monthly payments, then one large final payment: pay it, hand the car back, or trade in."
       nl: "Lagere maandbedragen en aan het eind één grote slottermijn: betalen, auto inleveren of inruilen."
+      de: "Niedrigere Monatsraten, dann eine große Schlussrate: zahlen, Auto zurückgeben oder in Zahlung geben."
+      fr: "Des mensualités plus basses, puis un gros paiement final : le payer, rendre la voiture ou la reprendre en échange."
+      es: "Cuotas mensuales más bajas y luego un gran pago final: pagarlo, devolver el coche o cambiarlo por otro."
+      it: "Rate mensili più basse, poi una grande rata finale: pagarla, restituire l'auto o darla in permuta."
     long:
       en: >-
         With balloon finance part of the price is left over as one large payment at the end of the
@@ -749,11 +975,15 @@ glossary_terms:
     related: [loan, residual-value, total-cost-over-term]
 
   - id: residual-value
-    label: {en: "Residual value", nl: "Restwaarde"}
+    label: {en: "Residual value", nl: "Restwaarde", de: "Restwert", fr: "Valeur résiduelle", es: "Valor residual", it: "Valore residuo"}
     technical: {en: "Residual value (RV)", nl: "Restwaarde"}
     short:
       en: "What the car is expected to be worth at the end of a loan or lease."
       nl: "Wat de auto naar verwachting nog waard is aan het eind van een lening of lease."
+      de: "Was das Auto am Ende eines Kredits oder Leasings voraussichtlich noch wert ist."
+      fr: "Ce que la voiture devrait valoir à la fin d'un crédit ou d'une location."
+      es: "Lo que se espera que valga el coche al final de un préstamo o renting."
+      it: "Quanto dovrebbe valere l'auto alla fine di un prestito o di un noleggio."
     long:
       en: >-
         Residual value is the expected price of the car at the end of a contract. It sets the balloon
@@ -764,11 +994,15 @@ glossary_terms:
     related: [balloon-pcp, lease, soh]
 
   - id: total-cost-over-term
-    label: {en: "Total cost over the term", nl: "Totaal over de looptijd"}
+    label: {en: "Total cost over the term", nl: "Totaal over de looptijd", de: "Gesamtkosten über die Laufzeit", fr: "Coût total sur la durée", es: "Coste total durante el plazo", it: "Costo totale sulla durata"}
     technical: {en: "Total amount payable", nl: "Totaal te betalen bedrag"}
     short:
       en: "Everything you pay from start to end: deposit, all monthly payments and any final payment."
       nl: "Alles wat je van begin tot eind betaalt: aanbetaling, alle maandbedragen en een eventuele slottermijn."
+      de: "Alles, was Sie von Anfang bis Ende zahlen: Anzahlung, alle Monatsraten und eine etwaige Schlussrate."
+      fr: "Tout ce que vous payez du début à la fin : apport, toutes les mensualités et un éventuel paiement final."
+      es: "Todo lo que pagas de principio a fin: entrada, todas las cuotas y el pago final, si lo hay."
+      it: "Tutto ciò che paghi dall'inizio alla fine: anticipo, tutte le rate e un'eventuale rata finale."
     long:
       en: >-
         A low monthly amount can hide a high total, so every monthly figure here also shows the total
@@ -783,11 +1017,15 @@ glossary_terms:
   # charging-2026 (sources cited there), docs/spec/bidirectional-and-connectors.md. Ids match the
   # bidi_modes / bidi_protocols / connector_types rows where they can (type-2 vs connector `type2`).
   - id: bidirectional-charging
-    label: {en: "Two-way charging", nl: "Tweerichtingsladen"}
+    label: {en: "Two-way charging", nl: "Tweerichtingsladen", de: "Bidirektionales Laden", fr: "Recharge bidirectionnelle", es: "Carga bidireccional", it: "Ricarica bidirezionale"}
     technical: {en: "Bidirectional charging (V2X)", nl: "Bidirectioneel laden (V2X)"}
     short:
       en: "The car can give power back, not only take it: to appliances, your home or the grid."
       nl: "De auto kan stroom teruggeven, niet alleen laden: aan apparaten, je huis of het net."
+      de: "Das Auto kann Strom auch abgeben, nicht nur aufnehmen: an Geräte, Ihr Haus oder das Netz."
+      fr: "La voiture peut rendre de l'électricité, pas seulement en prendre : à des appareils, à la maison ou au réseau."
+      es: "El coche también puede devolver electricidad, no solo tomarla: a aparatos, a tu casa o a la red."
+      it: "L'auto può anche restituire energia, non solo prenderla: ad apparecchi, alla casa o alla rete."
     long:
       en: >-
         Two-way charging comes in three levels: powering appliances (V2L), powering your home (V2H)
@@ -800,11 +1038,15 @@ glossary_terms:
     related: [v2l, v2h, v2g, v2b, iso15118-20, chademo]
 
   - id: v2l
-    label: {en: "Powers appliances", nl: "Voedt apparaten"}
+    label: {en: "Powers appliances", nl: "Voedt apparaten", de: "Versorgt Geräte", fr: "Alimente des appareils", es: "Alimenta aparatos", it: "Alimenta apparecchi"}
     technical: {en: "Vehicle-to-load (V2L)", nl: "Vehicle-to-load (V2L)"}
     short:
       en: "Run a kettle, tools or camping gear from the car through a socket or an adapter."
       nl: "Gebruik een waterkoker, gereedschap of kampeerspullen via een stopcontact of adapter in de auto."
+      de: "Wasserkocher, Werkzeug oder Campingausrüstung über eine Steckdose oder einen Adapter am Auto betreiben."
+      fr: "Faites fonctionner une bouilloire, des outils ou du matériel de camping depuis la voiture via une prise ou un adaptateur."
+      es: "Usa un hervidor, herramientas o equipo de camping desde el coche con un enchufe o un adaptador."
+      it: "Usa un bollitore, attrezzi o l'attrezzatura da campeggio dall'auto tramite una presa o un adattatore."
     long:
       en: >-
         With V2L the car gives out household power through a socket in the car or an adapter in the
@@ -816,11 +1058,15 @@ glossary_terms:
     related: [bidirectional-charging, v2h]
 
   - id: v2h
-    label: {en: "Can power your home", nl: "Kan je huis van stroom voorzien"}
+    label: {en: "Can power your home", nl: "Kan je huis van stroom voorzien", de: "Kann Ihr Haus versorgen", fr: "Peut alimenter votre maison", es: "Puede alimentar tu casa", it: "Può alimentare la casa"}
     technical: {en: "Vehicle-to-home (V2H)", nl: "Vehicle-to-home (V2H)"}
     short:
       en: "The car's battery runs your home, for example in the evening or during a power cut."
       nl: "De accu van de auto voedt je huis, bijvoorbeeld 's avonds of bij een stroomstoring."
+      de: "Der Autoakku versorgt Ihr Haus, zum Beispiel abends oder bei einem Stromausfall."
+      fr: "La batterie de la voiture alimente votre maison, par exemple le soir ou pendant une coupure de courant."
+      es: "La batería del coche alimenta tu casa, por ejemplo por la noche o durante un apagón."
+      it: "La batteria dell'auto alimenta la tua casa, per esempio la sera o durante un blackout."
     long:
       en: >-
         With V2H the car supplies your house through a special wallbox and installation. Whether it
@@ -831,11 +1077,15 @@ glossary_terms:
     related: [bidirectional-charging, v2l, v2g]
 
   - id: v2g
-    label: {en: "Can earn by feeding the grid", nl: "Kan verdienen door terug te leveren"}
+    label: {en: "Can earn by feeding the grid", nl: "Kan verdienen door terug te leveren", de: "Kann durch Einspeisen ins Netz verdienen", fr: "Peut rapporter en alimentant le réseau", es: "Puede ganar dinero inyectando a la red", it: "Può guadagnare cedendo energia alla rete"}
     technical: {en: "Vehicle-to-grid (V2G)", nl: "Vehicle-to-grid (V2G)"}
     short:
       en: "The car sends power back to the grid when it is needed. Needs a matching wallbox and energy contract."
       nl: "De auto levert stroom terug aan het net als dat nodig is. Vraagt een passende wallbox en contract."
+      de: "Das Auto speist Strom ins Netz zurück, wenn er gebraucht wird. Braucht eine passende Wallbox und einen passenden Stromvertrag."
+      fr: "La voiture renvoie de l'électricité au réseau quand il en a besoin. Il faut une borne et un contrat adaptés."
+      es: "El coche devuelve electricidad a la red cuando hace falta. Necesita un cargador y un contrato de energía compatibles."
+      it: "L'auto restituisce energia alla rete quando serve. Servono una wallbox e un contratto dell'energia compatibili."
     long:
       en: >-
         With V2G the car charges when power is cheap and sends some back when the grid needs it, and an
@@ -847,11 +1097,15 @@ glossary_terms:
     related: [bidirectional-charging, v2h, iso15118-20]
 
   - id: v2b
-    label: {en: "Can power a building", nl: "Kan een gebouw van stroom voorzien"}
+    label: {en: "Can power a building", nl: "Kan een gebouw van stroom voorzien", de: "Kann ein Gebäude versorgen", fr: "Peut alimenter un bâtiment", es: "Puede alimentar un edificio", it: "Può alimentare un edificio"}
     technical: {en: "Vehicle-to-building (V2B)", nl: "Vehicle-to-building (V2B)"}
     short:
       en: "Like powering a home, but for an office or other building, often with several cars."
       nl: "Zoals een huis voeden, maar dan voor een kantoor of ander gebouw, vaak met meerdere auto's."
+      de: "Wie die Versorgung eines Hauses, aber für ein Büro oder anderes Gebäude, oft mit mehreren Autos."
+      fr: "Comme pour une maison, mais pour un bureau ou un autre bâtiment, souvent avec plusieurs voitures."
+      es: "Como alimentar una casa, pero para una oficina u otro edificio, a menudo con varios coches."
+      it: "Come alimentare una casa, ma per un ufficio o un altro edificio, spesso con più auto."
     long:
       en: >-
         V2B works like V2H but supplies a larger building, such as an office or a depot. It is mostly a
@@ -862,11 +1116,15 @@ glossary_terms:
     related: [v2h, v2g, bidirectional-charging]
 
   - id: iso15118-20
-    label: {en: "New charging language (2027 rule)", nl: "Nieuwe laadtaal (regel vanaf 2027)"}
+    label: {en: "New charging language (2027 rule)", nl: "Nieuwe laadtaal (regel vanaf 2027)", de: "Neue Ladesprache (Regel ab 2027)", fr: "Nouveau langage de recharge (règle 2027)", es: "Nuevo lenguaje de carga (norma de 2027)", it: "Nuovo linguaggio di ricarica (regola 2027)"}
     technical: {en: "ISO 15118-20 communication protocol", nl: "Communicatieprotocol ISO 15118-20"}
     short:
       en: "How car and charger talk. Required on new EU wallboxes from 2027; it does not make them two-way."
       nl: "Hoe auto en laadpaal praten. Verplicht op nieuwe EU-wallboxen vanaf 2027; maakt ze niet tweerichting."
+      de: "Wie Auto und Ladesäule miteinander sprechen. Ab 2027 Pflicht bei neuen EU-Wallboxen; bidirektional macht sie das nicht."
+      fr: "Le dialogue entre voiture et borne. Obligatoire sur les nouvelles bornes de l'UE dès 2027 ; sans les rendre bidirectionnelles."
+      es: "Cómo se comunican coche y cargador. Obligatorio en los nuevos cargadores de la UE desde 2027; no los hace bidireccionales."
+      it: "Come dialogano auto e colonnina. Obbligatorio sulle nuove wallbox UE dal 2027; non le rende bidirezionali."
     long:
       en: >-
         ISO 15118-20 is the language a car and a charger use to talk to each other. From 1 January
@@ -878,11 +1136,15 @@ glossary_terms:
     related: [afir, plug-and-charge, bidirectional-charging, v2g]
 
   - id: plug-and-charge
-    label: {en: "Plug in and charge, no card", nl: "Inpluggen en laden, zonder pas"}
+    label: {en: "Plug in and charge, no card", nl: "Inpluggen en laden, zonder pas", de: "Einstecken und laden, ohne Karte", fr: "Brancher et recharger, sans carte", es: "Enchufar y cargar, sin tarjeta", it: "Collega e ricarica, senza tessera"}
     technical: {en: "Plug & Charge (automatic authentication)", nl: "Plug & Charge (automatische authenticatie)"}
     short:
       en: "The charger recognises the car through the cable and bills your contract. No card or app needed."
       nl: "De laadpaal herkent de auto via de kabel en rekent af via je contract. Geen pas of app nodig."
+      de: "Die Ladesäule erkennt das Auto über das Kabel und rechnet über Ihren Vertrag ab. Keine Karte oder App nötig."
+      fr: "La borne reconnaît la voiture par le câble et facture votre contrat. Pas besoin de carte ni d'appli."
+      es: "El cargador reconoce el coche por el cable y cobra a tu contrato. No hace falta tarjeta ni app."
+      it: "La colonnina riconosce l'auto dal cavo e addebita il tuo contratto. Niente tessera né app."
     long:
       en: >-
         With Plug & Charge the car identifies itself to the charger when you plug in, and the session
@@ -893,11 +1155,15 @@ glossary_terms:
     related: [iso15118-20, roaming, ad-hoc-payment]
 
   - id: type-2
-    label: {en: "Type 2 plug (home and street charging)", nl: "Type 2-stekker (thuis en aan de paal)"}
+    label: {en: "Type 2 plug (home and street charging)", nl: "Type 2-stekker (thuis en aan de paal)", de: "Typ-2-Stecker (Laden zu Hause und an der Straße)", fr: "Prise Type 2 (recharge à domicile et sur voirie)", es: "Conector Tipo 2 (carga en casa y en la calle)", it: "Presa Tipo 2 (ricarica a casa e in strada)"}
     technical: {en: "Type 2 (Mennekes) AC connector", nl: "Type 2 (Mennekes) AC-stekker"}
     short:
       en: "The standard plug for home wallboxes and street posts in Europe and the UK. Every current car has it."
       nl: "De standaardstekker voor wallboxen en laadpalen in Europa en het VK. Elke huidige auto heeft hem."
+      de: "Der Standardstecker für Wallboxen und Ladesäulen in Europa und Großbritannien. Jedes aktuelle Auto hat ihn."
+      fr: "La prise standard des bornes domestiques et de rue en Europe et au Royaume-Uni. Toutes les voitures actuelles l'ont."
+      es: "El conector estándar de cargadores domésticos y de calle en Europa y Reino Unido. Lo llevan todos los coches actuales."
+      it: "La presa standard di wallbox e colonnine stradali in Europa e nel Regno Unito. Ogni auto attuale ce l'ha."
     long:
       en: >-
         Type 2 is the plug for slower AC charging at home, at work and at street posts. Every electric
@@ -908,11 +1174,15 @@ glossary_terms:
     related: [ac-charging, ccs2, chademo]
 
   - id: ccs2
-    label: {en: "CCS2 plug (fast charging)", nl: "CCS2-stekker (snelladen)"}
+    label: {en: "CCS2 plug (fast charging)", nl: "CCS2-stekker (snelladen)", de: "CCS2-Stecker (Schnellladen)", fr: "Prise CCS2 (recharge rapide)", es: "Conector CCS2 (carga rápida)", it: "Presa CCS2 (ricarica rapida)"}
     technical: {en: "Combined Charging System, Combo 2", nl: "Combined Charging System, Combo 2"}
     short:
       en: "The fast-charge plug on every new EV in Europe. The cable is fixed to the charger."
       nl: "De snellaadstekker op elke nieuwe EV in Europa. De kabel zit vast aan de lader."
+      de: "Der Schnellladestecker an jedem neuen E-Auto in Europa. Das Kabel hängt fest an der Ladesäule."
+      fr: "La prise de recharge rapide de toutes les voitures électriques neuves en Europe. Le câble est fixé à la borne."
+      es: "El conector de carga rápida de todos los eléctricos nuevos en Europa. El cable va fijo en el cargador."
+      it: "La presa di ricarica rapida di ogni auto elettrica nuova in Europa. Il cavo è fissato alla colonnina."
     long:
       en: >-
         CCS2 is the standard plug for DC fast charging in Europe and the UK. The car's socket combines
@@ -923,11 +1193,15 @@ glossary_terms:
     related: [dc-charging, type-2, chademo]
 
   - id: chademo
-    label: {en: "CHAdeMO plug (older fast charging)", nl: "CHAdeMO-stekker (ouder snelladen)"}
+    label: {en: "CHAdeMO plug (older fast charging)", nl: "CHAdeMO-stekker (ouder snelladen)", de: "CHAdeMO-Stecker (älteres Schnellladen)", fr: "Prise CHAdeMO (ancienne recharge rapide)", es: "Conector CHAdeMO (carga rápida antigua)", it: "Presa CHAdeMO (vecchia ricarica rapida)"}
     technical: {en: "CHAdeMO DC connector", nl: "CHAdeMO DC-stekker"}
     short:
       en: "An older Japanese fast-charge plug on some used cars. CHAdeMO chargers are getting harder to find."
       nl: "Een oudere Japanse snellaadstekker op sommige occasions. CHAdeMO-laders worden steeds zeldzamer."
+      de: "Ein älterer japanischer Schnellladestecker an manchen Gebrauchten. CHAdeMO-Lader werden immer seltener."
+      fr: "Une ancienne prise de recharge rapide japonaise sur certaines occasions. Les bornes CHAdeMO se font plus rares."
+      es: "Un conector japonés de carga rápida antiguo, en algunos coches usados. Cada vez hay menos cargadores CHAdeMO."
+      it: "Una vecchia presa giapponese di ricarica rapida su alcune auto usate. Le colonnine CHAdeMO sono sempre più rare."
     long:
       en: >-
         CHAdeMO is an older fast-charging plug found on some used cars, such as the first two
@@ -941,11 +1215,15 @@ glossary_terms:
   # Public charging rules. Facts: content/learn/charging-2026 and docs/spec/charging-buildout.md
   # (Plugchoice, EC AFIR Q&A, Nationale Leitstelle, GOV.UK, GreenFleet; all retrieved 2026-11-15).
   - id: afir
-    label: {en: "EU charging rules", nl: "EU-laadregels"}
+    label: {en: "EU charging rules", nl: "EU-laadregels", de: "EU-Laderegeln", fr: "Règles de l'UE sur la recharge", es: "Normas de carga de la UE", it: "Regole UE sulla ricarica"}
     technical: {en: "AFIR, Regulation (EU) 2023/1804", nl: "AFIR, Verordening (EU) 2023/1804"}
     short:
       en: "EU law for public chargers: card payment at fast chargers, clear prices and chargers along main roads."
       nl: "EU-wet voor openbare laders: pinnen bij snelladers, duidelijke prijzen en laders langs hoofdwegen."
+      de: "EU-Recht für öffentliche Ladesäulen: Kartenzahlung an Schnellladern, klare Preise und Lader entlang der Hauptstraßen."
+      fr: "Loi européenne sur les bornes publiques : paiement par carte sur les rapides, prix clairs, bornes sur les grands axes."
+      es: "Ley de la UE para cargadores públicos: pago con tarjeta en los rápidos, precios claros y cargadores en grandes vías."
+      it: "La legge UE sulle colonnine pubbliche: pagamento con carta alle rapide, prezzi chiari e colonnine lungo le strade principali."
     long:
       en: >-
         AFIR is the EU regulation for alternative fuels infrastructure, including public EV chargers.
@@ -957,11 +1235,15 @@ glossary_terms:
     related: [ad-hoc-payment, idle-fee, ten-t, iso15118-20, charging-point]
 
   - id: ad-hoc-payment
-    label: {en: "Pay without an account", nl: "Betalen zonder account"}
+    label: {en: "Pay without an account", nl: "Betalen zonder account", de: "Zahlen ohne Konto", fr: "Payer sans compte", es: "Pagar sin cuenta", it: "Pagare senza account"}
     technical: {en: "Ad-hoc payment (bank card, contactless, QR)", nl: "Ad-hocbetaling (pinpas, contactloos, QR)"}
     short:
       en: "Charge and pay on the spot with a bank card, phone or QR code. No app or subscription needed."
       nl: "Ter plekke laden en betalen met pinpas, telefoon of QR-code. Geen app of abonnement nodig."
+      de: "Vor Ort laden und mit Bankkarte, Handy oder QR-Code bezahlen. Keine App, kein Abo nötig."
+      fr: "Rechargez et payez sur place par carte bancaire, téléphone ou QR code. Sans appli ni abonnement."
+      es: "Carga y paga en el momento con tarjeta bancaria, móvil o código QR. Sin app ni suscripción."
+      it: "Ricarica e paga sul posto con carta, telefono o codice QR. Niente app né abbonamento."
     long:
       en: >-
         Ad-hoc payment means you can charge without signing up for anything. In the EU, new fast
@@ -972,11 +1254,15 @@ glossary_terms:
     related: [afir, roaming, idle-fee]
 
   - id: roaming
-    label: {en: "One app or card for many networks", nl: "Eén app of pas voor veel netwerken"}
+    label: {en: "One app or card for many networks", nl: "Eén app of pas voor veel netwerken", de: "Eine App oder Karte für viele Netze", fr: "Une appli ou carte pour de nombreux réseaux", es: "Una app o tarjeta para muchas redes", it: "Un'app o tessera per molte reti"}
     technical: {en: "Charging roaming (e-mobility service provider)", nl: "Laadroaming (e-mobility-provider)"}
     short:
       en: "A charging app or card that works across many networks, so you don't need one per operator."
       nl: "Een laadapp of -pas die bij veel netwerken werkt, zodat je er niet één per aanbieder nodig hebt."
+      de: "Eine Lade-App oder -Karte, die in vielen Netzen funktioniert, damit Sie nicht für jeden Betreiber eine brauchen."
+      fr: "Une appli ou une carte de recharge valable sur de nombreux réseaux, pour ne pas en avoir une par opérateur."
+      es: "Una app o tarjeta de carga que funciona en muchas redes, para no necesitar una por operador."
+      it: "Un'app o tessera di ricarica valida su molte reti, così non ne serve una per ogni operatore."
     long:
       en: >-
         A roaming app or card lets you charge at many networks with one account. It is optional now
@@ -987,11 +1273,15 @@ glossary_terms:
     related: [ad-hoc-payment, plug-and-charge, idle-fee]
 
   - id: idle-fee
-    label: {en: "Fee for staying plugged in", nl: "Kosten voor blijven staan"}
+    label: {en: "Fee for staying plugged in", nl: "Kosten voor blijven staan", de: "Blockiergebühr", fr: "Frais d'occupation", es: "Tarifa por ocupación", it: "Tariffa di sosta"}
     technical: {en: "Idle fee (blocking fee)", nl: "Blokkeertarief (idle fee)"}
     short:
       en: "An extra charge per minute if your car stays plugged in after charging. Move the car when done."
       nl: "Extra kosten per minuut als je auto na het laden aangesloten blijft. Zet de auto weg als hij klaar is."
+      de: "Eine zusätzliche Gebühr pro Minute, wenn Ihr Auto nach dem Laden angesteckt bleibt. Fahren Sie es danach weg."
+      fr: "Un supplément par minute si la voiture reste branchée après la recharge. Déplacez-la une fois terminé."
+      es: "Un cargo extra por minuto si el coche sigue enchufado tras cargar. Muévelo cuando termine."
+      it: "Un costo extra al minuto se l'auto resta collegata dopo la ricarica. Spostala quando hai finito."
     long:
       en: >-
         Some operators charge per minute when a car stays connected after it has finished charging, so
@@ -1002,11 +1292,15 @@ glossary_terms:
     related: [afir, ad-hoc-payment, roaming]
 
   - id: ten-t
-    label: {en: "Main European roads", nl: "Europese hoofdwegen"}
+    label: {en: "Main European roads", nl: "Europese hoofdwegen", de: "Europäische Hauptstraßen", fr: "Grands axes européens", es: "Grandes vías europeas", it: "Grandi strade europee"}
     technical: {en: "TEN-T core and comprehensive network", nl: "TEN-T-kern- en uitgebreid netwerk"}
     short:
       en: "The EU's main road network. Fast chargers must be placed at set distances along it."
       nl: "Het belangrijkste wegennet van de EU. Snelladers moeten er op vaste afstanden langs staan."
+      de: "Das Hauptstraßennetz der EU. Schnelllader müssen in festen Abständen entlang dieses Netzes stehen."
+      fr: "Le réseau routier principal de l'UE. Des bornes rapides doivent y être installées à intervalles fixes."
+      es: "La red principal de carreteras de la UE. Debe haber cargadores rápidos a distancias fijas a lo largo de ella."
+      it: "La rete stradale principale dell'UE. Lungo di essa le colonnine rapide devono trovarsi a distanze fisse."
     long:
       en: >-
         TEN-T is the EU's list of main transport routes, with a core network of the busiest corridors.
@@ -1017,11 +1311,15 @@ glossary_terms:
     related: [afir, dc-charging]
 
   - id: charging-point
-    label: {en: "Charging point", nl: "Laadpunt"}
+    label: {en: "Charging point", nl: "Laadpunt", de: "Ladepunkt", fr: "Point de recharge", es: "Punto de carga", it: "Punto di ricarica"}
     technical: {en: "Recharging point (EVSE)", nl: "Laadpunt (EVSE)"}
     short:
       en: "One place where one car can charge at a time. A charger can have several."
       nl: "Eén plek waar één auto tegelijk kan laden. Een laadpaal kan er meerdere hebben."
+      de: "Ein Platz, an dem jeweils ein Auto laden kann. Eine Ladesäule kann mehrere haben."
+      fr: "Un emplacement où une voiture peut se recharger à la fois. Une borne peut en avoir plusieurs."
+      es: "Un sitio donde puede cargar un coche a la vez. Un cargador puede tener varios."
+      it: "Un posto dove può ricaricare un'auto alla volta. Una colonnina può averne diversi."
     long:
       en: >-
         Countries count chargers in different ways, so we separate points, devices, locations and
@@ -1034,11 +1332,15 @@ glossary_terms:
 
   # Explore, cards, model and variant pages: columns and spec rows without a term so far.
   - id: battery-capacity
-    label: {en: "Battery size", nl: "Accugrootte"}
+    label: {en: "Battery size", nl: "Accugrootte", de: "Akkugröße", fr: "Taille de la batterie", es: "Tamaño de la batería", it: "Dimensione della batteria"}
     technical: {en: "Usable battery capacity (kWh)", nl: "Bruikbare accucapaciteit (kWh)"}
     short:
       en: "How much energy the battery can actually use, in kWh. Bigger usually means more range."
       nl: "Hoeveel energie de accu echt kan gebruiken, in kWh. Groter betekent meestal meer bereik."
+      de: "Wie viel Energie der Akku tatsächlich nutzen kann, in kWh. Größer heißt meist mehr Reichweite."
+      fr: "L'énergie que la batterie peut réellement utiliser, en kWh. Plus grande, c'est souvent plus d'autonomie."
+      es: "Cuánta energía puede usar de verdad la batería, en kWh. Más grande suele significar más autonomía."
+      it: "Quanta energia la batteria può usare davvero, in kWh. Più grande di solito vuol dire più autonomia."
     long:
       en: >-
         Battery size is the energy the car can store and use, in kilowatt-hours. We show the usable
@@ -1049,11 +1351,15 @@ glossary_terms:
     related: [usable-vs-gross, real-range, battery-pack]
 
   - id: used-price
-    label: {en: "Used price", nl: "Occasionprijs"}
+    label: {en: "Used price", nl: "Occasionprijs", de: "Gebrauchtpreis", fr: "Prix d'occasion", es: "Precio de segunda mano", it: "Prezzo dell'usato"}
     technical: {en: "Used price band (p25–p75) per build year", nl: "Occasionprijsband (p25–p75) per bouwjaar"}
     short:
       en: "A rough range of what this car costs used in your country, for that build year. Not a valuation."
       nl: "Een ruwe prijsrange voor deze auto als occasion in jouw land, voor dat bouwjaar. Geen taxatie."
+      de: "Eine grobe Spanne, was dieses Auto gebraucht in Ihrem Land für dieses Baujahr kostet. Keine Bewertung."
+      fr: "Une fourchette approximative du prix d'occasion de cette voiture dans votre pays, pour cette année. Pas une estimation officielle."
+      es: "Un rango aproximado de lo que cuesta este coche usado en tu país, para ese año. No es una tasación."
+      it: "Una fascia indicativa di quanto costa quest'auto usata nel tuo paese, per quell'anno. Non è una valutazione."
     long:
       en: >-
         The used price is a band, not a valuation and not a final sale price. Where we have enough
@@ -1065,11 +1371,15 @@ glossary_terms:
     related: [new-price, generation, estimate]
 
   - id: dc-km-10min
-    label: {en: "Range added in 10 minutes", nl: "Bereik erbij in 10 minuten"}
+    label: {en: "Range added in 10 minutes", nl: "Bereik erbij in 10 minuten", de: "Reichweite in 10 Minuten", fr: "Autonomie récupérée en 10 minutes", es: "Autonomía recuperada en 10 minutos", it: "Autonomia recuperata in 10 minuti"}
     technical: {en: "DC km per 10 min", nl: "DC-km per 10 min"}
     short:
       en: "How many kilometres a fast charger adds in 10 minutes of motorway driving. Higher means shorter stops."
       nl: "Hoeveel kilometer snelweg een snellader in 10 minuten toevoegt. Hoger betekent kortere stops."
+      de: "Wie viele Autobahnkilometer ein Schnelllader in 10 Minuten nachlädt. Höher heißt kürzere Stopps."
+      fr: "Les kilomètres d'autoroute qu'une borne rapide ajoute en 10 minutes. Plus c'est élevé, plus les arrêts sont courts."
+      es: "Cuántos kilómetros de autopista añade un cargador rápido en 10 minutos. Más significa paradas más cortas."
+      it: "Quanti km di autostrada aggiunge una colonnina rapida in 10 minuti. Più alto vuol dire soste più brevi."
     long:
       en: >-
         This is the short-stop version of our fast-charging figure. It combines the car's average
@@ -1080,11 +1390,15 @@ glossary_terms:
     related: [dc-km-20min, 10-80, consumption]
 
   - id: motor-power
-    label: {en: "Power", nl: "Vermogen"}
+    label: {en: "Power", nl: "Vermogen", de: "Leistung", fr: "Puissance", es: "Potencia", it: "Potenza"}
     technical: {en: "Motor power (kW)", nl: "Motorvermogen (kW)"}
     short:
       en: "How strong the electric motor or motors are, in kilowatts. More power means quicker acceleration."
       nl: "Hoe sterk de elektromotor of -motoren zijn, in kilowatt. Meer vermogen betekent sneller optrekken."
+      de: "Wie stark der Elektromotor oder die Motoren sind, in Kilowatt. Mehr Leistung heißt schnellere Beschleunigung."
+      fr: "La force du ou des moteurs électriques, en kilowatts. Plus de puissance, c'est une accélération plus vive."
+      es: "Lo fuerte que es el motor o los motores eléctricos, en kilovatios. Más potencia significa acelerar más rápido."
+      it: "Quanto è forte il motore elettrico o i motori, in kilowatt. Più potenza vuol dire accelerazione più rapida."
     long:
       en: >-
         Power is the most the motors can deliver, in kilowatts. It matters for overtaking and towing,
@@ -1095,11 +1409,15 @@ glossary_terms:
     related: [acceleration-0-100, drivetrain]
 
   - id: acceleration-0-100
-    label: {en: "0–100 km/h", nl: "0–100 km/u"}
+    label: {en: "0–100 km/h", nl: "0–100 km/u", de: "0–100 km/h", fr: "0–100 km/h", es: "0–100 km/h", it: "0–100 km/h"}
     technical: {en: "Acceleration 0–100 km/h (s)", nl: "Acceleratie 0–100 km/u (s)"}
     short:
       en: "Seconds from standstill to 100 km/h. Lower is quicker."
       nl: "Seconden van stilstand tot 100 km/u. Lager is sneller."
+      de: "Sekunden aus dem Stand auf 100 km/h. Weniger ist schneller."
+      fr: "Les secondes de l'arrêt à 100 km/h. Moins, c'est plus rapide."
+      es: "Segundos de parado a 100 km/h. Menos es más rápido."
+      it: "Secondi da fermo a 100 km/h. Meno è più veloce."
     long:
       en: >-
         This is the time the car needs to reach 100 km/h from a standstill, as stated by the maker or a
@@ -1110,11 +1428,15 @@ glossary_terms:
     related: [motor-power, claim]
 
   - id: drivetrain
-    label: {en: "Drive", nl: "Aandrijving"}
+    label: {en: "Drive", nl: "Aandrijving", de: "Antrieb", fr: "Transmission", es: "Tracción", it: "Trazione"}
     technical: {en: "Drivetrain (FWD / RWD / AWD)", nl: "Aandrijving (voor / achter / vierwiel)"}
     short:
       en: "Which wheels the motors drive: front, rear or all four."
       nl: "Welke wielen de motoren aandrijven: voor, achter of alle vier."
+      de: "Welche Räder die Motoren antreiben: vorne, hinten oder alle vier."
+      fr: "Les roues entraînées par les moteurs : avant, arrière ou les quatre."
+      es: "Qué ruedas mueven los motores: delanteras, traseras o las cuatro."
+      it: "Quali ruote muovono i motori: anteriori, posteriori o tutte e quattro."
     long:
       en: >-
         Front- or rear-wheel drive cars have one motor; all-wheel drive usually means a motor on each
@@ -1125,11 +1447,15 @@ glossary_terms:
     related: [motor-power, towing-capacity, variant]
 
   - id: kerb-weight
-    label: {en: "Weight", nl: "Gewicht"}
+    label: {en: "Weight", nl: "Gewicht", de: "Gewicht", fr: "Poids", es: "Peso", it: "Peso"}
     technical: {en: "Vehicle mass (kg)", nl: "Massa (kg)"}
     short:
       en: "How heavy the car is, in kilograms. Heavier cars usually use a bit more energy."
       nl: "Hoe zwaar de auto is, in kilogram. Zwaardere auto's verbruiken meestal iets meer."
+      de: "Wie schwer das Auto ist, in Kilogramm. Schwerere Autos brauchen meist etwas mehr Energie."
+      fr: "Le poids de la voiture, en kilogrammes. Les voitures plus lourdes consomment souvent un peu plus."
+      es: "Cuánto pesa el coche, en kilos. Los coches más pesados suelen gastar algo más de energía."
+      it: "Quanto pesa l'auto, in chilogrammi. Le auto più pesanti di solito consumano un po' di più."
     long:
       en: >-
         Weight is the mass of the car, mostly set by its size and battery. Sources differ on whether
@@ -1140,11 +1466,15 @@ glossary_terms:
     related: [battery-capacity, towing-capacity, consumption]
 
   - id: seats
-    label: {en: "Seats", nl: "Zitplaatsen"}
+    label: {en: "Seats", nl: "Zitplaatsen", de: "Sitzplätze", fr: "Places", es: "Plazas", it: "Posti"}
     technical: {en: "Number of seats", nl: "Aantal zitplaatsen"}
     short:
       en: "How many people the car is approved to carry, driver included."
       nl: "Hoeveel mensen de auto mag vervoeren, bestuurder meegerekend."
+      de: "Wie viele Personen das Auto befördern darf, Fahrer eingeschlossen."
+      fr: "Le nombre de personnes que la voiture peut transporter, conducteur compris."
+      es: "Cuántas personas puede llevar el coche, conductor incluido."
+      it: "Quante persone può trasportare l'auto, conducente compreso."
     long:
       en: >-
         The number of seats the car is approved for, including the driver. Some models offer extra
@@ -1155,11 +1485,15 @@ glossary_terms:
 
   # Data badges and the detail switch.
   - id: derived
-    label: {en: "Calculated by us", nl: "Door ons berekend"}
+    label: {en: "Calculated by us", nl: "Door ons berekend", de: "Von uns berechnet", fr: "Calculé par nous", es: "Calculado por nosotros", it: "Calcolato da noi"}
     technical: {en: "Derived value", nl: "Afgeleide waarde"}
     short:
       en: "We worked this out from other sourced numbers, with the method shown, rather than copying it."
       nl: "Dit hebben we berekend uit andere bronnen, met de methode erbij, in plaats van het over te nemen."
+      de: "Wir haben das aus anderen belegten Zahlen berechnet, mit gezeigter Methode, statt es zu kopieren."
+      fr: "Nous l'avons calculé à partir d'autres chiffres sourcés, méthode à l'appui, au lieu de le copier."
+      es: "Lo hemos calculado a partir de otras cifras con fuente, mostrando el método, en lugar de copiarlo."
+      it: "L'abbiamo calcolato da altri numeri con fonte, mostrando il metodo, invece di copiarlo."
     long:
       en: >-
         Many of our headline numbers, such as real-world range and range added while charging, are
@@ -1170,11 +1504,15 @@ glossary_terms:
     related: [estimate, sources-agree, real-range-rung]
 
   - id: data-release
-    label: {en: "Data release", nl: "Datarelease"}
+    label: {en: "Data release", nl: "Datarelease", de: "Datenrelease", fr: "Version des données", es: "Versión de datos", it: "Versione dei dati"}
     technical: {en: "Numbered catalogue release", nl: "Genummerde catalogusrelease"}
     short:
       en: "Our data is published in numbered releases with a date, so you know how fresh a number is."
       nl: "Onze data verschijnt in genummerde releases met een datum, zodat je weet hoe vers een getal is."
+      de: "Unsere Daten erscheinen in nummerierten Releases mit Datum, damit Sie wissen, wie aktuell eine Zahl ist."
+      fr: "Nos données sont publiées en versions numérotées et datées, pour savoir si un chiffre est récent."
+      es: "Publicamos los datos en versiones numeradas y con fecha, para que sepas lo reciente que es una cifra."
+      it: "Pubblichiamo i dati in versioni numerate e datate, così sai quanto è recente un numero."
     long:
       en: >-
         The catalogue is published in numbered releases. Each release replaces the previous one in one
@@ -1185,11 +1523,15 @@ glossary_terms:
     related: [derived, quality-tier]
 
   - id: detail-level
-    label: {en: "Detail level", nl: "Detailniveau"}
+    label: {en: "Detail level", nl: "Detailniveau", de: "Detailstufe", fr: "Niveau de détail", es: "Nivel de detalle", it: "Livello di dettaglio"}
     technical: {en: "Simple / Detailed / Nerd", nl: "Eenvoudig / Gedetailleerd / Nerd"}
     short:
       en: "Choose how much you see: key numbers in plain words, full specs, or raw values with sources."
       nl: "Kies hoeveel je ziet: kerncijfers in gewone woorden, alle specificaties, of ruwe waarden met bronnen."
+      de: "Wählen Sie, wie viel Sie sehen: wichtige Zahlen in einfachen Worten, alle Daten oder Rohwerte mit Quellen."
+      fr: "Choisissez ce que vous voyez : chiffres clés en mots simples, fiche complète, ou valeurs brutes avec sources."
+      es: "Elige cuánto ves: cifras clave en palabras sencillas, ficha completa o valores brutos con fuentes."
+      it: "Scegli quanto vedere: numeri chiave in parole semplici, scheda completa o valori grezzi con fonti."
     long:
       en: >-
         Simple shows the headline numbers and a few filters. Detailed adds all filters and full spec
@@ -1201,11 +1543,15 @@ glossary_terms:
 
   # Trip fit (docs/spec/trip-fit.md §3-§5, §8). Values the UI shows are model assumptions, not facts.
   - id: trip-fit
-    label: {en: "Does my trips", nl: "Haalt mijn ritten"}
+    label: {en: "Does my trips", nl: "Haalt mijn ritten", de: "Schafft meine Fahrten", fr: "Fait mes trajets", es: "Hace mis viajes", it: "Fa i miei viaggi"}
     technical: {en: "Trip fit (winter)", nl: "Ritcheck (winter)"}
     short:
       en: "Whether this car does your regular trips in winter without charging: yes, tight or needs a stop."
       nl: "Of deze auto je vaste ritten in de winter haalt zonder te laden: ja, krap of een stop nodig."
+      de: "Ob dieses Auto Ihre regelmäßigen Fahrten im Winter ohne Laden schafft: ja, knapp oder braucht einen Stopp."
+      fr: "Si cette voiture fait vos trajets habituels en hiver sans recharger : oui, juste ou arrêt nécessaire."
+      es: "Si este coche hace tus viajes habituales en invierno sin cargar: sí, justo o necesita parar."
+      it: "Se quest'auto fa i tuoi viaggi abituali in inverno senza ricaricare: sì, al limite o deve fermarsi."
     long:
       en: >-
         You tell us your longest regular round trip, how much is motorway and where you live. We
@@ -1216,11 +1562,15 @@ glossary_terms:
     related: [range-you-need, trip-margin, road-band, start-charge, real-range]
 
   - id: range-you-need
-    label: {en: "The range you truly need", nl: "Het bereik dat je echt nodig hebt"}
+    label: {en: "The range you truly need", nl: "Het bereik dat je echt nodig hebt", de: "Die Reichweite, die Sie wirklich brauchen", fr: "L'autonomie dont vous avez vraiment besoin", es: "La autonomía que de verdad necesitas", it: "L'autonomia che ti serve davvero"}
     technical: {en: "Winter range need on your road mix", nl: "Benodigd winterbereik op jouw wegmix"}
     short:
       en: "The winter range your longest regular trip takes, with a safety buffer, on your mix of roads."
       nl: "Het winterbereik dat je langste vaste rit vraagt, met een veiligheidsmarge, op jouw mix van wegen."
+      de: "Die Winterreichweite, die Ihre längste regelmäßige Fahrt braucht, mit Sicherheitspuffer, bei Ihrem Straßenmix."
+      fr: "L'autonomie hivernale qu'exige votre plus long trajet habituel, avec une marge, selon vos types de routes."
+      es: "La autonomía en invierno que exige tu viaje habitual más largo, con margen de seguridad, según tus carreteras."
+      it: "L'autonomia invernale che richiede il tuo viaggio abituale più lungo, con un margine, sul tuo mix di strade."
     long:
       en: >-
         This is the range your biggest must-do trip needs in winter, plus a buffer. We show it in
@@ -1231,11 +1581,15 @@ glossary_terms:
     related: [trip-fit, wltp-equivalent, uncertainty-band]
 
   - id: trip-margin
-    label: {en: "Spare range", nl: "Reservebereik"}
+    label: {en: "Spare range", nl: "Reservebereik", de: "Reserve", fr: "Autonomie de réserve", es: "Autonomía de reserva", it: "Autonomia di riserva"}
     technical: {en: "Trip margin (% of usable battery)", nl: "Ritmarge (% van bruikbare accu)"}
     short:
       en: "How much battery is left over after your trip. Too little, and the result is marked tight."
       nl: "Hoeveel accu er na je rit overblijft. Te weinig, en de uitkomst is krap."
+      de: "Wie viel Akku nach Ihrer Fahrt übrig bleibt. Zu wenig, und das Ergebnis wird als knapp markiert."
+      fr: "La batterie qu'il reste après votre trajet. Trop peu, et le résultat est marqué « juste »."
+      es: "Cuánta batería te queda tras el viaje. Si es muy poca, el resultado se marca como justo."
+      it: "Quanta batteria resta dopo il viaggio. Se è troppo poca, il risultato è segnato «al limite»."
     long:
       en: >-
         The margin is the energy left after your trip, as a share of the usable battery. A clear margin
@@ -1246,11 +1600,15 @@ glossary_terms:
     related: [trip-fit, uncertainty-band, start-charge]
 
   - id: road-band
-    label: {en: "Road type", nl: "Wegtype"}
+    label: {en: "Road type", nl: "Wegtype", de: "Straßentyp", fr: "Type de route", es: "Tipo de vía", it: "Tipo di strada"}
     technical: {en: "Road band (town / rural / motorway)", nl: "Wegband (stad / buitenweg / snelweg)"}
     short:
       en: "Town, rural roads or motorway. Each uses a different amount of energy per kilometre."
       nl: "Stad, buitenweg of snelweg. Elk verbruikt een andere hoeveelheid energie per kilometer."
+      de: "Stadt, Landstraße oder Autobahn. Jeder Typ braucht unterschiedlich viel Energie pro Kilometer."
+      fr: "Ville, routes de campagne ou autoroute. Chacun consomme une quantité d'énergie différente par kilomètre."
+      es: "Ciudad, carreteras secundarias o autopista. Cada una gasta una cantidad distinta de energía por kilómetro."
+      it: "Città, strade extraurbane o autostrada. Ognuna consuma una quantità diversa di energia per km."
     long:
       en: >-
         We split a trip into town, rural and motorway driving, because speed changes energy use a lot.
@@ -1261,11 +1619,15 @@ glossary_terms:
     related: [trip-fit, consumption]
 
   - id: uncertainty-band
-    label: {en: "Likely range of results", nl: "Waarschijnlijke spreiding"}
+    label: {en: "Likely range of results", nl: "Waarschijnlijke spreiding", de: "Wahrscheinliche Spanne", fr: "Fourchette probable", es: "Rango probable de resultados", it: "Intervallo probabile"}
     technical: {en: "P10–P90 uncertainty band", nl: "P10–P90-onzekerheidsband"}
     short:
       en: "The spread in which the real result will most likely fall. A wider band means less certainty."
       nl: "De spreiding waarbinnen de echte uitkomst waarschijnlijk valt. Een bredere band betekent minder zekerheid."
+      de: "Der Bereich, in dem das echte Ergebnis sehr wahrscheinlich liegt. Eine breitere Spanne heißt weniger Sicherheit."
+      fr: "L'intervalle dans lequel le résultat réel tombera très probablement. Plus il est large, moins c'est certain."
+      es: "El margen en el que lo más probable es que caiga el resultado real. Cuanto más ancho, menos certeza."
+      it: "L'intervallo in cui molto probabilmente cadrà il risultato reale. Più è ampio, meno è certo."
     long:
       en: >-
         Every estimate has some uncertainty, so we show a low and a high value next to the main one. In
@@ -1276,11 +1638,15 @@ glossary_terms:
     related: [estimate, confidence, real-range-rung]
 
   - id: start-charge
-    label: {en: "Charge at the start", nl: "Laadstand bij vertrek"}
+    label: {en: "Charge at the start", nl: "Laadstand bij vertrek", de: "Ladestand beim Start", fr: "Charge au départ", es: "Carga al salir", it: "Carica alla partenza"}
     technical: {en: "Starting state of charge (%)", nl: "Laadtoestand bij vertrek (%)"}
     short:
       en: "How full the battery is when you leave. Daily trips assume your normal charging limit."
       nl: "Hoe vol de accu is als je vertrekt. Dagelijkse ritten gaan uit van je normale laadlimiet."
+      de: "Wie voll der Akku ist, wenn Sie losfahren. Für tägliche Fahrten nehmen wir Ihr normales Ladelimit an."
+      fr: "Le niveau de la batterie au départ. Pour les trajets quotidiens, nous supposons votre limite de charge habituelle."
+      es: "Lo llena que está la batería al salir. Para los viajes diarios suponemos tu límite de carga habitual."
+      it: "Quanto è piena la batteria quando parti. Per i viaggi quotidiani assumiamo il tuo limite di carica abituale."
     long:
       en: >-
         The trip check assumes you leave with the battery at your daily charging limit. For most
@@ -1291,11 +1657,15 @@ glossary_terms:
     related: [charge-to-100, trip-margin, chemistry]
 
   - id: climate-normal
-    label: {en: "Normal winter day", nl: "Normale winterdag"}
+    label: {en: "Normal winter day", nl: "Normale winterdag", de: "Normaler Wintertag", fr: "Jour d'hiver normal", es: "Día de invierno normal", it: "Giorno d'inverno normale"}
     technical: {en: "Climate normal (monthly mean temperature)", nl: "Klimaatnormaal (gemiddelde maandtemperatuur)"}
     short:
       en: "The usual temperature for that month in your area, from long-term weather records."
       nl: "De gebruikelijke temperatuur voor die maand in jouw omgeving, uit langjarige weergegevens."
+      de: "Die übliche Temperatur in diesem Monat in Ihrer Gegend, aus langjährigen Wetterdaten."
+      fr: "La température habituelle de ce mois dans votre région, d'après les relevés météo à long terme."
+      es: "La temperatura habitual de ese mes en tu zona, según los registros meteorológicos de largo plazo."
+      it: "La temperatura abituale di quel mese nella tua zona, dai dati meteo a lungo termine."
     long:
       en: >-
         We check trips on a normal January day near you, not on the coldest day ever recorded. The
@@ -1306,11 +1676,15 @@ glossary_terms:
     related: [trip-fit, heat-pump, range-you-need]
 
   - id: wltp-equivalent
-    label: {en: "Same as official range", nl: "Vergelijkbare officiële actieradius"}
+    label: {en: "Same as official range", nl: "Vergelijkbare officiële actieradius", de: "Entspricht offizieller Reichweite", fr: "Équivalent autonomie officielle", es: "Equivalente a autonomía oficial", it: "Equivalente all'autonomia ufficiale"}
     technical: {en: "WLTP-equivalent range", nl: "WLTP-equivalent bereik"}
     short:
       en: "The official (WLTP) range a car would need to cover your trip, to compare with adverts."
       nl: "De officiële (WLTP-)actieradius die een auto nodig heeft voor je rit, om met advertenties te vergelijken."
+      de: "Die offizielle (WLTP-)Reichweite, die ein Auto für Ihre Fahrt bräuchte, zum Vergleich mit Anzeigen."
+      fr: "L'autonomie officielle (WLTP) dont une voiture aurait besoin pour votre trajet, à comparer avec les annonces."
+      es: "La autonomía oficial (WLTP) que necesitaría un coche para tu viaje, para compararla con los anuncios."
+      it: "L'autonomia ufficiale (WLTP) che servirebbe a un'auto per il tuo viaggio, da confrontare con gli annunci."
     long:
       en: >-
         Adverts quote the official WLTP range, which is higher than what you get in winter. We convert
@@ -1322,11 +1696,15 @@ glossary_terms:
 
   # Price modes (Decision 017, T-043; master spec §8 "Ways to pay"). UI not built yet.
   - id: price-mode
-    label: {en: "How you pay", nl: "Hoe je betaalt"}
+    label: {en: "How you pay", nl: "Hoe je betaalt", de: "Wie Sie zahlen", fr: "Mode de paiement", es: "Cómo pagas", it: "Come paghi"}
     technical: {en: "Price mode (buy / loan / lease)", nl: "Prijsweergave (kopen / lenen / leasen)"}
     short:
       en: "Show prices as a cash price, a monthly loan estimate or a monthly lease."
       nl: "Toon prijzen als koopprijs, maandschatting voor een lening of maandbedrag voor lease."
+      de: "Preise als Kaufpreis, als monatliche Kredit-Schätzung oder als monatliches Leasing zeigen."
+      fr: "Afficher les prix au comptant, en estimation de crédit mensuel ou en location mensuelle."
+      es: "Muestra los precios al contado, como estimación de préstamo mensual o como renting mensual."
+      it: "Mostra i prezzi in contanti, come stima di prestito mensile o come noleggio mensile."
     long:
       en: >-
         Many buyers don't pay cash, so every price can switch between buying outright, a loan per month
@@ -1337,11 +1715,15 @@ glossary_terms:
     related: [loan, lease, total-cost-over-term]
 
   - id: apr
-    label: {en: "Interest rate (APR)", nl: "Rente (JKP)"}
+    label: {en: "Interest rate (APR)", nl: "Rente (JKP)", de: "Effektiver Jahreszins", fr: "Taux annuel effectif global (TAEG)", es: "Tasa anual equivalente (TAE)", it: "Tasso annuo effettivo globale (TAEG)"}
     technical: {en: "Annual percentage rate of charge", nl: "Jaarlijks kostenpercentage"}
     short:
       en: "The yearly cost of a loan, including most fees, as a percentage. Lower is cheaper."
       nl: "De jaarlijkse kosten van een lening, inclusief de meeste kosten, als percentage. Lager is goedkoper."
+      de: "Die jährlichen Kosten eines Kredits inklusive der meisten Gebühren, in Prozent. Niedriger ist günstiger."
+      fr: "Le coût annuel d'un crédit, frais principaux compris, en pourcentage. Plus bas, c'est moins cher."
+      es: "El coste anual de un préstamo, con la mayoría de comisiones, en porcentaje. Más bajo es más barato."
+      it: "Il costo annuo di un prestito, comprese quasi tutte le spese, in percentuale. Più basso è più economico."
     long:
       en: >-
         The APR shows the total cost of borrowing as a yearly percentage, so loans can be compared.
@@ -1352,11 +1734,15 @@ glossary_terms:
     related: [loan, total-cost-over-term, loan-term]
 
   - id: deposit
-    label: {en: "Deposit", nl: "Aanbetaling"}
+    label: {en: "Deposit", nl: "Aanbetaling", de: "Anzahlung", fr: "Apport", es: "Entrada", it: "Anticipo"}
     technical: {en: "Down payment", nl: "Eigen inbreng"}
     short:
       en: "The part of the price you pay yourself at the start. The rest is borrowed."
       nl: "Het deel van de prijs dat je zelf aan het begin betaalt. De rest leen je."
+      de: "Der Teil des Preises, den Sie am Anfang selbst zahlen. Der Rest wird geliehen."
+      fr: "La part du prix que vous payez vous-même au départ. Le reste est emprunté."
+      es: "La parte del precio que pagas tú al principio. El resto se pide prestado."
+      it: "La parte del prezzo che paghi tu all'inizio. Il resto è preso in prestito."
     long:
       en: >-
         A deposit is the money you put down when you buy. A bigger deposit means borrowing less, so the
@@ -1366,11 +1752,15 @@ glossary_terms:
     related: [loan, loan-term, total-cost-over-term]
 
   - id: loan-term
-    label: {en: "Loan length", nl: "Looptijd"}
+    label: {en: "Loan length", nl: "Looptijd", de: "Kreditlaufzeit", fr: "Durée du crédit", es: "Plazo del préstamo", it: "Durata del prestito"}
     technical: {en: "Term (months)", nl: "Looptijd (maanden)"}
     short:
       en: "How many months you pay. Longer means lower monthly amounts but more interest in total."
       nl: "Hoeveel maanden je betaalt. Langer betekent lagere maandbedragen maar meer rente in totaal."
+      de: "Wie viele Monate Sie zahlen. Länger heißt niedrigere Raten, aber insgesamt mehr Zinsen."
+      fr: "Le nombre de mois de remboursement. Plus long, c'est des mensualités plus basses mais plus d'intérêts au total."
+      es: "Cuántos meses pagas. Más largo significa cuotas más bajas, pero más intereses en total."
+      it: "Per quanti mesi paghi. Più lunga vuol dire rate più basse ma più interessi in totale."
     long:
       en: >-
         The term is how long you take to repay a loan or how long a lease runs. Spreading payments over
@@ -1383,11 +1773,15 @@ glossary_terms:
   # T-061 follow-up (2026-11-15). Facts from docs/spec (data-sources, charging-buildout), R-02, R-08,
   # the release's own known_issues method (rate_basis, sample_rule) and gov.uk/getting-an-mot (fetched 2026-11-15).
   - id: known-issues
-    label: {en: "Known issues", nl: "Bekende gebreken"}
+    label: {en: "Known issues", nl: "Bekende gebreken", de: "Bekannte Mängel", fr: "Défauts connus", es: "Defectos conocidos", it: "Difetti noti"}
     technical: {en: "Common APK defects by first-registration year"}
     short:
       en: "The defects Dutch inspectors find most often on this generation, compared with other EVs of the same age."
       nl: "De gebreken die Nederlandse keurmeesters het vaakst vinden bij deze generatie, vergeleken met andere EV's van dezelfde leeftijd."
+      de: "Die Mängel, die niederländische Prüfer bei dieser Generation am häufigsten finden, verglichen mit gleich alten E-Autos."
+      fr: "Les défauts que les contrôleurs néerlandais trouvent le plus souvent sur cette génération, comparés aux VE du même âge."
+      es: "Los defectos que más encuentran los inspectores neerlandeses en esta generación, frente a otros eléctricos de la misma edad."
+      it: "I difetti che gli ispettori olandesi trovano più spesso su questa generazione, rispetto ad altre elettriche della stessa età."
     long:
       en: >-
         This block counts the defects found at the Dutch periodic inspection (APK) for this
@@ -1400,11 +1794,15 @@ glossary_terms:
     related: [apk, defect-rate, first-registration-year, registrations-nl]
 
   - id: apk
-    label: {en: "Dutch MOT (APK)", nl: "APK-keuring"}
+    label: {en: "Dutch MOT (APK)", nl: "APK-keuring", de: "Niederländische Hauptuntersuchung (APK)", fr: "Contrôle technique néerlandais (APK)", es: "ITV neerlandesa (APK)", it: "Revisione olandese (APK)"}
     technical: {en: "APK (Algemene Periodieke Keuring)", nl: "APK (Algemene Periodieke Keuring)"}
     short:
       en: "The Netherlands' required periodic roadworthiness test for cars, like the UK MOT. RDW publishes the defects found."
       nl: "De verplichte periodieke keuring van je auto. De RDW publiceert welke gebreken keurmeesters vinden."
+      de: "Die vorgeschriebene regelmäßige Fahrzeugprüfung in den Niederlanden, wie die deutsche HU. Die RDW veröffentlicht die gefundenen Mängel."
+      fr: "Le contrôle technique périodique obligatoire aux Pays-Bas, comme le contrôle technique français. La RDW publie les défauts constatés."
+      es: "La inspección técnica periódica obligatoria en los Países Bajos, como la ITV. La RDW publica los defectos encontrados."
+      it: "La revisione periodica obbligatoria nei Paesi Bassi, come la revisione italiana. La RDW pubblica i difetti trovati."
     long:
       en: >-
         The APK is the periodic roadworthiness inspection that cars in the Netherlands must pass to
@@ -1417,11 +1815,15 @@ glossary_terms:
     related: [known-issues, defect-rate, registrations-nl]
 
   - id: epa-range
-    label: {en: "US official range (EPA)", nl: "Officieel bereik VS (EPA)"}
+    label: {en: "US official range (EPA)", nl: "Officieel bereik VS (EPA)", de: "Offizielle US-Reichweite (EPA)", fr: "Autonomie officielle américaine (EPA)", es: "Autonomía oficial de EE. UU. (EPA)", it: "Autonomia ufficiale USA (EPA)"}
     technical: {en: "EPA range"}
     short:
       en: "The range from the official US test. It is usually lower than the European WLTP figure for the same car."
       nl: "Het bereik uit de officiële Amerikaanse test. Meestal lager dan het Europese WLTP-cijfer voor dezelfde auto."
+      de: "Die Reichweite aus dem offiziellen US-Test. Meist niedriger als der europäische WLTP-Wert desselben Autos."
+      fr: "L'autonomie du test officiel américain. Généralement plus basse que la valeur WLTP européenne de la même voiture."
+      es: "La autonomía de la prueba oficial de EE. UU. Suele ser menor que la cifra WLTP europea del mismo coche."
+      it: "L'autonomia del test ufficiale statunitense. Di solito più bassa del dato WLTP europeo della stessa auto."
     long:
       en: >-
         The US Environmental Protection Agency rates cars sold in the US with its own five-cycle
@@ -1433,11 +1835,15 @@ glossary_terms:
     related: [wltp, real-range, wltp-equivalent]
 
   - id: first-registration-year
-    label: {en: "First registered", nl: "Eerste registratie"}
+    label: {en: "First registered", nl: "Eerste registratie", de: "Erstzulassung", fr: "Première immatriculation", es: "Primera matriculación", it: "Prima immatricolazione"}
     technical: {en: "First-registration year"}
     short:
       en: "The year the car was first registered, from the Dutch register. Inspection results are only compared within one year."
       nl: "Het jaar waarin de auto voor het eerst op kenteken kwam. Keuringsresultaten vergelijken we alleen binnen hetzelfde jaar."
+      de: "Das Jahr der ersten Zulassung, aus dem niederländischen Register. Prüfergebnisse werden nur innerhalb eines Jahres verglichen."
+      fr: "L'année de première immatriculation, d'après le registre néerlandais. Les contrôles ne sont comparés qu'au sein d'une même année."
+      es: "El año de la primera matriculación, según el registro neerlandés. Las inspecciones solo se comparan dentro de un mismo año."
+      it: "L'anno della prima immatricolazione, dal registro olandese. I risultati delle revisioni si confrontano solo nello stesso anno."
     long:
       en: >-
         This is the year a car was first registered, taken from the first-admission date in the RDW
@@ -1449,11 +1855,15 @@ glossary_terms:
     related: [known-issues, defect-rate, model-years, apk]
 
   - id: defect-rate
-    label: {en: "Defects per 100 cars", nl: "Gebreken per 100 auto's"}
+    label: {en: "Defects per 100 cars", nl: "Gebreken per 100 auto's", de: "Mängel pro 100 Autos", fr: "Défauts pour 100 voitures", es: "Defectos por cada 100 coches", it: "Difetti ogni 100 auto"}
     technical: {en: "Defect rate per 100 sampled cars"}
     short:
       en: "Of every 100 sampled cars of this generation and year, how many had this defect noted at the APK."
       nl: "Van elke 100 auto's in de steekproef van deze generatie en dit jaar: hoeveel dit gebrek hadden bij de APK."
+      de: "Von 100 Autos dieser Generation und dieses Jahres in der Stichprobe: wie viele diesen Mangel bei der APK hatten."
+      fr: "Sur 100 voitures de l'échantillon de cette génération et année, combien ont eu ce défaut noté à l'APK."
+      es: "De cada 100 coches de esta generación y año en la muestra, cuántos tuvieron este defecto anotado en la APK."
+      it: "Su 100 auto del campione di questa generazione e anno, quante hanno avuto questo difetto annotato all'APK."
     long:
       en: >-
         The rate counts cars, not defect reports, for one generation and one first-registration year.
@@ -1466,11 +1876,15 @@ glossary_terms:
     related: [known-issues, first-registration-year, apk, confidence]
 
   - id: power-band
-    label: {en: "Charger power band", nl: "Laadvermogenklasse"}
+    label: {en: "Charger power band", nl: "Laadvermogenklasse", de: "Leistungsklasse der Ladepunkte", fr: "Tranche de puissance des bornes", es: "Franja de potencia del cargador", it: "Fascia di potenza delle colonnine"}
     technical: {en: "Charging-point power band"}
     short:
       en: "Charging points grouped by maximum power, from slow AC to ultra-fast DC of 350 kW and more."
       nl: "Laadpunten gegroepeerd naar maximaal vermogen, van langzaam AC tot ultrasnel DC van 350 kW en meer."
+      de: "Ladepunkte nach Höchstleistung gruppiert, vom langsamen AC bis zum ultraschnellen DC ab 350 kW."
+      fr: "Les points de recharge regroupés par puissance maximale, de l'AC lente au DC ultra-rapide de 350 kW et plus."
+      es: "Puntos de carga agrupados por potencia máxima, desde AC lenta hasta DC ultrarrápida de 350 kW o más."
+      it: "Punti di ricarica raggruppati per potenza massima, dalla AC lenta alla DC ultrarapida da 350 kW in su."
     long:
       en: >-
         Official statistics group public charging points by how much power they can deliver. We map
@@ -1482,11 +1896,15 @@ glossary_terms:
     related: [charging-point, dc-charging, ac-charging, peak-kw]
 
   - id: wikidata-years
-    label: {en: "Years checked against Wikidata", nl: "Jaren gecontroleerd met Wikidata"}
+    label: {en: "Years checked against Wikidata", nl: "Jaren gecontroleerd met Wikidata", de: "Jahre mit Wikidata abgeglichen", fr: "Années vérifiées avec Wikidata", es: "Años comprobados con Wikidata", it: "Anni verificati con Wikidata"}
     technical: {en: "Wikidata year check"}
     short:
       en: "We compare our generation start and end years with Wikidata. A mismatch is flagged, never silently changed."
       nl: "We vergelijken onze begin- en eindjaren met Wikidata. Een verschil wordt gemeld, nooit stilletjes aangepast."
+      de: "Wir vergleichen Start- und Endjahr der Generation mit Wikidata. Abweichungen werden markiert, nie stillschweigend geändert."
+      fr: "Nous comparons les années de début et de fin avec Wikidata. Un écart est signalé, jamais corrigé en silence."
+      es: "Comparamos los años de inicio y fin con Wikidata. Una diferencia se señala, nunca se cambia en silencio."
+      it: "Confrontiamo gli anni di inizio e fine generazione con Wikidata. Una differenza viene segnalata, mai cambiata di nascosto."
     long:
       en: >-
         Wikidata is an open (CC0) knowledge base that records, among other things, when car models
@@ -1500,11 +1918,15 @@ glossary_terms:
 
   # --- T-100 (WS3, 2026-11-15): hero steps and usage profiles (launch scope, Decision 051) ---
   - id: shortlist
-    label: {en: "Your shortlist", nl: "Jouw shortlist"}
+    label: {en: "Your shortlist", nl: "Jouw shortlist", de: "Ihre Auswahl", fr: "Votre sélection", es: "Tu lista corta", it: "La tua rosa"}
     technical: {en: "Top 10, best 5 highlighted", nl: "Top 10, beste 5 uitgelicht"}
     short:
       en: "The ten cars that fit your answers and budget best. The top five are your shortlist."
       nl: "De tien auto's die het best passen bij je antwoorden en budget. De top vijf is je shortlist."
+      de: "Die zehn Autos, die am besten zu Ihren Antworten und Ihrem Budget passen. Die ersten fünf sind Ihre engere Wahl."
+      fr: "Les dix voitures qui correspondent le mieux à vos réponses et à votre budget. Les cinq premières sont votre sélection."
+      es: "Los diez coches que mejor encajan con tus respuestas y tu presupuesto. Los cinco primeros son tu lista corta."
+      it: "Le dieci auto più adatte alle tue risposte e al tuo budget. Le prime cinque sono la tua rosa."
     long:
       en: >-
         We first drop cars that fail a hard limit (budget, range you need), then score the rest on
@@ -1516,11 +1938,15 @@ glossary_terms:
     related: [road-tripper, daily-driver, runabout, kerbside-charger, used-price]
 
   - id: road-tripper
-    label: {en: "Road-tripper", nl: "Vakantierijder"}
+    label: {en: "Road-tripper", nl: "Vakantierijder", de: "Langstreckenfahrer", fr: "Grand voyageur", es: "Viajero de carretera", it: "Viaggiatore"}
     technical: {en: "Profile: main car that also does the holidays", nl: "Profiel: hoofdauto die ook de vakanties rijdt"}
     short:
       en: "Your main car, also for long holiday trips. Fast charging, winter range and space count most."
       nl: "Je hoofdauto, ook voor lange vakantieritten. Snelladen, winterbereik en ruimte tellen het zwaarst."
+      de: "Ihr Hauptauto, auch für lange Urlaubsfahrten. Schnellladen, Winterreichweite und Platz zählen am meisten."
+      fr: "Votre voiture principale, aussi pour les longs trajets de vacances. Recharge rapide, autonomie en hiver et espace comptent le plus."
+      es: "Tu coche principal, también para viajes largos de vacaciones. Lo que más cuenta: carga rápida, autonomía en invierno y espacio."
+      it: "La tua auto principale, anche per lunghi viaggi in vacanza. Contano di più ricarica rapida, autonomia invernale e spazio."
     long:
       en: >-
         Pick this if this is your main car and it also takes you on holiday. We look hardest at how fast it adds range on a motorway fast charger, how far it goes in winter with some margin, and how much luggage fits.
@@ -1529,11 +1955,15 @@ glossary_terms:
     related: [shortlist, dc-km-20min, real-range, boot-volume]
 
   - id: daily-driver
-    label: {en: "Daily driver", nl: "Dagelijkse rijder"}
+    label: {en: "Daily driver", nl: "Dagelijkse rijder", de: "Alltagsauto", fr: "Voiture du quotidien", es: "Coche del día a día", it: "Auto di tutti i giorni"}
     technical: {en: "Profile: main car, holidays by train, rental or a second car", nl: "Profiel: hoofdauto, vakantie met trein, huurauto of tweede auto"}
     short:
       en: "Your main car for every day; long trips go another way. Winter range, efficiency and a heat pump count most."
       nl: "Je hoofdauto voor elke dag; lange reizen gaan anders. Winterbereik, zuinigheid en een warmtepomp tellen het zwaarst."
+      de: "Ihr Hauptauto für jeden Tag; lange Fahrten anders. Winterreichweite, Effizienz und eine Wärmepumpe zählen am meisten."
+      fr: "Votre voiture principale au quotidien, pas pour les longs trajets. Autonomie hivernale, efficacité et pompe à chaleur comptent le plus."
+      es: "Tu coche principal diario, no para viajes largos. Cuentan más autonomía en invierno, eficiencia y bomba de calor."
+      it: "La tua auto principale per ogni giorno, non per i viaggi lunghi. Contano autonomia invernale, efficienza e pompa di calore."
     long:
       en: >-
         Pick this if this is your main car but long trips go by train, a rental or another car. We check that the winter range covers your longest normal day, and favour cars that use little energy and have a heat pump.
@@ -1542,11 +1972,15 @@ glossary_terms:
     related: [shortlist, real-range, consumption, heat-pump]
 
   - id: runabout
-    label: {en: "Runabout", nl: "Boodschappenauto"}
+    label: {en: "Runabout", nl: "Boodschappenauto", de: "Stadtflitzer", fr: "Petite voiture d'appoint", es: "Coche para recados", it: "Auto per spostamenti brevi"}
     technical: {en: "Profile: second car for short trips", nl: "Profiel: tweede auto voor korte ritten"}
     short:
       en: "A second car for short trips. Price, size, efficiency and the battery health of cheap older cars count most."
       nl: "Een tweede auto voor korte ritten. Prijs, formaat, zuinigheid en de accugezondheid van goedkope oudere auto's tellen het zwaarst."
+      de: "Ein Zweitwagen für kurze Wege. Preis, Größe, Effizienz und die Akkugesundheit günstiger älterer Autos zählen am meisten."
+      fr: "Une deuxième voiture pour les petits trajets. Prix, taille, efficacité et santé de batterie des occasions pas chères comptent."
+      es: "Un segundo coche para trayectos cortos. Cuentan más precio, tamaño, eficiencia y salud de batería de los usados baratos."
+      it: "Una seconda auto per tragitti brevi. Contano di più prezzo, dimensioni, efficienza e salute della batteria delle usate economiche."
     long:
       en: >-
         Pick this for a second car that mostly does short trips. Price and size matter more, and range matters less. Cheap older electric cars are often runabouts, so we also weigh battery health.
@@ -1555,11 +1989,15 @@ glossary_terms:
     related: [shortlist, used-price, soh, consumption]
 
   - id: kerbside-charger
-    label: {en: "No charger at home", nl: "Geen laadpaal thuis"}
+    label: {en: "No charger at home", nl: "Geen laadpaal thuis", de: "Keine Lademöglichkeit zu Hause", fr: "Pas de borne à domicile", es: "Sin cargador en casa", it: "Niente ricarica a casa"}
     technical: {en: "Profile add-on: kerbside or public charging", nl: "Profieltoevoeging: laden op straat of openbaar"}
     short:
       en: "You charge on the street or at public chargers. Efficiency, 50–150 kW fast charging and 11 kW AC count more."
       nl: "Je laadt op straat of bij openbare laders. Zuinigheid, snelladen op 50–150 kW en 11 kW AC tellen zwaarder."
+      de: "Sie laden an der Straße oder an öffentlichen Ladern. Effizienz, 50–150 kW Schnellladen und 11 kW AC zählen mehr."
+      fr: "Vous rechargez dans la rue ou sur bornes publiques. Efficacité, recharge rapide 50–150 kW et AC 11 kW comptent davantage."
+      es: "Cargas en la calle o en cargadores públicos. Cuentan más eficiencia, carga rápida de 50–150 kW y 11 kW AC."
+      it: "Ricarichi in strada o alle colonnine pubbliche. Contano di più efficienza, ricarica rapida 50–150 kW e AC a 11 kW."
     long:
       en: >-
         This stacks on top of the other profiles. Most supermarket and town fast chargers deliver
@@ -1571,11 +2009,15 @@ glossary_terms:
     related: [shortlist, dc-charging, ac-charging, lfp, charge-to-100]
 
   - id: home-area
-    label: {en: "Where you live", nl: "Waar je woont"}
+    label: {en: "Where you live", nl: "Waar je woont", de: "Wo Sie wohnen", fr: "Où vous habitez", es: "Dónde vives", it: "Dove vivi"}
     technical: {en: "City / town / countryside", nl: "Stad / dorp of buitenwijk / platteland"}
     short:
       en: "City, town or countryside. It shifts how much range we ask for and what else counts."
       nl: "Stad, dorp of platteland. Het verschuift hoeveel bereik we vragen en wat verder telt."
+      de: "Stadt, Kleinstadt oder Land. Das verschiebt, wie viel Reichweite wir verlangen und was sonst zählt."
+      fr: "Grande ville, petite ville ou campagne. Cela change l'autonomie que nous demandons et ce qui compte d'autre."
+      es: "Ciudad, pueblo o campo. Cambia cuánta autonomía pedimos y qué más cuenta."
+      it: "Città, paese o campagna. Cambia quanta autonomia chiediamo e cos'altro conta."
     long:
       en: >-
         In the countryside, trips are often longer and chargers off the main roads are rarer, so we ask for more range. In a city, size and efficiency count a little more and range a little less.
@@ -1584,11 +2026,15 @@ glossary_terms:
     related: [shortlist, range-you-need]
 
   - id: keep-8-years
-    label: {en: "Keep it 8+ years", nl: "8+ jaar houden"}
+    label: {en: "Keep it 8+ years", nl: "8+ jaar houden", de: "8+ Jahre behalten", fr: "Garder 8 ans et plus", es: "Conservarlo 8 años o más", it: "Tenerla 8 anni o più"}
     technical: {en: "Add-on: long ownership", nl: "Toevoeging: lang houden"}
     short:
       en: "You plan to keep the car a long time, so battery ageing and warranty left count a bit more."
       nl: "Je wilt de auto lang houden, dus accuveroudering en resterende garantie tellen iets zwaarder."
+      de: "Sie wollen das Auto lange fahren, daher zählen Akkualterung und Restgarantie etwas mehr."
+      fr: "Vous comptez garder la voiture longtemps : le vieillissement de la batterie et la garantie restante comptent un peu plus."
+      es: "Piensas tener el coche mucho tiempo, así que cuentan más el desgaste de la batería y la garantía restante."
+      it: "Pensi di tenere l'auto a lungo, quindi invecchiamento della batteria e garanzia residua contano un po' di più."
     long:
       en: >-
         All batteries lose some capacity with age. If you keep a car a long time, the battery's health today and the warranty years and kilometres left matter more. See the page on batteries and used battery health.
@@ -1597,11 +2043,15 @@ glossary_terms:
     related: [soh, shortlist]
 
   - id: budget
-    label: {en: "Budget", nl: "Budget"}
+    label: {en: "Budget", nl: "Budget", de: "Budget", fr: "Budget", es: "Presupuesto", it: "Budget"}
     technical: {en: "Purchase price, used and new", nl: "Aankoopprijs, occasion en nieuw"}
     short:
       en: "The most you want to pay for the car. Under it we show a rough monthly loan estimate."
       nl: "Het maximum dat je voor de auto wilt betalen. Daaronder tonen we een ruwe schatting per maand bij een lening."
+      de: "Das Höchste, was Sie für das Auto zahlen wollen. Darunter zeigen wir eine grobe monatliche Kredit-Schätzung."
+      fr: "Le maximum que vous voulez payer pour la voiture. En dessous, nous montrons une estimation approximative du crédit mensuel."
+      es: "Lo máximo que quieres pagar por el coche. Debajo mostramos una estimación aproximada del préstamo mensual."
+      it: "Il massimo che vuoi spendere per l'auto. Sotto mostriamo una stima indicativa del prestito mensile."
     long:
       en: >-
         We compare your budget with each car's used price band for the build years shown, or its new
@@ -1612,11 +2062,15 @@ glossary_terms:
     related: [used-price, new-price, loan, apr, loan-term, deposit]
 
   - id: real-winter-range
-    label: {en: "Winter range", nl: "Winterbereik"}
+    label: {en: "Winter range", nl: "Winterbereik", de: "Winterreichweite", fr: "Autonomie en hiver", es: "Autonomía en invierno", it: "Autonomia invernale"}
     technical: {en: "Real-world range around 0 °C", nl: "Praktijkbereik rond 0 °C"}
     short:
       en: "How far the car goes on a cold winter day in normal driving, from our own model. Lower than summer."
       nl: "Hoe ver de auto komt op een koude winterdag bij normaal rijden, volgens ons model. Lager dan in de zomer."
+      de: "Wie weit das Auto an einem kalten Wintertag bei normaler Fahrt kommt, aus unserem eigenen Modell. Weniger als im Sommer."
+      fr: "La distance parcourue un jour d'hiver froid en conduite normale, d'après notre propre modèle. Moins qu'en été."
+      es: "Cuánto recorre el coche en un día frío de invierno con conducción normal, según nuestro modelo. Menos que en verano."
+      it: "Quanta strada fa l'auto in una fredda giornata d'inverno con guida normale, dal nostro modello. Meno che d'estate."
     long:
       en: >-
         Winter range is our estimate for a cold day around freezing, with the heater on and normal mixed driving. It depends on the car's efficiency, its heater (a heat pump helps) and the battery. Real trips vary with speed, wind and how cold it really is.

@@ -38,3 +38,14 @@ export function nerdValue(f: Pick<FactorScore, "known" | "field" | "raw">, t: T,
   const w = WORDS[f.raw];
   return w ? t(w) : f.raw;
 }
+
+/**
+ * Splits a value into number and word parts, so the Value cell can let words break when a
+ * narrow card or a wider system font needs it while every number stays whole ("1.161,6", "4,25").
+ */
+export function numberParts(text: string): { text: string; num: boolean }[] {
+  return text
+    .split(/(\d[\d.,\u202f\u00a0]*\d|\d)/)
+    .filter((s) => s !== "")
+    .map((s) => ({ text: s, num: /^\d/.test(s) }));
+}

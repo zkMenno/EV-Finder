@@ -421,7 +421,8 @@ def build_rows(
                 values["consumption_kwh_100km"] = est
                 pv["consumption_kwh_100km"] = derived_prov(
                     [pv["battery_kwh_net"], wltp_p],
-                    "battery_kwh_net / wltp_range_km x 100" + (f"; {epa_note}" if epa_note else ""),
+                    f"battery_kwh_net / wltp_range_km x 100 x {m.WALL_PER_BATTERY_WLTP}"
+                    " (charging losses)" + (f"; {epa_note}" if epa_note else ""),
                     estimate=True,
                 )
             else:

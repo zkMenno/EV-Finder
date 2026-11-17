@@ -6,7 +6,7 @@ import fr from "@/i18n/fr.json";
 import it_ from "@/i18n/it.json";
 import nl from "@/i18n/nl.json";
 import { makeT, type Dict } from "@/i18n/t";
-import { nerdValue } from "./nerd-value";
+import { nerdValue, numberParts } from "./nerd-value";
 
 const tEn = makeT(en as Dict);
 const tNl = makeT({ ...en, ...nl } as Dict);
@@ -47,5 +47,16 @@ describe("nerdValue (T-097)", () => {
         expect(d[k], k).toContain("{v}");
       }
     }
+  });
+});
+
+describe("numberParts (T-097 review: German table clipped 16 px on CI)", () => {
+  it("keeps numbers whole and leaves words breakable", () => {
+    expect(numberParts("387 km in 20 Min.")).toEqual([
+      { text: "387", num: true }, { text: " km in ", num: false }, { text: "20", num: true }, { text: " Min.", num: false },
+    ]);
+    expect(numberParts("1.161,6 kWh")).toEqual([{ text: "1.161,6", num: true }, { text: " kWh", num: false }]);
+    expect(numberParts("noch unbekannt")).toEqual([{ text: "noch unbekannt", num: false }]);
+    expect(numberParts("4,25 m")[0]).toEqual({ text: "4,25", num: true });
   });
 });

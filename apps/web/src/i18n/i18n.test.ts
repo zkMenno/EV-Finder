@@ -1,13 +1,25 @@
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
+import * as yaml from "js-yaml";
 import { describe, expect, it } from "vitest";
 import { LANGS } from "@/config/countries";
 import { routeLang, suggestLang } from "@/lib/lang";
 import { RANKING_IDS } from "@/lib/rankings";
 import { SPEC_FIELDS, SPEC_GROUPS } from "@/lib/spec-diff";
+import de from "./de.json";
 import en from "./en.json";
+import es from "./es.json";
+import fr from "./fr.json";
 import { getClientDict, getDict, getT, hasMsgKey, interpolate, SERVER_ONLY_PREFIXES } from "./index";
+import itDict from "./it.json";
 import nl from "./nl.json";
+
+// Staff pages are EN only (apps/web/AGENTS.md rule 9); every other key is public.
+const PUBLIC_KEYS = Object.keys(en).filter((k) => !k.startsWith("staff."));
+const DICTS: Record<"nl" | "de" | "fr" | "es" | "it", Record<string, string>> = { nl, de, fr, es, it: itDict };
+// DE/FR/ES/IT are agent drafts; EN and NL are the reviewed languages (Decision 066, REVIEW D6).
+const DRAFT_LANGS = ["de", "fr", "es", "it"] as const;
+const placeholders = (s: string) => (s.match(/\{\w+\}/g) ?? []).sort();
 
 describe("i18n", () => {
   it("English is complete and non-empty", () => {
@@ -24,9 +36,11 @@ describe("i18n", () => {
     for (const k of main) expect(Object.keys(nl), k).toContain(k);
   });
 
-  it("empty dictionaries fall back to English key by key", () => {
-    for (const l of ["de", "fr", "es", "it"] as const) {
-      expect(getDict(l)["nav.explore"]).toBe(en["nav.explore"]);
+  it("missing keys fall back to English key by key", () => {
+    // Staff keys are EN only, so they show the fallback in every other language (T-117: the
+    // public keys are all translated now, so nav.explore no longer falls back).
+    for (const l of ["nl", "de", "fr", "es", "it"] as const) {
+      expect(getDict(l)["staff.review.title"]).toBe(en["staff.review.title"]);
     }
     expect(getT("nl")("nav.explore")).toBe("Verkennen");
     // Every language returns a full dictionary.
@@ -72,9 +86,9 @@ describe("i18n", () => {
 
   it("page strings (model, compare, rankings) are merged and fall back to English", () => {
     expect(getT("nl")("compare.title")).toBe("Vergelijken");
-    expect(getT("de")("compare.title")).toBe(en["compare.title"]);
+    expect(getT("de")("compare.title")).toBe("Vergleichen");
     expect(getT("nl")("compare.printNote", { site: "S", release: 1 })).toBe("Afgedrukt van S, datarelease 1.");
-    expect(getT("fr")("compare.printNote", { site: "S", release: 1 })).toBe("Printed from S, data release 1.");
+    expect(getT("fr")("compare.printNote", { site: "S", release: 1 })).toBe("Imprimé depuis S, version des données 1.");
     expect(getT("nl")("nav.rankings")).toBe("Ranglijsten");
   });
 
@@ -101,5 +115,48 @@ describe("i18n", () => {
         expect(src.includes(`t("${p}`) || src.includes(`t(\`${p}`), `${f} uses ${p}*`).toBe(false);
       }
     }
+  });
+
+  describe("all six languages (T-117, REVIEW D6, A-35 B5)", () => {
+    for (const [lang, dict] of Object.entries(DICTS)) {
+      it(`${lang} has every public key`, () => {
+        expect(PUBLIC_KEYS.filter((k) => !(k in dict))).toEqual([]);
+      });
+
+      it(`${lang} has no keys English lacks (except the _draft label)`, () => {
+        expect(Object.keys(dict).filter((k) => k !== "_draft" && !(k in en))).toEqual([]);
+      });
+
+      it(`${lang} has no empty strings`, () => {
+        expect(Object.entries(dict).filter(([, v]) => !v.trim()).map(([k]) => k)).toEqual([]);
+      });
+
+      it(`${lang} keeps every {placeholder} of the English string`, () => {
+        const en2 = en as Record<string, string>;
+        const bad = Object.entries(dict).filter(([k, v]) => k in en2 && placeholders(v).join() !== placeholders(en2[k]!).join());
+        expect(bad.map(([k]) => k)).toEqual([]);
+      });
+    }
+
+    it("DE, FR, ES and IT are labelled as drafts; EN and NL are not", () => {
+      for (const l of DRAFT_LANGS) expect(DICTS[l]._draft, l).toMatch(/^DRAFT \(/);
+      expect("_draft" in nl).toBe(false);
+      expect("_draft" in en).toBe(false);
+    });
+
+    it("every glossary term has a label and tooltip in all six languages", () => {
+      const file = path.resolve(__dirname, "../../../../data/taxonomy/glossary_terms.yaml");
+      type Row = { id: string; label: Record<string, string>; short: Record<string, string> };
+      const rows = (yaml.load(readFileSync(file, "utf8")) as { glossary_terms: Row[] }).glossary_terms;
+      expect(rows.length).toBeGreaterThan(0);
+      const gaps = rows.flatMap((r) =>
+        LANGS.flatMap((l) => [!r.label[l]?.trim() ? `${r.id} label.${l}` : null, !r.short[l]?.trim() ? `${r.id} short.${l}` : null]).filter(Boolean),
+      );
+      expect(gaps).toEqual([]);
+    });
+
+    it("the draft label never reaches a page dictionary", () => {
+      for (const l of LANGS) expect("_draft" in getDict(l)).toBe(false);
+    });
   });
 });
