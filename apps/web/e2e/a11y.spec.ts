@@ -28,6 +28,9 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
     path: "/nl/en/compare?ids=renault-zoe-ph1-r240,renault-zoe-ph2-r135",
     ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()),
   },
+  // T-096: the hero with answers (cards, compare buttons, Nerd table) in EN and NL.
+  { name: "hero-en-nerd", path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId("hero-nerd").first()).toBeVisible()) },
+  { name: "hero-nl", path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId("hero-card").first()).toBeVisible()) },
   { name: "open-data", path: "/nl/en/data", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "learn-article", path: "/nl/en/learn/winter-range", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "rankings", parked: true, path: "/nl/en/top/fastest-dc", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
@@ -54,7 +57,11 @@ for (const theme of ["light", "dark"] as const) {
       await page.emulateMedia({ colorScheme: theme });
       await page.goto(pg.path);
       await pg.ready(page);
-      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"]).analyze();
+      // label-content-name-mismatch (WCAG 2.5.3) is "experimental" in axe, so it is switched on by name (T-096).
+      const results = await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"])
+        .options({ rules: { "label-content-name-mismatch": { enabled: true } } })
+        .analyze();
       const summary = results.violations.map((v) => ({
         id: v.id,
         impact: v.impact,

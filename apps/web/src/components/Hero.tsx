@@ -850,7 +850,6 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               type="button"
               aria-pressed={inCmp}
               aria-disabled={full || undefined}
-              aria-label={t("hero.card.compareLabel", { name: `${name} ${row.variant_name}` })}
               onClick={() => {
                 if (inCmp) compareStore.remove(row.variant_id);
                 else if (!full) compareStore.add({ id: row.variant_id, label: `${name} ${row.variant_name}` });
@@ -858,7 +857,9 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               className={toggleCls}
               data-testid="hero-compare"
             >
+              {/* Name = the visible words + the car (WCAG 2.5.3 Label in Name: voice users say what they see). */}
               {inCmp ? t("hero.card.inCompare") : full ? t("hero.card.compareFull") : t("hero.card.compare")}
+              <span className="sr-only">: {`${name} ${row.variant_name}`}</span>
             </button>
             {site ? (
               <a
