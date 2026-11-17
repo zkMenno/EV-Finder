@@ -1,6 +1,6 @@
 # T-057 Qa findings ev6 and ci gate
 Role: WS1   Lane: pipeline/ev_pipeline/qa, .github   Wave: proposed by overnight 1
-Status: review (pipeline builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: pipeline builder, 2026-11-15
 
 ## Goal
 Fix the QA finding (Kia EV6 77 kWh AWD usable 80 kWh > pack gross 77.4) and run the release QA in CI on every PR that touches data.

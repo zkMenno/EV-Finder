@@ -1,6 +1,6 @@
 # T-015 Tests smoke
 Role: coordinator   Lane: apps/web/e2e   Wave: 4
-Status: review (reviewer agent, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: reviewer agent, 2026-11-15
 
 ## Goal
 All tests green; Playwright smoke test.

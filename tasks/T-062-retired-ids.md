@@ -1,6 +1,6 @@
 # T-062 Retired ids map
 Role: coordinator (schema) + WS2   Lane: packages/schema, pipeline/release, apps/web   Wave: proposed by overnight 1
-Status: review, pipeline part (WS1, 2026-11-15); schema + web parts open
+Status: merged (PR #12); fresh review via QA A-35; earlier note: pipeline part (WS1, 2026-11-15); schema + web parts open
 
 ## Goal
 Stable ids never 404. When a release merges or removes a variant (Decision 033), the catalogue carries `retired_ids: {old_id: successor_id | null}` and the web app redirects (308) old variant URLs and keeps old ids in compare links working.

@@ -1,6 +1,6 @@
 # T-066 Schema for shortlist rules, owner picks and missing scoring fields
 Role: coordinator   Lane: packages/schema   Wave: 9
-Status: review (WS0 coordinator, 2026-11-15; branch t-066-schema-shortlist-rules)
+Status: merged (PR #30); fresh review via QA A-35; earlier note: WS0 coordinator, 2026-11-15; branch t-066-schema-shortlist-rules
 
 ## Goal
 Give `data/editorial/` a schema so rules and picks are validated and typed (Decision 038).

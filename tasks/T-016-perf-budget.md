@@ -1,6 +1,6 @@
 # T-016 Perf budget
 Role: coordinator   Lane: audits/   Wave: 4
-Status: review (reviewer agent, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: reviewer agent, 2026-11-15
 
 ## Goal
 Explore JS < 200 KB, catalogue JSON gz < 300 KB; record actuals.

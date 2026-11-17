@@ -6,6 +6,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Statuses:** Proposed · Accepted · Superseded by NNN
 
+**Number blocks** (rule G-05; take the next free number in your own block, fetch `main` first):
+
+| Block | Owner |
+|---|---|
+| 001–039, 050–051, 062–069, 080–089 | WS0 coordinator |
+| 040–049 | WS1 pipeline |
+| 052–056 | WS2 web (052–054 went to the Dependabot fix chat) |
+| 057–061 | WS3 curation |
+| 070–079 | WS4 infra, WS5 growth, UX (ask WS0 for a sub-range) |
+| 090–099 | spare; ask WS0 |
+
+
 ---
 
 ## Decision 001: Adopted agentic scaffold and the agent workflow
@@ -719,5 +731,32 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** (1) `release_diff` is a new **blocking** QA check, run inside every `ev release` build and by `check-release` (CI data-qa, rollback). It compares catalogue rows and generations, shortlist scores, used prices, consumption matrix, towns and stations per id and field (`pipeline/ev_pipeline/release/differ.py`). (2) Blocking: an unapproved record removal (unless retired_ids redirects it), a change beyond the field's threshold, a thresholded value that goes empty, a number that loses every source, or a file that disappears. Everything else is review: listed, never blocks. (3) Thresholds, record sets, ignored keys and approvals live in `config/approved_changes.yaml`; an approval needs a reason and `PR #n` or `Decision nnn`, and can be scoped to a release, file, id, field and kind; unused approvals are listed as stale. (4) Fail closed: a bad config or an N-1 whose files don't match their manifest fails the check. (5) Charging figures (Decision 040 item 4) go through the same report but stay review only. Outputs: `data/review/release_diff.csv`, qa.json `release_diff`, a qa.md section (which the data-refresh PR body already includes), and `ev release diff --from N-1 --to N [--check]`.
 
 **Consequences:** The first refresh after this merges will block on every intended change since release 1 (T-068 seed models, new matching rules). That's on purpose: someone looks at the list once and adds a release-scoped bulk approval naming the PR. `config/` is WS3's folder; this one file is WS1's (T-123), and changing a threshold counts as a gate change (REVIEW.md R3).
+
+## Decision 062: Verification layer: diff-triggered REVIEW.md, gates out of reach, evidence per PR, every miss becomes a check
+
+**Status:** Accepted (Menno via the verification chat, 2026-11-17; logged by WS0)
+**Date:** 2026-11-17
+
+**Context:** Most launch tasks were merged without a fresh review (QA START, 17 Nov). Misses were caught late (stale release in MORNING.md, wrong EPA matches, duplicate decision numbers, conflict markers). Based on the Claude Code team's article on verification.
+
+**Decision:**
+- **REVIEW.md on main:** reviewers run only the items the diff triggers (R0–R3 always, D1–D13 by path), with evidence, and read the file from `origin/main`, never from the PR branch. One review = one commit (head SHA recorded in the task's `## Review`).
+- **Gates out of reach:** gate files (CI, REVIEW.md, AGENTS.md, test config, QA thresholds; listed in `config/gate-files.yaml`) change in their own PR. The `gate-guard` CI job flags mixed PRs and deleted/skipped tests without a `Test-change:` line; observe for one week (until 2026-11-24), then enforce with a new decision. WS0's `gate-ok` label is the logged escape hatch.
+- **Evidence pack per PR:** the PR template asks how it was verified and which REVIEW items fired; the `Verified:` commit stamp and the self-merge rule follow in T-128.
+- **Every miss becomes a check:** `docs/process/rules.md` lists every rule, the incident behind it and where it is enforced; a miss after merge adds a row and a check; a 4th retro question asks what a check missed; prune each phase. First tool checks: conflict markers and duplicate decision numbers in CI.
+- Decision number blocks per workstream at the top of this file.
+
+**Consequences:** Tasks T-120–T-129. One reviewer, tuned, not a stack of reviewers. Slightly slower merges; fewer late surprises.
+
+## Decision 063: One process doc, a lean QUESTIONS.md, and retire-don't-delete into `_archive/`
+
+**Status:** Accepted (Menno via the verification chat, 2026-11-17; logged and reviewed as a gate change by WS0)
+**Date:** 2026-11-17
+
+**Context:** The workflow was described in five places, decisions in two, and QUESTIONS.md had 83 "open" items, most of them engineering defaults. Menno: move old docs, don't delete them.
+
+**Decision:** `docs/process/README.md` is the one process doc. Project instructions live in `docs/process/project-instructions.md`. QUESTIONS.md holds only what Menno must answer; the rest moved to the archive with "default stands", and all ids were kept. AGENTS.md: when unsure, take the reversible default and note it; only Menno-only decisions block. Retired files go to `_archive/` (git mv plus a README row). Chats never read it unless Menno asks, and `.rgignore` keeps it out of searches (rule G-32). WS0 reviewed the AGENTS.md lines that went straight to main (266b373, e097843) and keeps them. The CI budget rule is G-33 (PR #45).
+
+**Consequences:** Fewer places to keep in sync. Gate files still change through a PR from now on (G-06); straight-to-main is for STATUS/HANDOFF/INBOX only.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

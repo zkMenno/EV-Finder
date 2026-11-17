@@ -20,4 +20,5 @@ What not to touch.
 Builder writes what was done, what's left, anything surprising.
 
 ## Review
+<!-- Reviewer: name, date, head SHA, REVIEW.md item ids + verdicts with evidence, e.g. "R0–R3, D1, D3: pass (abc1234)". -->
 Reviewer writes pass / changes needed, with reasons.

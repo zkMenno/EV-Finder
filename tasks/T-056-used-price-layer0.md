@@ -1,6 +1,6 @@
 # T-056 Used price layer0
 Role: WS1 + WS5   Lane: pipeline, config   Wave: proposed by overnight 1
-Status: review (WS1, 2026-11-15)
+Status: merged (PR #21); fresh review via QA A-35; earlier note: WS1, 2026-11-15
 
 ## Goal
 Used prices: ingest the free published price indices (layer 0: Autotrader RPI, AutoScout24 AGPI, Indicata) where terms allow, so PriceBand can show something.

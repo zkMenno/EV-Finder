@@ -89,6 +89,16 @@ jobs:
           [ -z "$rel" ] || echo "::warning::Release files over 5 MB (move releases out of git, T-064): $rel"
           huge=$(git ls-files -z -- data/releases | xargs -0 -I{} sh -c '[ -f "{}" ] && [ $(wc -c < "{}") -gt 26214400 ] && echo "{}"' || true)
           [ -z "$huge" ] || { echo "::error::Release files over 25 MB: $huge"; exit 1; }
+      - name: No merge-conflict markers (rule G-03)
+        run: |
+          m=$(git grep -nE '^(<{7}|={7}|>{7})( |$)' -- . ':!*.png' ':!*.jpg' || true)
+          [ -z "$m" ] || { echo "::error::Merge-conflict markers found:"; echo "$m" | head -30; exit 1; }
+      - name: Gate-guard unit tests (T-121)
+        run: python3 -m unittest discover -s scripts/tests
+      - name: Decision numbers are unique (rule G-04)
+        run: |
+          d=$(grep -oE '^## Decision [0-9]+' DECISIONS.md | sort | uniq -d)
+          [ -z "$d" ] || { echo "::error::Duplicate decision numbers in DECISIONS.md: $d"; exit 1; }
 
   web:
     needs: detect
@@ -263,10 +273,29 @@ jobs:
           uv export --frozen --no-dev --no-emit-project --format requirements-txt -o "$RUNNER_TEMP/requirements.txt"
           uvx pip-audit --disable-pip -r "$RUNNER_TEMP/requirements.txt"
 
+  gate-guard:
+    # T-121, rule G-06: a PR can't change the checks that judge it. Mode lives in config/gate-files.yaml.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check gate files and test weakening
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: python3 scripts/gate_guard.py "$BASE_SHA" "$HEAD_SHA"
+
   # One stable check name to require on main, whatever jobs ran.
   ci-ok:
     if: always()
-    needs: [repo-checks, web, e2e, schema, pipeline, data-qa]
+    needs: [repo-checks, gate-guard, web, e2e, schema, pipeline, data-qa]
     runs-on: ubuntu-latest
     permissions: {}
     steps:

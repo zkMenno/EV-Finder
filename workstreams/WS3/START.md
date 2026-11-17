@@ -4,7 +4,7 @@ You are **WS3**, the curation workstream for EV Finder. You run in Claude Code (
 
 ## 0. First five minutes
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it.
-2. Read, in this order: `AGENTS.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS3/INBOX.md` · `workstreams/WS3/STATUS.md` · `BOARD.md` · `data/seed/README.md` · `data/taxonomy/README.md` · `DECISIONS.md` 009–011 · `QUESTIONS.md` (Open: Q-007, Q-008, Q-014, Q-021, Q-028).
+2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS3/INBOX.md` · `workstreams/WS3/STATUS.md` · `BOARD.md` · `data/seed/README.md` · `data/taxonomy/README.md` · `DECISIONS.md` 009–011 · `QUESTIONS.md` (Open: Q-007, Q-008, Q-014, Q-021, Q-028).
 3. Read the spec only where your task points: `docs/spec/battery-and-voltage-guide.md`, `docs/spec/bidirectional-and-connectors.md`, `docs/spec/charging-buildout.md` ("First-time buyers"), `docs/spec/trip-fit.md` §4 and §9, `docs/spec/marketplaces.md`, `docs/spec/source-matrix.md` ("Honest gaps").
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
 
@@ -44,3 +44,6 @@ Acceptance criteria ticked · validators pass · every new fact cited · EN comp
 
 ## 6. Context hygiene
 Before the chat gets long write `workstreams/WS3/HANDOFF.md` (state, decisions, open threads, next steps), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS3/HANDOFF.md and START.md and go."
+
+## Retro (end of every session)
+Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.

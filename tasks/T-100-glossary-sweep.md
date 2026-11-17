@@ -1,6 +1,6 @@
 # T-100 Glossary sweep: every Explore column, filter, hero step and profile has a tooltip
 Role: WS3   Lane: data/taxonomy   Wave: 10 (Launch, content)
-Status: review (WS3, 2026-11-15)
+Status: merged (PR #34, #43); fresh review via QA A-35; earlier note: WS3, 2026-11-15
 
 ## Goal
 START.md §3 item 7: tooltips in EN + NL for everything a visitor sees in Explore and the hero.

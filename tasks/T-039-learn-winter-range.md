@@ -1,6 +1,6 @@
 # T-039 /learn "Winter range explained"
 Role: WS3   Lane: content/learn   Wave: 7
-Status: review (WS3, 2026-11-15)
+Status: merged (PR #35, via batch #39); fresh review via QA A-35; earlier note: WS3, 2026-11-15
 
 ## Goal
 Plain explainer: why range drops in the cold, heat pumps, preheating, speed.

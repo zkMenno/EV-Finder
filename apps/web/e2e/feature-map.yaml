@@ -1,0 +1,286 @@
+# Feature map (T-126): what a buyer can do on the site, how to walk it and what must be true.
+# Read by scripts/verify.mjs (`pnpm --filter @ev/web verify`) and by reviewers as a grading rubric.
+# Plain words on purpose: a failure prints `what` and `why`, so the report reads like a bug report.
+#
+# Selectors: Playwright selector strings; `@name` is short for [data-testid="name"].
+# Steps (in order): goto <path> · click <sel> · fill [<sel>, <text>] · select [<sel>, <value>] ·
+#   follow <sel> (click a link and wait for the new page) · wait <sel>
+# Expectations: count <sel> with eq / min / max · visible <sel> · text <sel> with contains / match ·
+#   attr <sel> with name + match · url with match · lang (the <html lang>).
+#   Every expectation has `what` (the thing, in buyer words) and `why` (what it means if it fails).
+#   `on: release` = only checked on the published release (counts that depend on how many cars we
+#   have); `on: fixture` = only on the dev fixture. Default: both.
+# triggers: source paths (globs from apps/web/; quote any with [[] brackets) that, when changed, make `verify --changed` walk it.
+# Every run also checks, on every page it visits: no uncaught page error, no raw dictionary key
+# (e.g. "hero.card.price") in the visible text, and the right <html lang>.
+
+defaults:
+  timeout_ms: 10000
+  # Shared files every page uses: a change here walks every flow under `verify --changed`.
+  # Paths are relative to apps/web (the root lockfile is ../../pnpm-lock.yaml).
+  always_all: [package.json, ../../pnpm-lock.yaml, next.config.ts, src/proxy.ts, src/lib/csp.ts, src/lib/catalogue.ts, src/lib/format.ts, src/i18n/t.ts, src/components/Num.tsx, src/components/Term.tsx, "src/app/[[]country]/[[]lang]/layout.tsx"]
+
+features:
+  # ── Hero (T-080, launch scope §1) ───────────────────────────────────────────────────────────
+  - id: hero-road-tripper
+    title: "Hero: road-tripper with a budget gets a ranked top 10"
+    triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts, src/lib/filters.ts, src/config/shortlist-rules.generated.json, "src/app/[[]country]/[[]lang]/page.tsx", src/lib/finance*.ts, src/i18n/*.json]
+    steps:
+      - goto: /nl/en?role=only&trips=monthly&charge=home&area=town
+      - click: "@hero-budget-30000"
+      - wait: "@hero-card"
+    expect:
+      - count: "@hero-card"
+        eq: 10
+        on: release
+        what: the top 10 cars
+        why: presets, gates or the budget dropped cars it shouldn't (missing data must never drop a car, Decision 055)
+      - count: "@hero-card"
+        min: 1
+        what: at least one ranked car
+        why: the hero shows nothing for a common answer set
+      - count: "@hero-shortlist @hero-card"
+        min: 1
+        max: 5
+        what: the "Your shortlist" block (top 5)
+        why: the first five aren't marked as the shortlist
+      - text: "@hero-profile"
+        contains: Road-tripper
+        what: the profile name
+        why: the picker answers don't map to the road-tripper profile
+      - text: "@hero-monthly"
+        match: "≈ .+ a month|official typical loan rate"
+        what: the monthly estimate under the budget
+        why: the loan estimate (or its 'no rate' note) is missing
+      - visible: "@hero-why"
+        what: the 'why it ranks here' line
+        why: cards don't explain their rank
+      - attr: "@hero-listings"
+        name: href
+        match: "^https://"
+        what: the 'See listings' link
+        why: the first card has no working link out to a marketplace
+      - url: "budget=30000"
+        what: the budget in the address bar
+        why: state is not in the URL, so the link can't be shared (design principle 3)
+
+  - id: hero-daily-driver
+    title: "Hero: daily driver"
+    triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/config/shortlist-rules.generated.json]
+    steps:
+      - goto: /nl/en?role=main&trips=never&charge=home
+      - wait: "@hero-card"
+    expect:
+      - text: "@hero-profile"
+        contains: Daily driver
+        what: the profile name
+        why: "'main car, never long trips' should be the daily-driver profile"
+      - count: "@hero-card"
+        eq: 10
+        on: release
+        what: the top 10 cars
+        why: the daily-driver presets or gates dropped too many cars
+      - count: "@hero-card"
+        min: 1
+        what: at least one ranked car
+        why: the hero shows nothing for this profile
+
+  - id: hero-runabout-picker
+    title: "Hero: picking 'A second car' by tapping builds the runabout profile"
+    triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts]
+    steps:
+      - goto: /nl/en
+      - click: "label:has(@hero-role-second)"
+      - wait: "@hero-card"
+    expect:
+      - text: "@hero-profile"
+        contains: Runabout
+        what: the profile name after one tap
+        why: tapping an answer doesn't update the profile
+      - url: "role=second"
+        what: the answer in the address bar
+        why: picker answers are not saved in the URL
+      - count: "@hero-card"
+        min: 1
+        what: ranked cars
+        why: the hero doesn't re-rank in the browser after a tap
+
+  - id: hero-kerbside
+    title: "Hero: no charger at home adds the kerbside layer"
+    triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/config/shortlist-rules.generated.json]
+    steps:
+      - goto: /nl/en?role=only&trips=often&charge=public_only&area=city
+      - wait: "@hero-card"
+    expect:
+      - text: "@hero-profile"
+        match: "Road-tripper · no charger at home"
+        what: the stacked profile name
+        why: the kerbside layer doesn't stack on the base profile
+      - count: "@hero-card"
+        min: 1
+        what: ranked cars
+        why: the kerbside presets dropped every car
+
+  - id: hero-nerd
+    title: "Hero: Nerd level shows how the score is built"
+    triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/use-level.ts]
+    steps:
+      - goto: /nl/en?role=only&trips=monthly&level=nerd
+      - wait: "@hero-card"
+    expect:
+      - text: "@hero-nerd"
+        match: "Score \\d"
+        what: the score table on the first card
+        why: Nerd mode hides the factors behind the ranking (simple by default, nerdy on demand)
+
+  # ── Explore (the full list under the hero) ──────────────────────────────────────────────────
+  - id: explore-filter-url
+    title: "Explore: a filter narrows the list and lives in the URL"
+    triggers: [src/components/Explore.tsx, src/lib/filters.ts, src/lib/state.ts, src/lib/explore-data.ts, src/lib/filter-bus.ts]
+    steps:
+      - goto: /nl/en
+      - wait: "@explore-row"
+      - fill: ["#f-rangeMin", "350"]
+      - wait: "@result-count"
+    expect:
+      - url: "range=350"
+        what: the range filter in the address bar
+        why: filters are not shareable (design principle 3)
+      - visible: "@explore-row"
+        what: at least one row in the table
+        why: a common filter emptied the table
+      - text: "@result-count"
+        match: "\\d"
+        what: the result count
+        why: the count doesn't update
+
+  - id: explore-compare
+    title: "Explore → Compare with 'differences only'"
+    triggers: [src/components/Explore.tsx, src/components/CompareTray.tsx, src/components/CompareTable.tsx, src/lib/compare-store.ts, "src/app/[[]country]/[[]lang]/compare/**"]
+    steps:
+      - goto: /nl/en?view=table
+      - wait: "@compare-toggle"
+      - click: "(//*[@data-testid='compare-toggle'])[1]"
+      - click: "(//*[@data-testid='compare-toggle'])[2]"
+      - follow: "@compare-tray a"
+      - wait: "@compare-table"
+      - click: "@compare-diff-toggle"
+    expect:
+      - url: "/nl/en/compare\\?ids=.+,.+"
+        what: the compare page with both cars
+        why: the tray doesn't carry the picked cars to Compare
+      - count: "@compare-table thead th"
+        min: 3
+        what: two car columns in the table
+        why: Compare lost a car
+      - url: "diff=1"
+        what: "'differences only' in the address bar"
+        why: the toggle isn't kept in the URL
+
+  # ── Car pages ───────────────────────────────────────────────────────────────────────────────
+  - id: car-pages
+    title: "Model → generation → variant pages, with sources on the numbers"
+    triggers: ["src/app/[[]country]/[[]lang]/ev/**", src/components/SpecDiff.tsx, src/components/DiffOnly.tsx, src/components/Term.tsx, src/components/PriceBand.tsx, src/lib/spec-diff.ts]
+    steps:
+      - goto: /nl/en?view=table
+      - wait: "@explore-row"
+      - follow: "(//*[@data-testid='explore-row'])[1]//a[contains(@href,'/ev/')]"
+    expect:
+      - url: "/nl/en/ev/[^/]+/[^/]+"
+        what: a car page
+        why: Explore rows don't link to car pages
+      - visible: "h1"
+        what: the car's name
+        why: the car page has no heading
+
+  - id: generation-diff-only
+    title: "Generation page: 'Differences only' hides shared rows"
+    triggers: ["src/app/[[]country]/[[]lang]/ev/[[]make]/[[]model]/[[]generation]/page.tsx", src/components/DiffOnly.tsx, src/components/SpecDiff.tsx, src/lib/spec-diff.ts]
+    steps:
+      - goto: /nl/en/ev/hyundai/ioniq-5/gen1
+      - click: "@diff-only"
+    expect:
+      - attr: "@diff-only"
+        name: aria-pressed
+        match: "true"
+        on: release
+        what: the 'Differences only' toggle
+        why: the toggle doesn't switch on
+      - url: "diff=1"
+        on: release
+        what: the toggle in the address bar
+        why: the toggle isn't kept in the URL
+
+  # ── Levels, tooltips, theme, language ──────────────────────────────────────────────────────
+  - id: tooltip
+    title: "Every term has a tooltip that opens"
+    triggers: [src/components/Term.tsx, src/components/use-popover.ts, src/lib/taxonomy.ts]
+    steps:
+      - goto: /nl/en?role=main&trips=never
+      - wait: "@hero-card"
+      - click: "(//*[@data-testid='hero-card'])[1]//button[starts-with(@aria-label,'About')]"
+    expect:
+      - visible: "[role=dialog], [role=tooltip]"
+        what: the tooltip text
+        why: tapping ⓘ doesn't open the explanation
+
+  - id: theme-toggle
+    title: "Light / dark theme switch"
+    triggers: [src/components/ThemeToggle.tsx, src/app/globals.css, src/app/tokens.generated.css, "src/app/[[]country]/[[]lang]/layout.tsx"]
+    steps:
+      - goto: /nl/en
+      - click: "@theme-toggle"
+    expect:
+      - attr: "html"
+        name: data-theme
+        match: "^(dark|light)$"
+        what: the chosen theme on the page
+        why: the theme switch does nothing
+
+  - id: language-switch
+    title: "Language switch keeps the filters"
+    triggers: ["src/app/[[]country]/[[]lang]/layout.tsx", src/components/Switchers.tsx, src/config/countries*.ts, src/i18n/**]
+    steps:
+      - goto: /nl/en?range=300
+      - select: ["role=combobox[name=/^(Language|Taal)$/]", "nl"]
+    expect:
+      - lang: nl
+        what: the Dutch page
+        why: the language switch doesn't change the language
+      - url: "/nl/nl.*range=300"
+        what: the filter after switching
+        why: switching language loses the filters (design principle 3)
+
+  # ── Content pages ──────────────────────────────────────────────────────────────────────────
+  - id: learn
+    title: "/learn lists the guides and opens one"
+    triggers: ["src/app/[[]country]/[[]lang]/learn/**", src/lib/learn.ts, src/config/learn.generated.json]
+    steps:
+      - goto: /nl/en/learn
+      - follow: "@learn-articles a"
+    expect:
+      - visible: "@learn-article"
+        what: a guide
+        why: /learn doesn't open its guides
+      - visible: "@learn-sources"
+        on: release
+        what: the guide's sources
+        why: a guide without its sources breaks 'every number has a source'
+
+  - id: open-data
+    title: "/data offers the open data download"
+    triggers: ["src/app/[[]country]/[[]lang]/data/**", src/lib/open-data.ts]
+    steps:
+      - goto: /nl/en/data
+    expect:
+      - attr: "@open-file"
+        name: href
+        match: "^https://github\\.com/"
+        on: release
+        what: the download link
+        why: the open data bundle can't be downloaded
+      - text: "@open-cite"
+        contains: CC BY 4.0
+        on: release
+        what: the citation line
+        why: the licence isn't stated

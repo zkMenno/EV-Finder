@@ -1,6 +1,6 @@
 # T-032 Condition-tagged consumption tests ingest
 Role: WS1   Lane: pipeline   Wave: 7
-Status: review (WS1, 2026-11-15)
+Status: merged (PR #10); fresh review via QA A-35; earlier note: WS1, 2026-11-15
 
 ## Goal
 Load consumption and range tests with their conditions so the model can use measured values first.

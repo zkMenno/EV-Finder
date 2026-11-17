@@ -1,6 +1,6 @@
 # T-017 Security pass
 Role: coordinator   Lane: audits/   Wave: 4
-Status: review (reviewer agent, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: reviewer agent, 2026-11-15
 
 ## Goal
 No secrets, dependency audit, safe Caddy headers, no third-party browser calls.

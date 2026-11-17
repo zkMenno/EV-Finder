@@ -1,6 +1,6 @@
 # T-065 Schema follow-ups from the research pack
 Role: coordinator (WS0)   Lane: packages/schema   Wave: 7
-Status: review (WS0 coordinator, 2026-11-15; branch t-066-schema-shortlist-rules, shared PR with T-066)
+Status: merged (PR #30); fresh review via QA A-35; earlier note: WS0 coordinator, 2026-11-15; branch t-066-schema-shortlist-rules, shared PR with T-066
 
 ## Goal
 Add the fields the research pack asked for (workstreams/OVERNIGHT2/MORNING-2.md, "Schema requests").
