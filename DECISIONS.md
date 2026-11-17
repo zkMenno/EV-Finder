@@ -687,5 +687,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** `import_menno_sheet.py` maps a year at most one year outside every generation of the model to the nearest one and lists those rows when it runs (the EditorialPick schema has no field for it; WS0 may add one). Further away stays unmapped. A `--remap` mode refreshes only the seed ids from the existing picks file, so the sheet is not needed after seed changes.
 
 **Consequences:** Seed years stay evidence-based; the importer output and models.yaml notes (Elroq, Scenic) show which rows were matched by proximity.
+## Decision 059: Heat pump fitment as cited manual facts; heater and temperature labels as taxonomy rows
+
+**Status:** Accepted (WS3, T-031)
+**Date:** 2026-11-15
+
+**Context:** The consumption model (T-033) needs per-variant heat pump fitment and readable labels for its temperature columns and heater types. R-21 found fitment for about 40 generations, often only for some model years or one market.
+
+**Decision:** Fitment goes in `data/manual/heat-pump/*.yaml` as one cited `heat_pump` fact per generation, only where the source covers the whole generation; `not-disclosed` is never entered (it is the default). Rows that change inside a generation wait for a year span on manual facts (asked WS1) or a seed variant split. `data/taxonomy/temperature_bands.yaml` and `heater_types.yaml` carry six-language labels and tooltips; their numbers mirror the model defaults in `consumption_params.yaml` and change there and here together.
+
+**Consequences:** Fitment stays internal until Q-008 (source `manual` is blocked). The model's numbers are unchanged; only labels are added.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
