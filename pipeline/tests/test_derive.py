@@ -25,7 +25,8 @@ TODAY = date(2026, 11, 15)
 
 def test_consumption_estimate() -> None:
     # 75 kWh / 629 km * 100 = 11.92 kWh/100km
-    assert m.consumption_estimate(75, 629) == pytest.approx(11.9237, abs=1e-4)
+    # T-071: battery basis 11.92 x 1.16 charging losses = WLTP wall basis.
+    assert m.consumption_estimate(75, 629) == pytest.approx(11.9237 * 1.16, abs=1e-4)
 
 
 def test_ac_km_per_h() -> None:
@@ -231,17 +232,19 @@ def test_row_derived_values_and_provenance() -> None:
         ]
     )
     assert problems == []
-    assert row["consumption_kwh_100km"] == 11.9
-    assert row["ac_km_per_h"] == 92.3  # 11 / 11.9237 * 100
+    assert (
+        row["consumption_kwh_100km"] == 13.8
+    )  # T-071: 75 / 629 x 100 x 1.16 (was 11.9 battery basis)
+    assert row["ac_km_per_h"] == 79.5  # 11 / 13.8315 * 100 (T-071; was 92.3)
     # Default curve from 250 kW peak: avg 168.5 kW; 75 kWh -> 18.7 min.
     assert row["dc_avg_10_80_kw"] == 168.5
     assert row["dc_curve_status"] == "default"
     assert row["dc_minutes_10_80"] == 18.7
-    # Motorway 11.9237 x 1.3 = 15.5; 168.5 kW x 10/60 = 28.1 kWh -> 181.2 km
-    assert row["consumption_motorway_kwh_100km"] == 15.5
-    assert row["dc_km_per_10min"] == 181.2
-    # 20 min = 56.2 kWh, capped at 75 x 0.7 = 52.5 kWh -> 338.7 km
-    assert row["dc_km_per_20min"] == 338.7
+    # Motorway 13.8315 x 1.3 = 18.0; 168.5 kW x 10/60 = 28.1 kWh -> 156.2 km (T-071)
+    assert row["consumption_motorway_kwh_100km"] == 18.0
+    assert row["dc_km_per_10min"] == pytest.approx(156.2, abs=0.1)
+    # 20 min = 56.2 kWh, capped at 75 x 0.7 = 52.5 kWh -> 292.0 km
+    assert row["dc_km_per_20min"] == pytest.approx(292.0, abs=0.1)
     assert row["dc_peak_kw_is_claim"] is True  # openev = claim tonight
     assert row["real_range_km"] == 540.9 and row["real_range_rung"] == "body-ratio"
     assert row["price_new"] == {"NL": {"amount": 56990.0, "currency": "EUR"}}
@@ -288,7 +291,7 @@ def test_net_from_gross_fallback() -> None:
     assert row["battery_kwh_net"] == 22.3
     p = row["provenance"]["battery_kwh_net"]
     assert p["derived"] is True and p["confidence"] == "low" and "gross" in p["note"]
-    assert row["consumption_kwh_100km"] == pytest.approx(11.2, abs=0.05)
+    assert row["consumption_kwh_100km"] == pytest.approx(12.9, abs=0.05)  # T-071: x 1.16 (was 11.2)
     assert p["estimate"] is True
 
 

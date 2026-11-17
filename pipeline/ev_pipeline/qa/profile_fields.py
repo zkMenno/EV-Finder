@@ -98,6 +98,47 @@ def _provenance(rows: list[dict[str, Any]], field: str) -> dict[str, int]:
     return dict(sorted(c.items()))
 
 
+def derived_consumption_backtest(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """T-071: our consumption estimate vs the official WLTP figure, on rows that have both.
+
+    Uses rows whose consumption is sourced (not derived), whose WLTP range is not an
+    estimate and that have a net capacity. The factor in metrics.py was fitted on release 1,
+    so this is in-sample for that release and out of sample for every later one.
+    """
+    from ev_pipeline.derive.metrics import consumption_estimate
+
+    errs: list[tuple[str, float]] = []
+    for r in rows:
+        prov = r.get("provenance") or {}
+        cp, wp = prov.get("consumption_kwh_100km") or {}, prov.get("wltp_range_km") or {}
+        off, net, wltp = (
+            r.get("consumption_kwh_100km"),
+            r.get("battery_kwh_net"),
+            r.get("wltp_range_km"),
+        )
+        if not (off and net and wltp) or cp.get("derived") or wp.get("estimate"):
+            continue
+        est = consumption_estimate(float(net), float(wltp))
+        errs.append((str(r["variant_id"]), (est - float(off)) / float(off) * 100))
+    if not errs:
+        return {"n": 0, "status": "skipped"}
+    pct = [e for _, e in errs]
+    return {
+        "n": len(pct),
+        "median_abs_pct": round(statistics.median(abs(e) for e in pct), 1),
+        "mean_signed_pct": round(statistics.fmean(pct), 1),
+        "status": "ok",
+        "worst": [
+            {"variant_id": v, "error_pct": round(e, 1)}
+            for v, e in sorted(errs, key=lambda p: (-abs(p[1]), p[0]))[:WORST_N]
+        ],
+    }
+
+
+def _n(x: dict[str, Any] | None) -> dict[str, Any] | None:
+    return x if x and x.get("n") else None
+
+
 def _epa(bt: dict[str, Any] | None, part: str) -> dict[str, Any] | None:
     r = (bt or {}).get(part) or {}
     if r.get("status") in (None, "skipped"):
@@ -172,6 +213,7 @@ def profile_fields_section(
             "provenance": _provenance(rows, "consumption_kwh_100km"),
             "proxy_epa_in_sample": _epa(backtest_epa, "consumption"),
             "proxy_epa_out_of_sample": _epa(backtest_epa, "consumption_oos"),
+            "estimate_vs_official_wltp": derived_consumption_backtest(rows),
         },
     }
 
@@ -213,5 +255,6 @@ def profile_fields_md(sec: dict[str, Any] | None) -> list[str]:
         f" {ratio(dc['consumption_vs_matrix_motorway'])}. No licence-clean charging test yet.",
         f"- **WLTP consumption**: {cons['coverage']} variants; EPA in sample"
         f" {epa(cons['proxy_epa_in_sample'])}, out of sample"
-        f" {epa(cons['proxy_epa_out_of_sample'])}.",
+        f" {epa(cons['proxy_epa_out_of_sample'])}; our estimate (net kWh / WLTP x charging"
+        f" losses) vs official WLTP: {epa(_n(cons.get('estimate_vs_official_wltp')))}.",
     ]

@@ -58,6 +58,12 @@ DEFAULT_CURVE_SHAPE: tuple[tuple[float, float], ...] = (
 # PROVISIONAL: typical buffers are 5-10%; 0.93 sits in the middle.
 NET_PER_GROSS = 0.93
 WLTP_PER_EPA = 1.12
+# T-071 (Decision 047): official WLTP consumption is measured at the wall, so it includes
+# charging losses; battery_kwh_net / wltp_range_km is battery basis and runs low. Median
+# official / battery-basis ratio on release 1: 1.159 (n 138, IQR 1.13-1.20, rows with an
+# official consumption, a non-estimated WLTP and a net capacity). Wall x 0.86 = battery,
+# close to the matrix basis in Decision 041 (x 0.88).
+WALL_PER_BATTERY_WLTP = 1.16
 
 # PROVISIONAL generic real/WLTP ratios, mild-weather mixed driving. Boxier and taller bodies
 # lose more at motorway speed. Replace with brand-body-drivetrain ratios once real data exists.
@@ -76,7 +82,8 @@ PROVISIONAL_NOTE = "PROVISIONAL generic ratio, mild-weather mixed driving"
 
 
 def consumption_estimate(battery_kwh_net: float, wltp_range_km: float) -> float:
-    return battery_kwh_net / wltp_range_km * 100
+    """WLTP consumption (wall basis, kWh/100 km) estimated from net capacity and WLTP range."""
+    return battery_kwh_net / wltp_range_km * 100 * WALL_PER_BATTERY_WLTP
 
 
 def ac_km_per_h(ac_kw: float, consumption_kwh_100km: float) -> float:
