@@ -17,7 +17,8 @@
 defaults:
   timeout_ms: 10000
   # Shared files every page uses: a change here walks every flow under `verify --changed`.
-  always_all: [package.json, next.config.ts, src/proxy.ts, src/lib/csp.ts, src/lib/catalogue.ts, src/lib/format.ts, src/i18n/t.ts, src/components/Num.tsx, src/components/Term.tsx, "src/app/[[]country]/[[]lang]/layout.tsx"]
+  # Paths are relative to apps/web (the root lockfile is ../../pnpm-lock.yaml).
+  always_all: [package.json, ../../pnpm-lock.yaml, next.config.ts, src/proxy.ts, src/lib/csp.ts, src/lib/catalogue.ts, src/lib/format.ts, src/i18n/t.ts, src/components/Num.tsx, src/components/Term.tsx, "src/app/[[]country]/[[]lang]/layout.tsx"]
 
 features:
   # ── Hero (T-080, launch scope §1) ───────────────────────────────────────────────────────────

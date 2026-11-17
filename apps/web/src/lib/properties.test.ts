@@ -50,8 +50,11 @@ import {
   type ExploreState,
 } from "./state";
 import { parseVariantUsedPrices } from "./variant-prices";
+import { compareUrl, parseCompareIds } from "@/app/[country]/[lang]/compare/_lib/ids";
+import { COMPARE_MAX, compareHref } from "./compare-store";
 
-fc.configureGlobal({ seed: Number(process.env.FC_SEED ?? 20261117), numRuns: Number(process.env.FC_RUNS ?? 200) });
+// `|| default`, not `?? default`: an empty FC_SEED must not quietly become seed 0.
+fc.configureGlobal({ seed: Number(process.env.FC_SEED) || 20261117, numRuns: Number(process.env.FC_RUNS) || 200 });
 
 // ── Generators ──────────────────────────────────────────────────────────────────────────────
 
@@ -227,6 +230,35 @@ describe("hero state", () => {
         const merged = new URL("https://x.test" + mergeHeroIntoUrl(`https://x.test/nl/en?${own}`, h));
         for (const k of ["sort", "view", "level", "pay"]) expect(merged.searchParams.get(k)).toBe(own.get(k));
         expect(heroFromSearchParams(merged.searchParams)).toEqual(h);
+      }),
+    );
+  });
+});
+
+describe("compare URL", () => {
+  const variantId = fc.stringMatching(/^[a-z0-9][a-z0-9-]{0,20}$/);
+  const ids = fc.uniqueArray(variantId, { maxLength: COMPARE_MAX });
+
+  it("compare link → ids gives the same cars in the same order (tray link and page links)", () => {
+    fc.assert(
+      fc.property(ids, fc.boolean(), fc.constantFrom(null, "buy", "loan", "lease"), (list, diff, pay) => {
+        const tray = new URL("https://x.test" + compareHref("/nl/en", list.map((id) => ({ id, label: id }))));
+        expect(parseCompareIds(tray.searchParams.get("ids"))).toEqual(list);
+        const page = new URL("https://x.test" + compareUrl("/nl/en", list, diff, pay));
+        expect(parseCompareIds(page.searchParams.get("ids"))).toEqual(list);
+        expect(page.searchParams.get("diff")).toBe(diff ? "1" : null);
+        expect(page.searchParams.get("pay")).toBe(pay === "loan" || pay === "lease" ? pay : null);
+      }),
+    );
+  });
+
+  it("parsing any ids parameter never throws and keeps at most the compare maximum", () => {
+    fc.assert(
+      fc.property(fc.oneof(fc.string(), fc.array(fc.string())), (raw) => {
+        const out = parseCompareIds(raw);
+        expect(out.length).toBeLessThanOrEqual(COMPARE_MAX);
+        expect(new Set(out).size).toBe(out.length);
+        expect(parseCompareIds(out.join(","))).toEqual(out);
       }),
     );
   });
