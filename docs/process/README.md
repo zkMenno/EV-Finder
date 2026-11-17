@@ -1,6 +1,6 @@
 # How we work
 
-The one process doc for every chat and agent on EV Finder. It replaced the old project docs, `workstreams/README.md` and the spec's Workflow tab on 17 Nov 2026. Engineering rules for code stay in [AGENTS.md](../../AGENTS.md); product decisions in [docs/spec/product-decisions.md](../spec/product-decisions.md); review checks in `REVIEW.md` (until adopted: [draft](../../workstreams/WS0/drafts/REVIEW.md)); the rule register in [rules.md](rules.md). Owner: WS0. Change it with a small edit plus a line in [rules.md](rules.md).
+The one process doc for every chat and agent on EV Finder. It replaced the old project docs, `workstreams/README.md` and the spec's Workflow tab on 17 Nov 2026. Engineering rules for code stay in [AGENTS.md](../../AGENTS.md); product decisions in [docs/spec/product-decisions.md](../spec/product-decisions.md); review checks in [REVIEW.md](../../REVIEW.md); the rule register in [rules.md](rules.md). Owner: WS0. Change it with a small edit plus a line in [rules.md](rules.md).
 
 Short version for Project Settings: [project-instructions.md](project-instructions.md) (WS0 updates it and tells Menno to re-paste).
 
