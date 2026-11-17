@@ -238,6 +238,7 @@ CANONICAL_UNITS: dict[str, str] = {
     "real_range_km": "km",
     "consumption_kwh_100km": "kWh/100km",
     "ac_kw": "kW",
+    "ac_kw_optional": "kW",
     "dc_peak_kw": "kW",
     "dc_avg_10_80_kw": "kW",
     "power_kw": "kW",

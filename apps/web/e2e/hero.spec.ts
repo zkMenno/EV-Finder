@@ -122,11 +122,14 @@ test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside
   await expect(page.getByRole("checkbox", { name: "I want to keep it 8 years or more", exact: true })).toHaveCount(1);
 });
 
-// Every language, every card: German compounds and units are wider than Dutch (T-097 review found 18 px).
-for (const lang of ["nl", "en", "de", "fr", "es", "it"]) test(`hero: ${lang} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
+// Every served language, every card: German compounds and units are wider than Dutch (T-097 review
+// found 18 px). Only routes that are served (countries config); /nl/de would 308 to /nl/nl, so the
+// test fails if a route redirects. ES/IT join once T-119 serves them.
+for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de"]) test(`hero: ${route} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
   test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto(`/nl/${lang}?role=only&trips=monthly&level=nerd`);
+  await page.goto(`/${route}?role=only&trips=monthly&level=nerd`);
+  expect(new URL(page.url()).pathname, "route was redirected, so this language isn't really tested").toBe(`/${route}`);
   await expect(page.getByTestId("hero-nerd").first()).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
@@ -152,6 +155,21 @@ for (const lang of ["nl", "en", "de", "fr", "es", "it"]) test(`hero: ${lang} Ner
   expect(table.numberCells).toBeGreaterThan(0);
   expect(table.split).toBe(0);
   expect(table.clipped).toBeLessThanOrEqual(0);
+  // Font-independent: CI's system font rendered DE 16 px wider than a dev machine (T-097 review).
+  // Text 12 % wider must still fit, with every number whole.
+  await page.addStyleTag({ content: '[data-testid="hero-nerd"] table { letter-spacing: 0.12em }' });
+  const wide = await page.evaluate(() => {
+    const boxes = [...document.querySelectorAll('[data-testid="hero-nerd"] table')].map((t) => t.parentElement!);
+    const nums = [...document.querySelectorAll('[data-testid^="hero-nerd-value-"] span')];
+    return {
+      clipped: Math.max(...boxes.map((b) => b.scrollWidth - b.clientWidth)),
+      split: nums.filter((s) => new Set([...s.getClientRects()].map((x) => Math.round(x.top))).size > 1).length,
+      nums: nums.length,
+    };
+  });
+  expect(wide.nums).toBeGreaterThan(0);
+  expect(wide.split).toBe(0);
+  expect(wide.clipped).toBeLessThanOrEqual(0);
 });
 
 // T-115 (Decision 064, A-35 B2): the budget changes the result. Needs a release with used prices and

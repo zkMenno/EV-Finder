@@ -32,6 +32,8 @@ class Country(Enum):
     FR = 'FR'
     BE = 'BE'
     UK = 'UK'
+    ES = 'ES'
+    IT = 'IT'
 
 
 class Currency(Enum):
@@ -174,6 +176,7 @@ class FactField(Enum):
     epa_range_km = 'epa_range_km'
     consumption_kwh_100km = 'consumption_kwh_100km'
     ac_kw = 'ac_kw'
+    ac_kw_optional = 'ac_kw_optional'
     dc_peak_kw = 'dc_peak_kw'
     dc_avg_10_80_kw = 'dc_avg_10_80_kw'
     power_kw = 'power_kw'
@@ -1842,23 +1845,6 @@ class ChargingStatsRelease(BaseModel):
     stats: list[ChargingStat]
 
 
-class UsedPriceBand(BaseModel):
-    model_config = ConfigDict(
-        extra='forbid',
-    )
-    generation_id: Id
-    country: CountryCode
-    currency: Currency
-    p25: float | None = Field(None, ge=0.0)
-    median: float = Field(..., ge=0.0)
-    p75: float | None = Field(None, ge=0.0)
-    samples: int = Field(..., ge=0)
-    period: str
-    age_band_years: str | None = None
-    source_id: Id
-    fact_ids: list[str] | None = None
-
-
 class FeatureAvailability(Enum):
     yes = 'yes'
     no = 'no'
@@ -2495,6 +2481,84 @@ class RetiredIdsFile(BaseModel):
     retired_ids: RetiredIds
 
 
+class UsedPriceBasis(Enum):
+    band = 'band'
+    estimate = 'estimate'
+
+
+class UsedPriceSourceRef(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    name: str
+    url: str | None = None
+    ref: str | None = None
+    date: str | None = None
+
+
+class Method(Enum):
+    model = 'model'
+    samples = 'samples'
+
+
+class UsedPriceYearBand(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    build_year: int = Field(..., ge=1990)
+    currency: Currency
+    p25: float | None = Field(None, ge=0.0)
+    median: float = Field(..., ge=0.0)
+    p75: float | None = Field(None, ge=0.0)
+    samples: int = Field(..., ge=0)
+    method: Method
+    basis: UsedPriceBasis
+    estimate: bool
+    confidence: Confidence
+    date: str = Field(
+        ...,
+        description='Date of the samples (band) or of the published curve (estimate).',
+    )
+    source: UsedPriceSourceRef
+    source_id: str | None = None
+    curve: str | None = None
+    age_years: float | None = Field(None, ge=0.0)
+    kept_share: float | None = Field(None, ge=0.0, le=1.5)
+    list_price: float | None = Field(None, ge=0.0)
+    list_basis: str | None = Field(
+        None, description='year | nearest_year | from_<cc>_vat_adjusted'
+    )
+    list_source_ids: list[str] | None = None
+    observed_at: str | None = None
+
+
+class Variant1(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    variant_id: Id
+    generation_id: str | None = None
+    bands: dict[str, list[UsedPriceYearBand]]
+
+
+class UsedPricesRelease(BaseModel):
+    model_config = ConfigDict(
+        extra='allow',
+    )
+    release: int = Field(..., ge=1)
+    generated_at: str
+    model_version: str | None = None
+    estimate: bool | None = None
+    note: str | None = None
+    anchors_as_of: str | None = None
+    method_ref: str | None = None
+    list_price_source_ids: list[str] | None = None
+    variants: list[Variant1]
+    generation_bands: list[dict[str, Any]] | None = None
+    curves: dict[str, Any] | None = None
+    backtest: dict[str, Any] | None = None
+
+
 class Generation(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -2894,6 +2958,26 @@ class ConsumptionTest(BaseModel):
     source_record: str | None = None
     retrieved_at: date
     confidence: Confidence
+
+
+class UsedPriceBand(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    generation_id: Id
+    country: CountryCode
+    currency: Currency
+    p25: float | None = Field(None, ge=0.0)
+    median: float = Field(..., ge=0.0)
+    p75: float | None = Field(None, ge=0.0)
+    samples: int = Field(..., ge=0)
+    period: str
+    age_band_years: str | None = None
+    source_id: Id
+    fact_ids: list[str] | None = None
+    build_year: int | None = Field(None, ge=1990)
+    basis: UsedPriceBasis | None = None
+    source: UsedPriceSourceRef | None = None
 
 
 class ConsumptionMatrixRelease(BaseModel):
