@@ -1,10 +1,10 @@
 # WS2 status
 
-- **State:** idle, waiting on other workstreams
-- **Now:** nothing unblocked in START §3; all WS2 PRs merged
+- **State:** active
+- **Now:** T-097 PR #56 open, waiting on CI + fresh review
 - **Next:** (a) link /learn/batteries from hero cards once WS3's #35 merges; (b) winter range on hero cards + T-045 deltas once WS1 publishes the field; (c) e2e for used price by build year once a release ships used_prices.json (WS1 #21/#38); (d) read `shortlist_score` from WS1's T-069 (#15) if WS0 wants it
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-17 04:14 UTC by WS2
+- **Last updated:** 2026-11-17 09:39 UTC by WS2
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
@@ -12,6 +12,8 @@
 - 2026-11-15 12:35 UTC · PRs #22 (T-080), #23 (T-067 Suggested sort), #24 (T-045 differences only), #25 (T-090 /data page) open; CI green on #22–#24. T-043 loan part was already done (overnight); nothing left for launch. /learn pages render already (T-039/T-027/T-082 wait for WS3 content).
 - 2026-11-15 13:15 UTC · #24 T-045 merged. New: #28 T-091 parked features behind flags, #29 T-092 hero used price per build year (reads WS1's used_prices.json). Hero got the UX v6 scene; Explore's panel gained seats/AC/build-year filters (same params as the hero). Hero decision renumbered to 055 (053 and 054 went to Dependabot decisions).
 - 2026-11-15 14:09 UTC · New since last entry: #36 T-093 (hero /learn links + travel-map texture), #37 T-094 (variant page used price by build year, stacked on #29). All WS2 PRs green on their heads.
+
+- 2026-11-17 09:39 UTC · New WS2 chat (https://claude.ai/code/session_01JuyZEY92VBv8zzhiK2gGQR). T-097 done: Nerd Value column shows the car's own figure with units in 6 languages; PR #56. Push access was missing at first (patch kept, applied after Menno granted it).
 
 ## Retro (first WS2 session, 2026-11-15)
 - **What slowed us down:** decision numbers clashed twice (053, 054 went to Dependabot decisions while in my START range); pushes from this session don't trigger CI (runs started with workflow_dispatch); a rebase of a pushed branch then a blocked force-push cost a messy merge with leftover conflict markers; stacked PRs need re-merging after every main change.
