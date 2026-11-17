@@ -15,3 +15,4 @@ Launch scope §2: model/variant pages show the used price band per country; with
 - 2026-11-15 WS2: `ev/_components/UsedByYear.tsx`. No e2e yet: release 1 has no used_prices.json; add one when the first release with the file is published.
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — same data gap as T-092 (A-35 B1); variant pages have no Nerd level for provenance (S3).

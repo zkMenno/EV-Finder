@@ -1,0 +1,16 @@
+{
+ "release": 2,
+ "variants": [
+  {
+   "variant_id": "a",
+   "generated_at": "t2",
+   "cells": [
+    {
+     "road_band": "motorway",
+     "temperature_band_id": "cold",
+     "wh_km": 200.0004
+    }
+   ]
+  }
+ ]
+}

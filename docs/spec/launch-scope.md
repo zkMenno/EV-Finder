@@ -7,7 +7,7 @@
 ## What ships at launch
 
 ### 1. The hero: three steps to a shortlist
-1. **Country** (NL, DE, FR, BE, UK; sets currency, prices and marketplace links).
+1. **Country** (NL, DE, FR, BE, UK, ES, IT; Decision 066; sets currency, prices and marketplace links).
 2. **Profile**, from a 4-tap picker (car role, long trips, where you charge, where you live; Decision 050, `data/editorial/shortlist_rules.yaml`, research/R-33). It lands on one of four profiles:
    - **Road-tripper**: main car that also does the holidays (fast charging, winter range, space)
    - **Daily driver**: main car, holidays by train, rental or a second car (winter range for the longest normal day, efficiency, heat pump)
@@ -26,7 +26,7 @@
 - **Glossary tooltips** on every term.
 
 ### 3. Countries, languages, data
-- Five countries (NL, DE, FR, BE, UK), six languages (EN, NL, DE, FR, ES, IT; EN + NL fully reviewed).
+- Seven countries (NL, DE, FR, BE, UK, ES, IT; Decision 066), six languages (EN, NL, DE, FR, ES, IT; EN + NL fully reviewed). Spanish and Italian serve Spain and Italy only.
 - Used price bands per country by build year (free price indices + manual samples) and pre-filled marketplace searches.
 - Data pipeline: refresh, releases, quality checks, sources and licences (as built).
 - **Open data download** (CC BY 4.0) at launch.

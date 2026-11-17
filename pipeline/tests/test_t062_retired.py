@@ -77,6 +77,10 @@ def test_release_writes_retired_ids_json(tmp_path: Path, monkeypatch: pytest.Mon
     # Pretend release 1 had one more variant that release 2 no longer has.
     cat1["rows"].append({**cat1["rows"][0], "variant_id": "zz-retired-variant"})
     (d / "releases" / "1" / "catalogue.json").write_text(json.dumps(cat1))
+    # Re-package so the manifest's sha256 matches (the T-123 release diff checks N-1 by it).
+    from ev_pipeline.release.publish import load_config, package
+
+    package(d / "releases" / "1", load_config(d))
     (d / "seed" / "retired_ids.yaml").write_text(
         f"schema: retired-ids/v1\nids:\n  zz-retired-variant: {gone}\n"
     )
