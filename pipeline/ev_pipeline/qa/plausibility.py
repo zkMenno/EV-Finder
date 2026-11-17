@@ -35,6 +35,12 @@ import yaml
 CONFIG_FILE = Path(__file__).with_name("qa_plausibility.yaml")
 REVIEW, WITHHOLD = "review", "withhold"
 REASON_PREFIX = "plausibility"
+# Labels that only describe another value: they leave with it (no review row; not a value).
+COMPANIONS: dict[str, tuple[str, ...]] = {"real_range_km": ("real_range_rung",)}
+# Inputs every range estimate is built on (consumption matrix -> winter range, the shortlist's
+# derived values). A withheld one means the WLTP / usable kWh / consumption set is not
+# believable as a whole, so no range estimate is built on the row (PR #91 review).
+RANGE_BASIS = frozenset({"wltp_range_km", "battery_kwh_net", "consumption_kwh_100km"})
 
 
 @dataclass
@@ -241,6 +247,8 @@ def withhold(
                 }
             )
             row[f] = None
+            for c in COMPANIONS.get(f, ()):
+                row[c] = None
     return review
 
 
@@ -250,11 +258,17 @@ class GateResult:
     issues: list[Issue]
     review_rows: list[dict[str, Any]]
 
+    @property
+    def range_withheld(self) -> set[str]:
+        """Variants with a RANGE_BASIS value withheld: build no range estimate on them."""
+        return {str(r["variant_id"]) for r in self.review_rows if r["field"] in RANGE_BASIS}
+
     def log(self) -> dict[str, Any]:
         return {
             "config_loaded": self.config_loaded,
             "issues": len(self.issues),
             "withheld_values": len(self.review_rows),
+            "range_estimates_withheld": sorted(self.range_withheld),
         }
 
 

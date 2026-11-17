@@ -255,3 +255,99 @@ def test_release_build_withholds_and_reports(tmp_path, monkeypatch) -> None:  # 
     conflicts = (d / "review" / "conflicts.csv").read_text()
     assert "plausibility wltp_efficiency" in conflicts
     assert res.sections["plausibility"]["withheld_values"] >= len(held)
+
+
+# --- PR #91 fresh review: withheld inputs take every value built on them -------------------
+
+
+def _release2_atto3() -> dict[str, Any]:
+    """Release 2 shape: WLTP 510 km on 60.5 kWh (8.43 km/kWh, SUV) is withheld, but the
+    WLTP consumption is its own (RDW TGK) fact, so the share-a-fact rule kept it."""
+    return {
+        "variant_id": "byd-atto-3-gen1-60kwh",
+        "generation_id": "byd-atto-3-gen1",
+        "model_id": "byd-atto-3",
+        "body": "suv",
+        "battery_kwh_net": 60.5,
+        "wltp_range_km": 510.0,
+        "consumption_kwh_100km": 16.4,
+        "real_range_km": 397.8,
+        "real_range_rung": "body-ratio",
+        "provenance": {
+            "battery_kwh_net": {"source_ids": ["openev"], "fact_ids": ["o:net"]},
+            "wltp_range_km": {"source_ids": ["openev"], "fact_ids": ["o:wltp"]},
+            "consumption_kwh_100km": {"source_ids": ["rdw-tgk"], "fact_ids": ["r:cons"]},
+            "real_range_km": {"source_ids": ["openev"], "fact_ids": ["o:wltp"],
+                              "derived": True, "estimate": True},
+        },
+    }  # fmt: skip
+
+
+def test_withheld_real_range_takes_its_rung() -> None:
+    """A rung names the basis of real_range_km; with no real range it must go too."""
+    row = _release2_atto3()
+    apply_gate([row], CFG)
+    assert row["wltp_range_km"] is None and row["real_range_km"] is None
+    assert row["real_range_rung"] is None
+
+
+def test_range_basis_withheld_lists_the_variant() -> None:
+    """WLTP or usable kWh withheld -> no range estimate (matrix, winter range, scores input)
+    may be built on the row; a withheld DC figure alone does not block range estimates."""
+    rows = release1_model_y()
+    res = apply_gate(rows, CFG)
+    assert res.range_withheld == {
+        "tesla-model-y-gen1-long-range",
+        "tesla-model-y-juniper-long-range-awd",
+    }
+    atto = [_release2_atto3()]
+    assert apply_gate(atto, CFG).range_withheld == {"byd-atto-3-gen1-60kwh"}
+    dc_only = {"rules": {"dc_vs_peers": CFG["rules"]["dc_vs_peers"]}}
+    assert apply_gate(release1_model_y(), dc_only).range_withheld == set()
+
+
+def test_release_build_withholds_winter_range_and_scores_input(tmp_path, monkeypatch) -> None:  # noqa: ANN001
+    """End to end: a row whose WLTP is withheld gets no real-range rung, no winter range,
+    no consumption-matrix entry and no derived shortlist values."""
+    import shutil
+    from datetime import UTC, datetime
+    from pathlib import Path
+
+    import yaml
+
+    from ev_pipeline.qa import plausibility
+    from ev_pipeline.release.build import build_release
+
+    fix = Path(__file__).parent / "fixtures" / "release"
+    d = tmp_path / "data"
+    (d / "seed").mkdir(parents=True)
+    shutil.copytree(fix / "staging", d / "staging")
+    shutil.copytree(fix / "taxonomy", d / "taxonomy")
+    for n in ("models", "variants", "platforms", "battery_packs", "variant_links"):
+        shutil.copy(fix / f"{n}.yaml", d / "seed" / f"{n}.yaml")
+    for n in ("sources", "field_sources"):
+        shutil.copy(fix / f"{n}.yaml", d / f"{n}.yaml")
+
+    base = build_release(d, now=datetime(2026, 11, 15, 1, 0, tzinfo=UTC))
+    winter_before = {r["variant_id"] for r in base.catalogue["rows"]
+                     if r.get("real_range_winter_km") is not None}  # fmt: skip
+    assert winter_before  # the fixture models winter range without the gate
+
+    cfg = {"rules": {"wltp_efficiency": {"review_above": 0.1, "withhold_above": {"default": 0.1}}}}
+    path = tmp_path / "qa_plausibility.yaml"
+    path.write_text(yaml.safe_dump(cfg))
+    monkeypatch.setattr(plausibility, "CONFIG_FILE", path)
+    res = build_release(d, now=datetime(2026, 11, 15, 1, 0, tzinfo=UTC))
+    held = {i["variant_id"] for i in res.plausibility_withheld}
+    assert held & winter_before  # the test exercises a row that had a winter range
+    for r in res.catalogue["rows"]:
+        if r["variant_id"] in held:
+            vid = r["variant_id"]
+            assert r.get("real_range_km") is None and r.get("real_range_rung") is None, vid
+            assert r.get("real_range_winter_km") is None, vid
+            assert "real_range_winter_km" not in r["provenance"], vid
+    matrix_ids = {m["variant_id"] for m in (res.consumption or {}).get("variants", [])}
+    assert not held & matrix_ids
+    for v in (res.shortlist or {}).get("variants", []):
+        if v["variant_id"] in held:
+            assert not v.get("derived"), v["variant_id"]
