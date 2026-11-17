@@ -72,6 +72,13 @@ def check(data_dir: Path, today=None) -> tuple[int, list[str]]:
             )
     errors = [i for i in issues if not i.warning]
     lines = [i.text() for i in issues]
+    # Decision 080: files may name their own source (e.g. a blocked third-party site).
+    for sid in sorted({mf.fact.source.id.root for mf in load.facts} - {"manual"}):
+        n = sum(1 for mf in load.facts if mf.fact.source.id.root == sid)
+        why = registry.reason_blocked(sid)
+        lines.append(
+            f"Source `{sid}`: {n} facts, " + (f"internal only ({why})" if why else "releasable")
+        )
     why = gate_reason(registry) if registry.loaded else "no data/sources.yaml"
     lines.append(
         f"{len(load.files)} files, {len(load.facts)} valid facts, {len(errors)} errors, "

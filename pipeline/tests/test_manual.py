@@ -323,3 +323,86 @@ def test_own_schema_topics_are_left_alone(tmp_path: Path) -> None:
     # Real date: this copies the repo's manual data, whose facts carry real retrieval dates.
     code, lines = check(tmp_path, date.today())
     assert code == 0, lines
+
+
+# --- Decision 080: a file may name its own source; a blocked one never ships ---------------
+
+AUTOTIJD = {
+    "id": "autotijd",
+    "name": "Autotijd.be",
+    "licence": "none (all rights reserved; no reuse terms)",
+    "status": "blocked",
+}
+PRICE = {
+    "variant_id": "tesla-model-3-gen1-lr",
+    "field": "price_new",
+    "value": 50000,
+    "unit": "EUR",
+    "country": "BE",
+    "source_url": "https://example.org/price",
+    "retrieved": "2026-11-01",
+    "quote": "EUR 50.000",
+    "entered_by": "test",
+    "confidence": "low",
+}
+
+
+def _add_source(d: Path, entry: dict) -> None:
+    p = d / "sources.yaml"
+    reg = yaml.safe_load(p.read_text())
+    reg["sources"] = [s for s in reg["sources"] if s["id"] != entry["id"]] + [entry]
+    p.write_text(yaml.safe_dump(reg))
+
+
+def _write_topic(d: Path, name: str, facts: list[dict], **file_keys) -> None:
+    (d / "manual" / "new-prices").mkdir(parents=True, exist_ok=True)
+    (d / "manual" / "new-prices" / f"{name}.yaml").write_text(
+        yaml.safe_dump({"schema": "manual-facts/v1", **file_keys, "facts": facts})
+    )
+
+
+def test_file_source_must_be_registered(tmp_path: Path) -> None:
+    d = tmp_path / "data"
+    d.mkdir()
+    shutil.copy(RELEASE_FIX / "sources.yaml", d / "sources.yaml")
+    _write_topic(d, "x", [PRICE], source="no-such-site")
+    reg = load_registry(d / "sources.yaml")
+    load = load_manual_dir(d, TODAY, reg)
+    assert load.facts == []
+    assert any("not in data/sources.yaml" in i.message for i in load.errors)
+    _write_topic(d, "x", [PRICE], source="Not An Id")
+    assert any("sources.yaml id" in i.message for i in load_manual_dir(d, TODAY, reg).errors)
+
+
+def test_blocked_file_source_never_ships_even_when_manual_is_releasable(data_dir: Path) -> None:
+    d = data_dir
+    _set_manual_registry(d, {**BLOCKED, "status": "active", "licence": "CC-BY-4.0"})
+    _add_source(d, AUTOTIJD)
+    held = {**PRICE, "variant_id": "tesla-model-3-gen1-lr", "value": 51111}
+    other = {**PRICE, "variant_id": "nissan-leaf-ze0-24kwh", "value": 29999}
+    _write_topic(d, "held", [held, other], source="autotijd")
+    maker = {**PRICE, "value": 49990, "source_url": "https://maker.example/price"}
+    _write_topic(d, "maker", [maker])  # same car + country, source `manual`: not a duplicate
+    load = load_manual_dir(d, TODAY, load_registry(d / "sources.yaml"))
+    assert load.errors == [] and len(load.facts) == 3
+    assert {mf.fact.source.id.root for mf in load.facts} == {"autotijd", "manual"}
+
+    res = build_release(d, now=NOW)
+    prices = [f for f in res.facts if f["field"] == "price_new" and f.get("country") == "BE"]
+    assert not any(f["source"]["id"] == "autotijd" for f in res.facts)
+    assert {f["value"] for f in prices} == {49990}  # only the maker value ships
+    assert res.gated["autotijd"] == {"reason": "status blocked", "records": 2}
+    assert "autotijd" not in {s["id"] for s in res.catalogue["sources"]}
+
+
+def test_repo_autotijd_rows_are_held() -> None:
+    """Decision 080: every Autotijd row in the repo names the blocked `autotijd` source."""
+    reg = load_registry(REPO_DATA / "sources.yaml")
+    assert reg.reason_blocked("autotijd") == "status blocked"
+    load = load_manual_dir(REPO_DATA, date.today(), reg, for_release=False)
+    autotijd_urls = [mf for mf in load.facts if "autotijd.be" in str(mf.fact.source.url)]
+    assert autotijd_urls, "expected the T-112 Autotijd rows"
+    assert all(mf.fact.source.id.root == "autotijd" for mf in autotijd_urls)
+    code, lines = check(REPO_DATA, date.today())
+    assert code == 0, lines
+    assert any(ln.startswith("Source `autotijd`:") and "internal only" in ln for ln in lines)
