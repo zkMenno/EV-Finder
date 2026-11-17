@@ -176,6 +176,7 @@ class FactField(Enum):
     epa_range_km = 'epa_range_km'
     consumption_kwh_100km = 'consumption_kwh_100km'
     ac_kw = 'ac_kw'
+    ac_kw_optional = 'ac_kw_optional'
     dc_peak_kw = 'dc_peak_kw'
     dc_avg_10_80_kw = 'dc_avg_10_80_kw'
     power_kw = 'power_kw'
