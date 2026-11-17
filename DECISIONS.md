@@ -709,4 +709,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop.
 
+## Decision 045: Sibling-variant real range scales by WLTP ratio, battery ratio only without it
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** The T-124 property tests (Hypothesis) found that the ladder's sibling-variant rung, which scaled a sibling's measured range by usable-battery ratio only, gave a same-pack variant with a lower WLTP (other wheels or trim) more real km than its own WLTP × 1.1. The spec's rung 3 scales "by usable kWh and wheel size"; we have no wheel size, but both variants' WLTP figures carry battery, wheels and trim together.
+
+**Decision:** Scale the sibling's measured km by own WLTP / sibling WLTP when both are known; fall back to the battery ratio otherwise. The note on the result says which ratio was used.
+
+**Consequences:** No change to today's release (all 203 rows with a real range use the body-ratio rung; no measured tests are licence-cleared yet). Once measured tests arrive, the synthetic back-test already improves (alpha-50: −2.0 % → +0.1 %). Reversible: one branch in `derive/metrics.real_range`.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
