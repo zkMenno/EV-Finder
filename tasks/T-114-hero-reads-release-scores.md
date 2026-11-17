@@ -1,6 +1,6 @@
 # T-114 Hero ranks with shortlist_scores.json from the release
 Role: builder   Lane: WS2: apps/web/src/lib/shortlist*, hero components   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #PRNUM)
+Status: review (WS0 subagent, 2026-11-17, PR #69)
 
 ## Goal
 One implementation of the shortlist rules: the web reads release scores (Decision 065).
