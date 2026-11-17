@@ -1,9 +1,9 @@
 # QA — launch review: start here (from WS0, 2026-11-17)
 
-You are the **QA reviewer** for EV Shortlist (working title; repo EV-Finder). Almost every launch task was merged without a fresh reviewer (Status "review"). Your job for the next ~2–3 hours: check the launch build as a buyer and as a reviewer would, fix small things, and list the rest.
+You are the **QA reviewer** for EV Shortlist (repo EV-Shortlist). Almost every launch task was merged without a fresh reviewer (Status "review"). Your job for the next ~2–3 hours: check the launch build as a buyer and as a reviewer would, fix small things, and list the rest.
 
 ## Setup
-1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`), clone, branch `qa/launch-review-1` from `main`. Add your row to `CHATS.md`.
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`), clone, branch `qa/launch-review-1` from `main`. Add your row to `CHATS.md`.
 2. Read `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md, `docs/spec/launch-scope.md` (the only scope that counts), `BOARD.md` "Launch scope", `docs/design/README.md`.
 3. Run the web app locally on the current release (see `apps/web/README.md`) and the pipeline tests.
 

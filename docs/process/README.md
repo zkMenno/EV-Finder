@@ -18,7 +18,7 @@ Short version for Project Settings: [project-instructions.md](project-instructio
 - Read your INBOX at the start and after every task. Before starting, check open PRs and their HANDOFF/STATUS: the newest state may not be on main yet.
 - Need another workstream? Append to its INBOX. Need Menno? Ask WS0 via its INBOX (or a popup if you're talking to him).
 - Read a file right before you write it, make small edits, write only files you own (§4).
-- Every chat attaches the repo with push access first (`add_repo zkMenno/EV-Finder`, access `push`) and adds its row to CHATS.md in its first commit.
+- Every chat attaches the repo with push access first (`add_repo zkMenno/EV-Shortlist`, access `push`) and adds its row to CHATS.md in its first commit.
 - **Never read, search or cite `_archive/`** unless Menno asks for a specific file. Retire a file by `git mv` into `_archive/` (row in `_archive/README.md`), never delete it.
 - WS0 processes its INBOX at least once per working session. If WS0 has been idle more than a day, the next chat that notices tells Menno in one line.
 
@@ -66,7 +66,7 @@ One owner per path; others write to the owner's INBOX. Builders also edit Status
 - Plan first, then work in chunks. About every 30 minutes: commit, push, update STATUS.md.
 - Loop guard: the same error 3 times or 30 minutes without progress means stop that path, log it, try one alternative, otherwise park it (STATUS.md) and take the next unblocked task. Never sit idle.
 - Time-box research: answer the question, don't explore everything.
-- Git: never rebase a pushed branch (merge main in); grep for conflict markers before pushing; after a push from a Claude session, start CI with workflow_dispatch and trust the run on the PR head; if `gh pr create` fails, use `gh api repos/zkMenno/EV-Finder/pulls`.
+- Git: never rebase a pushed branch (merge main in); grep for conflict markers before pushing; after a push from a Claude session, start CI with workflow_dispatch and trust the run on the PR head; if `gh pr create` fails, use `gh api repos/zkMenno/EV-Shortlist/pulls`.
 
 ## 7. Context hygiene and efficiency
 - Watch for long chats (many big tool results, long documents, hours of work, any compaction warning). Before that: write `workstreams/<ws>/HANDOFF.md`, commit it **straight to main**, and give Menno a one-line prompt for a fresh chat with the link.
@@ -97,4 +97,4 @@ Verification is what lets many agents work at once without Menno checking every 
 ## 10. Talking to Menno
 - One mobile screen, plain language, 🟢 verified / 🟡 reasoned / 🔴 unsure. Lead with anything he must do; end with one next step. No process recaps.
 - Show evidence (screenshots, numbers, links), not claims.
-- Mention a file → attach it or link it (`github.com/zkMenno/EV-Finder/blob/main/<path>`). Mention another chat → its direct link **and** the exact text to paste there in a code block, every time, next-step lines included.
+- Mention a file → attach it or link it (`github.com/zkMenno/EV-Shortlist/blob/main/<path>`). Mention another chat → its direct link **and** the exact text to paste there in a code block, every time, next-step lines included.

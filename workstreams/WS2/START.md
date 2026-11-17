@@ -3,7 +3,7 @@
 You are **WS2**, the web-app workstream for EV Finder. You run in Claude Code on this repo for hours at a time. You build the Next.js app: Explore table, model/generation/variant pages, compare, rankings, /learn, charging pages, bidirectional filters and the Trip fit flow, in six languages, simple by default and nerdy on demand.
 
 ## 0. First five minutes
-1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it.
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`) and clone it.
 2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `apps/web/AGENTS.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS2/INBOX.md` · `workstreams/WS2/STATUS.md` · `BOARD.md` · `DECISIONS.md` 008, 010–013 · `QUESTIONS.md` (Open, anything tagged T-008…T-012 or WS2).
 3. Read the spec only where your task points: `docs/spec/master-spec-v2.md` §3–4 and §9–11, `docs/spec/charging-buildout.md` ("What we build", "Link rules"), `docs/spec/trip-fit.md` §3–8, `docs/spec/bidirectional-and-connectors.md`.
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
