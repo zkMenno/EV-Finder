@@ -4286,6 +4286,10 @@
         },
         "source": {
           "$ref": "#/$defs/UsedPriceSourceRef"
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["variant", "generation"]
         }
       }
     },
@@ -5751,6 +5755,18 @@
         },
         "observed_at": {
           "type": "string"
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["variant", "generation"],
+          "description": "band rows: variant = this variant's own samples; generation = its generation's samples standing in (Decision 069)."
+        },
+        "curve_fitted_on": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CountryCode"
+          },
+          "description": "estimate rows: countries whose samples fitted the curve, e.g. [BE, NL]."
         }
       }
     },
@@ -5827,6 +5843,11 @@
         },
         "backtest": {
           "type": "object"
+        },
+        "spread": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Band half-width around estimates as a share of the median (params file), e.g. 0.12."
         }
       }
     }
