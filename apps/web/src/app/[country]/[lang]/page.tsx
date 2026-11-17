@@ -4,6 +4,8 @@ import { siteBase } from "@/lib/site-paths";
 import { ChargingLinks } from "@/components/ChargingLinks";
 import { Explore } from "@/components/Explore";
 import { Hero } from "@/components/Hero";
+import { ParallaxScene } from "@/components/parallax/ParallaxScene";
+import { canal, highway } from "@/components/parallax/scenes.generated";
 import { showable } from "@/components/PriceBand";
 import { COUNTRIES, isCountrySlug, isServed } from "@/config/countries";
 import { tripFitEnabled } from "@/config/features";
@@ -150,7 +152,11 @@ export default async function ExplorePage({ params, searchParams }: Props) {
           payFromUrl={hasPayParam(sp)}
         />
       </section>
+      {/* Wide illustration bands with horizontal parallax (UX, Menno 2026-11-17): decorative, no text.
+          Below Explore so the tool stays right under the hero (review: "Instant before clever"). */}
+      <ParallaxScene scene={highway} className="mt-12" testId="band-highway" />
       <ChargingLinks links={chargingLinks(country, { lang })} t={t} statsHref={`${siteBase(country, lang)}/charging`} />
+      <ParallaxScene scene={canal} className="mt-12" testId="band-canal" />
     </>
   );
 }
