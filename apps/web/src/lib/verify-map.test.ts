@@ -33,7 +33,7 @@ describe("feature map", () => {
   });
 
   it("walks every flow when a shared file changes (Num shows every number on the site)", () => {
-    for (const f of ["src/components/Num.tsx", "src/lib/catalogue.ts", "package.json", "src/app/[country]/[lang]/layout.tsx"])
+    for (const f of ["src/components/Num.tsx", "src/lib/catalogue.ts", "package.json", "../../pnpm-lock.yaml", "src/app/[country]/[lang]/layout.tsx"])
       expect(selectFeatures(map, [f]).features, f).toHaveLength(map.features.length);
   });
 

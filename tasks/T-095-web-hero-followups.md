@@ -1,6 +1,6 @@
 # T-095 Hero follow-ups from WS3 (T-041, T-082, T-100)
 Role: WS2   Lane: apps/web   Wave: 10
-Status: review (WS2, 2026-11-17, branch t-095-hero-followups)
+Status: done (WS2, 2026-11-17; PR #43)
 
 ## Goal
 Close three WS2 inbox items unblocked by WS3 merges (#33, #34, #35).

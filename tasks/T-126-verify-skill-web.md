@@ -1,6 +1,6 @@
 # T-126 `verify` skill for the web app + evidence pack
 Role: WS2   Lane: apps/web/.claude/skills/verify/, apps/web/e2e   Wave: process
-Status: review (WS2, 2026-11-17)
+Status: done (WS2, 2026-11-17; PR #47)
 
 ## Goal
 Before any commit that changes what users see, the agent runs the real app, walks the flows the diff touches and attaches evidence Menno can judge without reading code.
