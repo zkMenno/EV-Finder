@@ -77,18 +77,18 @@ test("Language URLs: redirects, <html lang>, hreflang, no header-based redirect"
   const bare = await request.get("/de", { maxRedirects: 0 });
   expect(bare.status()).toBe(307);
   expect(bare.headers()["location"]).toMatch(/\/de\/de$/);
-  const old = await request.get("/nl/top?lang=en", { maxRedirects: 0 });
+  const old = await request.get("/nl/learn?lang=en", { maxRedirects: 0 });
   expect(old.status()).toBe(308);
-  expect(old.headers()["location"]).toMatch(/\/nl\/en\/top$/);
+  expect(old.headers()["location"]).toMatch(/\/nl\/en\/learn$/);
   const oldNoLang = await request.get("/be/learn/real-range", { maxRedirects: 0 });
   expect(oldNoLang.status()).toBe(308);
   expect(oldNoLang.headers()["location"]).toMatch(/\/be\/nl\/learn\/real-range$/);
   // A language the country doesn't serve redirects to its default; unknown countries 404.
-  const unserved = await request.get("/uk/nl/top", { maxRedirects: 0 });
+  const unserved = await request.get("/uk/nl/learn", { maxRedirects: 0 });
   expect(unserved.status()).toBe(308);
   expect((await request.get("/xx/en")).status()).toBe(404);
   // Accept-Language never redirects.
-  const fr = await request.get("/be/nl/top", { maxRedirects: 0, headers: { "Accept-Language": "fr-BE,fr" } });
+  const fr = await request.get("/be/nl/learn", { maxRedirects: 0, headers: { "Accept-Language": "fr-BE,fr" } });
   expect(fr.status()).toBe(200);
 
   // Static learn page: right <html lang>, hreflang for every served pair + x-default.
@@ -123,7 +123,9 @@ test("Language URLs: redirects, <html lang>, hreflang, no header-based redirect"
 test("Explore rows link to variant pages; header links to Rankings and Compare", async ({ page }) => {
   await page.goto("/nl/nl");
   const nav = page.getByRole("navigation", { name: /Hoofdmenu|Main/ });
-  await expect(nav.getByRole("link", { name: "Ranglijsten" })).toHaveAttribute("href", "/nl/nl/top");
+  // Rankings are parked (Decision 051): the header links to them only when they are switched on.
+  if (process.env.E2E_PARKED === "1") await expect(nav.getByRole("link", { name: "Ranglijsten" })).toHaveAttribute("href", "/nl/nl/top");
+  else await expect(nav.getByRole("link", { name: "Ranglijsten" })).toHaveCount(0);
   await expect(nav.getByRole("link", { name: "Vergelijken" })).toHaveAttribute("href", "/nl/nl/compare");
 
   const first = page.getByTestId("explore-row").first().getByRole("rowheader").getByRole("link");

@@ -12,6 +12,7 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | OVERNIGHT2 | Overnight research + review pack on `proto/overnight-2` (R-20…R-31, A-20, growth keywords, outreach translations) | https://claude.ai/code/session_01JuyZEVvDWLuBFGEnLBuGTR | 2026-11-15 |
 | WS1 | Data pipeline: T-064 releases out of git, T-025, T-034, T-032/033, T-035, T-051 | https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY | 2026-11-15 |
 | WS1 (3rd) | Data pipeline: profile-field QA (START §3 item 6), T-070 proposal; duplicate T-069 attempt dropped | https://claude.ai/code/session_01JuyZEVhQ5YoL1CBr1spLiB | 2026-11-15 |
+| WS1 (2nd session) | Data pipeline: T-069 shortlist scores, T-081 used price bands, T-056 price indices | https://claude.ai/code/session_01JuyZEVuT84JYBi2Cty9CzW | 2026-11-15 |
 | WS0 (picks) | Imported Menno's "New Car" sheet, derived shortlist rules (Decision 038, R-32, T-066–T-069) | https://claude.ai/code/session_01JuyZEWbo1V6yWS63cn8SAL | 2026-11-15 |
 | UX (2nd) | Solarpunk x EV round, illustration system, then variant finder designs | https://claude.ai/code/session_01JuyZEUvhzXr417bwk7FHpM | 2026-11-15 |
 | WS2 | Web app: T-080 hero shortlist, then START.md §3 (T-067, T-045, T-043, T-050/T-012, /learn, /data) | https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS | 2026-11-15 |

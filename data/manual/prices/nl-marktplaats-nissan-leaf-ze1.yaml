@@ -1,0 +1,32 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: nissan-leaf-ze1
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/nissan+leaf/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2018
+  n: 14
+  p25: 10900.0
+  median: 11700.0
+  p75: 11900.0
+- build_year: 2019
+  n: 11
+  p25: 11200.0
+  median: 12000.0
+  p75: 13700.0
+- build_year: 2020
+  n: 8
+  p25: 14900.0
+  median: 15400.0
+  p75: 16800.0
+- build_year: 2021
+  n: 10
+  p25: 14100.0
+  median: 14900.0
+  p75: 16800.0

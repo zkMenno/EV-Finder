@@ -1,0 +1,42 @@
+# How a car heats its cabin (Decision 059, T-031). Rows = schema $defs/HeaterType.
+# warm_up_kwh and confidence are the consumption model's own defaults
+# (pipeline/ev_pipeline/derive/consumption_params.yaml v0.1, WS1, 🟡 low confidence): change them
+# there and here together. This file adds the visitor-facing labels and tooltips; when it exists
+# its rows replace the defaults (load_params). A car's fitment (standard / option / none /
+# not disclosed) is a per-variant fact, cited in data/manual/heat-pump/.
+# EN + NL reviewed; DE, FR, ES, IT machine-drafted (review: needed).
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+heater_types:
+  - id: heat-pump
+    label: {en: "Heat pump", nl: "Warmtepomp", de: "Wärmepumpe", fr: "Pompe à chaleur", es: "Bomba de calor", it: "Pompa di calore"}
+    short:
+      en: "Heats the cabin with heat taken from outside air, using less battery than a plain heater, mostly around 0-10 °C."
+      nl: "Verwarmt het interieur met warmte uit de buitenlucht en kost minder accu dan gewone verwarming, vooral rond 0-10 °C."
+      de: "Heizt den Innenraum mit Wärme aus der Außenluft und braucht weniger Akku als eine Heizung, vor allem um 0-10 °C."
+      fr: "Chauffe l'habitacle avec la chaleur de l'air extérieur et use moins la batterie qu'un chauffage classique, surtout vers 0-10 °C."
+      es: "Calienta el habitáculo con calor del aire exterior y gasta menos batería que una calefacción normal, sobre todo 0-10 °C."
+      it: "Scalda l'abitacolo con il calore dell'aria esterna e consuma meno batteria di un riscaldatore normale, soprattutto verso 0-10 °C."
+    warm_up_kwh: 1.2
+    confidence: low
+  - id: resistive
+    label: {en: "Electric heater", nl: "Elektrische verwarming", de: "Elektroheizung", fr: "Chauffage électrique", es: "Calefactor eléctrico", it: "Riscaldatore elettrico"}
+    short:
+      en: "Heats like a kettle element: simple and quick, but uses more battery in cold weather."
+      nl: "Verwarmt zoals een waterkoker: simpel en snel, maar kost in de kou meer accu."
+      de: "Heizt wie ein Wasserkocher: einfach und schnell, kostet bei Kälte aber mehr Akku."
+      fr: "Chauffe comme une bouilloire : simple et rapide, mais consomme plus de batterie par temps froid."
+      es: "Calienta como un hervidor: sencillo y rápido, pero gasta más batería con frío."
+      it: "Scalda come un bollitore: semplice e rapido, ma col freddo consuma più batteria."
+    warm_up_kwh: 2.0
+    confidence: low
+  - id: unknown
+    label: {en: "Not known", nl: "Onbekend", de: "Unbekannt", fr: "Inconnu", es: "Desconocido", it: "Non noto"}
+    short:
+      en: "Heater not confirmed for this car, so we use a value between a heat pump and an electric heater."
+      nl: "We konden de verwarming van deze auto niet bevestigen, dus rekenen we met een waarde tussen warmtepomp en elektrische verwarming."
+      de: "Die Heizung dieses Autos ist nicht bestätigt; wir rechnen mit einem Wert zwischen Wärmepumpe und Elektroheizung."
+      fr: "Le chauffage de cette voiture n'est pas confirmé : nous prenons une valeur entre pompe à chaleur et chauffage électrique."
+      es: "No hemos podido confirmar la calefacción de este coche; usamos un valor entre bomba de calor y calefactor eléctrico."
+      it: "Non abbiamo confermato il riscaldamento di questa auto: usiamo un valore tra pompa di calore e riscaldatore elettrico."
+    warm_up_kwh: 1.6
+    confidence: low

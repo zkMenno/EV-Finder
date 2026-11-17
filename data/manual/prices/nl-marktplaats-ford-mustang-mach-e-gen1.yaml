@@ -1,0 +1,37 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: ford-mustang-mach-e-gen1
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/ford+mustang+mach-e/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2021
+  n: 71
+  p25: 24400.0
+  median: 25900.0
+  p75: 27900.0
+- build_year: 2022
+  n: 20
+  p25: 28000.0
+  median: 29900.0
+  p75: 33200.0
+- build_year: 2023
+  n: 7
+  p25: 33300.0
+  median: 33900.0
+  p75: 35900.0
+- build_year: 2024
+  n: 7
+  p25: 34000.0
+  median: 36900.0
+  p75: 41400.0
+- build_year: 2025
+  n: 18
+  p25: 43100.0
+  median: 44200.0
+  p75: 45100.0

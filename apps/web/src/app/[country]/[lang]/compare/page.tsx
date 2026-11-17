@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { parkedEnabled } from "@/config/features";
 import { CompareTable, type CompareGroupView } from "@/components/CompareTable";
 import { PricePanel } from "@/components/PriceMode";
 import { getClientDict } from "@/i18n";
@@ -53,6 +54,7 @@ export default async function ComparePage({ params, searchParams }: Props) {
 
   // Official registration counts for this country: one cell lists every count (never summed).
   const registrationsRow = (): CompareGroupView["rows"] => {
+    if (!parkedEnabled("registrations")) return [];
     const values = cars.map((c) => registrationsKey(c, cfg.code));
     if (values.every((v) => v === null)) return [];
     const differs = differingCells(values);
