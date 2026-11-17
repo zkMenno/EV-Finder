@@ -1,6 +1,6 @@
 # T-111 Plausibility gate in qa.json; licence gate for marketplace samples
 Role: builder   Lane: WS1: pipeline/ev_pipeline/qa/, pipeline/ev_pipeline/derive/used_price.py, data/sources.yaml   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #NN code + PR #61 thresholds)
+Status: review (WS0 subagent, 2026-11-17, PR #62 code + PR #61 thresholds)
 
 ## Goal
 Implausible figures go to review instead of the release; marketplace samples are gated like every other source.
