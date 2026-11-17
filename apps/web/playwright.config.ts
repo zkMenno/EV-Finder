@@ -33,6 +33,8 @@ export default defineConfig({
       STAFF_BASIC_AUTH: E2E_STAFF_AUTH,
       CATALOGUE_DIR: process.env.E2E_CATALOGUE_DIR ?? "../../data/releases",
       TRIP_FIT: process.env.E2E_TRIP_FIT ?? "1",
+      // Parked features (Decision 051): E2E_PARKED=1 runs against a build made with PARKED=1.
+      PARKED: process.env.E2E_PARKED === "1" ? "1" : "0",
       CHARGING_LINKS_FILE: process.env.E2E_CHARGING_LINKS_FILE ?? "e2e/fixtures/charging-links.json",
     },
   },

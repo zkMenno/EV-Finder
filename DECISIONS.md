@@ -591,6 +591,44 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Trip fit routes, charging pages, bidi filters, variant clue box/finder, lease figures, accounts, alerts and rankings pages wait. Supersedes the phase tags in earlier decisions where they conflict (e.g. Decision 017: only the loan estimate ships; Decision 019: only differences-only ships).
 
+## Decision 040: Charging stats defaults (closes Q-075 / Q-076)
+## Decision 043: Used price bands start as a labelled model, manual samples replace it
+
+**Status:** Accepted (WS1 engineering default, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** T-025 needed rules for source ids, unmatched values and dates in charging statistics; Menno did not need to decide these.
+
+**Decision:** (1) Charging stats keep the taxonomy id as `source_id`; `data/sources.yaml` lists it in `aliases`; the release ships `source_aliases`. (2) Values with no taxonomy id (power band, metric) are skipped and counted, never forced into a nearby band. (3) EAFO year rows are dated 31 December; the newest row is the last day of the file's month. (4) Release diff: growth over 15 % a month (compound), any fall, revisions and vanished series go to `data/review/charging_changes.csv`. Review only, never blocks a release.
+
+**Consequences:** Taxonomy gaps go to WS3 as rows. Q-075 and Q-076 can close.
+
+## Decision 041: Climate per town and the consumption reference basis
+
+**Status:** Accepted (WS1 engineering default, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** T-034 and T-033 needed a cold-day definition, a town → weather-station rule and one basis for the consumption matrix.
+
+**Decision:** (1) P10 = 10th percentile of January daily mean temperature, 1991–2020 (R-27 §6). (2) A town takes the nearest station within 60 km and 250 m elevation, preferring one with a P10; no interpolation. ERA5-Land replaces this as primary once the CDS key lands. (3) Consumption matrix: reference at 20 °C on battery basis (wall × 0.88); EPA 5-cycle adjusted values count as measured town/rural references; motorway from EPA highway × body drag factor; WLTP × body ratio otherwise; never from an estimate-only WLTP. Parameters live in `pipeline/ev_pipeline/derive/consumption_params.yaml`; every cell is an estimate.
+
+**Consequences:** Trip fit and the shortlist read winter figures from the matrix, not from WLTP.
+
+## Decision 042: Shortlist scores ship as an editorial release file with a basis bridge
+
+**Status:** Accepted (WS1 engineering default, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** T-069 scores every variant with `data/editorial/shortlist_rules.yaml` before the T-066 schema exists. The rule thresholds were set on ev-database's numbers in Menno's sheet; our own winter range, real efficiency and DC km-per-20-min run on a harsher basis (median sheet/ours on 13–15 matched picks: winter ×1.24, Wh/km ×1.155, DC ×1.42).
+
+**Decision:** (1) Scores ship as `shortlist_scores.json` in each release (labelled editorial + estimate, CC BY 4.0), 18 combinations per variant: road-tripper / daily-driver / runabout × home or kerbside charging × town / city / countryside, with 0..1 factor values so the app can re-weight add-ons. (2) A per-field `basis_scale` in `pipeline/ev_pipeline/derive/shortlist_params.yaml` maps our values onto the rules' basis before thresholds apply; Menno's thresholds stay as written and the sheet values stay internal. (3) Winter factors and the road-tripper winter gate read the matrix's −10 °C mixed figure; unknown values score 0.5 and are listed; over half the weight unknown → `not-enough-data`. (4) The back-test against the owner's picks is reported in the release README, not a gate.
+
+**Consequences:** Refit the scales when the consumption or DC curve model changes. When T-066 lands, the field and unit mapping in the params file moves into the rules rows and the file becomes typed.
+**Context:** The hero's budget step needs a used price per variant, build year and country at launch (Decision 051). No marketplace feed exists, layer 3 stays off (Decision 004), the free price indices carry no licence and give only country trends (research/R-40), and no manual samples exist yet.
+
+**Decision:** (1) Each release ships `used_prices.json`. A model band = list price at registration × share of value kept at that age (one EU curve from DAT, ING and Allianz anchors, research/R-40), P25/P75 = median × (1 ∓ 0.12), `samples: 0`, `estimate: true`. (2) List price: that year's `price_new` fact in that country; else the nearest year within 2; else (DE, FR, BE) the Dutch price moved to local VAT, low confidence. UK only from UK prices. No list price → no band. (3) Manual sample aggregates (count, P25, median, P75 per build year; URL and date; data/manual/prices, WS3) with ≥ 5 cars and ≤ 120 days old replace the model band for that variant; generation-level aggregates ship as generation bands. Every sample row is back-tested against the model in qa.json (not a gate). (4) Price indices stay internal sanity checks until a licence or permission exists.
+
+**Consequences:** About 99 of 226 variants get a band from release 1's prices; coverage grows with cited list prices. Refit the curve when DAT's 3-year BEV figure moves by more than 3 points or samples disagree by more than 15 % median.
 ## Decision 052: Packages must be 3 days old before we lock them (matches Dependabot)
 
 **Status:** Accepted (coordinator fix, 2026-11-15)
@@ -628,5 +666,47 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** The hero sits at the top of `/{country}/{lang}/` and Explore follows under `#explore` (same URL, no redirects). The hero's refine filters are Explore's filters and URL params (new: `seats`, `ac`, `ymin`/`ymax`, `make`/`xmake`); the two components stay in step through a browser event. Ranking runs in the browser from `src/config/shortlist-rules.generated.json`, built from `data/editorial/shortlist_rules.yaml` (rows only, no evidence or sheet values). A profile's filter presets and gates exclude a car only on a known value; a missing value passes and is shown as "not known yet" (the visitor's own refine filters stay strict, as in Explore). A car without a price stays in the list, marked, unless a known price is over budget. Units in the rules: a factor whose `sheet_field` is `dc_km_per_h` reads `dc_km_per_20min × 3`; efficiency reads Wh/km; other DC factors (daily driver, runabout) read km per 20 min. Winter range shows "not known yet" until the release publishes it.
 
 **Consequences:** No URL changes, nothing hidden for lack of data. WS3 should state units on each rule row (`unit:`) to remove the DC ambiguity; WS1/WS0 to publish a winter range field and used price bands, which the hero picks up without code changes.
+## Decision 057: A facelift with new battery packs is its own generation
+
+**Status:** Accepted (WS3, T-068)
+**Date:** 2026-11-15
+
+**Context:** Menno's picks rank the Kia EV6 and Hyundai Ioniq 5 2024 facelifts (84 kWh) and the XPENG G6 2025 update (5C LFP) as different cars from the earlier versions. In one generation, the shortlist, price bands by build year and pack links (T-057 pack guard) could not tell them apart.
+
+**Decision:** When a mid-cycle update changes the battery packs together with a visible facelift, it becomes a new generation (`<model>-facelift`), with the earlier generation ending in the overlap year (one shared year, as the validator allows). Applied to kia-ev6, hyundai-ioniq-5 and xpeng-g6. Existing generation ids stay; their variants are capped at the split year. A battery change alone (e.g. ID.3 77 → 79 kWh) stays a change marker.
+
+**Consequences:** RDW names both versions the same, so the shared year goes to model level (MODEL_LEVEL_FALLBACK) instead of a guessed generation. Facelift generations get rows from OpenEV by model year; WS1 checks placement on staging.
+
+## Decision 058: Picks importer maps a sheet year one year off to the nearest generation
+
+**Status:** Accepted (WS3, T-068)
+**Date:** 2026-11-15
+
+**Context:** Menno's sheet uses reveal or order years (Elroq 2024, Scenic 2023); the seed uses registration years (2025, 2024). Those rows had no generation, so the shortlist rules could not score them.
+
+**Decision:** `import_menno_sheet.py` maps a year at most one year outside every generation of the model to the nearest one and lists those rows when it runs (the EditorialPick schema has no field for it; WS0 may add one). Further away stays unmapped. A `--remap` mode refreshes only the seed ids from the existing picks file, so the sheet is not needed after seed changes.
+
+**Consequences:** Seed years stay evidence-based; the importer output and models.yaml notes (Elroq, Scenic) show which rows were matched by proximity.
+## Decision 059: Heat pump fitment as cited manual facts; heater and temperature labels as taxonomy rows
+
+**Status:** Accepted (WS3, T-031)
+**Date:** 2026-11-15
+
+**Context:** The consumption model (T-033) needs per-variant heat pump fitment and readable labels for its temperature columns and heater types. R-21 found fitment for about 40 generations, often only for some model years or one market.
+
+**Decision:** Fitment goes in `data/manual/heat-pump/*.yaml` as one cited `heat_pump` fact per generation, only where the source covers the whole generation; `not-disclosed` is never entered (it is the default). Rows that change inside a generation wait for a year span on manual facts (asked WS1) or a seed variant split. `data/taxonomy/temperature_bands.yaml` and `heater_types.yaml` carry six-language labels and tooltips; their numbers mirror the model defaults in `consumption_params.yaml` and change there and here together.
+
+**Consequences:** Fitment stays internal until Q-008 (source `manual` is blocked). The model's numbers are unchanged; only labels are added.
+
+## Decision 060: Price samples from public search-result pages, aggregates only (owner's choice)
+
+**Status:** Accepted (Menno, 2026-11-15; logged by WS3, T-081)
+**Date:** 2026-11-15
+
+**Context:** T-081 needs used price samples (layer 2) to calibrate and replace model estimates. R-03 assumed staff note them by hand; an agent doing it is automated access, which Decision 004 kept off. Menno chose to let an agent do it, accepting the terms-of-service and database-right risk (R-03), with one limit: read search-result pages for specific make/model (and variant/year) searches, the way a person tracks prices, and never open individual listings.
+
+**Decision:** An agent may read a marketplace's public search-result pages, only where robots.txt allows the path for our user agent, with an honest user agent, a few pages per model, 8 s or more between requests, and it stops for good on any 403/429 or bot challenge from that site. It keeps only aggregates per generation and build year (count, P25, median, P75 of fixed asking prices, fuel = electric); no listing ids, titles, seller data or locations are stored. Files go in data/manual/prices/ with the search page as source. This narrows Decision 004 for layer 2 only; layer 3 (scheduled sampling) stays off.
+
+**Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

@@ -1,0 +1,22 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: hyundai-kona-electric-sx2
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/hyundai+kona+electric/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2024
+  n: 5
+  p25: 31200.0
+  median: 31700.0
+  p75: 31900.0
+- build_year: 2025
+  n: 7
+  p25: 32100.0
+  median: 33800.0
+  p75: 34800.0

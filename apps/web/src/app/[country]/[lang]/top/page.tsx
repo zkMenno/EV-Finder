@@ -1,6 +1,7 @@
 // Rankings index (T-011).
 import type { Metadata } from "next";
 import Link from "next/link";
+import { parkedEnabled } from "@/config/features";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { isCountrySlug, isServed } from "@/config/countries";
@@ -20,7 +21,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TopIndex({ params }: Props) {
   const { country, lang } = await params;
-  if (!isCountrySlug(country) || !isServed(country, lang)) notFound();
+  // Parked until after launch (Decision 051): RANKINGS=1 or PARKED=1.
+  if (!isCountrySlug(country) || !isServed(country, lang) || !parkedEnabled("rankings")) notFound();
   const ctx = pageCtx(country, lang);
   const { base } = ctx;
   const { t, cfg } = ctx;

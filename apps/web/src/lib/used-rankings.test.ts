@@ -103,6 +103,7 @@ describe("best used EV under €15k / 20k / 25k", () => {
 describe("release → pages: lists appear once ≥ 5 priced generations exist", () => {
   const prev = process.env.CATALOGUE_DIR;
   afterEach(() => {
+    delete process.env.RANKINGS;
     if (prev === undefined) delete process.env.CATALOGUE_DIR;
     else process.env.CATALOGUE_DIR = prev;
   });
@@ -125,6 +126,8 @@ describe("release → pages: lists appear once ≥ 5 priced generations exist", 
     const rows = (fixture as unknown as { rows: PublishedVariant[] }).rows.filter((r) => typeof r.real_range_km === "number");
     const gens = [...new Set(rows.map((r) => r.generation_id))].slice(0, 5);
     expect(gens).toHaveLength(5);
+    // Rankings pages are parked (Decision 051); the sitemap lists them only when switched on.
+    process.env.RANKINGS = "1";
     process.env.CATALOGUE_DIR = release({ used_prices: [...gens.map((g, i) => band(g, 9000 + i * 500)), { junk: true }] });
     const cat = getCatalogue();
     expect(cat.usedPrices()).toHaveLength(5);

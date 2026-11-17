@@ -1,0 +1,27 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: renault-zoe-ph2
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/renault+zoe/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2020
+  n: 22
+  p25: 11900.0
+  median: 13000.0
+  p75: 14700.0
+- build_year: 2021
+  n: 23
+  p25: 14400.0
+  median: 15400.0
+  p75: 16200.0
+- build_year: 2022
+  n: 6
+  p25: 15100.0
+  median: 16700.0
+  p75: 17500.0
