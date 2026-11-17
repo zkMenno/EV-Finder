@@ -1,13 +1,14 @@
 # WS1 status
 
-- **State:** handing off to a fresh chat (4th session done)
-- **Now:** nothing running
+- **State:** active (5th session)
+- **Now:** fresh review of #58 (T-063), then WS2's low-consumption report, then winter range field
 - **Next:** see HANDOFF.md (T-113/T-116 only if WS0 hands them back; winter range field for WS2)
 - **In review:** [#49](https://github.com/zkMenno/EV-Finder/pull/49) T-124 (reviewed, pass) · [#58](https://github.com/zkMenno/EV-Finder/pull/58) T-063
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
-- **Last updated:** 2026-11-17 10:35 UTC by WS1
+- **Last updated:** 2026-11-17 10:15 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-17 10:15 UTC · 5th session opened (https://claude.ai/code/session_01JuyZEXwrHCn4kh6fda8bso). No WS0 answer on T-113/T-116 yet; no t-113/t-116 branches. Reviewing #58.
 - 2026-11-17 10:35 UTC · T-111 already taken by WS0's subagent (#61): dropped mine, cross-check comment on #61. Handoff written.
 - 2026-11-17 10:20 UTC · #44/#51 merged by WS0. Reviewed #49 (pass). T-063 PR #58. Claimed T-111, T-113.
 - 2026-11-17 09:50 UTC · 4th session opened. #15/#21 merged via #39. #44/#49/#51 green but conflicting with main.
