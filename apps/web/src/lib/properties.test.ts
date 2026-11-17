@@ -300,6 +300,30 @@ describe("hero ranking", () => {
   });
 });
 
+describe("hero budget (Decision 064)", () => {
+  it("the shortlist holds only priced cars within the budget; unpriced cars come after every priced car", () => {
+    const car = fc.record({ score: fc.integer({ min: 0, max: 1000 }), price: fc.option(fc.integer({ min: 5_000, max: 90_000 }), { nil: null }) });
+    fc.assert(
+      fc.property(fc.array(car, { minLength: 1, maxLength: 25 }), fc.option(fc.integer({ min: 5_000, max: 90_000 }), { nil: null }), fc.constantFrom(...PROFILES), (cars, budget, rp) => {
+        const rows = cars.map(({ score, price }, i) => {
+          const r = { ...baseRow(i), ...(price === null ? {} : { on_sale_new: true, price_new: { NL: { amount: price, currency: "EUR" } } }) } as ExploreRow;
+          return withScore(r, rp, score / 10);
+        });
+        const res = rankHero(rows, rp, { ...heroQuery, budget, presetsOff: [...PRESET_FIELDS] }, { hasScores: true });
+        const top = res.picks.slice(0, res.shortlistN);
+        expect(res.shortlistN).toBeLessThanOrEqual(5);
+        for (const p of top) {
+          expect(p.price).not.toBeNull();
+          if (budget !== null) expect(p.price!.amount).toBeLessThanOrEqual(budget);
+        }
+        const first = res.picks.findIndex((p) => p.price === null);
+        if (first >= 0) expect(res.picks.slice(first).every((p) => p.price === null)).toBe(true);
+        expect(res.shortlistN).toBe(Math.min(5, res.picks.filter((p) => p.price !== null).length));
+      }),
+    );
+  });
+});
+
 // ── 3. Sorting is stable and total ─────────────────────────────────────────────────────────
 
 describe("Explore sort", () => {

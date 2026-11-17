@@ -747,5 +747,14 @@
   "hero.keep8.pending": "Aún no cambia el orden: las puntuaciones para esta respuesta no están en la versión de datos.",
   "hero.why.winter-range.winter": "{km} km de autonomía en invierno (estimación)",
   "hero.card.winterEstimate": "estimación a −10 °C",
-  "hero.caveat.winterEstimate": "La autonomía en invierno es nuestra propia estimación a −10 °C, de nuestro modelo de consumo (las mismas cifras que usa la clasificación)."
+  "hero.caveat.winterEstimate": "La autonomía en invierno es nuestra propia estimación a −10 °C, de nuestro modelo de consumo (las mismas cifras que usa la clasificación).",
+  "hero.results.noPriced": "Ningún coche con precio conocido entra todavía en este presupuesto, así que tu selección está vacía. Los coches de abajo encajan con tus respuestas, pero aún no tienen precio.",
+  "hero.results.noPricedAny": "Ninguno de estos coches tiene aún un precio conocido, así que tu selección está vacía por ahora.",
+  "hero.card.estimateHow": "Cálculo: precio de catálogo nuevo {list} × {kept} de valor conservado a esa edad, según {curve}. Curva: {source} ({date}). Fuente del precio nuevo: {sources}.",
+  "hero.card.bandHow": "Rango de precio de ocasión a partir de {n} anuncios contados de esta versión ({date}). Fuente: {source}.",
+  "hero.card.generationBand": "Típico de esta generación: según anuncios de todas sus versiones, no solo de esta.",
+  "hero.card.bandHowGeneration": "Rango de precio de ocasión a partir de {n} anuncios contados de todas las versiones de esta generación ({date}). Fuente: {source}.",
+  "hero.card.curvePublished": "una curva de depreciación publicada",
+  "hero.card.curveFittedSegment": "una curva de depreciación para el segmento {segment}, ajustada con nuestras propias muestras de precios de ocasión de {countries}",
+  "hero.card.curveFitted": "una curva de depreciación ajustada con nuestras propias muestras de precios de ocasión de {countries}"
 }

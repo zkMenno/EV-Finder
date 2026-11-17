@@ -16,6 +16,7 @@ import { onFilters, publishAnswers, publishFilters } from "@/lib/filter-bus";
 import { effectiveLoan, monthlyFor, type FinanceProfileView } from "@/lib/finance";
 import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { nerdValue, numberParts } from "@/lib/nerd-value";
+import { priceHowText } from "@/lib/price-how";
 import { heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "@/lib/hero-state";
 import { buildListingUrl, type ListingSite } from "@/lib/listing-url";
 import {
@@ -27,7 +28,6 @@ import {
   reasons,
   resolveProfile,
   ROLES,
-  SHORTLIST_N,
   TRIPS,
   type ActivePreset,
   type Answers,
@@ -65,6 +65,8 @@ export interface HeroProps {
   hasScores: boolean;
   /** Release number (Nerd mode names where the scores come from). */
   release: number;
+  /** Source id → name (Nerd mode: where a price comes from). */
+  sources: Record<string, string>;
   dataUrl: string;
   total: number;
   finance: FinanceProfileView | null;
@@ -674,8 +676,9 @@ function Results(r: ResultsProps) {
       </section>
     );
   }
-  const top = result?.picks.slice(0, SHORTLIST_N) ?? [];
-  const more = result?.picks.slice(SHORTLIST_N) ?? [];
+  // "Your shortlist" = priced cars only (Decision 064); unpriced cars follow under "Also worth a look".
+  const top = result?.picks.slice(0, result.shortlistN) ?? [];
+  const more = result?.picks.slice(result?.shortlistN ?? 0) ?? [];
   const activePresets = r.presets.filter((p) => !r.hero.presetsOff.includes(p.field));
   return (
     <section aria-labelledby={id} className="mt-8" data-testid="hero-results">
@@ -728,6 +731,12 @@ function Results(r: ResultsProps) {
         </div>
       ) : null}
 
+      {result && result.status === "ranked" && result.picks.length > 0 && result.shortlistN === 0 ? (
+        // Decision 064: unpriced cars never fill the shortlist, so say why it is empty.
+        <p className="mt-4 rounded-md border border-slate-300 p-3 text-sm" data-testid="hero-no-priced">
+          {t(r.hero.budget !== null ? "hero.results.noPriced" : "hero.results.noPricedAny")}
+        </p>
+      ) : null}
       {top.length ? (
         <div className="mt-4 rounded-lg bg-[var(--sunflower-tint)] p-3 sm:p-4" data-testid="hero-shortlist">
           <h3 className="text-lg font-semibold">
@@ -743,7 +752,7 @@ function Results(r: ResultsProps) {
       {more.length ? (
         <div className="mt-6" data-testid="hero-more">
           <h3 className="text-lg font-semibold">{t("hero.results.more")}</h3>
-          <ol className="mt-3 grid gap-3" start={SHORTLIST_N + 1}>
+          <ol className="mt-3 grid gap-3" start={top.length + 1}>
             {more.map((p) => (
               <Card key={p.row.model_id} pick={p} r={r} />
             ))}
@@ -829,10 +838,16 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   else if (pick.price.low !== null && pick.price.high !== null)
     price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high), country: COUNTRIES[props.country].name });
   else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount), country: COUNTRIES[props.country].name });
-  const priceNote = pick.price?.estimate ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate") : null;
+  const priceNote =
+    pick.price?.basis === "estimate"
+      ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate")
+      : pick.price?.basis === "band" && pick.price.scope === "generation"
+        ? t("hero.card.generationBand")
+        : null;
+  const priceHow = level === "nerd" && pick.price ? priceHowText(pick.price, t, locale, r.money, props.sources) : null;
 
   return (
-    <li className="min-w-0 rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank} data-variant={row.variant_id}>
+    <li className="min-w-0 rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank} data-variant={row.variant_id} data-price={pick.price?.amount} data-price-basis={pick.price?.basis ?? "none"}>
       <div className="flex items-start gap-3">
         <span className="mt-0.5 inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-[var(--ink)] px-2 text-sm font-bold text-[var(--surface)]" aria-label={t("hero.card.rank", { n: pick.rank })}>
           {pick.rank}
@@ -876,6 +891,7 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               <dd className="font-semibold" data-testid="hero-price">
                 {price}
                 {priceNote ? <span className="block text-xs font-normal text-slate-700" data-testid="hero-price-note">{priceNote}</span> : null}
+                {priceHow ? <span className="block text-xs font-normal text-slate-700" data-testid="hero-price-how">{priceHow}</span> : null}
                 {monthly ? <span className="block text-sm font-normal text-slate-800">{t("hero.monthly", { amount: r.money(monthly.monthly) })}</span> : null}
               </dd>
             </div>

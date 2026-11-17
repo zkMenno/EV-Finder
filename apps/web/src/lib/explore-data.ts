@@ -2,7 +2,12 @@
 // only the columns Explore needs, nulls dropped. Pure: safe on server and client.
 import type { FieldProvenance, PublishedVariant, Source } from "@ev/schema";
 import type { CompactScores, ReleaseScores, VariantScores } from "./release-scores";
-import type { CompactBands, VariantBand, VariantUsedPrices } from "./variant-prices";
+import type { CompactBand, CompactBands, PriceHow, VariantBand, VariantUsedPrices } from "./variant-prices";
+
+/** Flags on a compact band: estimate (basis), low confidence, generation-scope band (Decision 069). */
+export const BAND_ESTIMATE = 1;
+export const BAND_LOW = 2;
+export const BAND_GENERATION = 4;
 
 export const EXPLORE_FIELDS = [
   "variant_id",
@@ -121,12 +126,35 @@ export function toClientCatalogue(release: number, sources: Source[], rows: Publ
   return { release, scores: !!scores, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used, scores)) };
 }
 
+/** How the band was made, from the row's own fields (Decision 064, Nerd mode); undefined when nothing is known. */
+function priceHow(b: VariantBand): PriceHow | undefined {
+  const h: PriceHow = {};
+  if (b.source) {
+    h.src = b.source.name;
+    if (b.source.url) h.url = b.source.url;
+    if (b.source.ref) h.ref = b.source.ref;
+  }
+  if (b.date) h.date = b.date;
+  if (b.basis === "band" && b.samples > 0) h.n = b.samples;
+  if (b.curve) h.curve = b.curve;
+  if (b.curve_fitted_on.length) h.on = b.curve_fitted_on;
+  if (b.list_price !== null) h.list = b.list_price;
+  if (b.list_source_ids.length) h.ls = b.list_source_ids;
+  if (b.kept_share !== null) h.kept = b.kept_share;
+  return Object.keys(h).length ? h : undefined;
+}
+
 /** Compact per-row bands for the client catalogue (T-092). */
 export function compactBands(per: Record<string, VariantBand[]> | undefined): CompactBands | undefined {
   if (!per) return undefined;
   const out: CompactBands = {};
   for (const [cc, list] of Object.entries(per)) {
-    out[cc] = list.map((b) => [b.build_year, b.p25, b.median, b.p75, (b.estimate ? 1 : 0) | (b.confidence === "low" ? 2 : 0)]);
+    out[cc] = list.map((b) => {
+      const flags = (b.basis === "estimate" ? BAND_ESTIMATE : 0) | (b.confidence === "low" ? BAND_LOW : 0) | (b.scope === "generation" ? BAND_GENERATION : 0);
+      const how = priceHow(b);
+      const row: CompactBand = how ? [b.build_year, b.p25, b.median, b.p75, flags, how] : [b.build_year, b.p25, b.median, b.p75, flags];
+      return row;
+    });
   }
   return out;
 }

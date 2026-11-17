@@ -747,5 +747,14 @@
   "hero.keep8.pending": "Non cambia ancora l'ordine: i punteggi per questa risposta non sono nella versione dei dati.",
   "hero.why.winter-range.winter": "{km} km di autonomia in inverno (stima)",
   "hero.card.winterEstimate": "stima a −10 °C",
-  "hero.caveat.winterEstimate": "L'autonomia invernale è una nostra stima a −10 °C, dal nostro modello di consumo (gli stessi dati usati dalla classifica)."
+  "hero.caveat.winterEstimate": "L'autonomia invernale è una nostra stima a −10 °C, dal nostro modello di consumo (gli stessi dati usati dalla classifica).",
+  "hero.results.noPriced": "Nessuna auto con prezzo noto rientra ancora in questo budget, quindi la tua selezione è vuota. Le auto qui sotto corrispondono alle tue risposte ma non hanno ancora un prezzo.",
+  "hero.results.noPricedAny": "Nessuna di queste auto ha ancora un prezzo noto, quindi per ora la tua selezione è vuota.",
+  "hero.card.estimateHow": "Calcolo: prezzo di listino nuovo {list} × {kept} di valore conservato a quell'età, secondo {curve}. Curva: {source} ({date}). Fonte del prezzo nuovo: {sources}.",
+  "hero.card.bandHow": "Fascia di prezzo dell'usato da {n} annunci contati di questa versione ({date}). Fonte: {source}.",
+  "hero.card.generationBand": "Tipico di questa generazione: dagli annunci di tutte le sue versioni, non solo di questa.",
+  "hero.card.bandHowGeneration": "Fascia di prezzo dell'usato da {n} annunci contati di tutte le versioni di questa generazione ({date}). Fonte: {source}.",
+  "hero.card.curvePublished": "una curva di svalutazione pubblicata",
+  "hero.card.curveFittedSegment": "una curva di svalutazione per il segmento {segment}, adattata sui nostri campioni di prezzi dell'usato da {countries}",
+  "hero.card.curveFitted": "una curva di svalutazione adattata sui nostri campioni di prezzi dell'usato da {countries}"
 }

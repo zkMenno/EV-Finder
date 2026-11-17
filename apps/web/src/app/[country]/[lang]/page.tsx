@@ -111,6 +111,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         initialResult={heroResult}
         hasScores={hasScores}
         release={cat.release()}
+        sources={sourceNames(cat.sources())}
         dataUrl={dataUrl}
         total={all.length}
         finance={financeProfile(cfg.code)}
