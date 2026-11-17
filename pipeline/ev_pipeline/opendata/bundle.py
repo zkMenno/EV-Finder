@@ -67,6 +67,12 @@ VALUE_FIELDS: tuple[tuple[str, str, str], ...] = (
     ("consumption_motorway_kwh_100km", "kWh/100 km", "Motorway consumption (~120 km/h)"),
     ("real_range_km", "km", "Real-world range, mild-weather mixed driving (our model)"),
     ("real_range_rung", "", "Which rung of our real-range ladder produced real_range_km"),
+    (
+        "real_range_winter_km",
+        "km",
+        "Winter range at -5 °C and colder, mixed driving"
+        " (our estimate, temperature step unvalidated)",
+    ),
     ("ac_kw", "kW", "Maximum AC charging power"),
     ("ac_km_per_h", "km/h", "km of WLTP range added per hour of AC charging"),
     ("dc_peak_kw", "kW", "DC peak charging power"),

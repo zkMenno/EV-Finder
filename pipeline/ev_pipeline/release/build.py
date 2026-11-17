@@ -504,6 +504,12 @@ def build_release(
         taxonomy_dir=data_dir / "taxonomy",
     )
     inputs += matrix.inputs
+    # T-072: winter range on each row, same numbers the shortlist scores with.
+    from ev_pipeline.derive.winter import attach_winter_range, band_labels
+
+    winter_log = attach_winter_range(
+        rows, matrix.document, band_labels=band_labels(data_dir / "taxonomy")
+    )
     from ev_pipeline.derive.shortlist import build_shortlist
 
     shortlist = build_shortlist(rows, matrix.document, data_dir, n, catalogue["generated_at"])
@@ -614,6 +620,7 @@ def build_release(
             "retired_ids": retired.log,
             "shortlist_scores": shortlist.log,
             "used_prices": used.log,
+            "real_range_winter_km": winter_log,
             "pack_links": link_coverage(link_report),
         },
     )

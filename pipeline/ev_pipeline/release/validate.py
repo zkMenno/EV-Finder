@@ -29,6 +29,7 @@ RANGES: dict[str, tuple[float, float]] = {
     "ac_kw": (2, 43),  # Renault Zoe Q210/Q90 charge at 43 kW AC (coordinator)
     "dc_peak_kw": (20, 400),
     "dc_avg_10_80_kw": (10, 300),
+    "real_range_winter_km": (30, 900),  # T-072: Spring at -10 °C to the longest packs
     "price_new": (5_000, 250_000),
     "boot_l": (0, 2000),
     "length_mm": (2500, 5500),
@@ -47,6 +48,7 @@ ROW_NUMBER_FIELDS = (
     "ac_km_per_h",
     "dc_km_per_10min",
     "real_range_km",
+    "real_range_winter_km",
     "power_kw",
     "accel_0_100_s",
     "boot_l",
