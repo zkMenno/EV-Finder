@@ -1,6 +1,6 @@
 # T-092 Hero: used price per build year from used_prices.json
 Role: WS2   Lane: apps/web   Wave: 10
-Status: review (WS2, 2026-11-15, branch t-092-hero-used-prices, stacked on T-080)
+Status: done (merged by WS2 with Menno's OK, 2026-11-17)
 
 ## Goal
 Launch scope §1: each hero card shows the used price band for the build years that fit the budget (T-081 data, WS1 PR #21).

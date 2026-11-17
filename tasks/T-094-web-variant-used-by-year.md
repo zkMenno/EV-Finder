@@ -1,6 +1,6 @@
 # T-094 Variant pages: used price by build year
 Role: WS2   Lane: apps/web   Wave: 10
-Status: review (WS2, 2026-11-15, branch t-094-variant-used-prices, stacked on T-092)
+Status: done (merged by WS2 with Menno's OK, 2026-11-17)
 
 ## Goal
 Launch scope §2: model/variant pages show the used price band per country; with T-081's per-variant, per-build-year bands the variant page lists them year by year.
