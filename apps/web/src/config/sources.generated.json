@@ -1,4 +1,10 @@
 {
+  "2dehands": {
+    "name": "2dehands.be search results (public result pages only)",
+    "licence": "none (site terms of service)",
+    "status": "active",
+    "owner": "2dehands (Adevinta; same platform as Marktplaats)"
+  },
   "adac": {
     "name": "ADAC tests and Ecotest",
     "licence": "none",
@@ -199,6 +205,12 @@
     "licence": "none (individual facts cited by URL and date)",
     "status": "blocked",
     "owner": "EV Finder staff"
+  },
+  "marktplaats": {
+    "name": "Marktplaats search results (public result pages only)",
+    "licence": "none (site terms of service)",
+    "status": "active",
+    "owner": "Marktplaats B.V. (Adevinta)"
   },
   "meteostat": {
     "name": "Meteostat climate normals",

@@ -354,3 +354,12 @@ def test_registry_marketplaces_never_ship_as_sources() -> None:
         assert reg.sources[sid].site_hosts
         with pytest.raises(ValueError, match="no `hosts:`"):  # never a pipeline fetch target
             load_hosts(sid, path)
+
+
+def test_registry_entries_have_no_split_values() -> None:
+    """A comma inside an unquoted flow-mapping value splits it into a stray null key (the
+    2dehands owner did this in the first T-111 draft). Every key must carry a value."""
+    path = Path(__file__).resolve().parents[2] / "data" / "sources.yaml"
+    doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+    bad = [(s.get("id"), k) for s in doc["sources"] for k, v in s.items() if v is None]
+    assert bad == []
