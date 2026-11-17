@@ -8,10 +8,12 @@
  */
 export type Id = string;
 /**
+ * Launch countries (Decision 066 adds ES and IT).
+ *
  * This interface was referenced by `EvSchema`'s JSON-Schema
  * via the `definition` "Country".
  */
-export type Country = "NL" | "DE" | "FR" | "BE" | "UK";
+export type Country = "NL" | "DE" | "FR" | "BE" | "UK" | "ES" | "IT";
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
  * via the `definition` "Currency".
@@ -222,6 +224,13 @@ export type ClueStrength = "decisive" | "strong" | "weak";
  * via the `definition` "LookalikeReason".
  */
 export type LookalikeReason = "same-generation" | "same-badge" | "same-marketing-name";
+/**
+ * band = from sourced price samples; estimate = list price x fitted depreciation curve (Decision 064).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "UsedPriceBasis".
+ */
+export type UsedPriceBasis = "band" | "estimate";
 /**
  * Car-side ISO 15118-20 support. Default not-disclosed; never inferred from model year (Decision 011).
  *
@@ -478,9 +487,9 @@ export interface Fact {
    */
   unit: string;
   /**
-   * Set for market-specific facts (prices, registrations).
+   * Launch countries (Decision 066 adds ES and IT).
    */
-  country?: "NL" | "DE" | "FR" | "BE" | "UK";
+  country?: "NL" | "DE" | "FR" | "BE" | "UK" | "ES" | "IT";
   source: Source;
   /**
    * Pointer to the raw record, e.g. a file path or row key.
@@ -2528,6 +2537,19 @@ export interface UsedPriceBand {
   age_band_years?: string | null;
   source_id: Id;
   fact_ids?: string[];
+  build_year?: number | null;
+  basis?: UsedPriceBasis;
+  source?: UsedPriceSourceRef;
+}
+/**
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "UsedPriceSourceRef".
+ */
+export interface UsedPriceSourceRef {
+  name: string;
+  url?: string;
+  ref?: string;
+  date?: string;
 }
 /**
  * One aggregate number per country (or region), date, metric and power band. Never point-level data. Decision 012.
@@ -3353,4 +3375,65 @@ export interface RetiredIdsFile {
   release: number;
   generated_at: string;
   retired_ids: RetiredIds;
+}
+/**
+ * One build year's used asking-price band for a variant in one country (T-081, T-113).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "UsedPriceYearBand".
+ */
+export interface UsedPriceYearBand {
+  build_year: number;
+  currency: Currency;
+  p25?: number | null;
+  median: number;
+  p75?: number | null;
+  samples: number;
+  method: "model" | "samples";
+  basis: UsedPriceBasis;
+  estimate: boolean;
+  confidence: "high" | "medium" | "low";
+  /**
+   * Date of the samples (band) or of the published curve (estimate).
+   */
+  date: string;
+  source: UsedPriceSourceRef;
+  source_id?: string | null;
+  curve?: string;
+  age_years?: number;
+  kept_share?: number;
+  list_price?: number | null;
+  /**
+   * year | nearest_year | from_<cc>_vat_adjusted
+   */
+  list_basis?: string;
+  list_source_ids?: string[];
+  observed_at?: string;
+}
+/**
+ * releases/<n>/used_prices.json (T-081, T-113, Decision 064). Top level allows extra summary keys (curves, backtest, status).
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "UsedPricesRelease".
+ */
+export interface UsedPricesRelease {
+  release: number;
+  generated_at: string;
+  model_version?: string;
+  estimate?: boolean;
+  note?: string;
+  anchors_as_of?: string;
+  method_ref?: string;
+  list_price_source_ids?: string[];
+  variants: {
+    variant_id: Id;
+    generation_id?: string | null;
+    bands: {
+      [k: string]: UsedPriceYearBand[];
+    };
+  }[];
+  generation_bands?: {}[];
+  curves?: {};
+  backtest?: {};
+  [k: string]: unknown;
 }
