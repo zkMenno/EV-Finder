@@ -1,0 +1,37 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: opel-corsa-e-f
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/opel+corsa-e/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2021
+  n: 32
+  p25: 14600.0
+  median: 15400.0
+  p75: 16100.0
+- build_year: 2022
+  n: 11
+  p25: 15600.0
+  median: 16000.0
+  p75: 16700.0
+- build_year: 2023
+  n: 16
+  p25: 17300.0
+  median: 18400.0
+  p75: 19000.0
+- build_year: 2024
+  n: 13
+  p25: 20400.0
+  median: 21900.0
+  p75: 22800.0
+- build_year: 2025
+  n: 10
+  p25: 23900.0
+  median: 25000.0
+  p75: 26300.0

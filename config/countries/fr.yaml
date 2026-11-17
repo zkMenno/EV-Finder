@@ -13,6 +13,10 @@
 #   priority      lower = shown first
 #   verified      true only after a manual check of the live site
 # Loaded at build time by apps/web/scripts/listings.mjs.
+# T-041 (WS3, 2026-11-15): patterns checked against the sites' own URLs as they appear in search
+# engine indexes (no site was fetched: "See listings" links are opened by people, never by us)
+# and, for La Centrale, Menno's own saved searches (data/editorial, July 2025). `verified` stays
+# false until a person taps the link once (checklist: workstreams/WS3/T-041-checklist.md).
 
 country: fr
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
@@ -23,6 +27,9 @@ default_language: fr
 listings:
   - site: leboncoin
     label: leboncoin
+    # evidence: indexed URL https://www.leboncoin.fr/c/voitures/fuel:4+u_car_brand:TESLA+u_car_model:TESLA_Model%20S
+    # confirms fuel code 4 = electric. That brand/model form needs leboncoin's own model names, so
+    # the free-text search (category 2 = voitures) stays: it forgives name differences.
     url_template: "https://www.leboncoin.fr/recherche?category=2&text={makeName}+{modelName}"
     filters:
       electric: { fuel: "4" }
@@ -30,13 +37,26 @@ listings:
     verified: false
   - site: lacentrale
     label: La Centrale
+    # evidence: Menno's own La Centrale searches (data/editorial/menno-picks.yaml, July 2025) use
+    # exactly listing?makesModelsCommercialNames=MAKE:MODEL&energies=elec (also priceMax,
+    # batteryCapacityMin, sortBy=priceAsc). La Centrale's commercial names differ from ours; the
+    # overrides below come from his links. NOTE: listings.ts applies slug_overrides to {make} and
+    # {model} only, not to {MAKE}/{MODEL}; WS2 asked to apply them here too (values are used as
+    # written). Several names joined by ';MAKE:' select several models, as in his links.
     url_template: "https://www.lacentrale.fr/listing?makesModelsCommercialNames={MAKE}%3A{MODEL}"
     filters:
       electric: { energies: elec }
+    slug_overrides:
+      megane-e-tech-electric: "MEGANE"
+      scenic-e-tech: "SCENIC"
+      niro-ev: "E-NIRO;KIA:NIRO"
+      zs-ev: "MG ZS;MG:ZS"
+      xc40-recharge: "XC40"
     priority: 2
     verified: false
   - site: autoscout24-fr
     label: AutoScout24
+    # evidence: same /lst/{make}/{model} structure as autoscout24.nl (indexed).
     url_template: "https://www.autoscout24.fr/lst/{make}/{model}"
     filters:
       electric: { fuel: E }

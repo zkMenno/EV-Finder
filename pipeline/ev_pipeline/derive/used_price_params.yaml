@@ -1,0 +1,37 @@
+# T-081: used price band per variant, build year and country. Model parameters (WS1).
+# Evidence: research/R-40-used-ev-price-anchors.md. Every band from this model is an estimate.
+schema: used-price-params/v1
+model_version: "0.1"
+anchors_as_of: "2026-09-28"   # DAT 3-year BEV figure; refit when it moves by more than 3 points
+
+countries: [NL, DE, FR, BE, UK]
+currency: {NL: EUR, DE: EUR, FR: EUR, BE: EUR, UK: GBP}
+
+# Share of the list price kept, by age in whole years since first registration (linear between).
+# 1, 3, 5 = anchors (R-40 §2); 2 and 4 = geometric mean of their neighbours; 6-10 = -8 % a year.
+# `default` applies to every country without its own row (no country-specific EV curves yet).
+curves:
+  default:
+    points: {0: 1.0, 1: 0.75, 2: 0.62, 3: 0.515, 4: 0.465, 5: 0.42, 6: 0.386, 7: 0.355, 8: 0.327, 9: 0.301, 10: 0.277}
+    extrapolated_from_age: 6     # ages >= 6 are extrapolated: confidence low
+    max_age: 12                  # older cars: no band (curve too uncertain)
+
+spread: 0.12                     # P25 / P75 = median x (1 -/+ spread); R-40 §2
+rounding: 100                    # round amounts to this many currency units
+
+# List price at registration. Order of preference per country and build year:
+#   1. a price_new fact for that country and that record year (median if several)
+#   2. the nearest record year in that country, at most `max_year_gap` away
+#   3. EU countries only: the NL price for that year, ex Dutch VAT, plus local VAT (low confidence)
+max_year_gap: 2
+vat: {NL: 0.21, DE: 0.19, FR: 0.20, BE: 0.21, UK: 0.20}   # standard rates, 2026
+cross_country_from: NL
+cross_country_to: [DE, FR, BE]   # not UK: other currency and right-hand-drive market
+
+# Age is measured at the release date from the middle of the build year (1 July).
+mid_year_month: 7
+
+# Manual samples (layer 2, aggregates only): data/manual/prices/*.yaml (WS3 writes them).
+samples_dir: manual/prices
+min_samples: 5                   # a sampled band needs at least this many cars (T-056)
+max_sample_age_days: 120         # older aggregates are ignored for bands (still back-tested)

@@ -18,6 +18,7 @@ import { DiffOnly } from "@/components/DiffOnly";
 import { SpecDiff } from "@/components/SpecDiff";
 import { Term } from "@/components/Term";
 import { isCountrySlug, isServed } from "@/config/countries";
+import { parkedEnabled } from "@/config/features";
 import { getCatalogue } from "@/lib/catalogue";
 import { usedBandFor } from "@/lib/used-rankings";
 import { hasDcData, isDcDependent } from "@/lib/dc";
@@ -124,13 +125,15 @@ export default async function GenerationPage({ params }: Props) {
               <span className="sr-only">. {t("gen.rdw.help")}</span>
             </dd>
           </div>
-          <div>
-            <dt className="text-sm text-slate-700">{t("reg.title", { country: cfg.name })}</dt>
-            <dd className="font-medium">
-              {/* Generation- and model-level counts repeat on every variant: show the first variant that has any. */}
-              <Registrations ctx={ctx} row={g.rows.find((r) => registrationsFor(r, cfg.code).length)} />
-            </dd>
-          </div>
+          {parkedEnabled("registrations") ? (
+            <div>
+              <dt className="text-sm text-slate-700">{t("reg.title", { country: cfg.name })}</dt>
+              <dd className="font-medium">
+                {/* Generation- and model-level counts repeat on every variant: show the first variant that has any. */}
+                <Registrations ctx={ctx} row={g.rows.find((r) => registrationsFor(r, cfg.code).length)} />
+              </dd>
+            </div>
+          ) : null}
           <div>
             <dt className="text-sm text-slate-700">
               <Term term={ctx.tax.terms["used-price"] ? { ...ctx.tax.terms["used-price"], label: t("gen.usedPrice", { country: cfg.name }) } : undefined} fallback={t("gen.usedPrice", { country: cfg.name })} base={base} text={ctx.termText} showTechnical={false} />
