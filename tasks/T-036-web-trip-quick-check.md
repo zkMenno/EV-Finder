@@ -1,6 +1,6 @@
 # T-036 Trip fit quick range check (Core 1)
 Role: WS2   Lane: apps/web   Wave: 7
-Status: review (builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, 2026-11-15
 
 ## Goal
 Profile picker + three inputs → "range you truly need" and an Explore column, no map.

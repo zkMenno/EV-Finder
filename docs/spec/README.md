@@ -16,6 +16,5 @@ Source of truth for product scope is the claude.ai doc "Used-EV Finder — Produ
 | [trip-fit.md](trip-fit.md) | Trip fit | "The range you truly need": flow, model, routing (Decision 013) |
 | [variant-finder.md](variant-finder.md) | Variant finder | Diff view, change timeline, "spot it in an ad" clues, finder (Decision 019) |
 | [product-decisions.md](product-decisions.md) | (repo only) | Every product decision in one list (moved from the claude.ai project, 17 Nov) |
-| [workflow.md](workflow.md) | Workflow | Superseded by [docs/process/README.md](../process/README.md) |
 
 Last full export: 2026-11-15.

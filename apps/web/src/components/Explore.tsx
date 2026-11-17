@@ -1273,7 +1273,6 @@ function RowActions({ row, t, withText = false }: { row: ExploreRow; t: T; withT
       <button
         type="button"
         aria-pressed={inCmp}
-        aria-label={inCmp ? t("compare.removeLabel", { name }) : t("compare.addLabel", { name })}
         aria-disabled={full || undefined}
         aria-describedby={full ? fullId : undefined}
         title={full ? t("compare.full", { max: COMPARE_MAX }) : undefined}
@@ -1286,6 +1285,8 @@ function RowActions({ row, t, withText = false }: { row: ExploreRow; t: T; withT
       >
         <span aria-hidden="true">{inCmp ? "✓" : "+"}</span>
         <span className={withText ? "" : "sr-only"}>{t("compare.add")}</span>
+        {/* Name = the visible word + the car (WCAG 2.5.3 Label in Name; T-096). */}
+        <span className="sr-only">: {name}</span>
       </button>
       {full ? (
         <span id={fullId} className="sr-only">

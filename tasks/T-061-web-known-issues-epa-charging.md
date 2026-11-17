@@ -1,6 +1,6 @@
 # T-061 Web: known issues, EPA range, generation-year badges, charging charts
 Role: builder   Lane: apps/web   Wave: 5 (MORNING.md wave 5 item 6)
-Status: review (web builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: web builder, 2026-11-15
 
 ## Goal
 Show the new release data from T-059 (known issues, EPA range, Wikidata year checks, charging stats) in the web app, honestly labelled, in EN + NL, at all three detail levels and in both themes.

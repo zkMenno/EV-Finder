@@ -1,6 +1,6 @@
 # T-004 Source adapters
 Role: builder   Lane: pipeline/sources   Wave: 2
-Status: review (builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, 2026-11-15
 
 ## Goal
 OpenEV, RDW and EEA adapters: fetch → raw → normalise → Fact rows.

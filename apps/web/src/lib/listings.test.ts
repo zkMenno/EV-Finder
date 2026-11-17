@@ -38,6 +38,14 @@ describe("seeListings", () => {
     expect(lc).toContain(encodeURIComponent("CITROËN"));
   });
 
+  it("uses the site's own names in upper-case slots (La Centrale overrides, T-041)", () => {
+    const fr = seeListings("fr", { make_name: "Kia", model_name: "Niro EV" });
+    const lc = fr.find((l) => l.id === "lacentrale")!.url;
+    expect(lc).toContain(`makesModelsCommercialNames=KIA%3A${encodeURIComponent("E-NIRO;KIA:NIRO")}`);
+    const plain = seeListings("fr", { make_name: "Tesla", model_name: "Model 3" }).find((l) => l.id === "lacentrale")!.url;
+    expect(plain).toContain(`TESLA%3A${encodeURIComponent("MODEL 3")}`);
+  });
+
   it("encodes spaces and dots", () => {
     const uk = seeListings("uk", { make_name: "Kia", model_name: "Niro EV" });
     expect(uk[0]!.url).toBe("https://www.autotrader.co.uk/car-search?make=Kia&model=Niro%20EV&fuel-type=Electric");

@@ -1,6 +1,6 @@
 # T-043 Price modes: outright, loan and lease per month
 Role: WS3 (finance_profiles) + WS2 (UI)   Lane: data/taxonomy, apps/web   Wave: 7
-Status: review (WS2 UI part; WS0/WS3 parts done by the other builder)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: WS2 UI part; WS0/WS3 parts done by the other builder
 
 ## Goal
 Let every price switch between buy outright, loan per month and lease per month (Decision 017).

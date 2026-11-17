@@ -6,6 +6,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Statuses:** Proposed · Accepted · Superseded by NNN
 
+**Number blocks** (rule G-05; take the next free number in your own block, fetch `main` first):
+
+| Block | Owner |
+|---|---|
+| 001–039, 050–051, 062–069, 080–089 | WS0 coordinator |
+| 040–049 | WS1 pipeline |
+| 052–056 | WS2 web (052–054 went to the Dependabot fix chat) |
+| 057–061 | WS3 curation |
+| 070–079 | WS4 infra, WS5 growth, UX (ask WS0 for a sub-range) |
+| 090–099 | spare; ask WS0 |
+
+
 ---
 
 ## Decision 001: Adopted agentic scaffold and the agent workflow
@@ -719,5 +731,32 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** Scale the sibling's measured km by own WLTP / sibling WLTP when both are known; fall back to the battery ratio otherwise. The note on the result says which ratio was used.
 
 **Consequences:** No change to today's release (all 203 rows with a real range use the body-ratio rung; no measured tests are licence-cleared yet). Once measured tests arrive, the synthetic back-test already improves (alpha-50: −2.0 % → +0.1 %). Reversible: one branch in `derive/metrics.real_range`.
+
+## Decision 062: Verification layer: diff-triggered REVIEW.md, gates out of reach, evidence per PR, every miss becomes a check
+
+**Status:** Accepted (Menno via the verification chat, 2026-11-17; logged by WS0)
+**Date:** 2026-11-17
+
+**Context:** Most launch tasks were merged without a fresh review (QA START, 17 Nov). Misses were caught late (stale release in MORNING.md, wrong EPA matches, duplicate decision numbers, conflict markers). Based on the Claude Code team's article on verification.
+
+**Decision:**
+- **REVIEW.md on main:** reviewers run only the items the diff triggers (R0–R3 always, D1–D13 by path), with evidence, and read the file from `origin/main`, never from the PR branch. One review = one commit (head SHA recorded in the task's `## Review`).
+- **Gates out of reach:** gate files (CI, REVIEW.md, AGENTS.md, test config, QA thresholds; listed in `config/gate-files.yaml`) change in their own PR. The `gate-guard` CI job flags mixed PRs and deleted/skipped tests without a `Test-change:` line; observe for one week (until 2026-11-24), then enforce with a new decision. WS0's `gate-ok` label is the logged escape hatch.
+- **Evidence pack per PR:** the PR template asks how it was verified and which REVIEW items fired; the `Verified:` commit stamp and the self-merge rule follow in T-128.
+- **Every miss becomes a check:** `docs/process/rules.md` lists every rule, the incident behind it and where it is enforced; a miss after merge adds a row and a check; a 4th retro question asks what a check missed; prune each phase. First tool checks: conflict markers and duplicate decision numbers in CI.
+- Decision number blocks per workstream at the top of this file.
+
+**Consequences:** Tasks T-120–T-129. One reviewer, tuned, not a stack of reviewers. Slightly slower merges; fewer late surprises.
+
+## Decision 063: One process doc, a lean QUESTIONS.md, and retire-don't-delete into `_archive/`
+
+**Status:** Accepted (Menno via the verification chat, 2026-11-17; logged and reviewed as a gate change by WS0)
+**Date:** 2026-11-17
+
+**Context:** The workflow was described in five places, decisions in two, and QUESTIONS.md had 83 "open" items, most of them engineering defaults. Menno: move old docs, don't delete them.
+
+**Decision:** `docs/process/README.md` is the one process doc. Project instructions live in `docs/process/project-instructions.md`. QUESTIONS.md holds only what Menno must answer; the rest moved to the archive with "default stands", and all ids were kept. AGENTS.md: when unsure, take the reversible default and note it; only Menno-only decisions block. Retired files go to `_archive/` (git mv plus a README row). Chats never read it unless Menno asks, and `.rgignore` keeps it out of searches (rule G-32). WS0 reviewed the AGENTS.md lines that went straight to main (266b373, e097843) and keeps them. The CI budget rule is G-33 (PR #45).
+
+**Consequences:** Fewer places to keep in sync. Gate files still change through a PR from now on (G-06); straight-to-main is for STATUS/HANDOFF/INBOX only.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

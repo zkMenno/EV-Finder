@@ -1,6 +1,6 @@
 # T-044 Schema: Variant clue and Look-alike group
 Role: coordinator (overnight tonight)   Lane: packages/schema   Wave: 7
-Status: review (schema delegate for WS0, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: schema delegate for WS0, 2026-11-15
 
 ## Goal
 Add the two entities from Decision 019 / docs/spec/variant-finder.md §4.

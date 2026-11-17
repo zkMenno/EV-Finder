@@ -1,6 +1,6 @@
 # T-019 Taxonomy rows + seed data: bidirectional and ports
 Role: builder (WS3 curation, WS1 for sources.yaml)   Lane: data/taxonomy, data/seed, data/sources.yaml   Wave: 5
-Status: review (partial — taxonomies only; overnight builder 2026-11-15. BidiCapability / ChargingPort seed still todo for WS3)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: partial — taxonomies only; overnight builder 2026-11-15. BidiCapability / ChargingPort seed still todo for WS3
 
 ## Goal
 Fill the new taxonomies and seed BidiCapability + ChargingPort for the top-40 used models and every 2025–26 model that offers V2H/V2G.

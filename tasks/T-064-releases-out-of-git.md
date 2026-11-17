@@ -1,6 +1,6 @@
 # T-064 Move published releases out of git
 Role: WS1 (pipeline) + WS4 (storage, CI)   Lane: pipeline, infra, .github (WS0 reviews)   Wave: 7
-Status: review (WS1, 2026-11-15; part 2 after data-v1 is published)
+Status: merged (PR #4); fresh review via QA A-35; earlier note: WS1, 2026-11-15; part 2 after data-v1 is published
 
 ## Goal
 Keep releases versioned and rollback-able without committing multi-MB JSON to git (Decision 035).

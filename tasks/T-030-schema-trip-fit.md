@@ -1,6 +1,6 @@
 # T-030 Schema: Trip fit taxonomies, variant fields, consumption tests and model
 Role: coordinator (WS0)   Lane: packages/schema   Wave: 6
-Status: review (schema delegate for WS0, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: schema delegate for WS0, 2026-11-15
 
 ## Goal
 Add the types from Decision 013 and the Trip fit spec §7.

@@ -91,8 +91,6 @@ export default async function VariantPage({ params }: Props) {
             favAdd: t("fav.add", { name }),
             favRemove: t("fav.remove", { name }),
             compareAdd: t("compare.add"),
-            compareAddLabel: t("compare.addLabel", { name }),
-            compareRemoveLabel: t("compare.removeLabel", { name }),
             compareFull: t("compare.full", { max: COMPARE_MAX }),
             compare: t("compare.add"),
           }}

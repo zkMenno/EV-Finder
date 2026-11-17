@@ -100,7 +100,6 @@
   "hero.card.page": "Sobre este coche",
   "hero.card.listings": "Ver anuncios en {site}",
   "hero.card.compare": "Comparar",
-  "hero.card.compareLabel": "Añadir {name} a la comparación",
   "hero.card.inCompare": "En la comparación",
   "hero.card.compareFull": "La comparación está llena",
   "hero.card.alternatives": "+{n} versiones más también encajan",

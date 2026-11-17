@@ -1,6 +1,6 @@
 # T-033 Consumption matrix builder with fallback ladder
 Role: WS1   Lane: pipeline   Wave: 7
-Status: review (WS1, 2026-11-15)
+Status: merged (PR #10); fresh review via QA A-35; earlier note: WS1, 2026-11-15
 
 ## Goal
 Build the per-variant consumption matrix the browser uses.
