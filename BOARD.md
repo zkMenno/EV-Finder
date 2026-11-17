@@ -14,6 +14,8 @@ Builders take only tasks in **Launch**. Everything else needs Menno's yes. Built
 **Launch, content:** T-039 winter range · T-027 charging in 2026 · T-082 batteries + battery health · glossary tooltips
 **Launch, infra:** T-040 AppInfra staging · T-013 deploy · T-064 storage part
 
+**Process: verification layer (Decision 062):** Launch: T-120 REVIEW.md (WS0) · T-121 gate-guard (WS0, observe → enforce 24 Nov) · T-122 rule register (WS0) · T-123 release-diff test (WS1) · T-126 verify skill web (WS2) · T-127 verify skill pipeline (WS1) · T-128 Verified stamp + flaky policy + self-merge rule (WS0). Not launch-blocking: T-124 property tests pipeline (WS1) · T-125 property tests web (WS2) · T-129 reviewer eval set (parked, after launch).
+
 **After launch (parked):** T-011 rankings pages · T-019 / T-020 / T-021 / T-022 bidirectional · T-024 / T-025 / T-026 / T-028 charging pages + link-outs (built parts stay flagged off) · T-029 ABRP deep links · T-036 quick range check (absorbed into T-080) · T-037 / T-038 Trip fit routes · T-042 bidi verification · T-044 / T-046–T-049 variant clues + finder · T-053 / T-058 registration history display · T-061 known issues · lease figures (rest of T-043)
 
 ## Now

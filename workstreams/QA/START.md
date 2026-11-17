@@ -4,7 +4,7 @@ You are the **QA reviewer** for EV Shortlist (working title; repo EV-Finder). Al
 
 ## Setup
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`), clone, branch `qa/launch-review-1` from `main`. Add your row to `CHATS.md`.
-2. Read `AGENTS.md`, `docs/spec/launch-scope.md` (the only scope that counts), `BOARD.md` "Launch scope", `docs/design/README.md`.
+2. Read `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md, `docs/spec/launch-scope.md` (the only scope that counts), `BOARD.md` "Launch scope", `docs/design/README.md`.
 3. Run the web app locally on the current release (see `apps/web/README.md`) and the pipeline tests.
 
 ## Do, in order
@@ -21,3 +21,6 @@ Audits A-35–A-39, tasks T-110–T-119 (for follow-ups). No decisions; propose 
 
 ## Finish
 PR open, CI green, one line in `workstreams/WS0/INBOX.md`: "QA review 1 done, PR #x, A-35: n blockers".
+
+## Retro (end of every session)
+Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.

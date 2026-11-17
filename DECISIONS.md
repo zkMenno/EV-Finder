@@ -6,6 +6,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Statuses:** Proposed · Accepted · Superseded by NNN
 
+**Number blocks** (rule G-05; take the next free number in your own block, fetch `main` first):
+
+| Block | Owner |
+|---|---|
+| 001–039, 050–051, 062–069, 080–089 | WS0 coordinator |
+| 040–049 | WS1 pipeline |
+| 052–056 | WS2 web (052–054 went to the Dependabot fix chat) |
+| 057–061 | WS3 curation |
+| 070–079 | WS4 infra, WS5 growth, UX (ask WS0 for a sub-range) |
+| 090–099 | spare; ask WS0 |
+
+
 ---
 
 ## Decision 001: Adopted agentic scaffold and the agent workflow
@@ -708,5 +720,21 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** An agent may read a marketplace's public search-result pages, only where robots.txt allows the path for our user agent, with an honest user agent, a few pages per model, 8 s or more between requests, and it stops for good on any 403/429 or bot challenge from that site. It keeps only aggregates per generation and build year (count, P25, median, P75 of fixed asking prices, fuel = electric); no listing ids, titles, seller data or locations are stored. Files go in data/manual/prices/ with the search page as source. This narrows Decision 004 for layer 2 only; layer 3 (scheduled sampling) stays off.
 
 **Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop.
+
+## Decision 062: Verification layer: diff-triggered REVIEW.md, gates out of reach, evidence per PR, every miss becomes a check
+
+**Status:** Accepted (Menno via the verification chat, 2026-11-17; logged by WS0)
+**Date:** 2026-11-17
+
+**Context:** Most launch tasks were merged without a fresh review (QA START, 17 Nov). Misses were caught late (stale release in MORNING.md, wrong EPA matches, duplicate decision numbers, conflict markers). Based on the Claude Code team's article on verification.
+
+**Decision:**
+- **REVIEW.md on main:** reviewers run only the items the diff triggers (R0–R3 always, D1–D13 by path), with evidence, and read the file from `origin/main`, never from the PR branch. One review = one commit (head SHA recorded in the task's `## Review`).
+- **Gates out of reach:** gate files (CI, REVIEW.md, AGENTS.md, test config, QA thresholds; listed in `config/gate-files.yaml`) change in their own PR. The `gate-guard` CI job flags mixed PRs and deleted/skipped tests without a `Test-change:` line; observe for one week (until 2026-11-24), then enforce with a new decision. WS0's `gate-ok` label is the logged escape hatch.
+- **Evidence pack per PR:** the PR template asks how it was verified and which REVIEW items fired; the `Verified:` commit stamp and the self-merge rule follow in T-128.
+- **Every miss becomes a check:** `docs/process/rules.md` lists every rule, the incident behind it and where it is enforced; a miss after merge adds a row and a check; a 4th retro question asks what a check missed; prune each phase. First tool checks: conflict markers and duplicate decision numbers in CI.
+- Decision number blocks per workstream at the top of this file.
+
+**Consequences:** Tasks T-120–T-129. One reviewer, tuned, not a stack of reviewers. Slightly slower merges; fewer late surprises.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
