@@ -3,6 +3,10 @@
 // hydrates them, then fetches the compact catalogue JSON from our own origin and filters
 // and sorts the full list in the browser. All state lives in the URL (see lib/state.ts).
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
+import { loadClientCatalogue } from "@/lib/client-catalogue";
+import { onAnswers, onFilters, publishFilters } from "@/lib/filter-bus";
+import { resolveProfile, scoreContext, scoreRow, type Answers } from "@/lib/shortlist";
+import { profileName, SuggestedSort } from "./SuggestedSort";
 import type { Country, Currency, FieldProvenance } from "@ev/schema";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
@@ -11,7 +15,7 @@ import type { CountrySlug, Lang } from "@/config/countries";
 import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
 import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
 import { hasDcData } from "@/lib/dc";
-import type { ClientCatalogue, ExploreRow } from "@/lib/explore-data";
+import type { ExploreRow } from "@/lib/explore-data";
 import { favouriteStore } from "@/lib/favourites";
 import { applyFilters, displayName, mostRestrictive, priceFor, sortRows, withoutGroup, type FilterGroup } from "@/lib/filters";
 import { formatMoney, formatYears, localeFor } from "@/lib/format";
@@ -65,6 +69,8 @@ export interface ExploreProps {
   lang: Lang;
   dict: Dict;
   initialState: ExploreState;
+  /** The hero's picker answers from the URL (T-067 Suggested sort). */
+  initialAnswers?: Answers;
   viewFromUrl: boolean;
   levelFromUrl: boolean;
   initialRows: ExploreRow[];
@@ -115,6 +121,9 @@ export function Explore(props: ExploreProps) {
   const locale = localeFor(props.lang);
 
   const [state, setState] = useState<ExploreState>(props.initialState);
+  const [answers, setAnswers] = useState<Answers | null>(props.initialAnswers ?? null);
+  useEffect(() => onAnswers(setAnswers), []);
+  const rp = useMemo(() => (answers ? resolveProfile(answers) : null), [answers]);
   const [all, setAll] = useState<ExploreRow[] | null>(null);
   const [sources, setSources] = useState(props.sources);
   const [limit, setLimit] = useState(PAGE);
@@ -207,24 +216,30 @@ export function Explore(props: ExploreProps) {
     if (state.filters.tripFit) update({ ...state, filters: { ...state.filters, tripFit: false } });
   };
 
-  // Full list, fetched from our own origin after first paint.
+  // Full list, fetched from our own origin after first paint (shared with the hero, T-080).
   useEffect(() => {
     let live = true;
-    fetch(props.dataUrl)
-      .then((r) => (r.ok ? (r.json() as Promise<ClientCatalogue>) : null))
-      .then((c) => {
-        if (live && c) {
-          setAll(c.rows);
-          setSources(c.sources);
-        }
-      })
-      .catch(() => {
-        /* keep the server-rendered rows */
-      });
+    void loadClientCatalogue(props.dataUrl).then((c) => {
+      if (live && c) {
+        setAll(c.rows);
+        setSources(c.sources);
+      }
+    });
     return () => {
       live = false;
     };
   }, [props.dataUrl]);
+
+  // The hero's refine filters are Explore's filters (same URL params, T-080).
+  useEffect(
+    () =>
+      onFilters("explore", (filters) => {
+        setDirty(true);
+        setLimit(PAGE);
+        setState((s) => ({ ...s, filters: { ...filters, tripFit: s.filters.tripFit } }));
+      }),
+    [],
+  );
 
   // Remembered table/cards and level preferences, unless the URL says otherwise.
   useEffect(() => {
@@ -264,6 +279,7 @@ export function Explore(props: ExploreProps) {
     setDirty(true);
     setLimit(PAGE);
     setState(next);
+    if (next.filters !== state.filters) publishFilters({ filters: next.filters, from: "explore" });
   };
   const setFilter = (patch: Partial<ExploreFilters>) => update({ ...state, filters: { ...state.filters, ...patch } });
   const setView = (view: View) => {
@@ -302,10 +318,26 @@ export function Explore(props: ExploreProps) {
     },
     [all, props.initialRows, props.code, fits],
   );
+  // "Suggested" sort (T-067): the hero's profile scores every row; a car a rule rules out goes last.
+  const scorer = useMemo(() => {
+    if (!rp) return undefined;
+    const list = all ?? props.initialRows;
+    const ctx = scoreContext(list);
+    const cache = new Map<string, number | null>();
+    return (r: ExploreRow) => {
+      let v = cache.get(r.variant_id);
+      if (v === undefined) {
+        const res = scoreRow(r, rp, ctx);
+        v = res.ruledOut ? null : res.score;
+        cache.set(r.variant_id, v);
+      }
+      return v;
+    };
+  }, [rp, all, props.initialRows]);
   const matches = useMemo(() => {
-    if (!all && !dirty) return props.initialRows;
-    return sortRows(runFilters(state.filters), state.sort, state.dir, props.code);
-  }, [all, dirty, runFilters, state.filters, state.sort, state.dir, props.code, props.initialRows]);
+    if (!all && !dirty && !(state.sort === "suggested" && answers !== props.initialAnswers)) return props.initialRows;
+    return sortRows(runFilters(state.filters), state.sort, state.dir, props.code, scorer);
+  }, [all, dirty, runFilters, state.filters, state.sort, state.dir, props.code, props.initialRows, scorer, answers, props.initialAnswers]);
   // Empty state with a reason: the one filter whose removal brings back the most cars.
   const relax = useMemo(
     () => (matches.length === 0 && (all || dirty) ? mostRestrictive(state.filters, (f) => runFilters(f).length) : null),
@@ -347,6 +379,14 @@ export function Explore(props: ExploreProps) {
           </div>
         </div>
 
+        <SuggestedSort
+          rp={rp}
+          active={state.sort === "suggested"}
+          onToggle={() => update({ ...state, sort: state.sort === "suggested" ? null : "suggested", dir: "desc" })}
+          t={t}
+          termText={ctx.termText}
+          profileName={rp ? profileName(rp, t) : ""}
+        />
         <div className="mb-3 flex flex-col gap-2">
           <PayModeToggle value={state.pay} onChange={setPay} ui={financeUi} />
           {state.pay === "loan" ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={financeUi} /> : null}
@@ -431,6 +471,11 @@ function groupLabel(g: FilterGroup, f: ExploreFilters, c: Ctx): string {
     case "bootMin": return t("filters.boot");
     case "lengthMax": return t("filters.length");
     case "towingMin": return t("filters.towing");
+    case "seatsMin": return t("filters.seats");
+    case "acMin": return t("filters.ac");
+    case "yearMin": return t("filters.years");
+    case "makes": return list(t("filters.makes"), f.makes);
+    case "excludeMakes": return list(t("filters.excludeMakes"), f.excludeMakes);
     case "voltageClasses": return list(t("filters.voltage"), f.voltageClasses.map((v) => named(c.names.voltage, v, c)));
     case "voltageMin": return t("filters.vrange");
     case "fast400": return t("filters.fast400");
@@ -808,6 +853,10 @@ function FiltersPanel({
               <NumberFilter id="bootMin" termId="boot-volume" label={t("filters.boot")} value={f.bootMin} step={10} onChange={(v) => onChange({ bootMin: v })} ctx={ctx} />
               <NumberFilter id="lengthMax" termId="vehicle-length" label={t("filters.length")} value={f.lengthMax} step={50} onChange={(v) => onChange({ lengthMax: v })} ctx={ctx} />
               <NumberFilter id="towingMin" termId="towing-capacity" label={t("filters.towing")} value={f.towingMin} step={100} onChange={(v) => onChange({ towingMin: v })} ctx={ctx} />
+              <NumberFilter id="seatsMin" termId="seats" label={t("filters.seats")} value={f.seatsMin} onChange={(v) => onChange({ seatsMin: v })} ctx={ctx} />
+              <NumberFilter id="acMin" termId="ac-charging" label={t("filters.ac")} value={f.acMin} onChange={(v) => onChange({ acMin: v })} ctx={ctx} />
+              <NumberFilter id="yearMin" termId="model-years" label={`${t("filters.years")}: ${t("hero.refine.yearFrom")}`} value={f.yearMin} onChange={(v) => onChange({ yearMin: v })} ctx={ctx} />
+              <NumberFilter id="yearMax" termId="model-years" label={`${t("filters.years")}: ${t("hero.refine.yearTo")}`} value={f.yearMax} onChange={(v) => onChange({ yearMax: v })} ctx={ctx} />
             </div>
             <VoltageSlider f={f} onChange={onChange} ctx={ctx} />
           </>

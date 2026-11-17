@@ -1,4 +1,5 @@
 // Model overview (T-009): its generations with years, honest "years not yet checked" flag.
+import { OwnerNote } from "../../_components/OwnerNote";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -89,6 +90,7 @@ export default async function ModelPage({ params }: Props) {
           );
         })}
       </ul>
+      <OwnerNote ctx={ctx} generationIds={gens.map((g) => g.id)} />
       <ChargingLinks links={chargingLinks(country, { withoutAbrp: true, lang })} abrp={abrpLink()} t={t} statsHref={`${base}/charging`} />
     </>
   );
