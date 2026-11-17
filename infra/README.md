@@ -67,6 +67,86 @@ host is in the source's `hosts:` and pass `-c protocol.allow=never -c protocol.h
 pipeline lane). In CI the clone runs in the data-refresh `refresh` job, which has a read-only
 token that is not stored on disk (F11).
 
+## Staging first run (T-040 + T-013): copy-paste for Menno
+
+Goal: a staging site you can open on your phone, behind a password, on an unlisted hostname,
+without touching GardenLayer or Dungeon Tracker. About 20 minutes. Run every block on the server
+as your normal sudo user. Nothing here needs Postgres yet (Decision 008).
+
+Checked from this repo on 2026-11-17 10:00 UTC: both GHCR images are **public** (anonymous pull
+works, so no `docker login`); `ghcr.io/zkmenno/ev-finder-web:sha-3c6ce03` is the newest finished
+`main` build (a newer one may exist when you run this: take the tag from the latest green
+`Images` run on `main`).
+
+**0. Measure first (read-only, 1 minute).** Copy `infra/scripts/measure.sh` to the server and run
+`bash measure.sh > /tmp/ev-measure.txt 2>&1`, then paste the file into the WS4 chat. It changes
+nothing. WS4 needs it for: free memory before adding ~256 MB, the real proxy network name, how
+Caddy is run (container or host, which folders it can see) and the Postgres version/extensions.
+If Caddy runs in a container and cannot see `/srv/ev`, stop here: WS4 adapts steps 5–6.
+
+**1. Folders and env file.**
+```sh
+sudo mkdir -p /srv/ev/env /srv/ev/data /srv/ev/auth
+sudo chown 10001:10001 /srv/ev/data && sudo chmod 700 /srv/ev/env /srv/ev/auth
+sudo install -m 600 /dev/null /srv/ev/env/web-staging.env
+sudo install -m 600 /dev/null /srv/ev/env/web.env      # empty for now; compose wants it to exist
+printf 'APP_NAME=EV Shortlist\nSTAFF_PAGES=0\nTRIP_FIT=0\n' | sudo tee /srv/ev/env/web-staging.env >/dev/null
+```
+
+**2. Networks.** Use the proxy network name that `measure.sh` printed for Caddy. If it is not
+`appinfra-proxy`, change `name: appinfra-proxy` in `compose.ev.yml` (server copy) to it.
+`ev-db` is not used until the database exists; create it as an empty internal network so compose
+starts (it can be removed or replaced by the AppInfra one later):
+```sh
+docker network inspect ev-db >/dev/null 2>&1 || docker network create --internal ev-db
+```
+
+**3. Copy the two files** from this repo to `/srv/ev/compose.ev.yml` and `/srv/ev/ev.caddy`.
+
+**4. Start staging only** (not `ev-web`), pinned to a tag:
+```sh
+cd /srv/ev
+export EV_WEB_STAGING_TAG=sha-3c6ce03
+docker compose -f compose.ev.yml pull ev-web-staging
+docker compose -f compose.ev.yml up -d ev-web-staging
+sleep 40; docker compose -f compose.ev.yml ps ev-web-staging       # want "healthy"
+docker stats --no-stream ev-ev-web-staging-1                         # paste the MEM line to WS4
+```
+If it is not healthy: `docker compose -f compose.ev.yml logs --tail 50 ev-web-staging`, paste to WS4.
+
+**5. Hostname and password** (server copy of `ev.caddy` only, never the repo):
+- Hostname: no DNS change needed. Use `ev-staging.<server-ip-with-dashes>.sslip.io` (for IP
+  `1.2.3.4`: `ev-staging.1-2-3-4.sslip.io`). It resolves to the server and Caddy gets a normal
+  certificate. In `/srv/ev/ev.caddy` replace `staging.ev.example.com` with it, and **delete the
+  whole `ev.example.com { … }` block** (production is not started, and a placeholder site would
+  make Caddy try to get a certificate for a domain we don't own).
+- Password:
+  ```sh
+  HASH=$(docker run --rm caddy:2 caddy hash-password --plaintext 'pick-a-password')
+  printf 'basic_auth {\n\tmenno %s\n}\n' "$HASH" | sudo tee /srv/ev/auth/staging.caddy >/dev/null
+  ```
+
+**6. Hook into Caddy**, the way AppInfra normally reloads: add `import /srv/ev/ev.caddy` to the
+main Caddyfile, run `caddy validate` (inside the Caddy container if that is how it runs), then
+reload. Validate must pass before the reload, so a typo never takes the other sites down.
+
+**7. Smoke test** (from anywhere):
+```sh
+H=ev-staging.<ip-dashes>.sslip.io
+curl -sI https://$H/nl/nl/ | head -1                       # 401 (password works)
+curl -s -u menno:pick-a-password https://$H/health          # {"status":"ok","release":1,...}
+curl -sI -u menno:pick-a-password https://$H/nl/nl/ | grep -i x-robots-tag   # noindex, nofollow
+```
+Then open `https://$H/nl/nl/` on your phone. Check GardenLayer and Dungeon Tracker still load.
+
+**Rollback** (leaves the other apps untouched): remove the `import /srv/ev/ev.caddy` line,
+validate, reload Caddy; then `cd /srv/ev && docker compose -f compose.ev.yml down`. To go back one
+image: set the previous `sha-…` tag and repeat step 4.
+
+**Still open after this** (T-040, needs the measure output): EV database + login in the shared
+Postgres, deploy key, watchdog `/health` entry, `backup.sh` entry (after AppInfra #93), Umami site,
+and the 7-point "Add an app" checklist in the AppInfra README.
+
 ## How to apply (later, by hand)
 
 Assumes SSH access to the server and the usual AppInfra layout. Each 🟡 needs a check first.

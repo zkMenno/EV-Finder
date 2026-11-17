@@ -2,7 +2,9 @@
 # NOT APPLIED. Imported from the server's main Caddyfile (`import /srv/ev/ev.caddy`), see infra/README.md.
 #
 # 🟡 The real domain is still open (the brand is undecided): ev.example.com and
-# staging.ev.example.com are placeholders. Replace both before applying.
+# staging.ev.example.com are placeholders. For the first staging run only the staging block is
+# used, under an unlisted sslip.io hostname set on the server copy (infra/README.md); the
+# production block stays unused until the domain exists.
 #
 # CSP note: Next.js (App Router) streams its RSC payload in inline <script> tags
 # (`self.__next_f.push(...)`, checked on /nl, 2026-11-15), so script-src needs 'unsafe-inline'
@@ -57,7 +59,11 @@ staging.ev.example.com {
 		defer
 		X-Robots-Tag "noindex, nofollow"
 	}
-	# 🟡 Optional: put staging behind basic_auth; the hash lives on the server, never in this repo.
+	# Basic auth until launch (T-040). The server-only file /srv/ev/auth/staging.caddy holds the
+	# `basic_auth { <user> <bcrypt hash> }` block (infra/README.md, "Staging first run"); it is never
+	# in this repo. A glob import, so a missing file never breaks the shared Caddy's reload for the
+	# other apps; the smoke test checks for the 401 instead.
+	import /srv/ev/auth/*.caddy
 	reverse_proxy ev-web-staging:3000 {
 		health_uri /health
 		health_interval 30s
