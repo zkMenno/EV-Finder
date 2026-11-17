@@ -255,3 +255,28 @@ test("hero: Nerd price text comes from the used price row (curve, countries, sou
   const band = page.locator('[data-testid="hero-card"][data-price-basis="band"]').first();
   await expect(band.getByTestId("hero-price-how")).toContainText(/counted listings/);
 });
+
+// Depth + parallax (UX, Menno 2026-11-17): layers drift with scroll; reduced motion keeps the flat scene.
+test("landing: highway band layers slide sideways as you scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/nl/nl");
+  const band = page.getByTestId("band-highway");
+  await band.scrollIntoViewIfNeeded();
+  await expect(band).toHaveAttribute("data-live", "1");
+  const fg = band.locator(".evs-scene--day [data-depth]").last();
+  await expect(fg).toHaveAttribute("style", /translate3d/);
+  const before = await fg.evaluate((e) => e.style.transform);
+  await page.mouse.wheel(0, 300);
+  await expect.poll(() => fg.evaluate((e) => e.style.transform)).not.toBe(before);
+  expect(await band.locator(".evs-scene--day [data-depth]").count()).toBe(9);
+});
+
+test("landing: reduced motion shows the flat scenes and no moving layers", async ({ browser }) => {
+  const ctx = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 390, height: 844 } });
+  const page = await ctx.newPage();
+  await page.goto("/nl/nl");
+  await expect(page.getByTestId("hero-scene")).toHaveAttribute("data-live", "0");
+  await expect(page.locator("[data-depth]")).toHaveCount(0);
+  await expect(page.getByTestId("hero-scene").locator(".evs-scene--day img")).toBeVisible();
+  await ctx.close();
+});

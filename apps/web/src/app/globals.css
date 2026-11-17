@@ -66,6 +66,19 @@ body {
 
 /* Home-hero scenes (UX design v6): one of day / night shows, following the theme (Decision 022). */
 .evs-scene { display: block; width: 100%; height: auto; border-radius: var(--radius-lg, 12px); }
+/* Parallax scenes (ParallaxScene.tsx). The flat SVG is the base; layers stack on top and drift.
+   Layer images are oversized along their drift axis so the SVGs' bleed (drawn outside the
+   viewBox) fills the gaps: portrait scenes keep their width scale, wide bands their height scale. */
+.evs-parallax { position: relative; overflow: hidden; isolation: isolate; border-radius: var(--radius-lg, 12px); }
+.evs-parallax--y { aspect-ratio: 390 / 460; }
+.evs-parallax--x { height: clamp(300px, 38vw, 460px); }
+.evs-parallax__mode { position: absolute; inset: 0; }
+.evs-parallax__flat { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.evs-parallax__layer { position: absolute; max-width: none; will-change: transform; }
+.evs-parallax--y .evs-parallax__layer { left: 0; width: 100%; top: -25%; height: 150%; }
+.evs-parallax--x .evs-parallax__layer { top: 0; height: 100%; left: -100%; width: 300%; }
+@media (prefers-reduced-motion: reduce) { .evs-parallax__layer { transform: none !important; } }
+
 .evs-scene--night { display: none; }
 :root[data-theme="dark"] .evs-scene--day { display: none; }
 :root[data-theme="dark"] .evs-scene--night { display: block; }

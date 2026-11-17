@@ -4,6 +4,8 @@ import { siteBase } from "@/lib/site-paths";
 import { ChargingLinks } from "@/components/ChargingLinks";
 import { Explore } from "@/components/Explore";
 import { Hero } from "@/components/Hero";
+import { ParallaxScene } from "@/components/parallax/ParallaxScene";
+import { canal, highway } from "@/components/parallax/scenes.generated";
 import { showable } from "@/components/PriceBand";
 import { COUNTRIES, isCountrySlug, isServed } from "@/config/countries";
 import { tripFitEnabled } from "@/config/features";
@@ -122,6 +124,8 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         terms={heroTerms}
         learnLinks={learnLinks}
       />
+      {/* Wide illustration bands with horizontal parallax (UX, Menno 2026-11-17): decorative, no text. */}
+      <ParallaxScene scene={highway} className="mt-12" testId="band-highway" />
       <section id="explore" aria-labelledby="explore-title" className="mt-12 scroll-mt-4">
         <h2 id="explore-title" className="text-2xl font-bold tracking-tight sm:text-3xl">
           {t("explore.title")}
@@ -150,6 +154,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
           payFromUrl={hasPayParam(sp)}
         />
       </section>
+      <ParallaxScene scene={canal} className="mt-12" testId="band-canal" />
       <ChargingLinks links={chargingLinks(country, { lang })} t={t} statsHref={`${siteBase(country, lang)}/charging`} />
     </>
   );
