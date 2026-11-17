@@ -1,42 +1,35 @@
-# WS1 handoff — 2026-11-15 ~10:30 UTC
+# WS1 handoff — 2026-11-15 ~12:55 UTC
 
-Chat: https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY. Next chat: "Read workstreams/WS1/HANDOFF.md and START.md and go."
+Chat: https://claude.ai/code/session_01JuyZEVuT84JYBi2Cty9CzW (2nd WS1 session). Next chat: "Read workstreams/WS1/HANDOFF.md and START.md and go."
 
-## State: 8 PRs open, a chain (each branch contains the previous ones)
-
-Merge in this order (all CI-green apart from main's own failures, which WS0 fixed in #8):
+## State: 2 PRs open, both branched from main
 
 | PR | Branch | What |
 |---|---|---|
-| [#4](https://github.com/zkMenno/EV-Finder/pull/4) | `t-064-releases-out-of-git` | T-064 part 1: manifest.json + per-generation split, `ev release package/publish/fetch/verify`, GitHub Release assets `data-v<n>`, `data-publish.yml`, web `fetch-release.mjs` |
-| [#5](https://github.com/zkMenno/EV-Finder/pull/5) | `fix/sources-decision-036-037` | sources.yaml housekeeping; EAFO `active_pending_confirmation` (new releasable status); RDW credit |
-| [#7](https://github.com/zkMenno/EV-Finder/pull/7) | `t-025-charging-stats` | T-025: manual charging YAML, release diff → `data/review/charging_changes.csv`, refresh fix (`STAGING_SUFFIX`) |
-| [#9](https://github.com/zkMenno/EV-Finder/pull/9) | `t-034-climate-normals` | T-034: GeoNames towns + Meteostat climate → `towns/<cc>.json`; ERA5-Land stub |
-| [#10](https://github.com/zkMenno/EV-Finder/pull/10) | `t-033-consumption-model` | T-032/T-033: EPA consumption tests + `consumption_matrix.json` |
-| [#11](https://github.com/zkMenno/EV-Finder/pull/11) | `t-035-backtest-epa` | T-035: proxy back-test on EPA (`qa.json backtest_epa`, audits/A-30), consumption calibration |
-| [#12](https://github.com/zkMenno/EV-Finder/pull/12) | `t-062-retired-ids` | T-062 pipeline part: `retired_ids.json` (+ A-30 follow-up note) |
-| [#13](https://github.com/zkMenno/EV-Finder/pull/13) | `fix/epa-range-class` | EPA Long/Standard Range rows only attach to that pack class |
+| [#15](https://github.com/zkMenno/EV-Finder/pull/15) | `t-069-shortlist-scores` | T-069: `shortlist_scores.json` per release (18 profile combos per variant, reasons, unknowns, 0..1 factors), Decisions 040–042, CHATS row. CI green. |
+| [#21](https://github.com/zkMenno/EV-Finder/pull/21) | `t-081-used-price-bands` | T-081 + T-056: `used_prices.json` (model bands per variant × build year × country, manual-sample override + qa.json back-test), Decision 043, research/R-40, audits/A-31, this handoff. |
 
-If WS0 squashes/rebases #4 first, rebase the next branch with `git rebase --onto origin/main <old-tip-of-previous-branch>`.
+Merge #15 first; #21 then has a two-line DECISIONS.md conflict (keep both entries).
 
 ## Waiting on others
-- **T-064 part 2** (after #4 merges): Actions → Data publish → release `1`; check `data-v1` has 98 assets; then remove release 1's big files from git (`git rm --cached`, .gitignore already covers them) and ask WS0 to set the release cap back to 5 MB. WS4 must add a fetch step to `apps/web/Dockerfile` first (WS4 INBOX).
-- **Schema (WS0 INBOX):** `TownsRelease`, `ConsumptionMatrixRelease`, `Catalogue.retired_ids`, `ac_kw_optional` (T-063 is blocked on it).
-- **Decisions to log (WS0):** proposed 040 (charging defaults, Q-075/Q-076) and 041 (P10 definition, town→station rule, consumption reference basis).
-- **WS3:** taxonomy rows (power bands, DfT valid_from, temperature_bands, heater_types), per-variant `heat_pump`, `data/manual/charging/*.yaml`, `data/seed/retired_ids.yaml`.
-- **Menno (via QUESTIONS):** Q-047 (KilowattApp provenance) blocks rows for Kia EV3 / Hyundai Inster (KilowattApp-only records); Q-059 (NAF/Nyland permission) blocks the real launch gate.
+- **WS0 schema (T-066/T-065):** `ShortlistScoresRelease`, `UsedPricesRelease` (shapes in WS0 INBOX 11:55 and 12:40), plus the earlier TownsRelease, ConsumptionMatrixRelease, retired_ids, ac_kw_optional (T-063 blocked).
+- **WS0/Menno:** who notes manual price samples (layer 2)? Until someone does, every price band is a model estimate. Asked WS0 to put it in QUESTIONS.
+- **WS3:** `unit` on road-tripper DC rows and the winter field in shortlist_rules.yaml; cited list prices (UK, Tesla) for price coverage; T-068 EV6/IONIQ 5 84 kWh split; manual price aggregates format (WS3 INBOX 12:40).
+- **WS5:** permission to show AGPI / Autotrader RPI / Indicata as public trend lines (R-40 §1), only if wanted.
+- **Menno (QUESTIONS):** Q-047 (KilowattApp provenance: also decides whether its 1,099 values stay in the open bundle, A-31), Q-059.
 
 ## Open work for WS1 (next, in order)
-1. **EPA matching, rest** (A-30): the range-class rule is in PR #13. Still open: US model-year lag (US 2024 "Cooper SE" is the old F56 but lands on Mini J01) and the Kona SX2 row whose 36.5 kWh battery looks wrong in the release itself. Test on staging like this: copy `openev`, `kilowatt-openev`, `fueleconomy` staging into a scratch data dir with the repo seed/taxonomy and diff the fueleconomy facts per variant.
-2. **ERA5-Land loader** once `CDSAPI_KEY` is in the server env (Q-093): request in `sources/era5_land/adapter.py`.
-3. T-064 part 2, T-063 after the schema lands.
-4. R-21/R-22 follow-ups only if WS3 asks in the INBOX (START §3 item 8).
+1. Review notes on #15 / #21 if they appear in the INBOX; rebase #21 after #15 merges.
+2. START §3 item 6: winter range quality. Rerun T-035 (EPA proxy back-test) on the calibrated matrix and report per profile-relevant field (winter range, DC km in 20 min) in qa.json. Needs live staging: `EV_DATA_DIR=<dir> uv run ev fetch fueleconomy && uv run ev normalise fueleconomy` (plus openev, kilowatt-openev).
+3. Refit `basis_scale` in `pipeline/ev_pipeline/derive/shortlist_params.yaml` after item 6 changes the matrix (method in Decision 042; the dry-run script pattern is in the T-069 handoff notes).
+4. T-063 and T-064 part 2 once unblocked.
 
-## Decisions made in this chat (engineering defaults)
-- Release files: GitHub Release assets, flat asset names (`catalogue.generations.<id>.json`); git keeps manifest + `in_git` files; a release with a manifest on main never changes; unmerged ones may be replaced.
-- Charging diff: growth > 15 % a month (compound), any fall, revisions, vanished series → review only.
-- Towns: cities5000, names in 6 UI languages, coords 2 dp; nearest station ≤ 60 km and ≤ 250 m elevation gap, prefer one with P10; no interpolation.
-- Consumption: battery basis (wall × 0.88); EPA adjusted = measured town/rural; motorway = EPA highway × 1.18 (body-specific); wltp-ratio calibrated to EPA (in-sample).
+## Decisions made in this chat
+- 040, 041 (charging defaults; climate + consumption basis) logged as proposed earlier.
+- 042: shortlist scores = editorial release file; basis bridge (winter ×1.24, Wh/km ×1.155, DC ×1.42) keeps Menno's thresholds; unknown = 0.5 and listed; > half unknown → not-enough-data.
+- 043: used price model = list price at registration × kept share (DAT/ING/Allianz anchors), ±12 % band, samples override, indices internal only.
 
-## Scratch data (lost with this container)
-Live staging from today lived in `/tmp/evdata` (bnetza, dft-charging, eafo, geonames, meteostat, fueleconomy, openev, kilowatt-openev). Re-fetch with `EV_DATA_DIR=<dir> uv run ev fetch <id> && uv run ev normalise <id>`; meteostat needs geonames first (≈2 min, 1,000 stations).
+## Data notes worth knowing
+- Tesla Model Y LR gen1 and Juniper LR AWD rows both show WLTP 11.0 kWh/100 km and 387 km DC in 20 min: likely wrong (told WS0).
+- Price facts carry `record_year` (RDW = first-registration year): the band uses that year's list price.
+- Coverage holes that make scores neutral: bidi, heat_pump, one_pedal, frunk, width (0 rows each); boot_l 119/226.

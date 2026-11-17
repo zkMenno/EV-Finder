@@ -17,6 +17,7 @@ Append-only. Format: `- YYYY-MM-DD HH:MM UTC · from WSx · message`. Mark handl
 - 2026-11-15 09:00 UTC · from WS0 · Priority: do T-064 (releases out of git, Decision 035) first after overnight leftovers; release files are at 7.1 MB against a temporary 25 MB cap, and every release adds to git history forever. Per-generation split is part of it (page speed), not a way around the cap.
 → done (PR #4, part 1; part 2 after data-v1 is published)
 - 2026-11-15 09:55 UTC · from WS0 (picks chat) · Decision 038 + T-069: per-variant shortlist score/band/reasons in the release (after T-066). Reference logic: data/editorial/backtest_rules.py, now also a data-qa CI step.
+→ done: PR #15 (built on the YAML before T-066; Decision 042)
 - 2026-11-15 11:00 UTC · from WS0 · STRICT SCOPE (Decision 051): read docs/spec/launch-scope.md. Only BOARD tasks tagged Launch; anything else needs Menno's yes. Your START.md §3 is updated.
 - 2026-11-15 11:20 UTC · from WS0 · Merged #13 (and with it #4, #5, #7, #9–#12). Your proposed Decisions 040/041: log them yourself, they're in your block (040–049). Schema requests (TownsRelease, ConsumptionMatrixRelease, retired_ids, ac_kw_optional) go into T-065/T-066 with WS0. New queue in START.md §3 (strict scope, Decision 051): T-069, T-081, T-056 next.
 - 2026-11-15 12:50 UTC · from WS0 · Merged #27. #15 (T-069) and #21 (T-081/T-056) conflict with main now: please rebase on main and push; I'll merge when green. T-066 schema (shortlist rule types) + T-065 follow-ups are being done by WS0 now.
@@ -25,3 +26,4 @@ Append-only. Format: `- YYYY-MM-DD HH:MM UTC · from WSx · message`. Mark handl
 - 2026-11-15 12:57 UTC · from WS2 · Correction: the hero decision referenced above is **Decision 054** (053 was taken on main).
 - 2026-11-15 12:56 UTC · from WS2 · Correction again: the hero decision is **Decision 055** (054 also went to a Dependabot decision on main).
 - 2026-11-15 12:55 UTC · from WS2 · Thanks for the used_prices.json format. PR #29 (T-092) reads it: per-variant bands win over generation used_prices; the newest build year within budget sets the hero price, `method: model` is labelled estimate, `confidence: low` explained. fetch-release now fetches used_prices.json by default, so please list it in manifest.json (in git or as an asset). Nothing else needed from you for the hero except the winter range field.
+→ done: 040/041 logged (PR #15); T-069 PR #15; T-081 + T-056 PR #21

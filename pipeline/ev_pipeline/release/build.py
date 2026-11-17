@@ -133,6 +133,8 @@ class ReleaseResult:
     # T-069: per-variant shortlist scores (shortlist_scores.json), None = not shipped.
     shortlist: dict[str, Any] | None = None
     shortlist_backtest: dict[str, Any] | None = None
+    # T-081: used price bands per variant, build year and country (used_prices.json).
+    used_prices: dict[str, Any] | None = None
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -506,6 +508,17 @@ def build_release(
 
     shortlist = build_shortlist(rows, matrix.document, data_dir, n, catalogue["generated_at"])
     inputs += shortlist.inputs
+    from ev_pipeline.derive.used_price import build_used_prices
+
+    used = build_used_prices(
+        rows,
+        facts,
+        [mf.year for mf in all_facts] + [None] * len(pfacts),
+        data_dir,
+        n,
+        catalogue["generated_at"],
+    )
+    inputs += used.inputs
 
     for inp in inputs:
         inp["path"] = log_path(inp["path"], data_dir)
@@ -590,6 +603,7 @@ def build_release(
         consumption=matrix.document,
         shortlist=shortlist.document,
         shortlist_backtest=shortlist.backtest,
+        used_prices=used.document,
         sections={
             "epa_range_km": epa_summary(rows),
             "generation_years": years.log,
@@ -599,6 +613,7 @@ def build_release(
             "consumption_matrix": matrix.log,
             "retired_ids": retired.log,
             "shortlist_scores": shortlist.log,
+            "used_prices": used.log,
             "pack_links": link_coverage(link_report),
         },
     )
@@ -741,6 +756,9 @@ def coverage_md(res: ReleaseResult) -> str:
     from ev_pipeline.derive.shortlist import coverage_lines
 
     lines += coverage_lines(res.sections.get("shortlist_scores") or {})
+    from ev_pipeline.derive.used_price import coverage_lines as used_price_lines
+
+    lines += used_price_lines(res.sections.get("used_prices") or {})
     return "\n".join(lines) + "\n"
 
 
@@ -939,6 +957,9 @@ def release_readme(res: ReleaseResult) -> str:
         " obtained); km-in-N-minutes also uses an estimated motorway consumption.",
         "- `shortlist_scores.json` is editorial: one owner's selection rules"
         " (data/editorial/shortlist_rules.yaml) applied to our own fields. Opinion, not fact.",
+        "- `used_prices.json`: method `model` bands are estimates (list price at registration"
+        " x share of value kept at that age, research/R-40), `samples: 0`. Asking prices, not"
+        " transaction prices.",
         "",
     ]
     from ev_pipeline.derive.shortlist import readme_lines
@@ -1037,6 +1058,13 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
 
         (tmp / SHORTLIST_FILE).write_text(
             json.dumps(res.shortlist, separators=(",", ":"), ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+    if res.used_prices is not None:  # T-081: used price bands for the hero budget filter
+        from ev_pipeline.derive.used_price import FILE_NAME as USED_PRICES_FILE
+
+        (tmp / USED_PRICES_FILE).write_text(
+            json.dumps(res.used_prices, separators=(",", ":"), ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
     if res.towns:  # T-034: one file per country, loaded on demand by the trip module
