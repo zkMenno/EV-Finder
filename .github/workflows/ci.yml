@@ -117,6 +117,11 @@ jobs:
       - run: corepack enable
       - name: Install (workspace root)
         run: pnpm install --frozen-lockfile
+      # Release files live only on the GitHub Release (Decision 035, T-064): fetch `latest` by
+      # manifest (size + sha256) before the unit tests, like data-qa, so tests see the real
+      # release instead of the dev fixture. Public download; no token needed.
+      - name: Fetch the latest release
+        run: pnpm --filter ./apps/web run fetch-release
       - run: pnpm --filter ./apps/web run --if-present lint
       - run: pnpm --filter ./apps/web run --if-present typecheck
       - run: pnpm --filter ./apps/web run --if-present test
@@ -200,6 +205,10 @@ jobs:
       # --locked: fail if uv.lock is out of step with pyproject.toml (A-02: lockfile is the truth).
       - name: Install
         run: uv sync --locked --all-extras --dev
+      # Release files live only on the GitHub Release (Decision 035, T-064): tests that read
+      # data/releases/latest need them. Downloaded and sha256-checked by manifest, like data-qa.
+      - name: Fetch the latest release
+        run: uv run ev release fetch latest
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run pytest
