@@ -89,8 +89,8 @@ h1{{font:800 clamp(40px,7vw,64px)/1.04 var(--font-display);margin:0 0 14px;lette
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var scenes = [].slice.call(document.querySelectorAll('[data-parallax]'));
   var px = 0, py = 0, ticking = false;
-  var AMP = 90;   // px of travel per unit of depth across one screen of scroll
-  var TILT = 16;  // px of pointer drift per unit of depth (desktop only)
+  var AMP = 180;  // px of travel per unit of depth across one screen of scroll
+  var TILT = 32; // px of pointer drift per unit of depth (desktop only)
   function frame(){{
     ticking = false;
     if (reduce.matches) return;

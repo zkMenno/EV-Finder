@@ -1,0 +1,145 @@
+{
+ "note": "Parallax layers for the landing page (UX, 2026-11-17). Every layer is a full 390x460 SVG; stack them in order, same box, overflow visible inside a clipped container. depth = how far the layer drifts: translateY = progress * depth * 180px (progress -1..1 as the scene crosses the viewport), pointer tilt = depth * 32px on fine pointers. Negative depth = foreground, moves the other way. Reduced motion: no transforms.",
+ "amp_px": 180,
+ "tilt_px": 32,
+ "scenes": {
+  "village-day": [
+   {
+    "file": "layers/village-day-0-sky.svg",
+    "layer": "sky",
+    "depth": 0.55
+   },
+   {
+    "file": "layers/village-day-1-doodles.svg",
+    "layer": "doodles",
+    "depth": 0.42
+   },
+   {
+    "file": "layers/village-day-2-far.svg",
+    "layer": "far",
+    "depth": 0.36
+   },
+   {
+    "file": "layers/village-day-3-hills-far.svg",
+    "layer": "hills-far",
+    "depth": 0.24
+   },
+   {
+    "file": "layers/village-day-4-hills-mid.svg",
+    "layer": "hills-mid",
+    "depth": 0.13
+   },
+   {
+    "file": "layers/village-day-5-near.svg",
+    "layer": "near",
+    "depth": 0.05
+   },
+   {
+    "file": "layers/village-day-6-foreground.svg",
+    "layer": "foreground",
+    "depth": -0.14
+   }
+  ],
+  "village-night": [
+   {
+    "file": "layers/village-night-0-sky.svg",
+    "layer": "sky",
+    "depth": 0.55
+   },
+   {
+    "file": "layers/village-night-1-doodles.svg",
+    "layer": "doodles",
+    "depth": 0.42
+   },
+   {
+    "file": "layers/village-night-2-far.svg",
+    "layer": "far",
+    "depth": 0.36
+   },
+   {
+    "file": "layers/village-night-3-hills-far.svg",
+    "layer": "hills-far",
+    "depth": 0.24
+   },
+   {
+    "file": "layers/village-night-4-hills-mid.svg",
+    "layer": "hills-mid",
+    "depth": 0.13
+   },
+   {
+    "file": "layers/village-night-5-near.svg",
+    "layer": "near",
+    "depth": 0.05
+   },
+   {
+    "file": "layers/village-night-6-foreground.svg",
+    "layer": "foreground",
+    "depth": -0.14
+   }
+  ],
+  "city-day": [
+   {
+    "file": "layers/city-day-0-sky.svg",
+    "layer": "sky",
+    "depth": 0.55
+   },
+   {
+    "file": "layers/city-day-1-doodles.svg",
+    "layer": "doodles",
+    "depth": 0.42
+   },
+   {
+    "file": "layers/city-day-2-far.svg",
+    "layer": "far",
+    "depth": 0.36
+   },
+   {
+    "file": "layers/city-day-3-buildings.svg",
+    "layer": "buildings",
+    "depth": 0.18
+   },
+   {
+    "file": "layers/city-day-4-street.svg",
+    "layer": "street",
+    "depth": 0.06
+   },
+   {
+    "file": "layers/city-day-5-foreground.svg",
+    "layer": "foreground",
+    "depth": -0.14
+   }
+  ],
+  "city-night": [
+   {
+    "file": "layers/city-night-0-sky.svg",
+    "layer": "sky",
+    "depth": 0.55
+   },
+   {
+    "file": "layers/city-night-1-doodles.svg",
+    "layer": "doodles",
+    "depth": 0.42
+   },
+   {
+    "file": "layers/city-night-2-far.svg",
+    "layer": "far",
+    "depth": 0.36
+   },
+   {
+    "file": "layers/city-night-3-buildings.svg",
+    "layer": "buildings",
+    "depth": 0.18
+   },
+   {
+    "file": "layers/city-night-4-street.svg",
+    "layer": "street",
+    "depth": 0.06
+   },
+   {
+    "file": "layers/city-night-5-foreground.svg",
+    "layer": "foreground",
+    "depth": -0.14
+   }
+  ]
+ }
+}

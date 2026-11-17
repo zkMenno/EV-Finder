@@ -114,6 +114,8 @@ The map is not flat. Faint surface textures give heroes, empty states, Learn hea
 
 The mood: **used EVs got good.** Good electric cars are within reach, charging is nothing to worry about, and the cleaner future is already being built: you can be part of it. The illustrations carry that optimism so the copy doesn't have to shout. They are for people who don't care about tech or sustainability as much as for those who do: friendly, sensible, a bit playful, never preachy.
 
+**Depth (Menno, 2026-11-17).** Hero scenes are layered for depth: far hills fade into the sky colour (haze), a faint map grid sits in the sky, line doodles float (birds, clouds, sparkles, a leaf, a plug), and big soft-blurred leaves frame the front corners like a close-up. The layers double as parallax planes.
+
 **Style (Menno's pick, 2026-11-15: "B + C").** Layered paper hills with a soft shadow under each layer, a road that winds and narrows into the distance (the same move as the tick in the logo), drawn in a 2px ink line with round joins and flat fills, like a picture-book map. Kids' road play mats and road trips through quiet countryside are the references.
 
 | Use | Scene | Colours |
@@ -168,7 +170,8 @@ Motion answers what people do and is quiet otherwise.
 - Adding to the shortlist: the tick-road draws itself into the box (260ms) and the sunflower disc pops on (180ms). The car's chip slides into the tray (200ms). The tray never resets.
 - The home hero has the page's one orchestrated moment: the route draws, then the note settles.
 - The range route draws its line once, on first view (600ms), then stays still. With reduced motion, it appears drawn.
-- No parallax, no scroll-triggered fades, no looping animations near prices.
+- **Parallax (Menno, 2026-11-17): only on illustrated scenes** (the landing-page hero and big illustration bands). The scene is a stack of layers (sky, doodles, far ridge, hills, near ground, blurred foreground leaves); each drifts by its depth factor as the scene crosses the screen: up to ±180px × depth on scroll, plus a small pointer tilt (32px × depth) on computers. Transform only, one requestAnimationFrame per scroll, nothing outside the clipped scene moves. Text, buttons, data, cards and prices never move. Reduced motion: layers stand still. Layers and depths: `assets/Illustrations/layers/manifest.json`; reference page: https://claude.ai/artifact/BRpRwoSAM1rLeNtcLtd5Gg
+- No scroll-triggered fades, no looping animations near prices.
 - `prefers-reduced-motion` turns off all transitions.
 
 ## Accessibility checklist

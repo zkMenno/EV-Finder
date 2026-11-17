@@ -11,6 +11,11 @@ def el(svg, label, t):
             f'<svg viewBox="-75 -75 150 150" width="120" height="120" role="img" aria-label="{label}">{svg}</svg>'
             f'<figcaption style="font: 700 14px/18px \'Atkinson Hyperlegible\', sans-serif; color: {t["line"]}; text-align: center">{label}</figcaption></figure>')
 import export
+from depth import village_layers, city_layers
+def dflat(fn):
+    def f(t, r, n):
+        return ''.join(f'<g>{x}</g>' for _,_,x in fn(t, r, n, 'b'+str(id(t)%97)+str(int(r))+str(int(n))))
+    return f
 def grid(t, night):
     names = {"house-solar":"House + solar","house-solar-rich":"House, rich","wallbox":"Wallbox","public-charger":"Public charger","lamp-post-charger":"Lamp-post charger",
              "turbine":"Wind turbine","solar-field":"Solar field","trees":"Trees","trees-rich":"Trees, rich","street-tree":"Street tree","ev":"EV","ev-van":"EV van",
@@ -25,11 +30,11 @@ swh = "".join(f'<div style="display: grid; grid-template-columns: 40px 40px 1fr;
 H = 2780
 body = f'''<div style="width: 1440px; height: {H}px; box-sizing: border-box; padding: 64px; background: #F2F6FA; color: #16233A; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; gap: 28px">
 <header style="display: flex; flex-direction: column; gap: 8px"><h1 style="margin: 0; font: 800 44px/52px 'Bitter', Georgia, serif">Illustrations: solarpunk, within reach</h1>
-<p style="margin: 0; max-width: 980px; font: 400 18px/28px 'Atkinson Hyperlegible', sans-serif; color: #45546F">Used EVs got good. Layered paper hills, a road winding into the distance like the tick in the logo, a 2px ink line. Village by default, city for people who live in one. Rich colour only in the home hero; soft everywhere else; deep green at night.</p></header>
+<p style="margin: 0; max-width: 980px; font: 400 18px/28px 'Atkinson Hyperlegible', sans-serif; color: #45546F">Used EVs got good. Layered paper hills, a road winding into the distance like the tick in the logo, a 2px ink line. Village by default, city for people who live in one. Rich colour only in the home hero; soft everywhere else; deep green at night. Hero scenes are layered (haze, doodles, blurred foreground leaves) and drift with parallax: try it at claude.ai/artifact/BRpRwoSAM1rLeNtcLtd5Gg</p></header>
 <h2 style="margin: 8px 0 0; font: 800 24px/30px 'Bitter', Georgia, serif">Scenes</h2>
 <div style="display: grid; grid-template-columns: repeat(4, 300px); gap: 24px">
-{sc(village_scene, DAY, True, False, "a", "Village · home hero (rich)")}{sc(city_scene, DAY, True, False, "b", "City · home hero (rich)")}{sc(village_scene, DAY, False, False, "c", "Village · pages (soft)")}{sc(city_scene, DAY, False, False, "d", "City · pages (soft)")}
-{sc(village_scene, NIGHT, True, True, "e", "Village · Night drive")}{sc(city_scene, NIGHT, True, True, "f", "City · Night drive")}
+{sc(dflat(village_layers), DAY, True, False, "a", "Village · home hero, layered for parallax")}{sc(dflat(city_layers), DAY, True, False, "b", "City · home hero, layered for parallax")}{sc(village_scene, DAY, False, False, "c", "Village · pages (soft)")}{sc(city_scene, DAY, False, False, "d", "City · pages (soft)")}
+{sc(dflat(village_layers), NIGHT, True, True, "e", "Village · Night drive")}{sc(dflat(city_layers), NIGHT, True, True, "f", "City · Night drive")}
 </div>
 <h2 style="margin: 8px 0 0; font: 800 24px/30px 'Bitter', Georgia, serif">Kit · Day trip</h2>
 <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px">{grid(DAY, False)}</div>

@@ -8,3 +8,5 @@ The home page opening: the promise in one line, the first of three questions, an
 - No numbers in the scene or the headline. Prices and ranges appear only in results, from our data with sources.
 - One orchestrated moment on first load: the note settles onto the scene (no bounce). Reduced motion shows the final state.
 - Don't swap the scene for a photo of a car or a person charging.
+
+- **Parallax (2026-11-17):** build the scene from the layer files in `assets/Illustrations/layers/` (village or city, day or night; order and depth in `manifest.json`) instead of the flat SVG, which stays the no-JS and reduced-motion fallback. Each frame: progress = (scene centre − viewport centre) / viewport height; translateY = progress × depth × 180px; on fine pointers add a tilt of depth × 32px. Respect `prefers-reduced-motion`.
