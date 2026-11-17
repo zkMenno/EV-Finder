@@ -1,30 +1,28 @@
-# WS1 handoff — 2026-11-17 ~07:00 local (06:00 UTC)
+# WS1 handoff — 2026-11-17 ~10:35 UTC
 
-Chat: https://claude.ai/code/session_01JuyZEWFXbkeYSii8dVSWnx (3rd WS1 session). Next chat prompt:
+Chat: https://claude.ai/code/session_01JuyZEUkCfiK3pkbkjjyqf (4th WS1 session). Next chat: "Read workstreams/WS1/HANDOFF.md and START.md and go."
 
-```
-Attach github.com/zkMenno/EV-Finder with push access (add_repo, access: push), then read workstreams/WS1/HANDOFF.md and START.md and go.
-```
-
-## State: 3 PRs open
-| PR | Branch | What |
+## State
+| PR | What | Where it stands |
 |---|---|---|
-| [#44](https://github.com/zkMenno/EV-Finder/pull/44) | `t-123-release-diff` | T-123: blocking `release_diff` QA check, config/approved_changes.yaml, Decision 044. CI green. |
-| [#51](https://github.com/zkMenno/EV-Finder/pull/51) | `t-127-verify-pipeline` | T-127: `ev verify` + skill, audits/A-32, this handoff. **Branched from #44**: merge #44 first. |
-| [#49](https://github.com/zkMenno/EV-Finder/pull/49) | `t-124-property-tests` | T-124: Hypothesis property tests; Decision 045 (sibling rung by WLTP ratio). From main. |
+| [#58](https://github.com/zkMenno/EV-Finder/pull/58) | T-063 optional on-board charger (`ac_kw_optional`), Decision 046 | Built by this chat; needs a **fresh** review (REVIEW.md from origin/main), then WS0 merge. 1424 tests green locally, CI dispatched. |
+| [#49](https://github.com/zkMenno/EV-Finder/pull/49) | T-124 property tests + Decision 045 | Reviewed by this chat on b4042fa: pass, no must-fix. Head d7db591 adds only the review notes. WS0: `gate-ok` (pyproject + conftest are gate files) and merge. |
+| #44, #51 | T-123 release diff, T-127 `ev verify` | Merged by WS0 (09:54 UTC). |
+| [#61](https://github.com/zkMenno/EV-Finder/pull/61) | T-111 thresholds | **WS0's subagent owns T-111.** This chat dropped its duplicate and left a dry-run cross-check as a comment on #61. |
 
-DECISIONS.md: #44 adds 044, #49 adds 045 at the same spot → a two-entry conflict; keep both.
+## Coordination (important)
+WS0 builds the A-35 fixes "with one subagent per lane" (WS0 INBOX 09:55). Its WS1-lane subagent already took T-111 at 10:04 UTC. **Before touching T-113 or T-116, check open PRs and remote branches (`git ls-remote origin 'refs/heads/t-11*'`) and WS1 INBOX for WS0's answer** (asked in WS0 INBOX 10:35 who owns T-113/T-116).
 
-## Open work for WS1 (next, in order)
-1. Review notes on #44 / #49 / #51 if they show up in the INBOX.
-2. A-32 findings 1–2 (task number from WS0): which source/rule changed `consumption_kwh_100km` (−11 % median on 45 variants) and why 19 variants lost `wltp_range_km`. Use `ev verify --data-dir <scratch>` and its `-release-diff.csv`.
-3. WS3 asks still open: '+' → 'plus' in `normalise.key` (T-068; flip the strict xfail in test_t124_properties when done), KBA/DfT/EEA aliases for the new models, optional `years:` on manual facts (T-031).
-4. WS0 delegated: Catalogue.retired_ids + FactField entries for ac_kw_optional/EPA/one_pedal/regen_paddles/ota_updates (unblocks T-063).
-5. rdw-tgk refresh failed (SnapshotError: nothing to snapshot).
+## Next for WS1 (in order, skip what WS0 owns)
+1. Fresh review of #58 by someone who didn't build it (or ask QA/WS0).
+2. T-113 / T-116 only if WS0 hands them back.
+3. **Winter range field** (WS2 waits for it: WS1 INBOX 12:55 15 Nov; BOARD "WS2 idle, waiting on WS1 data fields"): agree the field name with WS0 (`real_range_winter_km` is already a FactField), then START §3 item 6 / T-070 (task file says Wave 9, needs WS0 tag).
+4. WS3 asks still open in WS1 INBOX: `normalise.key` '+' → 'plus' (T-068; xfail test waits in test_t124), `years:` on manual facts (T-031).
 
-## Live staging
-Recorded today in /tmp/live/data on the session machine (gone with the session). Recreate: copy data/ to a scratch dir, `EV_DATA_DIR=<dir> uv run ev refresh --sources <all> --no-release` (~15 min, peak 413 MB).
+## Findings worth keeping
+- OpenEV has no optional-charger signal: 0 of 746 AC records mention one. Routing has to come from citations (Decision 046). WS3 asked to cite e-208/e-2008, Megane EV40, MG4 Standard, I-Pace.
+- Release 1 plausibility dry run (in the #61 comment): same-pack sibling WLTP ratio > 1.3 flags only Model Y LR ×2, Enyaq 85 (752 km), Taycan Turbo GT. DC km/20 vs generation median misfires on long-range versions (Leaf e+, Model 3 LR, ID.3 GTX).
+- Main moves fast: pushes to main need fetch + merge + retry; `/tmp/keepboth.py`-style "keep both sides" resolves INBOX/DECISIONS conflicts.
 
-## Decisions this chat
-- 044: release diff N vs N-1 blocks unapproved changes.
-- 045: sibling-variant real range scales by WLTP ratio.
+## Decisions made in this chat
+- 046 (T-063): a citation routes a source's AC figure to `ac_kw_optional`; blocked citations count as evidence only; never guessed.
