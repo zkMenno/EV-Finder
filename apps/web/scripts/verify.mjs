@@ -13,6 +13,7 @@
 // (with --fixture: build with CATALOGUE_DIR pointing at an empty folder, see SKILL.md).
 /* global process, console, setTimeout, fetch, URL, document, window */
 import { spawn, execFileSync } from "node:child_process";
+import { createConnection } from "node:net";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -143,6 +144,18 @@ function changedFiles(base) {
   for (const out of [git("diff", "--name-only", `${base}...HEAD`), git("diff", "--name-only", "HEAD"), git("ls-files", "--others", "--exclude-standard")])
     for (const l of out.split("\n")) if (l) lines.add(l);
   return [...lines].map((f) => path.relative(WEB, path.join(REPO, f)).split(path.sep).join("/"));
+}
+
+/** True when something accepts TCP connections on the port (any answer, not just /health 200). */
+function portInUse(port) {
+  return new Promise((resolve) => {
+    const sock = createConnection({ port, host: "127.0.0.1" });
+    sock.once("connect", () => {
+      sock.destroy();
+      resolve(true);
+    });
+    sock.once("error", () => resolve(false));
+  });
 }
 
 async function waitFor(url, ms, abort = () => false) {
@@ -331,8 +344,8 @@ async function main() {
   let server = null;
   const base = o.url ?? `http://localhost:${o.port}`;
   if (!o.url) {
-    // Something already answering on our port would be tested instead of this build.
-    if (await waitFor(`${base}/health`, 1)) {
+    // Anything already listening on our port (a web app or not) would be tested instead of this build.
+    if (await portInUse(o.port)) {
       console.error(`verify: port ${o.port} is already in use. Stop that server, pick another --port, or pass --url ${base} to test it on purpose.`);
       process.exit(2);
     }
@@ -350,10 +363,10 @@ async function main() {
       process.exit(2);
     }
   }
-  const { chromium } = await import("@playwright/test");
   let browser = null;
   const results = []; // { run, feature, ok, steps: [], checks: [], ms, finalUrl }
   try {
+    const { chromium } = await import("@playwright/test");
     browser = await chromium.launch();
     for (let run = 1; run <= o.repeat; run++) {
       for (const f of features) {
