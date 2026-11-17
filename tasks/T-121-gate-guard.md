@@ -22,3 +22,8 @@ GitHub branch protection settings (Menno-only; WS0 may ask via QUESTIONS if want
 ## Handoff notes
 
 ## Review
+
+### Review round 1 (subagent, 8f89304) → fixed
+- Blocking: the PR template's comment text satisfied the `Test-change:` check. Now a real line `Test-change: <reason>` outside HTML comments is required (`has_marker`, test added).
+- Fixed: nested `**/conftest.py` and `.github/dependabot.yml` are gate files; `sleep(` narrowed to `time.sleep(` / `waitForTimeout(`; the guard's own test data is exempt.
+- Before enforce (2026-11-24): renamed/moved test files (diff-filter R) and removed asserts aren't caught yet; `gate-ok` label author isn't checked. Do these with the enforce switch.

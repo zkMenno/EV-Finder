@@ -22,7 +22,8 @@ gate_files:
   - "**/vitest.config.*"
   - pipeline/pyproject.toml
   - pipeline/pytest.ini
-  - pipeline/conftest.py
+  - "**/conftest.py"
+  - .github/dependabot.yml
 test_files:
   - "**/tests/**"
   - "**/test/**"
@@ -38,4 +39,7 @@ weakening_patterns:
   - "pytest\\.mark\\.skip"
   - "pytest\\.mark\\.xfail"
   - "@unittest\\.skip"
-  - "\\bsleep\\("
+  - "\\btime\\.sleep\\("
+  - "waitForTimeout\\("
+guard_self_tests:
+  - scripts/tests/test_gate_guard.py

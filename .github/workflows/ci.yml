@@ -273,7 +273,6 @@ jobs:
           uv export --frozen --no-dev --no-emit-project --format requirements-txt -o "$RUNNER_TEMP/requirements.txt"
           uvx pip-audit --disable-pip -r "$RUNNER_TEMP/requirements.txt"
 
-  # One stable check name to require on main, whatever jobs ran.
   gate-guard:
     # T-121, rule G-06: a PR can't change the checks that judge it. Mode lives in config/gate-files.yaml.
     if: github.event_name == 'pull_request'
@@ -293,6 +292,7 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: python3 scripts/gate_guard.py "$BASE_SHA" "$HEAD_SHA"
 
+  # One stable check name to require on main, whatever jobs ran.
   ci-ok:
     if: always()
     needs: [repo-checks, gate-guard, web, e2e, schema, pipeline, data-qa]

@@ -76,6 +76,12 @@ class Verdict:
     problems: list[str] = field(default_factory=list)
 
 
+def has_marker(pr_body: str, marker: str) -> bool:
+    """True only for a real line starting with the marker plus a reason; template comments don't count."""
+    body = re.sub(r"<!--.*?-->", "", pr_body or "", flags=re.S)
+    return any(re.match(re.escape(marker) + r"\s*\S", ln.strip()) for ln in body.splitlines())
+
+
 def judge(changed: list[str], deleted: list[str], added_test_lines: dict[str, list[str]],
           cfg: dict, pr_body: str, labels: list[str]) -> Verdict:
     v = Verdict()
@@ -87,14 +93,14 @@ def judge(changed: list[str], deleted: list[str], added_test_lines: dict[str, li
             f"({', '.join(v.gate[:5])}) and other files ({len(v.other)})."
         )
     marker = cfg.get("test_change_marker", "Test-change:")
-    if marker not in pr_body:
+    if not has_marker(pr_body, marker):
         tests = cfg.get("test_files", [])
         gone = [p for p in deleted if matches(p, tests)]
         if gone:
             v.problems.append(f"Test files deleted without a '{marker}' line in the PR body: {', '.join(gone[:5])}")
         pats = [re.compile(x) for x in cfg.get("weakening_patterns", [])]
         for path, lines in added_test_lines.items():
-            if not matches(path, tests):
+            if not matches(path, tests) or matches(path, cfg.get("guard_self_tests", [])):
                 continue
             hits = [ln for ln in lines if any(p.search(ln) for p in pats)]
             if hits:

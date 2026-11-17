@@ -59,5 +59,15 @@ class Judge(unittest.TestCase):
         self.assertEqual(self.j(list(added), added=added).problems, [])
 
 
+
+class Marker(unittest.TestCase):
+    def test_template_comment_is_not_a_marker(self):
+        from gate_guard import has_marker
+        body = '<!-- If you removed a test, add a line starting "Test-change:" with the reason. -->'
+        self.assertFalse(has_marker(body, "Test-change:"))
+        self.assertFalse(has_marker("Test-change:", "Test-change:"))
+        self.assertTrue(has_marker(body + "\nTest-change: flaky fixture replaced", "Test-change:"))
+
+
 if __name__ == "__main__":
     unittest.main()
