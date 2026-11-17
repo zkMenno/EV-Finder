@@ -27,6 +27,7 @@ RANGES: dict[str, tuple[float, float]] = {
     "wltp_range_km": (80, 900),
     "consumption_kwh_100km": (10, 35),
     "ac_kw": (2, 43),  # Renault Zoe Q210/Q90 charge at 43 kW AC (coordinator)
+    "ac_kw_optional": (2, 43),  # T-063: same physical limit as ac_kw
     "dc_peak_kw": (20, 400),
     "dc_avg_10_80_kw": (10, 300),
     "price_new": (5_000, 250_000),
@@ -42,6 +43,7 @@ ROW_NUMBER_FIELDS = (
     "epa_range_km",
     "consumption_kwh_100km",
     "ac_kw",
+    "ac_kw_optional",
     "dc_peak_kw",
     "dc_avg_10_80_kw",
     "ac_km_per_h",

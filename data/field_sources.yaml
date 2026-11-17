@@ -36,6 +36,8 @@ fields:
   ac_kw:             {primary: [openev, kilowatt-openev], fallbacks: [maker-docs, fastned, seed-manual], tolerance: {pct: 2}, merge: priority,
                       mixup_with: [battery_kwh_net, battery_kwh_gross],
                       note: "An AC figure equal (±0.5) to the row's or record's battery kWh, with no other source or citation behind it, is a field mix-up: review (KilowattApp Zoe R240 23.3, R110 41)."}
+  ac_kw_optional:    {primary: [openev, kilowatt-openev], fallbacks: [maker-docs, seed-manual], tolerance: {pct: 2}, merge: priority,
+                      note: "T-063 / Decision 034: ac_kw is the standard on-board charger. Sources give one max-AC figure; it moves here only when a citation (seed cited: or data/manual) names it the optional charger and no citation names it the standard (merge/ac_route.py). Never guessed."}
   dc_curve:          {primary: [fastned], fallbacks: [kilowatt-openev, openev, nyland, model-estimate], merge: priority,
                       note: "OpenEV only where not a default curve; then same platform/pack; else generic shape (estimated)."}
   dc_peak_kw:        {primary: [fastned, openev], fallbacks: [kilowatt-openev, maker-docs, seed-manual], tolerance: {pct: 5}, merge: priority,

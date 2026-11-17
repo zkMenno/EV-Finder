@@ -24,7 +24,7 @@ import os
 import shutil
 import sys
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
@@ -64,6 +64,7 @@ from ev_pipeline.match.seed import (
     load_seed,
     load_source_holds,
 )
+from ev_pipeline.merge.ac_route import route_optional_ac
 from ev_pipeline.merge.corroborate import apply_corroboration
 from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, has_citation, merge_variant_facts
@@ -363,6 +364,15 @@ def build_release(
     by_variant: dict[str, list[MatchedFact]] = {}
     for mf in spec_facts:
         by_variant.setdefault(mf.fact.subject_id.root, []).append(mf)
+    # T-063 (Decision 034): a source ac_kw that a citation names as the optional charger
+    # moves to ac_kw_optional before merging; without a citation nothing moves.
+    by_variant, ac_routed, ac_route_problems = route_optional_ac(
+        by_variant, evidence, policies.for_field("ac_kw")
+    )
+    problems += [
+        Problem("merge", "-", "-", rp.variant_id, "ac_kw_optional", "", "kW", rp.message)
+        for rp in ac_route_problems
+    ]
     # T-057: usable kWh above the linked pack's gross never merges; it goes to conflicts.csv.
     by_variant, pack_conflicts = guard_usable_vs_pack(
         by_variant, links, {vid: info.generation_id for vid, info in result.variants.items()}
@@ -615,6 +625,10 @@ def build_release(
             "shortlist_scores": shortlist.log,
             "used_prices": used.log,
             "pack_links": link_coverage(link_report),
+            "ac_kw_optional": {
+                "routed": [asdict(r) for r in ac_routed],
+                "problems": [asdict(r) for r in ac_route_problems],
+            },
         },
     )
     raw = catalogue_bytes(catalogue)
