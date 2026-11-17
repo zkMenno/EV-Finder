@@ -11,6 +11,7 @@ facts:
     value: 74900
     unit: EUR
     country: DE
+    year: 2023
     source_url: https://www.hyundai.news/de/articles/press-releases/neuer-hyundai-ioniq-5-n-startet-ab-74900-euro.html
     source_name: "Hyundai Motor Deutschland press release 'Neuer Hyundai IONIQ 5 N startet ab 74.900 Euro' (2023-12-13)"
     retrieved: 2026-11-17
@@ -24,6 +25,7 @@ facts:
     value: 38990
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
     source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
     retrieved: 2026-11-17
@@ -37,6 +39,7 @@ facts:
     value: 44240
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
     source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
     retrieved: 2026-11-17
@@ -50,6 +53,7 @@ facts:
     value: 50490
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
     source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
     retrieved: 2026-11-17
@@ -63,6 +67,7 @@ facts:
     value: 50490
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
     source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
     retrieved: 2026-11-17
@@ -76,6 +81,7 @@ facts:
     value: 62900
     unit: EUR
     country: BE
+    year: 2019
     source_url: https://mb.cision.com/Main/23604/4175532/3537364.pdf
     source_name: "Volvo Car Belux press release 'Prix de vente confirmé pour la XC40 P8 Recharge 100% électrique' (ID 260528, 2019-11-27), PDF via Cision"
     retrieved: 2026-11-17
@@ -89,6 +95,7 @@ facts:
     value: 74400
     unit: EUR
     country: DE
+    year: 2022
     source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
     source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
     retrieved: 2026-11-17
@@ -102,6 +109,7 @@ facts:
     value: 85300
     unit: EUR
     country: DE
+    year: 2022
     source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
     source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
     retrieved: 2026-11-17
@@ -115,6 +123,7 @@ facts:
     value: 85300
     unit: EUR
     country: DE
+    year: 2022
     source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
     source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
     retrieved: 2026-11-17
@@ -128,6 +137,7 @@ facts:
     value: 87550
     unit: EUR
     country: DE
+    year: 2022
     source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
     source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
     retrieved: 2026-11-17
@@ -141,6 +151,7 @@ facts:
     value: 77250
     unit: EUR
     country: DE
+    year: 2024
     source_url: https://www.audi-mediacenter.com/de/der-audi-a6-e-tron-die-neue-elektrische-avantgarde-16391/markteinfuehrung-und-preis-16403
     source_name: "Audi MediaCenter, 'Der Audi A6 e-tron: Markteinführung und Preis' (2024-12-03)"
     retrieved: 2026-11-17
@@ -154,6 +165,7 @@ facts:
     value: 75600
     unit: EUR
     country: DE
+    year: 2024
     source_url: https://www.audi-mediacenter.com/de/der-audi-a6-e-tron-die-neue-elektrische-avantgarde-16391/markteinfuehrung-und-preis-16403
     source_name: "Audi MediaCenter, 'Der Audi A6 e-tron: Markteinführung und Preis' (2024-12-03)"
     retrieved: 2026-11-17
@@ -167,6 +179,7 @@ facts:
     value: 17070
     unit: EUR
     country: NL
+    year: 2021
     source_url: https://cdn.group.renault.com/dac/nl/brochures-en-prijslijsten/prijslijst/archief/prijslijst-spring-07-2021.pdf
     source_name: "Dacia Nederland price list 'Nieuwe Dacia Spring', Prijslijst juli 2021 (maker PDF, Renault Group CDN archive)"
     retrieved: 2026-11-17
@@ -180,6 +193,7 @@ facts:
     value: 19885
     unit: EUR
     country: NL
+    year: 2022
     source_url: https://cdn.group.renault.com/dac/nl/brochures-en-prijslijsten/prijslijst/archief/prijslijst-spring-09-2022.pdf
     source_name: "Dacia Nederland price list Dacia Spring, Prijslijst september 2022 (maker PDF, Renault Group CDN archive)"
     retrieved: 2026-11-17
@@ -193,6 +207,7 @@ facts:
     value: 17910
     unit: EUR
     country: NL
+    year: 2024
     source_url: https://cdn.group.renault.com/dac/nl/brochures-en-prijslijsten/prijslijst/archief/prijslijst-spring-nov24.pdf
     source_name: "Dacia Nederland price list Dacia Spring, Prijslijst november 2024 (maker PDF, Renault Group CDN archive)"
     retrieved: 2026-11-17
@@ -206,6 +221,7 @@ facts:
     value: 46900
     unit: EUR
     country: NL
+    year: 2024
     source_url: https://cdn.group.renault.com/ren/nl/brochures-en-prijslijsten/prijzenarchief/scenic/scenic-prijslijst-april24.pdf
     source_name: "Renault Nederland price list Scenic E-Tech electric, April 2024 (maker PDF, Renault Group CDN archive)"
     retrieved: 2026-11-17
@@ -219,6 +235,7 @@ facts:
     value: 26895
     unit: EUR
     country: NL
+    year: 2025
     source_url: https://cdn.group.renault.com/ren/nl/brochures-en-prijslijsten/prijzenarchief/renault5/renault5-prijslijst-6mei25.pdf
     source_name: "Renault Nederland price list Renault 5 E-Tech electric, 6 May 2025 (maker PDF, Renault Group CDN archive)"
     retrieved: 2026-11-17
@@ -232,6 +249,7 @@ facts:
     value: 60480
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://cdn.uc.assets.prezly.com/ac15f85c-a3f6-4c59-b9c1-f2619912973d/-/inline/no/297x210toyotapricelist22bz4xbe7.pdf
     source_name: "Toyota Belgium price list bZ4X (V00), 01.06.2022 (maker PDF in Toyota's Prezly press room)"
     retrieved: 2026-11-17
@@ -245,6 +263,7 @@ facts:
     value: 40250
     unit: EUR
     country: NL
+    year: 2023
     source_url: https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/prijzen-en-specificaties-nieuwe-peugeot-2008-suv-per-1-augustus-2023_louwman.pdf
     source_name: "Peugeot Nederland 'Prijzen en specificaties nieuwe Peugeot 2008 SUV per 1 augustus 2023' (maker price list, PDF hosted by dealer group Louwman)"
     retrieved: 2026-11-17
@@ -258,6 +277,7 @@ facts:
     value: 39995
     unit: EUR
     country: DE
+    year: 2023
     source_url: https://www.volkswagen-newsroom.com/de/pressemitteilungen/volkswagen-gibt-basispreis-fuer-neuen-id3-bekannt-15552
     source_name: "Volkswagen Newsroom press release 'Volkswagen gibt Basispreis für neuen ID.3 bekannt' (2023-03-06)"
     retrieved: 2026-11-17
@@ -271,6 +291,7 @@ facts:
     value: 46745
     unit: GBP
     country: UK
+    year: 2022
     source_url: https://www.hyundai.news/uk/articles/press-releases/hyundai-motor-uk-announces-ioniq-6-range-pricing-and-specification.html
     source_name: "Hyundai Motor UK press release 'Hyundai Motor UK announces IONIQ 6 range pricing and specification' (2022-12-08)"
     retrieved: 2026-11-17
