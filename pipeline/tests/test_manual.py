@@ -250,3 +250,15 @@ def test_release_lists_bad_manual_entries(data_dir: Path) -> None:
     stages = [p for p in res.problems if p.stage == "manual"]
     assert stages and all(p.source_id == "manual" for p in stages)
     assert not any(f["source"]["id"] == "manual" for f in res.facts)
+
+
+def test_own_schema_topics_are_left_alone(tmp_path: Path) -> None:
+    """data/manual/prices and data/manual/charging have their own loaders (T-081, T-025)."""
+    shutil.copytree(REPO_DATA / "manual", tmp_path / "manual")
+    shutil.copy(REPO_DATA / "sources.yaml", tmp_path / "sources.yaml")
+    (tmp_path / "manual" / "prices").mkdir(exist_ok=True)
+    (tmp_path / "manual" / "prices" / "x.yaml").write_text(
+        "generation_id: g\ncountry: NL\nrows: []\n"
+    )
+    code, lines = check(tmp_path, TODAY)
+    assert code == 0, lines
