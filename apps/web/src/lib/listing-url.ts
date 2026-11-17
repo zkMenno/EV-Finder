@@ -36,8 +36,10 @@ export function buildListingUrl(site: ListingSite, makeName: string, modelName: 
   let url = site.url_template
     .replaceAll("{make}", encodeURIComponent(make))
     .replaceAll("{model}", encodeURIComponent(model))
-    .replaceAll("{MAKE}", encodeURIComponent(makeName.toUpperCase()))
-    .replaceAll("{MODEL}", encodeURIComponent(modelName.toUpperCase()))
+    // Upper-case slots (La Centrale): an override is the site's own name and is used as written
+    // (T-041); without one, our name in capitals.
+    .replaceAll("{MAKE}", encodeURIComponent(site.slug_overrides[slugify(makeName)] ?? makeName.toUpperCase()))
+    .replaceAll("{MODEL}", encodeURIComponent(site.slug_overrides[slugify(modelName)] ?? modelName.toUpperCase()))
     .replaceAll("{makeName}", encodeURIComponent(makeName))
     .replaceAll("{modelName}", encodeURIComponent(modelName));
   const query = filters.flatMap((f) => Object.entries(site.filters[f] ?? {})).map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`);

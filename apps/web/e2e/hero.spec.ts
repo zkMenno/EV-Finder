@@ -77,4 +77,6 @@ test("hero: links the launch /learn guides that exist", async ({ page }) => {
   const learn = page.getByTestId("hero-learn");
   await expect(learn.getByRole("link", { name: "Winter range explained" })).toHaveAttribute("href", "/nl/en/learn/winter-range");
   await expect(learn.getByRole("link")).toHaveCount(3);
+  // T-082 published the battery guide as batteries-health.
+  await expect(learn.getByRole("link").nth(2)).toHaveAttribute("href", "/nl/en/learn/batteries-health");
 });
