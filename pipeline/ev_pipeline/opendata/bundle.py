@@ -30,7 +30,7 @@ from typing import Any
 
 import yaml
 
-from ev_pipeline.release.gate import Registry, licence_problem
+from ev_pipeline.release.gate import CITED_FACTS, Registry, licence_problem
 
 BRAND_ENV = "EV_BRAND_NAME"
 BRAND_FALLBACK = "the EV Finder project"  # neutral fallback; real name lives in config
@@ -164,6 +164,9 @@ def brand_name() -> str:
 def source_allowed(registry: Registry, licences: dict[str, str], sid: str) -> bool:
     if not registry.releasable(sid):
         return False
+    entry = registry.sources.get(registry.canonical(sid))
+    if entry is not None and entry.use == CITED_FACTS:
+        return False  # Decision 068: cited maker facts ship in the release, never as CC BY
     lic = licences.get(sid, "")
     return bool(lic) and "odbl" not in lic.lower() and licence_problem(lic) is None
 

@@ -9,6 +9,11 @@ Fails closed (T-006 review):
 - A licence that is empty, "none", "unknown", "n/a" or still marked "(to confirm)" is not a
   named licence. That matches data/sources.yaml: "(to confirm)" licences stay blocked until
   checked. `permission: written` is the only override; no source sets it tonight.
+- `use: cited-facts` + a logged owner `decision` (Decision 068): an `active` source of single
+  facts cited one by one from maker documents (URL, date, confidence) ships without a named
+  licence. Its `cited_hosts` lists the maker hosts a fact may cite (manual/facts.py checks
+  every fact); third-party pages go to a blocked source instead. The CC BY open-data bundle
+  still needs a named licence (opendata/bundle.py), so these facts never enter it.
 - `nyland` is always excluded (matcher.EXCLUDED_SOURCES), whatever the registry says.
 - `aliases` (Q-075): a source may list other ids it is known by (e.g. `bnetza` carries
   `bnetza-ladesaeulenregister`, the id the charging taxonomies use). An alias is gated exactly
@@ -31,6 +36,7 @@ _NO_LICENCE = {"", "none", "unknown", "n/a"}
 RELEASABLE_STATUSES = frozenset({"active", "active_pending_confirmation"})
 WRITTEN_PERMISSION = "written"
 AGGREGATES_ONLY = "aggregates-only"
+CITED_FACTS = "cited-facts"
 MISSING_REGISTRY = "no data/sources.yaml (licence registry missing; release blocked)"
 
 
@@ -50,13 +56,22 @@ class SourceEntry:
     decision: str = ""
     # Sites a hand-noted aggregate may cite as its URL (not the fetch allowlist `hosts`).
     site_hosts: tuple[str, ...] = ()
+    # Decision 068 (`use: cited-facts`): the maker hosts a cited fact's URL may be on.
+    cited_hosts: tuple[str, ...] = ()
+    # `access` (api | bulk | manual | ...) and the fetch allowlist `hosts`: manual/facts.py
+    # lets a hand-entered fact name a non-manual source only when its URL is on these hosts.
+    access: str = ""
+    hosts: tuple[str, ...] = ()
+    # Host/path prefixes a hand-entered fact naming this source may cite (PR #80 round 2):
+    # for sources on a shared host (github.com), the source's own `<owner>/<repo>/` path.
+    cite_paths: tuple[str, ...] = ()
 
 
 def licence_problem(licence: str) -> str | None:
     """None when `licence` names a confirmed licence, else why not."""
     text = licence.strip().lower()
     base = text.split("(")[0].strip()
-    if base in _NO_LICENCE or base.startswith(("unknown", "none")):
+    if base in _NO_LICENCE or base.startswith(("unknown", "none")) or "no licence" in text:
         return f"no named licence ({licence})"
     if "to confirm" in text or "unconfirmed" in text:
         return f"licence not confirmed ({licence})"
@@ -89,6 +104,8 @@ class Registry:
             return f"status {entry.status}"
         if entry.permission == WRITTEN_PERMISSION:
             return None
+        if entry.use == CITED_FACTS and entry.decision:
+            return None  # Decision 068: single cited maker facts, no licence needed
         return licence_problem(entry.licence)
 
     def aggregate_input_problem(self, source_id: str) -> str | None:
@@ -139,6 +156,10 @@ def parse_registry(data: dict[str, Any]) -> Registry:
             use=str(s.get("use") or "").strip().lower(),
             decision=str(s.get("decision") or "").strip(),
             site_hosts=tuple(str(h).lower() for h in s.get("site_hosts") or []),
+            cited_hosts=tuple(str(h) for h in s.get("cited_hosts") or []),
+            access=str(s.get("access") or "").strip().lower(),
+            hosts=tuple(str(h).lower() for h in s.get("hosts") or []),
+            cite_paths=tuple(str(h) for h in s.get("cite_paths") or []),
         )
     aliases = {a: next(iter(ids)) for a, ids in alias_of.items() if len(ids) == 1 and a not in out}
     return Registry(out, loaded=True, aliases=aliases)

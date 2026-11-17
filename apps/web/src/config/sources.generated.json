@@ -65,6 +65,12 @@
     "status": "active",
     "owner": "CBS (NL)"
   },
+  "cited-third-party": {
+    "name": "Facts cited from press, dealer and review pages",
+    "licence": "none (individual facts cited by URL and date)",
+    "status": "blocked",
+    "owner": "various"
+  },
   "consumer-reports": {
     "name": "Consumer Reports",
     "licence": "none",
@@ -208,8 +214,8 @@
   },
   "manual": {
     "name": "Manual entries (hand-entered, cited by URL)",
-    "licence": "none (individual facts cited by URL and date)",
-    "status": "blocked",
+    "licence": "facts cited, no licence (Decision 068)",
+    "status": "active",
     "owner": "EV Finder staff"
   },
   "marktplaats": {
