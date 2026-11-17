@@ -824,4 +824,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** 58 rows and their motorway, AC km/h and DC km values rise or fall with it in release 2 (release diff approval needed). Refit the factor when the back-test drifts above 5 % median abs error.
 
+## Decision 068: Single cited facts from maker documents may ship (Q-008)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup)
+**Date:** 2026-11-17
+
+**Context:** Maker spec sheets and price lists have no licence, so Decision 009 kept them `blocked`. That kept T-110's corrected figures and T-112's new prices out of the release (A-35 B2/B4).
+
+**Decision:** Single facts from maker documents (list price, WLTP range, battery size, consumption) may reach a release, one figure per car per document, each with its URL, retrieval date and confidence. Never copy a whole price list or spec table. KBA, SDES and EU Safety Gate stay blocked until their reuse terms are checked.
+
+**Consequences:** WS1 sets the `manual` / maker-document source status in data/sources.yaml accordingly (with T-116). The licence column says "facts cited, no licence".
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

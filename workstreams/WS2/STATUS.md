@@ -1,10 +1,10 @@
 # WS2 status
 
 - **State:** active
-- **Now:** T-097 PR #56 open, waiting on CI + fresh review
+- **Now:** PR #68 reviewed (pass on 6f9c75a), main merged in (1857c21), CI re-running; ready for Menno to merge
 - **Next:** (a) link /learn/batteries from hero cards once WS3's #35 merges; (b) winter range on hero cards + T-045 deltas once WS1 publishes the field; (c) e2e for used price by build year once a release ships used_prices.json (WS1 #21/#38); (d) read `shortlist_score` from WS1's T-069 (#15) if WS0 wants it
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-17 09:39 UTC by WS2
+- **Last updated:** 2026-11-17 11:42 UTC by WS2 (2nd chat)
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
@@ -14,6 +14,10 @@
 - 2026-11-15 14:09 UTC · New since last entry: #36 T-093 (hero /learn links + travel-map texture), #37 T-094 (variant page used price by build year, stacked on #29). All WS2 PRs green on their heads.
 
 - 2026-11-17 09:39 UTC · New WS2 chat (https://claude.ai/code/session_01JuyZEY92VBv8zzhiK2gGQR). T-097 done: Nerd Value column shows the car's own figure with units in 6 languages; PR #56. Push access was missing at first (patch kept, applied after Menno granted it).
+
+- 2026-11-17 10:36 UTC · 2nd WS2 chat (https://claude.ai/code/session_01JuyZEX8cuXWPhPXbCY6bGD). #56 CI e2e had failed (360 px NL overflow 18 px + axe scroll region); fixed with short cooling words + breakable unit, fresh review passed on 76ebe52, Menno merged #56. Follow-up #68: test the served routes (review found /nl/de redirects). Flagged to WS1: consumption_kwh_100km too low (Model Y LR 11.0).
+
+- 2026-11-17 11:42 UTC · #68: the served-route test caught a real DE bug (16 px clip on CI, font-dependent); fixed with breakable words + nowrap numbers, merged Points×Weight column, 12 % wider-text pass in the 360 px test. Review passed. My self-merge was blocked by the session permission check; Menno merges.
 
 ## Retro (first WS2 session, 2026-11-15)
 - **What slowed us down:** decision numbers clashed twice (053, 054 went to Dependabot decisions while in my START range); pushes from this session don't trigger CI (runs started with workflow_dispatch); a rebase of a pushed branch then a blocked force-push cost a messy merge with leftover conflict markers; stacked PRs need re-merging after every main change.
