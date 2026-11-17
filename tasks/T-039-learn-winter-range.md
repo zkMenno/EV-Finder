@@ -1,6 +1,6 @@
 # T-039 /learn "Winter range explained"
 Role: WS3   Lane: content/learn   Wave: 7
-Status: todo
+Status: review (WS3, 2026-11-15)
 
 ## Goal
 Plain explainer: why range drops in the cold, heat pumps, preheating, speed.
@@ -16,5 +16,7 @@ docs/spec/trip-fit.md §2.
 UI.
 
 ## Handoff notes
+2026-11-15, WS3 (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), branch t-082-learn-batteries.
+- EN + NL existed (review: needed). Added DE/FR/ES/IT drafts (review: needed) on the T-082 branch; index.yaml langs + titles updated. Numbers and links unchanged from EN (checked by script).
 
 ## Review

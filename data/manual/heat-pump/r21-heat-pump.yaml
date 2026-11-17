@@ -1,0 +1,212 @@
+# T-031 (WS3, 2026-11-15): heat pump fitment per generation, imported from research/R-21
+# (§2 evidence table, §4 import table). One cited fact per generation; the locator is our own
+# paraphrase of what the page says (R-21 §2), never a copied table.
+#
+# Import rules (WS3):
+# - Only rows whose model years cover the whole seed generation become a fact here: manual
+#   facts carry no year span, so a generation fact applies to every year of it.
+# - not_disclosed rows are not entered: no fact = not disclosed (the pipeline default).
+# - Where markets differ, the row for a launch country (DE first) is used and the market is
+#   named in `notes`; the merge does not split heat_pump by country.
+# - Never inferred from trim or order spec (VW ID cars 2022-23 were often delivered without
+#   the ordered heat pump: that is why ID rows say `option`, not `standard`).
+#
+# Not entered yet, because the value changes inside one generation (needs a year span on
+# manual facts; asked WS1 2026-11-15, or a seed variant split):
+#   tesla-model-3-gen1   2019-2020 none / 2021-2023 standard (insideevs Nyland test; Electrek)
+#   renault-megane-e-tech-gen1  2025- standard (DE, Auto Bild); earlier years not checked
+#   nissan-leaf-ze0      2011-2012 none (GB); 2013-2017 not disclosed
+#   cupra-born-gen1      2026 option (DE, ev-supply.de); 2021-2025 not disclosed
+#   peugeot-e-208-p21    2022- standard (DE, 🔴 inferred year range); 2019-2021 not disclosed
+#   dacia-spring-gen1    2025- none (DE, ev-supply.de); 2021-2024 not disclosed
+#   polestar-2-gen1      2025 option (DE, ev-supply.de); 2020-2024 not disclosed
+#   volkswagen-id5-gen1  2022- option (VW IE): generation arrives with T-068 (PR #31); add then.
+#   renault-megane-e-tech-gen1  also: UK made it standard on all versions from May 2024
+#                        (https://www.motor1.com/news/718065/renault-megane-e-tech-updated-pricing/)
+#   volvo-ex30-gen1      per variant: UK 2024 press release fits it on Single Motor Extended
+#                        Range; entry Single Motor marked optional (needs seed variants)
+#   tesla-model-3-highland  per variant: a US test says the 2026 Standard trim heats
+#                        resistively; other trims have a heat pump (needs seed variants)
+#
+# Source `manual` is blocked until Q-008 is answered, so none of these ship yet; they are
+# checked with `ev manual check` and feed nothing public.
+schema: manual-facts/v1
+entered_by: ws3 (agent, from research/R-21)
+facts:
+  - generation_id: tesla-model-y-gen1
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.discoverev.co.uk/ev-reviews/tesla-model-3-long-range-2021-review
+    source_name: "DiscoverEV, Tesla Model 3 Long Range 2021 review"
+    retrieved: 2026-11-15
+    locator: "R-21 row 4: says the Model Y was Tesla's first car with a heat pump; a German guide (einfacheauto.de, Feb 2023) says Tesla fits it as standard on all cars"
+    confidence: medium
+    notes: "All markets. Second source: https://einfacheauto.de/blog/welche-e-autos-haben-eine-warmepumpe"
+
+  - generation_id: tesla-model-y-juniper
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.autobild.de/artikel/waermepumpe-im-elektroauto-reichweite-22410821.html
+    source_name: "Auto Bild, Wärmepumpe im Elektroauto (30 Dec 2025)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 5: lists the Model Y among cars with a standard heat pump"
+    confidence: medium
+    notes: "Market DE."
+
+  - generation_id: renault-zoe-ph1
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.greenmotor.co.uk/2012/03/renault-zoe-ze-unmasked-keenly-priced.html
+    source_name: "Green Motor, Renault Zoe Z.E. unmasked (March 2012)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 8: launch coverage describes the heat pump as a core Zoe feature, with no trim caveat"
+    confidence: medium
+    notes: "All markets. Trim split not proven. Second source: https://www.torquenews.com/1075/renault-releases-details-zoe-electric-car-ahead-launching-sales-march"
+
+  - generation_id: renault-zoe-ph2
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://professional.auto-motor-und-sport.de/static-download/news/1775221/pl_zoe_0919.pdf
+    source_name: "Renault Deutschland, ZOE price list 09/2019"
+    retrieved: 2026-11-15
+    locator: "R-21 row 9: the '2-circuit heat pump' row reads as included on Life, Experience and Intens (symbol reading inferred)"
+    confidence: medium
+    notes: "Market DE. Agrees: Renault IE/UK eBrochure Feb 2022 (heat pump in the base Play kit) and Renault CH price list Feb 2024 (standard on Evolution, 🟢): https://cdn.group.renault.com/ren/ch/renault-new-cars/pricelists/Renault_Neuer_ZOE_PL_f.pdf"
+
+  - generation_id: volkswagen-id3-gen1
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://volkswagen.ie/en/electric-cars/software-and-technology/id-technology/heat-pump.html
+    source_name: "Volkswagen Ireland, ID. heat pump page"
+    retrieved: 2026-11-15
+    locator: "R-21 rows 17-18: VW calls the heat pump optional on ID.3/4/5; VW Austria's 2024 ID.3 page says the same"
+    confidence: high
+    notes: "EU; 2024+ also DE/AT (https://www.volkswagen.at/id3-neo/id3-neo/waermepumpe). Many 2022-23 cars were delivered without the ordered heat pump (chip shortage): never infer fitment from the order."
+
+  - generation_id: volkswagen-id4-gen1
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://volkswagen.ie/en/electric-cars/software-and-technology/id-technology/heat-pump.html
+    source_name: "Volkswagen Ireland, ID. heat pump page"
+    retrieved: 2026-11-15
+    locator: "R-21 row 19: VW calls the heat pump optional on ID.3/4/5"
+    confidence: high
+    notes: "EU. Same 2022-23 delivery caveat as the ID.3."
+
+  - generation_id: skoda-enyaq-gen1
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://www.skoda.co.uk/news/details/skoda-announces-raft-of-updates-and-enhancments-for-enyaq-iv
+    source_name: "Škoda UK, Enyaq iV 2023 model year updates"
+    retrieved: 2026-11-15
+    locator: "R-21 row 21: 2023MY heat pump as a single option (£1,025)"
+    confidence: high
+    notes: "Market GB for 2023; a German dealer list (undated, meinauto.de) also says option for 2020-. Whole generation assumed option from these two."
+
+  - generation_id: hyundai-kona-electric-os
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 25: dealer list, appears to cover 2022-23 models: option"
+    confidence: medium
+    notes: "Market DE. UK 2021 facelift reports do not mention it (R-21 row 26). Single dealer source: replace with a Hyundai price list before publishing."
+
+  - generation_id: hyundai-ioniq-5-gen1
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 28: dealer list: option"
+    confidence: medium
+    notes: "Market DE. Undated: covers the pre-facelift car; the 2024 facelift (T-068 split) is not covered."
+
+  - generation_id: kia-ev6-gen1
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 29: dealer list: option; Auto Bild 2025: usually standard only on top trims"
+    confidence: medium
+    notes: "Market DE. Second source: https://www.autobild.de/artikel/waermepumpe-im-elektroauto-reichweite-22410821.html"
+
+  - generation_id: bmw-i4-g26
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.autobild.de/artikel/waermepumpe-im-elektroauto-reichweite-22410821.html
+    source_name: "Auto Bild, Wärmepumpe im Elektroauto (30 Dec 2025)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 44: Auto Bild and a dealer list both say standard"
+    confidence: medium
+    notes: "Market DE. Second source: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe"
+
+  - generation_id: mercedes-eqa-h243
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.autobild.de/artikel/waermepumpe-im-elektroauto-reichweite-22410821.html
+    source_name: "Auto Bild, Wärmepumpe im Elektroauto (30 Dec 2025)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 45: Auto Bild and a dealer list both say standard"
+    confidence: medium
+    notes: "Market DE. Second source: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe"
+
+  - generation_id: mercedes-eqc-n293
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 46: dealer list: standard (single source)"
+    confidence: medium
+    notes: "Market DE. Single dealer source: replace with a Mercedes price list before publishing."
+
+  - generation_id: mini-cooper-se-f56
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
+    retrieved: 2026-11-15
+    locator: "R-21 row 47: dealer list: standard (single source)"
+    confidence: medium
+    notes: "Market DE. Single dealer source: replace with a MINI price list before publishing."
+
+  # --- Added by WS3 after R-21 (maker pages, 2026-11-15) -------------------------------------
+  - generation_id: renault-5-e-tech-gen1
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://renault.co.uk/renault-news/renault-5-available.html
+    source_name: "Renault UK press release, Renault 5 E-Tech available to order (January 2025)"
+    retrieved: 2026-11-15
+    quote: "With a choice of two battery sizes and a heat-pump as standard"
+    confidence: high
+    notes: "Market UK. Agrees: Renault Ireland specifications page lists 'heat pump: yes' on evolution, the entry trim (https://www.renault.ie/electric-vehicles/r5-e-tech-electric/specifications.html)."
+
+  - generation_id: hyundai-ioniq-6-gen1
+    field: heat_pump
+    value: standard
+    unit: enum
+    source_url: https://www.hyundai.news/uk/articles/press-releases/ioniq-6-uk-pricing-october-2026.html
+    source_name: "Hyundai Motor UK press release, New IONIQ 6 UK pricing (October 2026)"
+    retrieved: 2026-11-15
+    locator: "Specification table, row 'Heat Pump': marked on Premium, N Line and N Line Evo"
+    confidence: medium
+    notes: "Market UK. Covers the 2026 update; the 2023 UK launch spec also listed a heat pump on both trims (electriccarsreport.com, secondary). Other markets and earlier non-UK cars not checked, hence medium."
+

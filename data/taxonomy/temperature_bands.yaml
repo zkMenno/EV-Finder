@@ -1,0 +1,72 @@
+# Temperature columns of the consumption matrix (Decision 059, T-031). Rows = schema $defs/TemperatureBand.
+# Numbers (min_c / max_c / representative_c / order) are the consumption model's own band choice
+# (pipeline/ev_pipeline/derive/consumption_params.yaml v0.1, WS1): change them there and here
+# together. This file adds the visitor-facing labels and tooltips; when it exists its rows replace
+# the defaults (load_params). EN + NL reviewed; DE, FR, ES, IT machine-drafted (review: needed).
+# Validate: python3 -I data/taxonomy/validate_taxonomy.py
+temperature_bands:
+  - id: t1
+    label: {en: "-5 °C and colder", nl: "-5 °C en kouder", de: "-5 °C und kälter", fr: "-5 °C et moins", es: "-5 °C o menos", it: "-5 °C e meno"}
+    short:
+      en: "Hard frost. Heating the cabin and battery costs the most energy here."
+      nl: "Strenge vorst. Verwarming van interieur en accu kost hier de meeste energie."
+      de: "Strenger Frost. Heizung von Innenraum und Akku kostet hier am meisten Energie."
+      fr: "Fort gel. Chauffer l'habitacle et la batterie coûte ici le plus d'énergie."
+      es: "Helada fuerte. Calentar el habitáculo y la batería es lo que más energía gasta aquí."
+      it: "Gelo intenso. Scaldare abitacolo e batteria qui costa più energia."
+    min_c: null
+    max_c: -5
+    representative_c: -10
+    order: 1
+  - id: t2
+    label: {en: "-5 to 0 °C", nl: "-5 tot 0 °C", de: "-5 bis 0 °C", fr: "-5 à 0 °C", es: "-5 a 0 °C", it: "da -5 a 0 °C"}
+    short:
+      en: "A normal winter day around freezing."
+      nl: "Een gewone winterdag rond het vriespunt."
+      de: "Ein normaler Wintertag um den Gefrierpunkt."
+      fr: "Une journée d'hiver ordinaire autour de zéro."
+      es: "Un día de invierno normal, alrededor de cero."
+      it: "Una normale giornata d'inverno intorno allo zero."
+    min_c: -5
+    max_c: 0
+    representative_c: -2.5
+    order: 2
+  - id: t3
+    label: {en: "0 to 5 °C", nl: "0 tot 5 °C", de: "0 bis 5 °C", fr: "0 à 5 °C", es: "0 a 5 °C", it: "da 0 a 5 °C"}
+    short:
+      en: "Cold and damp, typical of a Dutch or Belgian winter."
+      nl: "Koud en vochtig, zoals een gewone Nederlandse of Belgische winter."
+      de: "Kalt und feucht, typisch für einen Winter in den Niederlanden oder Belgien."
+      fr: "Froid et humide, typique d'un hiver néerlandais ou belge."
+      es: "Frío y húmedo, típico de un invierno en Países Bajos o Bélgica."
+      it: "Freddo e umido, tipico di un inverno olandese o belga."
+    min_c: 0
+    max_c: 5
+    representative_c: 2.5
+    order: 3
+  - id: t4
+    label: {en: "5 to 15 °C", nl: "5 tot 15 °C", de: "5 bis 15 °C", fr: "5 à 15 °C", es: "5 a 15 °C", it: "da 5 a 15 °C"}
+    short:
+      en: "Spring and autumn. Little heating needed."
+      nl: "Voorjaar en najaar. Weinig verwarming nodig."
+      de: "Frühling und Herbst. Wenig Heizung nötig."
+      fr: "Printemps et automne. Peu de chauffage nécessaire."
+      es: "Primavera y otoño. Hace falta poca calefacción."
+      it: "Primavera e autunno. Serve poco riscaldamento."
+    min_c: 5
+    max_c: 15
+    representative_c: 10
+    order: 4
+  - id: t5
+    label: {en: "15 °C and warmer", nl: "15 °C en warmer", de: "15 °C und wärmer", fr: "15 °C et plus", es: "15 °C o más", it: "15 °C e oltre"}
+    short:
+      en: "Mild to warm. Closest to the conditions of the official test."
+      nl: "Zacht tot warm. Het dichtst bij de omstandigheden van de officiële test."
+      de: "Mild bis warm. Am nächsten an den Bedingungen des offiziellen Tests."
+      fr: "Doux à chaud. Le plus proche des conditions de l'essai officiel."
+      es: "Templado a cálido. Lo más parecido a las condiciones de la prueba oficial."
+      it: "Mite o caldo. Il più vicino alle condizioni del test ufficiale."
+    min_c: 15
+    max_c: null
+    representative_c: 20
+    order: 5
