@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 test("Learn index lists guides and terms; an article renders with ⓘ terms, draft banner and sources", async ({ page }) => {
   await page.goto("/nl/nl/learn");
   await expect(page.locator("html")).toHaveAttribute("lang", "nl");
-  await expect(page.getByTestId("learn-articles").getByRole("listitem")).toHaveCount(5);
+  await expect(page.getByTestId("learn-articles").getByRole("listitem")).toHaveCount(6);
   await page.getByTestId("learn-articles").getByRole("link", { name: "Winterbereik uitgelegd" }).click();
   await expect(page).toHaveURL(/\/nl\/nl\/learn\/winter-range$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Winterbereik uitgelegd");
@@ -19,10 +19,11 @@ test("Learn index lists guides and terms; an article renders with ⓘ terms, dra
   await expect(term.getByRole("tooltip").getByRole("link")).toHaveAttribute("href", "/nl/nl/learn/heat-pump");
 });
 
+// T-082 added FR for winter-range, so the fallback check uses an EN+NL-only guide.
 test("A language without a file falls back to English with a notice", async ({ page }) => {
-  await page.goto("/be/fr/learn/winter-range");
+  await page.goto("/be/fr/learn/chemistries");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.getByTestId("learn-fallback")).toBeVisible();
   await expect(page.getByTestId("learn-article")).toHaveAttribute("lang", "en");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Winter range explained");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Battery types (chemistries) explained");
 });
