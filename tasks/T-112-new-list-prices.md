@@ -1,6 +1,6 @@
 # T-112 A sourced new list price for every launch variant
 Role: builder   Lane: WS3: data/seed/, data/manual/prices/   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #PRNUM)
+Status: review (WS0 subagent, 2026-11-17, PR #65)
 
 ## Goal
 Every variant in the catalogue has its new list price, so Decision 064 can estimate a used price for any car.
