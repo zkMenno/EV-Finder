@@ -738,5 +738,14 @@
   "usedYear.about": "unos {amount}",
   "usedYear.samples": "{n} anuncios",
   "usedYear.estimate": "Por año de fabricación, precio de venta habitual (P25–P75). Estimación a partir del precio de tarifa y del valor que conservan los eléctricos a esa edad, no anuncios contados.",
-  "usedYear.low": "Basado en un precio de tarifa de un año cercano o de otro país."
+  "usedYear.low": "Basado en un precio de tarifa de un año cercano o de otro país.",
+  "hero.nerd.source": "Las puntuaciones vienen de la versión de datos {n} (shortlist_scores.json), las mismas que comprobamos a posteriori.",
+  "hero.band.not-enough-data": "faltan datos",
+  "hero.band.ruled-out": "descartado",
+  "hero.noScores": "Clasificación aún no disponible.",
+  "hero.noScores.why": "Esta versión de los datos aún no tiene puntuaciones de selección, así que todavía no ordenamos los coches según tus respuestas. Preferimos no mostrar nada antes que una clasificación con otra base. La tabla de abajo muestra todos los coches.",
+  "hero.keep8.pending": "Aún no cambia el orden: las puntuaciones para esta respuesta no están en la versión de datos.",
+  "hero.why.winter-range.winter": "{km} km de autonomía en invierno (estimación)",
+  "hero.card.winterEstimate": "estimación a −10 °C",
+  "hero.caveat.winterEstimate": "La autonomía en invierno es nuestra propia estimación a −10 °C, de nuestro modelo de consumo (las mismas cifras que usa la clasificación)."
 }
