@@ -73,5 +73,37 @@
     },
     "retrieved_at": "2026-11-15",
     "review": true
+  },
+  "ES": {
+    "id": "es-used-car-loan",
+    "country": "ES",
+    "product": "used-car-loan",
+    "typical_apr": 7.54,
+    "default_term_months": null,
+    "default_deposit_pct": null,
+    "source": {
+      "name": "ECB Data Portal, MFI interest rate statistics (MIR), compiled by Banco de España",
+      "url": "https://data.ecb.europa.eu/data/datasets/MIR/MIR.M.ES.B.A2B.A.C.A.2250.EUR.N",
+      "series_id": "MIR.M.ES.B.A2B.A.C.A.2250.EUR.N",
+      "period": "2026-09"
+    },
+    "retrieved_at": "2026-11-17",
+    "review": true
+  },
+  "IT": {
+    "id": "it-used-car-loan",
+    "country": "IT",
+    "product": "used-car-loan",
+    "typical_apr": 10.78,
+    "default_term_months": null,
+    "default_deposit_pct": null,
+    "source": {
+      "name": "ECB Data Portal, MFI interest rate statistics (MIR), compiled by Banca d'Italia",
+      "url": "https://data.ecb.europa.eu/data/datasets/MIR/MIR.M.IT.B.A2B.A.C.A.2250.EUR.N",
+      "series_id": "MIR.M.IT.B.A2B.A.C.A.2250.EUR.N",
+      "period": "2026-09"
+    },
+    "retrieved_at": "2026-11-17",
+    "review": true
   }
 }

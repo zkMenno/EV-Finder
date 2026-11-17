@@ -11,6 +11,7 @@ export interface ListingSiteConfig {
 export const CONFIG_DIR: string;
 export const OUT_FILE: string;
 export const COUNTRIES: string[];
+export const PENDING_COUNTRIES: string[];
 export function validateCountry(country: string, doc: unknown): ListingSiteConfig[];
 export function loadListingConfig(dir?: string): Record<string, ListingSiteConfig[]>;
 export function serialize(config: Record<string, ListingSiteConfig[]>): string;

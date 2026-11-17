@@ -41,3 +41,17 @@ Megane rows test a long model name: an empty result there means the site needs a
 
 - [ ] autotrader-uk · Tesla Model 3: https://www.autotrader.co.uk/car-search?make=Tesla&model=Model%203&fuel-type=Electric
 - [ ] autotrader-uk · Renault Megane E-Tech Electric: https://www.autotrader.co.uk/car-search?make=Renault&model=Megane%20E-Tech%20Electric&fuel-type=Electric
+
+## ES (T-118; not served until T-119)
+
+- [ ] wallapop · Tesla Model 3: https://es.wallapop.com/coches-segunda-mano/tesla-model-3
+- [ ] wallapop · Renault Megane E-Tech Electric: https://es.wallapop.com/coches-segunda-mano/renault-megane-e-tech-electric
+- [ ] autoscout24-es · Tesla Model 3: https://www.autoscout24.es/lst/tesla/model-3?fuel=E
+- [ ] autoscout24-es · Renault Megane E-Tech Electric: https://www.autoscout24.es/lst/renault/megane-e-tech-electric?fuel=E
+
+## IT (T-118; not served until T-119)
+
+- [ ] autoscout24-it · Tesla Model 3: https://www.autoscout24.it/lst/tesla/model-3?fuel=E
+- [ ] autoscout24-it · Renault Megane E-Tech Electric: https://www.autoscout24.it/lst/renault/megane-e-tech-electric?fuel=E
+- [ ] subito · Tesla Model 3: https://www.subito.it/annunci-italia/vendita/auto/?q=Tesla+Model%203
+- [ ] subito · Renault Megane E-Tech Electric: https://www.subito.it/annunci-italia/vendita/auto/?q=Renault+Megane%20E-Tech%20Electric
