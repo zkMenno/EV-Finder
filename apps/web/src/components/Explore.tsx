@@ -4,7 +4,9 @@
 // and sorts the full list in the browser. All state lives in the URL (see lib/state.ts).
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
 import { loadClientCatalogue } from "@/lib/client-catalogue";
-import { onFilters, publishFilters } from "@/lib/filter-bus";
+import { onAnswers, onFilters, publishFilters } from "@/lib/filter-bus";
+import { resolveProfile, scoreContext, scoreRow, type Answers } from "@/lib/shortlist";
+import { profileName, SuggestedSort } from "./SuggestedSort";
 import type { Country, Currency, FieldProvenance } from "@ev/schema";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
@@ -67,6 +69,8 @@ export interface ExploreProps {
   lang: Lang;
   dict: Dict;
   initialState: ExploreState;
+  /** The hero's picker answers from the URL (T-067 Suggested sort). */
+  initialAnswers?: Answers;
   viewFromUrl: boolean;
   levelFromUrl: boolean;
   initialRows: ExploreRow[];
@@ -117,6 +121,9 @@ export function Explore(props: ExploreProps) {
   const locale = localeFor(props.lang);
 
   const [state, setState] = useState<ExploreState>(props.initialState);
+  const [answers, setAnswers] = useState<Answers | null>(props.initialAnswers ?? null);
+  useEffect(() => onAnswers(setAnswers), []);
+  const rp = useMemo(() => (answers ? resolveProfile(answers) : null), [answers]);
   const [all, setAll] = useState<ExploreRow[] | null>(null);
   const [sources, setSources] = useState(props.sources);
   const [limit, setLimit] = useState(PAGE);
@@ -311,10 +318,26 @@ export function Explore(props: ExploreProps) {
     },
     [all, props.initialRows, props.code, fits],
   );
+  // "Suggested" sort (T-067): the hero's profile scores every row; a car a rule rules out goes last.
+  const scorer = useMemo(() => {
+    if (!rp) return undefined;
+    const list = all ?? props.initialRows;
+    const ctx = scoreContext(list);
+    const cache = new Map<string, number | null>();
+    return (r: ExploreRow) => {
+      let v = cache.get(r.variant_id);
+      if (v === undefined) {
+        const res = scoreRow(r, rp, ctx);
+        v = res.ruledOut ? null : res.score;
+        cache.set(r.variant_id, v);
+      }
+      return v;
+    };
+  }, [rp, all, props.initialRows]);
   const matches = useMemo(() => {
-    if (!all && !dirty) return props.initialRows;
-    return sortRows(runFilters(state.filters), state.sort, state.dir, props.code);
-  }, [all, dirty, runFilters, state.filters, state.sort, state.dir, props.code, props.initialRows]);
+    if (!all && !dirty && !(state.sort === "suggested" && answers !== props.initialAnswers)) return props.initialRows;
+    return sortRows(runFilters(state.filters), state.sort, state.dir, props.code, scorer);
+  }, [all, dirty, runFilters, state.filters, state.sort, state.dir, props.code, props.initialRows, scorer, answers, props.initialAnswers]);
   // Empty state with a reason: the one filter whose removal brings back the most cars.
   const relax = useMemo(
     () => (matches.length === 0 && (all || dirty) ? mostRestrictive(state.filters, (f) => runFilters(f).length) : null),
@@ -356,6 +379,14 @@ export function Explore(props: ExploreProps) {
           </div>
         </div>
 
+        <SuggestedSort
+          rp={rp}
+          active={state.sort === "suggested"}
+          onToggle={() => update({ ...state, sort: state.sort === "suggested" ? null : "suggested", dir: "desc" })}
+          t={t}
+          termText={ctx.termText}
+          profileName={rp ? profileName(rp, t) : ""}
+        />
         <div className="mb-3 flex flex-col gap-2">
           <PayModeToggle value={state.pay} onChange={setPay} ui={financeUi} />
           {state.pay === "loan" ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={financeUi} /> : null}

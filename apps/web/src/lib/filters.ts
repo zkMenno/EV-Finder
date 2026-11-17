@@ -73,8 +73,13 @@ export function displayName(r: ExploreRow): string {
   return `${r.make_name} ${r.model_name} ${r.variant_name}`;
 }
 
-function sortValue(r: ExploreRow, key: SortKey, country: Country): number | string | null {
+/** Score per row for the "suggested" sort; null = ruled out or no profile (sorts last). */
+export type Scorer = (r: ExploreRow) => number | null;
+
+function sortValue(r: ExploreRow, key: SortKey, country: Country, score?: Scorer): number | string | null {
   switch (key) {
+    case "suggested":
+      return score ? score(r) : null;
     case "name":
       return displayName(r).toLowerCase();
     case "years":
@@ -102,11 +107,11 @@ function sortValue(r: ExploreRow, key: SortKey, country: Country): number | stri
  * Stable sort; missing values always go last whatever the direction.
  * With no sort key, rows keep catalogue order.
  */
-export function sortRows(rows: ExploreRow[], key: SortKey | null, dir: SortDir, country: Country): ExploreRow[] {
+export function sortRows(rows: ExploreRow[], key: SortKey | null, dir: SortDir, country: Country, score?: Scorer): ExploreRow[] {
   if (!key) return rows;
   const sign = dir === "desc" ? -1 : 1;
   return rows
-    .map((r, i) => ({ r, i, v: sortValue(r, key, country) }))
+    .map((r, i) => ({ r, i, v: sortValue(r, key, country, score) }))
     .sort((a, b) => {
       if (a.v === null && b.v === null) return a.i - b.i;
       if (a.v === null) return 1;

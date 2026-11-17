@@ -227,3 +227,29 @@ describe("per-variant used bands by build year (T-081)", async () => {
     expect(priceFit(r, { country: "NL", cond: "used", budget: 23000, nowYear: 2026 }).fit?.amount).toBe(22000);
   });
 });
+
+describe("Explore 'Suggested' sort (T-067)", async () => {
+  const { sortRows } = await import("./filters");
+  const { topFactors } = await import("@/components/SuggestedSort");
+  it("orders by score, ruled-out cars last, and the URL key round-trips", async () => {
+    const { fromSearchParams, toSearchParams, defaultState } = await import("./state");
+    const rows = [
+      row("slow", { dc_km_per_20min: 60, real_range_km: 400 }),
+      row("good", { dc_km_per_20min: 250, real_range_km: 450, boot_l: 500 }),
+      row("ok", { dc_km_per_20min: 150, real_range_km: 360 }),
+    ];
+    const ctx = scoreContext(rows);
+    const score = (r: ExploreRow) => {
+      const s = scoreRow(r, roadTripper, ctx);
+      return s.ruledOut ? null : s.score;
+    };
+    expect(sortRows(rows, "suggested", "desc", "NL", score).map((r) => r.variant_id)).toEqual(["good", "ok", "slow"]);
+    const st = { ...defaultState(), sort: "suggested" as const, dir: "desc" as const };
+    expect(fromSearchParams(toSearchParams(st)).sort).toBe("suggested");
+  });
+  it("names the heaviest factors after weight steps", () => {
+    expect(topFactors(roadTripper)).toEqual(["dc-speed", "winter-range", "space"]);
+    const kerb = resolveProfile(A({ role: "main", trips: "never", charge: "public_only" }))!;
+    expect(topFactors(kerb)[0]).toBe("efficiency");
+  });
+});
