@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { HAS_SCORES, NO_SCORES_REASON } from "./release";
+import { HAS_SCORES, HAS_USED_PRICES, NO_SCORES_REASON } from "./release";
 
 // T-080: the landing-page hero ranks the published release for each profile.
 const PROFILES: [string, string][] = [
@@ -14,8 +14,12 @@ for (const [name, qs] of PROFILES) {
     test.skip(!HAS_SCORES, NO_SCORES_REASON);
     await page.goto(`/nl/en?${qs}`);
     await expect(page.getByTestId("hero-card")).toHaveCount(10);
-    await expect(page.getByTestId("hero-shortlist").getByTestId("hero-card")).toHaveCount(5);
-    await expect(page.getByTestId("hero-more").getByTestId("hero-card")).toHaveCount(5);
+    // Decision 064: the shortlist holds priced cars only (up to 5); unpriced cars follow under "more".
+    const short = page.getByTestId("hero-shortlist").getByTestId("hero-card");
+    const n = await short.count();
+    expect(n).toBeLessThanOrEqual(5);
+    for (const basis of await short.evaluateAll((els) => els.map((e) => e.getAttribute("data-price-basis")))) expect(basis).not.toBe("none");
+    await expect(page.getByTestId("hero-more").getByTestId("hero-card")).toHaveCount(10 - n);
     await expect(page.getByTestId("hero-why").first()).not.toBeEmpty();
   });
 }
@@ -126,3 +130,30 @@ test("hero: Dutch Nerd score table fits a 360 px phone (verify-web found 7 px ov
   expect(table.split).toBe(0);
   expect(table.clipped).toBeLessThanOrEqual(0);
 });
+
+// T-115 (Decision 064, A-35 B2): the budget changes the result. Needs a release with used prices and
+// shortlist scores (release 2); skipped on release 1.
+test("hero: road-tripper NL at €15k and €35k gives different top 10s; the top 5 stay within budget", async ({ page }) => {
+  test.skip(!HAS_SCORES || !HAS_USED_PRICES, "needs a release with shortlist_scores.json and used_prices.json (Decisions 064/065)");
+  const top = async (budget: number) => {
+    await page.goto(`/nl/en?role=only&trips=monthly&charge=home&budget=${budget}`);
+    await expect(page.getByTestId("hero-card").first()).toBeVisible();
+    const cards = page.getByTestId("hero-card");
+    const all = await cards.evaluateAll((els) => els.map((e) => e.getAttribute("data-variant")));
+    const short = await page
+      .getByTestId("hero-shortlist")
+      .getByTestId("hero-card")
+      .evaluateAll((els) => els.map((e) => ({ price: Number(e.getAttribute("data-price")), basis: e.getAttribute("data-price-basis") })));
+    return { all, short };
+  };
+  const low = await top(15000);
+  const high = await top(35000);
+  expect(low.all).not.toEqual(high.all);
+  for (const [r, b] of [[low, 15000], [high, 35000]] as const) {
+    for (const c of r.short) {
+      expect(c.basis).not.toBe("none");
+      expect(c.price).toBeLessThanOrEqual(b);
+    }
+  }
+});
+

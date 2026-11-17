@@ -100,12 +100,13 @@
   "hero.results.more": "Auch einen Blick wert",
   "hero.results.count": "{n} Modelle passen zu Ihren Antworten.",
   "hero.results.empty": "Noch passt nichts zu allem. Erhöhen Sie das Budget oder entfernen Sie einen Filter.",
+  "hero.results.noPriced": "Noch passt kein Auto mit bekanntem Preis in dieses Budget, deshalb ist deine Shortlist leer. Die Autos unten passen zu deinen Antworten, haben aber noch keinen Preis.",
+  "hero.results.noPricedAny": "Keines dieser Autos hat schon einen bekannten Preis, deshalb ist deine Shortlist vorerst leer.",
   "hero.results.removePreset": "„{label}“ entfernen",
   "hero.results.pick": "Beantworten Sie die Fragen oben, dann erscheinen hier Ihre Top 10.",
   "hero.results.updating": "Wird aktualisiert…",
   "hero.results.share": "Link zu diesem Ergebnis kopieren",
   "hero.results.copied": "Link kopiert",
-  "hero.unpriced": "Für die meisten Autos fehlen noch Gebrauchtpreise. Autos ohne Preis bleiben in der Liste, mit „Preis noch unbekannt“.",
   "hero.card.realRange": "Reale Reichweite",
   "hero.card.winter": "Im Winter",
   "hero.card.notKnown": "noch unbekannt",
@@ -178,5 +179,8 @@
   "hero.caveat.winterEstimate": "Die Winterreichweite ist unsere eigene Schätzung bei −10 °C aus unserem Verbrauchsmodell (dieselben Zahlen, die die Rangliste nutzt).",
   "hero.explore": "Oder alle {n} Autos durchsehen",
   "hero.learn.title": "Gut zu wissen vor dem Kauf",
-  "years.now": "heute"
+  "years.now": "heute",
+  "hero.card.estimateHow": "So: Neupreis {list} × {kept} Restwert in diesem Alter (unsere Wertverlustkurve, research/R-40). Quelle Neupreis: {sources}.",
+  "hero.card.bandHow": "Gebrauchtpreis aus gezählten Inseraten. Quelle: {sources}.",
+  "hero.unpriced": "Manche Autos haben noch keinen Preis. Sie stehen nie in deiner Shortlist und kommen nach allen Autos mit Preis, mit „Preis noch unbekannt“."
 }

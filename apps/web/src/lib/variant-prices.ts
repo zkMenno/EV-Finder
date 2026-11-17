@@ -13,13 +13,24 @@ export interface VariantBand {
   method: string;
   estimate: boolean;
   confidence: string;
+  /** method model: the list price the estimate starts from, and the share of value kept at that age. */
+  list_price: number | null;
+  kept_share: number | null;
+  /** method model: source ids of the list price; method samples: the sample source's name. */
+  sources: string[];
 }
 
 /** variant id → country code → bands (oldest build year first). */
 export type VariantUsedPrices = Map<string, Record<string, VariantBand[]>>;
 
-/** Compact per-row form for the client catalogue: country → [year, p25, median, p75, flags]. flags: 1 = estimate, 2 = low confidence. */
-export type CompactBands = Record<string, [number, number | null, number, number | null, number][]>;
+/**
+ * Compact per-row form for the client catalogue: country → [year, p25, median, p75, flags, list
+ * price, kept share, sources]. flags: 1 = estimate, 2 = low confidence. The last three say how an
+ * estimate was made (Decision 064, shown in Nerd mode); `sources` = source ids (model) or the
+ * sample source's name (samples), comma-separated, or null.
+ */
+export type CompactBand = [number, number | null, number, number | null, number, (number | null)?, (number | null)?, (string | null)?];
+export type CompactBands = Record<string, CompactBand[]>;
 
 const num = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 const optNum = (v: unknown): number | null => (num(v) && v >= 0 ? v : null);
@@ -43,6 +54,13 @@ function band(v: unknown): VariantBand | null {
     method: typeof b.method === "string" ? b.method : "",
     estimate: b.estimate === true || b.method === "model",
     confidence: typeof b.confidence === "string" ? b.confidence : "",
+    list_price: num(b.list_price) && b.list_price > 0 ? b.list_price : null,
+    kept_share: num(b.kept_share) && b.kept_share > 0 && b.kept_share <= 1.5 ? b.kept_share : null,
+    sources: Array.isArray(b.list_source_ids)
+      ? b.list_source_ids.filter((x): x is string => typeof x === "string")
+      : b.source && typeof b.source === "object" && typeof (b.source as Record<string, unknown>).name === "string"
+        ? [(b.source as Record<string, string>).name!]
+        : [],
   };
 }
 

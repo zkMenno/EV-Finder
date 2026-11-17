@@ -2,7 +2,7 @@
 // only the columns Explore needs, nulls dropped. Pure: safe on server and client.
 import type { FieldProvenance, PublishedVariant, Source } from "@ev/schema";
 import type { CompactScores, ReleaseScores, VariantScores } from "./release-scores";
-import type { CompactBands, VariantBand, VariantUsedPrices } from "./variant-prices";
+import type { CompactBand, CompactBands, VariantBand, VariantUsedPrices } from "./variant-prices";
 
 export const EXPLORE_FIELDS = [
   "variant_id",
@@ -126,7 +126,15 @@ export function compactBands(per: Record<string, VariantBand[]> | undefined): Co
   if (!per) return undefined;
   const out: CompactBands = {};
   for (const [cc, list] of Object.entries(per)) {
-    out[cc] = list.map((b) => [b.build_year, b.p25, b.median, b.p75, (b.estimate ? 1 : 0) | (b.confidence === "low" ? 2 : 0)]);
+    out[cc] = list.map((b) => {
+      const flags = (b.estimate ? 1 : 0) | (b.confidence === "low" ? 2 : 0);
+      // How the figure was made (Nerd mode), only when there is something to say.
+      const how = b.list_price !== null || b.kept_share !== null || b.sources.length > 0;
+      const out: CompactBand = how
+        ? [b.build_year, b.p25, b.median, b.p75, flags, b.list_price, b.kept_share, b.sources.join(",") || null]
+        : [b.build_year, b.p25, b.median, b.p75, flags];
+      return out;
+    });
   }
   return out;
 }

@@ -22,6 +22,7 @@ import {
   RULES,
   scoreFor,
   suggestedScore,
+  type UsedBands,
   type Answers,
   type ResolvedProfile,
 } from "./shortlist";
@@ -146,7 +147,9 @@ describe("release scores (Decision 065)", () => {
   it("the hero order is the release order: best score per model, ruled-out cars never shown", () => {
     const q = { country: "NL" as const, cond: "any" as const, budget: null, filters: defaultFilters(), presetsOff: [...PRESET_FIELDS], nowYear: 2026 };
     for (const rp of ALL_PROFILES) {
-      const res = rankHero(fixtureRows, rp, q, { hasScores: true });
+      // Without prices, the order is the release order alone (prices come first otherwise: T-115).
+      const unpriced = fixtureRows.map((r) => ({ ...r, price_new: undefined, on_sale_new: undefined, used_bands: undefined }) as ExploreRow);
+      const res = rankHero(unpriced, rp, q, { hasScores: true });
       const best = new Map<string, number>();
       for (const r of fixtureRows) {
         const s = releaseScores.variants.get(r.variant_id)!.scores[comboKey(rp)]!;
@@ -208,10 +211,10 @@ describe("prices", () => {
     const { fit } = priceFit(r, { country: "NL", cond: "used", budget: 25000, usedBands: bands, nowYear: 2026 });
     expect(fit).toMatchObject({ kind: "used", amount: 21000, yearFrom: 2021, yearTo: 2023, low: 19000 });
   });
-  it("over budget only when every known price is over; no price → not over", () => {
+  it("over budget only when every known price is over; no price at all → unpriced, not over", () => {
     const r = row("n", { on_sale_new: true, price_new: { NL: { amount: 45000, currency: "EUR" } } as ExploreRow["price_new"] });
-    expect(priceFit(r, { country: "NL", cond: "any", budget: 30000, nowYear: 2026 })).toEqual({ fit: null, over: true });
-    expect(priceFit(row("x"), { country: "NL", cond: "any", budget: 30000, nowYear: 2026 })).toEqual({ fit: null, over: false });
+    expect(priceFit(r, { country: "NL", cond: "any", budget: 30000, nowYear: 2026 })).toEqual({ fit: null, status: "over" });
+    expect(priceFit(row("x"), { country: "NL", cond: "any", budget: 30000, nowYear: 2026 })).toEqual({ fit: null, status: "unpriced" });
   });
 });
 
@@ -283,7 +286,7 @@ describe("per-variant used bands by build year (T-081)", async () => {
     expect(variantFit(r, "NL", 30000, { from: 2021, to: 2021 })).toMatchObject({ amount: 19000, yearFrom: 2021, yearTo: 2021 });
   });
   it("priceFit: over budget when the car has bands but none fit", () => {
-    expect(priceFit(r, { country: "NL", cond: "used", budget: 10000, nowYear: 2026 })).toEqual({ fit: null, over: true });
+    expect(priceFit(r, { country: "NL", cond: "used", budget: 10000, nowYear: 2026 })).toEqual({ fit: null, status: "over" });
     expect(priceFit(r, { country: "NL", cond: "used", budget: 23000, nowYear: 2026 }).fit?.amount).toBe(22000);
   });
 });
@@ -310,3 +313,108 @@ describe("Explore 'Suggested' sort (T-067)", async () => {
     expect(topFactors(kerb)[0]).toBe("efficiency");
   });
 });
+
+// ── Budget rule (T-115, Decision 064): band → estimate → new price → none ─────────────────────
+describe("budget rule (Decision 064)", async () => {
+  const { parseVariantUsedPrices } = await import("./variant-prices");
+  const { compactBands } = await import("./explore-data");
+  // Shapes as the pipeline writes them (pipeline/ev_pipeline/derive/used_price.py).
+  const model = (y: number, median: number, extra: Record<string, unknown> = {}) => ({
+    build_year: y, p25: median - 2000, median, p75: median + 2000, currency: "EUR", samples: 0, method: "model", estimate: true,
+    age_years: 2026 - y, kept_share: 0.55, list_price: Math.round(median / 0.55), list_basis: "year", list_source_ids: ["rdw-catalogusprijs"], confidence: "medium", ...extra,
+  });
+  const samples = (y: number, median: number) => ({
+    build_year: y, p25: median - 1500, median, p75: median + 1500, currency: "EUR", samples: 7, method: "samples", estimate: false,
+    observed_at: "2026-11-01", source: { name: "Manual sample (AutoScout24 search)", url: "https://example.org" }, confidence: "medium",
+  });
+  const withBands = (id: string, bands: object[], o: Partial<ExploreRow> = {}) =>
+    row(id, { year_start: 2020, year_end: 2024, used_bands: compactBands(parseVariantUsedPrices({ variants: [{ variant_id: id, bands: { NL: bands } }] }).get(id)), ...o });
+  const opts = (budget: number | null, cond: "any" | "new" | "used" = "any") => ({ country: "NL" as const, cond, budget, nowYear: 2026 });
+
+  it("(1) a real used band for those build years: basis 'band', with its source", () => {
+    const r = withBands("s", [samples(2021, 18000), model(2023, 26000)]);
+    const { fit, status } = priceFit(r, opts(20000));
+    expect(status).toBe("fits");
+    expect(fit).toMatchObject({ kind: "used", basis: "band", amount: 18000, yearFrom: 2021, yearTo: 2021, sources: ["Manual sample (AutoScout24 search)"] });
+  });
+  it("(1) the generation's sourced band counts as a real band", () => {
+    const r = row("g", { year_start: 2019, year_end: null });
+    const bands = { "g-gen": [{ generation_id: "g-gen", country: "NL", currency: "EUR", median: 21000, p25: 19000, p75: 23000, samples: 9, period: "2026-10", source_id: "src-a", age_band_years: "3-5" }] } as UsedBands;
+    expect(priceFit(r, { ...opts(25000), usedBands: bands }).fit).toMatchObject({ basis: "band", amount: 21000, sources: ["src-a"] });
+  });
+  it("(1) beats (2): a real band that fits wins over an estimate that fits", () => {
+    const r = withBands("p", [samples(2021, 19000), model(2022, 18000)]);
+    expect(priceFit(r, opts(20000)).fit).toMatchObject({ basis: "band", amount: 19000 });
+  });
+  it("(2) no real band: our used price estimate, labelled, with list price, kept share and source", () => {
+    const r = withBands("e", [model(2021, 17000), model(2022, 21000), model(2023, 26000)]);
+    const { fit, status } = priceFit(r, opts(22000));
+    expect(status).toBe("fits");
+    expect(fit).toMatchObject({ kind: "used", basis: "estimate", estimate: true, amount: 21000, yearFrom: 2021, yearTo: 2022, keptShare: 0.55, listPrice: Math.round(21000 / 0.55), sources: ["rdw-catalogusprijs"] });
+  });
+  it("(3) the new price, for a car on sale new; 'new' condition uses only that", () => {
+    const r = row("n", { on_sale_new: true, price_new: { NL: { amount: 33000, currency: "EUR" } } as ExploreRow["price_new"] });
+    expect(priceFit(r, opts(35000)).fit).toMatchObject({ kind: "new", basis: "new", amount: 33000 });
+    expect(priceFit(r, opts(30000))).toEqual({ fit: null, status: "over" });
+    const both = withBands("nb", [model(2023, 24000)], { on_sale_new: true, price_new: { NL: { amount: 33000, currency: "EUR" } } as ExploreRow["price_new"] });
+    expect(priceFit(both, opts(35000, "new")).fit).toMatchObject({ basis: "new", amount: 33000 });
+    expect(priceFit(both, opts(35000, "any")).fit).toMatchObject({ basis: "estimate", amount: 24000 });
+    expect(priceFit(both, opts(35000, "used")).fit).toMatchObject({ basis: "estimate" });
+  });
+  it("none: no band, no estimate, no new price → 'unpriced' (budget or not)", () => {
+    expect(priceFit(row("x"), opts(15000))).toEqual({ fit: null, status: "unpriced" });
+    expect(priceFit(row("x"), opts(null))).toEqual({ fit: null, status: "unpriced" });
+    // A car only sold used has no new price to fall back on.
+    const old = row("o", { on_sale_new: false, price_new: { NL: { amount: 30000, currency: "EUR" } } as ExploreRow["price_new"] });
+    expect(priceFit(old, opts(35000)).status).toBe("unpriced");
+  });
+  it("over: every price the car has is above the budget", () => {
+    const r = withBands("ov", [samples(2022, 28000), model(2023, 31000)]);
+    expect(priceFit(r, opts(20000))).toEqual({ fit: null, status: "over" });
+  });
+
+  describe("ranking", () => {
+    const q = (budget: number | null) => ({ country: "NL" as const, cond: "any" as const, budget, filters: defaultFilters(), presetsOff: [...PRESET_FIELDS], nowYear: 2026 });
+    const on = { hasScores: true };
+    // Unpriced cars score highest on purpose: they must still never reach the top 5.
+    const rows: ExploreRow[] = [];
+    for (let i = 0; i < 6; i++) rows.push(scored(row(`free${i}`), "road-tripper", 95 - i));
+    for (let i = 0; i < 8; i++) rows.push(scored(withBands(`cheap${i}`, [model(2021, 12000 + i * 500)]), "road-tripper", 40 + i));
+    for (let i = 0; i < 8; i++) rows.push(scored(withBands(`dear${i}`, [model(2023, 30000 + i * 500)]), "road-tripper", 60 + i));
+
+    it("a car with no price is never in the top 5 and comes after every priced car", () => {
+      for (const budget of [null, 15000, 35000]) {
+        const res = rankHero(rows, roadTripper, q(budget), on);
+        expect(res.shortlistN).toBe(5);
+        const firstUnpriced = res.picks.findIndex((p) => p.price === null);
+        if (firstUnpriced >= 0) {
+          expect(firstUnpriced).toBeGreaterThanOrEqual(5);
+          expect(res.picks.slice(firstUnpriced).every((p) => p.price === null)).toBe(true);
+        }
+        expect(res.picks.slice(0, 5).every((p) => p.price !== null)).toBe(true);
+      }
+    });
+    it("fewer than five priced cars: the shortlist is shorter, never filled with unpriced cars", () => {
+      const res = rankHero([...rows.slice(0, 6), ...rows.slice(6, 8)], roadTripper, q(15000), on);
+      expect(res.shortlistN).toBe(2);
+      expect(res.picks.slice(0, 2).every((p) => p.price !== null)).toBe(true);
+    });
+    it("€15k and €35k give different top 10s, and every top-5 price is within the budget", () => {
+      const low = rankHero(rows, roadTripper, q(15000), on);
+      const high = rankHero(rows, roadTripper, q(35000), on);
+      expect(low.picks.map((p) => p.row.variant_id)).not.toEqual(high.picks.map((p) => p.row.variant_id));
+      for (const [res, b] of [[low, 15000], [high, 35000]] as const) {
+        for (const p of res.picks.slice(0, res.shortlistN)) expect(p.price!.amount).toBeLessThanOrEqual(b);
+      }
+      expect(low.overBudget).toBe(8 + 1); // every "dear" car and cheap7 (€15,500); cheap6 is exactly €15,000
+    });
+    it("one card per model: a priced version wins over a higher-scoring unpriced one", () => {
+      const a = scored(row("m-a", { model_id: "m" }), "road-tripper", 90);
+      const b = scored(withBands("m-b", [model(2021, 14000)], { model_id: "m" }), "road-tripper", 50);
+      const res = rankHero([a, b], roadTripper, q(15000), on);
+      expect(res.picks.map((p) => p.row.variant_id)).toEqual(["m-b"]);
+      expect(res.picks[0]!.alternatives).toBe(1);
+    });
+  });
+});
+

@@ -100,12 +100,13 @@
   "hero.results.more": "À regarder aussi",
   "hero.results.count": "{n} modèles correspondent à vos réponses.",
   "hero.results.empty": "Rien ne correspond encore à tout cela. Essayez un budget plus élevé ou retirez un filtre.",
+  "hero.results.noPriced": "Aucune voiture au prix connu n'entre encore dans ce budget, votre sélection est donc vide. Les voitures ci-dessous correspondent à vos réponses mais n'ont pas encore de prix.",
+  "hero.results.noPricedAny": "Aucune de ces voitures n'a encore de prix connu, votre sélection est donc vide pour l'instant.",
   "hero.results.removePreset": "Retirer « {label} »",
   "hero.results.pick": "Répondez aux questions ci-dessus et votre top 10 apparaît ici.",
   "hero.results.updating": "Mise à jour…",
   "hero.results.share": "Copier un lien vers ces résultats",
   "hero.results.copied": "Lien copié",
-  "hero.unpriced": "Les prix d'occasion manquent encore pour la plupart des voitures. Les voitures sans prix restent dans la liste, avec « prix pas encore connu ».",
   "hero.card.realRange": "Autonomie réelle",
   "hero.card.winter": "En hiver",
   "hero.card.notKnown": "pas encore connu",
@@ -178,5 +179,8 @@
   "hero.caveat.winterEstimate": "L'autonomie en hiver est notre propre estimation à −10 °C, issue de notre modèle de consommation (les mêmes chiffres que le classement).",
   "hero.explore": "Ou parcourir les {n} voitures",
   "hero.learn.title": "Bon à savoir avant d'acheter",
-  "years.now": "aujourd'hui"
+  "years.now": "aujourd'hui",
+  "hero.card.estimateHow": "Calcul : prix neuf {list} × {kept} de valeur conservée à cet âge (notre courbe de décote, research/R-40). Source du prix neuf : {sources}.",
+  "hero.card.bandHow": "Prix d'occasion issu d'annonces comptées. Source : {sources}.",
+  "hero.unpriced": "Certaines voitures n'ont pas encore de prix. Elles ne sont jamais dans votre sélection et viennent après toutes les voitures avec un prix, avec « prix pas encore connu »."
 }

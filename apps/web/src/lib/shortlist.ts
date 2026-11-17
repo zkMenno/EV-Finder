@@ -278,13 +278,17 @@ export function suggestedScore(row: ExploreRow, rp: ResolvedProfile): number | n
   return c && c.band !== "ruled-out" ? c.score : null;
 }
 
-// ── Prices: used band for the build years that fit, else the new price ─────────────────────
+// ── Prices (Decision 064): used band → used price estimate → new price → none ─────────────
 
 export type Condition = "any" | "new" | "used";
 export const CONDITIONS: readonly Condition[] = ["any", "new", "used"];
 
+/** Where a price comes from (Decision 064): a real used band, our used price estimate, or the new price. */
+export type PriceBasis = "band" | "estimate" | "new";
+
 export interface PriceFit {
   kind: "used" | "new";
+  basis: PriceBasis;
   /** The amount compared with the budget (used: the band's median). */
   amount: number;
   low: number | null;
@@ -293,10 +297,15 @@ export interface PriceFit {
   yearFrom: number;
   yearTo: number | null;
   samples?: number;
-  /** Our model, not counted listings (T-081 `method: model`). */
+  /** Our model, not counted listings (T-081 `method: model`); same as basis "estimate". */
   estimate?: boolean;
   /** Built on a list price from a nearby year or another country. */
   lowConfidence?: boolean;
+  /** Estimate method inputs for Nerd mode: the list price and the share of value kept. */
+  listPrice?: number | null;
+  keptShare?: number | null;
+  /** Source ids (estimate: of the list price) or a source name (band). */
+  sources?: string[];
 }
 
 /** Bands for one generation in one country with enough samples (PriceBand.MIN_SAMPLES = 5). */
@@ -312,9 +321,9 @@ export function ageRange(s: string | null | undefined): [number, number] | null 
 }
 
 /**
- * The used price that fits: among this generation's bands, the youngest one whose median is within
- * the budget (no budget: the youngest). Build years come from the band's age; the year of the
- * release is "now" so a page renders the same on every machine.
+ * The used price that fits from this generation's sourced bands (real bands, `Catalogue.used_prices`):
+ * the youngest band whose median is within the budget (no budget: the youngest). Build years come
+ * from the band's age; the year of the release is "now" so a page renders the same on every machine.
  */
 export function usedFit(row: ExploreRow, bands: UsedPriceBand[] | undefined, budget: number | null, nowYear: number): PriceFit | null {
   if (!bands?.length) return null;
@@ -331,83 +340,98 @@ export function usedFit(row: ExploreRow, bands: UsedPriceBand[] | undefined, bud
   if (!fit) return null;
   return {
     kind: "used",
+    basis: "band",
     amount: fit.b.median,
     low: fit.b.p25 ?? null,
     high: fit.b.p75 ?? null,
     yearFrom: fit.from,
     yearTo: fit.to,
     samples: fit.b.samples,
+    sources: [fit.b.source_id],
   };
 }
 
 /**
- * Per-variant bands by build year (T-081): the build years within the variant's years whose
- * typical price fits the budget; the price shown is the newest of those years (no budget: the
- * newest year). Null without bands for this country, or when none fits.
+ * Per-variant bands by build year (T-081, `used_prices.json`) of one basis: the build years within
+ * the variant's years (narrowed by the visitor's build-year filter) whose median fits the budget;
+ * the price shown is the newest of those years (no budget: the newest year). `estimate` picks the
+ * model bands (Decision 064 step 2), otherwise the counted-listing bands (step 1); undefined = both.
  */
 export function variantFit(
   row: ExploreRow,
   country: Country,
   budget: number | null,
   years: { from?: number | null; to?: number | null } = {},
+  estimate?: boolean,
 ): PriceFit | null {
   const list = row.used_bands?.[country];
   if (!list?.length) return null;
-  // Build years: the variant's own, narrowed by the visitor's build-year filter (refine).
   const start = Math.max(row.year_start, years.from ?? -Infinity);
   const end = Math.min(row.year_end ?? Infinity, years.to ?? Infinity);
-  const inYears = list.filter(([y]) => y >= start && y <= end);
+  const inYears = list.filter(([y, , , , flags]) => y >= start && y <= end && (estimate === undefined || ((flags & 1) === 1) === estimate));
   const fits = budget === null ? inYears : inYears.filter(([, , median]) => median <= budget);
   if (!fits.length) return null;
   const newest = fits[fits.length - 1]!;
-  const [year, p25, median, p75, flags] = newest;
+  const [year, p25, median, p75, flags, listPrice, keptShare, sources] = newest;
+  const est = (flags & 1) === 1;
   return {
     kind: "used",
+    basis: est ? "estimate" : "band",
     amount: median,
     low: p25,
     high: p75,
     yearFrom: budget === null ? year : fits[0]![0],
     yearTo: year,
-    estimate: (flags & 1) === 1,
+    estimate: est,
     lowConfidence: (flags & 2) === 2,
+    listPrice: listPrice ?? null,
+    keptShare: keptShare ?? null,
+    sources: sources ? sources.split(",") : [],
   };
 }
 
 function newFit(row: ExploreRow, country: Country): PriceFit | null {
   if (row.on_sale_new !== true) return null;
   const p = priceFor(row, country);
-  return p === null ? null : { kind: "new", amount: p, low: null, high: null, yearFrom: row.year_start, yearTo: row.year_end ?? null };
+  return p === null ? null : { kind: "new", basis: "new", amount: p, low: null, high: null, yearFrom: row.year_start, yearTo: row.year_end ?? null };
 }
 
-/** The cheapest price that fits the condition and budget; `over` when every known price is over it. */
+/**
+ * "fits": a price within the budget (or any price, without a budget); "over": the car has a price
+ * but none fits; "unpriced": no price of any kind (never in the top 5, listed last, Decision 064).
+ */
+export type PriceStatus = "fits" | "over" | "unpriced";
+
+/**
+ * The price the budget compares against (Decision 064), in order: (1) a real used band for those
+ * build years (variant bands from counted listings, else the generation's sourced bands); (2) our
+ * used price estimate (variant model bands: list price × value kept at that age); (3) the new
+ * price, for cars on sale new. Used and new both fitting: the cheaper one is shown.
+ */
 export function priceFit(
   row: ExploreRow,
   opts: { country: Country; cond: Condition; budget: number | null; usedBands?: UsedBands; nowYear: number; yearMin?: number | null; yearMax?: number | null },
-): { fit: PriceFit | null; over: boolean } {
-  const cands: PriceFit[] = [];
-  if (opts.cond !== "new" && row.used_bands?.[opts.country]?.length) {
-    // Per-variant bands by build year (T-081) win over generation bands.
-    const yrs = { from: opts.yearMin, to: opts.yearMax };
-    const v = variantFit(row, opts.country, opts.budget, yrs);
-    if (v) cands.push(v);
-    else {
-      const any = variantFit(row, opts.country, null, yrs);
-      if (any) cands.push({ ...any, amount: Infinity });
-    }
-  } else if (opts.cond !== "new") {
-    const anyBand = usedFit(row, opts.usedBands?.[row.generation_id], null, opts.nowYear);
-    const u = usedFit(row, opts.usedBands?.[row.generation_id], opts.budget, opts.nowYear);
-    if (u) cands.push(u);
-    else if (anyBand) cands.push({ ...anyBand, amount: Infinity });
+): { fit: PriceFit | null; status: PriceStatus } {
+  const yrs = { from: opts.yearMin, to: opts.yearMax };
+  const b = opts.budget;
+  let used: PriceFit | null = null;
+  let hasPrice = false;
+  if (opts.cond !== "new") {
+    const gen = opts.usedBands?.[row.generation_id];
+    // Step 1, real bands: the variant's counted-listing bands, else the generation's sourced bands.
+    const real = variantFit(row, opts.country, b, yrs, false) ?? usedFit(row, gen, b, opts.nowYear);
+    // Step 2, our estimate, only where no real band fits.
+    used = real ?? variantFit(row, opts.country, b, yrs, true);
+    hasPrice = !!(variantFit(row, opts.country, null, yrs) ?? usedFit(row, gen, null, opts.nowYear));
   }
+  let fresh: PriceFit | null = null;
   if (opts.cond !== "used") {
     const n = newFit(row, opts.country);
-    if (n) cands.push(n);
+    if (n) hasPrice = true;
+    if (n && (b === null || n.amount <= b)) fresh = n;
   }
-  const known = cands.filter((c) => Number.isFinite(c.amount));
-  const within = known.filter((c) => opts.budget === null || c.amount <= opts.budget).sort((a, b) => a.amount - b.amount);
-  if (within.length) return { fit: within[0]!, over: false };
-  return { fit: null, over: cands.length > 0 };
+  const fit = used && fresh ? (fresh.amount < used.amount ? fresh : used) : (used ?? fresh);
+  return { fit, status: fit ? "fits" : hasPrice ? "over" : "unpriced" };
 }
 
 // ── Ranking: one card per model, top 10, top 5 = "your shortlist" ───────────────────────────
@@ -442,6 +466,8 @@ export interface HeroResult {
   /** "no-scores": the release has no shortlist_scores.json, so nothing is ranked (Decision 065). */
   status: "ranked" | "no-scores";
   picks: HeroPick[];
+  /** How many of the picks form "Your shortlist": priced cars only, at most SHORTLIST_N (Decision 064). */
+  shortlistN: number;
   /** Models that qualified (before cutting to TOP_N). */
   qualifying: number;
   /** How many of the qualifying picks have no price yet. */
@@ -459,7 +485,7 @@ export function rankHero(
   opts: { hasScores: boolean },
   rules: ShortlistRules = RULES,
 ): HeroResult {
-  const empty: HeroResult = { status: "no-scores", picks: [], qualifying: 0, unpriced: 0, ruledOutByGate: 0, overBudget: 0, unscored: 0 };
+  const empty: HeroResult = { status: "no-scores", picks: [], shortlistN: 0, qualifying: 0, unpriced: 0, ruledOutByGate: 0, overBudget: 0, unscored: 0 };
   if (!opts.hasScores) return empty;
   const presets = presetsFor(rp).filter((p) => !q.presetsOff.includes(p.field));
   let ruledOutByGate = 0;
@@ -470,8 +496,9 @@ export function rankHero(
     if (q.cond === "new" && row.on_sale_new !== true) continue;
     const checks = presets.map((p) => [p.field, presetCheck(row, p)] as const);
     if (checks.some(([, c]) => c === "fail")) continue;
-    const { fit, over } = priceFit(row, { ...q, yearMin: q.filters.yearMin, yearMax: q.filters.yearMax });
-    if (over && q.budget !== null) {
+    // Budget is a hard filter on the price (Decision 064); a car with no price at all stays, last.
+    const { fit, status } = priceFit(row, { ...q, yearMin: q.filters.yearMin, yearMax: q.filters.yearMax });
+    if (status === "over") {
       overBudget++;
       continue;
     }
@@ -496,15 +523,21 @@ export function rankHero(
     const cur = best.get(row.model_id);
     if (!cur) best.set(row.model_id, pick);
     else {
+      // A priced version beats an unpriced one; then the release score; then the newer one.
+      const priced = Number(fit !== null) - Number(cur.price !== null);
       const better =
-        result.score > cur.result.score ||
-        (result.score === cur.result.score && row.year_start > cur.row.year_start);
+        priced > 0 ||
+        (priced === 0 &&
+          (result.score > cur.result.score || (result.score === cur.result.score && row.year_start > cur.row.year_start)));
       if (better) best.set(row.model_id, { ...pick, count: cur.count + 1 });
       else cur.count++;
     }
   }
+  // Priced cars first (Decision 064: a car with no price is listed after every priced car), then
+  // the release score.
   const sorted = [...best.values()].sort(
     (a, b) =>
+      Number(b.price !== null) - Number(a.price !== null) ||
       b.result.score - a.result.score ||
       (b.row.real_range_km ?? 0) - (a.row.real_range_km ?? 0) ||
       `${a.row.make_name} ${a.row.model_name}`.localeCompare(`${b.row.make_name} ${b.row.model_name}`),
@@ -513,6 +546,7 @@ export function rankHero(
   return {
     status: "ranked",
     picks,
+    shortlistN: Math.min(SHORTLIST_N, picks.filter((p) => p.price !== null).length),
     qualifying: sorted.length,
     unpriced: picks.filter((p) => p.price === null).length,
     ruledOutByGate,
