@@ -1,6 +1,6 @@
 # T-113 Used price estimate from new price × depreciation curve
 Role: builder   Lane: WS1: pipeline/ev_pipeline/derive/   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #NN code + PR #MM params)
+Status: review (WS0 subagent, 2026-11-17, PR #64 code + PR #63 params)
 
 ## Goal
 Cars without a real used band get a labelled used price estimate per build year and country (Decision 064).
@@ -20,7 +20,7 @@ Decision 064; T-081, T-056
 Anything not on docs/spec/launch-scope.md.
 
 ## Handoff notes
-- WS1 (WS0 subagent), 2026-11-17. Stacked on T-111 (#62): needs its sample source gate. Code: `pipeline/ev_pipeline/derive/depreciation.py` (fit + hold-out back-test), `commands/used_price.py` (`ev used-price fit --release N --as-of D`, dry run, prints the `fitted:` block), `derive/used_price.py` (curve choice, row provenance). Params (gate file): PR #MM adds `fit:` thresholds, the published curve's citation and the `fitted:` block.
+- WS1 (WS0 subagent), 2026-11-17. Stacked on T-111 (#62): needs its sample source gate. Code: `pipeline/ev_pipeline/derive/depreciation.py` (fit + hold-out back-test), `commands/used_price.py` (`ev used-price fit --release N --as-of D`, dry run, prints the `fitted:` block), `derive/used_price.py` (curve choice, row provenance). Params (gate file): PR #63 adds `fit:` thresholds, the published curve's citation and the `fitted:` block.
 - Curve: value kept = a·exp(−k·age), least squares on ln(share); age from mid build year. Fitted on release 1 + the 106 gated sample rows (Marktplaats NL, 2dehands BE): 85 points, 19 generations, ages 1.4–9.4, a = 0.884, k = 0.115 (3 years 62.5 %, 5 years 49.7 %), R² (log) 0.72. Segment curves only with ≥ 15 points and ≥ 5 generations of their own: only J-medium qualifies, and it is almost the same (k 0.1153).
 - Back-test (G-10), leave one generation out: fitted median abs error **9.8 %** (median error +2.8 %, 67 % within 15 %) vs published DAT/R-40 curve **13.9 %** (median −13.7 %: too low). Worst: Fiat 500e 2021 −27 %, Leaf ZE1 2019 +27 %, Q4 BE 2022 +26 %. In used_prices.json → qa.json `backtest_used_prices.holdout`.
 - Fallback: without a `fitted` block the published curve applies, cited as DAT 3-year BEV 51.5 % (autohaus.de, 28 Sep 2026, checked 2026-11-17; other ages per research/R-40). No archived copy made (archive.org save is a form submit).
