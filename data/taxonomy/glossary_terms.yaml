@@ -1050,17 +1050,18 @@ glossary_terms:
 
   - id: used-price
     label: {en: "Used price", nl: "Occasionprijs"}
-    technical: {en: "Asking-price band (p25–p75)", nl: "Vraagprijsband (p25–p75)"}
+    technical: {en: "Used price band (p25–p75) per build year", nl: "Occasionprijsband (p25–p75) per bouwjaar"}
     short:
-      en: "What sellers typically ask for this car used in your country: the middle half of asking prices."
-      nl: "Wat verkopers in jouw land meestal vragen voor deze auto als occasion: de middelste helft van de vraagprijzen."
+      en: "A rough range of what this car costs used in your country, for that build year. Not a valuation."
+      nl: "Een ruwe prijsrange voor deze auto als occasion in jouw land, voor dat bouwjaar. Geen taxatie."
     long:
       en: >-
-        The used price is a band of asking prices, not a valuation and not a final sale price. It shows
-        the middle half of prices we see for this generation, by age and mileage, with the number of
-        listings. With too few listings we show "not enough data" instead of a guess.
+        The used price is a band, not a valuation and not a final sale price. Where we have enough
+        hand-checked price samples for a build year, the band comes from them. Otherwise it is our
+        estimate from the new price and how fast similar cars lose value, and we label it as an
+        estimate. With too little data we show "not enough data" instead of a guess.
     nerd_note:
-      en: "p25–p75 of asking prices per generation × country × age band × mileage band; hidden below 8 listings (spec §8). Until a listing source covers a country, a 'See listings' link replaces the band."
+      en: "Band = p25–p75. Model estimate = list price at registration × an age curve per segment and country, calibrated on manual samples (T-081, Decision 043); a sampled band needs at least 5 cars. Always check the listings."
     related: [new-price, generation, estimate]
 
   - id: dc-km-10min
@@ -1496,3 +1497,130 @@ glossary_terms:
     nerd_note:
       en: "Corroborated = every Wikidata year within ±1 of the nearest seed boundary of the same kind (start or end). Wikidata is model-level and sparse, so we use it for names and years only (R-08). Known disagreements so far: a concept-car year and a China-only item."
     related: [model-years, generation, sources-agree]
+
+  # --- T-100 (WS3, 2026-11-15): hero steps and usage profiles (launch scope, Decision 051) ---
+  - id: shortlist
+    label: {en: "Your shortlist", nl: "Jouw shortlist"}
+    technical: {en: "Top 10, best 5 highlighted", nl: "Top 10, beste 5 uitgelicht"}
+    short:
+      en: "The ten cars that fit your answers and budget best. The top five are your shortlist."
+      nl: "De tien auto's die het best passen bij je antwoorden en budget. De top vijf is je shortlist."
+    long:
+      en: >-
+        We first drop cars that fail a hard limit (budget, range you need), then score the rest on
+        what matters for your profile. Each card says in one line why it ranks there. The rules for
+        the road-tripper profile come from one owner's own picks, so treat the order as a starting
+        point, not a verdict.
+    nerd_note:
+      en: "Gates first, then weighted factors scored 0–1, bonuses and penalties, then bands (Decision 038). Factors with no data score neutral (0.5), never a guess. Rules: data/editorial/shortlist_rules.yaml."
+    related: [road-tripper, daily-driver, runabout, kerbside-charger, used-price]
+
+  - id: road-tripper
+    label: {en: "Road-tripper", nl: "Vakantierijder"}
+    technical: {en: "Profile: main car that also does the holidays", nl: "Profiel: hoofdauto die ook de vakanties rijdt"}
+    short:
+      en: "Your main car, also for long holiday trips. Fast charging, winter range and space count most."
+      nl: "Je hoofdauto, ook voor lange vakantieritten. Snelladen, winterbereik en ruimte tellen het zwaarst."
+    long:
+      en: >-
+        Pick this if this is your main car and it also takes you on holiday. We look hardest at how fast it adds range on a motorway fast charger, how far it goes in winter with some margin, and how much luggage fits.
+    nerd_note:
+      en: "Profile road-tripper in data/editorial/shortlist_rules.yaml (Decisions 038, 050). Back-tested on one owner's picks: 80 % band agreement."
+    related: [shortlist, dc-km-20min, real-range, boot-volume]
+
+  - id: daily-driver
+    label: {en: "Daily driver", nl: "Dagelijkse rijder"}
+    technical: {en: "Profile: main car, holidays by train, rental or a second car", nl: "Profiel: hoofdauto, vakantie met trein, huurauto of tweede auto"}
+    short:
+      en: "Your main car for every day; long trips go another way. Winter range, efficiency and a heat pump count most."
+      nl: "Je hoofdauto voor elke dag; lange reizen gaan anders. Winterbereik, zuinigheid en een warmtepomp tellen het zwaarst."
+    long:
+      en: >-
+        Pick this if this is your main car but long trips go by train, a rental or another car. We check that the winter range covers your longest normal day, and favour cars that use little energy and have a heat pump.
+    nerd_note:
+      en: "Profile daily-driver in data/editorial/shortlist_rules.yaml (Decisions 038, 050)."
+    related: [shortlist, real-range, consumption, heat-pump]
+
+  - id: runabout
+    label: {en: "Runabout", nl: "Boodschappenauto"}
+    technical: {en: "Profile: second car for short trips", nl: "Profiel: tweede auto voor korte ritten"}
+    short:
+      en: "A second car for short trips. Price, size, efficiency and the battery health of cheap older cars count most."
+      nl: "Een tweede auto voor korte ritten. Prijs, formaat, zuinigheid en de accugezondheid van goedkope oudere auto's tellen het zwaarst."
+    long:
+      en: >-
+        Pick this for a second car that mostly does short trips. Price and size matter more, and range matters less. Cheap older electric cars are often runabouts, so we also weigh battery health.
+    nerd_note:
+      en: "Profile runabout in data/editorial/shortlist_rules.yaml (Decisions 038, 050)."
+    related: [shortlist, used-price, soh, consumption]
+
+  - id: kerbside-charger
+    label: {en: "No charger at home", nl: "Geen laadpaal thuis"}
+    technical: {en: "Profile add-on: kerbside or public charging", nl: "Profieltoevoeging: laden op straat of openbaar"}
+    short:
+      en: "You charge on the street or at public chargers. Efficiency, 50–150 kW fast charging and 11 kW AC count more."
+      nl: "Je laadt op straat of bij openbare laders. Zuinigheid, snelladen op 50–150 kW en 11 kW AC tellen zwaarder."
+    long:
+      en: >-
+        This stacks on top of the other profiles. Most supermarket and town fast chargers deliver
+        50–150 kW, so a car that charges well there saves you time, and a car that uses the full
+        11 kW of a street post charges faster overnight. LFP batteries that may be charged to 100 %
+        mean fewer charging sessions a week.
+    nerd_note:
+      en: "Profile kerbside-charger stacks on the others (Decision 050); extra factors: fast_on_400v, charge_100_daily; filter presets dc_km_per_20min ≥ 120 and ac_kw ≥ 11 (data/editorial/shortlist_rules.yaml)."
+    related: [shortlist, dc-charging, ac-charging, lfp, charge-to-100]
+
+  - id: home-area
+    label: {en: "Where you live", nl: "Waar je woont"}
+    technical: {en: "City / town / countryside", nl: "Stad / dorp of buitenwijk / platteland"}
+    short:
+      en: "City, town or countryside. It shifts how much range we ask for and what else counts."
+      nl: "Stad, dorp of platteland. Het verschuift hoeveel bereik we vragen en wat verder telt."
+    long:
+      en: >-
+        In the countryside, trips are often longer and chargers off the main roads are rarer, so we ask for more range. In a city, size and efficiency count a little more and range a little less.
+    nerd_note:
+      en: "Modifiers urban / suburban / rural in data/editorial/shortlist_rules.yaml: weight steps and, for rural, higher gate floors."
+    related: [shortlist, range-you-need]
+
+  - id: keep-8-years
+    label: {en: "Keep it 8+ years", nl: "8+ jaar houden"}
+    technical: {en: "Add-on: long ownership", nl: "Toevoeging: lang houden"}
+    short:
+      en: "You plan to keep the car a long time, so battery ageing and warranty left count a bit more."
+      nl: "Je wilt de auto lang houden, dus accuveroudering en resterende garantie tellen iets zwaarder."
+    long:
+      en: >-
+        All batteries lose some capacity with age. If you keep a car a long time, the battery's health today and the warranty years and kilometres left matter more. See the page on batteries and used battery health.
+    nerd_note:
+      en: "Add-on keep-8-years: weight step battery-health-risk +1 (data/editorial/shortlist_rules.yaml)."
+    related: [soh, shortlist]
+
+  - id: budget
+    label: {en: "Budget", nl: "Budget"}
+    technical: {en: "Purchase price, used and new", nl: "Aankoopprijs, occasion en nieuw"}
+    short:
+      en: "The most you want to pay for the car. Under it we show a rough monthly loan estimate."
+      nl: "Het maximum dat je voor de auto wilt betalen. Daaronder tonen we een ruwe schatting per maand bij een lening."
+    long:
+      en: >-
+        We compare your budget with each car's used price band for the build years shown, or its new
+        price. The "≈ per month" line is an estimate with fixed example terms per country, not an
+        offer: borrowing money costs money, and a lender's real rate depends on you.
+    nerd_note:
+      en: "Loan estimate: annuity with each country's typical consumer-credit rate (data/taxonomy/finance_profiles.yaml, central-bank statistics) and labelled default term and deposit; shown with the consumer-credit warning (CCD2). No lease figures at launch."
+    related: [used-price, new-price, loan, apr, loan-term, deposit]
+
+  - id: real-winter-range
+    label: {en: "Winter range", nl: "Winterbereik"}
+    technical: {en: "Real-world range around 0 °C", nl: "Praktijkbereik rond 0 °C"}
+    short:
+      en: "How far the car goes on a cold winter day in normal driving, from our own model. Lower than summer."
+      nl: "Hoe ver de auto komt op een koude winterdag bij normaal rijden, volgens ons model. Lager dan in de zomer."
+    long:
+      en: >-
+        Winter range is our estimate for a cold day around freezing, with the heater on and normal mixed driving. It depends on the car's efficiency, its heater (a heat pump helps) and the battery. Real trips vary with speed, wind and how cold it really is.
+    nerd_note:
+      en: "Consumption model cell for temperature band t2/t3 (data/taxonomy/temperature_bands.yaml) and the car's heater type; see the method page for rungs and uncertainty."
+    related: [real-range, heat-pump, preconditioning, real-range-rung]
+

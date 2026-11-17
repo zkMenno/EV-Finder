@@ -90,6 +90,12 @@ def finish_release(
     mx_path = out_dir / "consumption_matrix.json"  # T-033, written by write_release
     matrix = json.loads(mx_path.read_text(encoding="utf-8")) if mx_path.exists() else None
     doc["profile_fields"] = profile_fields_section(catalogue, matrix, doc["backtest_epa"])
+    # T-081: used price back-test against manual samples; report only, never blocks.
+    up_path = out_dir / "used_prices.json"
+    if up_path.exists():
+        doc["backtest_used_prices"] = json.loads(up_path.read_text(encoding="utf-8")).get(
+            "backtest"
+        )
     if doc["status"] == "fail":
         review = data_dir / "review"
         review.mkdir(parents=True, exist_ok=True)

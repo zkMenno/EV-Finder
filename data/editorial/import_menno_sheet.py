@@ -1,6 +1,7 @@
 """Import Menno's "New Car" Google Sheet (xlsx export) into data/editorial/menno-picks.yaml.
 
 Usage:  python3 -I data/editorial/import_menno_sheet.py <New Car.xlsx> [out.yaml]
+        python3 -I data/editorial/import_menno_sheet.py --remap [picks.yaml]   (seed ids only, no sheet)
 
 What it keeps: his verdicts (tier, cell colour, bold = favourite, emoji), notes, the era he put a
 model in, and the EV Database car id he linked. Spec numbers from the sheet are kept under
@@ -39,54 +40,54 @@ EMOJI = {"😍": "love", "👍": "like", "👀": "watching", "💸": "expensive"
 
 # (make, model) as Menno writes them → seed model id. None = not in the seed yet.
 MODEL_MAP: dict[tuple[str, str], str | None] = {
-    ("xpeng", "g6"): None,
-    ("xpeng", "p7+"): None,
-    ("xpeng", "p7"): None,
-    ("xpeng", "l03"): None,
-    ("xpeng", "l05"): None,
-    ("xpeng", "g6 refresh"): None,
+    ("xpeng", "g6"): "xpeng-g6",
+    ("xpeng", "p7+"): "xpeng-p7-plus",
+    ("xpeng", "p7"): "xpeng-p7",
+    ("xpeng", "l03"): "xpeng-l03",
+    ("xpeng", "l05"): "xpeng-l05",
+    ("xpeng", "g6 refresh"): "xpeng-g6",
     ("kia", "ev6"): "kia-ev6",
     ("kia", "ev6 refresh"): "kia-ev6",
-    ("kia", "ev4"): None,
+    ("kia", "ev4"): "kia-ev4",
     ("kia", "ev3"): "kia-ev3",
     ("kia", "niro"): "kia-niro-ev",
     ("kia", "niro ev"): "kia-niro-ev",
     ("kia", "e-niro"): "kia-niro-ev",
     ("kia", "niro ev ii"): "kia-niro-ev",
     ("kia", "e-soul"): "kia-soul-ev",
-    ("volvo", "ex60"): None,
-    ("volvo", "ex50"): None,
+    ("volvo", "ex60"): "volvo-ex60",
+    ("volvo", "ex50"): "volvo-ex50",
     ("volvo", "xc40 refresh"): "volvo-xc40-recharge",
     ("volvo", "xc40"): "volvo-xc40-recharge",
-    ("volvo", "c40"): None,
-    ("volvo", "ec40"): None,
+    ("volvo", "c40"): "volvo-ec40",
+    ("volvo", "ec40"): "volvo-ec40",
     ("hyundai", "ioniq 5"): "hyundai-ioniq-5",
     ("hyundai", "ioniq 5 refresh"): "hyundai-ioniq-5",
     ("hyundai", "ioniq 6"): "hyundai-ioniq-6",
-    ("hyundai", "ioniq 3"): None,
+    ("hyundai", "ioniq 3"): "hyundai-ioniq-3",
     ("hyundai", "kona"): "hyundai-kona-electric",
-    ("zeekr", "7gt"): None,
-    ("zeekr", "7x"): None,
-    ("zeekr", "001"): None,
-    ("zeekr", "x"): None,
-    ("im motors (mg)", "im6"): None,
-    ("mg", "im6"): None,
+    ("zeekr", "7gt"): "zeekr-7gt",
+    ("zeekr", "7x"): "zeekr-7x",
+    ("zeekr", "001"): "zeekr-001",
+    ("zeekr", "x"): "zeekr-x",
+    ("im motors (mg)", "im6"): "mg-im6",
+    ("mg", "im6"): "mg-im6",
     ("mercedes", "cla shooting brake 250+"): "mercedes-cla",
     ("bmw", "ix3"): "bmw-ix3",
     ("audi", "a6 avant e-tron"): "audi-a6-e-tron",
-    ("audi", "a2"): None,
+    ("audi", "a2"): "audi-a2-e-tron",
     ("renault", "megane e-tech"): "renault-megane-e-tech",
     ("renault", "megane"): "renault-megane-e-tech",
     ("renault", "scenic e-tech"): "renault-scenic-e-tech",
     ("renault", "scenic"): "renault-scenic-e-tech",
     ("renault", "zoe"): "renault-zoe",
-    ("renault", "4"): None,
+    ("renault", "4"): "renault-4-e-tech",
     ("renault", "5"): "renault-5-e-tech",
     ("mg", "mg4"): "mg-mg4",
-    ("mg", "mg5"): None,
+    ("mg", "mg5"): "mg-mg5",
     ("mg", "zs ev"): "mg-zs-ev",
     ("mg", "zs ev ii"): "mg-zs-ev",
-    ("mg", "marvel r"): None,
+    ("mg", "marvel r"): "mg-marvel-r",
     ("škoda", "elroq 85"): "skoda-elroq",
     ("škoda", "elroq"): "skoda-elroq",
     ("skoda", "elroq"): "skoda-elroq",
@@ -97,48 +98,48 @@ MODEL_MAP: dict[tuple[str, str], str | None] = {
     ("skoda", "enyaq iv 60"): "skoda-enyaq",
     ("škoda", "enyaq coupe"): "skoda-enyaq",
     ("polestar", "2"): "polestar-2",
-    ("polestar", "4 suv"): None,
+    ("polestar", "4 suv"): "polestar-4",
     ("volkswagen", "id.7 tourer"): "volkswagen-id7",
     ("volkswagen", "id.3"): "volkswagen-id3",
     ("volkswagen", "id.3 pro"): "volkswagen-id3",
     ("volkswagen", "id.3 pro s"): "volkswagen-id3",
     ("volkswagen", "id.4"): "volkswagen-id4",
     ("volkswagen", "id.4 pro"): "volkswagen-id4",
-    ("volkswagen", "id.5"): None,
-    ("volkswagen", "id.5 pro"): None,
-    ("id", "id.5"): None,
+    ("volkswagen", "id.5"): "volkswagen-id5",
+    ("volkswagen", "id.5 pro"): "volkswagen-id5",
+    ("id", "id.5"): "volkswagen-id5",
     ("cupra", "born"): "cupra-born",
     ("tesla", "model y"): "tesla-model-y",
     ("tesla", "model 3"): "tesla-model-3",
     ("tesla", "model s"): "tesla-model-s",
-    ("opel", "ampera-e"): None,
+    ("opel", "ampera-e"): "opel-ampera-e",
     ("opel", "corsa-e"): "opel-corsa-e",
-    ("opel", "astra"): None,
-    ("opel", "astra sports tourer"): None,
+    ("opel", "astra"): "opel-astra-electric",
+    ("opel", "astra sports tourer"): "opel-astra-electric",
     ("nissan", "leaf"): "nissan-leaf",
     ("nissan", "leaf ii"): "nissan-leaf",
-    ("nissan", "ariya"): None,
+    ("nissan", "ariya"): "nissan-ariya",
     ("peugeot", "e-208"): "peugeot-e-208",
-    ("peugeot", "e-308"): None,
-    ("peugeot", "e-308 sw"): None,
-    ("ds", "ds3"): None,
+    ("peugeot", "e-308"): "peugeot-e-308",
+    ("peugeot", "e-308 sw"): "peugeot-e-308",
+    ("ds", "ds3"): "ds-3-e-tense",
     ("citroën", "ë-c4"): "citroen-e-c4",
     ("citroën", "ë-c4 refresh"): "citroen-e-c4",
     ("ford", "mustang mach-e"): "ford-mustang-mach-e",
-    ("ford", "capri"): None,
+    ("ford", "capri"): "ford-capri",
     ("ford", "explorer"): "ford-explorer",
-    ("genesis", "ev60"): None,
-    ("fiat", "600e"): None,
+    ("genesis", "ev60"): "genesis-gv60",
+    ("fiat", "600e"): "fiat-600e",
     ("byd", "atto 3"): "byd-atto-3",
     ("byd", "atto 3 evo"): "byd-atto-3",
-    ("byd", "sealion 7"): None,
-    ("smart", "#3"): None,
-    ("leapmotor", "b05"): None,
-    ("geely", "e5"): None,
-    ("subaru", "uncharted"): None,
+    ("byd", "sealion 7"): "byd-sealion-7",
+    ("smart", "#3"): "smart-3",
+    ("leapmotor", "b05"): "leapmotor-b05",
+    ("geely", "e5"): "geely-e5",
+    ("subaru", "uncharted"): "subaru-uncharted",
     ("jaguar", "i-pace"): "jaguar-i-pace",
-    ("lynk&co", "2"): None,
-    ("mg", "mgs5"): None,
+    ("lynk&co", "2"): "lynk-co-02",
+    ("mg", "mgs5"): "mg-s5",
 }
 # Era tab: Menno used ".0" to stop Sheets turning "4" into a number (Renault 4, Polestar 2, Renault 5).
 NAME_FIX = {"4.0": "4", "5.0": "5", "2.0": "2"}
@@ -196,15 +197,38 @@ def seed_generations() -> dict[str, list[dict]]:
 GENS = seed_generations()
 
 
-def pick_generation(model_id: str | None, year: int | None) -> str | None:
+# Decision 058: a sheet year one year before or after every seed generation of the model
+# (his reveal or order year vs our registration-based span, e.g. Elroq 2024 vs 2025) maps to
+# the nearest generation (listed on stdout; the picks schema has no field for it yet). Further
+# away stays unmapped.
+NEAREST_YEARS = 1
+NEAREST: list[str] = []
+
+
+def pick_generation_noted(model_id: str | None, year: int | None) -> tuple[str | None, str | None]:
+    """(generation id, None) on an exact span hit, (id, 'nearest') within NEAREST_YEARS."""
     if not model_id or not year:
-        return None
+        return None, None
     best = None
     for g in GENS.get(model_id, []):
         start, end = g["years"]
         if start <= year and (end is None or year <= end):
             best = g["id"]  # later generations win on overlap years
-    return best
+    if best:
+        return best, None
+    near: list[tuple[int, str]] = []
+    for g in GENS.get(model_id, []):
+        start, end = g["years"]
+        gap = start - year if year < start else year - (end if end is not None else year)
+        if 0 < gap <= NEAREST_YEARS:
+            near.append((gap, g["id"]))
+    if len(near) == 1 or (near and sorted(near)[0][0] < sorted(near)[1][0]):
+        return sorted(near)[0][1], "nearest"
+    return None, None
+
+
+def pick_generation(model_id: str | None, year: int | None) -> str | None:
+    return pick_generation_noted(model_id, year)[0]
 
 
 def cell_style(ws, row: int) -> dict:
@@ -232,9 +256,13 @@ def split_model(raw: str) -> tuple[str, int | None, list[str]]:
 def entry_ids(make: str, model: str, year: int | None) -> dict:
     key = (make.lower(), NAME_FIX.get(model, model).lower())
     model_id = MODEL_MAP.get(key, "UNMAPPED")
+    mid = None if model_id == "UNMAPPED" else model_id
+    gen, how = pick_generation_noted(mid, year)
+    if how:  # schema EditorialPick has no field for this yet (asked WS0); report on stdout only
+        NEAREST.append(f"{make} {model} {year} -> {gen}")
     return {
-        "seed_model_id": None if model_id == "UNMAPPED" else model_id,
-        "seed_generation_id": pick_generation(None if model_id == "UNMAPPED" else model_id, year),
+        "seed_model_id": mid,
+        "seed_generation_id": gen,
         "in_seed": model_id not in (None, "UNMAPPED"),
         **({"mapping": "unmapped"} if model_id == "UNMAPPED" else {}),
     }
@@ -399,7 +427,51 @@ def used(ws) -> list[dict]:
     return out
 
 
+def _entry_year(section: str, e: dict) -> int | None:
+    if section == "primary_car_picks":
+        return e.get("model_year")
+    if section == "eras" and e.get("era"):
+        return int(str(e["era"]).split("-")[0]) + 1  # same rule as eras()
+    return None
+
+
+def remap(path: Path) -> None:
+    """Refresh only the seed ids in an existing picks file (no sheet needed): after the seed
+    or MODEL_MAP changes. Everything else in the file stays as the last full import wrote it."""
+    raw = path.read_text()
+    header = raw.split("\n", 1)[0] if raw.startswith("#") else ""
+    doc = yaml.safe_load(raw)
+    id_keys = ("seed_model_id", "seed_generation_id", "generation_match", "in_seed", "mapping")
+    sections = {
+        "primary_car_picks": doc["primary_car_picks"],
+        "eras": doc["eras"],
+        "used": doc["used_budget_bands_2025_07"]["rows"],
+    }
+    for section, rows in sections.items():
+        for i, e in enumerate(rows):
+            ids = entry_ids(e["make"], e["model"], _entry_year(section, e))
+            out: dict = {}
+            for k, v in e.items():
+                if k in id_keys:
+                    if k == "seed_model_id":
+                        out.update(ids)
+                    continue
+                out[k] = v
+            rows[i] = out
+    with path.open("w") as f:
+        if header:
+            f.write(header + "\n")
+        yaml.safe_dump(doc, f, sort_keys=False, allow_unicode=True, width=110)
+    left = sorted(
+        {f"{e['make']} {e['model']}" for rows in sections.values() for e in rows if not e["in_seed"]}
+    )
+    print(f"remapped {path}; not in seed: {left or 'none'}; nearest-year matches: {sorted(set(NEAREST)) or 'none'}")
+
+
 def main() -> None:
+    if len(sys.argv) > 1 and sys.argv[1] == "--remap":
+        remap(Path(sys.argv[2]) if len(sys.argv) > 2 else HERE / "menno-picks.yaml")
+        return
     src = Path(sys.argv[1])
     dst = Path(sys.argv[2]) if len(sys.argv) > 2 else HERE / "menno-picks.yaml"
     wb = openpyxl.load_workbook(src)

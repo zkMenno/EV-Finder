@@ -3,6 +3,9 @@
 // release (data/releases/latest), like the static pages it checks.
 import { expect, test } from "@playwright/test";
 
+// Parked feature (Decision 051): only built with PARKED=1 (or its own flag); run with E2E_PARKED=1 then.
+test.skip(process.env.E2E_PARKED !== "1", "parked feature: build and run with PARKED=1 / E2E_PARKED=1");
+
 const RDW = "Dutch vehicle register (RDW open data, CC0)";
 
 test.describe("known issues", () => {
