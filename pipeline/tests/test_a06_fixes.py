@@ -91,8 +91,13 @@ def test_repo_seed_has_no_cited_value_under_the_seed_source() -> None:
 
 
 def test_released_facts_hold_no_blocked_citation() -> None:
-    """Release 1 is rebuilt by the A-06 fix: no seed `cited:` fact ships while maker-docs is
-    blocked (Q-008), and every shipped fact keeps its source URL column."""
+    """No fact from a source that isn't releasable ships, and every shipped fact keeps its source
+    URL column. Since Decision 068 the `manual` source (maker documents) is releasable, so the
+    check reads the registry instead of a fixed list (A-06 fix; held: maker-docs, autotijd,
+    cited-third-party)."""
+    from ev_pipeline.release.gate import load_registry
+
+    registry = load_registry(REPO / "data" / "sources.yaml")
     import pyarrow.parquet as pq
 
     latest = REPO / "data" / "releases" / "latest"
@@ -105,7 +110,9 @@ def test_released_facts_hold_no_blocked_citation() -> None:
     table = pq.read_table(path)
     assert "source_url" in table.column_names
     rows = table.select(["source_id", "source_record"]).to_pylist()
-    assert not [r for r in rows if r["source_id"] in ("maker-docs", "manual")]
+    assert not [r for r in rows if not registry.releasable(r["source_id"])]
+    for held in ("maker-docs", "autotijd", "cited-third-party"):
+        assert not registry.releasable(held)
     assert not [r for r in rows if "#cited:" in (r["source_record"] or "")]
 
 
