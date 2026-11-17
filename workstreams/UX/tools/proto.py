@@ -2,6 +2,8 @@
 import json, re, sys
 sys.path.insert(0, "/home/claude/sp")
 from depth import village_layers, city_layers
+from highway import highway_layers
+from city2 import canal_layers, square_layers
 from kit import DAY, NIGHT
 R = "/home/claude/ev-finder/docs/design"
 t = json.load(open(f"{R}/tokens.json"))
@@ -14,6 +16,15 @@ logo_l = open(f"{R}/assets/Logo/lockup-light.svg").read()
 logo_d = open(f"{R}/assets/Logo/lockup-dark.svg").read()
 logo_l = re.sub(r'width="\d+" height="\d+"', 'height="30" width="164"', logo_l, 1).replace("<svg", '<svg class="logo logo--day" role="img" aria-label="EV Shortlist"', 1)
 logo_d = re.sub(r'width="\d+" height="\d+"', 'height="30" width="164"', logo_d, 1).replace("<svg", '<svg class="logo logo--night" role="img" aria-label="EV Shortlist"', 1)
+
+def hw_scene():
+    out = ""
+    for theme, cls, night in [(DAY, "day", False), (NIGHT, "night", True)]:
+        out += f'<div class="scene scene--{cls}" data-parallax data-axis="x" aria-hidden="true">'
+        for name, speed, svg in highway_layers(theme, night, "hw" + cls):
+            out += f'<svg class="layer layer--{name}" data-depth="{speed}" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice">{svg}</svg>'
+        out += '</div>'
+    return out
 
 def scene(layers_fn, kind, uid):
     out = ""
@@ -56,6 +67,8 @@ h1{{font:800 clamp(40px,7vw,64px)/1.04 var(--font-display);margin:0 0 14px;lette
 .steps{{display:grid;gap:14px;max-width:62ch}} @media(min-width:900px){{.steps{{grid-template-columns:repeat(3,1fr);max-width:none}}}}
 .card{{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:18px}}
 .card b{{display:block;font:800 20px var(--font-display);margin-bottom:4px}} .card span{{color:var(--ink-2)}}
+.road{{margin:32px 0 8px}} .road h2{{font:800 30px/1.15 var(--font-display);margin:0 0 6px}}
+.hw{{position:relative;height:clamp(300px,38vw,460px);border-radius:24px;overflow:hidden;isolation:isolate;box-shadow:var(--shadow-sticker)}}
 .pair{{margin:32px 0 8px}} .pair h2{{font:800 30px/1.15 var(--font-display);margin:0 0 16px}}
 .pair-grid{{display:grid;gap:20px}} @media(min-width:900px){{.pair-grid{{grid-template-columns:1fr 1fr}}}}
 .pair figure{{margin:0}} .pair figcaption{{margin-top:8px;color:var(--ink-2)}}
@@ -80,7 +93,8 @@ h1{{font:800 clamp(40px,7vw,64px)/1.04 var(--font-display);margin:0 0 14px;lette
 <h2>How it works</h2>
 <div class="steps"><div class="card"><b>1. Tell us a little</b><span>Your country, how you drive, your budget.</span></div><div class="card"><b>2. Get ten good cars</b><span>Ranked on real range, running costs and used prices.</span></div><div class="card"><b>3. Keep your five</b><span>Your shortlist, ready to compare and test-drive.</span></div></div>
 </section>
-<section class="pair"><h2>Village or city, it fits</h2><div class="pair-grid"><figure><div class="stage">{scene(village_layers, "village", "p")}</div><figcaption>Countryside: your roof charges the car.</figcaption></figure><figure><div class="stage">{scene(city_layers, "city", "w")}</div><figcaption>City: a lamp-post charger round the corner.</figcaption></figure></div></section>
+<section class="road"><h2>Road trips are back</h2><p class="lead">Fast charging along Europe&#39;s motorways. Pick a city and go.</p><div class="hw">{hw_scene()}</div></section>
+<section class="pair"><h2>Wherever you live, it fits</h2><div class="pair-grid"><figure><div class="stage">{scene(village_layers, "village", "p")}</div><figcaption>Countryside: your roof charges the car.</figcaption></figure><figure><div class="stage">{scene(city_layers, "city", "w")}</div><figcaption>City: a lamp-post charger round the corner.</figcaption></figure><figure><div class="stage">{scene(canal_layers, "canal", "k")}</div><figcaption>Canal city: bike, boat or a shared EV.</figcaption></figure><figure><div class="stage">{scene(square_layers, "square", "q")}</div><figcaption>Green square: a solar charging hub by the tram stop.</figcaption></figure></div></section>
 <p class="note">Scroll slowly, and on a computer move your mouse over the pictures: the layers drift at different speeds.</p>
 </main>
 <footer class="foot wrap">Prototype for Menno · EV Shortlist design system v6 · parallax turns off when your device asks for reduced motion.</footer>
@@ -90,7 +104,7 @@ h1{{font:800 clamp(40px,7vw,64px)/1.04 var(--font-display);margin:0 0 14px;lette
   var scenes = [].slice.call(document.querySelectorAll('[data-parallax]'));
   var px = 0, py = 0, ticking = false;
   var AMP = 180;  // px of travel per unit of depth across one screen of scroll
-  var TILT = 32; // px of pointer drift per unit of depth (desktop only)
+  var TILT = 32; var DRIVE = 420; // px of pointer drift per unit of depth (desktop only)
   function frame(){{
     ticking = false;
     if (reduce.matches) return;
@@ -100,6 +114,12 @@ h1{{font:800 clamp(40px,7vw,64px)/1.04 var(--font-display);margin:0 0 14px;lette
       var r = s.getBoundingClientRect();
       if (r.bottom < -100 || r.top > vh + 100) return;   // off screen
       var p = (r.top + r.height / 2 - vh / 2) / vh;       // -1..1 around the centre
+      if (s.dataset.axis === 'x') {{                     // highway: layers slide sideways like driving past
+        s.querySelectorAll('.layer').forEach(function(l){{
+          l.style.transform = 'translate3d(' + (p * parseFloat(l.dataset.depth) * DRIVE).toFixed(1) + 'px,0,0)';
+        }});
+        return;
+      }}
       s.querySelectorAll('.layer').forEach(function(l){{
         var d = parseFloat(l.dataset.depth);
         l.style.transform = 'translate3d(' + (-px * d * TILT).toFixed(1) + 'px,' + (p * d * AMP - py * d * TILT * .6).toFixed(1) + 'px,0)';
