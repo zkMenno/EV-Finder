@@ -74,7 +74,7 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 - Start of every session: check open PRs and the workstream's HANDOFF.md before new work.
 - Never rebase a pushed branch; merge `main` in. Grep for conflict markers before every push (`.githooks/pre-push` does it: `git config core.hooksPath .githooks`).
 - After a push from a Claude session, CI may not start: trigger it with `workflow_dispatch` and trust only the run on the PR head commit.
-- If `gh pr create` fails, use `gh api repos/zkMenno/EV-Finder/pulls -f title=… -f head=… -f base=main -f body=…`.
+- If `gh pr create` fails, use `gh api repos/zkMenno/EV-Shortlist/pulls -f title=… -f head=… -f base=main -f body=…`.
 - STATUS.md, HANDOFF.md and INBOX lines may go straight to `main` (log files, docs only), so task PRs don't collide on them.
 - CI must be green before review. A failing test means the PR doesn't reach a reviewer.
 - Run the gate locally first (lint, types, tests, build for the lanes you touched) and open the PR only when it's green. CI stays the independent check; it isn't your test runner. See docs/process/ci-budget.md.
