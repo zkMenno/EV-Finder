@@ -803,6 +803,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-117, T-118, T-119. Supersedes the country list in Decision 051's launch scope; docs/spec/launch-scope.md updated.
 
+## Decision 046: Optional on-board charger: a citation routes a source's AC figure (T-063)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** Decision 034 split AC into `ac_kw` (standard charger) and `ac_kw_optional`. OpenEV and KilowattApp give one max-AC number and never say whether it is the option: 0 of 746 OpenEV AC records mention one (checked 2026-11-17). A-06 found rows showing the option as AC (e-208 / e-2008 11 kW where 7.4 is standard, Megane EV40 22 kW, MG4 Standard 11 kW).
+
+**Decision:** Before merging, a source `ac_kw` fact moves to `ac_kw_optional` only when a citation for that variant (seed `cited:` or data/manual) names that value as the optional charger and no citation names it as the standard one (`merge/ac_route.py`, ±2 % like `ac_kw`). Blocked citations (maker-docs, manual: Q-008) count as evidence for this, as in guard_contradicted (A-06 F3); they never ship. Without a citation nothing moves. A cited option not above the cited standard routes nothing and goes to review; a published option not above the standard is dropped (rows) and flagged (QA `ac_optional_not_above`).
+
+**Consequences:** Release values change only when WS3 adds citations. Until Q-008 is answered a routed row shows the option and an empty standard AC rather than a wrong one. Every move is listed in the run log (`sections.ac_kw_optional`).
+
 ## Decision 067: Infra agents write runbooks; Menno applies them
 
 **Status:** Accepted (WS0, 2026-11-17; WS4 inbox asked to settle a conflict)
@@ -824,5 +835,27 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** Single facts from maker documents (list price, WLTP range, battery size, consumption) may reach a release, one figure per car per document, each with its URL, retrieval date and confidence. Never copy a whole price list or spec table. KBA, SDES and EU Safety Gate stay blocked until their reuse terms are checked.
 
 **Consequences:** WS1 sets the `manual` / maker-document source status in data/sources.yaml accordingly (with T-116). The licence column says "facts cited, no licence".
+
+## Decision 069: A generation's sample band stands in for its variants (Decision 064 step 1)
+
+**Status:** Accepted (WS0 engineering default, 2026-11-17; reversible)
+**Date:** 2026-11-17
+
+**Context:** All 106 real used-price sample bands are per generation, but the web reads variant rows only, so Decision 064's "real band first" step never ran on real data (fresh review of #64). Spreading one median over cheap and dear trims misprices both a little; an estimate from a curve misprices more.
+
+**Decision:** When a variant has no own sample band for a build year and country, its row takes the generation's sample band for that year and country with `basis: band` and `scope: generation`, ahead of the depreciation estimate. Pages label it "typical for this generation". Variant-level samples, when they exist, win.
+
+**Consequences:** Schema gains optional `scope: variant | generation` on UsedPriceYearBand (WS0). WS1 implements it in #64; the back-test reports how often the real median falls inside the shown band.
+
+## Decision 080: Autotijd list prices are held; new prices come from makers (Menno)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup)
+**Date:** 2026-11-17
+
+**Context:** PR #65 (T-112) took 71 BE list prices one by one from autotijd.be ("all rights reserved", no reuse terms). Decision 068 clears single facts from maker documents only; repeated extraction from one third-party site is an EU database-right risk.
+
+**Decision:** Merge the rows but register autotijd as its own source with status `blocked`, so they never reach a release. A builder re-sources those prices from the makers' own price lists or configurators (Decision 068). Meanwhile those cars use a used band or rank last (Decision 064).
+
+**Consequences:** Release 2 prices only what makers publish. Autotijd could be unblocked later only with written permission (WS5).
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
