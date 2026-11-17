@@ -123,3 +123,30 @@ loses the two Long Range rows (they move to the 77 kWh car), Ioniq 5 58 kWh lose
 Range row, Model Y RWD and Model S 75D gain their Standard Range rows; nothing else moves.
 Mini J01 (US model year lag) and the Kona SX2 row (its 36.5 kWh battery looks wrong in the
 release itself) are still open.
+
+## Follow-up 2: out of sample, and catalogue vs matrix (WS1, 2026-11-15, START §3 item 6)
+
+Run on a scratch release built from live staging fetched today (openev, kilowatt-openev,
+fueleconomy, ademe, eea; no RDW/DfT/KBA/Wikidata, so fewer clean comparisons than above).
+From now on every release carries these in `qa.json` (`backtest_epa.consumption_oos`,
+`profile_fields`) and qa.md.
+
+- **Consumption, out of sample** (each model scored with ratios fitted without it): 8.9 %
+  median absolute error vs 7.3 % in sample (n 18). The calibration generalises; expect about
+  9 % on an unseen model at 20 °C 🟡 (small n).
+- **Winter range** (matrix, −10 °C, 30/30/40 town/rural/motorway): 164 of 226 variants.
+  Only the 20 °C reference is checked (the line above); the temperature step (heating,
+  traction) has no licence-clean test yet (Q-059) 🔴.
+- **Real range vs the calibrated matrix:** the catalogue's `real_range_km` (body-ratio rung,
+  derive/metrics.py) and the matrix's mild range agree at the median (0.99) but 49 of 164
+  variants differ by more than 10 %; P90 1.21 (catalogue higher). Worst: IONIQ 6 53 kWh 1.49,
+  Mercedes CLA 1.45, Taycan Turbo GT 1.40.
+- **DC km in 20 min:** its motorway consumption (WLTP × 1.30, metrics.py) is lower than the
+  matrix motorway cell for most cars: median 0.95, P10 0.79; 51 of 155 differ by more than
+  10 %. So DC km in 20 min reads up to ~25 % high for the worst rows (Taycan Turbo GT, CLA,
+  Kona SX2, Model Y Juniper LR AWD). 120 of 156 curves are the default shape; no charging test
+  is licence-clean yet.
+
+**Consequence:** the catalogue and the shortlist (which reads the matrix) can tell one user two
+stories about the same car. Proposed fix: T-070 (compute `real_range_km`, the motorway
+consumption behind `dc_km_per_*` and the winter range from the one calibrated matrix).

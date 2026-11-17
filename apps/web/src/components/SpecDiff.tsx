@@ -11,6 +11,8 @@ export interface SpecDiffRowView {
   key: string;
   label: ReactNode;
   cells: { content: ReactNode; changed: boolean }[];
+  /** No cell changed: hidden under "differences only" (DiffOnly, T-045). */
+  same?: boolean;
 }
 
 export function SpecDiff({
@@ -44,7 +46,11 @@ export function SpecDiff({
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.key} className="border-t border-slate-200">
+            <tr
+              key={r.key}
+              className={`border-t border-slate-200 ${r.same ? "group-data-[only-diff]:hidden" : ""}`}
+              data-same={r.same || undefined}
+            >
               <th scope="row" className="sticky left-0 z-10 bg-white px-3 py-2 text-left align-top font-medium">
                 {r.label}
               </th>

@@ -1,0 +1,174 @@
+{
+  "release": 1,
+  "generated_at": "2026-11-15T01:00:00+00:00",
+  "model_version": "0.1",
+  "estimate": true,
+  "note": "Model output: every cell is an estimate (rung + confidence per cell). Parameters: pipeline/ev_pipeline/derive/consumption_params.yaml.",
+  "road_bands": ["town", "rural", "motorway"],
+  "band_speed_kmh": {
+    "town": 32,
+    "rural": 75,
+    "motorway": 120
+  },
+  "temperature_bands": [
+    {
+      "id": "t1",
+      "label": {
+        "en": "-5 °C and colder"
+      },
+      "min_c": null,
+      "max_c": -5,
+      "representative_c": -10,
+      "order": 1
+    },
+    {
+      "id": "t2",
+      "label": {
+        "en": "-5 to 0 °C"
+      },
+      "min_c": -5,
+      "max_c": 0,
+      "representative_c": -2.5,
+      "order": 2
+    },
+    {
+      "id": "t3",
+      "label": {
+        "en": "0 to 5 °C"
+      },
+      "min_c": 0,
+      "max_c": 5,
+      "representative_c": 2.5,
+      "order": 3
+    },
+    {
+      "id": "t4",
+      "label": {
+        "en": "5 to 15 °C"
+      },
+      "min_c": 5,
+      "max_c": 15,
+      "representative_c": 10,
+      "order": 4
+    },
+    {
+      "id": "t5",
+      "label": {
+        "en": "15 °C and warmer"
+      },
+      "min_c": 15,
+      "max_c": null,
+      "representative_c": 20,
+      "order": 5
+    }
+  ],
+  "heater_types": [
+    {
+      "id": "heat-pump",
+      "label": {
+        "en": "Heat pump"
+      },
+      "warm_up_kwh": 1.2,
+      "confidence": "low"
+    },
+    {
+      "id": "resistive",
+      "label": {
+        "en": "Resistive heater"
+      },
+      "warm_up_kwh": 2.0,
+      "confidence": "low"
+    },
+    {
+      "id": "unknown",
+      "label": {
+        "en": "Not known"
+      },
+      "warm_up_kwh": 1.6,
+      "confidence": "low"
+    }
+  ],
+  "params": {
+    "wall_to_battery": 0.88,
+    "climb_regen_recovery": 0.6,
+    "drivetrain_efficiency": 0.88
+  },
+  "sources": [
+    {
+      "id": "openev",
+      "name": "OpenEV Data",
+      "url": "https://github.com/KilowattApp/open-ev-data",
+      "licence": "CDLA-Permissive-2.0"
+    },
+    {
+      "id": "fueleconomy",
+      "name": "fueleconomy.gov",
+      "licence": "public-domain"
+    },
+    {
+      "id": "model-estimate",
+      "name": "EV Finder estimate models",
+      "licence": "CC-BY-4.0"
+    }
+  ],
+  "tests": [
+    {
+      "id": "fueleconomy:12345:cityE",
+      "variant_id": "citroen-e-c4-c41-50-kwh",
+      "test_kind": "cycle",
+      "speed_kmh": 31.5,
+      "road_band": "town",
+      "temperature_c": 23.9,
+      "consumption_wh_km": 160.5,
+      "energy_basis": "wall",
+      "source": {
+        "id": "fueleconomy"
+      },
+      "retrieved_at": "2026-11-15",
+      "confidence": "medium"
+    }
+  ],
+  "variants": [
+    {
+      "variant_id": "citroen-e-c4-c41-50-kwh",
+      "release": 1,
+      "model_version": "0.1",
+      "heat_pump": "not-disclosed",
+      "usable_kwh": 46.3,
+      "mass_kg": null,
+      "warm_up_kwh": 1.6,
+      "regen_recovery": 0.6,
+      "drivetrain_efficiency": 0.88,
+      "cells": [
+        {
+          "road_band": "town",
+          "temperature_band_id": "t1",
+          "wh_km": 243.9,
+          "p10_wh_km": 195.1,
+          "p90_wh_km": 292.6,
+          "rung": "wltp-ratio",
+          "confidence": "low"
+        },
+        {
+          "road_band": "rural",
+          "temperature_band_id": "t1",
+          "wh_km": 224.4,
+          "p10_wh_km": 179.5,
+          "p90_wh_km": 269.3,
+          "rung": "wltp-ratio",
+          "confidence": "low"
+        },
+        {
+          "road_band": "motorway",
+          "temperature_band_id": "t1",
+          "wh_km": 255.8,
+          "p10_wh_km": 204.6,
+          "p90_wh_km": 306.9,
+          "rung": "wltp-ratio",
+          "confidence": "low"
+        }
+      ],
+      "generated_at": "2026-11-15T01:00:00+00:00"
+    }
+  ]
+}

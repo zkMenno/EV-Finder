@@ -224,3 +224,33 @@ export function differingCells(values: readonly CellValue[]): boolean[] {
 export function rowDiffers(values: readonly CellValue[]): boolean {
   return differingCells(values).some(Boolean);
 }
+
+/** Fields the plain-language deltas talk about (T-045), in reading order. */
+export const DELTA_FIELDS = ["battery_kwh_net", "real_range_km", "dc_km_per_20min", "power_kw"] as const;
+export type DeltaField = (typeof DELTA_FIELDS)[number];
+
+export interface VariantDelta {
+  from: PublishedVariant;
+  to: PublishedVariant;
+  /** Only fields both variants have and that changed (rounded: kWh to 1, the rest to whole units). */
+  items: { field: DeltaField; delta: number }[];
+}
+
+/** "+13 kWh, +70 km real range" between neighbouring variants in timeline order. Published values only. */
+export function variantDeltas(columns: readonly PublishedVariant[]): VariantDelta[] {
+  const out: VariantDelta[] = [];
+  for (let i = 1; i < columns.length; i++) {
+    const from = columns[i - 1]!;
+    const to = columns[i]!;
+    const items: VariantDelta["items"] = [];
+    for (const f of DELTA_FIELDS) {
+      const a = from[f];
+      const b = to[f];
+      if (typeof a !== "number" || typeof b !== "number") continue;
+      const d = f === "battery_kwh_net" ? Math.round((b - a) * 10) / 10 : Math.round(b - a);
+      if (d !== 0) items.push({ field: f, delta: d });
+    }
+    if (items.length) out.push({ from, to, items });
+  }
+  return out;
+}

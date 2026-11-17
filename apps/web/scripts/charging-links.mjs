@@ -13,7 +13,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import yaml from "js-yaml";
+import * as yaml from "js-yaml";
 import { COUNTRIES, CONFIG_DIR } from "./listings.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));

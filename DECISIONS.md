@@ -634,4 +634,31 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Agents can no longer lock a version fresher than Dependabot accepts, so this failure can't come back. Urgent security fixes that are under 3 days old go in `minimumReleaseAgeExclude` with a comment.
 
+## Decision 053: Dependabot majors handled; red PRs always reach the coordinator
+
+**Status:** Accepted (coordinator fix, 2026-11-15)
+**Date:** 2026-11-15
+
+**Context:** After Decision 052, Dependabot opened five majors (#16–#20). The auto-merge workflow only ran on green CI, so a red major (js-yaml 5, #19) never got the `dependabot-major` label and nobody was told. @types/node jumped to 26 while we run Node 22.
+
+**Decision:** (1) Majors taken in one PR: eslint 10 + @eslint/js 10, typescript 6, json-schema-to-typescript 16 (regenerated types: comments only), js-yaml 5 (scripts use `import * as yaml`, since v5 has no default export). (2) dependabot-automerge.yml runs on green and red CI: majors get `dependabot-major` either way; red patch/minor PRs get `dependabot-failing`. Both are coordinator work. (3) Dependabot ignores @types/node majors; it moves by hand with the Node runtime in .nvmrc and the Dockerfile.
+
+**Consequences:** Dependabot closes #17–#20 itself once main has those versions; #16 closes because of the ignore rule.
+## Decision 054: Dependabot runs monthly, one npm group
+
+**Decision:** Dependabot version updates move from weekly to monthly (the 1st, 09:00 Paris), and the two npm groups (dev, prod) merge into one. Security updates are unchanged and still open straight away.
+
+**Consequences:** About 4 routine PRs a month instead of ~5 a week, so far fewer notifications for Menno. Updates arrive in bigger batches, so a failing batch may need a little more untangling.
+
+## Decision 055: Hero on top of the landing page; profile filters never drop a car for missing data
+
+**Status:** Accepted (WS2, 2026-11-15; T-080)
+**Date:** 2026-11-15
+
+**Context:** Decision 051 makes the three-step hero the landing page, while Explore (and every e2e test and internal link) already lives at `/{country}/{lang}/`. Release 1 has no used prices and no winter-range field, and many cars miss boot or mass values.
+
+**Decision:** The hero sits at the top of `/{country}/{lang}/` and Explore follows under `#explore` (same URL, no redirects). The hero's refine filters are Explore's filters and URL params (new: `seats`, `ac`, `ymin`/`ymax`, `make`/`xmake`); the two components stay in step through a browser event. Ranking runs in the browser from `src/config/shortlist-rules.generated.json`, built from `data/editorial/shortlist_rules.yaml` (rows only, no evidence or sheet values). A profile's filter presets and gates exclude a car only on a known value; a missing value passes and is shown as "not known yet" (the visitor's own refine filters stay strict, as in Explore). A car without a price stays in the list, marked, unless a known price is over budget. Units in the rules: a factor whose `sheet_field` is `dc_km_per_h` reads `dc_km_per_20min × 3`; efficiency reads Wh/km; other DC factors (daily driver, runabout) read km per 20 min. Winter range shows "not known yet" until the release publishes it.
+
+**Consequences:** No URL changes, nothing hidden for lack of data. WS3 should state units on each rule row (`unit:`) to remove the DC ambiguity; WS1/WS0 to publish a winter range field and used price bands, which the hero picks up without code changes.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
