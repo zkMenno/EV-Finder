@@ -1,7 +1,12 @@
 # infra/: deploy config for the AppInfra server
 
-> **Status: NOT APPLIED.** Agents wrote these files overnight (T-013). Nothing here is on the
-> server yet. Menno reviews and applies them by hand, using the steps below.
+> **Status (2026-11-17, issue #88): AppInfra is the source of truth for the server.**
+> `ev-staging` (staging.evshortlist.com, public + noindex, no database) is defined in
+> zkMenno/AppInfra (#103). Every push to `main` builds the images, smoke-tests the web image under
+> the server's limits and runs `deploy ev-staging <full sha>` (`.github/workflows/images.yml`,
+> jobs `smoke-web` and `deploy-staging`; secrets in this repo's `staging` environment).
+> `deploy/compose.ev.yml` and `deploy/ev.caddy` below are **reference only**: never edit them to
+> change the server. Live (`ev`) waits for Menno's "launch".
 
 EV Finder runs on the shared AppInfra server next to GardenLayer and Dungeon Tracker
 (Decision 006): the server's Caddy in front, the shared Postgres behind a private network,
@@ -25,7 +30,7 @@ docker run --rm -v "$PWD/infra/deploy/ev.caddy:/f:ro" caddy:2 caddy adapt --conf
 | `deploy/ev.caddy` | Site blocks for `ev.example.com` and `staging.ev.example.com` (**placeholders**: the domain is still open). Reverse proxy, zstd/gzip, HSTS, CSP, nosniff, Referrer-Policy, Permissions-Policy, frame blocking, no `Server` header, long caching for `/_next/static/*` and `/data/catalogue-<n>.json`. |
 | `../apps/web/Dockerfile` | Web image: pnpm workspace install → Next standalone build → `node:22-slim` runtime as user `node`. Bakes in only the latest catalogue release (`data/releases/<latest>/catalogue.json`) at `/app/data/releases` (`CATALOGUE_DIR`). HEALTHCHECK on `/health`. |
 | `../pipeline/Dockerfile` | Jobs image: `python:3.12-slim` + uv, non-root user `ev`, entrypoint `ev`. Data is mounted at `/data` (`EV_DATA_DIR`). |
-| `../.github/workflows/images.yml` | On push to `main` (or by hand): builds both images for linux/arm64 on a native Arm runner and pushes `sha-<short>` and `main` tags to GHCR. Passes the `APP_URL` build arg (see below). No deploy step. |
+| `../.github/workflows/images.yml` | On push to `main` (or by hand): builds both images for linux/arm64 on a native Arm runner and pushes `sha-<short>`, the full sha and `main` tags to GHCR. Passes the `APP_URL` build arg (see below). On `main`: `smoke-web` runs the web image read-only with the staging limits, then `deploy-staging` deploys it to ev-staging and waits for `/health` 200. |
 | `../.github/workflows/data-refresh.yml` | Weekly refresh. Job `refresh` (read-only token, not on disk) runs `ev refresh` and uploads the new release folder; job `pr` (write token, runs no pipeline code) checks the artifact, commits only `data/releases/N` + `latest` and opens the PR (A-05 F11). |
 
 `GET /health` returns `{"status":"ok","release":<n or null>,"time":"…"}` with `no-store`. It is
