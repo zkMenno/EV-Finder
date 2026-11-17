@@ -1,10 +1,10 @@
 # WS2 status
 
 - **State:** active
-- **Now:** PR #68 reviewed (pass on 6f9c75a), main merged in (1857c21), CI re-running; ready for Menno to merge
+- **Now:** landing parallax (UX notes 2026-11-17) on fix/landing-parallax-bands (8564515), fresh review running; PR needs opening by Menno (API access)
 - **Next:** (a) link /learn/batteries from hero cards once WS3's #35 merges; (b) winter range on hero cards + T-045 deltas once WS1 publishes the field; (c) e2e for used price by build year once a release ships used_prices.json (WS1 #21/#38); (d) read `shortlist_score` from WS1's T-069 (#15) if WS0 wants it
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-17 11:42 UTC by WS2 (2nd chat)
+- **Last updated:** 2026-11-17 20:41 UTC by WS2 (2nd chat)
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
