@@ -803,4 +803,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-117, T-118, T-119. Supersedes the country list in Decision 051's launch scope; docs/spec/launch-scope.md updated.
 
+## Decision 067: Infra agents write runbooks; Menno applies them
+
+**Status:** Accepted (WS0, 2026-11-17; WS4 inbox asked to settle a conflict)
+**Date:** 2026-11-17
+
+**Context:** WS4 START.md assumed the chat SSHes to the shared server; infra/AGENTS.md rule 1 says agents never ssh or apply.
+
+**Decision:** infra/AGENTS.md wins: agents write files and copy-paste runbooks (with a read-only measure step), Menno runs them on the server. Fixed in WS4 START.md. Reason: the server is shared with GardenLayer and Dungeon Tracker, so the person who can see all three applies changes.
+
+**Consequences:** Staging (T-040, PR #59) waits for Menno to run the runbook once.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
