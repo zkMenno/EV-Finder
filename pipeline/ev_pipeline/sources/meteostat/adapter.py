@@ -33,6 +33,7 @@ import json
 import math
 import shutil
 import statistics
+import time
 from collections import Counter
 from pathlib import Path
 from typing import Any
@@ -220,15 +221,39 @@ def candidates(town: dict[str, Any], stations: list[dict[str, Any]]) -> list[dic
     return [s for _, _, s in sorted(hits, key=lambda h: (h[0], h[1]))[:MAX_CANDIDATES]]
 
 
+# One fetch makes hundreds of small GETs (two per station tried). A single dropped connection
+# ("Server disconnected without sending a response", run 44137008063) used to fail the whole
+# source. Transient errors are retried after these waits; a policy refusal (net.FetchBlocked,
+# ResponseTooLarge) is not a TransportError and is never retried.
+RETRY_WAITS_S: tuple[float, ...] = (2.0, 5.0, 15.0)
+RETRY_STATUS = frozenset({429, 500, 502, 503, 504})
+
+
+def _get(client: httpx.Client, url: str) -> httpx.Response:
+    """client.get with retries on transport errors and 429/5xx; the last failure is raised
+    (or, for a status, returned for raise_for_status)."""
+    for wait in (*RETRY_WAITS_S, None):
+        try:
+            r = client.get(url)
+        except httpx.TransportError:
+            if wait is None:
+                raise
+        else:
+            if r.status_code not in RETRY_STATUS or wait is None:
+                return r
+        time.sleep(wait)
+    raise AssertionError("unreachable")  # pragma: no cover
+
+
 def fetch(client: httpx.Client, target: Path, towns: list[dict[str, Any]]) -> int:
     """Download normals + daily per station. With towns: for each town, try its nearest
     stations in turn until one has a full 1991-2020 January (mean and P10); keep the best
     one found. Inventory alone can't tell temperature stations from rain gauges."""
-    lic = client.get(LICENCE_URL)
+    lic = _get(client, LICENCE_URL)
     lic.raise_for_status()
     if LICENCE_SENTENCE not in lic.text:
         raise ValueError(f"Meteostat licence page no longer names '{LICENCE_SENTENCE}'")
-    resp = client.get(STATIONS_URL)
+    resp = _get(client, STATIONS_URL)
     resp.raise_for_status()
     q = qualifying(json.loads(_gunzip(resp.content)), set(launch_countries()))
     target.mkdir(parents=True, exist_ok=True)
@@ -246,7 +271,7 @@ def fetch(client: httpx.Client, target: Path, towns: list[dict[str, Any]]) -> in
             return quality[sid]
         texts: dict[str, str | None] = {}
         for kind in ("normals", "daily"):
-            r = client.get(f"{BASE}/{kind}/{sid}.csv.gz")
+            r = _get(client, f"{BASE}/{kind}/{sid}.csv.gz")
             if r.status_code == 404:
                 texts[kind] = None
                 continue

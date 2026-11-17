@@ -206,6 +206,55 @@ def test_meteostat_fetch_tries_next_station_when_nearest_has_no_temperature(
     assert meta["stations"] == 1 and meta["stations_tried"] == 2
 
 
+def test_meteostat_fetch_retries_a_dropped_connection_and_5xx(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Regression (T-116, run 44137008063): one "Server disconnected" failed the whole source."""
+    monkeypatch.setattr(ms, "launch_countries", lambda: {"NL": "nl", "BE": "be", "DE": "de"})
+    monkeypatch.setattr(ms, "RETRY_WAITS_S", (0.0, 0.0, 0.0))
+    stations = json.loads((FIX / "meteostat" / "stations.json").read_text())
+    seen: Counter[str] = Counter()
+
+    def handler(req: httpx.Request) -> httpx.Response:
+        p = req.url.path
+        seen[p] += 1
+        if req.url.host == "dev.meteostat.net":
+            return httpx.Response(200, text=ms.LICENCE_SENTENCE + " International")
+        if p.endswith("lite.json.gz"):
+            if seen[p] == 1:
+                return httpx.Response(503)
+            return httpx.Response(200, content=gzip.compress(json.dumps(stations).encode()))
+        if seen[p] == 1:
+            raise httpx.RemoteProtocolError("Server disconnected without sending a response.")
+        kind, name = p.split("/")[-2:]
+        f = FIX / "meteostat" / kind / name
+        return httpx.Response(200, content=f.read_bytes()) if f.exists() else httpx.Response(404)
+
+    towns = [{"lat": 52.09, "lon": 5.12, "elevation_m": 5}]
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        ms.fetch(client, tmp_path, towns)
+    assert [s["id"] for s in json.loads((tmp_path / "stations.json").read_text())] == ["06260"]
+    assert all(n == 2 for p, n in seen.items() if p.endswith(".csv.gz") or "lite" in p)
+
+
+def test_meteostat_fetch_gives_up_after_the_retries(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(ms, "RETRY_WAITS_S", (0.0, 0.0))
+    calls: list[str] = []
+
+    def handler(req: httpx.Request) -> httpx.Response:
+        calls.append(req.url.path)
+        raise httpx.ReadTimeout("timed out")
+
+    with (
+        httpx.Client(transport=httpx.MockTransport(handler)) as client,
+        pytest.raises(httpx.ReadTimeout),
+    ):
+        ms.fetch(client, tmp_path, [])
+    assert len(calls) == 3  # first try + 2 retries
+
+
 def test_meteostat_fetch_refuses_without_licence(tmp_path: Path) -> None:
     transport = httpx.MockTransport(lambda r: httpx.Response(200, text="x"))
     with httpx.Client(transport=transport) as c, pytest.raises(ValueError, match="licence"):
