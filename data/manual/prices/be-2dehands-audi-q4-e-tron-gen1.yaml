@@ -1,0 +1,37 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: audi-q4-e-tron-gen1
+country: BE
+currency: EUR
+observed_at: '2026-11-17'
+source:
+  name: 2dehands.be search results (public result pages only, Decision 060)
+  url: https://www.2dehands.be/l/auto-s/q/audi+q4+e-tron/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2021
+  n: 10
+  p25: 30400.0
+  median: 34700.0
+  p75: 38200.0
+- build_year: 2022
+  n: 17
+  p25: 26500.0
+  median: 27700.0
+  p75: 30500.0
+- build_year: 2023
+  n: 20
+  p25: 32000.0
+  median: 34500.0
+  p75: 38900.0
+- build_year: 2024
+  n: 8
+  p25: 41200.0
+  median: 42500.0
+  p75: 53500.0
+- build_year: 2025
+  n: 31
+  p25: 44000.0
+  median: 46000.0
+  p75: 49500.0

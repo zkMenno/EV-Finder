@@ -1,0 +1,32 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: volkswagen-id4-gen1
+country: BE
+currency: EUR
+observed_at: '2026-11-17'
+source:
+  name: 2dehands.be search results (public result pages only, Decision 060)
+  url: https://www.2dehands.be/l/auto-s/q/volkswagen+id.4/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2022
+  n: 6
+  p25: 28000.0
+  median: 28500.0
+  p75: 29700.0
+- build_year: 2023
+  n: 13
+  p25: 30500.0
+  median: 32500.0
+  p75: 34000.0
+- build_year: 2024
+  n: 5
+  p25: 35000.0
+  median: 37000.0
+  p75: 40000.0
+- build_year: 2025
+  n: 6
+  p25: 39200.0
+  median: 40500.0
+  p75: 42500.0
