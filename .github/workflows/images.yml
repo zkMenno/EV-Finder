@@ -9,6 +9,19 @@ name: Images
 on:
   push:
     branches: [main]
+    # Note-only commits (handoffs, inboxes, docs) never build or deploy (rule G-40): each one
+    # rebuilt both images and redeployed staging, and every failure emailed Menno (17 Nov).
+    # Not `**/*.md`: data/releases/<n>/README.md is copied into the web image. Root `*.md`
+    # (AGENTS, CHATS, BOARD, …) matches the top level only. A commit that also touches any
+    # other file still builds. Manual runs (workflow_dispatch) are never filtered.
+    paths-ignore:
+      - "*.md"
+      - docs/**
+      - workstreams/**
+      - tasks/**
+      - research/**
+      - audits/**
+      - _archive/**
   pull_request:
     paths:
       - apps/web/**
