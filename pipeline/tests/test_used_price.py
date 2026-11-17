@@ -39,6 +39,7 @@ def run(
     **over: Any,
 ) -> up.UsedPriceResult:
     p = up.load_params()
+    p.pop("fitted", None)  # T-113: these cases pin the published curve (fit: test_depreciation)
     p.update(over)
     pf = tmp_path / "params.yaml"
     pf.write_text(yaml.safe_dump(p))
@@ -174,6 +175,7 @@ def test_fresh_variant_samples_replace_model_and_are_backtested(tmp_path: Path) 
     res = run(tmp_path, [row(ys=2022, ye=2022)], [(fact("m-gen1-a", "NL", 50000), 2022)])
     b = bands(res, "m-gen1-a", "NL")[2022]
     assert b["method"] == "samples" and b["samples"] == 12 and b["estimate"] is False
+    assert b["basis"] == "band" and b["scope"] == "variant"
     bt = res.document["backtest"]  # type: ignore[index]
     assert bt["rows_compared"] == 1 and bt["gate"] is False
     model = 50000 * up.kept_share(up.age_at(2022, date(2026, 11, 15), 7), CURVE)  # type: ignore[operator]
@@ -226,8 +228,90 @@ def test_generation_samples_give_generation_bands_and_backtest(tmp_path: Path) -
     doc = res.document
     assert doc and doc["generation_bands"][0]["samples"] == 20
     assert doc["generation_bands"][0]["period"] == "2026-11"
-    assert bands(res, "m-gen1-a", "NL")[2022]["method"] == "model"  # never spread onto variants
+    # Decision 069: the generation's band stands in for each variant, labelled scope generation
+    for vid in ("m-gen1-a", "m-gen1-b"):
+        b = bands(res, vid, "NL")[2022]
+        assert (b["basis"], b["scope"], b["method"], b["median"], b["samples"]) == (
+            "band", "generation", "samples", 23000, 20
+        )  # fmt: skip
+        assert b["source_id"] == "test-market" and b["date"] == "2026-11-01"
     assert doc["backtest"]["rows"][0]["subject"] == "m-gen1"
+
+
+def test_generation_band_only_where_it_has_the_year_and_country(tmp_path: Path) -> None:
+    write_samples(
+        tmp_path,
+        {
+            "country": "NL",
+            "generation_id": "m-gen1",
+            "observed_at": "2026-11-01",
+            "currency": "EUR",
+            "source": SRC,
+            "rows": [{"build_year": 2022, "n": 20, "median": 23000}],
+        },
+    )
+    res = run(
+        tmp_path,
+        [row(ys=2022, ye=2023)],
+        [(fact("m-gen1-a", cc, 50000), y) for cc in ("NL", "DE") for y in (2022, 2023)],
+    )
+    nl, de = bands(res, "m-gen1-a", "NL"), bands(res, "m-gen1-a", "DE")
+    assert nl[2022]["scope"] == "generation" and nl[2023]["basis"] == "estimate"
+    assert de[2022]["basis"] == "estimate" and "scope" not in de[2022]  # NL band stays in NL
+    assert res.log["bands"]["NL generation samples"] == 1
+
+
+def test_variant_band_beats_generation_band(tmp_path: Path) -> None:
+    write_samples(
+        tmp_path,
+        {
+            "country": "NL",
+            "generation_id": "m-gen1",
+            "observed_at": "2026-11-01",
+            "currency": "EUR",
+            "source": SRC,
+            "rows": [{"build_year": 2022, "n": 20, "median": 23000}],
+        },
+    )
+    write_samples(
+        tmp_path,
+        {
+            "country": "NL",
+            "variant_id": "m-gen1-a",
+            "observed_at": "2026-10-01",
+            "currency": "EUR",
+            "source": SRC,
+            "rows": [{"build_year": 2022, "n": 6, "median": 27000}],
+        },
+        "nl-m-gen1-a.yaml",
+    )
+    rows = [row("m-gen1-a", 2022, 2022), row("m-gen1-b", 2022, 2022)]
+    res = run(tmp_path, rows, [(fact(v, "NL", 50000), 2022) for v in ("m-gen1-a", "m-gen1-b")])
+    a, b = bands(res, "m-gen1-a", "NL")[2022], bands(res, "m-gen1-b", "NL")[2022]
+    assert (a["scope"], a["median"]) == ("variant", 27000)
+    assert (b["scope"], b["median"]) == ("generation", 23000)
+
+
+def test_stale_or_small_generation_samples_do_not_stand_in(tmp_path: Path) -> None:
+    write_samples(
+        tmp_path,
+        {
+            "country": "NL",
+            "generation_id": "m-gen1",
+            "observed_at": "2026-01-01",  # older than max_sample_age_days
+            "currency": "EUR",
+            "source": SRC,
+            "rows": [{"build_year": 2022, "n": 20, "median": 23000},
+                     {"build_year": 2023, "n": 2, "median": 25000}],
+        },
+    )  # fmt: skip
+    res = run(
+        tmp_path,
+        [row(ys=2022, ye=2023)],
+        [(fact("m-gen1-a", "NL", 50000), 2022), (fact("m-gen1-a", "NL", 50000), 2023)],
+    )
+    b = bands(res, "m-gen1-a", "NL")
+    assert b[2022]["basis"] == "estimate" and b[2023]["basis"] == "estimate"
 
 
 def test_bad_sample_files_are_reported_not_fatal(tmp_path: Path) -> None:

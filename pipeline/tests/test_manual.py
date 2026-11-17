@@ -143,7 +143,14 @@ def test_single_rule(tmp_path: Path, change: dict, needle: str) -> None:
 
 def test_price_curve_enum_and_file_level_entered_by(tmp_path: Path) -> None:
     rows = [
-        {**GOOD, "field": "price_new", "unit": "EUR", "value": 41990, "country": "NL"},
+        {
+            **GOOD,
+            "field": "price_new",
+            "unit": "EUR",
+            "value": 41990,
+            "country": "NL",
+            "year": 2024,
+        },
         {
             **GOOD,
             "field": "dc_curve",
@@ -158,7 +165,8 @@ def test_price_curve_enum_and_file_level_entered_by(tmp_path: Path) -> None:
     facts, issues, _ = parse_manual_file(p, "data/manual/x/t.yaml", "x", TODAY)
     assert issues == [], [i.message for i in issues]
     assert [m.entered_by for m in facts] == ["menno"] * 3
-    assert facts[0].fact.country.value == "NL" and facts[0].record_key.endswith(":NL")
+    assert facts[0].fact.country.value == "NL" and facts[0].record_key.endswith(":NL:2024")
+    assert facts[0].year == 2024
 
 
 def test_expected_units_cover_every_field_but_price() -> None:
@@ -251,6 +259,57 @@ def test_release_lists_bad_manual_entries(data_dir: Path) -> None:
     stages = [p for p in res.problems if p.stage == "manual"]
     assert stages and all(p.source_id == "manual" for p in stages)
     assert not any(f["source"]["id"] == "manual" for f in res.facts)
+
+
+def test_price_year_is_parsed_and_kept_apart_per_year() -> None:
+    p = FIX / "new-prices" / "fixture-new-prices.yaml"
+    facts, issues, _ = parse_manual_file(p, "data/manual/new-prices/f.yaml", "new-prices", TODAY)
+    assert [(m.fact.country.value, m.year) for m in facts] == [
+        ("BE", 2021), ("BE", 2023), ("FR", None)
+    ]  # fmt: skip
+    assert facts[0].record_key.endswith(":BE:2021") and facts[1].record_key.endswith(":BE:2023")
+    # no year: kept, with a warning (not an error) that the estimate cannot use it
+    assert [i.warning for i in issues] == [True] and "no `year`" in issues[0].message
+
+
+@pytest.mark.parametrize(
+    ("change", "needle"),
+    [
+        ({"year": 2021}, "year is only for price_new"),
+        ({"field": "price_new", "unit": "EUR", "value": 40000, "country": "NL", "year": "2021"},
+         "whole year"),
+        ({"field": "price_new", "unit": "EUR", "value": 40000, "country": "NL", "year": 1990},
+         "outside 2000"),
+    ],
+)  # fmt: skip
+def test_bad_year(tmp_path: Path, change: dict, needle: str) -> None:
+    p = _write(tmp_path, [{**GOOD, **change}])
+    facts, issues, _ = parse_manual_file(p, "data/manual/x/t.yaml", "x", TODAY)
+    assert facts == [] and any(needle in i.message for i in issues), [i.message for i in issues]
+
+
+def test_manual_price_year_feeds_the_used_price_lookup(data_dir: Path) -> None:
+    """The bug: manual price_new facts had no record year, so used_price.list_prices skipped
+    them. Now the year reaches fact_years and the estimate's list-price lookup."""
+    d = _with_manual(data_dir, "new-prices")
+    _set_manual_registry(d, {**BLOCKED, "status": "active", "licence": "CC-BY-4.0"})
+    res = build_release(d, now=NOW)
+    years = {
+        (f["country"], f["value"]): y
+        for f, y in zip(res.facts, res.fact_years, strict=True)
+        if f["source"]["id"] == "manual" and f["field"] == "price_new"
+    }
+    assert years == {("BE", 52990): 2021, ("BE", 49990): 2023, ("FR", 55000): None}
+    up = res.used_prices
+    assert up is not None
+    v = next(v for v in up["variants"] if v["variant_id"] == "tesla-model-3-gen1-lr")
+    be = {b["build_year"]: b for b in v["bands"]["BE"]}
+    assert (be[2021]["list_price"], be[2021]["list_basis"]) == (53000, "year")
+    assert be[2021]["list_source_ids"] == ["manual"]
+    assert (be[2023]["list_price"], be[2023]["list_basis"]) == (50000, "year")
+    assert be[2022]["list_basis"] == "nearest_year"
+    # FR has no year: never used as FR's own list price
+    assert all(b.get("list_basis") != "year" for b in v["bands"].get("FR", []))
 
 
 def test_own_schema_topics_are_left_alone(tmp_path: Path) -> None:

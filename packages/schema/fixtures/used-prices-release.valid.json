@@ -8,7 +8,9 @@
   "method_ref": "research/R-40-used-ev-price-anchors.md",
   "list_price_source_ids": ["src-nl-list-prices"],
   "status": "shipped",
-  "curves": { "fitted": true },
+  "curves": {
+    "fitted": true
+  },
   "variants": [
     {
       "variant_id": "kia-ev6-gen1-77kwh-rwd",
@@ -37,7 +39,28 @@
             "kept_share": 0.48,
             "list_price": 59000,
             "list_basis": "year",
-            "list_source_ids": ["src-nl-list-prices"]
+            "list_source_ids": ["src-nl-list-prices"],
+            "scope": "variant",
+            "curve_fitted_on": ["BE", "NL"]
+          },
+          {
+            "build_year": 2021,
+            "currency": "EUR",
+            "p25": 26000,
+            "median": 28500,
+            "p75": 31000,
+            "samples": 14,
+            "method": "samples",
+            "basis": "band",
+            "estimate": false,
+            "confidence": "medium",
+            "date": "2026-09-28",
+            "source": {
+              "name": "DAT residual values (via autohaus.de)",
+              "url": "https://www.autohaus.de/",
+              "ref": "research/R-40-used-ev-price-anchors.md"
+            },
+            "scope": "generation"
           }
         ],
         "ES": []
@@ -45,5 +68,6 @@
     }
   ],
   "generation_bands": [],
-  "backtest": {}
+  "backtest": {},
+  "spread": 0.12
 }

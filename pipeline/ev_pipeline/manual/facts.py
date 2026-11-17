@@ -14,6 +14,9 @@ File format (`schema: manual-facts/v1`)::
         value: 8
         unit: years                      # must be the field's canonical unit
         country: NL                      # optional; required for price_new
+        year: 2024                       # price_new only: the year the listed price applies to
+                                         # (price list date / model year); without it the
+                                         # used-price estimate cannot use the price (warning)
         source_url: https://...          # required, http(s)
         source_name: "VW NL warranty terms"   # optional label for the cited document
         retrieved: 2026-11-15            # required, ISO date, not in the future
@@ -83,6 +86,7 @@ FACT_KEYS = {
     "value",
     "unit",
     "country",
+    "year",
     "source_url",
     "source_name",
     "retrieved",
@@ -111,6 +115,7 @@ class ManualFact:
     quote: str | None = None
     locator: str | None = None
     notes: str | None = None
+    year: int | None = None  # price_new: the year the price applies to (record year)
 
 
 @dataclass
@@ -273,6 +278,24 @@ def parse_manual_file(
         unit = _text(raw.get("unit")) or ""
         country = _text(raw.get("country"))
         record_key = f"{stem}:{subject_id}:{fname}" + (f":{country}" if country else "")
+        raw_year = raw.get("year")
+        year: int | None = None
+        warns: list[str] = []
+        if raw_year is not None:
+            if fname != "price_new":
+                msgs.append("year is only for price_new (the year the price applies to)")
+            elif isinstance(raw_year, bool) or not isinstance(raw_year, int):
+                msgs.append(f"year must be a whole year, got {raw_year!r}")
+            elif not 2000 <= raw_year <= today.year + 1:
+                msgs.append(f"year {raw_year} is outside 2000-{today.year + 1}")
+            else:
+                year = raw_year
+                record_key += f":{year}"
+        elif fname == "price_new":
+            warns.append(
+                "price_new has no `year` (the price list's year): it is kept, but the used"
+                " price estimate cannot use a list price without a year"
+            )
 
         if fname not in {f.value for f in FactField}:
             msgs.append(f"unknown field {fname!r} (must be a schema FactField)")
@@ -359,6 +382,12 @@ def parse_manual_file(
                     ManualIssue(rel, i, record_key, m, subject_id, fname, str(value), unit)
                 )
             continue
+        for m in warns:
+            issues.append(
+                ManualIssue(
+                    rel, i, record_key, m, subject_id, fname, str(value), unit, warning=True
+                )
+            )
         out.append(
             ManualFact(
                 fact=fact,
@@ -368,6 +397,7 @@ def parse_manual_file(
                 quote=quote,
                 locator=locator,
                 notes=_text(raw.get("notes")),
+                year=year,
             )
         )
     return out, issues, fixture
@@ -394,8 +424,8 @@ def load_manual_dir(
 ) -> ManualLoad:
     """All data/manual/<topic>/*.yaml files. `for_release` skips `_`-folders and fixtures.
 
-    Duplicate (source, subject, field, country) entries across files are errors: one
-    hand-entered value per fact and source, so a second one has to replace the first, not
+    Duplicate (source, subject, field, country, year) entries across files are errors: one
+    hand-entered value per fact, source and year, so a second one has to replace the first, not
     compete with it.
     """
     res = ManualLoad()
@@ -430,7 +460,7 @@ def load_manual_dir(
             # value that replaces it; the licence gate decides which one ships.
             dup = (
                 f"{f.source.id.root}|{f.subject_id.root}|{f.field.value}|"
-                f"{f.country.value if f.country else ''}"
+                f"{f.country.value if f.country else ''}|{mf.year or ''}"
             )
             if dup in seen and not fixture:
                 res.issues.append(
@@ -438,7 +468,7 @@ def load_manual_dir(
                         rel,
                         None,
                         mf.record_key,
-                        f"duplicate of {seen[dup]} (same subject, field and country)",
+                        f"duplicate of {seen[dup]} (same subject, field, country and year)",
                         f.subject_id.root,
                         f.field.value,
                     )
@@ -510,7 +540,7 @@ def attach_manual_facts(
                     f,
                     f.source.id.root,
                     MANUAL_PRIORITY,
-                    None,
+                    mf.year,  # price_new: the year the price applies to (used price lookup)
                     info.generation_id,
                     gen.model_id if gen else None,
                     note=mf.notes,
@@ -531,7 +561,13 @@ def attach_manual_facts(
             copy = Fact.model_validate(fd)
             out.append(
                 MatchedFact(
-                    copy, f.source.id.root, MANUAL_PRIORITY, None, sid, gen.model_id, note=mf.notes
+                    copy,
+                    f.source.id.root,
+                    MANUAL_PRIORITY,
+                    mf.year,
+                    sid,
+                    gen.model_id,
+                    note=mf.notes,
                 )
             )
     return out, problems
