@@ -3,6 +3,7 @@
 // only (Q-078); cohorts with too few reports show "not enough inspections yet". RDW labels are
 // Dutch, shown as published; source wording follows the Q-037 interim line.
 import { Fragment } from "react";
+import { parkedEnabled } from "@/config/features";
 import { LevelGate, LevelNum } from "@/components/LevelGate";
 import { TermInfo } from "@/components/Term";
 import {
@@ -203,6 +204,8 @@ export function KnownIssues({
   generationId: string;
   name: string;
 }) {
+  // Parked until after launch (Decision 051): KNOWN_ISSUES=1 or PARKED=1 shows it.
+  if (!parkedEnabled("knownIssues")) return null;
   const { t } = ctx;
   const v = knownIssuesFor(ctx.cat.knownIssues(), generationId);
   const terms = ctx.tax.terms;

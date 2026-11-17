@@ -5,6 +5,7 @@
 // "Find a charger / plan a trip" block.
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { parkedEnabled } from "@/config/features";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LevelGate } from "@/components/LevelGate";
@@ -288,7 +289,8 @@ function Block({
 
 export default async function ChargingPage({ params }: Props) {
   const { country, lang } = await params;
-  if (!isCountrySlug(country) || !isServed(country, lang)) notFound();
+  // Parked until after launch (Decision 051): CHARGING_PAGES=1 or PARKED=1.
+  if (!isCountrySlug(country) || !isServed(country, lang) || !parkedEnabled("chargingPages")) notFound();
   const ctx = pageCtx(country, lang);
   const { t, cfg, base, cat } = ctx;
   const rel = cat.chargingStats();

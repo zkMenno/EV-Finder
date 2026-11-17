@@ -111,6 +111,7 @@ test("Compare: share copies the link, differences only keeps the price mode, pri
 });
 
 test("Used-price rankings are hidden while no list has 5 priced cars (release 1)", async ({ page }) => {
+  test.skip(process.env.E2E_PARKED !== "1", "rankings are parked (Decision 051)");
   for (const cap of ["15k", "20k", "25k"]) {
     const res = await page.goto(`/nl/nl/top/best-used-under-${cap}`);
     expect(res?.status()).toBe(404);

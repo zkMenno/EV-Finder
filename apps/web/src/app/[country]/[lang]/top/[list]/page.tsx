@@ -1,6 +1,7 @@
 // One ranking list (T-011), with a method note on the metric, its sources and estimate status.
 import type { Metadata } from "next";
 import Link from "next/link";
+import { parkedEnabled } from "@/config/features";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Num } from "@/components/Num";
@@ -22,6 +23,8 @@ type Props = { params: Promise<{ country: string; lang: string; list: string }> 
 // USED_MIN_ENTRIES generations have a sourced used price (src/lib/used-rankings.ts). Release 1 has
 // no used prices, so tonight none are generated: those URLs are 404 and nothing links to them.
 export function generateStaticParams({ params }: { params: { country: string; lang: string } }) {
+  // Parked until after launch (Decision 051): no ranking pages are built unless RANKINGS=1 or PARKED=1.
+  if (!parkedEnabled("rankings")) return [];
   const used = isCountrySlug(params.country)
     ? visibleUsedRankings(getCatalogue().rows(), getCatalogue().usedPrices(), COUNTRIES[params.country].code, COUNTRIES[params.country].currency)
     : [];
@@ -93,6 +96,7 @@ function metricCell(ctx: PageCtx, e: RankEntry, unit: string | undefined) {
 
 export default async function RankingPage({ params }: Props) {
   const { country, lang, list } = await params;
+  if (!parkedEnabled("rankings")) notFound();
   if (isCountrySlug(country) && isServed(country, lang) && isUsedRankingId(list)) return <UsedRankingPage ctx={pageCtx(country, lang)} list={list} />;
   if (!isCountrySlug(country) || !isServed(country, lang) || !isRankingId(list)) notFound();
   const ctx = pageCtx(country, lang);

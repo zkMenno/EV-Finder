@@ -5,6 +5,9 @@
 // because the data builder may rebuild it.
 import { expect, test, type Locator } from "@playwright/test";
 
+// Parked feature (Decision 051): only built with PARKED=1 (or its own flag); run with E2E_PARKED=1 then.
+test.skip(process.env.E2E_PARKED !== "1", "parked feature: build and run with PARKED=1 / E2E_PARKED=1");
+
 async function expectSharedYearPair(list: Locator, modelLabel: RegExp) {
   const model = list.locator('li[data-level="model"][data-source="rdw"]');
   await expect(model).toHaveCount(1);

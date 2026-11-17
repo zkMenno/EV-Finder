@@ -15,6 +15,7 @@ import { financeProfile } from "@/lib/finance-profiles";
 
 import { SeeListings } from "@/components/SeeListings";
 import { isCountrySlug, isServed } from "@/config/countries";
+import { parkedEnabled } from "@/config/features";
 import { getCatalogue } from "@/lib/catalogue";
 import { usedBandFor } from "@/lib/used-rankings";
 import { COMPARE_MAX } from "@/lib/compare-store";
@@ -123,7 +124,7 @@ export default async function VariantPage({ params }: Props) {
                     </td>
                   </tr>
                 ))}
-                {group === "availability" ? (
+                {group === "availability" && parkedEnabled("registrations") ? (
                   <tr className="border-t border-slate-200">
                     <th scope="row" className="py-2 pr-3 text-left align-top font-normal text-slate-800">
                       <Term term={ctx.tax.terms["registrations-nl"] ? { ...ctx.tax.terms["registrations-nl"], label: t("reg.title", { country: cfg.name }) } : undefined} fallback={t("reg.title", { country: cfg.name })} base={base} text={ctx.termText} showTechnical={false} />
