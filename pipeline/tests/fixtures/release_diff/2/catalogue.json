@@ -1,0 +1,97 @@
+{
+ "rows": [
+  {
+   "release": 2,
+   "variant_id": "b",
+   "generation_id": "g1",
+   "wltp_range_km": 330.0,
+   "battery_kwh_net": 60.0,
+   "provenance": {
+    "battery_kwh_net": {
+     "source_ids": [
+      "openev"
+     ],
+     "confidence": "high",
+     "fact_ids": [
+      "x:1"
+     ]
+    },
+    "wltp_range_km": {
+     "source_ids": [
+      "openev"
+     ],
+     "confidence": "high",
+     "fact_ids": [
+      "x:1"
+     ]
+    }
+   }
+  },
+  {
+   "release": 2,
+   "variant_id": "a",
+   "generation_id": "g1",
+   "wltp_range_km": 430.0,
+   "battery_kwh_net": 60.0001,
+   "provenance": {
+    "wltp_range_km": {
+     "source_ids": [
+      "openev"
+     ],
+     "confidence": "high",
+     "fact_ids": [
+      "x:1"
+     ]
+    },
+    "battery_kwh_net": {
+     "source_ids": [
+      "openev"
+     ],
+     "confidence": "high",
+     "fact_ids": [
+      "x:1"
+     ]
+    }
+   }
+  },
+  {
+   "release": 2,
+   "variant_id": "d",
+   "generation_id": "g1",
+   "wltp_range_km": 500.0,
+   "battery_kwh_net": 60.0,
+   "provenance": {
+    "wltp_range_km": {
+     "source_ids": [
+      "openev"
+     ],
+     "confidence": "high",
+     "fact_ids": [
+      "x:1"
+     ]
+    },
+    "battery_kwh_net": {
+     "source_ids": [
+      "openev"
+     ],
+     "confidence": "high",
+     "fact_ids": [
+      "x:1"
+     ]
+    }
+   }
+  }
+ ],
+ "release": 2,
+ "generated_at": "2026-11-08T01:00:00Z",
+ "sources": [],
+ "generations": [
+  {
+   "year_end": null,
+   "year_start": 2020,
+   "name": "G1",
+   "model_id": "m",
+   "id": "g1"
+  }
+ ]
+}
