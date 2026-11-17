@@ -1,0 +1,143 @@
+# T-118 (Decision 066, 064, 068), 2026-11-17: new list prices in Italy from the makers' own Italian
+# price lists (listini). One figure per car per document (Decision 068); no table is copied.
+# Value = the list's "Prezzo Cliente chiavi in mano" / "prezzo chiavi in mano" column: list price
+# incl. 22 % IVA plus the maker's on-the-road charge (messa su strada, about EUR 820-835 in these
+# lists). The IVA-exclusive figure is quoted too, so either basis can be recomputed.
+# Rule (as T-112): the cheapest trim that carries the variant's powertrain. These lists are
+# current or recent ones (MY25 / 2026), not launch prices, so the year is in the notes and
+# confidence is low unless battery and power both match our row.
+# Spain: no maker list prices found (see tasks/T-118 handoff notes).
+# Source `manual` stays blocked until WS1 opens it per Decision 068 (T-116).
+schema: manual-facts/v1
+entered_by: ws3-builder (agent, T-118)
+facts:
+  - variant_id: volkswagen-id3-gen1-pro-2023
+    field: price_new
+    value: 40990
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "E123KK  Pro  59 (net)  150/204  32.915,34  40.990,00"
+    locator: "PDF page 124, Nuova ID.3 motorizzazioni table (Anno Modello 2025, validità 17.12.2024); columns Prezzo Cliente IVA esclusa / chiavi in mano"
+    confidence: low
+    claim: true
+    notes: "MY25 list (Dec 2024). Our row is the 58 kWh Pro (2023+); the MY25 Pro is listed as 59 kWh net, 150 kW. Cheapest trim with this powertrain."
+  - variant_id: volkswagen-id3-gen1-pro-s
+    field: price_new
+    value: 42490
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "E124KN  Pro S  77 (net)  150/204  34.144,85  42.490,00"
+    locator: "PDF page 124, Nuova ID.3 motorizzazioni table (Anno Modello 2025, validità 17.12.2024)"
+    confidence: medium
+    claim: true
+    notes: "MY25 list (Dec 2024); 77 kWh net and 150 kW match our row. Cheapest trim."
+  - variant_id: volkswagen-id3-gen1-gtx
+    field: price_new
+    value: 51400
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "E129VP W60  GTX Performance  79 (net)  240/326  41.448,13  51.400,00"
+    locator: "PDF page 124, Nuova ID.3 motorizzazioni table (Anno Modello 2025, validità 17.12.2024)"
+    confidence: low
+    claim: true
+    notes: "Our GTX row says 240 kW, 77 kWh, AWD; the list's 240 kW car is the GTX Performance with 79 kWh net (the 210 kW GTX is 49.600,00). Matched on power; battery and drivetrain in our row need a check."
+  - variant_id: volkswagen-id4-gen1-pure
+    field: price_new
+    value: 39490
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "E212DF YGG Y5R  ID.4 Pure  52 (net)  125/170  31.685,83  39.490,00"
+    locator: "PDF page 144, ID.4 motorizzazioni table (Anno Modello 2025, validità 09.05.2025)"
+    confidence: low
+    claim: true
+    notes: "MY25 list (May 2025), not the 2021 launch price; 52 kWh net matches our row. Cheapest trim."
+  - variant_id: volkswagen-id4-gen1-pro
+    field: price_new
+    value: 45990
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "E213RN Y5R  ID.4 Pro  77 (net)  210/286  37.013,70  45.990,00"
+    locator: "PDF page 144, ID.4 motorizzazioni table (Anno Modello 2025, validità 09.05.2025)"
+    confidence: low
+    claim: true
+    notes: "MY25 Pro has 210 kW; our row (2021+) says 150 kW. Same 77 kWh battery and RWD. Cheapest trim."
+  - variant_id: volkswagen-id4-gen1-gtx
+    field: price_new
+    value: 47990
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "E213QN Y5R  ID.4 Pro 4MOTION  77 (net)  210/286  38.653,05  47.990,00"
+    locator: "PDF page 144, ID.4 motorizzazioni table (Anno Modello 2025, validità 09.05.2025)"
+    confidence: low
+    claim: true
+    notes: "Our row is 'GTX / Pro 4Motion (77 kWh)'; the cheapest 77 kWh AWD car on the list is the Pro 4MOTION (the GTX 4MOTION is 79 kWh, 54.990,00)."
+  - variant_id: volkswagen-id7-gen1-pro
+    field: price_new
+    value: 63200
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "ED24QM  ID.7 Pro S  86 (net)  210/285  51.120,26  63.200,00"
+    locator: "PDF page 175, ID.7 motorizzazioni table (Anno Modello 2025, validità 03.02.2025)"
+    confidence: low
+    claim: true
+    notes: "Our 'PRO' row has 86 kWh, which the list sells as the Pro S (the 77 kWh Pro is 60.800,00). Matched on battery and power."
+  - variant_id: volkswagen-id7-gen1-tour
+    field: price_new
+    value: 64000
+    unit: EUR
+    country: IT
+    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "ED54QM  ID.7 Tourer Pro S  86 (net)  210/285  51.776,00  64.000,00"
+    locator: "PDF page 189, ID.7 Tourer motorizzazioni table (Anno Modello 2025)"
+    confidence: low
+    claim: true
+    notes: "Our Tour row: 86 kWh, 210 kW = Tourer Pro S. Cheapest 86 kWh Tourer."
+  - variant_id: renault-5-e-tech-gen1-110-kw
+    field: price_new
+    value: 33190
+    unit: EUR
+    country: IT
+    source_url: https://cdn.group.renault.com/ren/it/listini/renault-5.pdf
+    source_name: "Renault Italia, Renault 5 e-tech electric listino del 05/11/2026 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "techno my26.1 150 cv comfort range  52kWh / 425 km  AC11 + DC100  110 / 150  ...  26.530,65  33.190,00"
+    locator: "Page 1, price table (prezzo listino IVA esclusa / prezzo chiavi in mano); messa su strada 822,61"
+    confidence: low
+    claim: true
+    notes: "MY26.1 list (Nov 2026), not the 2024 launch price. 110 kW matches; list says 52 kWh, our row 50 kWh. Cheapest trim with 110 kW (evolution has the urban range only)."
+  - variant_id: renault-5-e-tech-gen1-40-kwh
+    field: price_new
+    value: 28150
+    unit: EUR
+    country: IT
+    source_url: https://cdn.group.renault.com/ren/it/listini/renault-5.pdf
+    source_name: "Renault Italia, Renault 5 e-tech electric listino del 05/11/2026 (maker price list)"
+    retrieved: 2026-11-17
+    quote: "evolution my26.1 120 cv urban range  40kWh / 321 km  AC11 + DC80  90 / 120  ...  22.399,50  28.150,00"
+    locator: "Page 1, price table (prezzo listino IVA esclusa / prezzo chiavi in mano); messa su strada 822,61"
+    confidence: low
+    claim: true
+    notes: "MY26.1 list (Nov 2026). Matched on the 40 kWh urban-range battery; the list gives 90 kW, our row 70 kW. Cheapest trim."
