@@ -236,5 +236,105 @@
       "utm": true,
       "verified": false
     }
+  ],
+  "es": [
+    {
+      "job": "map",
+      "label": {
+        "en": "Electromaps"
+      },
+      "url": "https://www.electromaps.com/",
+      "order": 1,
+      "tool": "electromaps",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "route-planner",
+      "label": {
+        "en": "A Better Routeplanner (ABRP)"
+      },
+      "url": "https://abetterrouteplanner.com/",
+      "order": 2,
+      "tool": "abrp",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "map",
+      "label": {
+        "en": "Chargemap"
+      },
+      "url": "https://chargemap.com/",
+      "order": 3,
+      "tool": "chargemap",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "price-compare",
+      "label": {
+        "en": "Chargeprice"
+      },
+      "url": "https://www.chargeprice.app/",
+      "order": 4,
+      "tool": "chargeprice",
+      "official": false,
+      "utm": true,
+      "verified": false
+    }
+  ],
+  "it": [
+    {
+      "job": "map",
+      "label": {
+        "en": "Electromaps"
+      },
+      "url": "https://www.electromaps.com/",
+      "order": 1,
+      "tool": "electromaps",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "route-planner",
+      "label": {
+        "en": "A Better Routeplanner (ABRP)"
+      },
+      "url": "https://abetterrouteplanner.com/",
+      "order": 2,
+      "tool": "abrp",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "map",
+      "label": {
+        "en": "Chargemap"
+      },
+      "url": "https://chargemap.com/",
+      "order": 3,
+      "tool": "chargemap",
+      "official": false,
+      "utm": true,
+      "verified": false
+    },
+    {
+      "job": "price-compare",
+      "label": {
+        "en": "Chargeprice"
+      },
+      "url": "https://www.chargeprice.app/",
+      "order": 4,
+      "tool": "chargeprice",
+      "official": false,
+      "utm": true,
+      "verified": false
+    }
   ]
 }

@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import * as yaml from "js-yaml";
 import { COUNTRY_SLUGS } from "@/config/countries";
-import { CONFIG_DIR, loadListingConfig, OUT_FILE, PENDING_COUNTRIES, serialize, validateCountry } from "../../scripts/listings.mjs";
+import { CONFIG_DIR, loadListingConfig, OUT_FILE, serialize, validateCountry } from "../../scripts/listings.mjs";
 import { buildListingUrl, hasUnverified, LISTING_REL, LISTING_SITES, LISTING_TARGET, seeListings } from "./listings";
 
 describe("seeListings", () => {
@@ -98,10 +98,10 @@ describe("listing config (config/countries/*.yaml)", () => {
     }
   });
 
-  it("pending countries (es, it; T-118) validate but are not served yet (T-119)", () => {
+  it("Spain and Italy (T-118 config) are served with their own link-outs (T-119, Decision 066)", () => {
     const cfg = loadListingConfig();
-    for (const c of PENDING_COUNTRIES) {
-      expect(c in cfg).toBe(false);
+    for (const c of ["es", "it"]) {
+      expect(cfg[c]?.length, c).toBeGreaterThan(0);
       const doc = yaml.load(readFileSync(path.join(CONFIG_DIR, `${c}.yaml`), "utf8"), { schema: yaml.CORE_SCHEMA });
       const sites = validateCountry(c, doc);
       expect(sites.length).toBeGreaterThan(0);

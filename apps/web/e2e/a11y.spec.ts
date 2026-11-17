@@ -36,6 +36,9 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
   { name: "hero-nl", path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   { name: "hero-nl-360", width: 360, path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   { name: "hero-en-nerd-360", width: 360, path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-nerd" : "hero-no-scores").first()).toBeVisible()) },
+  // T-119: Spain and Italy in their own language (Decision 066); same no-scores switch as above.
+  { name: "hero-es", path: "/es/es?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-it-360", width: 360, path: "/it/it?role=only&trips=monthly&budget=30000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   // Dutch compare buttons: "Vergelijk" must be inside the name (Label in Name), cards and variant page.
   { name: "explore-cards-nl", path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
   { name: "explore-cards-nl-360", width: 360, path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },

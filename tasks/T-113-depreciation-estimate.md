@@ -36,6 +36,8 @@ Anything not on docs/spec/launch-scope.md.
   - Nit: ages below the fitted age range are low confidence too. coverage.md shows generation bands and in-band share.
   - Open: the params gate file's `fitted.holdout` block still holds the old 9.8 % numbers (gate file, own PR: rerun `ev used-price fit`). Manual price_new facts had no year: fixed in PR #74 (fix/manual-price-year); T-112/T-118 rows need `year:` lines to count.
 
+- WS1 (T-116 prep), 2026-11-17, #64 review should-fix (on 742ea30): `fit_points` keeps only variants built in the sample year (`used_price.build_years`, the years a visitor gets rows for), and `Point.age` is no longer rounded. Release 1 (`ev used-price fit --release 1 --as-of 2026-11-17`): 76 points (was 85; 9 sample years had no variant built that year), 19 generations. Hold-out fitted **10.8 %** median abs error, median +1.3 %, **52.6 %** of real medians inside the shown P25–P75, 64.5 % within 15 %; published 14.8 %, −14.8 %, 35.5 % in band. Independent check: per fold, the real `build_used_prices` with the fold's curves and the held-out generation's samples removed gives the same shown median on all 76 rows. The new fit (a 0.8858, k 0.114) goes into the params gate file in its own PR.
+
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B2 fixed. -->

@@ -145,5 +145,53 @@
       "priority": 1,
       "verified": false
     }
+  ],
+  "es": [
+    {
+      "site": "wallapop",
+      "label": "Wallapop",
+      "url_template": "https://es.wallapop.com/coches-segunda-mano/{make}-{model}",
+      "filters": {},
+      "slug_overrides": {},
+      "priority": 1,
+      "verified": false
+    },
+    {
+      "site": "autoscout24-es",
+      "label": "AutoScout24",
+      "url_template": "https://www.autoscout24.es/lst/{make}/{model}",
+      "filters": {
+        "electric": {
+          "fuel": "E"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 2,
+      "verified": false
+    }
+  ],
+  "it": [
+    {
+      "site": "autoscout24-it",
+      "label": "AutoScout24",
+      "url_template": "https://www.autoscout24.it/lst/{make}/{model}",
+      "filters": {
+        "electric": {
+          "fuel": "E"
+        }
+      },
+      "slug_overrides": {},
+      "priority": 1,
+      "verified": false
+    },
+    {
+      "site": "subito",
+      "label": "Subito",
+      "url_template": "https://www.subito.it/annunci-italia/vendita/auto/?q={makeName}+{modelName}",
+      "filters": {},
+      "slug_overrides": {},
+      "priority": 2,
+      "verified": false
+    }
   ]
 }

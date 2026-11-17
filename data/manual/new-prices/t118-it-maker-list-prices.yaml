@@ -18,6 +18,7 @@ facts:
     value: 40990
     unit: EUR
     country: IT
+    year: 2025
     source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
     source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
     retrieved: 2026-11-17
@@ -31,6 +32,7 @@ facts:
     value: 42490
     unit: EUR
     country: IT
+    year: 2025
     source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
     source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
     retrieved: 2026-11-17
@@ -44,6 +46,7 @@ facts:
     value: 51400
     unit: EUR
     country: IT
+    year: 2025
     source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
     source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
     retrieved: 2026-11-17
@@ -57,6 +60,7 @@ facts:
     value: 39490
     unit: EUR
     country: IT
+    year: 2025
     source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
     source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
     retrieved: 2026-11-17
@@ -70,6 +74,7 @@ facts:
     value: 47990
     unit: EUR
     country: IT
+    year: 2025
     source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
     source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
     retrieved: 2026-11-17
@@ -83,6 +88,7 @@ facts:
     value: 63200
     unit: EUR
     country: IT
+    year: 2025
     source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
     source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
     retrieved: 2026-11-17
@@ -96,6 +102,7 @@ facts:
     value: 64000
     unit: EUR
     country: IT
+    year: 2025
     source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
     source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
     retrieved: 2026-11-17
@@ -109,6 +116,7 @@ facts:
     value: 33190
     unit: EUR
     country: IT
+    year: 2026
     source_url: https://cdn.group.renault.com/ren/it/listini/renault-5.pdf
     source_name: "Renault Italia, Renault 5 e-tech electric listino del 05/11/2026 (maker price list)"
     retrieved: 2026-11-17
