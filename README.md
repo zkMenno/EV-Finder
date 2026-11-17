@@ -1,8 +1,8 @@
-# EV Shortlist (working title)
+# EV Shortlist
 
 Find the right used EV, then the right car.
 
-EV Shortlist (repo: EV-Finder) is a free, independent catalogue of electric cars built for people buying second-hand. It groups every model by generation and shows new and used prices side by side, along with real-world range and charging speed that we work out ourselves from public tests and owner data. It covers several countries, starting with the Netherlands, Germany, France, Belgium and the UK.
+EV Shortlist is a free, independent catalogue of electric cars built for people buying second-hand. It groups every model by generation and shows new and used prices side by side, along with real-world range and charging speed that we work out ourselves from public tests and owner data. It covers several countries, starting with the Netherlands, Germany, France, Belgium and the UK.
 
 It is a finder, not a marketplace. We don't host listings. We link you to them.
 
