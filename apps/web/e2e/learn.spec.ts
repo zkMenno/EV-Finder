@@ -19,8 +19,8 @@ test("Learn index lists guides and terms; an article renders with ⓘ terms, dra
   await expect(term.getByRole("tooltip").getByRole("link")).toHaveAttribute("href", "/nl/nl/learn/heat-pump");
 });
 
+// T-082 added FR for winter-range, so the fallback check uses an EN+NL-only guide.
 test("A language without a file falls back to English with a notice", async ({ page }) => {
-  // winter-range has a French file since T-082 (#35); chemistries is still EN + NL only.
   await page.goto("/be/fr/learn/chemistries");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.getByTestId("learn-fallback")).toBeVisible();
