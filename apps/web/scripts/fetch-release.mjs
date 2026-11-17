@@ -14,7 +14,7 @@
 //   CATALOGUE_DIR              releases folder (default ../../data/releases), same as the loader
 //   CATALOGUE_RELEASE          fetch this release number instead of `latest` (rollback preview)
 //   CATALOGUE_FILES            comma-separated paths the web needs (a trailing / = a folder);
-//                              default "catalogue.json,charging_stats.json,used_prices.json" (what
+//                              default "catalogue.json,charging_stats.json,used_prices.json,shortlist_scores.json" (what
 //                              the loader reads today). Add "catalogue/" when pages use the split files.
 //   FETCH_RELEASE_ALLOW_HTTP_LOCAL=1  allow an http://127.0.0.1 download_url (local manual tests only)
 
@@ -25,7 +25,7 @@ import path from "node:path";
 
 const mode = process.env.CATALOGUE_SOURCE ?? "auto";
 const dir = process.env.CATALOGUE_DIR ?? path.resolve(process.cwd(), "../../data/releases");
-const files = (process.env.CATALOGUE_FILES ?? "catalogue.json,charging_stats.json,used_prices.json").split(",").map((x) => x.trim()).filter(Boolean);
+const files = (process.env.CATALOGUE_FILES ?? "catalogue.json,charging_stats.json,used_prices.json,shortlist_scores.json").split(",").map((x) => x.trim()).filter(Boolean);
 const PARALLEL = 6;
 
 function wanted(rel) {

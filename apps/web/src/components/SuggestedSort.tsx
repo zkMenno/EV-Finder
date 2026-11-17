@@ -4,7 +4,7 @@
 // put a car last). Plain words come from the dictionaries; the numbers from the rules file.
 import type { MsgKey, T } from "@/i18n/t";
 import type { ResolvedProfile } from "@/lib/shortlist";
-import { RULES } from "@/lib/shortlist";
+import { factorRows } from "@/lib/shortlist";
 import { InfoTip, type TermText } from "./Term";
 
 /** "Road-tripper · no charger at home · countryside" */
@@ -15,16 +15,10 @@ export function profileName(rp: ResolvedProfile, t: T): string {
   return parts.join(" · ");
 }
 
-/** The three heaviest factors after the profile's weight steps. */
+/** The three heaviest factors after the layer's and modifier's weight steps (the release's combos). */
 export function topFactors(rp: ResolvedProfile, n = 3): string[] {
-  const steps: Record<string, number> = {};
-  for (const src of [rp.layer?.weight_steps, rp.modifier?.weight_steps, ...rp.addons.map((a) => a.weight_steps)]) {
-    for (const [k, v] of Object.entries(src ?? {})) steps[k] = (steps[k] ?? 0) + v;
-  }
-  return [...rp.base.factors, ...(rp.layer?.extra_factors ?? [])]
-    .filter((f) => f.kind !== "unknown")
-    .map((f) => ({ id: f.id, w: f.weight * Math.pow(RULES.weight_step_factor, steps[f.id] ?? 0) }))
-    .sort((a, b) => b.w - a.w)
+  return factorRows(rp)
+    .sort((a, b) => b.weight - a.weight)
     .slice(0, n)
     .map((f) => f.id);
 }
@@ -36,6 +30,7 @@ export function SuggestedSort({
   t,
   termText,
   profileName,
+  hasScores = true,
 }: {
   rp: ResolvedProfile | null;
   active: boolean;
@@ -43,6 +38,8 @@ export function SuggestedSort({
   t: T;
   termText: TermText;
   profileName: string;
+  /** False when the release has no shortlist scores: the order can't follow the profile yet. */
+  hasScores?: boolean;
 }) {
   if (!rp) {
     return active ? (
@@ -76,6 +73,11 @@ export function SuggestedSort({
         <span className="mt-1 block">{t("suggested.unknown")}</span>
         <span className="mt-1 block">{rp.base.calibrated ? t("hero.caveat.owner") : t("hero.caveat.research")}</span>
       </InfoTip>
+      {active && !hasScores ? (
+        <p className="w-full text-sm text-slate-700" data-testid="suggested-no-scores">
+          {t("hero.noScores")}
+        </p>
+      ) : null}
     </div>
   );
 }

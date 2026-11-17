@@ -1,5 +1,6 @@
 // Server-only read path for the published catalogue (Decision 008).
 // A Postgres implementation can sit behind the same `Catalogue` interface later.
+import { parseShortlistScores, SCORES_FILE, type ReleaseScores } from "./release-scores";
 import { parseVariantUsedPrices, type VariantUsedPrices } from "./variant-prices";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
@@ -17,6 +18,8 @@ import type {
   UsedPriceBand,
 } from "@ev/schema";
 import fixture from "../fixtures/catalogue.sample.json";
+// Dev fixture scores: the pipeline's own scorer (T-069) run on the fixture rows (see its `note`).
+import fixtureScores from "../fixtures/shortlist-scores.sample.json";
 import { isUsedPriceBand } from "./used-rankings";
 
 export interface Catalogue {
@@ -48,6 +51,11 @@ export interface Catalogue {
   chargingStats(): ChargingStatsRelease | null;
   /** Used price bands per variant × build year × country (`used_prices.json`, T-081); empty when the release has none. */
   variantUsedPrices(): VariantUsedPrices;
+  /**
+   * Shortlist scores per variant and profile combination (`shortlist_scores.json`, T-069), the only
+   * source of the hero and "Suggested" ranking (Decision 065). Null when the release has none.
+   */
+  shortlistScores(): ReleaseScores | null;
 }
 
 class JsonCatalogue implements Catalogue {
@@ -56,6 +64,7 @@ class JsonCatalogue implements Catalogue {
 
   private charging: ChargingStatsRelease | null | undefined;
   private used: VariantUsedPrices | undefined;
+  private scores: ReleaseScores | null | undefined;
 
   constructor(
     private readonly data: CatalogueFile,
@@ -124,6 +133,23 @@ class JsonCatalogue implements Catalogue {
     }
     this.used = parseVariantUsedPrices(doc);
     return this.used;
+  }
+  shortlistScores(): ReleaseScores | null {
+    if (this.scores !== undefined) return this.scores;
+    if (this.from === "fixture") return (this.scores = parseShortlistScores(fixtureScores));
+    // Optional file next to catalogue.json, read like used_prices.json. Missing = null, so the hero
+    // says "ranking not available yet" instead of ranking on another basis (Decision 065).
+    const p = this.chargingPath ? path.join(path.dirname(this.chargingPath), SCORES_FILE) : null;
+    let doc: unknown = null;
+    try {
+      if (p && existsSync(p)) doc = JSON.parse(readFileSync(p, "utf8"));
+    } catch (err) {
+      if (isBuild()) throw new Error(`catalogue: could not read ${p} during the build`, { cause: err });
+      console.error(`catalogue: could not read ${p}`, err);
+      doc = null;
+    }
+    this.scores = parseShortlistScores(doc);
+    return this.scores;
   }
 }
 
