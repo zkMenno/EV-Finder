@@ -1,6 +1,6 @@
 # T-110 Model Y LR AWD and other A-35 seed figures from maker data
 Role: builder   Lane: WS3: data/seed/, data/manual/   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #PRNUM)
+Status: review (WS0 subagent, 2026-11-17, PR #60)
 
 ## Goal
 Correct the implausible Tesla Model Y Long Range AWD rows (gen1 and Juniper) and the A-35 S8 rows from maker data, so the #1 road-tripper pick is real.
