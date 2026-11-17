@@ -70,6 +70,12 @@ def highway_layers(t, night=False, uid="hw"):
     for x, y in [(120, 252), (150, 258), (560, 250), (600, 246), (1250, 252), (-480, 252)]:
         s += f'<g transform="translate({x} {y}) scale(.7)">{poplar(t, True)}</g>'
     L.append(("hills", 0.3, s))
+    s = ""
+    xs = [-760, -420, -80, 260, 600, 940, 1280, 1620]
+    for (name, d), x in zip(CITIES, xs):
+        s += sign(x, 160, name, d, t, night)
+    s += charge_sign(1460, 166, t) + charge_sign(100 + 330, 166, t)
+    L.append(("signs", 0.55, s))   # on the far verge: behind the road and all traffic
     # motorway: verge, guard rail, two lanes each way, central reservation
     s = f'<rect x="-1200" y="286" width="3600" height="24" fill="{t["r2"]}" {st(t)}/>'
     s += asphalt(t, night, uid, -1200, 310, 3600, 84, lanes=False)
@@ -84,12 +90,6 @@ def highway_layers(t, night=False, uid="hw"):
     near_lane = "".join(f'<g transform="translate({x} 343) scale(-1 1) translate(-80 0)">{f(t) if f is van else f(t, night)}</g>' for x, f in [(-260, van), (520, car), (900, car), (1500, car)])
     L.append(("traffic-far", 0.95, far_lane))
     L.append(("traffic-near", 0.2, near_lane))
-    s = ""
-    xs = [-760, -420, -80, 260, 600, 940, 1280, 1620]
-    for (name, d), x in zip(CITIES, xs):
-        s += sign(x, 160, name, d, t, night)
-    s += charge_sign(1460, 166, t) + charge_sign(100 + 330, 166, t)
-    L.append(("signs", 1.0, s))
     fg, fl = t["leafr"], t["line"]
     s = "".join(grass(x, 424, 26, t["r3"], fl) for x in range(-1000, 2200, 140))
     s += big_leaf(-20, 440, 2.0, 40, fg, fl, uid) + big_leaf(1220, 444, 2.1, -40, fg, fl, uid)

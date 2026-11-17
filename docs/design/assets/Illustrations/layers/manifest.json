@@ -254,24 +254,24 @@
      "speed": 0.3
     },
     {
-     "file": "layers/highway-day-4-road.svg",
+     "file": "layers/highway-day-4-signs.svg",
+     "layer": "signs",
+     "speed": 0.55
+    },
+    {
+     "file": "layers/highway-day-5-road.svg",
      "layer": "road",
      "speed": 0.6
     },
     {
-     "file": "layers/highway-day-5-traffic-far.svg",
+     "file": "layers/highway-day-6-traffic-far.svg",
      "layer": "traffic-far",
      "speed": 0.95
     },
     {
-     "file": "layers/highway-day-6-traffic-near.svg",
+     "file": "layers/highway-day-7-traffic-near.svg",
      "layer": "traffic-near",
      "speed": 0.2
-    },
-    {
-     "file": "layers/highway-day-7-signs.svg",
-     "layer": "signs",
-     "speed": 1.0
     },
     {
      "file": "layers/highway-day-8-foreground.svg",
@@ -305,24 +305,24 @@
      "speed": 0.3
     },
     {
-     "file": "layers/highway-night-4-road.svg",
+     "file": "layers/highway-night-4-signs.svg",
+     "layer": "signs",
+     "speed": 0.55
+    },
+    {
+     "file": "layers/highway-night-5-road.svg",
      "layer": "road",
      "speed": 0.6
     },
     {
-     "file": "layers/highway-night-5-traffic-far.svg",
+     "file": "layers/highway-night-6-traffic-far.svg",
      "layer": "traffic-far",
      "speed": 0.95
     },
     {
-     "file": "layers/highway-night-6-traffic-near.svg",
+     "file": "layers/highway-night-7-traffic-near.svg",
      "layer": "traffic-near",
      "speed": 0.2
-    },
-    {
-     "file": "layers/highway-night-7-signs.svg",
-     "layer": "signs",
-     "speed": 1.0
     },
     {
      "file": "layers/highway-night-8-foreground.svg",
