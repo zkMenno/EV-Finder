@@ -29,6 +29,12 @@
     "status": "blocked",
     "owner": "Automobile Propre (FR)"
   },
+  "autotijd": {
+    "name": "Autotijd.be Belgian price lists (third-party copies of importer lists)",
+    "licence": "none (all rights reserved; no reuse terms)",
+    "status": "blocked",
+    "owner": "Autotijd.be"
+  },
   "aviloo": {
     "name": "Aviloo battery reports",
     "licence": "none",
