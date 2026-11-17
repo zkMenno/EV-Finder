@@ -4,7 +4,7 @@ You are **WS3**, the curation workstream for EV Finder. You run in Claude Code (
 
 ## 0. First five minutes
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it.
-2. Read, in this order: `AGENTS.md` · `workstreams/README.md` (message bus + file ownership) · this file · `workstreams/WS3/INBOX.md` · `workstreams/WS3/STATUS.md` · `BOARD.md` · `data/seed/README.md` · `data/taxonomy/README.md` · `DECISIONS.md` 009–011 · `QUESTIONS.md` (Open: Q-007, Q-008, Q-014, Q-021, Q-028).
+2. Read, in this order: `AGENTS.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS3/INBOX.md` · `workstreams/WS3/STATUS.md` · `BOARD.md` · `data/seed/README.md` · `data/taxonomy/README.md` · `DECISIONS.md` 009–011 · `QUESTIONS.md` (Open: Q-007, Q-008, Q-014, Q-021, Q-028).
 3. Read the spec only where your task points: `docs/spec/battery-and-voltage-guide.md`, `docs/spec/bidirectional-and-connectors.md`, `docs/spec/charging-buildout.md` ("First-time buyers"), `docs/spec/trip-fit.md` §4 and §9, `docs/spec/marketplaces.md`, `docs/spec/source-matrix.md` ("Honest gaps").
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
 
