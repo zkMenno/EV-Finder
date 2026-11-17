@@ -80,8 +80,21 @@ def finish_release(
         catalogue, facts, registry, policies, prev, charging,
         load_plausibility(), plausibility_withheld,
     )  # fmt: skip
+    # T-123: per id and field vs N-1 with config/approved_changes.yaml; blocking.
+    from ev_pipeline.release.differ import release_diff_check
+
+    diff_check, _ = release_diff_check(
+        data_dir,
+        out_dir,
+        int(catalogue["release"]),
+        cache={"catalogue.json": catalogue, "charging_stats.json": charging}
+        if charging
+        else {"catalogue.json": catalogue},
+    )
+    checks.append(diff_check)
     backtest = release_backtest(data_dir, registry.releasable, prev_bt)
     doc = qa_document(catalogue, checks, backtest)
+    doc["release_diff"] = diff_check.details or {"status": diff_check.status}
     doc["top40"] = top40_section(catalogue, data_dir)  # report only (ADDENDUM-6 P5)
     # T-035: proxy back-test on licence-clean EPA figures; report only, never blocks.
     from ev_pipeline.backtest.epa import epa_backtest
@@ -111,11 +124,17 @@ def finish_release(
         (review / "qa.json").write_text(json.dumps(doc, indent=1) + "\n", encoding="utf-8")
         (review / "qa.md").write_text(_qa_md(doc), encoding="utf-8")
         shutil.rmtree(out_dir, ignore_errors=True)
-        raise ReleaseError(
+        msg = (
             "release QA failed (blocking): "
             + ", ".join(doc["blocking_failures"])
             + "; see data/review/qa.md"
         )
+        if "release_diff" in doc["blocking_failures"]:
+            # T-123: the refresh workflow log is all a person sees of a blocked run.
+            from ev_pipeline.release.differ import summary_md
+
+            msg += "\n" + "\n".join(summary_md(doc.get("release_diff") or None)[:40])
+        raise ReleaseError(msg)
     doc["open_data"] = write_open_bundle(catalogue, registry, out_dir, registration_order(data_dir))
     (out_dir / "qa.json").write_text(
         json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8"
@@ -126,6 +145,9 @@ def finish_release(
 
 def _qa_md(doc: dict[str, Any]) -> str:
     from ev_pipeline.qa.profile_fields import profile_fields_md
+    from ev_pipeline.release.differ import summary_md
 
-    extra = profile_fields_md(doc.get("profile_fields"))
+    extra = profile_fields_md(doc.get("profile_fields")) + summary_md(
+        (doc.get("release_diff") or {}) if (doc.get("release_diff") or {}).get("counts") else None
+    )
     return qa_md(doc).rstrip("\n") + "\n" + "\n".join(extra) + "\n" if extra else qa_md(doc)

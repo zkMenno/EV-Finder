@@ -721,6 +721,28 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop. 2026-11-17 check: 2dehands.be (BE, same platform as Marktplaats) allows `/l/auto-s/q/` and is used. leboncoin.fr disallows `/recherche` for Claude agents and its robots file says automated access needs permission: not used. kleinanzeigen.de blocks filtered result pages (fuel, year), so an unfiltered search would mostly read non-EV cars: not used for now. _(Restored 2026-11-17 by WS0: the de-dupe in e885fa0 dropped this line; QA A-35 S1.)_
 
+## Decision 044: Release diff N vs N-1 blocks unapproved changes (T-123)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** A-20 B1 shipped a release whose numbers nobody had meant to change, and review only saw the code. T-123 asks for a differential test: same records, old against new, noise taken out, and a list of changes someone approved.
+
+**Decision:** (1) `release_diff` is a new **blocking** QA check, run inside every `ev release` build and by `check-release` (CI data-qa, rollback). It compares catalogue rows and generations, shortlist scores, used prices, consumption matrix, towns and stations per id and field (`pipeline/ev_pipeline/release/differ.py`). (2) Blocking: an unapproved record removal (unless retired_ids redirects it), a change beyond the field's threshold, a thresholded value that goes empty, a number that loses every source, or a file that disappears. Everything else is review: listed, never blocks. (3) Thresholds, record sets, ignored keys and approvals live in `config/approved_changes.yaml`; an approval needs a reason and `PR #n` or `Decision nnn`, and can be scoped to a release, file, id, field and kind; unused approvals are listed as stale. (4) Fail closed: a bad config or an N-1 whose files don't match their manifest fails the check. (5) Charging figures (Decision 040 item 4) go through the same report but stay review only. Outputs: `data/review/release_diff.csv`, qa.json `release_diff`, a qa.md section (which the data-refresh PR body already includes), and `ev release diff --from N-1 --to N [--check]`.
+
+**Consequences:** The first refresh after this merges will block on every intended change since release 1 (T-068 seed models, new matching rules). That's on purpose: someone looks at the list once and adds a release-scoped bulk approval naming the PR. `config/` is WS3's folder; this one file is WS1's (T-123), and changing a threshold counts as a gate change (REVIEW.md R3).
+
+## Decision 045: Sibling-variant real range scales by WLTP ratio, battery ratio only without it
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** The T-124 property tests (Hypothesis) found that the ladder's sibling-variant rung, which scaled a sibling's measured range by usable-battery ratio only, gave a same-pack variant with a lower WLTP (other wheels or trim) more real km than its own WLTP × 1.1. The spec's rung 3 scales "by usable kWh and wheel size"; we have no wheel size, but both variants' WLTP figures carry battery, wheels and trim together.
+
+**Decision:** Scale the sibling's measured km by own WLTP / sibling WLTP when both are known; fall back to the battery ratio otherwise. The note on the result says which ratio was used.
+
+**Consequences:** No change to today's release (all 203 rows with a real range use the body-ratio rung; no measured tests are licence-cleared yet). Once measured tests arrive, the synthetic back-test already improves (alpha-50: −2.0 % → +0.1 %). Reversible: one branch in `derive/metrics.real_range`.
+
 ## Decision 062: Verification layer: diff-triggered REVIEW.md, gates out of reach, evidence per PR, every miss becomes a check
 
 **Status:** Accepted (Menno via the verification chat, 2026-11-17; logged by WS0)
@@ -780,5 +802,16 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** Launch countries are NL, DE, FR, BE, UK, **ES and IT**. Spanish and Italian serve Spain (`/es/es`) and Italy (`/it/it`) only; no other Spanish- or Italian-speaking countries. Each new country gets what the others have: euro prices, a finance default with the CCD2 warning in the local language, used price bands (indices, samples or the Decision 064 estimate), and marketplace search links (link-outs only; Decision 004 and 060 rules apply to any sampling). Drafts are labelled; EN and NL stay the fully reviewed languages.
 
 **Consequences:** T-117, T-118, T-119. Supersedes the country list in Decision 051's launch scope; docs/spec/launch-scope.md updated.
+
+## Decision 067: Infra agents write runbooks; Menno applies them
+
+**Status:** Accepted (WS0, 2026-11-17; WS4 inbox asked to settle a conflict)
+**Date:** 2026-11-17
+
+**Context:** WS4 START.md assumed the chat SSHes to the shared server; infra/AGENTS.md rule 1 says agents never ssh or apply.
+
+**Decision:** infra/AGENTS.md wins: agents write files and copy-paste runbooks (with a read-only measure step), Menno runs them on the server. Fixed in WS4 START.md. Reason: the server is shared with GardenLayer and Dungeon Tracker, so the person who can see all three applies changes.
+
+**Consequences:** Staging (T-040, PR #59) waits for Menno to run the runbook once.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
