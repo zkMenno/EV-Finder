@@ -30,7 +30,9 @@ import {
   EXPLORE_PARAM_KEYS,
   LEVEL_KEY,
   LEVELS,
+  MENU_SORTS,
   nextSort,
+  sortBy,
   SEGMENTS,
   toSearchParams,
   VIEW_KEY,
@@ -89,6 +91,10 @@ export interface ExploreProps {
   payFromUrl: boolean;
   /** The release has shortlist_scores.json (Decision 065); without it "Suggested" can't order. */
   hasScores?: boolean;
+  /** The page's default view, left out of the URL (T-130: cards on /cars). */
+  defaultView?: View;
+  /** Link to the "How we rank" explanation of the Most popular order (T-130). */
+  howWeRankHref?: string;
 }
 
 interface Ctx {
@@ -131,7 +137,7 @@ export function Explore(props: ExploreProps) {
   const [limit, setLimit] = useState(PAGE);
   // True once the user changed anything: from then on counts come from the (partial or full) client list.
   const [dirty, setDirty] = useState(false);
-  const lastUrl = useRef(toSearchParams(props.initialState).toString());
+  const lastUrl = useRef(toSearchParams(props.initialState, props.defaultView).toString());
   // Trip fit (T-036): module loaded on demand, answers from localStorage only.
   const [tripMod, setTripMod] = useState<TripModule | null>(null);
   const [tripSettings, setTripSettings] = useState<TripSettings | null>(null);
@@ -268,14 +274,14 @@ export function Explore(props: ExploreProps) {
 
   // State → URL (replaceState: no server round trip, links stay shareable).
   useEffect(() => {
-    const qs = toSearchParams(state).toString();
+    const qs = toSearchParams(state, props.defaultView).toString();
     if (qs === lastUrl.current) return;
     lastUrl.current = qs;
     const url = new URL(window.location.href);
     for (const k of EXPLORE_PARAM_KEYS) url.searchParams.delete(k);
     new URLSearchParams(qs).forEach((v, k) => url.searchParams.set(k, v));
     window.history.replaceState(null, "", url.pathname + url.search + url.hash);
-  }, [state]);
+  }, [state, props.defaultView]);
 
   const update = (next: ExploreState) => {
     setDirty(true);
@@ -377,6 +383,17 @@ export function Explore(props: ExploreProps) {
           profileName={rp ? profileName(rp, t) : ""}
           hasScores={props.hasScores !== false}
         />
+        <SortMenu state={state} onChange={(k) => update(sortBy(state, k))} t={t} />
+        {state.sort === "popular" ? (
+          <p className="mb-3 text-sm text-slate-700" data-testid="popular-why">
+            {t("sort.popular.why")}{" "}
+            {props.howWeRankHref ? (
+              <a href={props.howWeRankHref} className="font-medium text-blue-800 underline underline-offset-2">
+                {t("sort.popular.how")}
+              </a>
+            ) : null}
+          </p>
+        ) : null}
         <div className="mb-3 flex flex-col gap-2">
           <PayModeToggle value={state.pay} onChange={setPay} ui={financeUi} />
           {state.pay === "loan" ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={financeUi} /> : null}
@@ -421,8 +438,9 @@ export function Explore(props: ExploreProps) {
           <ExploreTable rows={rows} state={state} onSort={(k) => update(nextSort(state, k))} ctx={ctx} />
         ) : (
           <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-testid="explore-cards">
-            {rows.map((r) => (
-              <Card key={r.variant_id} row={r} ctx={ctx} />
+            {firstOfGeneration(rows).map(([r, first]) => (
+              // "#n popular" once per generation: on its first variant in the current order (T-130).
+              <Card key={r.variant_id} row={r} ctx={ctx} popTag={first} />
             ))}
           </ul>
         )}
@@ -1155,7 +1173,46 @@ function RowSources({ row, ctx }: { row: ExploreRow; ctx: Ctx }) {
 
 /* ---------- cards ---------- */
 
-function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
+/** Each row with whether it is the first of its generation in this order. */
+function firstOfGeneration(rows: ExploreRow[]): [ExploreRow, boolean][] {
+  const seen = new Set<string>();
+  return rows.map((r) => {
+    const first = !seen.has(r.generation_id);
+    seen.add(r.generation_id);
+    return [r, first];
+  });
+}
+
+/** Sort menu (T-130): a native select, so it works with keyboard and screen readers on every phone. */
+function SortMenu({ state, onChange, t }: { state: ExploreState; onChange: (k: SortKey) => void; t: T }) {
+  const inMenu = (MENU_SORTS as readonly string[]).includes(state.sort ?? "");
+  return (
+    <div className="mb-3 flex items-center gap-2">
+      <label htmlFor="sort-menu" className="text-sm text-slate-800">
+        {t("sort.label")}
+      </label>
+      <select
+        id="sort-menu"
+        value={inMenu ? (state.sort as string) : ""}
+        onChange={(e) => {
+          const k = e.target.value;
+          if ((MENU_SORTS as readonly string[]).includes(k)) onChange(k as SortKey);
+        }}
+        className="min-h-11 rounded-md border border-slate-500 bg-white px-3 py-2 text-sm font-semibold"
+        data-testid="sort-menu"
+      >
+        {!inMenu ? <option value="">{t("sort.other")}</option> : null}
+        {MENU_SORTS.map((k) => (
+          <option key={k} value={k}>
+            {t(`sort.${k}` as MsgKey)}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function Card({ row: r, ctx: c, popTag = true }: { row: ExploreRow; ctx: Ctx; popTag?: boolean }) {
   const { t, level } = c;
   const item = (label: ReactNode, value: ReactNode) => (
     <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]">
@@ -1177,6 +1234,11 @@ function Card({ row: r, ctx: c }: { row: ExploreRow; ctx: Ctx }) {
       data-testid="explore-card"
       data-trip={c.trip?.fits.get(r.variant_id)?.verdict}
     >
+      {popTag && r.pop_rank ? (
+        <p className="w-fit rounded-full border border-slate-500 px-2 py-0.5 text-xs font-semibold" data-testid="popular-tag">
+          {t("card.popular", { n: r.pop_rank })}
+        </p>
+      ) : null}
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="font-semibold">

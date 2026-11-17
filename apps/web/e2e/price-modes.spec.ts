@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 // T-043 / Decision 017: price modes, the loan calculator and the lease placeholder.
 
 test("Explore: loan mode is in the URL and remembered; NL asks for a rate (no sourced default)", async ({ page }) => {
-  await page.goto("/nl/nl");
+  await page.goto("/nl/nl/cars?view=table");
   await expect(page.getByTestId("result-count")).not.toContainText("…");
   const mode = page.getByTestId("pay-mode");
   await mode.getByRole("button", { name: "Lening per maand" }).click();
@@ -28,13 +28,13 @@ test("Explore: loan mode is in the URL and remembered; NL asks for a rate (no so
   // Reload: mode (URL) and rate (localStorage) come back; without ?pay the remembered mode wins.
   await page.reload();
   await expect(page.getByTestId("loan-apr")).toHaveValue("7");
-  await page.goto("/nl/nl");
+  await page.goto("/nl/nl/cars?view=table");
   await expect(page.getByTestId("pay-mode").getByRole("button", { pressed: true })).toHaveText("Lening per maand");
   await expect(page).toHaveURL(/[?&]pay=loan/);
 });
 
 test("Variant page (DE): sourced APR, monthly amount, total over the term; Nerd shows formula + source", async ({ page }) => {
-  await page.goto("/de/en");
+  await page.goto("/de/en/cars?view=table");
   await expect(page.getByTestId("result-count")).not.toContainText("…");
   const href = await page.getByTestId("explore-row").first().getByRole("rowheader").getByRole("link").getAttribute("href");
   await page.goto(`${href}?pay=loan&level=nerd`);
@@ -55,11 +55,11 @@ test("Variant page (DE): sourced APR, monthly amount, total over the term; Nerd 
 });
 
 test("Lease mode: a labelled placeholder, no figures; none at all in the UK", async ({ page }) => {
-  await page.goto("/nl/en?pay=lease");
+  await page.goto("/nl/en/cars?view=table&pay=lease");
   await expect(page.getByTestId("lease-notice")).toBeVisible();
   await expect(page.getByTestId("lease-link-placeholder")).toHaveText("Lease offers for this car");
   await expect(page.getByTestId("explore-table")).not.toContainText("€");
-  await page.goto("/uk/en?pay=lease");
+  await page.goto("/uk/en/cars?view=table&pay=lease");
   await expect(page.getByTestId("lease-notice")).toHaveText(/not available in the UK/);
   await expect(page.getByTestId("lease-link-placeholder")).toHaveCount(0);
 });
