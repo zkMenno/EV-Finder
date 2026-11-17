@@ -512,8 +512,11 @@ def build_release(
     facts += pfacts
     from ev_pipeline.derive.consumption import build_matrix
 
+    # Rows whose WLTP / usable kWh / consumption the gate withheld get no range estimate:
+    # no matrix entry, so no winter range and no derived shortlist values (PR #91 review).
+    no_range = plaus.range_withheld
     matrix = build_matrix(
-        rows,
+        [r for r in rows if r["variant_id"] not in no_range],
         facts,
         data_dir / "staging",
         registry.releasable,
