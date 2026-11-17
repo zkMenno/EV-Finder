@@ -14,7 +14,7 @@ import type { ExploreRow } from "@/lib/explore-data";
 import { onFilters, publishAnswers, publishFilters } from "@/lib/filter-bus";
 import { effectiveLoan, monthlyFor, type FinanceProfileView } from "@/lib/finance";
 import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
-import { nerdValue } from "@/lib/nerd-value";
+import { nerdValue, numberParts } from "@/lib/nerd-value";
 import { heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "@/lib/hero-state";
 import { buildListingUrl, type ListingSite } from "@/lib/listing-url";
 import {
@@ -901,8 +901,11 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
           <tr>
             <th scope="col">{t("hero.nerd.factor")}</th>
             <th scope="col">{t("hero.nerd.value")}</th>
-            <th scope="col">{t("hero.nerd.points")}</th>
-            <th scope="col">{t("hero.nerd.weight")}</th>
+            {/* One column for points × weight: two narrow numeric columns cost ~45 px a 360 px card
+                doesn't have (T-097 review: headers broke mid-word, "Poi/ds"). */}
+            <th scope="col">
+              {t("hero.nerd.points")} × {t("hero.nerd.weight")}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -914,10 +917,17 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               {/* The car's own figure with its unit (T-097), not the scaled scoring value. May wrap at
                   the spaces of the unit ("387 km in 20 min") on a phone; the number itself never splits
                   (no spaces inside formatted numbers; FR uses a no-break space). Units and words stay short and
-                  breakable so the table fits a 360 px card in every language (axe: no scroll region). */}
-              <td className="tabular-nums" data-testid={`hero-nerd-value-${f.id}`}>{nerdValue(f, t, locale)}</td>
-              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score, locale, 2)}</td>
-              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
+                  breakable so the table fits a 360 px card in every language (axe: no scroll region). Headers
+                  and words may break mid-word when a wider system font needs it (CI DE was 16 px over);
+                  numbers sit in nowrap spans so they never split. */}
+              <td className="tabular-nums hyphens-auto [overflow-wrap:anywhere]" data-testid={`hero-nerd-value-${f.id}`}>
+                {numberParts(nerdValue(f, t, locale)).map((p, i) =>
+                  p.num ? <span key={i} className="whitespace-nowrap">{p.text}</span> : p.text,
+                )}
+              </td>
+              <td className="whitespace-nowrap tabular-nums" data-testid={`hero-nerd-points-${f.id}`}>
+                {formatNumber(f.score, locale, 2)} × {formatNumber(f.weight, locale, 1)}
+              </td>
             </tr>
           ))}
         </tbody>
