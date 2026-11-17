@@ -1,6 +1,6 @@
 # T-127 `verify` skill for the pipeline
 Role: WS1   Lane: pipeline/.claude/skills/verify/   Wave: process
-Status: todo
+Status: doing (WS1, 2026-11-17)
 
 ## Goal
 Before any commit that changes data, the agent proves the release still matches its inputs and the numbers still make sense on real rows.

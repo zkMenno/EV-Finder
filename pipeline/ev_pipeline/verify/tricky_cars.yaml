@@ -1,0 +1,10 @@
+# Cars that broke matching or derived numbers before (REVIEW.md D4, A-30, T-068).
+# `ev verify` shows every released variant whose id matches one of these globs, with its
+# headline numbers next to the previous release's, so a reviewer can eyeball them.
+schema: tricky-cars/v1
+cars:
+  - {id: "kia-ev6*", why: "EPA Long/Standard Range matched the wrong pack (A-30); facelift split (T-068)"}
+  - {id: "hyundai-ioniq-5*", why: "same as EV6: pack-class matching, 84 kWh facelift"}
+  - {id: "mg-mg4*", why: "MORNING.md claimed MG4 8 -> 6 variants; release didn't (A-20 B1)"}
+  - {id: "tesla-model-y*", why: "LR gen1 vs Juniper LR AWD share 11.0 kWh/100 km and DC 387 km (suspect)"}
+  - {id: "xpeng-p7*", why: "'P7+' normalised to 'P7' ('+' tokenising, T-068)"}
