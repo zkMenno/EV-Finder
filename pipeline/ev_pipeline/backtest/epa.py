@@ -243,7 +243,7 @@ def epa_backtest(
         "kind": "proxy",
         "note": "EPA label values (fueleconomy.gov, public domain): US cycles, 5-cycle adjusted. "
         "A check that WLTP-based estimates land near an independent measurement, not the "
-        "launch gate (El Prix / Nyland tests, spec §5).",
+        "launch gate (independent real-world tests, spec §5).",
         "range": _report(range_check(rows, facts), top40),
         "consumption": _report(cons := consumption_check(rows, by_variant, params), top40),
     }

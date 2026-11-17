@@ -205,7 +205,7 @@ def profile_fields_section(
             ),  # fmt: skip
             "dc_avg_10_80_kw": _provenance(rows, "dc_avg_10_80_kw"),
             "proxy": None,
-            "proxy_note": "No licence-clean charging test yet (Nyland / El Prix, Q-059).",
+            "proxy_note": "No licence-clean charging test yet (real-world test sources, Q-059).",
             "consumption_vs_matrix_motorway": _ratio_report(dc_pairs, tol),
         },
         "consumption_kwh_100km": {
