@@ -1,6 +1,6 @@
 # T-091 Parked features behind flags (off by default)
 Role: WS2   Lane: apps/web   Wave: 10
-Status: review (WS2, 2026-11-15, branch t-091-parked-flags)
+Status: done (merged by WS2 with Menno's OK, 2026-11-17)
 
 ## Goal
 Decision 051: built work for parked features stays in the code but is switched off by default (WS2 START.md §3).

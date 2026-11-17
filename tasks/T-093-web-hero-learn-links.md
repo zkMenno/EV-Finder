@@ -1,6 +1,6 @@
 # T-093 Hero links the launch /learn guides
 Role: WS2   Lane: apps/web   Wave: 10
-Status: review (WS2, 2026-11-15, branch t-093-hero-learn-links, stacked on T-080)
+Status: done (merged by WS2 with Menno's OK, 2026-11-17)
 
 ## Goal
 Launch scope §3 names three /learn pages (winter range, charging in 2026, batteries and used battery health). First-time buyers reach them from the hero results ("Good to know before you buy").
