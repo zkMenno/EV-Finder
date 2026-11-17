@@ -14,7 +14,10 @@ Repo and infrastructure:
 - [x] GitHub repo, licences, agent scaffold, CI skeleton, issue templates
 - [ ] Monorepo skeleton: `apps/web`, `pipeline`, `packages/schema`, `infra`, each with a nested `AGENTS.md`
 - [ ] Deploy on the AppInfra server: database + login in shared Postgres, Caddy route, staging, watchdog `/health` (Decision 006)
-- [ ] Off-site backups confirmed working before launch (AppInfra #482)
+- [ ] **Backups** (AppInfra #93): before live, or before staging gets real users, AppInfra adds EV's data to the nightly backup + off-site copy.
+  - Not needed yet (checked 2026-11-17): at launch EV stores nothing that can't be rebuilt. The catalogue is release files (git + GitHub Releases), the web containers are read-only, no database is in use (Decision 008), and `/srv/ev/data` holds only pipeline working files rebuilt from git and object storage. Staging runs the same image with public catalogue data only, so it is not backed up.
+  - Trigger: the first data only the server holds (the `ev` Postgres database getting real rows, e.g. accounts, favourites or alerts, all after launch; uploaded files; or real users on staging). Then open an AppInfra issue, label `handoff`, "From: EV Shortlist: add EV data to the nightly backup" (what, container/volume/database name, expected size, staging yes/no). AppInfra's `scripts/backup.sh` only dumps databases it names, so a new `ev` database is **not** backed up by default.
+  - Privacy page (when EV gets one): backup copies are kept at most 32 days (AppInfra README, "How long backups are kept").
 - [ ] CI builds arm64 images and preview deploys per branch
 
 Data:
