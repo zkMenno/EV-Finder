@@ -124,11 +124,49 @@ def test_segment_curve_only_with_enough_of_its_own() -> None:
 
 
 def test_holdout_reports_fitted_and_published_with_worst_cases() -> None:
-    ho = dep.holdout_backtest(_points(10, noise=0.05), params(), PUBLISHED)
+    ho = dep.holdout_backtest(_points(10, noise=0.05), params())
     f, pub = ho["fitted"], ho["published"]
     assert f["rows_compared"] == 40 and pub["rows_compared"] == 40
     assert f["median_abs_error"] == pytest.approx(0.05, abs=0.01)  # the noise, no more
+    assert f["in_band"] == 1.0  # 5 % noise sits inside the shown +-12 % band
+    assert 0 <= pub["in_band"] <= 1
+    assert f["curves_used"] == {"fitted:C": 40}  # each fold: 9 C generations, own curve
     assert len(f["worst"]) == 5 and abs(f["worst"][0]["error"]) >= abs(f["worst"][-1]["error"])
+    assert all(r["median"] % 100 == 0 and r["p25"] % 100 == 0 for r in f["worst"])  # rounded
+
+
+def test_holdout_uses_the_curve_choose_curve_gives_each_segment() -> None:
+    pts = _points(10, segment="C") + [
+        dep.Point(**{**pt.to_dict(), "generation_id": f"s-{pt.generation_id}", "segment": "S"})
+        for pt in _points(2)
+    ]
+    ho = dep.holdout_backtest(pts, params())
+    # C keeps its own curve in every fold; S (2 generations) gets the all-cars curve
+    assert ho["fitted"]["curves_used"] == {"fitted": 8, "fitted:C": 40}
+
+
+def test_holdout_thin_fold_falls_back_to_the_published_curve() -> None:
+    # 8 generations: each fold has 7 (< min_generations 8), so a visitor gets the published curve
+    ho = dep.holdout_backtest(_points(8), params())
+    assert ho["fitted"]["curves_used"] == {"published": 32}
+    assert ho["fitted"]["median_abs_error"] == ho["published"]["median_abs_error"]
+
+
+def test_holdout_shows_exactly_what_the_release_shows(tmp_path: Path) -> None:
+    """The hold-out's shown band for g0 == the band build_used_prices publishes for g0 when the
+    fitted curve is the fold's (fit without g0)."""
+    pts = _points(10, noise=0.05)
+    p = params(fit={**dep.DEFAULT_FIT, "worst_listed": 99})  # list every row
+    ho = dep.holdout_backtest(pts, p)
+    fold = dep.fit_curves([pt for pt in pts if pt.generation_id != "g0"], p)
+    fitted = {"samples_observed": ["NL"], "fitted_at": "2026-11-17", **fold}
+    shown = _bands(_run(tmp_path, params(fitted=fitted)))
+    rows = {r["build_year"]: r for r in ho["fitted"]["worst"] if r["subject"] == "g0"}
+    assert set(rows) == {2018, 2020, 2022, 2024}
+    for y, r in rows.items():
+        assert (r["p25"], r["median"], r["p75"]) == (
+            shown[y]["p25"], shown[y]["median"], shown[y]["p75"]
+        )  # fmt: skip
 
 
 # --- release-time use (used_price.build_used_prices) ---------------------------------------
@@ -159,7 +197,7 @@ def test_published_curve_rows_carry_basis_source_and_date(tmp_path: Path) -> Non
 
 
 def test_fitted_curve_is_used_when_params_have_one(tmp_path: Path) -> None:
-    fitted = dep.fit_block(_points(10), params(), PUBLISHED, "2026-11-17", 1)
+    fitted = dep.fit_block(_points(10), params(), "2026-11-17", 1)
     fitted["by_segment"] = {}  # the all-cars curve
     res = _run(tmp_path, params(fitted=fitted))
     b = _bands(res)[2022]
@@ -172,7 +210,7 @@ def test_fitted_curve_is_used_when_params_have_one(tmp_path: Path) -> None:
 
 
 def test_segment_curve_wins_for_its_segment(tmp_path: Path) -> None:
-    fitted = dep.fit_block(_points(10), params(), PUBLISHED, "2026-11-17", 1)
+    fitted = dep.fit_block(_points(10), params(), "2026-11-17", 1)
     fitted["by_segment"] = {"C": {**fitted["default"], "points": {y: 0.5 for y in range(13)}}}
     b = _bands(_run(tmp_path, params(fitted=fitted)))[2022]
     assert b["curve"] == "fitted:C" and b["kept_share"] == 0.5
@@ -183,12 +221,30 @@ def test_estimate_never_replaces_a_real_band(tmp_path: Path) -> None:
            "currency": "EUR", "source": {"name": "t", "url": "https://www.market.example/q"},
            "rows": [{"build_year": 2022, "n": 9, "p25": 1000, "median": 1234,
                      "p75": 1500}]}  # fmt: skip
-    fitted = dep.fit_block(_points(10), params(), PUBLISHED, "2026-11-17", 1)
+    fitted = dep.fit_block(_points(10), params(), "2026-11-17", 1)
     res = _run(tmp_path, params(fitted=fitted), doc)
     bands = _bands(res)
     assert bands[2022]["basis"] == "band" and bands[2022]["median"] == 1234
     assert bands[2022]["date"] == "2026-11-15" and "curve" not in bands[2022]
     assert bands[2021]["basis"] == "estimate"
+
+
+def test_fitted_rows_say_which_countries_the_curve_was_fitted_on(tmp_path: Path) -> None:
+    fitted = dep.fit_block(_points(10), params(), "2026-11-17", 1)
+    assert fitted["samples_observed"] == ["NL"]
+    b = _bands(_run(tmp_path, params(fitted=fitted)))[2022]
+    assert b["curve_fitted_on"] == ["NL"]
+    (tmp_path / "pub").mkdir()
+    pub = _bands(_run(tmp_path / "pub", params()))[2022]
+    assert pub["curve"] == "published" and "curve_fitted_on" not in pub
+
+
+def test_ages_below_the_fitted_range_are_low_confidence(tmp_path: Path) -> None:
+    fitted = dep.fit_block(_points(10), params(), "2026-11-17", 1)
+    lo = fitted["default"]["quality"]["age_range"][0]  # 2024 build: 1.4 years
+    bands = _bands(_run(tmp_path, params(fitted=fitted)))
+    assert bands[2025]["age_years"] < lo and bands[2025]["confidence"] == "low"
+    assert bands[2022]["confidence"] == "medium"
 
 
 def test_backtest_section_has_holdout(tmp_path: Path) -> None:
@@ -236,4 +292,5 @@ def test_fit_command_on_a_release_folder(tmp_path: Path) -> None:
     res = run_fit(tmp_path, None, AS_OF, pf)
     assert res["release"] == 1 and res["sample_rows"] == 40 and not res["dropped_by_source_gate"]
     assert res["fitted"]["default"]["k"] == pytest.approx(K, abs=1e-3)
-    assert res["holdout"]["fitted"]["median_abs_error"] == pytest.approx(0, abs=1e-3)
+    # exact curve; what is left is the yearly table (linear between years) and rounding to 100
+    assert res["holdout"]["fitted"]["median_abs_error"] == pytest.approx(0, abs=5e-3)

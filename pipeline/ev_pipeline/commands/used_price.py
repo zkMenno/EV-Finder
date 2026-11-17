@@ -65,15 +65,14 @@ def run_fit(
     samples, dropped = up.gate_samples(samples, load_registry(data_dir / "sources.yaml"))
     prices = up.list_prices(facts, years)
     points = fit_points(samples, rows, prices, as_of, p)
-    published = p["curves"]["default"]
     return {
         "release": n,
         "as_of": as_of.isoformat(),
         "sample_rows": len(samples),
         "sample_problems": problems,
         "dropped_by_source_gate": dropped,
-        "fitted": fit_block(points, p, published, as_of.isoformat(), n),
-        "holdout": holdout_backtest(points, p, published),
+        "fitted": fit_block(points, p, as_of.isoformat(), n),
+        "holdout": holdout_backtest(points, p),
         "points": [pt.to_dict() for pt in points],
     }
 
@@ -89,7 +88,8 @@ def cmd_fit(args: argparse.Namespace) -> int:
         e = ho[name]
         print(
             f"# hold-out {name}: {e['rows_compared']} rows, median abs error"
-            f" {e['median_abs_error']}, median error {e['median_error']}"
+            f" {e['median_abs_error']}, median error {e['median_error']},"
+            f" real median inside the shown P25-P75 {e['in_band']}"
         )
     if args.out:
         Path(args.out).write_text(json.dumps(res, indent=1) + "\n", encoding="utf-8")

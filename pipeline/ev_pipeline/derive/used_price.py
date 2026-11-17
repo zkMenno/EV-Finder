@@ -230,6 +230,58 @@ def _round(x: float, step: int) -> float:
     return float(round(x / step) * step)
 
 
+def shown_band(list_amount: float, share: float, p: dict[str, Any]) -> dict[str, float]:
+    """The estimate a visitor sees: rounded median and P25/P75 (also used by the hold-out)."""
+    step, spread = int(p["rounding"]), float(p["spread"])
+    med = list_amount * share
+    return {
+        "p25": _round(med * (1 - spread), step),
+        "median": _round(med, step),
+        "p75": _round(med * (1 + spread), step),
+    }
+
+
+def fresh_samples(
+    samples: list[dict[str, Any]], p: dict[str, Any], as_of: date
+) -> list[dict[str, Any]]:
+    """Sample rows big and recent enough to show as a band (min_samples, max_sample_age_days)."""
+    return [
+        s
+        for s in samples
+        if s["n"] >= int(p["min_samples"])
+        and (as_of - date.fromisoformat(s["observed_at"][:10])).days
+        <= int(p["max_sample_age_days"])
+    ]
+
+
+def _index(samples: list[dict[str, Any]], key: str) -> dict[tuple[str, str, int], dict[str, Any]]:
+    """(subject, country, build year) -> sample row; the newest wins, then the larger count."""
+    out: dict[tuple[str, str, int], dict[str, Any]] = {}
+    for s in sorted(samples, key=lambda s: (str(s["observed_at"]), s["n"])):
+        if s.get(key):
+            out[(str(s[key]), s["country"], s["build_year"])] = s
+    return out
+
+
+def _sample_row(s: dict[str, Any], y: int, scope: str) -> dict[str, Any]:
+    return {
+        "build_year": y,
+        "p25": s["p25"],
+        "median": s["median"],
+        "p75": s["p75"],
+        "samples": s["n"],
+        "method": "samples",
+        "basis": "band",
+        "scope": scope,
+        "estimate": False,
+        "date": s["observed_at"],
+        "observed_at": s["observed_at"],
+        "source": s["source"],
+        "source_id": s["source_id"],
+        "confidence": "medium",
+    }
+
+
 def build_years(row: dict[str, Any], as_of: date) -> list[int]:
     ys, ye = row.get("year_start"), row.get("year_end")
     if ys is None:
@@ -267,25 +319,23 @@ def build_used_prices(
         )
     step = int(p["rounding"])
     spread = float(p["spread"])
-    curve = p["curves"].get("default")
-    fresh = {
-        (s["variant_id"], s["country"], s["build_year"]): s
-        for s in samples
-        if s["variant_id"]
-        and s["n"] >= int(p["min_samples"])
-        and (as_of - date.fromisoformat(s["observed_at"][:10])).days
-        <= int(p["max_sample_age_days"])
-    }
+    # Decision 064 step 1 + Decision 069: a variant's own sample band, else its generation's
+    # (scope generation), ahead of any estimate.
+    shown = fresh_samples(samples, p, as_of)
+    fresh = _index(shown, "variant_id")
+    fresh_gen = _index([s for s in shown if not s["variant_id"]], "generation_id")
     variants = []
     counts: Counter[str] = Counter()
     used_sources: set[str] = set()
     model_medians: dict[tuple[str, str, int], float] = {}
     for row in sorted(rows, key=lambda r: r["variant_id"]):
         vid = row["variant_id"]
+        gid = str(row.get("generation_id"))
         bands: dict[str, list[dict[str, Any]]] = {}
         for cc in p["countries"]:
             cur_curve, curve_info = choose_curve(p, cc, str(row.get("segment")))
             out_rows = []
+            cur = p["currency"][cc]
             for y in build_years(row, as_of):
                 lp = pick_list_price(prices, vid, cc, y, p)
                 age = age_at(y, as_of, int(p["mid_year_month"]))
@@ -293,45 +343,39 @@ def build_used_prices(
                 if lp is not None and share is not None:  # kept for the back-test too
                     model_medians[(vid, cc, y)] = lp["amount"] * share
                 s = fresh.get((vid, cc, y))
-                if s:
-                    out_rows.append(
-                        {
-                            "build_year": y,
-                            "p25": s["p25"],
-                            "median": s["median"],
-                            "p75": s["p75"],
-                            "samples": s["n"],
-                            "method": "samples",
-                            "basis": "band",
-                            "estimate": False,
-                            "date": s["observed_at"],
-                            "observed_at": s["observed_at"],
-                            "source": s["source"],
-                            "source_id": s["source_id"],
-                            "confidence": "medium",
-                        }
-                    )
+                if s and s["currency"] == cur:
+                    out_rows.append(_sample_row(s, y, "variant"))
                     counts[f"{cc} samples"] += 1
+                    continue
+                g = fresh_gen.get((gid, cc, y))
+                if g and g["currency"] == cur:
+                    out_rows.append(_sample_row(g, y, "generation"))
+                    counts[f"{cc} generation samples"] += 1
                     continue
                 if lp is None or share is None:
                     counts[f"{cc} not enough data"] += 1
                     continue
-                med = model_medians[(vid, cc, y)]
                 conf = lp["confidence"]
-                if age >= float(cur_curve.get("extrapolated_from_age", 99)):
+                observed = (cur_curve.get("quality") or {}).get("age_range") or [0.0, 99.0]
+                if age >= float(cur_curve.get("extrapolated_from_age", 99)) or age < float(
+                    observed[0]
+                ):  # outside the ages the curve was fitted on
                     conf = "low"
                 used_sources |= lp["sources"]
                 out_rows.append(
                     {
                         "build_year": y,
-                        "p25": _round(med * (1 - spread), step),
-                        "median": _round(med, step),
-                        "p75": _round(med * (1 + spread), step),
+                        **shown_band(lp["amount"], share, p),
                         "samples": 0,
                         "method": "model",
                         "basis": "estimate",
                         "estimate": True,
                         "curve": curve_info["curve"],
+                        **(
+                            {"curve_fitted_on": curve_info["fitted_on"]}
+                            if curve_info.get("fitted_on")
+                            else {}
+                        ),
                         "source": curve_info["source"],
                         "date": curve_info["date"],
                         "age_years": round(age, 1),
@@ -344,7 +388,6 @@ def build_used_prices(
                 )
                 counts[f"{cc} model"] += 1
             if out_rows:
-                cur = p["currency"][cc]
                 bands[cc] = [r | {"currency": cur} for r in out_rows]
         if bands:
             variants.append(
@@ -355,11 +398,11 @@ def build_used_prices(
     from ev_pipeline.derive.depreciation import fit_points, holdout_backtest
 
     points = fit_points(samples, rows, prices, as_of, p)
-    bt["holdout"] = holdout_backtest(points, p, curve)
+    bt["holdout"] = holdout_backtest(points, p)
     bt["fit_points"] = len(points)
     # With a fitted curve the plain comparison above is in-sample; `holdout` is the honest one.
     bt["model_curve"] = "fitted" if (p.get("fitted") or {}).get("default") else "published"
-    gen_bands = generation_bands(samples, p, as_of)
+    gen_bands = generation_bands(shown, p, as_of)
     out.document = {
         "release": release,
         "generated_at": generated_at,
@@ -367,8 +410,10 @@ def build_used_prices(
         "estimate": True,
         "note": "Used asking-price bands. basis 'estimate' (method 'model') = list price at"
         " registration x share of value kept at that age (curve, source, date per row;"
-        " samples 0); basis 'band' (method 'samples') = sample aggregates. An estimate never"
-        " replaces a band."
+        " samples 0); basis 'band' (method 'samples') = sample aggregates, scope 'variant' or"
+        " 'generation' (the generation's band stands in for its variants, Decision 069)."
+        " An estimate never replaces a band. curve_fitted_on = the sample countries the"
+        " fitted curve was fitted on."
         " Amounts in each country's currency; convert at display time.",
         "anchors_as_of": p["anchors_as_of"],
         "method_ref": "research/R-40-used-ev-price-anchors.md",
@@ -408,6 +453,7 @@ def choose_curve(p: dict[str, Any], cc: str, segment: str) -> tuple[dict[str, An
                 "ref": "pipeline/ev_pipeline/derive/used_price_params.yaml#fitted",
             },
             "date": str(fitted.get("fitted_at") or ""),
+            "fitted_on": sorted(str(c) for c in fitted.get("samples_observed") or []),
         }
     curve = p["curves"].get(cc) or p["curves"]["default"]
     src = curve.get("source") or PUBLISHED_SOURCE
@@ -434,10 +480,8 @@ def generation_bands(
 ) -> list[dict[str, Any]]:
     """Sampled generation-level bands (schema UsedPriceBand shape), fresh and big enough only."""
     out = []
-    for s in samples:
-        if s["variant_id"] or s["n"] < int(p["min_samples"]):
-            continue
-        if (as_of - date.fromisoformat(s["observed_at"][:10])).days > int(p["max_sample_age_days"]):
+    for s in fresh_samples(samples, p, as_of):
+        if s["variant_id"]:
             continue
         out.append(
             {
@@ -512,14 +556,15 @@ def coverage_lines(log: dict[str, Any]) -> list[str]:
     )
     lines += [
         "",
-        "| Country | Model bands | Sampled bands | Not enough data |",
-        "|---|---|---|---|",
+        "| Country | Model bands | Sampled bands (variant) | Sampled bands (generation)"
+        " | Not enough data |",
+        "|---|---|---|---|---|",
     ]
     b = log["bands"]
     for cc in sorted({k.split(" ")[0] for k in b}):
         lines.append(
             f"| {cc} | {b.get(f'{cc} model', 0)} | {b.get(f'{cc} samples', 0)}"
-            f" | {b.get(f'{cc} not enough data', 0)} |"
+            f" | {b.get(f'{cc} generation samples', 0)} | {b.get(f'{cc} not enough data', 0)} |"
         )
     bt = log.get("backtest") or {}
     lines.append("")
@@ -533,7 +578,8 @@ def coverage_lines(log: dict[str, Any]) -> list[str]:
     ho = (bt.get("holdout") or {}).get("fitted") or {}
     if ho.get("rows_compared"):
         lines.append(
-            f"Hold-out (leave one generation out): {ho['rows_compared']} rows, median absolute"
-            f" error {ho['median_abs_error']:.0%}."
+            f"Hold-out (leave one generation out, as shown to visitors): {ho['rows_compared']}"
+            f" rows, median absolute error {ho['median_abs_error']:.0%}, real median inside the"
+            f" shown P25-P75 {ho['in_band']:.0%}."
         )
     return lines

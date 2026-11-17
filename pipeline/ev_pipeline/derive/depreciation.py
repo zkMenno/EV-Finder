@@ -12,8 +12,12 @@ that segment alone has enough points and generations (`fit` thresholds in
 used_price_params.yaml). The fitted table goes into used_price_params.yaml (a gate file) via
 `ev used-price fit`; releases read it from there and never refit silently.
 
-Back-test (rule G-10): leave one generation out (fit on the others, predict the held-out
-generation's samples), median and worst errors, next to the published curve on the same
+Back-test (rule G-10): leave one generation out and run exactly what a visitor would see for
+it: fit_curves on the other generations (with the same thresholds, so a thin fold falls back
+to the published curve) -> choose_curve (segment curve if that fold has one) -> kept_share on
+the rounded yearly table -> each variant's list price -> rounded median and P25/P75
+(used_price.shown_band). Reported: median and worst errors of the shown median, and the share
+of real sample medians inside the shown P25-P75 band; next to the published curve on the same
 points. That is the honest error of an estimate for a car we have no samples for.
 """
 
@@ -22,11 +26,17 @@ from __future__ import annotations
 import math
 import statistics
 from collections import defaultdict
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import date
 from typing import Any
 
-from ev_pipeline.derive.used_price import age_at, kept_share, pick_list_price
+from ev_pipeline.derive.used_price import (
+    age_at,
+    choose_curve,
+    kept_share,
+    pick_list_price,
+    shown_band,
+)
 
 # Used only when used_price_params.yaml has no `fit:` block (the gate PR adds it).
 DEFAULT_FIT = {
@@ -51,7 +61,9 @@ class Point:
     share: float
     samples: int
     sample_median: float
-    list_price: float
+    list_price: float  # median over the variants below
+    # Each matching variant's list price for this country and year (what its row would use).
+    variant_list_prices: dict[str, float] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -82,14 +94,14 @@ def fit_points(
             vs = by_gen.get(str(s["generation_id"]), [])
         if not vs:
             continue
-        amounts = []
+        amounts: dict[str, float] = {}
         for v in vs:
             lp = pick_list_price(prices, str(v["variant_id"]), s["country"], s["build_year"], p)
             if lp is not None and lp["currency"] == s["currency"]:
-                amounts.append(float(lp["amount"]))
+                amounts[str(v["variant_id"])] = float(lp["amount"])
         if not amounts or s["median"] <= 0:
             continue
-        lpm = statistics.median(amounts)
+        lpm = statistics.median(amounts.values())
         out.append(
             Point(
                 subject=str(s["variant_id"] or s["generation_id"]),
@@ -102,6 +114,7 @@ def fit_points(
                 samples=s["n"],
                 sample_median=s["median"],
                 list_price=lpm,
+                variant_list_prices=amounts,
             )
         )
     return out
@@ -196,50 +209,95 @@ def fit_curves(points: list[Point], p: dict[str, Any]) -> dict[str, Any]:
 def _errors(rows: list[dict[str, Any]], worst_n: int) -> dict[str, Any]:
     errs = [r["error"] for r in rows]
     if not errs:
-        return {"rows_compared": 0, "median_abs_error": None, "median_error": None, "worst": []}
+        return {
+            "rows_compared": 0,
+            "median_abs_error": None,
+            "median_error": None,
+            "in_band": None,
+            "worst": [],
+        }
     worst = sorted(rows, key=lambda r: -abs(r["error"]))[:worst_n]
     return {
         "rows_compared": len(rows),
         "median_abs_error": round(statistics.median(abs(e) for e in errs), 3),
         "median_error": round(statistics.median(errs), 3),
         "within_15pct": round(sum(abs(e) <= 0.15 for e in errs) / len(errs), 3),
+        # Share of real sample medians inside the P25-P75 band the visitor is shown.
+        "in_band": round(sum(r["in_band"] for r in rows) / len(rows), 3),
         "worst": worst,
     }
 
 
-def holdout_backtest(
-    points: list[Point], p: dict[str, Any], published: dict[str, Any]
-) -> dict[str, Any]:
-    """Leave one generation out: the fit's error on cars it never saw, vs the published
-    curve on the same points (G-10: median error and worst cases)."""
+def _shown(pt: Point, curve: dict[str, Any], p: dict[str, Any]) -> dict[str, float] | None:
+    """What the visitor sees for this point: each variant's rounded band (shown_band), then
+    the median across the generation's variants (one variant for a variant sample)."""
+    share = kept_share(pt.age, curve)
+    if share is None:
+        return None
+    bands = [shown_band(a, share, p) for a in pt.variant_list_prices.values()] or [
+        shown_band(pt.list_price, share, p)
+    ]
+    return {k: statistics.median(b[k] for b in bands) for k in ("p25", "median", "p75")}
+
+
+def holdout_backtest(points: list[Point], p: dict[str, Any]) -> dict[str, Any]:
+    """Leave one generation out through the visitor's path (module docstring): the error of
+    the shown estimate on cars the fit never saw, vs the published curve on the same points
+    (G-10: median error, band coverage and worst cases)."""
     fs = fit_settings(p)
     worst_n = int(fs["worst_listed"])
-    fitted_rows, published_rows = [], []
+    published_p = {**p, "fitted": None}
+    fitted_rows: list[dict[str, Any]] = []
+    published_rows: list[dict[str, Any]] = []
+    curves_used: dict[str, int] = defaultdict(int)
     for gid in sorted({pt.generation_id for pt in points}):
         train = [pt for pt in points if pt.generation_id != gid]
-        ak = fit_exponential(train) if _enough(train, 2, 2) else None
+        fold = fit_curves(train, p)
+        fold_p = {
+            **p,
+            "fitted": (
+                {**(p.get("fitted") or {}), "default": fold["default"],
+                 "by_segment": fold["by_segment"]}
+                if fold["default"]
+                else None
+            ),
+        }  # fmt: skip
         for pt in (x for x in points if x.generation_id == gid):
             base = {
                 "subject": pt.subject,
                 "country": pt.country,
                 "build_year": pt.build_year,
                 "samples": pt.samples,
-                "share": round(pt.share, 3),
+                "sample_median": round(pt.sample_median),
             }
-            if ak is not None:
-                est = predict(ak, pt.age)
-                fitted_rows.append(
-                    {**base, "estimate": round(est, 3), "error": round(est / pt.share - 1, 3)}
-                )
-            pub = kept_share(pt.age, published)
-            if pub is not None:
-                published_rows.append(
-                    {**base, "estimate": round(pub, 3), "error": round(pub / pt.share - 1, 3)}
+            for which, pp, out in (
+                ("fitted", fold_p, fitted_rows),
+                ("published", published_p, published_rows),
+            ):
+                curve, info = choose_curve(pp, pt.country, pt.segment)
+                shown = _shown(pt, curve, p)
+                if shown is None:
+                    continue
+                if which == "fitted":
+                    curves_used[info["curve"]] += 1
+                out.append(
+                    {
+                        **base,
+                        "curve": info["curve"],
+                        **shown,
+                        "error": round(shown["median"] / pt.sample_median - 1, 3),
+                        "in_band": shown["p25"] <= pt.sample_median <= shown["p75"],
+                    }
                 )
     return {
-        "method": "leave one generation out: fit on the other generations, estimate this one",
-        "error": "estimate / sample median - 1 (asking prices)",
-        "fitted": _errors(fitted_rows, worst_n),
+        "method": "leave one generation out: fit on the other generations, then the visitor's"
+        " path (choose_curve, kept_share on the yearly table, rounded band per variant)",
+        "error": "shown median / sample median - 1 (asking prices); in_band = sample median"
+        " inside the shown P25-P75",
+        "fitted": {
+            **_errors(fitted_rows, worst_n),
+            "curves_used": dict(sorted(curves_used.items())),
+        },
         "published": _errors(published_rows, worst_n),
     }
 
@@ -247,7 +305,6 @@ def holdout_backtest(
 def fit_block(
     points: list[Point],
     p: dict[str, Any],
-    published: dict[str, Any],
     fitted_at: str,
     release: int | None,
 ) -> dict[str, Any]:
@@ -263,7 +320,7 @@ def fit_block(
         **({"note": curves["note"]} if "note" in curves else {}),
         "holdout": {
             k: (v if k == "method" else {kk: vv for kk, vv in v.items() if kk != "worst"})
-            for k, v in holdout_backtest(points, p, published).items()
+            for k, v in holdout_backtest(points, p).items()
             if k in ("method", "fitted", "published")
         },
     }
