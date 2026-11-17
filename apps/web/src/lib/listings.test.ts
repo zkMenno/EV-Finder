@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
+import path from "node:path";
+import * as yaml from "js-yaml";
 import { COUNTRY_SLUGS } from "@/config/countries";
-import { loadListingConfig, OUT_FILE, serialize, validateCountry } from "../../scripts/listings.mjs";
+import { CONFIG_DIR, loadListingConfig, OUT_FILE, PENDING_COUNTRIES, serialize, validateCountry } from "../../scripts/listings.mjs";
 import { buildListingUrl, hasUnverified, LISTING_REL, LISTING_SITES, LISTING_TARGET, seeListings } from "./listings";
 
 describe("seeListings", () => {
@@ -93,6 +95,17 @@ describe("listing config (config/countries/*.yaml)", () => {
         expect(s.verified).toBe(false);
         expect(s.url_template.startsWith("https://")).toBe(true);
       }
+    }
+  });
+
+  it("pending countries (es, it; T-118) validate but are not served yet (T-119)", () => {
+    const cfg = loadListingConfig();
+    for (const c of PENDING_COUNTRIES) {
+      expect(c in cfg).toBe(false);
+      const doc = yaml.load(readFileSync(path.join(CONFIG_DIR, `${c}.yaml`), "utf8"), { schema: yaml.CORE_SCHEMA });
+      const sites = validateCountry(c, doc);
+      expect(sites.length).toBeGreaterThan(0);
+      for (const s of sites) expect(s.verified).toBe(false);
     }
   });
 

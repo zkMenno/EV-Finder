@@ -1,0 +1,56 @@
+# "See listings" deep links for this country (T-009, moved here in wave 4).
+# Public search URLs only: we link out and never fetch them. No sampling targets, rates or
+# partner/affiliate ids here (Decision 004). Every pattern is an unverified guess until someone
+# opens it by hand (verified: false, Q-028).
+#
+# Fields per site:
+#   site          stable id
+#   label         button text
+#   url_template  https URL; placeholders {make} {model} (our slugs), {makeName} {modelName}
+#                 (display names), {MAKE} {MODEL} (upper-cased names); all URL-encoded
+#   filters       our filter -> query parameters added to the URL (only "electric" today)
+#   slug_overrides  our make/model slug -> the site's slug (optional)
+#   priority      lower = shown first
+#   verified      true only after a manual check of the live site
+# Loaded at build time by apps/web/scripts/listings.mjs.
+# T-118 (WS3, 2026-11-17, Decision 066): patterns checked the T-041 way, against the sites' own
+# URLs as they appear in search-engine indexes. No marketplace page was fetched. `verified` stays
+# false until a person taps the link once (checklist: workstreams/WS3/T-041-checklist.md, ES/IT).
+
+country: it
+# UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
+# these languages plus English. /{country}/ redirects to default_language. Read by
+# apps/web/scripts/countries.mjs. Spanish and Italian serve Spain and Italy only (Decision 066).
+languages: [it]
+default_language: it
+listings:
+  - site: autoscout24-it
+    label: AutoScout24
+    # evidence: indexed search-engine URLs https://www.autoscout24.it/lst/tesla/model-3/parma and
+    # /lst/tesla/model-3/bc_bianco confirm /lst/{make}/{model} with our slugs; fuel=E as on the
+    # other AutoScout24 sites (unchecked for .it).
+    url_template: "https://www.autoscout24.it/lst/{make}/{model}"
+    filters:
+      electric: { fuel: E }
+    priority: 1
+    verified: false
+  - site: subito
+    label: Subito
+    # evidence: weak. Subito's indexed car URLs are single listings (https://www.subito.it/auto/...),
+    # which we never use. The nationwide car search with a free-text q parameter is the site's own
+    # search form; no indexed copy was found, so this pattern is a guess until someone taps it.
+    url_template: "https://www.subito.it/annunci-italia/vendita/auto/?q={makeName}+{modelName}"
+    filters: {}
+    priority: 2
+    verified: false
+
+# "Find a charger / plan a trip" link-out block (T-024; spec docs/spec/charging-buildout.md,
+# "Where we link out"). Read by apps/web/scripts/charging-links.mjs. URLs are copied from the
+# spec only. Italy is not in the spec's per-country table, so the order follows the spec's rule
+# (local map first, ABRP, Chargemap, Chargeprice) with Electromaps first: the spec lists it as
+# "strong in Spain and Italy". Not yet opened by hand (unverified).
+charging_links:
+  - {order: 1, job: map, tool: electromaps, label: Electromaps, url: "https://www.electromaps.com/"}
+  - {order: 2, job: route-planner, tool: abrp, label: "A Better Routeplanner (ABRP)", url: "https://abetterrouteplanner.com/"}
+  - {order: 3, job: map, tool: chargemap, label: Chargemap, url: "https://chargemap.com/"}
+  - {order: 4, job: price-compare, tool: chargeprice, label: Chargeprice, url: "https://www.chargeprice.app/"}
