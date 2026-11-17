@@ -130,6 +130,9 @@ class ReleaseResult:
     consumption: dict[str, Any] | None = None
     # T-062: retired variant ids -> successor (or None); never loses an entry.
     retired_ids: dict[str, str | None] = field(default_factory=dict)
+    # T-069: per-variant shortlist scores (shortlist_scores.json), None = not shipped.
+    shortlist: dict[str, Any] | None = None
+    shortlist_backtest: dict[str, Any] | None = None
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -499,6 +502,10 @@ def build_release(
         taxonomy_dir=data_dir / "taxonomy",
     )
     inputs += matrix.inputs
+    from ev_pipeline.derive.shortlist import build_shortlist
+
+    shortlist = build_shortlist(rows, matrix.document, data_dir, n, catalogue["generated_at"])
+    inputs += shortlist.inputs
 
     for inp in inputs:
         inp["path"] = log_path(inp["path"], data_dir)
@@ -581,6 +588,8 @@ def build_release(
         retired_ids=retired.ids,
         towns=towns.documents,
         consumption=matrix.document,
+        shortlist=shortlist.document,
+        shortlist_backtest=shortlist.backtest,
         sections={
             "epa_range_km": epa_summary(rows),
             "generation_years": years.log,
@@ -589,6 +598,7 @@ def build_release(
             "towns": towns.log,
             "consumption_matrix": matrix.log,
             "retired_ids": retired.log,
+            "shortlist_scores": shortlist.log,
             "pack_links": link_coverage(link_report),
         },
     )
@@ -728,6 +738,9 @@ def coverage_md(res: ReleaseResult) -> str:
         lines.append(f"| {f} | " + " | ".join(cells) + " |")
     lines += pack_links_md(res.sections.get("pack_links"))
     lines += sections_md(res.sections)
+    from ev_pipeline.derive.shortlist import coverage_lines
+
+    lines += coverage_lines(res.sections.get("shortlist_scores") or {})
     return "\n".join(lines) + "\n"
 
 
@@ -924,8 +937,13 @@ def release_readme(res: ReleaseResult) -> str:
         " every generation.",
         "- Charge curves from KilowattApp are `estimated` (upstream does not say how they were"
         " obtained); km-in-N-minutes also uses an estimated motorway consumption.",
+        "- `shortlist_scores.json` is editorial: one owner's selection rules"
+        " (data/editorial/shortlist_rules.yaml) applied to our own fields. Opinion, not fact.",
         "",
     ]
+    from ev_pipeline.derive.shortlist import readme_lines
+
+    lines += readme_lines(res.shortlist_backtest)
     return "\n".join(lines)
 
 
@@ -1012,6 +1030,13 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
 
         (tmp / MATRIX_FILE).write_text(
             json.dumps(res.consumption, separators=(",", ":"), ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+    if res.shortlist is not None:  # T-069: editorial scores for the hero shortlist
+        from ev_pipeline.derive.shortlist import FILE_NAME as SHORTLIST_FILE
+
+        (tmp / SHORTLIST_FILE).write_text(
+            json.dumps(res.shortlist, separators=(",", ":"), ensure_ascii=False) + "\n",
             encoding="utf-8",
         )
     if res.towns:  # T-034: one file per country, loaded on demand by the trip module
