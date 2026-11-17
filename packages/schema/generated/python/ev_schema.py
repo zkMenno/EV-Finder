@@ -1845,6 +1845,11 @@ class ChargingStatsRelease(BaseModel):
     stats: list[ChargingStat]
 
 
+class Scope(Enum):
+    variant = 'variant'
+    generation = 'generation'
+
+
 class FeatureAvailability(Enum):
     yes = 'yes'
     no = 'no'
@@ -2530,6 +2535,14 @@ class UsedPriceYearBand(BaseModel):
     )
     list_source_ids: list[str] | None = None
     observed_at: str | None = None
+    scope: Scope | None = Field(
+        None,
+        description="band rows: variant = this variant's own samples; generation = its generation's samples standing in (Decision 069).",
+    )
+    curve_fitted_on: list[CountryCode] | None = Field(
+        None,
+        description='estimate rows: countries whose samples fitted the curve, e.g. [BE, NL].',
+    )
 
 
 class Variant1(BaseModel):
@@ -2557,6 +2570,11 @@ class UsedPricesRelease(BaseModel):
     generation_bands: list[dict[str, Any]] | None = None
     curves: dict[str, Any] | None = None
     backtest: dict[str, Any] | None = None
+    spread: float | None = Field(
+        None,
+        description='Band half-width around estimates as a share of the median (params file), e.g. 0.12.',
+        ge=0.0,
+    )
 
 
 class Generation(BaseModel):
@@ -2982,6 +3000,7 @@ class UsedPriceBand(BaseModel):
     build_year: int | None = Field(None, ge=1990)
     basis: UsedPriceBasis | None = None
     source: UsedPriceSourceRef | None = None
+    scope: Scope | None = None
 
 
 class ConsumptionMatrixRelease(BaseModel):
