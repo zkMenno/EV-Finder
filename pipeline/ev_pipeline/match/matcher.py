@@ -588,6 +588,15 @@ class GenerationEvidence:
     names: dict[str, set[str]] = field(default_factory=dict)  # gen id -> variant name keys
     kwh: dict[str, set[float]] = field(default_factory=dict)  # gen id -> battery sizes
     with_variants: set[str] = field(default_factory=set)
+    # Seed `source_names` (staff decisions): (source id, name key) -> (gen id, model-year span)
+    # of the seed variant that name means. In a shared year it picks the generation first.
+    pins: dict[tuple[str, str], list[tuple[str, YearSpan | None]]] = field(default_factory=dict)
+
+    def pinned(self, source_id: str, name_key: str, year: int) -> set[str]:
+        """Generations whose seed variant claims this source name for this model year."""
+        return {
+            g for g, span in self.pins.get((source_id, name_key), []) if span_covers(span, year)
+        }
 
     def add_variant(
         self, gen_id: str, name: str | None, kwh: set[float], makes_variant: bool = True
@@ -632,6 +641,13 @@ def find_generation(
     if len(hits) == 1 or evidence is None:
         return newest, ""  # no evidence index: plain "newer wins" (Q-014)
     name_key = key(record.variant_name) if record is not None else ""
+    if record is not None and name_key:
+        # A seed source name scoped to these model years (`source_names`) is a staff decision:
+        # it outranks name/kWh evidence, which would send the shared year to the newest
+        # generation (T-068: OpenEV Ioniq 5 MY2024 "Base" is the gen1 77.4 kWh car, T-110).
+        pinned = [g for g in hits if g.id in evidence.pinned(record.source.id.root, name_key, year)]
+        if len(pinned) == 1:
+            return pinned[0], ""
     kwh = record_kwh(record) if record is not None else set()
     backed = [g for g in hits if evidence.supports(g.id, name_key, kwh)]
     if backed:
@@ -738,8 +754,11 @@ def build_evidence(
         if mv.record.source.id.root in EXCLUDED_SOURCES or mv.generation_id not in seed.generations:
             continue
         ev.add_variant(mv.generation_id, mv.name, set().union(*(record_kwh(r) for r in mv.records)))
-        for keys in mv.source_names.values():
+        for sid_, keys in mv.source_names.items():
             ev.names.setdefault(mv.generation_id, set()).update(keys)
+            for k in keys:
+                span = mv.source_name_years.get((sid_, k))
+                ev.pins.setdefault((sid_, k), []).append((mv.generation_id, span))
     for rec in records:
         sid = rec.source.id.root
         if rec.kind != "spec" or sid in EXCLUDED_SOURCES or sid in COUNT_ONLY_SOURCES:
