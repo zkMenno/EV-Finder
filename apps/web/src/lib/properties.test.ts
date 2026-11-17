@@ -20,6 +20,7 @@ import { BUDGET_MAX, heroFromSearchParams, heroToSearchParams, mergeHeroIntoUrl,
 import {
   AREAS,
   CHARGES,
+  comboKey,
   CONDITIONS,
   isComplete,
   PRESET_FIELDS,
@@ -169,7 +170,9 @@ const knownValues = fc.record(
 const FIELD_KEYS = ["dc_km_per_20min", "real_range_km", "boot_l", "consumption_kwh_100km", "ac_kw", "length_mm", "seats", "towing_kg", "kerb_mass_kg", "heat_pump", "cooling_id", "fast_on_400v", "charge_100_daily", "voltage_class_id"] as const;
 
 const heroQuery = { country: "NL" as const, cond: "any" as const, budget: null, filters: defaultFilters(), presetsOff: [], nowYear: 2026 };
-const qualifies = (row: ExploreRow, rp: ResolvedProfile) => rankHero([row], rp, heroQuery).qualifying === 1;
+/** Scores come from the release (Decision 065): give the row a release score for this profile. */
+const withScore = (row: ExploreRow, rp: ResolvedProfile, score = 50): ExploreRow => ({ ...row, shortlist: { s: { [comboKey(rp)]: [score, "consider"] } } });
+const qualifies = (row: ExploreRow, rp: ResolvedProfile) => rankHero([withScore(row, rp)], rp, heroQuery, { hasScores: true }).qualifying === 1;
 
 // ── 1. URL state round-trips (design principle 3: state never gets lost) ───────────────────
 
@@ -267,7 +270,7 @@ describe("compare URL", () => {
 // ── 2. The hero never drops a car for missing data (Decision 055) ──────────────────────────
 
 describe("hero ranking", () => {
-  it(`a car we know nothing about qualifies for every profile (${PROFILES.length} answer sets)`, () => {
+  it(`a scored car we know nothing else about qualifies for every profile (${PROFILES.length} answer sets)`, () => {
     for (const rp of PROFILES) expect(qualifies(baseRow(0), rp), rp.base.id).toBe(true);
   });
 
@@ -285,9 +288,9 @@ describe("hero ranking", () => {
 
   it("ranks are 1..n, at most 10, one card per model, best score first", () => {
     fc.assert(
-      fc.property(fc.array(knownValues, { minLength: 1, maxLength: 25 }), fc.constantFrom(...PROFILES), (vals, rp) => {
-        const rows = vals.map((v, i) => ({ ...baseRow(i % 7), variant_id: `v${i}`, ...v }) as ExploreRow);
-        const { picks, qualifying } = rankHero(rows, rp, heroQuery);
+      fc.property(fc.array(fc.tuple(knownValues, fc.integer({ min: 0, max: 1000 })), { minLength: 1, maxLength: 25 }), fc.constantFrom(...PROFILES), (vals, rp) => {
+        const rows = vals.map(([v, sc], i) => withScore({ ...baseRow(i % 7), variant_id: `v${i}`, ...v } as ExploreRow, rp, sc / 10));
+        const { picks, qualifying } = rankHero(rows, rp, heroQuery, { hasScores: true });
         expect(picks.length).toBe(Math.min(10, qualifying));
         expect(picks.map((p) => p.rank)).toEqual(picks.map((_, i) => i + 1));
         expect(new Set(picks.map((p) => p.row.model_id)).size).toBe(picks.length);

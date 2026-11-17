@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { HAS_SCORES, NO_SCORES_REASON } from "./release";
 
 // T-080: the landing-page hero ranks the published release for each profile.
 const PROFILES: [string, string][] = [
@@ -10,6 +11,7 @@ const PROFILES: [string, string][] = [
 
 for (const [name, qs] of PROFILES) {
   test(`hero: ${name} gets a top 10 with the first 5 as the shortlist`, async ({ page }) => {
+    test.skip(!HAS_SCORES, NO_SCORES_REASON);
     await page.goto(`/nl/en?${qs}`);
     await expect(page.getByTestId("hero-card")).toHaveCount(10);
     await expect(page.getByTestId("hero-shortlist").getByTestId("hero-card")).toHaveCount(5);
@@ -23,11 +25,22 @@ test("hero: picking answers builds the profile and the URL", async ({ page }) =>
   await expect(page.getByTestId("hero-results")).toContainText("Answer the questions");
   await page.getByText("A second car").click();
   await expect(page.getByTestId("hero-profile")).toContainText("Runabout");
-  await expect(page.getByTestId("hero-card").first()).toBeVisible();
   await expect(page).toHaveURL(/role=second/);
+  // Ranked cards with release scores; without them the hero says so (Decision 065).
+  await expect(page.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible();
+});
+
+test("hero: without release scores it says 'ranking not available yet' and ranks nothing (Decision 065)", async ({ page }) => {
+  test.skip(HAS_SCORES, "the release under test has shortlist_scores.json");
+  await page.goto("/nl/en?role=only&trips=monthly&charge=home&budget=15000");
+  await expect(page.getByTestId("hero-no-scores")).toContainText("Ranking not available yet");
+  await expect(page.getByTestId("hero-card")).toHaveCount(0);
+  await page.goto("/nl/nl?role=second");
+  await expect(page.getByTestId("hero-no-scores")).toContainText("Ranglijst nog niet beschikbaar");
 });
 
 test("hero: changing the budget re-ranks without a reload", async ({ page }) => {
+  test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.goto("/nl/en?role=only&trips=monthly&cond=new");
   await expect(page.getByTestId("hero-card")).toHaveCount(10);
   const marker = await page.evaluate(() => {
@@ -48,6 +61,7 @@ test("hero: changing the budget re-ranks without a reload", async ({ page }) => 
 });
 
 test("hero: removing a profile filter and adding to compare", async ({ page }) => {
+  test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.goto("/nl/en?role=only&trips=monthly");
   const chips = page.getByTestId("hero-presets").getByRole("button");
   const n = await chips.count();
@@ -59,6 +73,7 @@ test("hero: removing a profile filter and adding to compare", async ({ page }) =
 });
 
 test("hero: works at 360 px without sideways scrolling, NL strings", async ({ page }) => {
+  test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto("/nl/nl?role=second&budget=20000");
   await expect(page.getByTestId("hero-card")).toHaveCount(10);
@@ -68,8 +83,11 @@ test("hero: works at 360 px without sideways scrolling, NL strings", async ({ pa
 });
 
 test("hero: Nerd shows how the score is built", async ({ page }) => {
+  test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.goto("/nl/en?role=only&trips=monthly&level=nerd");
   await expect(page.getByTestId("hero-nerd").first()).toContainText("Score");
+  // The scores are the release's own (Decision 065), and Nerd mode says so.
+  await expect(page.getByTestId("hero-nerd-source").first()).toContainText("shortlist_scores.json");
 });
 
 test("hero: links the launch /learn guides that exist", async ({ page }) => {
@@ -87,6 +105,7 @@ test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside
 });
 
 test("hero: Dutch Nerd score table fits a 360 px phone (verify-web found 7 px overflow)", async ({ page }) => {
+  test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto("/nl/nl?role=only&trips=monthly&level=nerd");
   await expect(page.getByTestId("hero-nerd").first()).toBeVisible();

@@ -2,7 +2,8 @@
 // The landing-page hero (T-080, Decision 051): country → 4-tap profile picker → budget with a rough
 // monthly estimate → optional refine → top 10, the first five marked "Your shortlist".
 // The server renders the first result from the URL; the browser re-ranks on every change with the
-// same pure functions (src/lib/shortlist.ts) once the compact catalogue has loaded. All state is in
+// same pure functions (src/lib/shortlist.ts) once the compact catalogue has loaded. Scores come from
+// the release's shortlist_scores.json (Decision 065); without it the hero says so and ranks nothing. All state is in
 // the URL; the refine filters are Explore's filters, kept in step through src/lib/filter-bus.ts.
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Body, Country, Currency } from "@ev/schema";
@@ -59,6 +60,10 @@ export interface HeroProps {
   initial: HeroState;
   /** Ranked on the server from the URL; null when the picker isn't answered yet. */
   initialResult: HeroResult | null;
+  /** The release has shortlist_scores.json (Decision 065). */
+  hasScores: boolean;
+  /** Release number (Nerd mode names where the scores come from). */
+  release: number;
   dataUrl: string;
   total: number;
   finance: FinanceProfileView | null;
@@ -289,8 +294,8 @@ export function Hero(props: HeroProps) {
       presetsOff: hero.presetsOff,
       usedBands: props.usedBands,
       nowYear: props.nowYear,
-    });
-  }, [rp, rows, dirty, hero, props.code, props.usedBands, props.nowYear, props.initialResult]);
+    }, { hasScores: props.hasScores });
+  }, [rp, rows, dirty, hero, props.code, props.usedBands, props.nowYear, props.initialResult, props.hasScores]);
 
   const monthly = hero.budget !== null ? monthlyFor(hero.budget, loan) : null;
   const ui: FinanceUi = {
@@ -359,6 +364,9 @@ export function Hero(props: HeroProps) {
             </label>
             {tip("keep-8-years")}
           </div>
+          {/* The release scores have no keep-8-years combination yet (T-069 combos), so the box is
+              remembered but can't change the order: say so rather than pretend (Decision 065). */}
+          {hero.answers.keep8 ? <p className="text-xs text-slate-700" data-testid="hero-keep8-note">{t("hero.keep8.pending")}</p> : null}
 
           <div className="mt-3 rounded-md bg-slate-50 p-3" aria-live="polite" data-testid="hero-profile">
             {rp ? (
@@ -670,24 +678,40 @@ function Results(r: ResultsProps) {
   const activePresets = r.presets.filter((p) => !r.hero.presetsOff.includes(p.field));
   return (
     <section aria-labelledby={id} className="mt-8" data-testid="hero-results">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 id={id} className="font-[family-name:var(--font-display)] text-2xl font-bold">
-          {t("hero.results.title", { n: Math.min(10, result?.picks.length ?? 10) })}
-        </h2>
-        <button type="button" onClick={r.share} className="min-h-11 text-sm text-blue-800 underline underline-offset-2">
-          {r.copied ? t("hero.results.copied") : t("hero.results.share")}
-        </button>
-      </div>
-      <p className="mt-1 text-sm text-slate-800" aria-live="polite" data-testid="hero-count">
-        {result ? t("hero.results.count", { n: result.qualifying }) : t("hero.results.updating")}
-      </p>
-      <ul className="mt-2 grid gap-1 text-xs text-slate-700">
-        <li>{rp.base.calibrated ? t("hero.caveat.owner") : t("hero.caveat.research")}</li>
-        <li>{t("hero.caveat.winter")}</li>
-        {result && result.unpriced > 0 ? <li data-testid="hero-unpriced">{t("hero.unpriced")}</li> : null}
-      </ul>
+      {result?.status === "no-scores" ? (
+        // No release scores: no count, no "top 0", just the plain reason (Decision 065).
+        <>
+          <h2 id={id} className="sr-only">
+            {t("hero.results.title", { n: 10 })}
+          </h2>
+          <div className="mt-4 rounded-md border border-slate-300 p-4" role="status" data-testid="hero-no-scores">
+            <p className="font-semibold">{t("hero.noScores")}</p>
+            <p className="mt-1 text-sm text-slate-800">{t("hero.noScores.why")}</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 id={id} className="font-[family-name:var(--font-display)] text-2xl font-bold">
+              {t("hero.results.title", { n: Math.min(10, result?.picks.length ?? 10) })}
+            </h2>
+            <button type="button" onClick={r.share} className="min-h-11 text-sm text-blue-800 underline underline-offset-2">
+              {r.copied ? t("hero.results.copied") : t("hero.results.share")}
+            </button>
+          </div>
+          <p className="mt-1 text-sm text-slate-800" aria-live="polite" data-testid="hero-count">
+            {result ? t("hero.results.count", { n: result.qualifying }) : t("hero.results.updating")}
+          </p>
+          <ul className="mt-2 grid gap-1 text-xs text-slate-700">
+            <li>{rp.base.calibrated ? t("hero.caveat.owner") : t("hero.caveat.research")}</li>
+            {/* With release scores the winter figures are the release's own estimates (Decision 065). */}
+            <li>{result?.picks.some((p) => p.result.derived.winter_range_km !== undefined) ? t("hero.caveat.winterEstimate") : t("hero.caveat.winter")}</li>
+            {result && result.unpriced > 0 ? <li data-testid="hero-unpriced">{t("hero.unpriced")}</li> : null}
+          </ul>
+        </>
+      )}
 
-      {result && result.picks.length === 0 ? (
+      {result && result.status === "ranked" && result.picks.length === 0 ? (
         <div className="mt-4 rounded-md border border-slate-300 p-4" data-testid="hero-empty">
           <p>{t("hero.results.empty")}</p>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -751,16 +775,19 @@ function Results(r: ResultsProps) {
 function reasonText(pick: HeroPick, r: ResultsProps): string {
   const { t, locale } = r;
   const row = pick.row;
+  const d = pick.result.derived;
+  // Plus reasons from the release, with the values the release scored them on (winter range and
+  // real efficiency are its own derived estimates, Decision 065).
   const bits = reasons(pick.result).map((x) => {
     switch (x.id) {
       case "dc-speed":
         return t("hero.why.dc-speed", { km: formatNumber(row.dc_km_per_20min, locale, 0) });
       case "winter-range":
-        return t("hero.why.winter-range", { km: formatNumber(row.real_range_km, locale, 0) });
+        return d.winter_range_km !== undefined ? t("hero.why.winter-range.winter", { km: formatNumber(d.winter_range_km, locale, 0) }) : t("hero.factor.winter-range");
       case "space":
         return t("hero.why.space", { l: formatNumber(row.boot_l, locale, 0) });
       case "efficiency":
-        return t("hero.why.efficiency", { kwh: formatNumber(row.consumption_kwh_100km, locale, 1) });
+        return d.real_wh_km !== undefined ? t("hero.why.efficiency", { kwh: formatNumber(d.real_wh_km / 10, locale, 1) }) : t("hero.factor.efficiency");
       case "ac-speed":
         return t("hero.why.ac-speed", { kw: formatNumber(row.ac_kw, locale, 1) });
       case "size":
@@ -832,7 +859,16 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               <dt className="text-slate-700">
                 {t("hero.card.winter")} <TermInfo term={props.terms["real-winter-range"]} base={props.base} text={{ about: t("term.about"), learnMore: t("term.learnMore") }} />
               </dt>
-              <dd className="text-slate-800">{t("hero.card.notKnown")}</dd>
+              <dd className={pick.result.derived.winter_range_km !== undefined ? "font-semibold tabular-nums" : "text-slate-800"} data-testid="hero-winter">
+                {pick.result.derived.winter_range_km !== undefined ? (
+                  <>
+                    {`${formatNumber(pick.result.derived.winter_range_km, locale, 0)} km`}
+                    <span className="block text-xs font-normal text-slate-700">{t("hero.card.winterEstimate")}</span>
+                  </>
+                ) : (
+                  t("hero.card.notKnown")
+                )}
+              </dd>
             </div>
             <div>
               <dt className="text-slate-700">{t("hero.card.price")}</dt>
@@ -883,6 +919,34 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   );
 }
 
+/** The car's own value behind a factor, from the catalogue row or the release's derived inputs
+ *  (in the factor's own unit: km per 20 min, km, Wh/km, litres, kW, metres; units: T-097). */
+function factorValue(id: string, pick: HeroPick, locale: string): string | null {
+  const row = pick.row;
+  const d = pick.result.derived;
+  const n = (v: number | null | undefined, digits: number) => (typeof v === "number" ? formatNumber(v, locale, digits) : null);
+  switch (id) {
+    case "dc-speed":
+      return n(row.dc_km_per_20min, 0);
+    case "winter-range":
+      return n(d.winter_range_km, 0);
+    case "efficiency":
+      return n(d.real_wh_km, 0);
+    case "space":
+      return n(row.boot_l, 0);
+    case "ac-speed":
+      return n(row.ac_kw, 1);
+    case "size":
+      return n(typeof row.length_mm === "number" ? row.length_mm / 1000 : null, 2);
+    case "heat-pump":
+      return row.heat_pump ?? null;
+    case "battery-health-risk":
+      return row.cooling_id ?? null;
+    default:
+      return null;
+  }
+}
+
 function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   const { t, locale } = r;
   const res = pick.result;
@@ -905,16 +969,19 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
           </tr>
         </thead>
         <tbody>
-          {res.factors.map((f) => (
-            <tr key={f.id}>
-              <th scope="row" className="font-normal hyphens-auto [overflow-wrap:anywhere]">
-                {t(`hero.factor.${f.id}` as MsgKey)}
-              </th>
-              <td className={f.known && typeof f.value === "number" ? "whitespace-nowrap tabular-nums" : "tabular-nums"}>{f.known ? (typeof f.value === "number" ? formatNumber(f.value, locale, 1) : String(f.value)) : t("hero.card.notKnown")}</td>
-              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score, locale, 2)}</td>
-              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
-            </tr>
-          ))}
+          {res.factors.map((f) => {
+            const v = factorValue(f.id, pick, locale);
+            return (
+              <tr key={f.id}>
+                <th scope="row" className="font-normal hyphens-auto [overflow-wrap:anywhere]">
+                  {t(`hero.factor.${f.id}` as MsgKey)}
+                </th>
+                <td className={v !== null ? "whitespace-nowrap tabular-nums" : "tabular-nums"}>{v ?? (f.score === null ? t("hero.card.notKnown") : "—")}</td>
+                <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score ?? 0.5, locale, 2)}</td>
+                <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       </div>
@@ -922,6 +989,7 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
         <p className="mt-1">{t("hero.nerd.adjust", { list: res.adjustments.map((a) => `${t(`hero.adj.${a.id}` as MsgKey)} ${a.points > 0 ? "+" : ""}${a.points}`).join(", ") })}</p>
       ) : null}
       <p className="mt-1">{t("hero.nerd.rules")}</p>
+      <p className="mt-1" data-testid="hero-nerd-source">{t("hero.nerd.source", { n: r.props.release })}</p>
     </div>
   );
 }
