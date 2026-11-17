@@ -1,4 +1,4 @@
-# REVIEW.md — draft (T-120). WS0 adopts it as /REVIEW.md on main.
+# REVIEW.md — what a reviewer checks (Decision 062, T-120)
 
 Reviewers (fresh agent, QA chat or `/review`) read this file **from `main`, never from the PR branch**. A PR that changes this file is a gate change (T-121) and gets its own PR.
 
@@ -8,13 +8,17 @@ Reviewers (fresh agent, QA chat or `/review`) read this file **from `main`, neve
 3. For each: pass / fail, plus the evidence (command output, screenshot, number). "Looks fine" is not evidence.
 4. Rate each finding: **must-fix** (blocks merge), **should-fix** (before public), **nit**, **pre-existing** (not the author's fault; log it, don't block).
 5. Fix rounds: up to 3. Still failing → stop, write it in the task's `## Review`, ping WS0 INBOX.
+6. **One review = one commit.** Note the head SHA you reviewed. If the head moves during review, re-run R0 and the triggered items on the new head.
+7. Write the result under `## Review` in the task file: reviewer, date, head SHA, item ids and verdicts, e.g. `R0–R3, D1, D3: pass (abc1234)`.
+
+Read this file with `git show origin/main:REVIEW.md`, so a PR can't change the rules it is judged by.
 
 ## Always
 | # | Check | Why (incident) |
 |---|---|---|
 | R0 | CI green **on the PR head commit** (start with workflow_dispatch if the push didn't trigger it); review is for that commit only | WS2 retro: pushes from sessions don't start CI |
 | R1 | No merge-conflict markers (lines starting with seven `<`, `=` or `>`) anywhere | WS2 retro: markers left after a merge |
-| R2 | PR body has an evidence pack (see AGENTS.md "Verified:" stamp); claims in MORNING/STATUS match what the code/release does | A-20 B1: MORNING.md reported MG4 8→6, the release didn't contain it |
+| R2 | PR body has an evidence pack: how it was verified (commands + results, screenshots, back-test numbers; the `Verified:` stamp lands with T-128); claims in MORNING/STATUS match what the code/release does | A-20 B1: MORNING.md reported MG4 8→6, the release didn't contain it |
 | R3 | The PR doesn't change its own checks (tests weakened/deleted, thresholds raised, CI steps removed, AGENTS/REVIEW edited) | Article: checks out of reach of the change |
 
 ## Triggered by the diff

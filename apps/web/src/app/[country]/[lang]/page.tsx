@@ -85,10 +85,14 @@ export default async function ExplorePage({ params, searchParams }: Props) {
     .sort((a, b) => a.name.localeCompare(b.name));
   const tax = localizeTaxonomy(cat.taxonomy(), lang);
   const heroTerms = Object.fromEntries(
-    ["real-range", "loan", "apr", "loan-term", "deposit", "total-cost-over-term", "used-price", "new-price"].map((id) => [id, tax.terms[id]]),
+    [
+      "real-range", "loan", "apr", "loan-term", "deposit", "total-cost-over-term", "used-price", "new-price",
+      // T-100 (WS3): hero and profile picker terms; ⓘ shows once the release carries them.
+      "shortlist", "road-tripper", "daily-driver", "runabout", "kerbside-charger", "home-area", "keep-8-years", "budget", "real-winter-range",
+    ].map((id) => [id, tax.terms[id]]),
   );
   // Launch /learn pages linked from the hero (Decision 051), only those that exist.
-  const learnLinks = ["winter-range", "charging-2026", "batteries", "battery-health", "chemistries"]
+  const learnLinks = ["winter-range", "charging-2026", "batteries-health", "batteries", "battery-health", "chemistries"]
     .map((slug) => article(slug))
     .filter((a): a is NonNullable<typeof a> => !!a)
     .slice(0, 3)
