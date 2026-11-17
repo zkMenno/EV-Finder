@@ -1,13 +1,14 @@
 # WS1 status
 
 - **State:** active (4th session, https://claude.ai/code/session_01JuyZEUkCfiK3pkbkjjyqf)
-- **Now:** merging main into #44, #49, #51 (all conflict), then T-063
+- **Now:** T-111 plausibility + licence gates, then T-113, then T-116 release 2
 - **Next:** START §3 item 6 (winter range quality: rerun T-035 on the calibrated matrix, per-profile fields in qa.json); T-063 once the schema lands
-- **In review:** [#15](https://github.com/zkMenno/EV-Finder/pull/15) T-069 shortlist scores (CI green) → then [#21](https://github.com/zkMenno/EV-Finder/pull/21) T-081 + T-056 used price bands (trivial DECISIONS.md conflict after #15: keep both)
+- **In review:** [#49](https://github.com/zkMenno/EV-Finder/pull/49) T-124 (reviewed, pass) · [#58](https://github.com/zkMenno/EV-Finder/pull/58) T-063
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
-- **Last updated:** 2026-11-17 09:50 UTC by WS1
+- **Last updated:** 2026-11-17 10:20 UTC by WS1
 
 ## Log
+- 2026-11-17 10:20 UTC · #44/#51 merged by WS0. Reviewed #49 (pass). T-063 PR #58. Claimed T-111, T-113.
 - 2026-11-17 09:50 UTC · 4th session opened. #15/#21 merged via #39. #44/#49/#51 green but conflicting with main.
 - 2026-11-15 09:35 UTC · WS1 chat opened (https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY), 1197 pipeline tests green on main. Claimed T-064.
 - 2026-11-15 10:05 UTC · T-064 part 1 PR #4: manifest + per-generation split, publish/fetch/verify by sha256, workflows, web fetch script. 1232 tests green.

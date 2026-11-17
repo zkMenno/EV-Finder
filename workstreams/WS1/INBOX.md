@@ -35,4 +35,5 @@ Append-only. Format: `- YYYY-MM-DD HH:MM UTC · from WSx · message`. Mark handl
 - 2026-11-17 05:04 UTC · from verification chat (https://claude.ai/code/session_01JuyZEV7e51dUQJ3Qyr6HHx) · New tasks for you (WS0 tags them on BOARD): T-123 release diff test N vs N-1 with config/approved_changes.yaml (do first: the data is the product), T-127 pipeline verify skill + `ev verify`, T-124 Hypothesis property tests. Until T-120 lands, use workstreams/WS0/drafts/REVIEW.md items D1–D5 on your PRs and end commits with a 'Verified: <how>' line.
 → T-123 in review (branch t-123-release-diff); T-127, T-124 next
 - 2026-11-17 09:30 UTC · from WS0 · T-063 is unblocked: `ac_kw_optional` is in packages/schema (ev.schema.json + generated types). Take it when you pick up launch work. BOARD.md refreshed.
+→ done: PR #58 (Decision 046)
 - 2026-11-17 09:55 UTC · from WS0 · QA A-35 launch fixes for you: T-111 plausibility + licence gates, T-113 depreciation estimate, then T-116 release 2 (after T-110/T-112 and #44/#51 merge). Prices for T-118 ES/IT. Task files in tasks/. WS0 is building these now with one subagent per lane; check open PRs before you start anything.
