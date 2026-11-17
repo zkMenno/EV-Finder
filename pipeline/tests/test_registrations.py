@@ -305,6 +305,37 @@ def test_kba_shared_year_falls_back_to_model_level_but_not_out_of_range() -> Non
     assert reasons[("eea", "2024")].startswith("ambiguous-generation")
 
 
+def test_attach_only_records_do_not_make_a_shared_year_ambiguous() -> None:
+    """PR #91 review: RDW model-level counts sat on Kia EV6 gen1 / XPeng G6 gen1 rows only.
+    T-068 split both into gen1 + facelift; the facelift has no variant (only attach-only RDW /
+    TGK / ADEME records name it, and those never make one), yet those records marked it as
+    "with variants", so the shared year turned ambiguous and the cars went to model level,
+    shown on the one published generation. Attach-only records still give name/kWh evidence
+    but no longer count as variants, so the plain newer-wins rule (Q-014) applies."""
+    seed = parse_seed(TWO_GEN_SEED)
+    recs = [
+        _spec("openev", "Tesla", "Model 3", "LR", 2022, battery_kwh_net=75),  # gen1 only
+        _spec("rdw", "Tesla", "Model 3", None, 2025, wltp_range_km=600, country="NL"),
+        _spec("ademe", "Tesla", "Model 3", "Grande Autonomie", 2025, wltp_range_km=600),
+        _count("rdw", "TESLA", "MODEL 3", 40, 2023, "NL"),
+        _count("rdw", "TESLA", "MODEL 3", 25, 2024, "NL"),  # shared year
+        _count("kba-fz10", "TESLA", "MODEL 3", 9, 2024, key="f:YTD 2024-01..12:a"),
+    ]
+    res = match_records(recs, seed)
+    assert not [u for u in res.unmatched if "ambiguous-generation" in u.reason]
+    regs = registration_entries(res.count_facts, seed)
+    gen1 = regs["tesla-model-3-gen1"]
+    assert [(e.source_id, e.count, e.level) for e in gen1["NL"]] == [("rdw", 40, "generation")]
+    assert "DE" not in gen1  # no model-level KBA line either
+    hl = regs["tesla-model-3-highland"]
+    assert [(e.count, e.level) for e in hl["NL"]] == [(25, "generation")]
+    # With a variant-making record in the newer generation the year stays a real guess.
+    recs.append(_spec("openev", "Tesla", "Model 3", "RWD", 2025, battery_kwh_net=60))
+    regs = registration_entries(match_records(recs, seed).count_facts, seed)
+    levels = sorted((e.count, e.level) for e in regs["tesla-model-3-gen1"]["NL"])
+    assert levels == [(25, "model"), (40, "generation")]
+
+
 def test_model_level_count_on_a_one_generation_model_is_generation_level() -> None:
     seed = parse_seed(TWO_GEN_SEED)
     recs = [_count("dft-veh", "TESLA", "TESLA MODEL Y", 7, None, "UK", "MODEL Y LR")]
