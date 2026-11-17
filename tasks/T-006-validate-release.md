@@ -1,6 +1,6 @@
 # T-006 Validate release
 Role: builder   Lane: pipeline/ev_pipeline/release   Wave: 2
-Status: review
+Status: merged (PR #1); fresh review via QA A-35
 
 ## Goal
 Range checks and release folder with catalogue.json + Parquet + diff.

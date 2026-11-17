@@ -1,6 +1,6 @@
 # T-009 Model pages
 Role: builder   Lane: apps/web (ev pages)   Wave: 3
-Status: review (builder, overnight 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, overnight 2026-11-15
 
 ## Goal
 Make/model/generation/variant pages with spec diff, See listings, sources.

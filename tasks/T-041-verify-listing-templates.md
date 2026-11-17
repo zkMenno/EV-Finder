@@ -1,6 +1,6 @@
 # T-041 Verify "See listings" search templates
 Role: WS3   Lane: config/countries   Wave: 6
-Status: review (WS3, 2026-11-15; waits for Menno's tap check)
+Status: merged (PR #33); fresh review via QA A-35; earlier note: WS3, 2026-11-15; waits for Menno's tap check
 
 ## Goal
 Replace guessed marketplace search URLs with checked patterns (Q-028).

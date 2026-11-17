@@ -1,6 +1,6 @@
 # T-025 charging_stats job and loaders
 Role: WS1   Lane: pipeline/ev_pipeline/sources, data/sources.yaml   Wave: 6
-Status: review (WS1, 2026-11-15)
+Status: merged (PR #7); fresh review via QA A-35; earlier note: WS1, 2026-11-15
 
 ## Goal
 Monthly job that loads official charging statistics into charging_stats with one definition per series.

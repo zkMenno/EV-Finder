@@ -1,6 +1,6 @@
 # T-011 Rankings
 Role: builder   Lane: apps/web (top)   Wave: 3
-Status: review (builder, overnight 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, overnight 2026-11-15
 
 ## Goal
 Three ranking lists.

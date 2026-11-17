@@ -1,6 +1,6 @@
 # T-018 Schema: bidirectional capability, charging ports, ISO 15118-20 fact
 Role: coordinator   Lane: packages/schema   Wave: 5
-Status: review (schema delegate for WS0, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: schema delegate for WS0, 2026-11-15
 
 ## Goal
 Add the types from docs/spec/bidirectional-and-connectors.md §3 so data and web lanes can build on them.

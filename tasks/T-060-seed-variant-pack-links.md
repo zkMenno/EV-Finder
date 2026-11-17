@@ -1,6 +1,6 @@
 # T-060 Seed variant pack links
 Role: WS3   Lane: data/seed/variant_links.yaml   Wave: proposed by overnight 1
-Status: review (pipeline builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: pipeline builder, 2026-11-15
 
 ## Goal
 Link the 72 rows without a battery pack (55 OpenEV/KilowattApp variants not covered by variant_links.yaml, 17 multi-pack generations).

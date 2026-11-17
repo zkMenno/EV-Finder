@@ -1,6 +1,6 @@
 # T-001 Schema v0
 Role: coordinator   Lane: packages/schema   Wave: 1
-Status: review (coordinator, 2026-11-15) — core-entity fixtures added after review
+Status: merged (PR #1); fresh review via QA A-35; earlier note: coordinator, 2026-11-15) — core-entity fixtures added after review
 
 ## Goal
 JSON Schema for every entity, generated TS + Pydantic types, fixture tests.

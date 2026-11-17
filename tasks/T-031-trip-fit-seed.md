@@ -1,6 +1,6 @@
 # T-031 Trip fit seed: speed profiles, usage profiles, heater types, heat_pump
 Role: WS3   Lane: data/taxonomy, data/seed   Wave: 7
-Status: review (WS3, 2026-11-15; launch part only)
+Status: merged (PR #32); fresh review via QA A-35; earlier note: WS3, 2026-11-15; launch part only
 
 ## Goal
 Seed the editable tables that drive Trip fit.

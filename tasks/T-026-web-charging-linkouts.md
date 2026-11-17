@@ -1,6 +1,6 @@
 # T-026 Charging link-out block + plain ABRP link
 Role: WS2   Lane: apps/web   Wave: 6
-Status: review (builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, 2026-11-15
 
 ## Goal
 Show the per-country "Find a charger / plan a trip" block on country, model and /learn pages (Core 1).

@@ -1,6 +1,6 @@
 # T-059 Integrate new sources
 Role: WS1   Lane: pipeline/ev_pipeline/{match,merge,release}   Wave: proposed by overnight 1
-Status: review (pipeline builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: pipeline builder, 2026-11-15
 
 ## Goal
 Integrate the overnight sources that only reach staging so far: RDW defects (Known issues), fueleconomy.gov (agreement counts on shared models), charging stats (EAFO, BNetzA, DfT) into catalogue / charging_stats, Wikidata corroboration of generation years.
