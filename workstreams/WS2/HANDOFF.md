@@ -1,24 +1,34 @@
-# WS2 handoff — 2026-11-15 13:20 UTC
+# WS2 handoff — 2026-11-17
 
-Chat: https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS
+Previous chat: https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS (long; start a fresh one).
 
-## State (2026-11-17 04:14 UTC)
-All WS2 PRs are merged (#22, #23, #24, #25, #28, #29, #36, #37). Nothing open. Main green.
+## State
+- Merged on 17 Nov, each after a fresh reviewer PASS and green CI on the head: #43 T-095, #47 T-126 (verify tool), #50 (Dutch Nerd hero fits phones; keep-8 ⓘ outside its label), #53 (verify fixes), #52 T-125 (property tests).
+- Open:
+  - **#54** review follow-ups (compare URL property, numeric-cell e2e guard, verify port probe, task status). Fresh review was running when this was written.
+  - **#55** T-096 hero compare button label-in-name, plus axe rule `label-content-name-mismatch` on for every a11y page. Fresh review running.
+  - **#48** docs only (WS2 STATUS, WS0/WS1 INBOX lines, task T-096). **Needs WS0 or Menno to merge**: Menno OK'd WS2 merging its own reviewed code PRs, not docs, and a direct push to main was blocked.
+- Merge rule we follow: one at a time; merge main into the branch, re-run CI (workflow_dispatch), merge only with the reviewer's PASS on that head (R0 re-checked after a main merge).
 
-## Decisions made
-- Decision 055 (hero above Explore at /{country}/{lang}/, presets/gates never drop a car for missing data, rule units). 053/054 were taken by WS0 for Dependabot.
-- Hero refine filters = Explore filters (`seats`, `ac`, `ymin`/`ymax`, `make`/`xmake` added); Explore and hero stay in step through `src/lib/filter-bus.ts` (filters + profile answers).
-- Parked features (T-091): `PARKED=1` or one flag each; parked e2e run with `E2E_PARKED=1` against a `PARKED=1` build.
+## Next tasks (in order)
+1. Finish #54 and #55: act on review findings (max 3 rounds), then merge.
+2. **T-097** (task file in #54): Nerd table "Value" column.
+   - Today it shows the scaled internal value (`raw × scale`, e.g. "1.161,6" for 387 km in 20 min).
+   - Text and boolean factors show raw English codes ("standard", "liquid", "true").
+   - Plan: add `field` to `FactorScore` (src/lib/shortlist.ts), and render the row's own field value with its unit (col.dc20.unit "km in 20 min", km, l, kWh/100 km, kW, mm).
+   - Heat pump needs new strings in 6 languages (standard / option / none). Cooling needs taxonomy labels passed from page.tsx (Hero has no taxonomy prop yet). Booleans use `yes`/`no`.
+   - e2e: the first card's fast-charge row contains "km".
+3. Wire `pnpm --filter @ev/web verify --changed` into your own PR routine (SKILL.md: apps/web/.claude/skills/verify/SKILL.md). The CI artifact step is requested from WS0 (INBOX).
 
-## Open threads
-- Owner's note built in #23 (T-067 lists it as launch). Asked WS0: /learn shows 5 articles, launch names 3 (WS3 index.yaml).
-- When WS1's T-069 publishes `shortlist_score` (schema from #30), consider reading it instead of browser scoring; keep browser scoring for re-ranking by budget.
-- Asked WS1: winter range field in PublishedVariant (cards say "In winter: not known yet"); list used_prices.json in the manifest.
-- Asked WS3: `unit:` on dc-speed rules (daily-driver/runabout read as km per 20 min).
-- UX: hero scene copied into apps/web/src/assets/illustrations (Docker image has no public/); the `evs-tex--map` texture isn't used (the app doesn't load bundle.css).
+## How to work here (lessons from this chat)
+- Session start, in every checkout or worktree: `git config core.hooksPath .githooks`. The pre-push hook blocks conflict markers. Once I forgot it and committed markers into WS0's INBOX on a branch (fixed in e9aab98).
+- Builds take about 10 min on this 2-core machine. Run reviewers one at a time where you can.
+- In a worktree, run `pnpm install --frozen-lockfile --offline`. Symlinked node_modules break Turbopack.
+- Don't measure with `node .next/standalone/.../server.js`: it serves no CSS, so widths come out wrong (about 1,993 px). Use `pnpm exec next start -p <port>`. Kill servers by PID, never `pkill -f next-server`.
+- Release 1 lacks the T-100 glossary terms. To see the hero ⓘ tooltips, build with a release copy that has the terms injected (CATALOGUE_DIR).
+- The verify tool found a real bug on its first run. Run it before every UI PR.
 
-## Next steps
-1. For new PRs: merge main in (no force-push; it's blocked here), resolve i18n JSON by key (theirs + our new keys), keep both sides of inboxes; start CI with workflow_dispatch.
-2. When WS3's T-082 content lands: link /learn/batteries from hero cards (battery-health factor) and variant pages.
-3. When a winter field lands: hero card + `rankHero` reasons + T-045 deltas.
-4. Lessons: never rebase a pushed branch; always `date -u` for inbox timestamps; grep for conflict markers before every push.
+## Decisions / defaults taken
+- Used-price quartile on the wrong side of the median → dropped, median shown alone (T-125). WS1 has been asked to add a pipeline QA rule.
+- The verify tool's second screenshot language is NL (the only complete non-EN dictionary).
+- Nerd table: full card width under the buttons; numbers `whitespace-nowrap`; factor names hyphenate; table scrolls inside the card if needed.
