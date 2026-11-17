@@ -73,7 +73,8 @@ VALUE_FIELDS: tuple[tuple[str, str, str], ...] = (
         "Winter range at -5 °C and colder, mixed driving"
         " (our estimate, temperature step unvalidated)",
     ),
-    ("ac_kw", "kW", "Maximum AC charging power"),
+    ("ac_kw", "kW", "AC charging power, standard on-board charger"),
+    ("ac_kw_optional", "kW", "AC charging power with the optional bigger on-board charger"),
     ("ac_km_per_h", "km/h", "km of WLTP range added per hour of AC charging"),
     ("dc_peak_kw", "kW", "DC peak charging power"),
     ("dc_peak_kw_is_claim", "", "true when the DC peak is a maker claim"),

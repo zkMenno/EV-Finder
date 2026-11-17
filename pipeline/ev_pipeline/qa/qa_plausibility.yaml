@@ -1,0 +1,27 @@
+# T-111 (QA A-35 B4): plausibility thresholds for the release gate (qa/plausibility.py).
+# Gate file (G-06, config/gate-files.yaml `pipeline/**/qa*.yaml`): change only in its own PR.
+# Dry run on release 1 (2026-11-17, 226 variants) chose the withhold levels; see the T-111 PR.
+schema: plausibility-qa/v1
+rules:
+  wltp_efficiency:
+    # WLTP km per usable kWh. A-35 proposed > 8 -> review. On release 1 that lists 31 rows,
+    # many genuine (Model 3 Highland LR 8.4, Ioniq 6 8.5, Dacia Spring 8.6), so > 8 is review
+    # only; values are withheld only for SUVs above 8.2 (Model Y LR 9.1, Enyaq 85 9.8, Atto 3
+    # 8.4, Kona SX2 8.3: all look wrong) and anything above 10 (also impossible_values).
+    review_above: 8.0                      # km/kWh
+    withhold_above: {suv: 8.2, default: 10.0}   # km/kWh, by catalogue `body`
+  dc_vs_peers:
+    field: dc_km_per_20min                 # km per 20 min DC
+    max_ratio: 1.3                         # x the peer median (A-35)
+    min_peers: 3                           # variants in the peer group, itself included
+    # same generation + battery pack -> withhold; generation only -> review (packs differ).
+  copied_across_generations:
+    # Only figures that change with the pack. Equal DC peaks (50 kW CHAdeMO) or equal
+    # usable kWh on renamed packs are normal across generations (44 false hits on release 1).
+    fields: [wltp_range_km, consumption_kwh_100km]
+    min_equal_fields: 1                    # primary (non-derived) values only
+    action: review                         # which variant holds the copy is unknown
+withhold_with:
+  # A derived value withheld takes these derived siblings with it (km per 10 min shares
+  # the 20-min inputs). A primary value takes every derived value built from its facts.
+  dc_km_per_20min: [dc_km_per_10min]

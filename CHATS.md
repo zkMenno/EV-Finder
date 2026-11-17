@@ -23,3 +23,4 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS0 CI | CI minutes: adapted GardenLayer #813 into rule G-33 (was P-21) + docs/process/ci-budget.md | https://claude.ai/code/session_01JuyZEXAdCd9f82L5yxijfL | 2026-11-17 |
 | WS1 (5th) | Data pipeline: fresh review #58, WS2 low-consumption report, winter range field | https://claude.ai/code/session_01JuyZEXwrHCn4kh6fda8bso | 2026-11-17 |
 | WS2 (2nd, 2026-11-17) | Web app: T-097 CI fix + review, then START §3 | https://claude.ai/code/session_01JuyZEX8cuXWPhPXbCY6bGD | 2026-11-17 |
+| WS0 (A-35 fixes) | Coordinator: A-35 launch fixes, merges #58–#70, release 2, hero walk, QA review 2 prompt | (Menno: add link) | 2026-11-17 |

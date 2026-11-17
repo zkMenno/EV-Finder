@@ -72,6 +72,19 @@ test("hero: Nerd shows how the score is built", async ({ page }) => {
   await expect(page.getByTestId("hero-nerd").first()).toContainText("Score");
 });
 
+test("hero: Nerd value column shows the car's own fast-charge figure in km (T-097)", async ({ page }) => {
+  await page.goto("/nl/en?role=only&trips=monthly&level=nerd");
+  const card = page.getByTestId("hero-card").first();
+  const cell = card.getByTestId("hero-nerd-value-dc-speed");
+  await expect(cell).toContainText("km");
+  const nerd = (await cell.textContent()) ?? "";
+  // Same figure as the card's own "fast charging (N km in 20 min)" line, not the ×3 km/h score unit.
+  const why = (await card.getByTestId("hero-why").textContent()) ?? "";
+  const own = why.match(/([\d,.]+) km in 20 min/)?.[1];
+  expect(own, `card why line: ${why}`).toBeTruthy();
+  expect(nerd).toBe(`${own} km in 20 min`);
+});
+
 test("hero: links the launch /learn guides that exist", async ({ page }) => {
   await page.goto("/nl/en?role=main&trips=never");
   const learn = page.getByTestId("hero-learn");
@@ -86,24 +99,51 @@ test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside
   await expect(page.getByRole("checkbox", { name: "I want to keep it 8 years or more", exact: true })).toHaveCount(1);
 });
 
-test("hero: Dutch Nerd score table fits a 360 px phone (verify-web found 7 px overflow)", async ({ page }) => {
+// Every served language, every card: German compounds and units are wider than Dutch (T-097 review
+// found 18 px). Only routes that are served (countries config); /nl/de would 308 to /nl/nl, so the
+// test fails if a route redirects. ES/IT join once T-119 serves them.
+for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de"]) test(`hero: ${route} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto("/nl/nl?role=only&trips=monthly&level=nerd");
+  await page.goto(`/${route}?role=only&trips=monthly&level=nerd`);
+  expect(new URL(page.url()).pathname, "route was redirected, so this language isn't really tested").toBe(`/${route}`);
   await expect(page.getByTestId("hero-nerd").first()).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
   // Numbers stay whole ("1.161,6", never "1.161," / "6") and the table isn't cut off in its card.
+  // A value's unit may wrap ("387 km" / "in 20 min", T-097), so this measures each number, not each cell.
   const table = await page.evaluate(() => {
-    const box = document.querySelector('[data-testid="hero-nerd"] table')!.parentElement!;
-    const cells = [...box.querySelectorAll("td")].filter((td) => /\d/.test(td.textContent ?? ""));
-    const lines = (td: Element) => {
-      const r = document.createRange();
-      r.selectNodeContents(td);
-      return new Set([...r.getClientRects()].map((x) => Math.round(x.top))).size;
-    };
-    return { clipped: box.scrollWidth - box.clientWidth, numberCells: cells.length, split: cells.filter((td) => lines(td) > 1).length };
+    const boxes = [...document.querySelectorAll('[data-testid="hero-nerd"] table')].map((t) => t.parentElement!);
+    const cells = boxes.flatMap((box) => [...box.querySelectorAll("td")]).filter((td) => /\d/.test(td.textContent ?? ""));
+    let split = 0;
+    for (const td of cells) {
+      const walker = document.createTreeWalker(td, NodeFilter.SHOW_TEXT);
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+        for (const m of (n.textContent ?? "").matchAll(/\d[\d.,\u202f\u00a0]*/g)) {
+          const r = document.createRange();
+          r.setStart(n, m.index!);
+          r.setEnd(n, m.index! + m[0].length);
+          if (new Set([...r.getClientRects()].map((x) => Math.round(x.top))).size > 1) split++;
+        }
+      }
+    }
+    return { clipped: Math.max(...boxes.map((b) => b.scrollWidth - b.clientWidth)), numberCells: cells.length, split };
   });
   expect(table.numberCells).toBeGreaterThan(0);
   expect(table.split).toBe(0);
   expect(table.clipped).toBeLessThanOrEqual(0);
+  // Font-independent: CI's system font rendered DE 16 px wider than a dev machine (T-097 review).
+  // Text 12 % wider must still fit, with every number whole.
+  await page.addStyleTag({ content: '[data-testid="hero-nerd"] table { letter-spacing: 0.12em }' });
+  const wide = await page.evaluate(() => {
+    const boxes = [...document.querySelectorAll('[data-testid="hero-nerd"] table')].map((t) => t.parentElement!);
+    const nums = [...document.querySelectorAll('[data-testid^="hero-nerd-value-"] span')];
+    return {
+      clipped: Math.max(...boxes.map((b) => b.scrollWidth - b.clientWidth)),
+      split: nums.filter((s) => new Set([...s.getClientRects()].map((x) => Math.round(x.top))).size > 1).length,
+      nums: nums.length,
+    };
+  });
+  expect(wide.nums).toBeGreaterThan(0);
+  expect(wide.split).toBe(0);
+  expect(wide.clipped).toBeLessThanOrEqual(0);
 });
