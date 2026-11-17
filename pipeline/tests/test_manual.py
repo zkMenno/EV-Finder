@@ -5,7 +5,6 @@ from __future__ import annotations
 import shutil
 from datetime import UTC, date, datetime
 from pathlib import Path
-from urllib.parse import urlparse
 
 import pytest
 import yaml
@@ -16,6 +15,7 @@ from ev_pipeline.manual.facts import (
     expected_unit,
     load_manual_dir,
     parse_manual_file,
+    url_matches,
 )
 from ev_pipeline.release.build import build_release
 from ev_pipeline.release.gate import load_registry
@@ -60,6 +60,7 @@ BLOCKED = {
     "id": "manual",
     "name": "Manual entries",
     "licence": "none (individual facts cited by URL and date)",
+    "access": "manual",
     "status": "blocked",
 }
 
@@ -332,6 +333,7 @@ def test_own_schema_topics_are_left_alone(tmp_path: Path) -> None:
 AUTOTIJD = {
     "id": "autotijd",
     "name": "Autotijd.be",
+    "access": "manual",
     "licence": "none (all rights reserved; no reuse terms)",
     "status": "blocked",
 }
@@ -416,12 +418,19 @@ CITED = {
     "id": "manual",
     "name": "Manual entries",
     "licence": "facts cited, no licence (Decision 068)",
+    "access": "manual",
     "status": "active",
     "use": "cited-facts",
     "decision": "068",
     "cited_hosts": ["maker.example"],
 }
-THIRD = {"id": "cited-third-party", "name": "Press pages", "licence": "none", "status": "blocked"}
+THIRD = {
+    "id": "cited-third-party",
+    "name": "Press pages",
+    "licence": "none",
+    "access": "manual",
+    "status": "blocked",
+}
 MAKER_PRICE = {**PRICE, "value": 49990, "source_url": "https://maker.example/price.pdf"}
 
 
@@ -517,9 +526,94 @@ def test_repo_manual_facts_split_as_decision_068_says() -> None:
     held = [mf for mf in load.facts if not reg.releasable(mf.fact.source.id.root)]
     assert shipping and held
     assert {mf.fact.source.id.root for mf in shipping} == {"manual"}
-    assert all((urlparse(str(mf.fact.source.url)).hostname or "") in hosts for mf in shipping)
+    assert all(any(url_matches(h, str(mf.fact.source.url)) for h in hosts) for mf in shipping)
+    # Hosting services and dealer sites are allowed by path only, never as a whole host.
+    whole = {h for h in hosts if "/" not in h}
+    assert not whole & {"mb.cision.com", "cdn.uc.assets.prezly.com", "www.louwman.nl"}
     assert not any("autotijd" in str(mf.fact.source.url) for mf in shipping)
     assert {mf.fact.source.id.root for mf in held} <= {"autotijd", "cited-third-party"}
     assert reg.reason_blocked("autotijd") == "status blocked"
     assert reg.reason_blocked("cited-third-party") == "status blocked"
     assert reg.reason_blocked("maker-docs") == "status blocked"  # seed cites: not in this step
+
+
+# --- PR #80 review: a manual fact can't borrow an open source's id; hosts by path ---
+
+RDW = {
+    "id": "rdw",
+    "name": "RDW Open Data",
+    "licence": "CC0-1.0",
+    "access": "api",
+    "status": "active",
+    "hosts": ["opendata.rdw.nl"],
+}
+PRESS_URL = "https://www.meinauto.de/elektroauto/tesla-model-3"
+
+
+def test_url_matches_host_and_path_prefix() -> None:
+    lw = "www.louwman.nl/uploads/*/Peugeot/prijslijsten/"
+    assert url_matches(lw, "https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/p.pdf")
+    assert not url_matches(lw, "https://www.louwman.nl/occasions/peugeot-e-208")
+    assert not url_matches(lw, "https://www.louwman.nl/uploads/2023/Toyota/prijslijsten/t.pdf")
+    assert not url_matches(lw, "https://www.louwman.nl/uploads/peugeot/prijslijsten/p.pdf")
+    cision = "mb.cision.com/Main/23604/"
+    assert url_matches(cision, "https://mb.cision.com/Main/23604/4174345/3536170.pdf")
+    assert not url_matches(cision, "https://mb.cision.com/Main/99999/1/2.pdf")
+    assert not url_matches(cision, "https://mb.cision.com.evil.example/Main/23604/x.pdf")
+    assert url_matches("WWW.Audi-MediaCenter.com", "https://www.audi-mediacenter.com/en/x")
+    assert url_matches("*.googleusercontent.com", "https://doc-0.googleusercontent.com/a")
+
+
+@pytest.mark.parametrize("where", ["fact", "file"])
+def test_manual_fact_cannot_name_an_open_source_for_a_third_party_page(
+    tmp_path: Path, where: str
+) -> None:
+    d = tmp_path / "data"
+    d.mkdir()
+    shutil.copy(RELEASE_FIX / "sources.yaml", d / "sources.yaml")
+    _add_source(d, CITED)
+    _add_source(d, RDW)
+    laundered = {**PRICE, "source_url": PRESS_URL}
+    if where == "fact":
+        _write_topic(d, "x", [{**laundered, "source": "rdw"}])
+    else:
+        _write_topic(d, "x", [laundered], source="rdw")
+    reg = load_registry(d / "sources.yaml")
+    load = load_manual_dir(d, TODAY, reg)
+    assert load.facts == []
+    assert any(
+        "'rdw' is not a hand-entry source" in i.message and "www.meinauto.de" in i.message
+        for i in load.errors
+    ), [i.text() for i in load.errors]
+    code, _ = check(d, TODAY)
+    assert code != 0
+    # The same label on the source's own host is fine (a fact read from the RDW register).
+    rdw_url = "https://opendata.rdw.nl/resource/gr7t-qfnb.json?x=1"
+    _write_topic(d, "x", [{**PRICE, "source_url": rdw_url, "source": "rdw"}])
+    assert load_manual_dir(d, TODAY, reg).errors == []
+    # Every `access: manual` source may still be named, whatever the URL host.
+    _add_source(d, THIRD)
+    _write_topic(d, "x", [{**laundered, "source": "cited-third-party"}])
+    assert load_manual_dir(d, TODAY, load_registry(d / "sources.yaml")).errors == []
+
+
+def test_laundered_fact_never_reaches_release_or_open_data_bundle(data_dir: Path) -> None:
+    from ev_pipeline.opendata.bundle import source_allowed
+
+    d = data_dir
+    _set_manual_registry(d, CITED)
+    _add_source(d, RDW)
+    _write_topic(
+        d, "x", [MAKER_PRICE, {**PRICE, "variant_id": "nissan-leaf-ze0-24kwh", "value": 27777,
+                               "source_url": PRESS_URL, "source": "rdw"}],
+    )  # fmt: skip
+    res = build_release(d, now=NOW)
+    assert not any(f["value"] == 27777 for f in res.facts)
+    assert not any("meinauto" in str(f["source"].get("url", "")) for f in res.facts)
+    assert any(p.stage == "manual" and "hand-entry source" in p.reason for p in res.problems)
+    # `rdw` itself is open (CC0) and in the bundle, which is why the label must not be borrowable.
+    reg = load_registry(d / "sources.yaml")
+    licences = {s["id"]: s.get("licence") or "" for s in res.catalogue["sources"]}
+    assert source_allowed(reg, {**licences, "rdw": "CC0-1.0"}, "rdw")
+    rdw_facts = [f for f in res.facts if f["source"]["id"] == "rdw"]
+    assert not any(f["value"] == 27777 for f in rdw_facts)

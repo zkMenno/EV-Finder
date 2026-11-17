@@ -34,7 +34,10 @@ decides per source. `manual` is releasable under Decision 068 (`use: cited-facts
 facts from maker documents. For such a source the fact's URL host must be in its
 `cited_hosts` in data/sources.yaml (fixtures excepted); a press, dealer or review page is an
 error until the fact names a blocked source (e.g. `cited-third-party`), so a third-party
-figure can never ship as a maker fact.
+figure can never ship as a maker fact. A `cited_hosts` entry is a host or a host/path prefix
+(`url_matches`). The file or fact `source:` may only name an `access: manual` source, or a
+source whose own `hosts` serve the fact's URL, so a third-party page can't borrow the id (and
+licence) of an open source such as `rdw`.
 
 Folders whose name starts with `_` (e.g. `data/manual/_example/`) and files with
 `fixture: true` are validated by `ev manual check` but never loaded by a release.
@@ -42,6 +45,7 @@ Folders whose name starts with `_` (e.g. `data/manual/_example/`) and files with
 
 from __future__ import annotations
 
+import fnmatch
 import re
 from dataclasses import dataclass, field
 from datetime import date
@@ -221,21 +225,64 @@ def _source_dict(
     return src
 
 
+MANUAL_ACCESS = "manual"
+
+
+def url_matches(pattern: str, url: str) -> bool:
+    """True when `url` is on `pattern`: a bare host (`www.audi.com`, `*.example.com`) matches
+    that host; `host/path/` matches URLs under that path, segment by segment, where a `*`
+    segment stands for exactly one path segment (`www.louwman.nl/uploads/*/Peugeot/`)."""
+    parts = urlparse(url.strip())
+    host = (parts.hostname or "").lower()
+    pat_host, _, pat_path = pattern.strip().partition("/")
+    if not fnmatch.fnmatchcase(host, pat_host.lower()):  # hosts ignore case; paths don't
+        return False
+    want = [seg for seg in pat_path.split("/") if seg]
+    have = [seg for seg in parts.path.split("/") if seg]
+    if len(have) < len(want):
+        return False
+    return all(
+        fnmatch.fnmatchcase(h, w) if w == "*" else h == w for h, w in zip(have, want, strict=False)
+    )
+
+
+def _source_claim_problems(registry: Registry | None, source_id: str, url: str) -> list[str]:
+    """PR #80 review must-fix 1: a hand-entered fact may only name a hand-entry source
+    (`access: manual`: manual, maker-docs, autotijd, cited-third-party), or a source whose own
+    `hosts` serve the cited URL (an RDW page may say `source: rdw`). Otherwise a press or review
+    figure could borrow an open source's id and licence and reach the release and the CC BY
+    bundle. Applies to fixtures too: there is no reason to test a laundered label."""
+    if registry is None or not registry.loaded:
+        return []
+    entry = registry.sources.get(registry.canonical(source_id))
+    if entry is None or entry.access == MANUAL_ACCESS:
+        return []
+    if any(url_matches(h, url) for h in entry.hosts):
+        return []
+    host = (urlparse(url.strip()).hostname or "").lower()
+    return [
+        f"source {source_id!r} is not a hand-entry source (access: {entry.access or 'none'})"
+        f" and source_url host {host!r} is not one of its hosts: a manual fact may name"
+        " `manual`, `cited-third-party` or another `access: manual` source only"
+    ]
+
+
 def _cited_host_problems(
     registry: Registry | None, source_id: str, url: str, fixture: bool
 ) -> list[str]:
     """Decision 068: a `use: cited-facts` source ships without a licence, so each fact must
-    cite one of its listed maker hosts. Fixture files are exempt (never released)."""
+    cite one of its listed maker hosts or host paths (`url_matches`). Fixture files are exempt
+    (never released)."""
     if fixture or registry is None or not registry.loaded:
         return []
     entry = registry.sources.get(registry.canonical(source_id))
     if entry is None or entry.use != CITED_FACTS:
         return []
-    host = (urlparse(url.strip()).hostname or "").lower()
-    if host in entry.cited_hosts:
+    if any(url_matches(h, url) for h in entry.cited_hosts):
         return []
+    host = (urlparse(url.strip()).hostname or "").lower()
     return [
-        f"source_url host {host!r} is not a maker host in `{entry.id}` cited_hosts"
+        f"source_url {host!r} is not a maker host or path in `{entry.id}` cited_hosts"
         " (data/sources.yaml, Decision 068): add it there if this is the maker's own document,"
         " else give the fact a blocked source such as `source: cited-third-party`"
     ]
@@ -360,6 +407,7 @@ def parse_manual_file(
         if not _url_ok(url):
             msgs.append("source_url is required and must be an http(s) URL")
         else:
+            msgs += _source_claim_problems(registry, fact_source, str(url))
             msgs += _cited_host_problems(registry, fact_source, str(url), fixture)
         retrieved = _as_date(raw.get("retrieved"))
         if raw.get("retrieved") is None:

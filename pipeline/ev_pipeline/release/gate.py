@@ -58,6 +58,10 @@ class SourceEntry:
     site_hosts: tuple[str, ...] = ()
     # Decision 068 (`use: cited-facts`): the maker hosts a cited fact's URL may be on.
     cited_hosts: tuple[str, ...] = ()
+    # `access` (api | bulk | manual | ...) and the fetch allowlist `hosts`: manual/facts.py
+    # lets a hand-entered fact name a non-manual source only when its URL is on these hosts.
+    access: str = ""
+    hosts: tuple[str, ...] = ()
 
 
 def licence_problem(licence: str) -> str | None:
@@ -149,7 +153,9 @@ def parse_registry(data: dict[str, Any]) -> Registry:
             use=str(s.get("use") or "").strip().lower(),
             decision=str(s.get("decision") or "").strip(),
             site_hosts=tuple(str(h).lower() for h in s.get("site_hosts") or []),
-            cited_hosts=tuple(str(h).lower() for h in s.get("cited_hosts") or []),
+            cited_hosts=tuple(str(h) for h in s.get("cited_hosts") or []),
+            access=str(s.get("access") or "").strip().lower(),
+            hosts=tuple(str(h).lower() for h in s.get("hosts") or []),
         )
     aliases = {a: next(iter(ids)) for a, ids in alias_of.items() if len(ids) == 1 and a not in out}
     return Registry(out, loaded=True, aliases=aliases)
