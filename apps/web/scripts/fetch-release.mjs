@@ -25,7 +25,7 @@ import path from "node:path";
 
 const mode = process.env.CATALOGUE_SOURCE ?? "auto";
 const dir = process.env.CATALOGUE_DIR ?? path.resolve(process.cwd(), "../../data/releases");
-const files = (process.env.CATALOGUE_FILES ?? "catalogue.json,charging_stats.json").split(",").map((x) => x.trim()).filter(Boolean);
+const files = (process.env.CATALOGUE_FILES ?? "catalogue.json,charging_stats.json,used_prices.json").split(",").map((x) => x.trim()).filter(Boolean);
 const PARALLEL = 6;
 
 function wanted(rel) {
