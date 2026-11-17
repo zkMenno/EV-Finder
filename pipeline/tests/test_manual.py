@@ -261,5 +261,6 @@ def test_own_schema_topics_are_left_alone(tmp_path: Path) -> None:
     (tmp_path / "manual" / "prices" / "x.yaml").write_text(
         "generation_id: g\ncountry: NL\nrows: []\n"
     )
-    code, lines = check(tmp_path, TODAY)
+    # Real date: this copies the repo's manual data, whose facts carry real retrieval dates.
+    code, lines = check(tmp_path, date.today())
     assert code == 0, lines
