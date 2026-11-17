@@ -22,3 +22,12 @@
 ## Log
 - 2026-11-15 15:30 UTC · finance_profiles (T-043): already done by the other builder (5 rows, NL null); nothing to add.
 - 2026-11-15 16:10 UTC · T-041 patterns checked from indexed URLs + Menno's links; PR opened; checklist for Menno. T-081 samples parked (needs a person).
+- **State:** paused (session handed off, see HANDOFF.md)
+- **Now:** — (5 PRs open: #31 T-068, #32 T-031, #33 T-041, #34 T-100, T-082/T-039/T-027 /learn)
+- **Next:** see HANDOFF.md 'Next steps'
+- **Blocked:** —
+- **Last updated:** 2026-11-15 17:20 UTC
+
+## Log
+- 2026-11-15 16:50 UTC · T-100 glossary sweep PR #34.
+- 2026-11-15 17:20 UTC · T-082 batteries page EN+NL; DE/FR/ES/IT drafts for batteries-health, winter-range, charging-2026; HANDOFF.md written.

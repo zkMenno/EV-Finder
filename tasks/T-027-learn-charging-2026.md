@@ -1,6 +1,6 @@
 # T-027 /learn "Charging in 2026: what's changed"
 Role: WS3 (content) + WS2 (page)   Lane: content/learn, apps/web   Wave: 6
-Status: todo
+Status: review (WS3, 2026-11-15)
 
 ## Goal
 First-time-buyer page: tap-to-pay at fast chargers, no subscriptions needed, plugs, prices, motorway coverage.
@@ -17,5 +17,7 @@ docs/spec/charging-buildout.md (First-time buyers).
 Country stats.
 
 ## Handoff notes
+2026-11-15, WS3 (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), branch t-082-learn-batteries.
+- EN + NL existed. Added DE/FR/ES/IT drafts (review: needed) on the T-082 branch. DE uses "TEN-V", FR "RTE-T" (local names for TEN-T).
 
 ## Review
