@@ -6,6 +6,8 @@
 # Rule (as T-112): the cheapest trim that carries the variant's powertrain. These lists are
 # current or recent ones (MY25 / 2026), not launch prices, so the year is in the notes and
 # confidence is low unless battery and power both match our row.
+# Dropped after review (WS0, 2026-11-17): ID.4 Pro (list 210 kW vs our 150 kW) and R5 40 kWh
+# (list 90 kW vs our 70 kW): different powertrains, so not this variant's price.
 # Spain: no maker list prices found (see tasks/T-118 handoff notes).
 # Source `manual` stays blocked until WS1 opens it per Decision 068 (T-116).
 schema: manual-facts/v1
@@ -63,19 +65,6 @@ facts:
     confidence: low
     claim: true
     notes: "MY25 list (May 2025), not the 2021 launch price; 52 kWh net matches our row. Cheapest trim."
-  - variant_id: volkswagen-id4-gen1-pro
-    field: price_new
-    value: 45990
-    unit: EUR
-    country: IT
-    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
-    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
-    retrieved: 2026-11-17
-    quote: "E213RN Y5R  ID.4 Pro  77 (net)  210/286  37.013,70  45.990,00"
-    locator: "PDF page 144, ID.4 motorizzazioni table (Anno Modello 2025, validità 09.05.2025)"
-    confidence: low
-    claim: true
-    notes: "MY25 Pro has 210 kW; our row (2021+) says 150 kW. Same 77 kWh battery and RWD. Cheapest trim."
   - variant_id: volkswagen-id4-gen1-gtx
     field: price_new
     value: 47990
@@ -128,16 +117,3 @@ facts:
     confidence: low
     claim: true
     notes: "MY26.1 list (Nov 2026), not the 2024 launch price. 110 kW matches; list says 52 kWh, our row 50 kWh. Cheapest trim with 110 kW (evolution has the urban range only)."
-  - variant_id: renault-5-e-tech-gen1-40-kwh
-    field: price_new
-    value: 28150
-    unit: EUR
-    country: IT
-    source_url: https://cdn.group.renault.com/ren/it/listini/renault-5.pdf
-    source_name: "Renault Italia, Renault 5 e-tech electric listino del 05/11/2026 (maker price list)"
-    retrieved: 2026-11-17
-    quote: "evolution my26.1 120 cv urban range  40kWh / 321 km  AC11 + DC80  90 / 120  ...  22.399,50  28.150,00"
-    locator: "Page 1, price table (prezzo listino IVA esclusa / prezzo chiavi in mano); messa su strada 822,61"
-    confidence: low
-    claim: true
-    notes: "MY26.1 list (Nov 2026). Matched on the 40 kWh urban-range battery; the list gives 90 kW, our row 70 kW. Cheapest trim."

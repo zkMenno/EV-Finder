@@ -73,3 +73,7 @@ WS3 builder agent, 2026-11-17.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B5 fixed. -->
+
+- Review should-fix (WS0, 2026-11-17): dropped the ID.4 Pro and R5 40 kWh IT prices (powertrain differs from our rows). Open follow-up: cite the Official Journal (Publications Office) instead of dirittobancario.it for the Italian CCD2 wording (text is byte-identical, per review).
+
+Reviewer: WS0 subagent, 2026-11-17, 412015e: R0–R3, D2, D4/D7, D13, link-outs, cross-lane pass; 2 should-fix (IT CCD2 cite, 2 powertrain-mismatch IT prices → fixed); A-35 B5 data side fixed for ES/IT.
