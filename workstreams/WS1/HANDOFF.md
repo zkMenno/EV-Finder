@@ -1,6 +1,10 @@
 # WS1 handoff — 2026-11-17 ~07:00 local (06:00 UTC)
 
-Chat: https://claude.ai/code/session_01JuyZEWFXbkeYSii8dVSWnx (3rd WS1 session). Next chat: "Read workstreams/WS1/HANDOFF.md and START.md and go."
+Chat: https://claude.ai/code/session_01JuyZEWFXbkeYSii8dVSWnx (3rd WS1 session). Next chat prompt:
+
+```
+Attach github.com/zkMenno/EV-Finder with push access (add_repo, access: push), then read workstreams/WS1/HANDOFF.md and START.md and go.
+```
 
 ## State: 3 PRs open
 | PR | Branch | What |
