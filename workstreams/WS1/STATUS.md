@@ -1,13 +1,16 @@
 # WS1 status
 
-- **State:** active (4th session, https://claude.ai/code/session_01JuyZEUkCfiK3pkbkjjyqf)
-- **Now:** merging main into #44, #49, #51 (all conflict), then T-063
-- **Next:** START §3 item 6 (winter range quality: rerun T-035 on the calibrated matrix, per-profile fields in qa.json); T-063 once the schema lands
-- **In review:** [#15](https://github.com/zkMenno/EV-Finder/pull/15) T-069 shortlist scores (CI green) → then [#21](https://github.com/zkMenno/EV-Finder/pull/21) T-081 + T-056 used price bands (trivial DECISIONS.md conflict after #15: keep both)
+- **State:** active (5th session)
+- **Now:** fresh review of #58 (T-063), then WS2's low-consumption report, then winter range field
+- **Next:** see HANDOFF.md (T-113/T-116 only if WS0 hands them back; winter range field for WS2)
+- **In review:** [#49](https://github.com/zkMenno/EV-Finder/pull/49) T-124 (reviewed, pass) · [#58](https://github.com/zkMenno/EV-Finder/pull/58) T-063
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
-- **Last updated:** 2026-11-17 09:50 UTC by WS1
+- **Last updated:** 2026-11-17 10:15 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-17 10:15 UTC · 5th session opened (https://claude.ai/code/session_01JuyZEXwrHCn4kh6fda8bso). No WS0 answer on T-113/T-116 yet; no t-113/t-116 branches. Reviewing #58.
+- 2026-11-17 10:35 UTC · T-111 already taken by WS0's subagent (#61): dropped mine, cross-check comment on #61. Handoff written.
+- 2026-11-17 10:20 UTC · #44/#51 merged by WS0. Reviewed #49 (pass). T-063 PR #58. Claimed T-111, T-113.
 - 2026-11-17 09:50 UTC · 4th session opened. #15/#21 merged via #39. #44/#49/#51 green but conflicting with main.
 - 2026-11-15 09:35 UTC · WS1 chat opened (https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY), 1197 pipeline tests green on main. Claimed T-064.
 - 2026-11-15 10:05 UTC · T-064 part 1 PR #4: manifest + per-generation split, publish/fetch/verify by sha256, workflows, web fetch script. 1232 tests green.
@@ -19,6 +22,12 @@
 - 2026-11-15 11:55 UTC · PR #15 T-069: shortlist_scores.json (18 combos, basis bridge, Decision 042; back-test 6/10 exact). Decisions 040–042 logged.
 - 2026-11-15 12:40 UTC · PR #21 T-081 + T-056: used_prices.json (model bands for 99/226 variants, Decision 043, research/R-40); index terms: none licensed.
 - 2026-11-15 12:55 UTC · Item 7 open data bundle check: pass (audits/A-31), Q-047 risk noted. HANDOFF.md rewritten.
+
+## Retro 2026-11-17 (4th WS1 run)
+- Slowed down: claimed T-111 in INBOX 6 minutes after WS0's subagent had started it; the claim channel (INBOX) is slower than branch creation. Also three PRs needed main merged in twice while WS0 merged around them.
+- Menno did by hand: re-sent the queue mid-turn (already in progress).
+- Rule that would have prevented it: before building a task, `git ls-remote origin 'refs/heads/t-<id>*'` and open PRs; a branch is the claim. Proposed for docs/process/rules.md.
+- What a check missed: A-35's proposed thresholds (> 8 km/kWh, DC vs generation median) would have withheld ~30 real figures; only the G-10 dry run caught it. Check: every new QA threshold PR quotes its hit list on the latest release (count + names).
 
 ## Retro 2026-11-15 (second WS1 run)
 - Went well: three queue items in ~90 minutes, no PR chain (both PRs branch from main), CI green on #15 first try.

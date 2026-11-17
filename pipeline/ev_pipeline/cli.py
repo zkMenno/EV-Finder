@@ -36,6 +36,7 @@ COMMAND_MODULES = [
     "ev_pipeline.commands.releases",
     "ev_pipeline.commands.sources",
     "ev_pipeline.commands.manual",
+    "ev_pipeline.commands.verify",
 ]
 
 

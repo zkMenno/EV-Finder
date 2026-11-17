@@ -601,7 +601,8 @@ def summary(res: DiffResult) -> dict[str, Any]:
     moves = []
     for c in res.changes:
         d, rel = c.delta()
-        if rel is not None and c.kind in ("changed", "charging"):
+        # Charging figures have their own review file and would crowd out the catalogue.
+        if rel is not None and c.kind == "changed":
             moves.append((abs(rel), c, d, rel))
     moves.sort(key=lambda m: (-m[0], m[1].file, m[1].id, m[1].field))
     return {
