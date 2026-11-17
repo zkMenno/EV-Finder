@@ -20,8 +20,8 @@ describe("nerdValue (T-097)", () => {
   });
 
   it("uses the raw kWh/100 km, not ×10 Wh/km", () => {
-    expect(nerdValue(num("consumption_kwh_100km", 16.4), tEn, "en")).toBe("16.4\u00a0kWh/100\u00a0km");
-    expect(nerdValue(num("consumption_kwh_100km", 16.4), tNl, "nl")).toBe("16,4\u00a0kWh/100\u00a0km");
+    expect(nerdValue(num("consumption_kwh_100km", 16.4), tEn, "en")).toBe("16.4 kWh/100 km");
+    expect(nerdValue(num("consumption_kwh_100km", 16.4), tNl, "nl")).toBe("16,4 kWh/100 km");
   });
 
   it("gives every numeric rule field a metric unit", () => {

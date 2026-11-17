@@ -167,7 +167,7 @@
   "hero.nerd.unit.dc_km_per_20min": "{v} km in 20 Min.",
   "hero.nerd.unit.real_range_km": "{v} km",
   "hero.nerd.unit.boot_l": "{v} l",
-  "hero.nerd.unit.consumption_kwh_100km": "{v}\u00a0kWh/100\u00a0km",
+  "hero.nerd.unit.consumption_kwh_100km": "{v} kWh/100 km",
   "hero.nerd.unit.ac_kw": "{v} kW",
   "hero.nerd.unit.length_mm": "{v} m",
   "hero.nerd.val.yes": "ja",
