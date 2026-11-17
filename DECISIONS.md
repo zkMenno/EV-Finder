@@ -709,4 +709,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop.
 
+## Decision 044: Release diff N vs N-1 blocks unapproved changes (T-123)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** A-20 B1 shipped a release whose numbers nobody had meant to change, and review only saw the code. T-123 asks for a differential test: same records, old against new, noise taken out, and a list of changes someone approved.
+
+**Decision:** (1) `release_diff` is a new **blocking** QA check, run inside every `ev release` build and by `check-release` (CI data-qa, rollback). It compares catalogue rows and generations, shortlist scores, used prices, consumption matrix, towns and stations per id and field (`pipeline/ev_pipeline/release/differ.py`). (2) Blocking: an unapproved record removal (unless retired_ids redirects it), a change beyond the field's threshold, a thresholded value that goes empty, a number that loses every source, or a file that disappears. Everything else is review: listed, never blocks. (3) Thresholds, record sets, ignored keys and approvals live in `config/approved_changes.yaml`; an approval needs a reason and `PR #n` or `Decision nnn`, and can be scoped to a release, file, id, field and kind; unused approvals are listed as stale. (4) Fail closed: a bad config or an N-1 whose files don't match their manifest fails the check. (5) Charging figures (Decision 040 item 4) go through the same report but stay review only. Outputs: `data/review/release_diff.csv`, qa.json `release_diff`, a qa.md section (which the data-refresh PR body already includes), and `ev release diff --from N-1 --to N [--check]`.
+
+**Consequences:** The first refresh after this merges will block on every intended change since release 1 (T-068 seed models, new matching rules). That's on purpose: someone looks at the list once and adds a release-scoped bulk approval naming the PR. `config/` is WS3's folder; this one file is WS1's (T-123), and changing a threshold counts as a gate change (REVIEW.md R3).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

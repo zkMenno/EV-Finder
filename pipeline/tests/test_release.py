@@ -216,7 +216,20 @@ def test_dry_run_writes_nothing(data_dir: Path, capsys: pytest.CaptureFixture[st
     assert '"rows": 7' in capsys.readouterr().out
 
 
-def test_release_numbering_and_diff(data_dir: Path) -> None:
+def approve(mp: pytest.MonkeyPatch, tmp: Path, **entry: object) -> None:
+    """A copy of config/approved_changes.yaml with one more approval (T-123)."""
+    from ev_pipeline.release.differ import CONFIG_FILE
+
+    doc = yaml.safe_load(CONFIG_FILE.read_text(encoding="utf-8"))
+    doc["approved"] = [*(doc.get("approved") or []), entry]
+    path = tmp / "approved_changes.yaml"
+    path.write_text(yaml.safe_dump(doc), encoding="utf-8")
+    mp.setenv("EV_RELEASE_DIFF_CONFIG", str(path))
+
+
+def test_release_numbering_and_diff(
+    data_dir: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     assert next_release_number(data_dir / "releases") == 1
     assert release_cmd(False, data_dir=data_dir, now=NOW) == 0
     d1 = json.loads((data_dir / "releases" / "1" / "diff.json").read_text())
@@ -231,6 +244,12 @@ def test_release_numbering_and_diff(data_dir: Path) -> None:
     v["variants"] = [x for x in v["variants"] if x["id"] != "renault-zoe-ph1-q90"]
     (data_dir / "seed" / "variants.yaml").write_text(yaml.safe_dump(v))
 
+    # T-123: the battery change is beyond its threshold, so it blocks until approved.
+    assert release_cmd(False, data_dir=data_dir, now=NOW) == 1
+    approve(
+        monkeypatch, tmp_path, file="catalogue.json", id="citroen-e-c4-c41-50-kwh",
+        field="battery_kwh_net", reason="test: openev corrected", approved_by="PR #1",
+    )  # fmt: skip
     assert release_cmd(False, data_dir=data_dir, now=NOW) == 0
     assert (data_dir / "releases" / "latest").read_text().strip() == "2"
     d2 = json.loads((data_dir / "releases" / "2" / "diff.json").read_text())

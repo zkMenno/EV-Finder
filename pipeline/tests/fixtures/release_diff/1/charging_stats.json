@@ -1,0 +1,14 @@
+{
+ "release": 1,
+ "stats": [
+  {
+   "source_id": "eafo",
+   "country": "NL",
+   "metric_id": "public_points",
+   "power_band_id": "all",
+   "definition_id": "total",
+   "period_end": "2026-09-30",
+   "value": 1000
+  }
+ ]
+}
