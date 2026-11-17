@@ -17,6 +17,7 @@ facts:
     value: 78450
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/audi/a6-avant-e-tron/a6-avant-e-tron-prijslijst-september-2024
     source_name: "Autotijd.be, Belgian price list audi a6-avant-e-tron, September 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -30,6 +31,7 @@ facts:
     value: 76800
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/audi/a6-sportback-e-tron/a6-sportback-e-tron-prijslijst-september-2024
     source_name: "Autotijd.be, Belgian price list audi a6-sportback-e-tron, September 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -43,6 +45,7 @@ facts:
     value: 76500
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/audi/q8-e-tron/q8-e-tron-prijslijst-december-2022
     source_name: "Autotijd.be, Belgian price list audi q8-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -56,6 +59,7 @@ facts:
     value: 88300
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/audi/q8-e-tron/q8-e-tron-prijslijst-december-2022
     source_name: "Autotijd.be, Belgian price list audi q8-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -69,6 +73,7 @@ facts:
     value: 88300
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/audi/q8-e-tron/q8-e-tron-prijslijst-december-2022
     source_name: "Autotijd.be, Belgian price list audi q8-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -82,6 +87,7 @@ facts:
     value: 90300
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/audi/q8-sportback-e-tron/q8-sportback-e-tron-prijslijst-december-2022
     source_name: "Autotijd.be, Belgian price list audi q8-sportback-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -95,6 +101,7 @@ facts:
     value: 46740
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/byd/atto-3/atto-3-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list byd atto-3, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -108,6 +115,7 @@ facts:
     value: 46740
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/byd/atto-3/atto-3-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list byd atto-3, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -121,6 +129,7 @@ facts:
     value: 39635
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/citroen/c4/c4-prijslijst-maart-2024
     source_name: "Autotijd.be, Belgian price list citroen c4, March 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -134,6 +143,7 @@ facts:
     value: 49070
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/cupra/born/born-prijslijst-augustus-2022
     source_name: "Autotijd.be, Belgian price list cupra born, August 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -147,6 +157,7 @@ facts:
     value: 17490
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-januari-2022
     source_name: "Autotijd.be, Belgian price list dacia spring, January 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -160,6 +171,7 @@ facts:
     value: 20990
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list dacia spring, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -173,6 +185,7 @@ facts:
     value: 22690
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list dacia spring, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -186,6 +199,7 @@ facts:
     value: 16990
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-april-2024
     source_name: "Autotijd.be, Belgian price list dacia spring, April 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -199,6 +213,7 @@ facts:
     value: 32390
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/fiat/500e/500e-prijslijst-mei-2022
     source_name: "Autotijd.be, Belgian price list fiat 500e, May 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -212,6 +227,7 @@ facts:
     value: 37900
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/fiat/500e/500e-prijslijst-augustus-2021
     source_name: "Autotijd.be, Belgian price list fiat 500e, August 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -225,6 +241,7 @@ facts:
     value: 28900
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/fiat/500e/500e-prijslijst-augustus-2021
     source_name: "Autotijd.be, Belgian price list fiat 500e, August 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -238,6 +255,7 @@ facts:
     value: 50750
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
     source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -251,6 +269,7 @@ facts:
     value: 58900
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
     source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -264,6 +283,7 @@ facts:
     value: 61175
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
     source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -277,6 +297,7 @@ facts:
     value: 75750
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
     source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -290,6 +311,7 @@ facts:
     value: 61700
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-december-2022
     source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, December 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -303,6 +325,7 @@ facts:
     value: 74800
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-december-2022
     source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, December 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -316,6 +339,7 @@ facts:
     value: 34500
     unit: EUR
     country: BE
+    year: 2019
     source_url: https://autotijd.be/prijzen/honda/e/e-prijslijst-oktober-2019
     source_name: "Autotijd.be, Belgian price list honda e, October 2019 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -329,6 +353,7 @@ facts:
     value: 37500
     unit: EUR
     country: BE
+    year: 2019
     source_url: https://autotijd.be/prijzen/honda/e/e-prijslijst-oktober-2019
     source_name: "Autotijd.be, Belgian price list honda e, October 2019 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -342,6 +367,7 @@ facts:
     value: 45999
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-5/ioniq-5-prijslijst-april-2021
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-5, April 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -355,6 +381,7 @@ facts:
     value: 58499
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-5/ioniq-5-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-5, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -368,6 +395,7 @@ facts:
     value: 62499
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-5/ioniq-5-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-5, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -381,6 +409,7 @@ facts:
     value: 47499
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -394,6 +423,7 @@ facts:
     value: 52499
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -407,6 +437,7 @@ facts:
     value: 63499
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -420,6 +451,7 @@ facts:
     value: 63499
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -433,6 +465,7 @@ facts:
     value: 47499
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -446,6 +479,7 @@ facts:
     value: 43999
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/hyundai/kona/kona-prijslijst-april-2022
     source_name: "Autotijd.be, Belgian price list hyundai kona, April 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -459,6 +493,7 @@ facts:
     value: 65990
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/kia/ev6/ev6-prijslijst-augustus-2021
     source_name: "Autotijd.be, Belgian price list kia ev6, August 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -472,6 +507,7 @@ facts:
     value: 60742
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/mercedes/eqa/eqa-prijslijst-januari-2022
     source_name: "Autotijd.be, Belgian price list mercedes eqa, January 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -485,6 +521,7 @@ facts:
     value: 62194
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/mercedes/eqa/eqa-prijslijst-maart-2024
     source_name: "Autotijd.be, Belgian price list mercedes eqa, March 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -498,6 +535,7 @@ facts:
     value: 56870
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/mercedes/eqa/eqa-prijslijst-maart-2024
     source_name: "Autotijd.be, Belgian price list mercedes eqa, March 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -511,6 +549,7 @@ facts:
     value: 58685
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/mercedes/eqb/eqb-prijslijst-maart-2024
     source_name: "Autotijd.be, Belgian price list mercedes eqb, March 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -524,6 +563,7 @@ facts:
     value: 69333
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/mercedes/eqb/eqb-prijslijst-maart-2024
     source_name: "Autotijd.be, Belgian price list mercedes eqb, March 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -537,6 +577,7 @@ facts:
     value: 35885
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/mg/zs/zs-prijslijst-juli-2023
     source_name: "Autotijd.be, Belgian price list mg zs, July 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -550,6 +591,7 @@ facts:
     value: 45965
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/peugeot/2008/2008-prijslijst-mei-2023
     source_name: "Autotijd.be, Belgian price list peugeot 2008, May 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -563,6 +605,7 @@ facts:
     value: 45900
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/polestar/2/2-prijslijst-april-2021
     source_name: "Autotijd.be, Belgian price list polestar 2, April 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -576,6 +619,7 @@ facts:
     value: 49900
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/polestar/2/2-prijslijst-april-2021
     source_name: "Autotijd.be, Belgian price list polestar 2, April 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -589,6 +633,7 @@ facts:
     value: 53900
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/polestar/2/2-prijslijst-april-2021
     source_name: "Autotijd.be, Belgian price list polestar 2, April 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -602,6 +647,7 @@ facts:
     value: 88100
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/porsche/macan/macan-prijslijst-januari-2024
     source_name: "Autotijd.be, Belgian price list porsche macan, January 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -615,6 +661,7 @@ facts:
     value: 120700
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/porsche/macan/macan-prijslijst-januari-2024
     source_name: "Autotijd.be, Belgian price list porsche macan, January 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -628,6 +675,7 @@ facts:
     value: 97433
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/porsche/taycan/taycan-prijslijst-mei-2023
     source_name: "Autotijd.be, Belgian price list porsche taycan, May 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -641,6 +689,7 @@ facts:
     value: 32900
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/renault/5-e-tech-electric/5-e-tech-electric-prijslijst-mei-2024
     source_name: "Autotijd.be, Belgian price list renault 5-e-tech-electric, May 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -654,6 +703,7 @@ facts:
     value: 46950
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/renault/scenic-e-tech-electric/scenic-e-tech-electric-prijslijst-januari-2024
     source_name: "Autotijd.be, Belgian price list renault scenic-e-tech-electric, January 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -667,6 +717,7 @@ facts:
     value: 57990
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-januari-2022
     source_name: "Autotijd.be, Belgian price list tesla model-3, January 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -680,6 +731,7 @@ facts:
     value: 63990
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-januari-2022
     source_name: "Autotijd.be, Belgian price list tesla model-3, January 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -693,6 +745,7 @@ facts:
     value: 50990
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-januari-2022
     source_name: "Autotijd.be, Belgian price list tesla model-3, January 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -706,6 +759,7 @@ facts:
     value: 56970
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-april-2024
     source_name: "Autotijd.be, Belgian price list tesla model-3, April 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -719,6 +773,7 @@ facts:
     value: 104990
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/tesla/model-s/model-s-prijslijst-november-2021
     source_name: "Autotijd.be, Belgian price list tesla model-s, November 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -732,6 +787,7 @@ facts:
     value: 129990
     unit: EUR
     country: BE
+    year: 2021
     source_url: https://autotijd.be/prijzen/tesla/model-s/model-s-prijslijst-november-2021
     source_name: "Autotijd.be, Belgian price list tesla model-s, November 2021 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -745,6 +801,7 @@ facts:
     value: 63000
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-januari-2022
     source_name: "Autotijd.be, Belgian price list tesla model-y, January 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -758,6 +815,7 @@ facts:
     value: 46990
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list tesla model-y, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -771,6 +829,7 @@ facts:
     value: 49970
     unit: EUR
     country: BE
+    year: 2024
     source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-april-2024
     source_name: "Autotijd.be, Belgian price list tesla model-y, April 2024 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -784,6 +843,7 @@ facts:
     value: 61990
     unit: EUR
     country: BE
+    year: 2025
     source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-januari-2025
     source_name: "Autotijd.be, Belgian price list tesla model-y, January 2025 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -797,6 +857,7 @@ facts:
     value: 60955
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/toyota/bz4x/bz4x-prijslijst-april-2022
     source_name: "Autotijd.be, Belgian price list toyota bz4x, April 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -810,6 +871,7 @@ facts:
     value: 37225
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/volkswagen/id3/id3-prijslijst-januari-2022
     source_name: "Autotijd.be, Belgian price list volkswagen id3, January 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -823,6 +885,7 @@ facts:
     value: 45485
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/volkswagen/id3/id3-prijslijst-april-2023
     source_name: "Autotijd.be, Belgian price list volkswagen id3, April 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -836,6 +899,7 @@ facts:
     value: 38990
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
     source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -849,6 +913,7 @@ facts:
     value: 44240
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
     source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -862,6 +927,7 @@ facts:
     value: 50490
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
     source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -875,6 +941,7 @@ facts:
     value: 50490
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
     source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -888,6 +955,7 @@ facts:
     value: 57900
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-februari-2022
     source_name: "Autotijd.be, Belgian price list volvo xc40, February 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -901,6 +969,7 @@ facts:
     value: 48050
     unit: EUR
     country: BE
+    year: 2022
     source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-februari-2022
     source_name: "Autotijd.be, Belgian price list volvo xc40, February 2022 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -914,6 +983,7 @@ facts:
     value: 52450
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list volvo xc40, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
@@ -927,6 +997,7 @@ facts:
     value: 62300
     unit: EUR
     country: BE
+    year: 2023
     source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-januari-2023
     source_name: "Autotijd.be, Belgian price list volvo xc40, January 2023 (importer list prices incl. VAT, third-party copy)"
     retrieved: 2026-11-17
