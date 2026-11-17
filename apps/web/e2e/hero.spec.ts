@@ -131,4 +131,19 @@ for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de"]) test
   expect(table.numberCells).toBeGreaterThan(0);
   expect(table.split).toBe(0);
   expect(table.clipped).toBeLessThanOrEqual(0);
+  // Font-independent: CI's system font rendered DE 16 px wider than a dev machine (T-097 review).
+  // Text 12 % wider must still fit, with every number whole.
+  await page.addStyleTag({ content: '[data-testid="hero-nerd"] table { letter-spacing: 0.12em }' });
+  const wide = await page.evaluate(() => {
+    const boxes = [...document.querySelectorAll('[data-testid="hero-nerd"] table')].map((t) => t.parentElement!);
+    const nums = [...document.querySelectorAll('[data-testid^="hero-nerd-value-"] span')];
+    return {
+      clipped: Math.max(...boxes.map((b) => b.scrollWidth - b.clientWidth)),
+      split: nums.filter((s) => new Set([...s.getClientRects()].map((x) => Math.round(x.top))).size > 1).length,
+      nums: nums.length,
+    };
+  });
+  expect(wide.nums).toBeGreaterThan(0);
+  expect(wide.split).toBe(0);
+  expect(wide.clipped).toBeLessThanOrEqual(0);
 });
