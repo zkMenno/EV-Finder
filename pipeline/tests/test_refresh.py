@@ -699,3 +699,39 @@ def test_new_source_without_staging_does_not_block_release(data_dir: Path) -> No
     _, log = refresh(RefreshOptions(), deps)
     # Guard passed (`other` never shipped); the build itself fails here: no seed in this dir.
     assert log["release"]["outcome"] == "failed" and "seed" in log["release"]["reason"]
+
+
+def test_every_adapter_reads_and_writes_the_raw_folder_refresh_snapshots() -> None:
+    """Every `c.raw_dir(X)` in an adapter must name raw_dir_name(adapter): the folder `ev refresh`
+    snapshots and probes. A mismatch made rdw-tgk fail with SnapshotError (T-116)."""
+    import ast
+    import importlib
+    import pkgutil
+
+    import ev_pipeline.sources as sources_pkg
+    from ev_pipeline.refresh.plan import raw_dir_name
+
+    checked = 0
+    for info in pkgutil.iter_modules(sources_pkg.__path__):
+        try:
+            mod = importlib.import_module(f"ev_pipeline.sources.{info.name}.adapter")
+        except ModuleNotFoundError:
+            continue
+        if not (hasattr(mod, "fetch_cmd") and hasattr(mod, "normalise_cmd")):
+            continue
+        tree = ast.parse(Path(mod.__file__ or "").read_text(encoding="utf-8"))
+        for node in ast.walk(tree):
+            if (
+                isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "raw_dir"
+                and node.args
+                and isinstance(node.args[0], ast.Name)
+            ):
+                value = getattr(mod, node.args[0].id, None)
+                assert value == raw_dir_name(mod), (
+                    f"{info.name}: raw_dir({node.args[0].id}={value!r}) but refresh snapshots "
+                    f"data/raw/{raw_dir_name(mod)}"
+                )
+                checked += 1
+    assert checked >= 10

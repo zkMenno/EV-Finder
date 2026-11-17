@@ -262,6 +262,25 @@ def test_fetch_batches_and_filters(tmp_path: Path, monkeypatch: pytest.MonkeyPat
     assert adapter.normalise(tmp_path, DAY) == adapter.normalise(FIXTURE, DAY)
 
 
+def test_fetch_and_normalise_cmds_use_the_folder_refresh_snapshots(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Regression (T-116): fetch wrote data/raw/rdw-tgk, `ev refresh` snapshots data/raw/rdw_tgk
+    (raw_dir_name) -> SnapshotError, and the whole release was skipped."""
+    from ev_pipeline.refresh.plan import raw_dir_name
+
+    monkeypatch.setenv("EV_DATA_DIR", str(tmp_path))
+    monkeypatch.setattr(adapter, "SLEEP_S", 0)
+    monkeypatch.setattr(adapter.fetch, "__defaults__", (0,))
+    client = net.safe_client(adapter.NAME, transport=_transport([]), hosts=["opendata.rdw.nl"])
+    assert adapter.fetch_cmd(client) == 0
+    snap_dir = tmp_path / "raw" / raw_dir_name(adapter)
+    assert (snap_dir / adapter.VERSIONS_FILE).exists()
+    assert not (tmp_path / "raw" / adapter.NAME).exists()
+    assert adapter.normalise_cmd(from_fixtures=False) == 0
+    assert (tmp_path / "staging" / f"{adapter.NAME}.records.jsonl").stat().st_size > 0
+
+
 def test_fetch_refuses_changed_licence(tmp_path: Path) -> None:
     client = net.safe_client(
         adapter.NAME, transport=_transport([], licence="OTHER"), hosts=["opendata.rdw.nl"]
