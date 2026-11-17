@@ -39,6 +39,7 @@ def run(
     **over: Any,
 ) -> up.UsedPriceResult:
     p = up.load_params()
+    p.pop("fitted", None)  # T-113: these cases pin the published curve (fit: test_depreciation)
     p.update(over)
     pf = tmp_path / "params.yaml"
     pf.write_text(yaml.safe_dump(p))

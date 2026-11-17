@@ -31,6 +31,16 @@ import yaml
 from ev_pipeline.release.gate import Registry, load_registry
 
 FILE_NAME = "used_prices.json"
+# T-113: the published curve's citation when used_price_params.yaml names none. The 3-year
+# point is DAT's BEV residual value; 1 and 5 years and the shape: research/R-40 section 2.
+PUBLISHED_SOURCE = {
+    "name": "DAT residual values, 3-year-old BEVs 51.5 % of list price (via autohaus.de);"
+    " other ages per research/R-40",
+    "url": "https://www.autohaus.de/nachrichten/gw-trends/dat-spritpreise-machen-gebrauchte-e-autos-teurer-3909599",
+    "ref": "research/R-40-used-ev-price-anchors.md",
+    "date": "2026-09-28",
+}
+FITTED_SOURCE_NAME = "Depreciation curve fitted on our own used price samples (T-113)"
 PARAMS_FILE = Path(__file__).with_name("used_price_params.yaml")
 
 
@@ -274,7 +284,7 @@ def build_used_prices(
         vid = row["variant_id"]
         bands: dict[str, list[dict[str, Any]]] = {}
         for cc in p["countries"]:
-            cur_curve = p["curves"].get(cc, curve)
+            cur_curve, curve_info = choose_curve(p, cc, str(row.get("segment")))
             out_rows = []
             for y in build_years(row, as_of):
                 lp = pick_list_price(prices, vid, cc, y, p)
@@ -292,7 +302,9 @@ def build_used_prices(
                             "p75": s["p75"],
                             "samples": s["n"],
                             "method": "samples",
+                            "basis": "band",
                             "estimate": False,
+                            "date": s["observed_at"],
                             "observed_at": s["observed_at"],
                             "source": s["source"],
                             "source_id": s["source_id"],
@@ -317,7 +329,11 @@ def build_used_prices(
                         "p75": _round(med * (1 + spread), step),
                         "samples": 0,
                         "method": "model",
+                        "basis": "estimate",
                         "estimate": True,
+                        "curve": curve_info["curve"],
+                        "source": curve_info["source"],
+                        "date": curve_info["date"],
                         "age_years": round(age, 1),
                         "kept_share": round(share, 3),
                         "list_price": _round(lp["amount"], step),
@@ -336,19 +352,28 @@ def build_used_prices(
             )
     gen_of = {r["variant_id"]: r.get("generation_id") for r in rows}
     bt = backtest(samples, model_medians, gen_of)
+    from ev_pipeline.derive.depreciation import fit_points, holdout_backtest
+
+    points = fit_points(samples, rows, prices, as_of, p)
+    bt["holdout"] = holdout_backtest(points, p, curve)
+    bt["fit_points"] = len(points)
+    # With a fitted curve the plain comparison above is in-sample; `holdout` is the honest one.
+    bt["model_curve"] = "fitted" if (p.get("fitted") or {}).get("default") else "published"
     gen_bands = generation_bands(samples, p, as_of)
     out.document = {
         "release": release,
         "generated_at": generated_at,
         "model_version": str(p["model_version"]),
         "estimate": True,
-        "note": "Used asking-price bands. method 'model' = list price at registration x share of"
-        " value kept at that age (estimate, samples 0); method 'samples' = manual sample"
-        " aggregates."
+        "note": "Used asking-price bands. basis 'estimate' (method 'model') = list price at"
+        " registration x share of value kept at that age (curve, source, date per row;"
+        " samples 0); basis 'band' (method 'samples') = sample aggregates. An estimate never"
+        " replaces a band."
         " Amounts in each country's currency; convert at display time.",
         "anchors_as_of": p["anchors_as_of"],
         "method_ref": "research/R-40-used-ev-price-anchors.md",
         "spread": spread,
+        "curves": curve_summary(p),
         "list_price_source_ids": sorted(used_sources),
         "variants": variants,
         "generation_bands": gen_bands,
@@ -366,6 +391,42 @@ def build_used_prices(
         "backtest": {k: v for k, v in bt.items() if k != "rows"},
     }
     return out
+
+
+def choose_curve(p: dict[str, Any], cc: str, segment: str) -> tuple[dict[str, Any], dict[str, Any]]:
+    """(curve, provenance) for one country and segment (Decision 064): the curve fitted on our
+    own samples (segment, else all cars) when used_price_params.yaml has one, else the
+    country's own published curve, else the default published curve (R-40, DAT)."""
+    fitted = p.get("fitted") or {}
+    seg = (fitted.get("by_segment") or {}).get(segment)
+    fit = seg or fitted.get("default")
+    if fit:
+        return fit, {
+            "curve": f"fitted:{segment}" if seg else "fitted",
+            "source": {
+                "name": FITTED_SOURCE_NAME,
+                "ref": "pipeline/ev_pipeline/derive/used_price_params.yaml#fitted",
+            },
+            "date": str(fitted.get("fitted_at") or ""),
+        }
+    curve = p["curves"].get(cc) or p["curves"]["default"]
+    src = curve.get("source") or PUBLISHED_SOURCE
+    return curve, {
+        "curve": "published" if cc not in p["curves"] else f"published:{cc}",
+        "source": {k: v for k, v in src.items() if k != "date"},
+        "date": str(src.get("date") or p.get("anchors_as_of") or ""),
+    }
+
+
+def curve_summary(p: dict[str, Any]) -> dict[str, Any]:
+    fitted = p.get("fitted") or {}
+    return {
+        "fitted": bool(fitted.get("default")),
+        "fitted_at": fitted.get("fitted_at"),
+        "fitted_segments": sorted((fitted.get("by_segment") or {}).keys()),
+        "fit_quality": (fitted.get("default") or {}).get("quality"),
+        "published_source": p["curves"]["default"].get("source") or PUBLISHED_SOURCE,
+    }
 
 
 def generation_bands(
@@ -390,6 +451,7 @@ def generation_bands(
                 "period": s["observed_at"][:7],
                 "age_band_years": None,
                 "build_year": s["build_year"],
+                "basis": "band",
                 "source": s["source"],
                 "source_id": s["source_id"],
             }
@@ -434,6 +496,7 @@ def backtest(
         "median_abs_error": round(statistics.median(abs(e) for e in errs), 3) if errs else None,
         "median_error": round(statistics.median(errs), 3) if errs else None,
         "gate": False,
+        "worst": sorted(rows, key=lambda r: -abs(r["error"]))[:5],
         "note": "No manual samples yet" if not samples else None,
         "rows": rows,
     }
@@ -467,4 +530,10 @@ def coverage_lines(log: dict[str, Any]) -> list[str]:
         )
     else:
         lines.append("Back-test against manual samples: no samples yet.")
+    ho = (bt.get("holdout") or {}).get("fitted") or {}
+    if ho.get("rows_compared"):
+        lines.append(
+            f"Hold-out (leave one generation out): {ho['rows_compared']} rows, median absolute"
+            f" error {ho['median_abs_error']:.0%}."
+        )
     return lines
