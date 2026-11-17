@@ -121,6 +121,62 @@ def test_licence_gate_blocks_odbl_source(cat, facts) -> None:
     assert any("ODbL" in e for e in c.details["errors"])
 
 
+def _with_cited_facts_source(use: str, decision: str) -> Any:
+    from ev_pipeline.release.gate import parse_registry
+
+    doc = {
+        "sources": [
+            *[
+                {"id": e.id, "name": e.name, "licence": e.licence, "status": e.status}
+                for e in REGISTRY.sources.values()
+            ],
+            {
+                "id": "testcited",
+                "name": "Cited maker facts (fixture)",
+                "licence": "facts cited, no licence (Decision 068)",
+                "access": "manual",
+                "status": "active",
+                "use": use,
+                "decision": decision,
+            },
+        ]
+    }
+    return parse_registry(doc)
+
+
+def test_licence_gate_recheck_admits_cited_facts_source(cat, facts) -> None:
+    """Regression (T-116): the release gate admits a `use: cited-facts` source (Decision 068),
+    but the QA re-check re-read its licence text and blocked the whole release."""
+    reg = _with_cited_facts_source("cited-facts", "068")
+    assert reg.releasable("testcited")
+    cat["sources"].append(
+        {"id": "testcited", "name": "cited", "licence": "facts cited, no licence (Decision 068)"}
+    )
+    facts[0]["source"] = {
+        "id": "testcited",
+        "name": "cited",
+        "licence": "facts cited, no licence (Decision 068)",
+    }
+    c = qc.check_licence_gate(cat, facts, reg)
+    assert c.status == "pass", c.details["errors"]
+
+
+def test_licence_gate_recheck_still_blocks_unlicensed_source_without_decision(cat, facts) -> None:
+    reg = _with_cited_facts_source("cited-facts", "")
+    facts[0]["source"] = {"id": "testcited", "name": "cited", "licence": "facts cited, no licence"}
+    c = qc.check_licence_gate(cat, facts, reg)
+    assert c.status == "fail"
+    fid = str(facts[0]["id"])
+    assert any(fid in e and "no named licence" in e for e in c.details["errors"])
+
+
+def test_licence_gate_recheck_blocks_odbl_even_for_cited_facts(cat, facts) -> None:
+    reg = _with_cited_facts_source("cited-facts", "068")
+    facts[0]["source"] = {"id": "testcited", "name": "cited", "licence": "ODbL-1.0"}
+    c = qc.check_licence_gate(cat, facts, reg)
+    assert any("ODbL" in e for e in c.details["errors"])
+
+
 def test_licence_gate_blocks_odbl_fact(cat, facts) -> None:
     facts[0]["source"] = {"id": "testosm", "name": "map", "licence": "ODbL-1.0"}
     assert qc.check_licence_gate(cat, facts, REGISTRY).status == "fail"
