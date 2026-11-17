@@ -24,3 +24,4 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS1 (5th) | Data pipeline: fresh review #58, WS2 low-consumption report, winter range field | https://claude.ai/code/session_01JuyZEXwrHCn4kh6fda8bso | 2026-11-17 |
 | WS2 (2nd, 2026-11-17) | Web app: T-097 CI fix + review, then START §3 | https://claude.ai/code/session_01JuyZEX8cuXWPhPXbCY6bGD | 2026-11-17 |
 | WS0 (A-35 fixes) | Coordinator: A-35 launch fixes, merges #58–#70, release 2, hero walk, QA review 2 prompt | (Menno: add link) | 2026-11-17 |
+| Backups | Backups launch item (PR #98): not needed yet, trigger for the AppInfra handoff | https://claude.ai/code/session_01JuyZEVKMGFWLaM9rQe6tPp | 2026-11-17 |
