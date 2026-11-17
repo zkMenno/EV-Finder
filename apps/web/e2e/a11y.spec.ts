@@ -22,7 +22,7 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
       await expect(p.getByTestId("result-count")).not.toContainText("…");
     },
   },
-  { name: "explore-nl-nerd-table", path: "/nl/nl?view=table&level=nerd", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "explore-nl-nerd-table", path: "/nl/en?view=table&level=nerd", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
   { name: "generation", path: "/nl/en/ev/renault/zoe/ph1", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "variant", path: "/nl/en/ev/renault/zoe/ph1/r240", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   {
@@ -33,21 +33,21 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
   // T-096: the hero with answers (cards, compare buttons, Nerd table) in EN and NL. Without release
   // scores (Decision 065) the same pages show the "ranking not available" state, which is checked.
   { name: "hero-en-nerd", path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-nerd" : "hero-no-scores").first()).toBeVisible()) },
-  { name: "hero-nl", path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
-  { name: "hero-nl-360", width: 360, path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-nl", path: "/nl/en?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-nl-360", width: 360, path: "/nl/en?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   { name: "hero-en-nerd-360", width: 360, path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-nerd" : "hero-no-scores").first()).toBeVisible()) },
   // T-119: Spain and Italy in their own language (Decision 066); same no-scores switch as above.
-  { name: "hero-es", path: "/es/es?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
-  { name: "hero-it-360", width: 360, path: "/it/it?role=only&trips=monthly&budget=30000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-es", path: "/es/en?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-it-360", width: 360, path: "/it/en?role=only&trips=monthly&budget=30000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   // Dutch compare buttons: "Vergelijk" must be inside the name (Label in Name), cards and variant page.
-  { name: "explore-cards-nl", path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
-  { name: "explore-cards-nl-360", width: 360, path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
-  { name: "variant-nl", path: "/nl/nl/ev/renault/zoe/ph1/r240", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
+  { name: "explore-cards-nl", path: "/nl/en?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "explore-cards-nl-360", width: 360, path: "/nl/en?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "variant-nl", path: "/nl/en/ev/renault/zoe/ph1/r240", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "open-data", path: "/nl/en/data", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "learn-article", path: "/nl/en/learn/winter-range", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "rankings", parked: true, path: "/nl/en/top/fastest-dc", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   // T-061: known issues (Nerd: code + sample columns), years badge detail, charging charts.
-  { name: "generation-known-issues-nerd", parked: true, path: "/nl/nl/ev/skoda/enyaq/gen1?level=nerd", ready: async (p) => void (await expect(p.getByTestId("years-nerd")).toBeVisible()) },
+  { name: "generation-known-issues-nerd", parked: true, path: "/nl/en/ev/skoda/enyaq/gen1?level=nerd", ready: async (p) => void (await expect(p.getByTestId("years-nerd")).toBeVisible()) },
   {
     name: "charging-de",
     parked: true,
@@ -58,7 +58,7 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
     },
   },
   { name: "charging-uk-nerd", parked: true, path: "/uk/en/charging?level=nerd", ready: async (p) => void (await expect(p.getByTestId("charging-chart").first()).toBeVisible()) },
-  { name: "charging-none", parked: true, path: "/fr/fr/charging", ready: async (p) => void (await expect(p.getByTestId("charging-none")).toBeVisible()) },
+  { name: "charging-none", parked: true, path: "/fr/en/charging", ready: async (p) => void (await expect(p.getByTestId("charging-none")).toBeVisible()) },
 ];
 // Parked features (Decision 051) are only checked when built with PARKED=1 (E2E_PARKED=1).
 const PAGES = ALL_PAGES.filter((p) => !p.parked || process.env.E2E_PARKED === "1");

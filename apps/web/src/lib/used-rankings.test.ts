@@ -133,7 +133,7 @@ describe("release → pages: lists appear once ≥ 5 priced generations exist", 
     expect(cat.usedPrices()).toHaveLength(5);
     expect(visibleUsedRankings(cat.rows(), cat.usedPrices(), "NL", "EUR")).toContain("best-used-under-15k");
     const urls = sitemapUrls(cat, "https://x.test");
-    expect(urls).toContain("https://x.test/nl/nl/top/best-used-under-15k");
+    expect(urls).toContain("https://x.test/nl/en/top/best-used-under-15k");
     expect(urls.some((u) => u.startsWith("https://x.test/de/") && u.includes("best-used"))).toBe(false);
   });
 });
