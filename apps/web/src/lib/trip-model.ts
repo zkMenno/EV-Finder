@@ -79,6 +79,12 @@ export function townsFor(country: CountrySlug): Town[] {
   return TOWNS.filter((t) => t.country === country);
 }
 
+/** The trip check needs a home town with climate; a country without towns gets no trip check,
+ *  never another country's weather (ES/IT until WS1 ships sourced GeoNames + Meteostat towns). */
+export function hasTowns(country: CountrySlug): boolean {
+  return townsFor(country).length > 0;
+}
+
 export function findTown(id: string | null, country: CountrySlug): Town {
   return TOWNS.find((t) => t.id === id) ?? townsFor(country)[0] ?? TOWNS[0]!;
 }

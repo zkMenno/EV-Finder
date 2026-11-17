@@ -16,10 +16,8 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 export const CONFIG_DIR = path.resolve(here, "../../../config/countries");
 export const OUT_FILE = path.resolve(here, "../src/config/listings.generated.json");
 
-export const COUNTRIES = ["nl", "de", "fr", "be", "uk"];
-// Country files that exist but are not served yet (T-118 adds es/it config; T-119 moves them into
-// COUNTRIES when /es/es and /it/it are served). Validated here, not written to the JSON.
-export const PENDING_COUNTRIES = ["es", "it"];
+// Launch countries (Decision 066 adds Spain and Italy; served at /es/es and /it/it since T-119).
+export const COUNTRIES = ["nl", "de", "fr", "be", "uk", "es", "it"];
 const PLACEHOLDERS = new Set(["make", "model", "makeName", "modelName", "MAKE", "MODEL"]);
 const FILTERS = new Set(["electric"]);
 const SITE_KEYS = new Set(["site", "label", "url_template", "filters", "slug_overrides", "priority", "verified"]);
@@ -97,13 +95,8 @@ export function validateCountry(country, doc) {
 /** Reads and validates config/countries/*.yaml: one file per supported country, nothing else. */
 export function loadListingConfig(dir = CONFIG_DIR) {
   const files = readdirSync(dir).filter((f) => f.endsWith(".yaml") || f.endsWith(".yml"));
-  const known = [...COUNTRIES, ...PENDING_COUNTRIES];
-  const extra = files.filter((f) => !known.includes(f.replace(/\.ya?ml$/, "")));
+  const extra = files.filter((f) => !COUNTRIES.includes(f.replace(/\.ya?ml$/, "")));
   if (extra.length) throw new Error(`unknown country files: ${extra.join(", ")}`);
-  for (const c of PENDING_COUNTRIES) {
-    const p = path.join(dir, `${c}.yaml`);
-    if (existsSync(p)) validateCountry(c, yaml.load(readFileSync(p, "utf8"), { schema: yaml.CORE_SCHEMA }));
-  }
   const out = {};
   for (const c of COUNTRIES) {
     const p = path.join(dir, `${c}.yaml`);
