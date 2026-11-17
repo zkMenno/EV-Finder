@@ -868,4 +868,31 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Release 2 prices only what makers publish. Autotijd could be unblocked later only with written permission (WS5).
 
+## Decision 081: Car photos: maker press photos first, Wikimedia Commons as fallback, licence per maker logged
+
+**Status:** Accepted (Menno, 2026-11-17, staging feedback item 4; licence risk is his call)
+**Date:** 2026-11-17
+
+**Context:** Cards on staging have no photos. Menno chose the source order and accepted the licence risk on the terms below.
+
+**Decision:**
+- Source order: (1) maker press/media photos, (2) Wikimedia Commons (CC BY / CC BY-SA only), credited under every photo.
+- Per maker, `data/images/press-terms.yaml` records which press terms apply, the URL they come from, the date checked and whether our use (editorial identification of the car on a free, non-commercial-at-launch site) is allowed. A maker whose terms forbid it is skipped and falls back to Commons.
+- Never hotlink: images are downloaded once, stored in our own object storage with the release, resized by us.
+- Every image carries source URL, licence, credit line and retrieval date in the data; the card shows the credit line. CC BY-SA images keep their licence and are not mixed into the CC BY open data download (data rule 3: licences stay separate; images are excluded from the open data dump).
+- One photo per generation at launch (variant photos later).
+
+**Consequences:** T-133 (WS3 sourcing + licence log), T-134 (WS1 image fields + storage in the release), T-135 (WS2 cards + credit line). Supersedes nothing.
+
+## Decision 082: English only at launch; the URL keeps the language segment
+
+**Status:** Accepted (Menno, 2026-11-17, staging feedback item 6)
+**Date:** 2026-11-17
+
+**Context:** Translations (T-117 drafts, T-119 routes) cost review time before launch. Menno wants one good language first.
+
+**Decision:** Every launch country serves `/{country}/en/` and English is the default (`/{country}/` redirects there). The URL structure of Decision 015 stays, so adding a language later changes no existing URL. The other languages' strings stay in the repo but are not served (country config `languages: []`, `default_language: en`); `/{country}/{nl|de|fr|es|it}/` is not linked, not in the sitemap or hreflang, and redirects to `/{country}/en/`. Translation work (T-117, T-119 follow-ups, REVIEW D6 for non-EN) is parked until after launch. Spain and Italy stay launch **countries** (Decision 066) with English pages.
+
+**Consequences:** T-137 (WS2). Supersedes the language parts of Decision 066 and launch scope §3 for launch; REVIEW D6 needs EN only until languages return (gate PR).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

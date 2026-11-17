@@ -2,11 +2,13 @@
 
 One screen: what's happening. Coordinator only. Task details live in `tasks/`.
 
-_Last updated: 2026-11-17 09:30 UTC by WS0. Every task in "review" whose work is on `main` is now marked **merged**; its fresh review comes from QA (audits/A-35, PR #46)._
+_Last updated: 2026-11-17 21:30 UTC by WS0 (staging feedback logged)._
 
 ## Launch scope (Decision 051, docs/spec/launch-scope.md)
 
 Builders take only tasks in **Launch**. Everything else needs Menno's yes. Built work for parked features stays behind feature flags (off).
+
+**Launch, staging feedback (Menno, 17 Nov; docs/spec/feedback-2026-11-17-staging.md):** T-130 catalogue page + popularity sort (WS2 + UX) · T-131 Popular used EVs (WS3 + WS2) · T-132 hero questions redesign (UX → WS2) · T-133 photo sourcing + licence log (WS3) · T-134 image fields (WS1) · T-135 photo cards (WS2) · T-136 catalogue coverage report, report before build (WS1 + WS3) · T-137 English only (WS2). Decisions 081, 082. **Parked until after launch:** translations (T-117/T-119 follow-ups).
 
 **Launch fixes from QA A-35 (blockers, do first):** T-110 Model Y + seed figures (WS3) · T-111 plausibility + licence gates (WS1) · T-112 new list prices (WS3) · T-113 depreciation estimate (WS1) · T-114 hero reads release scores (WS2) · T-115 budget rule (WS2) · T-116 release 2 (WS1, after T-110–T-113) · T-117 DE/FR/ES/IT strings (WS2 + WS3) · T-118 Spain + Italy data (WS3 + WS1) · T-119 /es/es + /it/it (WS2). Decisions 064–066.
 
