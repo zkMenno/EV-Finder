@@ -42,6 +42,8 @@ def run(
     p.update(over)
     pf = tmp_path / "params.yaml"
     pf.write_text(yaml.safe_dump(p))
+    if not (tmp_path / "sources.yaml").exists():
+        (tmp_path / "sources.yaml").write_text(yaml.safe_dump(REGISTRY))
     return up.build_used_prices(
         rows, [f for f, _ in facts], [y for _, y in facts], tmp_path, 9, GEN, pf
     )
@@ -138,9 +140,23 @@ def write_samples(tmp_path: Path, doc: dict[str, Any], name: str = "nl-m-gen1.ya
 
 
 SRC = {
-    "name": "AutoScout24 NL (our pre-filled search)",
-    "url": "https://www.autoscout24.nl/lst/m/one",
+    "name": "Test market search results",
+    "url": "https://www.market.example/l/auto-s/q/m/",
 }
+# A-35 S2: samples count only from a registry entry that may feed our aggregates.
+REGISTRY: dict[str, Any] = {
+    "schema": "sources/v1",
+    "sources": [
+        {"id": "test-market", "name": "Test market", "licence": "none (site terms)",
+         "status": "active", "use": "aggregates-only", "decision": "060",
+         "site_hosts": ["www.market.example"]},
+        {"id": "blocked-market", "name": "Blocked market", "licence": "none",
+         "status": "blocked", "use": "aggregates-only", "decision": "060",
+         "site_hosts": ["www.blocked.example"]},
+        {"id": "no-decision", "name": "No decision", "licence": "none", "status": "active",
+         "site_hosts": ["www.nodecision.example"]},
+    ],
+}  # fmt: skip
 
 
 def test_fresh_variant_samples_replace_model_and_are_backtested(tmp_path: Path) -> None:
@@ -253,3 +269,88 @@ def test_release_ships_used_prices_and_qa_backtest(tmp_path: Path) -> None:
     qa = json.loads((out / "qa.json").read_text())
     assert qa["backtest_used_prices"]["gate"] is False
     assert "## Used price bands (T-081, estimates)" in (out / "coverage.md").read_text()
+
+
+# --- source gate (T-111, QA A-35 S2) ------------------------------------------------------
+
+
+def _variant_sample(url: str, **src: Any) -> dict[str, Any]:
+    return {
+        "country": "NL",
+        "variant_id": "m-gen1-a",
+        "observed_at": "2026-11-01",
+        "currency": "EUR",
+        "source": {"name": "x", "url": url, **src},
+        "rows": [{"build_year": 2022, "n": 12, "p25": 22000, "median": 24000, "p75": 26000}],
+    }
+
+
+@pytest.mark.parametrize(
+    ("url", "extra", "reason"),
+    [
+        ("https://www.autoscout24.nl/lst/m/one", {}, "not in data/sources.yaml"),
+        ("https://www.blocked.example/q/", {}, "blocked-market: status blocked"),
+        ("https://www.nodecision.example/q/", {}, "no-decision: no named licence"),
+        ("https://www.market.example/q/", {"id": "unknown-id"}, "unknown-id: not in"),
+    ],
+)
+def test_samples_from_a_source_that_is_not_allowed_are_dropped(
+    tmp_path: Path, url: str, extra: dict[str, Any], reason: str
+) -> None:
+    write_samples(tmp_path, _variant_sample(url, **extra))
+    res = run(tmp_path, [row(ys=2022, ye=2022)], [(fact("m-gen1-a", "NL", 50000), 2022)])
+    assert bands(res, "m-gen1-a", "NL")[2022]["method"] == "model"
+    dropped = res.log["sample_files_dropped_by_source_gate"]
+    assert list(dropped) == ["nl-m-gen1.yaml"] and reason in dropped["nl-m-gen1.yaml"]
+    assert res.log["sample_rows"] == 0 and res.log["sample_rows_read"] == 1
+    assert res.document["backtest"]["rows_compared"] == 0  # type: ignore[index]
+
+
+def test_allowed_sample_band_carries_its_registry_id(tmp_path: Path) -> None:
+    write_samples(tmp_path, _variant_sample("https://www.market.example/l/q/"))
+    res = run(tmp_path, [row(ys=2022, ye=2022)], [(fact("m-gen1-a", "NL", 50000), 2022)])
+    b = bands(res, "m-gen1-a", "NL")[2022]
+    assert b["method"] == "samples" and b["source_id"] == "test-market"
+    assert res.log["sample_files_dropped_by_source_gate"] == {}
+
+
+def test_missing_registry_drops_every_sample(tmp_path: Path) -> None:
+    write_samples(tmp_path, _variant_sample("https://www.market.example/l/q/"))
+    (tmp_path / "sources.yaml").write_text("")  # present but empty: nothing is listed
+    res = run(tmp_path, [row(ys=2022, ye=2022)], [(fact("m-gen1-a", "NL", 50000), 2022)])
+    assert bands(res, "m-gen1-a", "NL")[2022]["method"] == "model"
+    p = up.load_params()
+    pf = tmp_path / "p.yaml"
+    pf.write_text(yaml.safe_dump(p))
+    (tmp_path / "sources.yaml").unlink()
+    res = up.build_used_prices(
+        [row(ys=2022, ye=2022)], [fact("m-gen1-a", "NL", 50000)], [2022], tmp_path, 9, GEN, pf
+    )
+    assert res.log["sample_rows"] == 0 and res.log["sample_files_dropped_by_source_gate"]
+
+
+def test_repo_samples_all_pass_the_repo_registry() -> None:
+    """Every file in data/manual/prices/ resolves to an allowed sources.yaml entry (S2)."""
+    from ev_pipeline.release.gate import load_registry
+
+    data = Path(__file__).resolve().parents[2] / "data"
+    samples, problems = up.load_samples(data / "manual" / "prices")
+    assert samples and not problems
+    kept, dropped = up.gate_samples(samples, load_registry(data / "sources.yaml"))
+    assert dropped == {}
+    assert {s["source_id"] for s in kept} == {"marktplaats", "2dehands"}
+
+
+def test_registry_marketplaces_never_ship_as_sources() -> None:
+    """aggregates-only: the release licence gate still blocks them (values never ship)."""
+    from ev_pipeline.net import load_hosts
+    from ev_pipeline.release.gate import load_registry
+
+    path = Path(__file__).resolve().parents[2] / "data" / "sources.yaml"
+    reg = load_registry(path)
+    for sid in ("marktplaats", "2dehands"):
+        assert reg.reason_blocked(sid) is not None
+        assert reg.aggregate_input_problem(sid) is None
+        assert reg.sources[sid].site_hosts
+        with pytest.raises(ValueError, match="no `hosts:`"):  # never a pipeline fetch target
+            load_hosts(sid, path)
