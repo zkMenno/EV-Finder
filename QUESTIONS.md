@@ -6,7 +6,7 @@ Format: `Q-NNN` · task id (if any) · who asked · date.
 
 ---
 
-**Only questions Menno must answer live here** (money, legal or licence risk, public or irreversible steps, his accounts and settings, scope). Engineering judgement calls are not questions: agents take the reversible default, log it in DECISIONS or the task file, and move on. Closed and triaged questions: [docs/process/questions-closed.md](docs/process/questions-closed.md).
+**Only questions Menno must answer live here** (money, legal or licence risk, public or irreversible steps, his accounts and settings, scope). Engineering judgement calls are not questions: agents take the reversible default, log it in DECISIONS or the task file, and move on. Closed and triaged questions: `_archive/questions-closed.md` (archive: open only when Menno asks).
 
 ## Open — needs Menno (7)
 

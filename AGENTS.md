@@ -29,6 +29,7 @@ pipeline/            Python data pipeline (Phase 0)
 packages/schema/     JSON Schema → generated TS + Python types (Phase 0)
 infra/               deploy config for the AppInfra server (Phase 0)
 .github/             CI, issue templates, Dependabot
+_archive/            retired files: never read unless Menno asks
 ```
 
 Folders under `apps/`, `pipeline/`, `packages/` and `infra/` get their own nested `AGENTS.md` once they hold code. Lane-specific rules go there, not here.
@@ -126,6 +127,7 @@ Pre-approved by Menno (2026-11-15): read, search and fetch any public website, d
 - Add features that aren't in your task. The scope guard is strict: only what docs/spec/launch-scope.md lists ships at launch (Decision 051); new ideas go to ROADMAP.md.
 - Call external services or scrape sites in tests. Use fixtures.
 - Delete or rewrite DECISIONS.md entries. Supersede them with a new one.
+- Read, search or cite `_archive/` (unless Menno asks), or delete docs: retire them with `git mv` into `_archive/`.
 
 ## Stack conventions
 

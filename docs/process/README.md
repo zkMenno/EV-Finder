@@ -1,6 +1,6 @@
 # How we work
 
-The one process doc for every chat and agent on EV Finder. It replaces the claude.ai project doc `claude/operating-rules.md`, `workstreams/README.md` and the spec's Workflow tab (17 Nov 2026). Engineering rules for code stay in [AGENTS.md](../../AGENTS.md); product decisions in [docs/spec/product-decisions.md](../spec/product-decisions.md); review checks in `REVIEW.md` (until adopted: [draft](../../workstreams/WS0/drafts/REVIEW.md)); the rule register in [rules.md](rules.md). Owner: WS0. Change it with a small edit plus a line in [rules.md](rules.md).
+The one process doc for every chat and agent on EV Finder. It replaced the old project docs, `workstreams/README.md` and the spec's Workflow tab on 17 Nov 2026. Engineering rules for code stay in [AGENTS.md](../../AGENTS.md); product decisions in [docs/spec/product-decisions.md](../spec/product-decisions.md); review checks in `REVIEW.md` (until adopted: [draft](../../workstreams/WS0/drafts/REVIEW.md)); the rule register in [rules.md](rules.md). Owner: WS0. Change it with a small edit plus a line in [rules.md](rules.md).
 
 Short version for Project Settings: [project-instructions.md](project-instructions.md) (WS0 updates it and tells Menno to re-paste).
 
@@ -19,6 +19,7 @@ Short version for Project Settings: [project-instructions.md](project-instructio
 - Need another workstream? Append to its INBOX. Need Menno? Ask WS0 via its INBOX (or a popup if you're talking to him).
 - Read a file right before you write it, make small edits, write only files you own (§4).
 - Every chat attaches the repo with push access first (`add_repo zkMenno/EV-Finder`, access `push`) and adds its row to CHATS.md in its first commit.
+- **Never read, search or cite `_archive/`** unless Menno asks for a specific file. Retire a file by `git mv` into `_archive/` (row in `_archive/README.md`), never delete it.
 - WS0 processes its INBOX at least once per working session. If WS0 has been idle more than a day, the next chat that notices tells Menno in one line.
 
 ## 3. Workstreams
@@ -35,7 +36,7 @@ Menno opens one by pasting: **"Read workstreams/<ws>/START.md and go."** Aim for
 | UX | Brand + design system | its own chat | [UX](../../workstreams/UX/START.md) |
 | QA | Fresh-eyes reviewer: walks the app, runs REVIEW.md, audits | Claude Code on the repo | [QA](../../workstreams/QA/START.md) |
 
-Finished one-off runs: `workstreams/OVERNIGHT/`, `workstreams/OVERNIGHT2/` (archive, read-only).
+Finished one-off runs (OVERNIGHT, OVERNIGHT2) are in `_archive/`.
 
 ## 4. File ownership
 One owner per path; others write to the owner's INBOX. Builders also edit Status + Handoff notes of their own task file; reviewers only the `## Review` section.
