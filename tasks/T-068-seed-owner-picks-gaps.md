@@ -1,6 +1,6 @@
 # T-068 Seed the models in Menno's picks that the catalogue lacks
 Role: builder   Lane: data/seed   Wave: 9
-Status: review (WS3, 2026-11-15)
+Status: merged (PR #31); fresh review via QA A-35; earlier note: WS3, 2026-11-15
 
 ## Goal
 Every car in `data/editorial/menno-picks.yaml` maps to a seed generation.

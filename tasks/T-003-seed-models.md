@@ -1,6 +1,6 @@
 # T-003 Seed models
 Role: builder   Lane: data/seed   Wave: 1
-Status: review (builder, overnight run 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, overnight run 2026-11-15
 
 ## Goal
 data/seed/models.yaml with the used-EV favourites and generations.

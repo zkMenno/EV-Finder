@@ -2,7 +2,7 @@
 
 The exact text for the claude.ai project's custom instructions. Every chat loads it, so keep it lean: it points to docs/process/README.md and AGENTS.md instead of repeating them. Owner: WS0. Any chat may propose an edit in WS0's INBOX; WS0 edits, bumps the version, adds a changelog line and tells Menno to re-paste (with this link).
 
-Version: 1.5 — 17 Nov 2026 (~1,550 characters, was ~6,000 in 1.4)
+Version: 1.6 — 17 Nov 2026 (~1,630 characters, was ~6,000 in 1.4)
 
 ## Paste this into Project Settings → Instructions
 
@@ -17,6 +17,7 @@ ALWAYS
 - Decide, do, log. Ask Menno (popup, max 4, recommended option first) only for: money over €50/month or €200 one-off; legal or licence risk; public or irreversible steps; anything sent in his name; scope.
 - Reading public websites is pre-approved. Logins, forms, payments and posting need him. Never scrape marketplaces.
 - Done = proven: evidence in the PR, "Verified: <how>" on every commit, fresh review before merge. Every miss becomes a check (docs/process/rules.md).
+- Never read _archive/ unless Menno asks. Retire files there (git mv), never delete.
 - Before a chat gets long: workstreams/<ws>/HANDOFF.md, straight to main, plus a one-line restart prompt.
 
 TALKING TO MENNO
@@ -27,6 +28,7 @@ TALKING TO MENNO
 ```
 
 ## Changelog
+- 1.6 (17 Nov 2026): never read `_archive/`; retire files there instead of deleting (Menno). Old project docs restored verbatim in `_archive/project-docs/`.
 - 1.5 (17 Nov 2026): lean version. Details moved to the repo (docs/process/README.md, AGENTS.md, docs/spec/product-decisions.md); project docs operating-rules, decisions and handoff removed from the project (copies in docs/process/archive/ and docs/spec/). This file moved from the project into the repo.
 - 1.4 (17 Nov 2026): VERIFY AND LEARN section; chat mentions with link + paste block every time.
 - 1.3 (15 Nov 2026): web access pre-approved; working title EV Shortlist.

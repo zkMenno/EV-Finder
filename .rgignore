@@ -1,0 +1,2 @@
+# Keep retired files out of agent searches (ripgrep / Grep tools skip this folder).
+_archive/

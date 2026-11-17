@@ -4,7 +4,7 @@ You are **overnight worker 2** for EV Shortlist (working title; repo EV-Finder).
 
 ## 0. Setup (10 min)
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`), clone it, create branch `proto/overnight-2` from `main`.
-2. Read: `AGENTS.md` (incl. "Web access": public websites are pre-approved) · `workstreams/README.md` · `DECISIONS.md` (skim 009–019) · `docs/spec/README.md` · the task files named in each item below.
+2. Read: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md (incl. "Web access": public websites are pre-approved) · `workstreams/README.md` · `DECISIONS.md` (skim 009–019) · `docs/spec/README.md` · the task files named in each item below.
 3. Add your row to `CHATS.md` (OVERNIGHT2, purpose, your chat link) and commit.
 
 ## 1. Lane (no clashes with overnight 1)
@@ -42,3 +42,6 @@ You never edit: `packages/`, `apps/`, `pipeline/`, `data/`, `config/`, `content/
 1. `MORNING-2.md`: table of items (done / partial / skipped, file, one-line finding), "For WS0" proposals (decisions, task updates, questions for Menno), 5-line retro.
 2. Push `proto/overnight-2`, open a draft PR to `main` titled "Overnight 2: research pack".
 3. Append to `workstreams/WS0/INBOX.md` **on your branch**: "Overnight 2 done, PR #x, MORNING-2.md ready."
+
+## Retro (end of every session)
+Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.

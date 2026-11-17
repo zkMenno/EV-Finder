@@ -118,7 +118,6 @@
   "hero.card.page": "Über dieses Auto",
   "hero.card.listings": "Angebote auf {site}",
   "hero.card.compare": "Vergleichen",
-  "hero.card.compareLabel": "{name} zum Vergleich hinzufügen",
   "hero.card.inCompare": "Im Vergleich",
   "hero.card.compareFull": "Vergleich ist voll",
   "hero.card.alternatives": "+{n} weitere Versionen passen auch",

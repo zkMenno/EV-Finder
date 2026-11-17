@@ -6,7 +6,7 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 |---|---|---|---|
 | WS0 | Coordinator: spec mirror, planning, research, reviews, merges | https://claude.ai/code/session_01JuyZEXBt7oHBm4SwQBwRz1 | 2026-11-15 |
 | WS0 (2nd session) | Wrote the Variant finder spec + Decision 019 in the repo first | https://claude.ai/code/session_01JuyZEVFu9XKbRntUgK2fnm | 2026-11-15 |
-| OVERNIGHT | Overnight prototype build 1 on `proto/overnight-1` (reads workstreams/OVERNIGHT/ADDENDUM-4.md) | (Menno: add link) | 2026-11-14 |
+| OVERNIGHT | Overnight prototype build 1 on `proto/overnight-1` (finished; files in _archive/) | (Menno: add link) | 2026-11-14 |
 | UX | Brand + design system (docs/design/, claude/brand-design-decisions.md) | https://claude.ai/code/session_01JuyZEVwepSTrWVdkrCyGeQ | 2026-11-15 |
 | WS4 prep | AppInfra capacity check chat | (Menno: add link) | 2026-11-15 |
 | OVERNIGHT2 | Overnight research + review pack on `proto/overnight-2` (R-20…R-31, A-20, growth keywords, outreach translations) | https://claude.ai/code/session_01JuyZEVvDWLuBFGEnLBuGTR | 2026-11-15 |
@@ -17,4 +17,6 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | UX (2nd) | Solarpunk x EV round, illustration system, then variant finder designs | https://claude.ai/code/session_01JuyZEUvhzXr417bwk7FHpM | 2026-11-15 |
 | WS2 | Web app: T-080 hero shortlist, then START.md §3 (T-067, T-045, T-043, T-050/T-012, /learn, /data) | https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS | 2026-11-15 |
 | WS3 | Catalogue curation: T-068 seed gaps, T-031 heat pump, finance_profiles, T-081 price samples, T-041, /learn pages, glossary | https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr | 2026-11-15 |
+| WS1 (4th) | Data pipeline: settle #44/#49/#51 conflicts, T-063 on-board charger, winter range field | https://claude.ai/code/session_01JuyZEUkCfiK3pkbkjjyqf | 2026-11-17 |
 | WS0 (verification) | Verification + learning loops from the Claude Code team article: REVIEW.md draft, T-120–T-129, project instructions v1.4 | https://claude.ai/code/session_01JuyZEV7e51dUQJ3Qyr6HHx | 2026-11-17 |
+| WS0 CI | CI minutes: adapted GardenLayer #813 into rule G-33 (was P-21) + docs/process/ci-budget.md | https://claude.ai/code/session_01JuyZEXAdCd9f82L5yxijfL | 2026-11-17 |

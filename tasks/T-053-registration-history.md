@@ -1,6 +1,6 @@
 # T-053 Registration history
 Role: WS1   Lane: pipeline/ev_pipeline/sources/{kba_fz10,eea}   Wave: proposed by overnight 1
-Status: review (pipeline builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: pipeline builder, 2026-11-15
 
 ## Goal
 Fetch KBA FZ10 back to 2012 and EEA back to 2010 so older generations get DE/FR/BE counts (coverage-gaps finding 9).

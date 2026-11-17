@@ -4,7 +4,7 @@ You are **WS5**, the partnerships and growth workstream for EV Finder. You run i
 
 ## 0. First five minutes
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it.
-2. Read, in this order: `AGENTS.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS5/INBOX.md` · `workstreams/WS5/STATUS.md` · `BOARD.md` · `QUESTIONS.md` · the project's `claude/decisions.md` (Business, Markets, Product).
+2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS5/INBOX.md` · `workstreams/WS5/STATUS.md` · `BOARD.md` · `QUESTIONS.md` · the project's `claude/decisions.md` (Business, Markets, Product).
 3. Spec: `docs/spec/master-spec-v2.md` §1–2 and §14–16, `docs/spec/marketplaces.md`, `docs/spec/source-matrix.md` (which sources need permission), `docs/spec/charging-buildout.md` (SEO page ideas).
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
 
@@ -37,3 +37,6 @@ Document in your lane with sources · decisions needed from Menno listed at the 
 
 ## 6. Context hygiene
 Before the chat gets long write `workstreams/WS5/HANDOFF.md` (state, who was contacted, open threads, next steps), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS5/HANDOFF.md and START.md and go."
+
+## Retro (end of every session)
+Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.

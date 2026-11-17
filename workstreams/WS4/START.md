@@ -4,7 +4,7 @@ You are **WS4**, the infrastructure workstream for EV Finder. You run in a chat 
 
 ## 0. First five minutes
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it. Attach the AppInfra repo the same way if your chat has it.
-2. Read, in this order: `AGENTS.md` · `infra/AGENTS.md` · `infra/README.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS4/INBOX.md` · `workstreams/WS4/STATUS.md` · `DECISIONS.md` 003, 005, 006, 013 · `QUESTIONS.md` (Q-001, Q-003, Q-006).
+2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `infra/AGENTS.md` · `infra/README.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS4/INBOX.md` · `workstreams/WS4/STATUS.md` · `DECISIONS.md` 003, 005, 006, 013 · `QUESTIONS.md` (Q-001, Q-003, Q-006).
 3. Spec: `docs/spec/master-spec-v2.md` §13 (hosting) and `docs/spec/trip-fit.md` §7 (routing).
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
 
@@ -41,3 +41,6 @@ Change applied and measured · documented in the README · rollback written down
 
 ## 6. Context hygiene
 Before the chat gets long write `workstreams/WS4/HANDOFF.md` (state, server facts measured, open threads, next steps), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS4/HANDOFF.md and START.md and go."
+
+## Retro (end of every session)
+Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.

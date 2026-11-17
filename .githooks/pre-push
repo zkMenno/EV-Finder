@@ -1,0 +1,6 @@
+#!/bin/sh
+# Optional local hook (enable once: git config core.hooksPath .githooks). Rule G-03.
+markers=$(git grep -nE '^(<{7}|={7}|>{7})( |$)' -- . ':!*.png' ':!*.jpg' 2>/dev/null)
+if [ -n "$markers" ]; then
+  echo "Push blocked: merge-conflict markers found (rule G-03):"; echo "$markers" | head -20; exit 1
+fi

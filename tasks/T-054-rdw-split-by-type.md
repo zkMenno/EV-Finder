@@ -1,6 +1,6 @@
 # T-054 Rdw split by type
 Role: WS1   Lane: pipeline/ev_pipeline/sources/rdw   Wave: proposed by overnight 1
-Status: review (pipeline builder, 2026-11-15, branch proto/overnight-1)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: pipeline builder, 2026-11-15, branch proto/overnight-1
 
 ## Goal
 Split RDW price and WLTP groups by type/variant/uitvoering where that resolves the 680 price groups dropped for spread.

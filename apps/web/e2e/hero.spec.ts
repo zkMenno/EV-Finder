@@ -77,4 +77,33 @@ test("hero: links the launch /learn guides that exist", async ({ page }) => {
   const learn = page.getByTestId("hero-learn");
   await expect(learn.getByRole("link", { name: "Winter range explained" })).toHaveAttribute("href", "/nl/en/learn/winter-range");
   await expect(learn.getByRole("link")).toHaveCount(3);
+  // T-082 published the battery guide as batteries-health.
+  await expect(learn.getByRole("link").nth(2)).toHaveAttribute("href", "/nl/en/learn/batteries-health");
+});
+
+test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside it)", async ({ page }) => {
+  await page.goto("/nl/en?role=main&trips=never");
+  await expect(page.getByRole("checkbox", { name: "I want to keep it 8 years or more", exact: true })).toHaveCount(1);
+});
+
+test("hero: Dutch Nerd score table fits a 360 px phone (verify-web found 7 px overflow)", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/nl/nl?role=only&trips=monthly&level=nerd");
+  await expect(page.getByTestId("hero-nerd").first()).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+  // Numbers stay whole ("1.161,6", never "1.161," / "6") and the table isn't cut off in its card.
+  const table = await page.evaluate(() => {
+    const box = document.querySelector('[data-testid="hero-nerd"] table')!.parentElement!;
+    const cells = [...box.querySelectorAll("td")].filter((td) => /\d/.test(td.textContent ?? ""));
+    const lines = (td: Element) => {
+      const r = document.createRange();
+      r.selectNodeContents(td);
+      return new Set([...r.getClientRects()].map((x) => Math.round(x.top))).size;
+    };
+    return { clipped: box.scrollWidth - box.clientWidth, numberCells: cells.length, split: cells.filter((td) => lines(td) > 1).length };
+  });
+  expect(table.numberCells).toBeGreaterThan(0);
+  expect(table.split).toBe(0);
+  expect(table.clipped).toBeLessThanOrEqual(0);
 });

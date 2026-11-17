@@ -1,14 +1,14 @@
 # WS1 status
 
-- **State:** active (3rd session, https://claude.ai/code/session_01JuyZEWFXbkeYSii8dVSWnx)
-- **Now:** queue done (T-123, T-127, T-124 in review); next: trace A-32 findings 1–2 once WS0 numbers the task
-- **In review:** #44 T-123 release diff (Decision 044) → T-127 `ev verify` (branched from #44) · #49 T-124 property tests + Decision 045
-- **Blocked:** T-063 data side (WS0 delegated FactField entries, still to do), T-064 part 2 (Data publish + WS4 Dockerfile fetch)
-- **Last updated:** 2026-11-17 by WS1
+- **State:** active (4th session, https://claude.ai/code/session_01JuyZEUkCfiK3pkbkjjyqf)
+- **Now:** merging main into #44, #49, #51 (all conflict), then T-063
+- **Next:** START §3 item 6 (winter range quality: rerun T-035 on the calibrated matrix, per-profile fields in qa.json); T-063 once the schema lands
+- **In review:** [#15](https://github.com/zkMenno/EV-Finder/pull/15) T-069 shortlist scores (CI green) → then [#21](https://github.com/zkMenno/EV-Finder/pull/21) T-081 + T-056 used price bands (trivial DECISIONS.md conflict after #15: keep both)
+- **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
+- **Last updated:** 2026-11-17 09:50 UTC by WS1
 
 ## Log
-- 2026-11-17 · 3rd session. #15 and #21 merged (in #39); item 6 done in #27. T-123: release diff, blocking `release_diff` QA check, config/approved_changes.yaml, Decision 044. 1412 tests green.
-- 2026-11-17 · T-124 PR #49: 19 property tests; Hypothesis found the sibling-rung bug (Decision 045). T-127: `ev verify` + skill; live dry run of release 2 = 239 blocking (audits/A-32). rdw-tgk refresh failed (SnapshotError).
+- 2026-11-17 09:50 UTC · 4th session opened. #15/#21 merged via #39. #44/#49/#51 green but conflicting with main.
 - 2026-11-15 09:35 UTC · WS1 chat opened (https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY), 1197 pipeline tests green on main. Claimed T-064.
 - 2026-11-15 10:05 UTC · T-064 part 1 PR #4: manifest + per-generation split, publish/fetch/verify by sha256, workflows, web fetch script. 1232 tests green.
 - 2026-11-15 09:50 UTC · PR #5 sources.yaml housekeeping; PR #7 T-025 (manual charging YAML, release diff to review, refresh fix). Proposed Decision 040 to WS0. (Earlier log line says 10:05 UTC; it was ~09:35.)

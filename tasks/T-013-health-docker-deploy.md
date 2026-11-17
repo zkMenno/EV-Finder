@@ -1,6 +1,6 @@
 # T-013 Health docker deploy
 Role: builder   Lane: apps/web/Dockerfile, infra/   Wave: 3
-Status: review
+Status: merged (PR #1); fresh review via QA A-35
 
 ## Goal
 /health, arm64 Dockerfile, compose and Caddy files (not applied).

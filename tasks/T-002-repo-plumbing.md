@@ -1,6 +1,6 @@
 # T-002 Repo plumbing
 Role: builder   Lane: root config, .github, pipeline/pyproject.toml   Wave: 1
-Status: review (builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, 2026-11-15
 
 ## Goal
 pnpm workspace, uv project, lint/format/typecheck, CI job per lane.

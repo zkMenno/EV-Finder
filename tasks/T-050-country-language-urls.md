@@ -1,6 +1,6 @@
 # T-050 Country + language URLs, static pages again
 Role: builder   Lane: apps/web (+ config/countries/*.yaml language keys)   Wave: overnight 1 (addendum 5 item 1)
-Status: review
+Status: merged (PR #1); fresh review via QA A-35
 
 ## Goal
 Every page lives at `/{country}/{lang}/…` (Decision 015), so each country × language has one crawlable URL with hreflang, and model / generation / variant / learn pages are static again (closes Q-033 / Q-034).

@@ -1,6 +1,6 @@
 # T-082 /learn "Batteries and used battery health"
 Role: WS3   Lane: content/learn   Wave: 10
-Status: review (WS3, 2026-11-15)
+Status: merged (PR #35); fresh review via QA A-35; earlier note: WS3, 2026-11-15
 
 ## Goal
 The third launch /learn page: chemistries in plain words, how batteries age, what to check on a used EV.
