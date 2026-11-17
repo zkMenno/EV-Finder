@@ -1,6 +1,6 @@
 # T-115 Budget filter uses band → estimate → new price; unpriced cars rank last
 Role: builder   Lane: WS2: apps/web/src/lib/shortlist.ts, hero components   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #70)
+Status: merged (PR #70, #100)
 
 ## Goal
 Budget changes the result (Decision 064).
@@ -41,3 +41,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B2 fixed. -->
+
+WS0 subagent, 2026-11-17, f791fd6 + 331d0bf: pass; band → estimate → new price; unpriced cars never numbered (release 2: NL €15k one priced pick + unpriced list, €35k 10 priced picks). **A-35 B2 fixed** (thin €15k list is real data: cheaper cars fail the road-tripper presets).

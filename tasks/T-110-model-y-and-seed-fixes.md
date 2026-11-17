@@ -1,6 +1,6 @@
 # T-110 Model Y LR AWD and other A-35 seed figures from maker data
 Role: builder   Lane: WS3: data/seed/, data/manual/   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #60)
+Status: merged (PR #60)
 
 ## Goal
 Correct the implausible Tesla Model Y Long Range AWD rows (gen1 and Juniper) and the A-35 S8 rows from maker data, so the #1 road-tripper pick is real.
@@ -28,3 +28,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B4, S8 fixed. -->
+
+WS0 subagent reviews, 2026-11-17: #60 merged; on release 2 (#91 round 2, 42bb9d8) Model Y gen1 LR AWD 533 km, Juniper 586 km, plausibility gate passes. **A-35 B4 fixed.**

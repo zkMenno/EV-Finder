@@ -1,6 +1,6 @@
 # T-117 DE, FR, ES and IT drafts for every public string
 Role: builder   Lane: WS2 (+ WS3 wording): apps/web/src/i18n/, apps/web tests   Wave: launch fixes (A-35)
-Status: review (i18n builder subagent for WS0, 2026-11-17; PR open, not merged)
+Status: merged (PR #72, #75)
 
 ## Goal
 No English UI strings on DE, FR, ES or IT pages.
@@ -30,3 +30,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B5 fixed. -->
+
+WS0 subagent, 2026-11-17, d0a762a: R0–R3, D6, D8, D13 pass; 737/737 public keys in DE/FR/ES/IT; no-english e2e passes on release 2. **A-35 B5 (strings) fixed.**

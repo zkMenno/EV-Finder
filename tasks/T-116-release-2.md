@@ -1,6 +1,6 @@
 # T-116 Rebuild and publish release 2; latest = 2
 Role: builder   Lane: WS1 (+ WS4 if staging data is needed): pipeline/, data/releases/   Wave: launch fixes (A-35)
-Status: todo
+Status: done (Data release 2, PR #91; latest = 2)
 
 ## Goal
 The site runs on data that includes every launch data task.
@@ -27,3 +27,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B1, S7 fixed. -->
+
+WS0 subagent, 2026-11-17, 42bb9d8 (round 2): R0–R4, D1, D4, licence, S7, hero walk pass; release diff vs 1: 0 blocking, 249 approved (#87); data-v2 published with 151 assets. **A-35 B1, S7 fixed.**

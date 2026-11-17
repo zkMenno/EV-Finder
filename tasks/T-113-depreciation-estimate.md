@@ -1,6 +1,6 @@
 # T-113 Used price estimate from new price × depreciation curve
 Role: builder   Lane: WS1: pipeline/ev_pipeline/derive/   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #64 code + PR #63 params)
+Status: merged (PR #63, #64, #78, #79)
 
 ## Goal
 Cars without a real used band get a labelled used price estimate per build year and country (Decision 064).
@@ -41,3 +41,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B2 fixed. -->
+
+WS0 subagent, 2026-11-17, 742ea30 (round 2): R0–R3, D3, D5, D13 pass; back-test on the visitor path 10.8 % MAE, 52.6 % in band (#78). Release 2: used prices on 171/271 variants incl. ES/IT. **A-35 B1 (used prices) fixed.**

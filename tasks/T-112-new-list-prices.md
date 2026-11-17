@@ -1,6 +1,6 @@
 # T-112 A sourced new list price for every launch variant
 Role: builder   Lane: WS3: data/seed/, data/manual/prices/   Wave: launch fixes (A-35)
-Status: review (WS3 builder, round 2 after Decision 080, 2026-11-17, PR #65)
+Status: merged (PR #65, #81)
 
 ## Goal
 Every variant in the catalogue has its new list price, so Decision 064 can estimate a used price for any car.
@@ -36,3 +36,5 @@ Anything not on docs/spec/launch-scope.md.
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B2 fixed. -->
 
 Reviewer: WS0 subagent, 2026-11-17, facb7f2: R0–R3, D2, D4/D7, D13 pass (Autotijd held per Decision 080, gate mutation-tested; 20/21 maker facts checked); S1 stale duplicate block → removed by WS0. A-35 B2 data side: 21 maker prices; budget rule fix lands with T-115.
+
+WS0 subagent, 2026-11-17, facb7f2: R0–R3, D2, D4/D7, D13 pass (Autotijd held, Decision 080; 21 maker prices; years via #81). A-35 B2 data side.
