@@ -25,3 +25,25 @@ Anything not named above.
 - Dry run on real rows (G-10): 0 citations → 0 moves; check-release on release 1 passes. The fixture build test shows a routed row: option 11 shipped, standard empty, manual fact not shipped.
 
 ## Review
+
+### Fresh review — WS1 5th chat (no build context), 2026-11-17 10:30 UTC
+Reviewed head **0d168ce** (= PR head ee14201 with origin/main merged in, no conflicts). REVIEW.md read from origin/main.
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| R0 | pass | All checks green on ee14201 (pipeline, schema, web, e2e, data-qa, audit, gate-guard, repo-checks). Locally on 0d168ce: `ruff check` clean, `ruff format --check` 186 files ok, `pytest -q` **1434 passed**. CI re-dispatched on the new head. |
+| R1 | pass | `git diff origin/main...HEAD \| grep -E '^\+(<{7}\|={7}\|>{7})'` → nothing. |
+| R2 | pass | PR body has commands + counts + a mutation result + G-10 dry run. |
+| R3 | pass | Only test change is the new `tests/test_t063_ac_optional.py` (+258); no thresholds loosened; RANGES adds a row, removes none. |
+| D3 | pass | Dry run: `grep -rl ac_kw_optional data/seed data/manual` = 0 files → 0 moves, release values unchanged. |
+| D5 | pass | Schema: one additive enum value in ev.schema.json, generated TS + Python regenerated (1 line each). Older releases have no such field, so they still load. |
+| D12 | pass | Decision 046 is inside WS1's block (040–049); main has 040–044, #49 holds 045; no duplicate. |
+| D13 | pass | New tests use fixtures and tmp_path only. |
+
+**Findings**
+1. **should-fix** — the rows guard (`derive/rows.py`: drop `ac_kw_optional` when not above `ac_kw`) has no test. Mutation: replacing the condition with `if False:` → T-063 tests still 12/12 pass. Reachable case: source A 22 kW (matches no citation, stays standard) + source B 11 kW routed to optional. Add one `build_rows` test.
+2. **should-fix** — the open-data bundle label for `ac_kw` now says "standard on-board charger", but until citations land most rows still carry the source's max-AC (often the option, per A-06). Label it "standard on-board charger where known, else the source's maximum AC" until WS3's citations cover the A-06 cars.
+3. **nit** — removing the "no cited standard agrees" condition in `ac_route.py` also survives the tests; it only matters when cited standard and optional are within ~4 % of each other (practically never), so fine as is.
+
+**Verdict: pass, no must-fix.** Findings 1–2 go into a small follow-up PR by WS1 after merge (before the bundle goes public).
+
