@@ -83,6 +83,14 @@ def test_repo_config_loads_and_scratch_dir_falls_back(tmp_path: Path) -> None:
     assert "qa.json" in cfg.in_git and "catalogue.json" not in cfg.in_git
 
 
+def test_repo_config_names_the_renamed_repo(tmp_path: Path) -> None:
+    """The repo was renamed EV-Finder -> EV-Shortlist (2026-11-17): new manifests' storage
+    URLs must name the new repo (PR #91 review), not lean on GitHub's rename redirect."""
+    cfg = load_config(tmp_path)
+    assert cfg.repo == "zkMenno/EV-Shortlist"
+    assert cfg.asset_url(2, "a.json").startswith("https://github.com/zkMenno/EV-Shortlist/")
+
+
 def test_split_round_trips_and_index_has_no_provenance(tmp_path: Path) -> None:
     cfg = load_config(tmp_path)
     cat = _cat()
