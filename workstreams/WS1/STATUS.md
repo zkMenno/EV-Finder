@@ -1,13 +1,14 @@
 # WS1 status
 
-- **State:** handing off (5th session done)
-- **Now:** nothing running
+- **State:** active (6th session)
+- **Now:** T-136 coverage report; #105 fixes main image build
 - **Next:** see HANDOFF.md (#58 follow-up, T-116 once its blockers merge)
 - **In review:** [#58](https://github.com/zkMenno/EV-Finder/pull/58) T-063 (fresh review pass) · [#66](https://github.com/zkMenno/EV-Finder/pull/66) T-071 · [#67](https://github.com/zkMenno/EV-Finder/pull/67) T-072
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-17 21:30 UTC · 6th session opened (https://claude.ai/code/session_01JuyZEVR92pcMFzUGsz5wzo). PR #105: images.yml fetches release catalogue by manifest (WS2 URGENT 21:19). Claimed T-136.
 - 2026-11-17 11:00 UTC · PR #67 T-072 winter range row field (196/226 in dry run). Handoff written.
 - 2026-11-17 10:45 UTC · #58 reviewed (pass). PR #66 T-071 consumption charging losses. Claimed T-072. T-116 back to WS1 after its blockers merge.
 - 2026-11-17 10:15 UTC · 5th session opened (https://claude.ai/code/session_01JuyZEXwrHCn4kh6fda8bso). No WS0 answer on T-113/T-116 yet; no t-113/t-116 branches. Reviewing #58.
