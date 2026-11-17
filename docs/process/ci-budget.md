@@ -1,6 +1,6 @@
 # CI budget: do the work in the session, let CI confirm
 
-Owner: WS0. Rule G-32 (was P-21), active since 2026-11-17. Source: GardenLayer handoff #813 (17 Nov 2026), adapted.
+Owner: WS0. Rule G-33 (proposed as P-21), active since 2026-11-17. Source: GardenLayer handoff #813 (17 Nov 2026), adapted.
 
 ## Why this repo is different from GardenLayer
 - EV-Finder is **public**. Standard GitHub-hosted runners (`ubuntu-latest`, `ubuntu-24.04-arm`) are free and unmetered on public repos, so this repo does not draw from the account's 2,000 free minutes.
