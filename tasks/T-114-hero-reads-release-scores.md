@@ -1,6 +1,6 @@
 # T-114 Hero ranks with shortlist_scores.json from the release
 Role: builder   Lane: WS2: apps/web/src/lib/shortlist*, hero components   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #69)
+Status: merged (PR #69)
 
 ## Goal
 One implementation of the shortlist rules: the web reads release scores (Decision 065).
@@ -33,3 +33,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B3 fixed. -->
+
+WS0 subagent, 2026-11-17, 11160ab: R0–R3, D3, D6–D8, D10, D13 pass; hero scores = release scores on 7 answer sets; re-checked on release 2 (#100 review, 3 sets). **A-35 B3 fixed.**

@@ -1,6 +1,6 @@
 # T-111 Plausibility gate in qa.json; licence gate for marketplace samples
 Role: builder   Lane: WS1: pipeline/ev_pipeline/qa/, pipeline/ev_pipeline/derive/used_price.py, data/sources.yaml   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #62 code + PR #61 thresholds)
+Status: merged (PR #61, #62)
 
 ## Goal
 Implausible figures go to review instead of the release; marketplace samples are gated like every other source.
@@ -31,3 +31,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B4, S2 fixed. -->
+
+WS0 subagent, 2026-11-17, fd06891: R0–R3, D3, D4 pass. Gate holds back Atto 3, Kona SX2 ×2, Enyaq 85 on release 2; derived values cleared (#97). **A-35 B4 fixed.**
