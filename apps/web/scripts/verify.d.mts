@@ -10,3 +10,4 @@ export function selectFeatures(map: FeatureMap, changed: string[]): { features: 
 export function checkMap(map: unknown): string[];
 export function loadMap(file?: string): FeatureMap;
 export function rawKeysIn(text: string, keys: Set<string>): string[];
+export function plainError(err: string, step: Record<string, unknown>): string;

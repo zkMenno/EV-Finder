@@ -1,7 +1,7 @@
 import { existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { checkMap, expandSelector, globToRegExp, loadMap, MAP_FILE, rawKeysIn, selectFeatures } from "../../scripts/verify.mjs";
+import { checkMap, expandSelector, globToRegExp, loadMap, MAP_FILE, plainError, rawKeysIn, selectFeatures } from "../../scripts/verify.mjs";
 
 // T-126: the feature map is the rubric for `pnpm verify` and for reviewers, so it must stay valid
 // and its triggers must point at files that exist (a stale trigger silently skips a feature).
@@ -28,6 +28,13 @@ describe("feature map", () => {
       f.triggers.filter((t) => !files.some((p) => globToRegExp(t).test(p))).map((t) => `${f.id}: ${t}`),
     );
     expect(dead).toEqual([]);
+    const deadShared = (map.defaults?.always_all ?? []).filter((t) => !files.some((p) => globToRegExp(t).test(p)) && !existsSync(path.join(WEB, t)));
+    expect(deadShared).toEqual([]);
+  });
+
+  it("walks every flow when a shared file changes (Num shows every number on the site)", () => {
+    for (const f of ["src/components/Num.tsx", "src/lib/catalogue.ts", "package.json", "src/app/[country]/[lang]/layout.tsx"])
+      expect(selectFeatures(map, [f]).features, f).toHaveLength(map.features.length);
   });
 
   it("covers the launch flows the e2e suite covers", () => {
@@ -80,5 +87,12 @@ describe("rawKeysIn", () => {
   it("finds dictionary keys shown as text, not ordinary dotted words", () => {
     const keys = new Set(["hero.card.price", "explore.title"]);
     expect(rawKeysIn("Price hero.card.price · see e.g. ev.example.com", keys)).toEqual(["hero.card.price"]);
+  });
+});
+
+describe("plainError", () => {
+  it("turns Playwright timeouts into plain words", () => {
+    expect(plainError("locator.click: Timeout 10000ms exceeded.", { click: "@theme-toggle" })).toBe("waited 10 s for “@theme-toggle”: it never appeared or couldn't be used");
+    expect(plainError("page.goto: net::ERR_CONNECTION_REFUSED at x", { goto: "/nl/en" })).toBe("the app didn't answer");
   });
 });
