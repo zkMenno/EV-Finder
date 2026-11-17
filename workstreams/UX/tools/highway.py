@@ -2,7 +2,7 @@
 Horizontal 'driving' parallax: each layer has a speed; translateX = progress * speed * 420px."""
 import math
 from kit import DAY, NIGHT, st, turbine, tree, poplar, car, van, solarfield, sun
-from depth import haze, big_leaf, grass, bird, sparkle, cloud
+from depth import haze, big_leaf, grass, bird, sparkle, cloud, asphalt
 SIGN = "#2F6FA8"   # motorway-sign blue (close to sky/action, white text 5.1:1)
 CITIES = [("Amsterdam", "up"), ("Paris", "right"), ("Bruxelles · Brussel", "left"), ("Berlin", "up"), ("Köln", "right"), ("Lyon", "left"), ("Luxembourg", "up"), ("Rotterdam", "right")]
 
@@ -46,7 +46,7 @@ def highway_layers(t, night=False, uid="hw"):
     if night:
         s += "".join(f'<circle cx="{x}" cy="{y}" r="1.3" fill="#EEF3F9" opacity=".8"/>' for x, y in [(80, 40), (260, 90), (420, 30), (640, 70), (880, 50), (1100, 100), (980, 20)])
     s += "".join(f'<path d="M-900 {30+i*48} H2100" stroke="{t["line"]}" stroke-opacity=".06" stroke-dasharray="2 5"/>' for i in range(5))
-    s += f'<g transform="translate(960 80)">{sun(t, night)}</g>'
+    s += f'<g transform="translate(140 70) scale(.9)">{sun(t, night)}</g>'
     L.append(("sky", 0.03, s))
     s = cloud(220, 92, 1, t, .9 if not night else .25) + cloud(700, 60, .7, t, .8 if not night else .2) + bird(400, 110, 1, t["line"]) + bird(424, 98, .7, t["line"]) + sparkle(1120, 150, .8, t["line"])
     L.append(("doodles", 0.08, s))
@@ -63,9 +63,9 @@ def highway_layers(t, night=False, uid="hw"):
     L.append(("hills", 0.3, s))
     # motorway: verge, guard rail, two lanes each way, central reservation
     s = f'<rect x="-1200" y="286" width="3600" height="24" fill="{t["r2"]}" {st(t)}/>'
-    s += f'<rect x="-1200" y="310" width="3600" height="84" fill="{t["road"] if not night else "#2A3A57"}" {st(t)}/>'
+    s += asphalt(t, night, uid, -1200, 310, 3600, 84, lanes=False)
     s += f'<path d="M-1200 351 H2400" stroke="{t["line"]}" stroke-width="3"/>'
-    s += "".join(f'<rect x="{x}" y="329" width="40" height="3" fill="{t["line"]}" opacity=".7"/><rect x="{x+30}" y="372" width="40" height="3" fill="{t["line"]}" opacity=".7"/>' for x in range(-1200, 2400, 90))
+    s += "".join(f'<rect x="{x}" y="329" width="40" height="3" fill="#FFFFFF" opacity=".9"/><rect x="{x+30}" y="372" width="40" height="3" fill="#FFFFFF" opacity=".9"/>' for x in range(-1200, 2400, 90))
     s += f'<path d="M-1200 302 H2400" stroke="{t["line"]}" stroke-width="2.2"/>' + "".join(f'<rect x="{x}" y="296" width="3" height="12" fill="{t["line"]}"/>' for x in range(-1200, 2400, 60))
     s += f'<rect x="-1200" y="394" width="3600" height="140" fill="{t["r3"]}" {st(t)}/>'
     s += plaza(560, 236, t, night)

@@ -1,145 +1,398 @@
 {
- "note": "Parallax layers for the landing page (UX, 2026-11-17). Every layer is a full 390x460 SVG; stack them in order, same box, overflow visible inside a clipped container. depth = how far the layer drifts: translateY = progress * depth * 180px (progress -1..1 as the scene crosses the viewport), pointer tilt = depth * 32px on fine pointers. Negative depth = foreground, moves the other way. Reduced motion: no transforms.",
+ "note": "Parallax layers for the landing page (UX, 2026-11-17). Every layer is a full 390x460 SVG; stack them in order, same box, overflow visible inside a clipped container. depth = how far the layer drifts: translateY = progress * depth * 180px (progress -1..1 as the scene crosses the viewport), pointer tilt = depth * 32px on fine pointers. Negative depth = foreground, moves the other way. Reduced motion: no transforms. Wide bands (axis x, viewBox 1200x420): highway and canal slide sideways like driving past; translateX = progress * speed * 420px (drive_px). Portrait scenes (axis y, viewBox 390x460) drift vertically.",
  "amp_px": 180,
  "tilt_px": 32,
  "scenes": {
-  "village-day": [
-   {
-    "file": "layers/village-day-0-sky.svg",
-    "layer": "sky",
-    "depth": 0.55
-   },
-   {
-    "file": "layers/village-day-1-doodles.svg",
-    "layer": "doodles",
-    "depth": 0.42
-   },
-   {
-    "file": "layers/village-day-2-far.svg",
-    "layer": "far",
-    "depth": 0.36
-   },
-   {
-    "file": "layers/village-day-3-hills-far.svg",
-    "layer": "hills-far",
-    "depth": 0.24
-   },
-   {
-    "file": "layers/village-day-4-hills-mid.svg",
-    "layer": "hills-mid",
-    "depth": 0.13
-   },
-   {
-    "file": "layers/village-day-5-near.svg",
-    "layer": "near",
-    "depth": 0.05
-   },
-   {
-    "file": "layers/village-day-6-foreground.svg",
-    "layer": "foreground",
-    "depth": -0.14
-   }
-  ],
-  "village-night": [
-   {
-    "file": "layers/village-night-0-sky.svg",
-    "layer": "sky",
-    "depth": 0.55
-   },
-   {
-    "file": "layers/village-night-1-doodles.svg",
-    "layer": "doodles",
-    "depth": 0.42
-   },
-   {
-    "file": "layers/village-night-2-far.svg",
-    "layer": "far",
-    "depth": 0.36
-   },
-   {
-    "file": "layers/village-night-3-hills-far.svg",
-    "layer": "hills-far",
-    "depth": 0.24
-   },
-   {
-    "file": "layers/village-night-4-hills-mid.svg",
-    "layer": "hills-mid",
-    "depth": 0.13
-   },
-   {
-    "file": "layers/village-night-5-near.svg",
-    "layer": "near",
-    "depth": 0.05
-   },
-   {
-    "file": "layers/village-night-6-foreground.svg",
-    "layer": "foreground",
-    "depth": -0.14
-   }
-  ],
-  "city-day": [
-   {
-    "file": "layers/city-day-0-sky.svg",
-    "layer": "sky",
-    "depth": 0.55
-   },
-   {
-    "file": "layers/city-day-1-doodles.svg",
-    "layer": "doodles",
-    "depth": 0.42
-   },
-   {
-    "file": "layers/city-day-2-far.svg",
-    "layer": "far",
-    "depth": 0.36
-   },
-   {
-    "file": "layers/city-day-3-buildings.svg",
-    "layer": "buildings",
-    "depth": 0.18
-   },
-   {
-    "file": "layers/city-day-4-street.svg",
-    "layer": "street",
-    "depth": 0.06
-   },
-   {
-    "file": "layers/city-day-5-foreground.svg",
-    "layer": "foreground",
-    "depth": -0.14
-   }
-  ],
-  "city-night": [
-   {
-    "file": "layers/city-night-0-sky.svg",
-    "layer": "sky",
-    "depth": 0.55
-   },
-   {
-    "file": "layers/city-night-1-doodles.svg",
-    "layer": "doodles",
-    "depth": 0.42
-   },
-   {
-    "file": "layers/city-night-2-far.svg",
-    "layer": "far",
-    "depth": 0.36
-   },
-   {
-    "file": "layers/city-night-3-buildings.svg",
-    "layer": "buildings",
-    "depth": 0.18
-   },
-   {
-    "file": "layers/city-night-4-street.svg",
-    "layer": "street",
-    "depth": 0.06
-   },
-   {
-    "file": "layers/city-night-5-foreground.svg",
-    "layer": "foreground",
-    "depth": -0.14
-   }
-  ]
- }
+  "village-day": {
+   "axis": "y",
+   "viewBox": "0 0 390 460",
+   "layers": [
+    {
+     "file": "layers/village-day-0-sky.svg",
+     "layer": "sky",
+     "depth": 0.55
+    },
+    {
+     "file": "layers/village-day-1-doodles.svg",
+     "layer": "doodles",
+     "depth": 0.42
+    },
+    {
+     "file": "layers/village-day-2-far.svg",
+     "layer": "far",
+     "depth": 0.36
+    },
+    {
+     "file": "layers/village-day-3-hills-far.svg",
+     "layer": "hills-far",
+     "depth": 0.24
+    },
+    {
+     "file": "layers/village-day-4-hills-mid.svg",
+     "layer": "hills-mid",
+     "depth": 0.13
+    },
+    {
+     "file": "layers/village-day-5-near.svg",
+     "layer": "near",
+     "depth": 0.05
+    },
+    {
+     "file": "layers/village-day-6-foreground.svg",
+     "layer": "foreground",
+     "depth": -0.14
+    }
+   ]
+  },
+  "village-night": {
+   "axis": "y",
+   "viewBox": "0 0 390 460",
+   "layers": [
+    {
+     "file": "layers/village-night-0-sky.svg",
+     "layer": "sky",
+     "depth": 0.55
+    },
+    {
+     "file": "layers/village-night-1-doodles.svg",
+     "layer": "doodles",
+     "depth": 0.42
+    },
+    {
+     "file": "layers/village-night-2-far.svg",
+     "layer": "far",
+     "depth": 0.36
+    },
+    {
+     "file": "layers/village-night-3-hills-far.svg",
+     "layer": "hills-far",
+     "depth": 0.24
+    },
+    {
+     "file": "layers/village-night-4-hills-mid.svg",
+     "layer": "hills-mid",
+     "depth": 0.13
+    },
+    {
+     "file": "layers/village-night-5-near.svg",
+     "layer": "near",
+     "depth": 0.05
+    },
+    {
+     "file": "layers/village-night-6-foreground.svg",
+     "layer": "foreground",
+     "depth": -0.14
+    }
+   ]
+  },
+  "city-day": {
+   "axis": "y",
+   "viewBox": "0 0 390 460",
+   "layers": [
+    {
+     "file": "layers/city-day-0-sky.svg",
+     "layer": "sky",
+     "depth": 0.55
+    },
+    {
+     "file": "layers/city-day-1-doodles.svg",
+     "layer": "doodles",
+     "depth": 0.42
+    },
+    {
+     "file": "layers/city-day-2-far.svg",
+     "layer": "far",
+     "depth": 0.36
+    },
+    {
+     "file": "layers/city-day-3-buildings.svg",
+     "layer": "buildings",
+     "depth": 0.18
+    },
+    {
+     "file": "layers/city-day-4-street.svg",
+     "layer": "street",
+     "depth": 0.06
+    },
+    {
+     "file": "layers/city-day-5-foreground.svg",
+     "layer": "foreground",
+     "depth": -0.14
+    }
+   ]
+  },
+  "city-night": {
+   "axis": "y",
+   "viewBox": "0 0 390 460",
+   "layers": [
+    {
+     "file": "layers/city-night-0-sky.svg",
+     "layer": "sky",
+     "depth": 0.55
+    },
+    {
+     "file": "layers/city-night-1-doodles.svg",
+     "layer": "doodles",
+     "depth": 0.42
+    },
+    {
+     "file": "layers/city-night-2-far.svg",
+     "layer": "far",
+     "depth": 0.36
+    },
+    {
+     "file": "layers/city-night-3-buildings.svg",
+     "layer": "buildings",
+     "depth": 0.18
+    },
+    {
+     "file": "layers/city-night-4-street.svg",
+     "layer": "street",
+     "depth": 0.06
+    },
+    {
+     "file": "layers/city-night-5-foreground.svg",
+     "layer": "foreground",
+     "depth": -0.14
+    }
+   ]
+  },
+  "square-day": {
+   "axis": "y",
+   "viewBox": "0 0 390 460",
+   "layers": [
+    {
+     "file": "layers/square-day-0-sky.svg",
+     "layer": "sky",
+     "depth": 0.55
+    },
+    {
+     "file": "layers/square-day-1-doodles.svg",
+     "layer": "doodles",
+     "depth": 0.42
+    },
+    {
+     "file": "layers/square-day-2-far.svg",
+     "layer": "far",
+     "depth": 0.36
+    },
+    {
+     "file": "layers/square-day-3-towers.svg",
+     "layer": "towers",
+     "depth": 0.16
+    },
+    {
+     "file": "layers/square-day-4-square.svg",
+     "layer": "square",
+     "depth": 0.06
+    },
+    {
+     "file": "layers/square-day-5-foreground.svg",
+     "layer": "foreground",
+     "depth": -0.14
+    }
+   ]
+  },
+  "square-night": {
+   "axis": "y",
+   "viewBox": "0 0 390 460",
+   "layers": [
+    {
+     "file": "layers/square-night-0-sky.svg",
+     "layer": "sky",
+     "depth": 0.55
+    },
+    {
+     "file": "layers/square-night-1-doodles.svg",
+     "layer": "doodles",
+     "depth": 0.42
+    },
+    {
+     "file": "layers/square-night-2-far.svg",
+     "layer": "far",
+     "depth": 0.36
+    },
+    {
+     "file": "layers/square-night-3-towers.svg",
+     "layer": "towers",
+     "depth": 0.16
+    },
+    {
+     "file": "layers/square-night-4-square.svg",
+     "layer": "square",
+     "depth": 0.06
+    },
+    {
+     "file": "layers/square-night-5-foreground.svg",
+     "layer": "foreground",
+     "depth": -0.14
+    }
+   ]
+  },
+  "highway-day": {
+   "axis": "x",
+   "viewBox": "0 0 1200 420",
+   "layers": [
+    {
+     "file": "layers/highway-day-0-sky.svg",
+     "layer": "sky",
+     "speed": 0.03
+    },
+    {
+     "file": "layers/highway-day-1-doodles.svg",
+     "layer": "doodles",
+     "speed": 0.08
+    },
+    {
+     "file": "layers/highway-day-2-far.svg",
+     "layer": "far",
+     "speed": 0.14
+    },
+    {
+     "file": "layers/highway-day-3-hills.svg",
+     "layer": "hills",
+     "speed": 0.3
+    },
+    {
+     "file": "layers/highway-day-4-road.svg",
+     "layer": "road",
+     "speed": 0.6
+    },
+    {
+     "file": "layers/highway-day-5-signs.svg",
+     "layer": "signs",
+     "speed": 1.0
+    },
+    {
+     "file": "layers/highway-day-6-foreground.svg",
+     "layer": "foreground",
+     "speed": 1.35
+    }
+   ]
+  },
+  "highway-night": {
+   "axis": "x",
+   "viewBox": "0 0 1200 420",
+   "layers": [
+    {
+     "file": "layers/highway-night-0-sky.svg",
+     "layer": "sky",
+     "speed": 0.03
+    },
+    {
+     "file": "layers/highway-night-1-doodles.svg",
+     "layer": "doodles",
+     "speed": 0.08
+    },
+    {
+     "file": "layers/highway-night-2-far.svg",
+     "layer": "far",
+     "speed": 0.14
+    },
+    {
+     "file": "layers/highway-night-3-hills.svg",
+     "layer": "hills",
+     "speed": 0.3
+    },
+    {
+     "file": "layers/highway-night-4-road.svg",
+     "layer": "road",
+     "speed": 0.6
+    },
+    {
+     "file": "layers/highway-night-5-signs.svg",
+     "layer": "signs",
+     "speed": 1.0
+    },
+    {
+     "file": "layers/highway-night-6-foreground.svg",
+     "layer": "foreground",
+     "speed": 1.35
+    }
+   ]
+  },
+  "canal-day": {
+   "axis": "x",
+   "viewBox": "0 0 1200 420",
+   "layers": [
+    {
+     "file": "layers/canal-day-0-sky.svg",
+     "layer": "sky",
+     "speed": 0.03
+    },
+    {
+     "file": "layers/canal-day-1-doodles.svg",
+     "layer": "doodles",
+     "speed": 0.08
+    },
+    {
+     "file": "layers/canal-day-2-far.svg",
+     "layer": "far",
+     "speed": 0.14
+    },
+    {
+     "file": "layers/canal-day-3-houses.svg",
+     "layer": "houses",
+     "speed": 0.3
+    },
+    {
+     "file": "layers/canal-day-4-quay.svg",
+     "layer": "quay",
+     "speed": 0.6
+    },
+    {
+     "file": "layers/canal-day-5-boats.svg",
+     "layer": "boats",
+     "speed": 0.85
+    },
+    {
+     "file": "layers/canal-day-6-foreground.svg",
+     "layer": "foreground",
+     "speed": 1.35
+    }
+   ]
+  },
+  "canal-night": {
+   "axis": "x",
+   "viewBox": "0 0 1200 420",
+   "layers": [
+    {
+     "file": "layers/canal-night-0-sky.svg",
+     "layer": "sky",
+     "speed": 0.03
+    },
+    {
+     "file": "layers/canal-night-1-doodles.svg",
+     "layer": "doodles",
+     "speed": 0.08
+    },
+    {
+     "file": "layers/canal-night-2-far.svg",
+     "layer": "far",
+     "speed": 0.14
+    },
+    {
+     "file": "layers/canal-night-3-houses.svg",
+     "layer": "houses",
+     "speed": 0.3
+    },
+    {
+     "file": "layers/canal-night-4-quay.svg",
+     "layer": "quay",
+     "speed": 0.6
+    },
+    {
+     "file": "layers/canal-night-5-boats.svg",
+     "layer": "boats",
+     "speed": 0.85
+    },
+    {
+     "file": "layers/canal-night-6-foreground.svg",
+     "layer": "foreground",
+     "speed": 1.35
+    }
+   ]
+  }
+ },
+ "drive_px": 420
 }

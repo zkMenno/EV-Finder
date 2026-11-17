@@ -12,6 +12,10 @@ def el(svg, label, t):
             f'<figcaption style="font: 700 14px/18px \'Atkinson Hyperlegible\', sans-serif; color: {t["line"]}; text-align: center">{label}</figcaption></figure>')
 import export
 from depth import village_layers, city_layers
+from city2 import square_layers, canal_wide_layers
+from highway import highway_layers
+def wide(fn, t, n, k, label):
+    return (f'<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px"><svg viewBox="0 0 1200 420" width="1272" height="445" role="img" aria-label="{label}" style="display: block; border-radius: 18px">' + ''.join(f'<g>{x}</g>' for _,_,x in fn(t, n, k)) + f'</svg><figcaption style="font: 700 15px/20px \'Atkinson Hyperlegible\', sans-serif; color: #16233A">{label}</figcaption></figure>')
 def dflat(fn):
     def f(t, r, n):
         return ''.join(f'<g>{x}</g>' for _,_,x in fn(t, r, n, 'b'+str(id(t)%97)+str(int(r))+str(int(n))))
@@ -27,15 +31,18 @@ sw = [("hill-1","#EEF6E8","#1F3324"),("hill-2","#DDEFD3","#284A2E"),("hill-3","#
 swh = "".join(f'<div style="display: grid; grid-template-columns: 40px 40px 1fr; gap: 10px; align-items: center; background: #FFFFFF; border-radius: 10px; padding: 8px 12px">'
               f'<div style="height: 30px; border-radius: 6px; border: 2px solid #16233A; background: {l}"></div><div style="height: 30px; border-radius: 6px; border: 2px solid #16233A; background: {d}"></div>'
               f'<span style="font: 400 14px/18px \'Atkinson Hyperlegible\', sans-serif; color: #16233A"><b>{n}</b><br>{l} · {d} · ink {cr(l, "#16233A"):.1f}:1</span></div>' for n, l, d in sw)
-H = 2780
+H = 4000
 body = f'''<div style="width: 1440px; height: {H}px; box-sizing: border-box; padding: 64px; background: #F2F6FA; color: #16233A; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; gap: 28px">
 <header style="display: flex; flex-direction: column; gap: 8px"><h1 style="margin: 0; font: 800 44px/52px 'Bitter', Georgia, serif">Illustrations: solarpunk, within reach</h1>
 <p style="margin: 0; max-width: 980px; font: 400 18px/28px 'Atkinson Hyperlegible', sans-serif; color: #45546F">Used EVs got good. Layered paper hills, a road winding into the distance like the tick in the logo, a 2px ink line. Village by default, city for people who live in one. Rich colour only in the home hero; soft everywhere else; deep green at night. Hero scenes are layered (haze, doodles, blurred foreground leaves) and drift with parallax: try it at claude.ai/artifact/BRpRwoSAM1rLeNtcLtd5Gg</p></header>
 <h2 style="margin: 8px 0 0; font: 800 24px/30px 'Bitter', Georgia, serif">Scenes</h2>
 <div style="display: grid; grid-template-columns: repeat(4, 300px); gap: 24px">
-{sc(dflat(village_layers), DAY, True, False, "a", "Village · home hero, layered for parallax")}{sc(dflat(city_layers), DAY, True, False, "b", "City · home hero, layered for parallax")}{sc(village_scene, DAY, False, False, "c", "Village · pages (soft)")}{sc(city_scene, DAY, False, False, "d", "City · pages (soft)")}
-{sc(dflat(village_layers), NIGHT, True, True, "e", "Village · Night drive")}{sc(dflat(city_layers), NIGHT, True, True, "f", "City · Night drive")}
+{sc(dflat(village_layers), DAY, True, False, "a", "Village · home hero, layered for parallax")}{sc(dflat(city_layers), DAY, True, False, "b", "City · home hero, layered for parallax")}{sc(dflat(square_layers), DAY, True, False, "g", "Green square · home hero")}{sc(village_scene, DAY, False, False, "c", "Village · pages (soft)")}
+{sc(dflat(village_layers), NIGHT, True, True, "e", "Village · Night drive")}{sc(dflat(city_layers), NIGHT, True, True, "f", "City · Night drive")}{sc(dflat(square_layers), NIGHT, True, True, "h", "Green square · Night drive")}{sc(city_scene, DAY, False, False, "d", "City · pages (soft)")}
 </div>
+<h2 style="margin: 8px 0 0; font: 800 24px/30px 'Bitter', Georgia, serif">Wide bands: horizontal parallax</h2>
+{wide(highway_layers, DAY, False, "hwd", "Highway: signs to European cities, solar fast-charging stop. Layers slide sideways at different speeds as you scroll")}
+{wide(canal_wide_layers, DAY, False, "cwd", "Canal city: houses, bridges, boats and kerbside chargers glide past")}
 <h2 style="margin: 8px 0 0; font: 800 24px/30px 'Bitter', Georgia, serif">Kit · Day trip</h2>
 <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px">{grid(DAY, False)}</div>
 <h2 style="margin: 8px 0 0; font: 800 24px/30px 'Bitter', Georgia, serif">Kit · Night drive</h2>

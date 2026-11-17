@@ -44,7 +44,7 @@ def flower(x, y, s, petal, line):
     p = "".join(f'<ellipse cx="0" cy="-6" rx="3.2" ry="6" transform="rotate({a})" fill="{petal}" stroke="{line}" stroke-opacity=".5" stroke-width="1.2"/>' for a in range(0, 360, 72))
     return f'<g transform="translate({x} {y}) scale({s})">{p}<circle r="3" fill="#FFD166" stroke="{line}" stroke-opacity=".5" stroke-width="1.2"/></g>'
 
-def sky_layer(t, night, uid, H=520):
+def sky_layer(t, night, uid, H=520, sun_at=(300, 96), sun_scale=1.0):
     s = f'<rect x="-40" y="-60" width="470" height="{H}" fill="{t["sky"]}"/>'
     if night:
         for x, y, r in [(40, 40, 1.4), (120, 70, 1.1), (200, 30, 1.6), (250, 120, 1.0), (90, 140, 1.2), (350, 160, 1.3), (30, 190, 1.0)]:
@@ -52,15 +52,16 @@ def sky_layer(t, night, uid, H=520):
     # faint map grid in the sky = the travel-map identity behind the scene
     s += "".join(f'<path d="M-40 {30+i*48} H430" stroke="{t["line"]}" stroke-opacity=".06" stroke-dasharray="2 5"/>' for i in range(5))
     s += "".join(f'<path d="M{10+i*48} -60 V250" stroke="{t["line"]}" stroke-opacity=".06" stroke-dasharray="2 5"/>' for i in range(9))
-    s += f'<g transform="translate(300 96)">{sun(t, night)}</g>'
+    if sun_at:
+        s += f'<g transform="translate({sun_at[0]} {sun_at[1]}) scale({sun_scale})">{sun(t, night)}</g>'
     return s
 
-def doodle_layer(t, night):
+def doodle_layer(t, night, mirror=False):
     c = t["line"]
     s = cloud(96, 92, .9, t, .9 if not night else .25) + cloud(214, 58, .6, t, .8 if not night else .2)
     s += bird(160, 120, 1, c) + bird(182, 108, .7, c) + bird(60, 150, .8, c, .5)
     s += sparkle(36, 54, .8, c) + sparkle(372, 190, .7, c, .45) + leaf_doodle(352, 34, .9, c, 30) + plug_doodle(30, 212, .9, c, .4)
-    return s
+    return f'<g transform="translate(390 0) scale(-1 1)">{s}</g>' if mirror else s
 
 def village_layers(t, rich=True, night=False, uid="v"):
     H = (t["r1"], t["r2"], t["r3"]) if rich else (t["h1"], t["h2"], t["h3"])
@@ -100,7 +101,7 @@ def village_layers(t, rich=True, night=False, uid="v"):
 
 def city_layers(t, rich=True, night=False, uid="c"):
     H = (t["r1"], t["r2"], t["r3"]) if rich else (t["h1"], t["h2"], t["h3"])
-    L = [("sky", 0.55, defs(t, uid) + sky_layer(t, night, uid)), ("doodles", 0.42, doodle_layer(t, night))]
+    L = [("sky", 0.55, defs(t, uid) + sky_layer(t, night, uid, sun_at=(70, 84), sun_scale=.85)), ("doodles", 0.42, doodle_layer(t, night, mirror=True))]
     far = haze(t, H[0], .5)
     s = (f'<path d="M-40 250 V196 H20 V170 H48 V204 H82 V160 H104 V146 H126 V214 H160 V182 H198 V204 H236 V172 H270 V208 H306 V186 H344 V216 H430 V560 H-40Z" '
          f'fill="{far}" stroke="{t["line"]}" stroke-opacity=".35" stroke-width="1.4"/>')
@@ -113,7 +114,7 @@ def city_layers(t, rich=True, night=False, uid="c"):
     s += f'<g transform="translate(292 180)" filter="url(#sh{uid})">{apartment(t, 84, 110, 4, rich, True)}</g>'
     s += f'<g transform="translate(108 200)" filter="url(#sh{uid})">{rowhouses(t, rich)}</g>'
     L.append(("buildings", 0.18, s))
-    s = f'<rect x="-40" y="290" width="470" height="26" fill="{H[2]}" {st(t)}/><rect x="-40" y="316" width="470" height="70" fill="{t["road"]}" {st(t)}/>'
+    s = f'<rect x="-40" y="290" width="470" height="26" fill="{H[2]}" {st(t)}/>' + asphalt(t, night, uid, -40, 316, 470, 70)
     s += f'<path d="M-40 388 H430 M-40 396 H430" stroke="{t["line"]}" stroke-width="1.5"/>'
     s += f'<g transform="translate(40 355)">{tram(t)}</g>'
     s += f'<rect x="-40" y="408" width="470" height="160" fill="{H[2] if not rich else H[1]}" {st(t)}/>'
@@ -124,11 +125,23 @@ def city_layers(t, rich=True, night=False, uid="c"):
     L.append(("street", 0.06, s))
     fg, fl = (t["leafr"] if rich else t["leaf"]), t["line"]
     s = (big_leaf(-14, 478, 2.0, 34, fg, fl, uid) + big_leaf(404, 482, 2.1, -36, fg, fl, uid) + big_leaf(374, 490, 1.3, 12, haze(t, fg, .08), fl, uid) +
-         big_leaf(400, -8, 1.6, -150, fg, fl, uid) + big_leaf(366, -14, 1.1, -196, haze(t, fg, .08), fl, uid))
+         '')
     s += f'<g transform="translate(64 448) scale(1.1)">{streettree(t, rich)}</g>'
     s += flower(300, 452, .8, "#F2B0C0" if not night else "#8a5a6b", fl)
     L.append(("foreground", -0.14, s))
     return L
+
+def asphalt(t, night, uid, x, y, w, h, lanes=True, centre=None):
+    """Grey asphalt with a fine speckle texture and white road markings (edge lines + dashed lane line)."""
+    base = "#8C96A5" if not night else "#2A3A57"
+    s = (f'<defs><pattern id="asp{uid}" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".7" fill="#16233A" fill-opacity=".18"/>'
+         f'<circle cx="7" cy="7" r=".6" fill="#FFFFFF" fill-opacity=".18"/></pattern></defs>'
+         f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{base}" stroke="{t["line"]}" stroke-width="2"/><rect x="{x}" y="{y}" width="{w}" height="{h}" fill="url(#asp{uid})"/>'
+         f'<path d="M{x} {y+5} H{x+w} M{x} {y+h-5} H{x+w}" stroke="#FFFFFF" stroke-opacity=".9" stroke-width="2"/>')
+    if lanes:
+        cy = centre if centre is not None else y + h / 2
+        s += f'<path d="M{x} {cy} H{x+w}" stroke="#FFFFFF" stroke-opacity=".9" stroke-width="2.4" stroke-dasharray="18 14"/>'
+    return s
 
 def flat(layers, w=390, h=460):
     return f'<svg viewBox="0 0 390 460" width="{w}" height="{h}" xmlns="http://www.w3.org/2000/svg">' + "".join(f'<g>{s}</g>' for _, _, s in layers) + '</svg>'
