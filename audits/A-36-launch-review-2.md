@@ -52,7 +52,7 @@ Ratings follow REVIEW.md: **must-fix** (blocks launch), **should-fix** (before p
 - Staging still serves the last image built before release 2, so nothing a visitor sees has been checked on staging yet.
 - **Would have caught it:** D1 for a release PR should include "the deploy image builds on this release" (Images job on the release PR, not only CI). Release 2 (#91) changed what is in git without the image job running.
 
-### B4 · Draft translations are still public; the scope now says English only · owner WS2 · **T-137 (todo)**
+### B4 · Draft translations are still public; the scope now says English only · owner WS2 · **T-137 (PR #111 open)**
 - `/nl/nl`, `/de/de`, `/fr/fr`, `/es/es`, `/it/it`, `/be/fr` all answer 200 with `<html lang>` in that language; English pages show a "Language" picker. Launch scope rev 2 / Decision 082: every country serves `/{country}/en/`, other languages hidden until reviewed. A-35 B5 (missing strings) is fixed (no-english e2e passes), but the drafts are unreviewed and must not ship.
 - Already tasked (T-137); listed here so the launch gate counts it.
 
