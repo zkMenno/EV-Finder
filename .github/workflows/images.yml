@@ -29,7 +29,8 @@ on:
 permissions:
   contents: read
 
-# Pull requests cancel their older runs; main runs queue instead, so a deploy is never cut off mid-way.
+# Pull requests cancel their older runs. Main runs are never cancelled mid-way (a deploy is never cut
+# off); GitHub keeps only the newest pending main run, so quick successive pushes deploy the newest.
 concurrency:
   group: images-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
@@ -172,12 +173,12 @@ jobs:
               --tmpfs /app/apps/web/.next/cache:size=64m,uid=1000,gid=1000 \
               -e APP_URL=https://evshortlist.com -e STAFF_PAGES=0 -e TRIP_FIT=0 "$IMAGE"
           }
-          fetch_all() {  # GETs every path inside the container (it has no network), fails on 5xx
+          fetch_all() {  # GETs every path inside the container (it has no network); each must end 2xx
             docker exec -e PATHS="$PATHS" "$1" node -e '
               (async () => { let bad = 0;
                 for (const p of process.env.PATHS.split(" ")) {
                   const r = await fetch("http://127.0.0.1:3000" + p, { redirect: "follow" }).catch(e => ({ status: String(e) }));
-                  console.log(r.status, p); if (!(r.status < 500)) bad++;
+                  console.log(r.status, p); if (!r.ok) bad++;
                 } process.exit(bad ? 1 : 0); })()'
           }
           wait_healthy() {
@@ -192,7 +193,7 @@ jobs:
           wait_healthy ro
           fetch_all ro
           fetch_all ro   # second pass hits the warm caches
-          docker logs ro 2>&1 | tee ro.log
+          docker logs ro > ro.log 2>&1; cat ro.log
           if grep -nE 'EROFS|EACCES|read-only file system' ro.log; then
             echo "::error::the web image tried to write outside /tmp and .next/cache"; exit 1
           fi
@@ -201,12 +202,13 @@ jobs:
           wait_healthy rw
           fetch_all rw
           fetch_all rw
+          docker logs rw > rw.log 2>&1
           docker diff rw | tee diff.txt
-          # Informational: on the server these writes would fail (step 1 is the hard check).
-          if grep -q . diff.txt; then
-            echo "::warning::the web image writes outside /tmp and .next/cache (paths above); tell AppInfra in a handoff issue"
+          # On the server any of these writes would fail, so any path here fails the job.
+          if grep -q . diff.txt || grep -nE 'EROFS|EACCES' rw.log; then
+            echo "::error::the web image writes outside /tmp and .next/cache (see above)"; exit 1
           fi
-          echo "OK: healthy and serving pages on a read-only root"
+          echo "OK: healthy, pages 2xx on a read-only root, no writes outside /tmp and .next/cache"
 
   # Main only: deploy the image to staging via AppInfra (#88 point 2). Secrets live in the
   # `staging` environment (Menno adds them by hand; never in a chat). The server's forced
@@ -224,6 +226,15 @@ jobs:
       group: deploy-ev-staging
       cancel-in-progress: false
     steps:
+      # Only data/releases/latest is read: the release number /health must report after the deploy.
+      - name: Expected release
+        id: expected
+        run: |
+          set -eu
+          n=$(curl -fsS --max-time 10 "https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/data/releases/latest" | tr -d '[:space:]')
+          case "$n" in ''|*[!0-9]*) echo "::error::data/releases/latest is not a number: '$n'"; exit 1;; esac
+          echo "release=$n" >> "$GITHUB_OUTPUT"
+
       - name: Deploy over SSH
         env:
           STAGING_SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
@@ -238,18 +249,24 @@ jobs:
           install -m 700 -d ~/.ssh
           echo "$STAGING_SSH_KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
           echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$SSH_USER@$SSH_HOST" deploy ev-staging "$GITHUB_SHA"
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 "$SSH_USER@$SSH_HOST" deploy ev-staging "$GITHUB_SHA"
 
-      - name: Wait for /health to answer 200
+      # 200 + status ok + the release this commit ships. /health has no build id yet, so the
+      # ssh deploy's exit code is what proves the new container replaced the old one.
+      - name: Wait for /health to answer 200 with this release
+        env:
+          EXPECTED: ${{ steps.expected.outputs.release }}
         run: |
           set -eu
-          for i in $(seq 1 24); do
-            code=$(curl -sS -o body.json -w '%{http_code}' --max-time 10 https://staging.evshortlist.com/health || true)
+          for i in $(seq 1 12); do
+            code=$(curl -sS -o body.json -w '%{http_code}' --max-time 5 https://staging.evshortlist.com/health || true)
             echo "try $i: $code $(cat body.json 2>/dev/null || true)"
-            [ "$code" = 200 ] && exit 0
+            if [ "$code" = 200 ] && jq -e --argjson n "$EXPECTED" '.status == "ok" and .release == $n' body.json >/dev/null 2>&1; then
+              echo "OK: staging healthy on release $EXPECTED"; exit 0
+            fi
             sleep 5
           done
-          echo "::error::staging /health did not answer 200 within 2 minutes"; exit 1
+          echo "::error::staging /health did not answer 200 with release $EXPECTED within 2 minutes"; exit 1
 
       - name: Remove the key
         if: always()
