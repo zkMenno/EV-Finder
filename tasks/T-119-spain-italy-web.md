@@ -1,6 +1,6 @@
 # T-119 Serve /es/es and /it/it
 Role: builder   Lane: WS2: apps/web/ (routing, country picker)   Wave: launch fixes (A-35)
-Status: review (WS2 subagent for WS0, 2026-11-17)
+Status: review (WS2 subagent for WS0, 2026-11-17, PR #77)
 
 ## Goal
 Spain and Italy are selectable and served in their own language (Decision 066).
