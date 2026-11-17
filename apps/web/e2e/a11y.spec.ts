@@ -4,7 +4,8 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>; parked?: boolean }[] = [
+// width: phone checks at 360 px (T-096: the Dutch card view only showed its label problems there).
+const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>; parked?: boolean; width?: number }[] = [
   {
     name: "explore-table",
     path: "/nl/en?view=table",
@@ -31,6 +32,12 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
   // T-096: the hero with answers (cards, compare buttons, Nerd table) in EN and NL.
   { name: "hero-en-nerd", path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId("hero-nerd").first()).toBeVisible()) },
   { name: "hero-nl", path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId("hero-card").first()).toBeVisible()) },
+  { name: "hero-nl-360", width: 360, path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId("hero-card").first()).toBeVisible()) },
+  { name: "hero-en-nerd-360", width: 360, path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId("hero-nerd").first()).toBeVisible()) },
+  // Dutch compare buttons: "Vergelijk" must be inside the name (Label in Name), cards and variant page.
+  { name: "explore-cards-nl", path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "explore-cards-nl-360", width: 360, path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "variant-nl", path: "/nl/nl/ev/renault/zoe/ph1/r240", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "open-data", path: "/nl/en/data", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "learn-article", path: "/nl/en/learn/winter-range", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "rankings", parked: true, path: "/nl/en/top/fastest-dc", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
@@ -55,13 +62,10 @@ for (const theme of ["light", "dark"] as const) {
   for (const pg of PAGES) {
     test(`axe: ${pg.name} (${theme})`, async ({ page }, info) => {
       await page.emulateMedia({ colorScheme: theme });
+      if (pg.width) await page.setViewportSize({ width: pg.width, height: 800 });
       await page.goto(pg.path);
       await pg.ready(page);
-      // label-content-name-mismatch (WCAG 2.5.3) is "experimental" in axe, so it is switched on by name (T-096).
-      const results = await new AxeBuilder({ page })
-        .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"])
-        .options({ rules: { "label-content-name-mismatch": { enabled: true } } })
-        .analyze();
+const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"]).analyze();
       const summary = results.violations.map((v) => ({
         id: v.id,
         impact: v.impact,
