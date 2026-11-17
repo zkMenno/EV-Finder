@@ -77,21 +77,31 @@ def sun(t, night=False):
 def bez(p0, p1, p2, p3, n=30):
     return [tuple((1-u)**3*a+3*(1-u)**2*u*b+3*(1-u)*u*u*c+u**3*d for a, b, c, d in zip(p0, p1, p2, p3)) for u in [i/n for i in range(n+1)]]
 
-def road_winding(t, P, w0=46, w1=6):
+def road_winding(t, P, w0=46, w1=6, uid="rw"):
+    """Tapered country road: ink outline, white edge lines, grey asphalt with a fine speckle (no centre line)."""
     pts = []
     for i in range(0, len(P)-1, 3): pts += bez(*P[i:i+4])
     N = len(pts)
-    seg = lambda col, add: "".join(f'<line x1="{pts[i][0]:.1f}" y1="{pts[i][1]:.1f}" x2="{pts[i+1][0]:.1f}" y2="{pts[i+1][1]:.1f}" stroke="{col}" stroke-width="{w0-(w0-w1)*i/N+add:.1f}" stroke-linecap="round"/>' for i in range(N-1))
-    d = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in pts[:int(N*.85)])
-    return seg(t["line"], 4) + seg(t["road"], 0)
+    night = t["line"] != "#16233A"
+    base = "#8C96A5" if not night else "#2A3A57"
+    edge = "#FFFFFF" if not night else "#C9D3DF"
+    if uid == "rw": uid += "n" if night else "d"
+    def w(i): return w0 - (w0 - w1) * i / N
+    seg = lambda col, f: "".join(f'<line x1="{pts[i][0]:.1f}" y1="{pts[i][1]:.1f}" x2="{pts[i+1][0]:.1f}" y2="{pts[i+1][1]:.1f}" stroke="{col}" stroke-width="{max(.8, f(w(i))):.1f}" stroke-linecap="round"/>' for i in range(N-1))
+    d = (f'<defs><pattern id="rasp{uid}" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="{base}"/>'
+         f'<circle cx="1.5" cy="2" r=".6" fill="#16233A" fill-opacity=".22"/><circle cx="5" cy="5.5" r=".5" fill="#FFFFFF" fill-opacity=".22"/></pattern></defs>')
+    return d + seg(t["line"], lambda x: x + 4) + seg(edge, lambda x: x) + seg(f"url(#rasp{uid})", lambda x: x * .8)
 
 def road_straight(t, w=200):
-    return (f'<rect x="0" y="0" width="{w}" height="26" fill="{t["road"]}" {st(t)}/>'
-            '')
+    night = t["line"] != "#16233A"
+    base = "#8C96A5" if not night else "#2A3A57"; edge = "#FFFFFF" if not night else "#C9D3DF"
+    return (f'<rect x="0" y="0" width="{w}" height="26" fill="{base}" {st(t)}/>'
+            f'<path d="M0 4 H{w} M0 22 H{w}" stroke="{edge}" stroke-width="1.8"/>')
 
 def road_bend(t):
     return (f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{t["line"]}" stroke-width="30"/>'
-            f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{t["road"]}" stroke-width="26"/>')
+            f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{"#FFFFFF" if t["line"] == "#16233A" else "#C9D3DF"}" stroke-width="26"/>'
+            f'<path d="M0 0 H40 Q80 0 80 40 V80" fill="none" stroke="{"#8C96A5" if t["line"] == "#16233A" else "#2A3A57"}" stroke-width="21"/>')
 
 # ---- composed scene (the B+C hero) ----
 def scene(t, rich, night=False):
@@ -107,7 +117,7 @@ def scene(t, rich, night=False):
     s += f'<path d="M-10 290 Q 120 230 230 275 Q 320 310 400 260 V460 H-10Z" fill="{H[1]}" {st(t)} filter="url(#sh)"/>'
     s += f'<g transform="translate(300 228) scale(.8)">{solarfield(t)}</g>'
     s += f'<path d="M-10 360 Q 100 320 200 350 Q 300 380 400 340 V460 H-10Z" fill="{H[2]}" {st(t)} filter="url(#sh)"/>'
-    s += road_winding(t, [(175, 475), (200, 410), (300, 405), (275, 352), (250, 318), (160, 326), (185, 292), (200, 274), (230, 265), (250, 256), (300, 240), (360, 242), (440, 236)], 46, 8)
+    s += road_winding(t, [(175, 475), (200, 410), (300, 405), (275, 352), (250, 318), (160, 326), (185, 292), (200, 274), (230, 265), (250, 262), (300, 272), (360, 272), (440, 268)], 46, 8)
     s += f'<g transform="translate(40 300)">{house(t, rich)}</g><g transform="translate(110 334)">{wallbox(t)}</g>'
     s += f'<g transform="translate(252 393)">{car(t, night)}</g>'
     for x, y, r in [(345, 298, 14), (368, 312, 11), (22, 395, 13), (340, 425, 13)]:

@@ -33,7 +33,7 @@ for t, night, sfx in [(DAY, False, "day"), (NIGHT, True, "night")]:
         n = f"{k}-{sfx}.svg"; order.append(n)
         open(f"{O}/{n}", "w").write(svg(inner, label=lab))
 for f, nm in [(village_scene, "village"), (city_scene, "city")]:
-    for t, r, n, sfx, lab in [(DAY, True, False, "hero-day", "rich, home hero"), (DAY, False, False, "day", "soft"), (NIGHT, True, True, "night", "night")]:
+    for t, r, n, sfx, lab in [(DAY, False, False, "day", "soft")]:  # hero + night come from depth.py layers (see proto/board scripts)
         name = f"scene-{nm}-{sfx}.svg"; order.insert(0 if False else len(order), name)
         open(f"{O}/{name}", "w").write(svg(f(t, r, n), "0 0 390 460", 390, 460, f"{nm.title()} scene"))
 scenes = [o for o in order if o.startswith("scene")]; rest = [o for o in order if not o.startswith("scene")]
