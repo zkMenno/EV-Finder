@@ -14,8 +14,8 @@
 //   CATALOGUE_DIR              releases folder (default ../../data/releases), same as the loader
 //   CATALOGUE_RELEASE          fetch this release number instead of `latest` (rollback preview)
 //   CATALOGUE_FILES            comma-separated paths the web needs (a trailing / = a folder);
-//                              default "catalogue.json,charging_stats.json" (what the loader
-//                              reads today). Add "catalogue/" when pages use the split files.
+//                              default "catalogue.json,charging_stats.json,used_prices.json" (what
+//                              the loader reads today). Add "catalogue/" when pages use the split files.
 //   FETCH_RELEASE_ALLOW_HTTP_LOCAL=1  allow an http://127.0.0.1 download_url (local manual tests only)
 
 /* global process, console, Buffer, fetch, setTimeout */
@@ -107,8 +107,13 @@ async function main() {
     if (e.in_git) fail(`${e.path} is kept in git but doesn't match the manifest (edited by hand?)`);
     todo.push({ e, dest, url: base.replace("{asset}", encodeURIComponent(e.asset)) });
   }
+  // Name what the release has, and warn about wanted files it lacks (QA A-35: release 1 has no
+  // used_prices.json, but the log said "ready (… used_prices.json)", which hid a stale release).
+  const listed = files.filter((f) => m.files.some((e) => (f.endsWith("/") ? e.path.startsWith(f) : e.path === f)));
+  const absent = files.filter((f) => !listed.includes(f));
+  if (absent.length) console.warn(`fetch-release: release ${n} has no ${absent.join(", ")} (not in its manifest); pages that need it show "not known yet"`);
   if (!todo.length) {
-    console.log(`fetch-release: release ${n} ready (${files.join(", ")})`);
+    console.log(`fetch-release: release ${n} ready (${listed.join(", ") || "nothing wanted"})`);
     return;
   }
   console.log(`fetch-release: release ${n}: downloading ${todo.length} file(s)`);

@@ -1,0 +1,16 @@
+{
+ "release": 2,
+ "towns": [
+  {
+   "id": "t1",
+   "name": "Utrecht",
+   "station_id": "s1"
+  }
+ ],
+ "stations": {
+  "s1": {
+   "name": "De Bilt",
+   "jan_mean_c": 3.5
+  }
+ }
+}

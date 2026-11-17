@@ -719,7 +719,18 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Decision:** An agent may read a marketplace's public search-result pages, only where robots.txt allows the path for our user agent, with an honest user agent, a few pages per model, 8 s or more between requests, and it stops for good on any 403/429 or bot challenge from that site. It keeps only aggregates per generation and build year (count, P25, median, P75 of fixed asking prices, fuel = electric); no listing ids, titles, seller data or locations are stored. Files go in data/manual/prices/ with the search page as source. This narrows Decision 004 for layer 2 only; layer 3 (scheduled sampling) stays off.
 
-**Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop.
+**Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop. 2026-11-17 check: 2dehands.be (BE, same platform as Marktplaats) allows `/l/auto-s/q/` and is used. leboncoin.fr disallows `/recherche` for Claude agents and its robots file says automated access needs permission: not used. kleinanzeigen.de blocks filtered result pages (fuel, year), so an unfiltered search would mostly read non-EV cars: not used for now. _(Restored 2026-11-17 by WS0: the de-dupe in e885fa0 dropped this line; QA A-35 S1.)_
+
+## Decision 044: Release diff N vs N-1 blocks unapproved changes (T-123)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** A-20 B1 shipped a release whose numbers nobody had meant to change, and review only saw the code. T-123 asks for a differential test: same records, old against new, noise taken out, and a list of changes someone approved.
+
+**Decision:** (1) `release_diff` is a new **blocking** QA check, run inside every `ev release` build and by `check-release` (CI data-qa, rollback). It compares catalogue rows and generations, shortlist scores, used prices, consumption matrix, towns and stations per id and field (`pipeline/ev_pipeline/release/differ.py`). (2) Blocking: an unapproved record removal (unless retired_ids redirects it), a change beyond the field's threshold, a thresholded value that goes empty, a number that loses every source, or a file that disappears. Everything else is review: listed, never blocks. (3) Thresholds, record sets, ignored keys and approvals live in `config/approved_changes.yaml`; an approval needs a reason and `PR #n` or `Decision nnn`, and can be scoped to a release, file, id, field and kind; unused approvals are listed as stale. (4) Fail closed: a bad config or an N-1 whose files don't match their manifest fails the check. (5) Charging figures (Decision 040 item 4) go through the same report but stay review only. Outputs: `data/review/release_diff.csv`, qa.json `release_diff`, a qa.md section (which the data-refresh PR body already includes), and `ev release diff --from N-1 --to N [--check]`.
+
+**Consequences:** The first refresh after this merges will block on every intended change since release 1 (T-068 seed models, new matching rules). That's on purpose: someone looks at the list once and adds a release-scoped bulk approval naming the PR. `config/` is WS3's folder; this one file is WS1's (T-123), and changing a threshold counts as a gate change (REVIEW.md R3).
 
 ## Decision 062: Verification layer: diff-triggered REVIEW.md, gates out of reach, evidence per PR, every miss becomes a check
 
@@ -747,5 +758,38 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** `docs/process/README.md` is the one process doc. Project instructions live in `docs/process/project-instructions.md`. QUESTIONS.md holds only what Menno must answer; the rest moved to the archive with "default stands", and all ids were kept. AGENTS.md: when unsure, take the reversible default and note it; only Menno-only decisions block. Retired files go to `_archive/` (git mv plus a README row). Chats never read it unless Menno asks, and `.rgignore` keeps it out of searches (rule G-32). WS0 reviewed the AGENTS.md lines that went straight to main (266b373, e097843) and keeps them. The CI budget rule is G-33 (PR #45).
 
 **Consequences:** Fewer places to keep in sync. Gate files still change through a PR from now on (G-06); straight-to-main is for STATUS/HANDOFF/INBOX only.
+
+## Decision 064: Budget uses a price for every car: real used band, else a depreciation estimate from the new price
+
+**Status:** Accepted (Menno, 2026-11-17, question popup; QA A-35 B2)
+**Date:** 2026-11-17
+
+**Context:** The hero let cars without a price through the budget filter, so €15k and €35k gave the same top 10 (A-35 B2).
+
+**Decision:** The price the budget compares against, in order: (1) our used price band for that variant, build years and country (T-081/T-056); (2) a **used price estimate**: the new list price × a depreciation curve by age, fitted on our own used samples where we have them, otherwise a published curve with its source (T-113); (3) the new price, for new cars. Every variant gets a sourced new list price (T-112). Estimates are labelled "estimate" with the method and source in Nerd mode. A car with no price at all is never in the top 5; it is listed after every priced car with "price not known yet". The budget is a hard filter on the band's median (or the estimate).
+
+**Consequences:** T-112, T-113, T-115. Every used figure keeps its provenance; estimated bands are replaced by real ones as samples arrive.
+
+## Decision 065: One shortlist implementation: the web reads `shortlist_scores.json` from the release
+
+**Status:** Accepted (Menno, 2026-11-17, question popup; QA A-35 B3)
+**Date:** 2026-11-17
+
+**Context:** The hero scored mild real range without `basis_scale` in the browser, while the back-tested T-069 pipeline scores winter range with `basis_scale`. Two implementations of one rule set (A-35 B3).
+
+**Decision:** Scores per variant and profile come only from the release (`shortlist_scores.json`, T-069). The web applies the hard filters (country, budget per Decision 064, refine chips) and sorts by the release score; it no longer computes factor scores itself. The reason line uses the factor values in the release. The back-test therefore runs the ranking visitors see.
+
+**Consequences:** T-114. Remove the web copy of the scoring rules, or keep it only as a test oracle. Release 2 must carry `shortlist_scores.json` (T-116).
+
+## Decision 066: Spain and Italy join the launch countries (seven countries)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup: scope change; QA A-35 B5)
+**Date:** 2026-11-17
+
+**Context:** Launch scope listed Spanish and Italian as languages, but no page served them (A-35 B5).
+
+**Decision:** Launch countries are NL, DE, FR, BE, UK, **ES and IT**. Spanish and Italian serve Spain (`/es/es`) and Italy (`/it/it`) only; no other Spanish- or Italian-speaking countries. Each new country gets what the others have: euro prices, a finance default with the CCD2 warning in the local language, used price bands (indices, samples or the Decision 064 estimate), and marketplace search links (link-outs only; Decision 004 and 060 rules apply to any sampling). Drafts are labelled; EN and NL stay the fully reviewed languages.
+
+**Consequences:** T-117, T-118, T-119. Supersedes the country list in Decision 051's launch scope; docs/spec/launch-scope.md updated.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

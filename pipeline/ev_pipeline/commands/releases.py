@@ -218,18 +218,48 @@ def cmd_rollback(args: argparse.Namespace) -> int:
 
 
 def cmd_diff(args: argparse.Namespace) -> int:
+    """`ev release diff N-1 N` or `ev release diff --from N-1 --to N`: the catalogue summary,
+    then the T-123 per-file diff with approvals (also written to data/review/release_diff.csv).
+    `--check` exits 2 when an unapproved change would block QA."""
+    from ev_pipeline.release.differ import (
+        REVIEW_FILE,
+        DiffConfigError,
+        config_path,
+        diff_releases,
+        load_config,
+        summary,
+        summary_md,
+        write_csv,
+    )
+    from ev_pipeline.release.publish import PublishError, ensure_local
+
     data_dir = default_data_dir()
+    ra, rb = args.from_ or args.a, args.to or args.b
+    if ra is None or rb is None:
+        print("diff: give two releases (N-1 N, or --from N-1 --to N)")
+        return 1
     try:
-        a, b = (_catalogue(data_dir, _resolve(data_dir, r)) for r in (args.a, args.b))
-    except ReleaseOpError as exc:
+        na, nb = _resolve(data_dir, ra), _resolve(data_dir, rb)
+        a, b = _catalogue(data_dir, na), _catalogue(data_dir, nb)
+        for n in (na, nb):
+            ensure_local(data_dir, n)
+        res = diff_releases(
+            data_dir / "releases" / str(na),
+            data_dir / "releases" / str(nb),
+            load_config(config_path()),
+        )
+    except (ReleaseOpError, PublishError, DiffConfigError) as exc:
         print(f"diff: {exc}")
         return 1
     s = diff_summary(a, b)
+    full = summary(res)
+    write_csv(res, data_dir / "review" / REVIEW_FILE)
     if args.json:
-        print(json.dumps(s, indent=1, ensure_ascii=False))
+        print(json.dumps({**s, "release_diff": full}, indent=1, ensure_ascii=False))
     else:
         print(diff_text(s))
-    return 0
+        print("\n".join(summary_md(full)))
+    return 2 if args.check and full["status"] == "fail" else 0
 
 
 def cmd_list(args: argparse.Namespace) -> int:
@@ -349,9 +379,12 @@ def register(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--to", type=int, required=True, help="release number")
     p.set_defaults(func=cmd_rollback)
     p = actions.add_parser("diff", help="what changed between two releases")
-    p.add_argument("a", help="release number or 'latest'")
-    p.add_argument("b", help="release number or 'latest'")
+    p.add_argument("a", nargs="?", help="release number or 'latest'")
+    p.add_argument("b", nargs="?", help="release number or 'latest'")
+    p.add_argument("--from", dest="from_", help="older release (same as a)")
+    p.add_argument("--to", help="newer release (same as b)")
     p.add_argument("--json", action="store_true", help="machine-readable output")
+    p.add_argument("--check", action="store_true", help="exit 2 if a change would block QA")
     p.set_defaults(func=cmd_diff)
     p = actions.add_parser("list", help="releases, QA status, which one is latest")
     p.add_argument("--json", action="store_true")

@@ -25,3 +25,5 @@ Account sync, marketplace links.
 - Owner's note: done on model + generation pages (`scripts/owner-picks.mjs` → `src/config/owner-notes.generated.json`, verdict + favourite + note only; `--check` + unit test keep it in step; 12 generations linked by `seed_generation_id`). Labelled as one owner's opinion. Not done: `/top/owners-picks` (a rankings page, parked by Decision 051).
 - Scoring parity: see `src/lib/shortlist.test.ts` (fixture checked against `backtest_rules.py`). Types are local until T-066 lands schema types for the rules.
 
+## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): pass (picker → profile → URL works in e2e and the walk); the ranking basis is in A-35 B3.
