@@ -1,10 +1,10 @@
 # WS2 status
 
-- **State:** active
-- **Now:** waiting on reviews; next: polish + whatever WS0 answers (owner's note, /learn list)
-- **Next:** T-082 links from hero cards once WS3's content lands · owner's note on model pages if WS0 says it's launch
-- **Blocked:** — (open PRs: #22 T-080 → then #23 T-067 and #29 T-092, both stacked on #22 · #25 T-090 · #28 T-091; #24 T-045 merged)
-- **Last updated:** 2026-11-15 13:15 UTC by WS2
+- **State:** idle, waiting on other workstreams
+- **Now:** nothing unblocked in START §3; all WS2 PRs merged
+- **Next:** (a) link /learn/batteries from hero cards once WS3's #35 merges; (b) winter range on hero cards + T-045 deltas once WS1 publishes the field; (c) e2e for used price by build year once a release ships used_prices.json (WS1 #21/#38); (d) read `shortlist_score` from WS1's T-069 (#15) if WS0 wants it
+- **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
+- **Last updated:** 2026-11-17 04:14 UTC by WS2
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
@@ -17,3 +17,4 @@
 - **What slowed us down:** decision numbers clashed twice (053, 054 went to Dependabot decisions while in my START range); pushes from this session don't trigger CI (runs started with workflow_dispatch); a rebase of a pushed branch then a blocked force-push cost a messy merge with leftover conflict markers; stacked PRs need re-merging after every main change.
 - **What Menno had to do by hand:** nothing so far.
 - **Proposed rules (for WS0 to add to operating-rules / AGENTS.md):** (1) each workstream owns a fixed decision block (e.g. WS2 = 055–069) listed in DECISIONS.md, and WS0 takes from its own block; (2) never rebase a pushed branch, merge main in instead; (3) grep for conflict markers before every push (or a pre-push hook); (4) after a push from a Claude session, start CI with workflow_dispatch and trust the run on the PR head.
+- 2026-11-17 04:14 UTC · Menno OK'd WS2 merging its own PRs (WS0 was idle). Merged #22 T-080, #23 T-067, #29 T-092, #36 T-093, #37 T-094, #28 T-091, each with main merged in, local e2e green and CI green on the PR head. Main f40d475: CI + Images green. START §3 #6 checked on main: hreflang + canonical + html lang right on 99 launch page × language combinations; NL complete except internal staff.review.* strings.
