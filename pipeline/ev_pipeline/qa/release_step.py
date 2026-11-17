@@ -63,14 +63,23 @@ def registration_order(data_dir: Path) -> tuple[str, ...]:
 
 
 def finish_release(
-    catalogue: dict[str, Any], facts: list[dict[str, Any]], out_dir: Path, data_dir: Path
+    catalogue: dict[str, Any],
+    facts: list[dict[str, Any]],
+    out_dir: Path,
+    data_dir: Path,
+    plausibility_withheld: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     registry = load_registry(data_dir / "sources.yaml")
     policies = load_policies(data_dir / "field_sources.yaml")
     prev, prev_bt = _previous(data_dir, int(catalogue["release"]))
     cs_path = out_dir / "charging_stats.json"  # T-059, written by write_release
     charging = json.loads(cs_path.read_text(encoding="utf-8")) if cs_path.exists() else None
-    checks = run_qa(catalogue, facts, registry, policies, prev, charging)
+    from ev_pipeline.qa.plausibility import load_config as load_plausibility
+
+    checks = run_qa(
+        catalogue, facts, registry, policies, prev, charging,
+        load_plausibility(), plausibility_withheld,
+    )  # fmt: skip
     # T-123: per id and field vs N-1 with config/approved_changes.yaml; blocking.
     from ev_pipeline.release.differ import release_diff_check
 

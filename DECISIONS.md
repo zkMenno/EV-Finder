@@ -732,6 +732,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** The first refresh after this merges will block on every intended change since release 1 (T-068 seed models, new matching rules). That's on purpose: someone looks at the list once and adds a release-scoped bulk approval naming the PR. `config/` is WS3's folder; this one file is WS1's (T-123), and changing a threshold counts as a gate change (REVIEW.md R3).
 
+## Decision 045: Sibling-variant real range scales by WLTP ratio, battery ratio only without it
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** The T-124 property tests (Hypothesis) found that the ladder's sibling-variant rung, which scaled a sibling's measured range by usable-battery ratio only, gave a same-pack variant with a lower WLTP (other wheels or trim) more real km than its own WLTP × 1.1. The spec's rung 3 scales "by usable kWh and wheel size"; we have no wheel size, but both variants' WLTP figures carry battery, wheels and trim together.
+
+**Decision:** Scale the sibling's measured km by own WLTP / sibling WLTP when both are known; fall back to the battery ratio otherwise. The note on the result says which ratio was used.
+
+**Consequences:** No change to today's release (all 203 rows with a real range use the body-ratio rung; no measured tests are licence-cleared yet). Once measured tests arrive, the synthetic back-test already improves (alpha-50: −2.0 % → +0.1 %). Reversible: one branch in `derive/metrics.real_range`.
+
 ## Decision 062: Verification layer: diff-triggered REVIEW.md, gates out of reach, evidence per PR, every miss becomes a check
 
 **Status:** Accepted (Menno via the verification chat, 2026-11-17; logged by WS0)
@@ -802,5 +813,27 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** Before merging, a source `ac_kw` fact moves to `ac_kw_optional` only when a citation for that variant (seed `cited:` or data/manual) names that value as the optional charger and no citation names it as the standard one (`merge/ac_route.py`, ±2 % like `ac_kw`). Blocked citations (maker-docs, manual: Q-008) count as evidence for this, as in guard_contradicted (A-06 F3); they never ship. Without a citation nothing moves. A cited option not above the cited standard routes nothing and goes to review; a published option not above the standard is dropped (rows) and flagged (QA `ac_optional_not_above`).
 
 **Consequences:** Release values change only when WS3 adds citations. Until Q-008 is answered a routed row shows the option and an empty standard AC rather than a wrong one. Every move is listed in the run log (`sections.ac_kw_optional`).
+
+## Decision 067: Infra agents write runbooks; Menno applies them
+
+**Status:** Accepted (WS0, 2026-11-17; WS4 inbox asked to settle a conflict)
+**Date:** 2026-11-17
+
+**Context:** WS4 START.md assumed the chat SSHes to the shared server; infra/AGENTS.md rule 1 says agents never ssh or apply.
+
+**Decision:** infra/AGENTS.md wins: agents write files and copy-paste runbooks (with a read-only measure step), Menno runs them on the server. Fixed in WS4 START.md. Reason: the server is shared with GardenLayer and Dungeon Tracker, so the person who can see all three applies changes.
+
+**Consequences:** Staging (T-040, PR #59) waits for Menno to run the runbook once.
+
+## Decision 068: Single cited facts from maker documents may ship (Q-008)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup)
+**Date:** 2026-11-17
+
+**Context:** Maker spec sheets and price lists have no licence, so Decision 009 kept them `blocked`. That kept T-110's corrected figures and T-112's new prices out of the release (A-35 B2/B4).
+
+**Decision:** Single facts from maker documents (list price, WLTP range, battery size, consumption) may reach a release, one figure per car per document, each with its URL, retrieval date and confidence. Never copy a whole price list or spec table. KBA, SDES and EU Safety Gate stay blocked until their reuse terms are checked.
+
+**Consequences:** WS1 sets the `manual` / maker-document source status in data/sources.yaml accordingly (with T-116). The licence column says "facts cited, no licence".
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

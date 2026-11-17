@@ -777,6 +777,11 @@ variants:
     id: hyundai-ioniq-5-gen1-77kwh-rwd
     name: "77.4 kWh RWD"
     years: [2022, 2024]
+    # T-110 (A-35 S8): Open EV Data MY2023-2024 "Base" is this car (77.4 kWh, same power), but
+    # Open EV gives it 72.6 net / 77.4 gross; Hyundai EU (2022-06-01) gives 77.4 kWh from MY2023.
+    # MY2025 records belong to the 84 kWh facelift, so the name is scoped to MY2024 and earlier.
+    source_names:
+      openev: [{name: "Base", years: [null, 2024]}]
     drivetrain: rwd
     specs:
       battery_kwh_net: 77.4
@@ -793,6 +798,11 @@ variants:
     id: hyundai-ioniq-5-gen1-77kwh-awd
     name: "77.4 kWh AWD"
     years: [2022, 2024]
+    # T-110 (A-35 S8): Open EV Data MY2023-2024 "AWD" is this car (77.4 kWh, same power), but
+    # Open EV gives it 72.6 net / 77.4 gross; Hyundai EU (2022-06-01) gives 77.4 kWh from MY2023.
+    # MY2025 records belong to the 84 kWh facelift, so the name is scoped to MY2024 and earlier.
+    source_names:
+      openev: [{name: "AWD", years: [null, 2024]}]
     drivetrain: awd
     specs:
       battery_kwh_net: 77.4

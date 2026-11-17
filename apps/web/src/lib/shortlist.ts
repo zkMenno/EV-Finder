@@ -202,6 +202,12 @@ export interface FactorScore {
   weight: number;
   /** The value the factor read, in the rule's unit (e.g. km/h for road-tripper DC). */
   value: number | string | boolean | null;
+  /**
+   * The car's own figure before the rule's `scale`, with the field it came from (T-097). This is
+   * what a buyer reads ("387 km in 20 min"); `value` is the scoring unit and can differ (×3 = km/h).
+   */
+  field: string | null;
+  raw: number | string | boolean | null;
 }
 
 export interface Adjustment {
@@ -244,30 +250,31 @@ export function lin(x: number | null, poor: number, great: number): number {
 }
 
 function factorScore(row: ExploreRow, f: RuleFactor, weight: number): FactorScore {
-  const base = { id: f.id, weight };
+  const base = { id: f.id, weight, field: f.field };
   switch (f.kind) {
     case "linear": {
       const raw = f.field ? fieldValue(row, f.field) : null;
       const v = raw === null ? null : raw * (f.scale ?? 1);
-      return { ...base, score: lin(v, f.poor!, f.great!), known: v !== null, value: v };
+      return { ...base, score: lin(v, f.poor!, f.great!), known: v !== null, value: v, raw };
     }
     case "heat-pump": {
       const hp = row.heat_pump;
       const s = hp === "standard" ? 1 : hp === "option" ? 0.6 : hp === "none" ? 0 : 0.5;
-      return { ...base, score: s, known: hp === "standard" || hp === "option" || hp === "none", value: hp ?? null };
+      return { ...base, score: s, known: hp === "standard" || hp === "option" || hp === "none", value: hp ?? null, raw: hp ?? null };
     }
     case "cooling": {
       const c = row.cooling_id;
       const s = c === "liquid" || c === "refrigerant" ? 1 : c === "air" || c === "passive" ? 0 : 0.5;
-      return { ...base, score: s, known: s !== 0.5, value: c ?? null };
+      return { ...base, score: s, known: s !== 0.5, value: c ?? null, raw: c ?? null };
     }
     case "bool": {
       const v = f.field ? (row as unknown as Record<string, unknown>)[f.field] : undefined;
       const known = typeof v === "boolean";
-      return { ...base, score: v === true ? 1 : v === false ? 0 : 0.5, known, value: known ? (v as boolean) : null };
+      const b = known ? (v as boolean) : null;
+      return { ...base, score: v === true ? 1 : v === false ? 0 : 0.5, known, value: b, raw: b };
     }
     default:
-      return { ...base, score: 0.5, known: false, value: null };
+      return { ...base, score: 0.5, known: false, value: null, raw: null };
   }
 }
 
