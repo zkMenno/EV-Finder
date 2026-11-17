@@ -899,10 +899,13 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
         <caption className="sr-only">{t("hero.nerd.factors")}</caption>
         <thead>
           <tr>
-            <th scope="col" className="hyphens-auto [overflow-wrap:anywhere]">{t("hero.nerd.factor")}</th>
-            <th scope="col" className="hyphens-auto [overflow-wrap:anywhere]">{t("hero.nerd.value")}</th>
-            <th scope="col" className="hyphens-auto [overflow-wrap:anywhere]">{t("hero.nerd.points")}</th>
-            <th scope="col" className="hyphens-auto [overflow-wrap:anywhere]">{t("hero.nerd.weight")}</th>
+            <th scope="col">{t("hero.nerd.factor")}</th>
+            <th scope="col">{t("hero.nerd.value")}</th>
+            {/* One column for points × weight: two narrow numeric columns cost ~45 px a 360 px card
+                doesn't have (T-097 review: headers broke mid-word, "Poi/ds"). */}
+            <th scope="col">
+              {t("hero.nerd.points")} × {t("hero.nerd.weight")}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -922,8 +925,9 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
                   p.num ? <span key={i} className="whitespace-nowrap">{p.text}</span> : p.text,
                 )}
               </td>
-              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score, locale, 2)}</td>
-              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
+              <td className="whitespace-nowrap tabular-nums" data-testid={`hero-nerd-points-${f.id}`}>
+                {formatNumber(f.score, locale, 2)} × {formatNumber(f.weight, locale, 1)}
+              </td>
             </tr>
           ))}
         </tbody>
