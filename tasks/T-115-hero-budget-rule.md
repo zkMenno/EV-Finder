@@ -27,6 +27,7 @@ Anything not on docs/spec/launch-scope.md.
 - **Reversible default:** a real band year that is over budget doesn't block an estimate year that fits (different build year, the card says which years).
 - **Evidence data:** release 1 has neither file, so the budget e2e skips there. Locally I built a preview release = release 1 + `shortlist_scores.json` + `used_prices.json`, both made by the pipeline's own code from release 1 rows/facts (99 variants with model bands, as WS1 reported for #21). There, NL road-tripper €15k: shortlist empty (no priced road-tripper ≤ €15k; all 10 cards "price not known yet"); €35k: 8 priced estimates (€26,800–€34,600) then 2 unpriced. On real release 2 the numbers will differ.
 - **Open:** e2e on the published release 2 (runs automatically once it has both files). ES/IT strings come with T-117.
+- **Merged the updated #69 (T-114 + main incl. #56/T-097), 2026-11-17 (WS2 subagent).** No conflicts: the budget rule and the Nerd value column don't overlap. Re-checked on a fresh preview release (release 1 + pipeline-made `shortlist_scores.json` + `used_prices.json`).
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B2 fixed. -->

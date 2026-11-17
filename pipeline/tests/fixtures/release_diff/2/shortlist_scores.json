@@ -1,0 +1,14 @@
+{
+ "release": 2,
+ "variants": [
+  {
+   "variant_id": "a",
+   "scores": {
+    "commuter/home/town": {
+     "score": 72,
+     "band": "shortlist"
+    }
+   }
+  }
+ ]
+}

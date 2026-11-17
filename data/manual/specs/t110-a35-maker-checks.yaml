@@ -1,0 +1,169 @@
+# T-110 (A-35 B4 + S8), 2026-11-17: maker and type-approval figures for release rows that
+# carry an implausible or wrong value. Source `manual` is blocked until Q-008, so none of these
+# ship; under Decision 031 each one withholds a lone-source value it contradicts
+# (qa/value_guard.guard_contradicted) and agrees with, or anchors, the right one.
+# Every value below was read on the page named, on the date given.
+#
+# Model Y: the wrong 719 km comes from Open EV Data itself. Its files
+# src/tesla/model_y/2024/model_y_long_range_awd.json and .../2025/model_y_long_range_awd.json
+# (both "accessed_at 2025-12-28", read 2026-11-17) carry {"cycle": "wltp", "range_km": 719}:
+# 719 km is the Chinese CLTC figure of the Juniper Long Range AWD, labelled WLTP. Our derived
+# consumption (79 kWh / 719 km = 11.0 kWh/100 km) and DC km per 20 min (387) follow from it.
+# Tesla's own model pages (tesla.com/*/modely) render their figures client-side and returned
+# no numbers to a plain fetch on 2026-11-17, and web.archive.org is not reachable from here,
+# so the WLTP figures come from the EU type approval as published in the Dutch type-approval
+# register (RDW TGK, CC0): the homologation values themselves.
+schema: manual-facts/v1
+entered_by: ws3-builder (agent, T-110)
+facts:
+  # --- Tesla Model Y gen1 Long Range AWD (2021-2024) -------------------------------------
+  # RDW TGK Y5LD versions with top speed 217 km/h are the Long Range AWD (the Performance
+  # versions of the same variant code are 250 km/h). 2021 approvals (ext 19-21): 542 km;
+  # from ext 22 (Feb 2022) to ext 44 (Jan 2025): 533 km. Combined 169 Wh/km throughout.
+  - variant_id: tesla-model-y-gen1-long-range
+    field: wltp_range_km
+    value: 533
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*30&codevarianttgk=Y5LD&codeuitvoeringtgk=BZB3S5T3
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*30, variant Y5LD, version BZB3S5T3 (Tesla Model Y, CC0)"
+    retrieved: 2026-11-17
+    quote: '"maximumconstructiesnelheidbgr": "217.00", "verbruikvolledigelekwltpbgr": "169.00", "actieradiusvolledigelekwltpbgr": "533"'
+    locator: "Both drivetrain rows of that version; the same 533 km on every 217 km/h Y5LD version from extension 22 to 44"
+    confidence: medium
+    claim: true
+    notes: "2021 approvals (extensions 19-21, e.g. e4*2007/46*1293*20 Y5LD BZB3S5T3) give 542 km at the same 169 Wh/km; the row spans 2021-2024, so the later and most common figure is used. Open EV Data's 719 km is the CLTC figure (see file header)."
+  - variant_id: tesla-model-y-gen1-long-range
+    field: consumption_kwh_100km
+    value: 16.9
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*30&codevarianttgk=Y5LD&codeuitvoeringtgk=BZB3S5T3
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*30, variant Y5LD, version BZB3S5T3 (Tesla Model Y, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "169.00"'
+    locator: "WLTP combined electric energy consumption, Wh/km (169 Wh/km = 16.9 kWh/100 km); same on every 217 km/h Y5LD version, extensions 19-44"
+    confidence: medium
+    claim: true
+    notes: "Replaces the derived 11.0 kWh/100 km (79 kWh / 719 km)."
+
+  # --- Tesla Model Y Juniper Long Range AWD (2025-) --------------------------------------
+  # RDW TGK YS5LD (dual motor, 201 km/h): 586 km best / 568 km worst, 148-153 Wh/km, from
+  # 2025-01-28 (extensions 44-50). InsideEVs (2025-02-21) reports Tesla's European figures as
+  # 586 km on 19-inch wheels and 568 km on 20-inch wheels: the same pair.
+  - variant_id: tesla-model-y-juniper-long-range-awd
+    field: wltp_range_km
+    value: 586
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*46&codevarianttgk=YS5LD&codeuitvoeringtgk=BHB3S5T3X
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*46, variant YS5LD, version BHB3S5T3X (Tesla Model Y, CC0)"
+    retrieved: 2026-11-17
+    quote: '"volgnummeraandrijving": "1", "maximumconstructiesnelheidbgr": "201.00", "verbruikvolledigelekwltpogr": "148.00", "verbruikvolledigelekwltpbgr": "153.00", "actieradiusvolledigelekwltpogr": "586", "actieradiusvolledigelekwltpbgr": "568"'
+    locator: "Drivetrain row 1 of that version; same 586/568 km on YS5LD extensions 44-50"
+    confidence: medium
+    claim: true
+    notes: "Drivetrain row 2 of the same version repeats the gen1 figures (533 km, 169 Wh/km): a stale second-motor row, not this car. Later approvals (YS5MD, from 2025-06) give 600 km, and 600-629 km from 2025-12 (e4*2007/46*1293*51-53); the row spans 2025 onward, so the launch figure is used. Corroborated by InsideEVs 2025-02-21 (https://insideevs.com/news/751466/tesla-model-y-details-europe/): 'a rating of 364 miles (586 km) ... 353 miles (568 km) if you get the 20-inch wheels'."
+  - variant_id: tesla-model-y-juniper-long-range-awd
+    field: wltp_range_km_worst
+    value: 568
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*46&codevarianttgk=YS5LD&codeuitvoeringtgk=BHB3S5T3X
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*46, variant YS5LD, version BHB3S5T3X (Tesla Model Y, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "568"'
+    locator: "Drivetrain row 1, WLTP range upper-consumption bound (20-inch wheels per InsideEVs 2025-02-21)"
+    confidence: medium
+    claim: true
+  - variant_id: tesla-model-y-juniper-long-range-awd
+    field: consumption_kwh_100km
+    value: 14.8
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*46&codevarianttgk=YS5LD&codeuitvoeringtgk=BHB3S5T3X
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*46, variant YS5LD, version BHB3S5T3X (Tesla Model Y, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpogr": "148.00"'
+    locator: "Drivetrain row 1, WLTP combined consumption lower bound 148 Wh/km (upper bound 153 Wh/km)"
+    confidence: medium
+    claim: true
+    notes: "Best-case bound, like the rdw-tgk adapter (consumption = min). Replaces the derived 11.0 kWh/100 km copied from gen1's Open EV Data values."
+
+  # --- Hyundai Ioniq 5 77.4 kWh (MY2023, Europe from H2 2022) -----------------------------
+  - variant_id: hyundai-ioniq-5-gen1-77kwh-rwd
+    field: battery_kwh_net
+    value: 77.4
+    unit: kWh
+    source_url: https://www.hyundai.news/eu/articles/press-releases/updated-ioniq-5-with-new-77-4-kWh-battery-exceeds-500-kilometre-range.html
+    source_name: "Hyundai Motor Europe press release 'Updated IONIQ 5 with new 77.4 kWh battery exceeds 500 kilometre range' (2022-06-01)"
+    retrieved: 2026-11-17
+    locator: "Headline and body: new 77.4 kWh battery for customers buying the updated IONIQ 5 with the 2023 model year; European availability in the second half of 2022"
+    confidence: medium
+    claim: true
+    notes: "Open EV Data (MY2023-2025 'Base' and 'AWD') gives 77.4 as gross and 72.6 as net: the 72.6 kWh pack is the 2021-2022 one."
+  - variant_id: hyundai-ioniq-5-gen1-77kwh-rwd
+    field: wltp_range_km
+    value: 507
+    unit: km
+    source_url: https://www.hyundai.news/eu/articles/press-releases/updated-ioniq-5-with-new-77-4-kWh-battery-exceeds-500-kilometre-range.html
+    source_name: "Hyundai Motor Europe press release 'Updated IONIQ 5 with new 77.4 kWh battery exceeds 500 kilometre range' (2022-06-01)"
+    retrieved: 2026-11-17
+    quote: "will offer an all-electric range of up to 507 kilometres"
+    locator: "Body text, 2WD with 19-inch alloy rims"
+    confidence: medium
+    claim: true
+  - variant_id: hyundai-ioniq-5-gen1-77kwh-rwd
+    field: consumption_kwh_100km
+    value: 17.0
+    unit: kWh/100km
+    source_url: https://www.hyundai.news/eu/articles/press-releases/updated-ioniq-5-with-new-77-4-kWh-battery-exceeds-500-kilometre-range.html
+    source_name: "Hyundai Motor Europe press release 'Updated IONIQ 5 with new 77.4 kWh battery exceeds 500 kilometre range' (2022-06-01)"
+    retrieved: 2026-11-17
+    locator: "Consumption disclaimer, WLTP combined: 77.4 kWh 2WD 19-inch 17.0 kWh/100 km (20-inch 18.0)"
+    confidence: medium
+    claim: true
+  - variant_id: hyundai-ioniq-5-gen1-77kwh-awd
+    field: battery_kwh_net
+    value: 77.4
+    unit: kWh
+    source_url: https://www.hyundai.news/eu/articles/press-releases/updated-ioniq-5-with-new-77-4-kWh-battery-exceeds-500-kilometre-range.html
+    source_name: "Hyundai Motor Europe press release 'Updated IONIQ 5 with new 77.4 kWh battery exceeds 500 kilometre range' (2022-06-01)"
+    retrieved: 2026-11-17
+    locator: "Headline and consumption disclaimer (77.4 kWh 4WD rows)"
+    confidence: medium
+    claim: true
+  - variant_id: hyundai-ioniq-5-gen1-77kwh-awd
+    field: consumption_kwh_100km
+    value: 17.9
+    unit: kWh/100km
+    source_url: https://www.hyundai.news/eu/articles/press-releases/updated-ioniq-5-with-new-77-4-kWh-battery-exceeds-500-kilometre-range.html
+    source_name: "Hyundai Motor Europe press release 'Updated IONIQ 5 with new 77.4 kWh battery exceeds 500 kilometre range' (2022-06-01)"
+    retrieved: 2026-11-17
+    locator: "Consumption disclaimer, WLTP combined: 77.4 kWh 4WD 19-inch 17.9 kWh/100 km (20-inch 19.1)"
+    confidence: medium
+    claim: true
+    notes: "The release gives no AWD range; Open EV Data 480 km and RDW 481 km are left to the sources."
+
+  # --- Hyundai Ioniq 5 N (84 kWh from launch) ---------------------------------------------
+  - variant_id: hyundai-ioniq-5-gen1-n
+    field: battery_kwh_net
+    value: 84.0
+    unit: kWh
+    source_url: https://www.hyundai.news/newsroom/dam/eu/models/20231122_ioniq_5_n_sets_benchmark_for_sporty_evs/hyundai-ioniq-5-n-technical-data-1223-v4.pdf
+    source_name: "Hyundai Motor Europe, IONIQ 5 N technical data (12/2023, v4)"
+    retrieved: 2026-11-17
+    quote: "Battery capacity (kWh) 84.0"
+    locator: "p. 1, technical data table; same sheet: WLTP combined 21.2 kWh/100 km, WLTP electric range combined 448 km"
+    confidence: medium
+    claim: true
+    notes: "Hyundai states one capacity, not usable vs gross; Hyundai's other capacity figures (58, 72.6, 77.4) are the usable ones. Open EV Data gives 84 gross / 78 net. The release's 448 km and 21.2 kWh/100 km (RDW) agree with this sheet."
+
+  # --- MG4 'Standard Long Range' (Open EV Data row, 64 kWh) --------------------------------
+  - variant_id: mg-mg4-gen1-standard-long-range
+    field: consumption_kwh_100km
+    value: 16.0
+    unit: kWh/100km
+    source_url: https://www.mg.co.uk/sites/default/files/2022-10/MG4-EV-Brochure.pdf
+    source_name: "MG Motor UK, MG4 EV brochure (October 2022)"
+    retrieved: 2026-11-17
+    quote: "Combined 3.6 (17.0) 3.8 (16.0) 3.7 (16.6)"
+    locator: "Technical specification, energy consumption miles/kWh (kWh/100km), columns SE Standard Range, SE Long Range, Trophy Long Range; WLTP combined 350 / 450 / 435 km in the same order"
+    confidence: low
+    claim: true
+    notes: "Low: the Open EV Data row (61 kWh net, 125 kW, WLTP 450 km) matches MG UK's SE Long Range by range, but MG UK lists 150 kW for the 64 kWh cars. Either way the 64 kWh MG4 is 16.0-16.6 kWh/100 km, not the derived 13.6 (61 kWh / 450 km, battery-side)."

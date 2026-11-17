@@ -314,7 +314,8 @@ def _obs(km, rung="exact-test", src="test"):
 
 
 def test_sibling_tie_on_battery_prefers_owner_data() -> None:
-    a, b, c = _li("a", battery=60), _li("b", battery=70), _li("c", battery=50)
+    # WLTP in step with battery, so WLTP ratio = battery ratio here (T-124).
+    a, b, c = (_li(v, battery=k, wltp=k * 6.5) for v, k in (("a", 60), ("b", 70), ("c", 50)))
     r = m.real_range(a, [a, b, c], {"b": _obs(350, "exact-test"), "c": _obs(300, "owner-data")})
     assert r.rung == "sibling-variant"
     assert "from c" in r.note  # both 10 kWh away; owner data ranks first

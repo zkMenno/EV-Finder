@@ -208,6 +208,13 @@ export interface FactorView {
   score: number | null;
   /** The rule weight after the layer's and modifier's weight steps (display only). */
   weight: number;
+  /**
+   * The car's own figure behind the factor, with the field it came from (T-097): what a buyer reads
+   * ("387 km in 20 min"), never the scaled scoring unit (×3 = km/h, ×10 = Wh/km, basis scale).
+   * Winter range and efficiency read the release's derived estimates, as the release scores them.
+   */
+  field: string | null;
+  raw: number | string | boolean | null;
 }
 
 export interface Adjustment {
@@ -247,6 +254,28 @@ export function factorRows(rp: ResolvedProfile, rules: ShortlistRules = RULES): 
   }));
 }
 
+/** Which value a factor's score is built on when it isn't the rule's own `field`: the release's
+ *  derived estimates (mirrors `field_overrides` in pipeline/ev_pipeline/derive/shortlist_params.yaml). */
+const SCORED_FIELD: Record<string, string> = { "winter-range": "winter_range_km", efficiency: "real_wh_km" };
+
+/** The car's own figure behind a factor (T-097), unscaled; null when not known. Yes/no factors
+ *  whose field is a structure (bidi modes) read the release's 0/1 score. */
+function ownValue(
+  f: RuleFactor,
+  row: ExploreRow,
+  derived: Record<string, number>,
+  score: number | null,
+): { field: string | null; raw: number | string | boolean | null } {
+  const field = SCORED_FIELD[f.id] ?? f.field;
+  if (field === null) return { field, raw: null };
+  const v = derived[field] ?? (row as unknown as Record<string, unknown>)[field];
+  if (typeof v === "number" && Number.isFinite(v)) return { field, raw: v };
+  if (typeof v === "boolean") return { field, raw: v };
+  if (typeof v === "string" && v !== "not-disclosed") return { field, raw: v };
+  if (f.kind === "bool" && (score === 0 || score === 1)) return { field, raw: score === 1 };
+  return { field, raw: null };
+}
+
 /** The release score of one row for a profile; null when the release has none for it. */
 export function scoreFor(row: ExploreRow, rp: ResolvedProfile, rules: ShortlistRules = RULES): PickScore | null {
   const c = comboFrom(row.shortlist, comboKey(rp));
@@ -254,7 +283,13 @@ export function scoreFor(row: ExploreRow, rp: ResolvedProfile, rules: ShortlistR
   const trip = rp.base.id;
   const fv = row.shortlist?.f?.[trip] ?? {};
   const unknownAll = row.shortlist?.u?.[trip] ?? [];
-  const factors = factorRows(rp, rules).map((f) => ({ ...f, score: typeof fv[f.id] === "number" ? fv[f.id]! : null }));
+  const derived = row.shortlist?.d ?? {};
+  const rule = new Map([...rp.base.factors, ...(rp.layer?.extra_factors ?? [])].map((f) => [f.id, f]));
+  const factors = factorRows(rp, rules).map((f) => {
+    const score = typeof fv[f.id] === "number" ? fv[f.id]! : null;
+    const r = rule.get(f.id);
+    return { ...f, score, ...(r ? ownValue(r, row, derived, score) : { field: null, raw: null }) };
+  });
   const points = new Map<string, number>();
   for (const b of rp.base.bonuses) points.set(`bonus:${b.id}`, b.points);
   for (const p of [...rp.base.penalties, ...(rp.modifier?.penalties ?? [])]) points.set(`penalty:${p.id}`, p.points);
@@ -268,7 +303,7 @@ export function scoreFor(row: ExploreRow, rp: ResolvedProfile, rules: ShortlistR
     factors,
     adjustments,
     unknown: factors.filter((f) => f.score === null && unknownAll.includes(f.id)).map((f) => f.id),
-    derived: row.shortlist?.d ?? {},
+    derived,
   };
 }
 

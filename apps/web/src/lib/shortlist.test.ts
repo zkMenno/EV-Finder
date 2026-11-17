@@ -187,6 +187,17 @@ describe("release scores (Decision 065)", () => {
     expect(s.factors.find((f) => f.id === "dc-speed")!.score).toBe(dc);
     expect(s.derived).toEqual(releaseScores.variants.get(vid.variant_id)!.derived);
   });
+  it("Nerd values are the car's own figures (T-097), on the basis the release scored (T-114)", () => {
+    const vid = fixtureRows.find((r) => typeof r.dc_km_per_20min === "number" && releaseScores.variants.get(r.variant_id)!.derived.winter_range_km)!;
+    const s = scoreFor(vid, roadTripper)!;
+    const f = (id: string) => s.factors.find((x) => x.id === id)!;
+    // DC: the row's own km per 20 min, not ×3 km/h and not the basis-scaled value.
+    expect(f("dc-speed")).toMatchObject({ field: "dc_km_per_20min", raw: vid.dc_km_per_20min });
+    // Winter range and efficiency: the release's derived estimates the score was built on.
+    expect(f("winter-range")).toMatchObject({ field: "winter_range_km", raw: s.derived.winter_range_km });
+    expect(f("efficiency").field).toBe("real_wh_km");
+    expect(f("efficiency").raw).toBe(s.derived.real_wh_km ?? null);
+  });
 });
 
 describe("prices", () => {
