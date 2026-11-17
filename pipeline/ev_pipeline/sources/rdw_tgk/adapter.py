@@ -724,7 +724,7 @@ def normalise(raw_dir: Path, retrieved_at: date, stats: Stats | None = None) -> 
 
 
 def fetch_cmd(client: httpx.Client | None = None) -> int:
-    target = c.raw_dir(NAME)
+    target = c.raw_dir(DIR)
     own = client is None
     client = client or net.safe_client(NAME, timeout=120)
     try:
@@ -752,7 +752,7 @@ def fetch_cmd(client: httpx.Client | None = None) -> int:
 
 
 def normalise_cmd(from_fixtures: bool) -> int:
-    src = c.FIXTURES_DIR / DIR if from_fixtures else c.raw_dir(NAME)
+    src = c.FIXTURES_DIR / DIR if from_fixtures else c.raw_dir(DIR)
     if not (src / VERSIONS_FILE).exists():
         print(f"normalise {NAME}: no data in {src} (run `ev fetch {NAME}` first)")
         return 1

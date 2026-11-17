@@ -84,7 +84,7 @@ def village_layers(t, rich=True, night=False, uid="v"):
         s += f'<g transform="translate({x} {y})">{tree(t, r, rich)}</g>'
     L.append(("hills-mid", 0.13, s))
     s = f'<path d="M-40 368 Q 100 328 200 358 Q 300 388 430 348 V560 H-40Z" fill="{H[2]}" {st(t,2.2)} filter="url(#sh{uid})"/>'
-    s += road_winding(t, [(175, 485), (200, 415), (300, 410), (275, 360), (250, 326), (160, 334), (185, 300), (200, 282), (230, 273), (250, 264), (300, 248), (360, 250), (440, 244)], 46, 8)
+    s += road_winding(t, [(175, 485), (200, 415), (300, 410), (275, 360), (250, 326), (160, 334), (185, 300), (200, 282), (230, 273), (250, 264), (300, 248), (360, 250), (440, 244)], 46, 8, uid)
     s += f'<g transform="translate(36 306)">{house(t, rich)}</g><g transform="translate(106 340)">{wallbox(t)}</g>'
     s += f'<g transform="translate(252 400)">{car(t, night)}</g>'
     for x, y, r in [(22, 400, 13), (338, 428, 13)]:
