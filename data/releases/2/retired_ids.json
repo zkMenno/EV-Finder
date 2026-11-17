@@ -1,0 +1,9 @@
+{
+ "release": 2,
+ "generated_at": "2026-11-17T20:50:24+00:00",
+ "retired_ids": {
+  "hyundai-ioniq-5-gen1-awd": "hyundai-ioniq-5-gen1-77kwh-awd",
+  "hyundai-ioniq-5-gen1-base": "hyundai-ioniq-5-gen1-77kwh-rwd",
+  "hyundai-ioniq-5-gen1-n": "hyundai-ioniq-5-facelift-n"
+ }
+}
