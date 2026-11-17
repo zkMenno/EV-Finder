@@ -5,8 +5,11 @@
 # list price, no options). Where that list is later than the variant's first year the notes say so
 # and confidence is low: it is the earliest list we could read, not the launch price.
 # Every value was checked against the page (row text quoted) on the retrieval date.
-# Source `manual` is blocked until Q-008, so these do not ship yet (see the T-112 PR).
+# Decision 080 (Menno, 2026-11-17): Autotijd is "all rights reserved" with no reuse terms, so this
+# file names its own source `autotijd` (status blocked in data/sources.yaml). These rows never reach
+# a release; maker-sourced prices (Decision 068) live in the other new-prices files and win.
 schema: manual-facts/v1
+source: autotijd
 entered_by: ws3-builder (agent, T-112)
 facts:
   - variant_id: audi-a6-e-tron-gen1-avant
@@ -932,17 +935,3 @@ facts:
     confidence: low
     claim: true
     notes: "Open EV 'Twin Motor' 2023 row; first BE list of 2023, cheapest trim."
-  # --- Maker source (not Autotijd) -------------------------------------------------------
-  - variant_id: hyundai-ioniq-5-gen1-n
-    field: price_new
-    value: 74900
-    unit: EUR
-    country: DE
-    source_url: https://www.hyundai.news/de/articles/press-releases/neuer-hyundai-ioniq-5-n-startet-ab-74900-euro.html
-    source_name: "Hyundai Motor Deutschland press release 'Neuer Hyundai IONIQ 5 N startet ab 74.900 Euro' (2023-12-13)"
-    retrieved: 2026-11-17
-    quote: "geht in Deutschland ab 74.900 Euro an den Start und ist ab sofort bestellbar"
-    locator: "Press release body, launch price for Germany"
-    confidence: medium
-    claim: true
-    notes: "Launch price. The release does not say 'incl. VAT', but German consumer list prices must include VAT (PAngV). BE list March 2024 (Autotijd): 84 kWh 650 pk N Performance EUR 77,999."

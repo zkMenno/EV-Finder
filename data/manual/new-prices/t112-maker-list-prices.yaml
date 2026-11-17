@@ -1,0 +1,21 @@
+# T-112 (Decision 064, Decision 068, Decision 080): new list prices (incl. VAT) from the makers' own
+# documents: press releases, price lists and configurators on the maker's or importer's own site.
+# One figure per car per maker document (Decision 068); never a whole table. Cheapest trim of the
+# variant's powertrain at launch, or the earliest maker document we could read (then confidence low
+# and the notes say so). Source `manual` (maker documents); releasable once WS1 applies Decision 068.
+schema: manual-facts/v1
+entered_by: ws3-builder (agent, T-112)
+facts:
+  - variant_id: hyundai-ioniq-5-gen1-n
+    field: price_new
+    value: 74900
+    unit: EUR
+    country: DE
+    source_url: https://www.hyundai.news/de/articles/press-releases/neuer-hyundai-ioniq-5-n-startet-ab-74900-euro.html
+    source_name: "Hyundai Motor Deutschland press release 'Neuer Hyundai IONIQ 5 N startet ab 74.900 Euro' (2023-12-13)"
+    retrieved: 2026-11-17
+    quote: "geht in Deutschland ab 74.900 Euro an den Start und ist ab sofort bestellbar"
+    locator: "Press release body, launch price for Germany"
+    confidence: medium
+    claim: true
+    notes: "Launch price. The release does not say 'incl. VAT', but German consumer list prices must include VAT (PAngV). BE list March 2024 (Autotijd): 84 kWh 650 pk N Performance EUR 77,999."
