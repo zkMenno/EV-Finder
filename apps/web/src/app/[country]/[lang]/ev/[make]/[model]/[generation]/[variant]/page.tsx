@@ -6,6 +6,7 @@ import { ChargingLinks } from "@/components/ChargingLinks";
 import { abrpLink, chargingLinks } from "@/lib/charging-links";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PriceBand } from "@/components/PriceBand";
+import { UsedByYear } from "../../../../_components/UsedByYear";
 import { Term, TermInfo } from "@/components/Term";
 import { PricePanel } from "@/components/PriceMode";
 import { getClientDict } from "@/i18n";
@@ -51,6 +52,7 @@ export default async function VariantPage({ params }: Props) {
   const all = ctx.cat.rows();
   const row = findVariant(all, make, model, generation, variant);
   if (!row) notFound();
+  const usedByYear = ctx.cat.variantUsedPrices().get(row.variant_id)?.[ctx.cfg.code];
   const { t, cfg } = ctx;
   const modelName = `${row.make_name} ${row.model_name}`;
   const name = `${modelName} ${row.variant_name}`;
@@ -137,7 +139,11 @@ export default async function VariantPage({ params }: Props) {
                       <Term term={ctx.tax.terms["used-price"] ? { ...ctx.tax.terms["used-price"], label: t("gen.usedPrice", { country: cfg.name }) } : undefined} fallback={t("gen.usedPrice", { country: cfg.name })} base={base} text={ctx.termText} showTechnical={false} />
                     </th>
                     <td className="py-2 align-top">
-                      <PriceBand band={usedBandFor(ctx.cat.usedPrices(), row.generation_id, cfg.code, cfg.currency)} currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
+                      {usedByYear?.length ? (
+                        <UsedByYear ctx={ctx} bands={usedByYear} currency={cfg.currency} />
+                      ) : (
+                        <PriceBand band={usedBandFor(ctx.cat.usedPrices(), row.generation_id, cfg.code, cfg.currency)} currency={cfg.currency} locale={ctx.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />
+                      )}
                     </td>
                   </tr>
                 ) : null}
