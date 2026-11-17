@@ -77,6 +77,7 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 - If `gh pr create` fails, use `gh api repos/zkMenno/EV-Finder/pulls -f title=… -f head=… -f base=main -f body=…`.
 - STATUS.md, HANDOFF.md and INBOX lines may go straight to `main` (log files, docs only), so task PRs don't collide on them.
 - CI must be green before review. A failing test means the PR doesn't reach a reviewer.
+- Run the gate locally first (lint, types, tests, build for the lanes you touched) and open the PR only when it's green. CI stays the independent check; it isn't your test runner. See docs/process/ci-budget.md.
 - Merges go one at a time, each PR up to date with the latest `main` (merge `main` in, re-run CI).
 - **Dependabot PRs** (Decision 039): patch and minor updates merge themselves once every check is green. Majors get the `dependabot-major` label: the coordinator reviews the breaking changes, fixes workflow inputs if needed, merges and logs it. Don't send these to Menno.
 

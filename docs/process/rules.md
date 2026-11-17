@@ -38,8 +38,9 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-30 | Chat mentions: direct link + paste-ready code block every time (was P-18) | Menno had to ask twice (17 Nov) | *prose* (project instructions) | all | 2026-11-17 | — |
 | G-31 | One process doc, one decisions log per kind; project docs are pointers (was P-19) | Workflow described in 5 places, decisions in 2 (17 Nov) | *prose* | WS0 | 2026-11-17 | — |
 | G-32 | Retire docs into `_archive/` (git mv + row in `_archive/README.md`), never delete; chats never read, search or cite `_archive/` unless Menno asks | Menno (17 Nov): move, don't delete; keep old docs out of every chat's context | `.rgignore` (Grep skips it) + AGENTS.md, docs/process §2, project instructions v1.6 *prose* | WS0 | 2026-11-17 | — |
+| G-33 | Run the full local gate in the session before opening or updating a PR; one PR per batch; no "just to check" CI runs (was P-21) | GardenLayer burned ~2,900 Actions min in 17 days (#813), mostly re-running red PRs | *prose* (AGENTS.md, docs/process/ci-budget.md); candidate: ci-ok warns if a PR gets > 3 pushes | WS0 | 2026-11-17 | — |
 
-**Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17; the rest became G-21–G-31.
+**Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17 · P-21 (CI budget)→G-33; the rest became G-21–G-31.
 
 ## Pruned
 _None yet._
