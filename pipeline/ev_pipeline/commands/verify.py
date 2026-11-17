@@ -23,6 +23,10 @@ def cmd_verify(args: argparse.Namespace) -> int:
     )
     out = Path(args.out) if args.out else DEFAULT_OUT
     out.write_text(report_md(rep), encoding="utf-8")
+    if rep.release_diff_csv is not None:  # every change, not just the report's top lines
+        out.with_name(out.stem + "-release-diff.csv").write_text(
+            rep.release_diff_csv, encoding="utf-8"
+        )
     if args.json:
         print(json.dumps({"status": rep.status, "failures": rep.failures, "numbers": rep.numbers}))
     else:

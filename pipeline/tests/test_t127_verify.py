@@ -99,3 +99,34 @@ def test_cli_writes_report(data_dir: Path, tmp_path: Path) -> None:
     out = tmp_path / "r.md"
     rc = main(["verify", "--skip-tests", "--data-dir", str(data_dir), "--out", str(out)])
     assert rc == 0 and out.read_text().startswith("# verify-pipeline report: **pass**")
+
+
+def test_backtests_expand_nested_parts() -> None:
+    from ev_pipeline.verify.run import backtests
+
+    qa = {
+        "backtest": {"status": "skipped", "note": "no tests"},
+        "backtest_epa": {
+            "kind": "proxy",
+            "range": {"status": "pass", "gate": "< 10%", "n": 40, "median_abs_pct": 6.1},
+            "consumption_oos": {"status": "flag", "n": 18, "median_abs_pct": 11.0},
+            "regressions": [],
+        },
+    }
+    got = {b["name"]: b for b in backtests(qa)}
+    assert set(got) == {"backtest", "backtest_epa.range", "backtest_epa.consumption_oos"}
+    assert got["backtest_epa.range"]["medians"] == {"median_abs_pct": 6.1}
+    assert got["backtest_epa.consumption_oos"]["status"] == "flag"
+
+
+def test_cli_keeps_release_diff_csv_next_to_report(data_dir: Path, tmp_path: Path) -> None:
+    from ev_pipeline.cli import main
+
+    p = data_dir / "staging" / "openev.records.jsonl"
+    p.write_text(p.read_text().replace('"value": 46.3', '"value": 48.0'))
+    out = tmp_path / "r.md"
+    rc = main(["verify", "--skip-tests", "--data-dir", str(data_dir), "--out", str(out)])
+    csv_text = (tmp_path / "r-release-diff.csv").read_text()
+    assert rc == 1 and "citroen-e-c4-c41-50-kwh,battery_kwh_net" in csv_text.replace(
+        "catalogue.json,rows,", ""
+    )

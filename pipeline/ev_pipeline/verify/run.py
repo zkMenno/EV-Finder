@@ -58,6 +58,7 @@ class Report:
     sections: dict[str, dict[str, Any]] = field(default_factory=dict)
     numbers: dict[str, float | int] = field(default_factory=dict)
     failures: list[str] = field(default_factory=list)
+    release_diff_csv: str | None = None  # the scratch build's data/review/release_diff.csv
 
     def fail(self, why: str) -> None:
         self.status = "fail"
@@ -148,16 +149,26 @@ def run_tests(pipeline_dir: Path) -> dict[str, Any]:
 
 
 def backtests(qa: dict[str, Any] | None) -> list[dict[str, Any]]:
+    """Every back-test in qa.json; sections made of parts (EPA: range, consumption,
+    consumption_oos) are listed per part as `name.part`."""
     out = []
+
+    def add(name: str, b: dict[str, Any]) -> None:
+        med = {k: v for k, v in b.items() if "median" in k and isinstance(v, int | float)}
+        out.append(
+            {"name": name, "status": b.get("status"), "gate": b.get("gate"), "medians": med,
+             "n": b.get("n"), "note": b.get("note")}
+        )  # fmt: skip
+
     for key in BACKTEST_KEYS:
         b = (qa or {}).get(key)
         if not isinstance(b, dict):
             continue
-        med = {k: v for k, v in b.items() if "median" in k and isinstance(v, int | float)}
-        out.append(
-            {"name": key, "status": b.get("status"), "gate": b.get("gate"), "medians": med,
-             "note": b.get("note")}
-        )  # fmt: skip
+        parts = {k: v for k, v in b.items() if isinstance(v, dict) and "status" in v}
+        if "status" in b or not parts:
+            add(key, b)
+        for part, v in sorted(parts.items()):
+            add(f"{key}.{part}", v)
     return out
 
 
@@ -250,6 +261,9 @@ def verify(
     with tempfile.TemporaryDirectory(prefix="ev-verify-") as tmp:
         scratch = scratch_copy(data_dir, Path(tmp), latest)
         built = rebuild(data_dir, scratch, now)
+        csv_path = scratch / "review" / "release_diff.csv"
+        if csv_path.exists():
+            rep.release_diff_csv = csv_path.read_text(encoding="utf-8")
     qa = built.get("qa")
     rep.sections["rebuild"] = {
         k: v for k, v in built.items() if k in ("status", "error", "release")
@@ -280,7 +294,7 @@ def verify(
     rep.sections["backtests"] = {"items": bts}
     for b in bts:
         for k, v in b["medians"].items():
-            rep.numbers[f"{b['name']}_{k}"] = v
+            rep.numbers[f"{b['name'].replace('.', '_')}_{k}"] = v
     rules = changed_rules(repo, base)
     rep.sections["changed_rules"] = {"files": rules, "base": base}
     rep.sections["spot_checks"] = {"rows": spot_checks(cat, old_cat, tricky or load_tricky())}
@@ -320,10 +334,13 @@ def report_md(rep: Report) -> str:
     out += ["", "## Back-tests (report only)", ""]
     items = s.get("backtests", {}).get("items") or []
     if items:
-        out += ["| back-test | status | medians | gate |", "|---|---|---|---|"]
+        out += ["| back-test | status | n | medians | gate |", "|---|---|---|---|---|"]
         for b in items:
             med = ", ".join(f"{k} {_fmt(v)}" for k, v in b["medians"].items()) or "-"
-            out.append(f"| {b['name']} | {b['status']} | {med} | {b.get('gate') or '-'} |")
+            out.append(
+                f"| {b['name']} | {b['status']} | {_fmt(b.get('n'))} | {med} | "
+                f"{b.get('gate') or '-'} |"
+            )
     else:
         out.append("none in qa.json")
     cr = s.get("changed_rules", {})
