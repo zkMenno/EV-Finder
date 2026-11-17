@@ -7,7 +7,7 @@ export type Lang = "en" | "nl" | "de" | "fr" | "es" | "it";
 export const LANGS: readonly Lang[] = ["en", "nl", "de", "fr", "es", "it"];
 
 /** Lowercase URL segment for a country. */
-export type CountrySlug = "nl" | "de" | "fr" | "be" | "uk";
+export type CountrySlug = "nl" | "de" | "fr" | "be" | "uk" | "es" | "it";
 
 export interface CountryConfig {
   slug: CountrySlug;
@@ -66,6 +66,21 @@ export const COUNTRIES: Record<CountrySlug, CountryConfig> = {
     name: "United Kingdom",
     currency: "GBP",
     ...lc("uk"),
+  },
+  // Decision 066: Spain and Italy, served in their own language only (/es/es, /it/it) + English.
+  es: {
+    slug: "es",
+    code: "ES",
+    name: "España",
+    currency: "EUR",
+    ...lc("es"),
+  },
+  it: {
+    slug: "it",
+    code: "IT",
+    name: "Italia",
+    currency: "EUR",
+    ...lc("it"),
   },
 };
 

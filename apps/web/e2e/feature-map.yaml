@@ -251,6 +251,29 @@ features:
         what: the filter after switching
         why: switching language loses the filters (design principle 3)
 
+  - id: country-spain-italy
+    title: "Spain and Italy: picking España opens the Spanish site with a ranked hero"
+    triggers: [src/config/countries*.ts, src/components/Switchers.tsx, scripts/countries.mjs, scripts/listings.mjs, src/config/countries.generated.json]
+    steps:
+      - goto: /nl/nl?role=only&trips=monthly&budget=30000
+      - follow: "@hero-countries a[href^='/es/es']"
+      - wait: "@hero-card"
+    expect:
+      - lang: es
+        what: the Spanish page
+        why: Spain isn't served in Spanish (Decision 066)
+      - url: "/es/es.*budget=30000"
+        what: the Spanish address with the answers kept
+        why: switching country loses the hero answers or lands on another language
+      - count: "@hero-card"
+        min: 1
+        what: ranked cars for Spain
+        why: the Spanish hero shows no cars
+      - count: "@hero-countries a[href^='/it/it']"
+        eq: 1
+        what: Italy in the country step
+        why: Italy can't be picked
+
   # ── Content pages ──────────────────────────────────────────────────────────────────────────
   - id: learn
     title: "/learn lists the guides and opens one"

@@ -95,7 +95,8 @@ test("Language URLs: redirects, <html lang>, hreflang, no header-based redirect"
   await page.goto("/be/fr/learn/real-range");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   const alts = page.locator('link[rel="alternate"][hreflang]');
-  expect(await alts.count()).toBe(12);
+  // 15 served pairs (7 countries' own languages + EN; ES and IT since T-119) + x-default.
+  expect(await alts.count()).toBe(16);
   await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute("href", /\/nl\/en\/learn\/real-range$/);
   await expect(page.locator('link[rel="alternate"][hreflang="de-BE"]')).toHaveAttribute("href", /\/be\/de\/learn\/real-range$/);
 

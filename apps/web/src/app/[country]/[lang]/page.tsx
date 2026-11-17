@@ -14,6 +14,7 @@ import { sourceNames, toExploreRow } from "@/lib/explore-data";
 import { applyFilters, sortRows } from "@/lib/filters";
 import { financeProfile } from "@/lib/finance-profiles";
 import { heroFromSearchParams } from "@/lib/hero-state";
+import { hasTowns } from "@/lib/trip-model";
 import { article, articleTitle } from "@/lib/learn";
 import { LISTING_SITES } from "@/lib/listings";
 import { rankHero, resolveProfile, scoreContext, scoreRow, type UsedBands } from "@/lib/shortlist";
@@ -47,7 +48,8 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   const used = cat.variantUsedPrices();
   const all = cat.rows().map((r) => toExploreRow(r, used));
   const state = fromSearchParams(sp);
-  const tripFit = tripFitEnabled();
+  // No towns for this country yet (ES/IT, T-119): no trip check rather than borrowed weather.
+  const tripFit = tripFitEnabled() && hasTowns(country);
   // Flag off: the trip filter flag in a shared URL is dropped, so no hidden filter counts as active.
   if (!tripFit) state.filters.tripFit = false;
   // Hero (T-080) answers also drive Explore's "Suggested" sort (T-067).

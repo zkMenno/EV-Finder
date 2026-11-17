@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import matrix from "@/fixtures/consumption-matrix.sample.json";
 import towns from "@/fixtures/towns.sample.json";
 import { COUNTRY_SLUGS } from "@/config/countries";
-import { conditionsFor, fitAll, fitCar, MATRIX, mixFactor, passesTrip, rangeNeeded, temperatureBand, TOWNS, townsFor, TRIP_RUNG, wltpConsumption, type TripRow } from "./trip-model";
+import { conditionsFor, fitAll, fitCar, hasTowns, MATRIX, mixFactor, passesTrip, rangeNeeded, temperatureBand, TOWNS, townsFor, TRIP_RUNG, wltpConsumption, type TripRow } from "./trip-model";
 import { defaultTripSettings, type TripSettings } from "./trip-settings";
 
 const s = (patch: Partial<TripSettings>): TripSettings => ({ ...defaultTripSettings(), ...patch });
@@ -29,7 +29,11 @@ describe("fixture matrix and towns", () => {
   });
 
   it("has towns for every country, with ids only (no coordinates)", () => {
-    for (const c of COUNTRY_SLUGS) expect(townsFor(c).length).toBeGreaterThan(0);
+    // ES and IT (T-119) wait for sourced towns + climate (WS1: GeoNames + Meteostat); the fixture's
+    // values are hand-typed, so we don't add more by hand. There the trip check is off (hasTowns).
+    const pending = ["es", "it"];
+    for (const c of COUNTRY_SLUGS) expect(hasTowns(c), c).toBe(!pending.includes(c));
+    for (const c of COUNTRY_SLUGS.filter((c) => !pending.includes(c))) expect(townsFor(c).length).toBeGreaterThan(0);
     for (const t of TOWNS) {
       expect(t.id).toMatch(/^[a-z]{2}-[a-z0-9-]+$/);
       expect(Object.keys(t).sort()).toEqual(["country", "id", "jan_c", "jul_c", "name"]);
