@@ -17,7 +17,7 @@ def els(t, night):
         "street-tree": (f'<g transform="translate(0 -6) scale(1.3)">{streettree(t)}</g>', "Street tree"),
         "ev": (f'<g transform="translate(-40 -10)">{car(t, night)}</g>', "Electric car"),
         "ev-van": (f'<g transform="translate(-40 -10)">{van(t)}</g>', "Electric van"),
-        "tram": (f'<g transform="translate(-62 -12) scale(.9)">{tram(t)}</g>', "Tram"),
+        "bus": (f'<g transform="translate(-62 -12) scale(.9)">{tram(t)}</g>', "Electric bus"),
         "bike": (f'<g transform="translate(-17 -6) scale(1.2)">{bike(t)}</g>', "Bike"),
         "apartments": (f'<g transform="translate(-35 -50) scale(.9)">{apartment(t)}</g>', "Apartments with roof garden"),
         "apartments-rich": (f'<g transform="translate(-30 -40) scale(.8)">{apartment(t,72,110,4,True)}</g>', "Apartments with roof garden"),

@@ -73,10 +73,9 @@ def square_layers(t, rich=True, night=False, uid="q"):
           f'<path d="M6 0 L18 -10 H60 L72 0Z" fill="{t["solar"]}"/>' + "".join(f'<circle cx="{14+i*18}" cy="-12" r="8" fill="{t["leafr"] if rich else t["leaf"]}"/>' for i in range(4)) + '</g>')
     L.append(("towers", 0.16, s))
     s = f'<rect x="-40" y="288" width="470" height="300" fill="{H[2]}" {st(t)}/>'
-    s += asphalt(t, night, uid, -40, 352, 470, 44, lanes=False) + f'<path d="M-40 384 H430 M-40 390 H430" stroke="#FFFFFF" stroke-opacity=".8" stroke-width="1.6"/>'
-    s += f'<g transform="translate(150 350) scale(.9)">{tram(t)}</g>'
-    s += f'<g transform="translate(40 300) scale(.82)">{plaza(0, 0, t, night)}</g>'
-    s += f'<g transform="translate(64 300) scale(.72)">{car(t, night)}</g><g transform="translate(108 300) scale(.72)">{van(t)}</g>'
+    s += asphalt(t, night, uid, -40, 352, 470, 44, lanes=False)
+    s += f'<g transform="translate(176 358) scale(.82)">{tram(t)}</g>'
+    s += f'<g transform="translate(24 300) scale(.82)">{plaza(0, 0, t, night, cars=("car", "van"))}</g>'
     for x in (260, 330):
         s += f'<g transform="translate({x} 314)">{streettree(t, rich)}</g>'
     s += f'<g transform="translate(280 412)">{bike(t)}</g><g transform="translate(60 418) scale(.9)">{bike(t)}</g>'

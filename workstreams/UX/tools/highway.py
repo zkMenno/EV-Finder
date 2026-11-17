@@ -21,19 +21,28 @@ def sign(x, y, name, d, t, night):
             f'{arrow(w-20, 23, d, .9)}</g>')
 
 def charge_sign(x, y, t):
-    return (f'<g transform="translate({x} {y})"><rect x="21" y="44" width="5" height="92" fill="{t["line"]}"/>'
-            f'<rect x="0" y="0" width="48" height="48" rx="6" fill="{SIGN}" stroke="#FFFFFF" stroke-width="2.5"/><rect x="-2" y="-2" width="52" height="52" rx="7" fill="none" stroke="{t["line"]}" stroke-width="1.6"/>'
-            f'<g fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="12" width="20" height="16" rx="4"/><path d="M19 12 V7 M29 12 V7 M24 28 Q24 38 34 38"/></g>'
-            f'<path d="M25.5 15 L21 21 H24.5 L23 26 L28 19.5 H24.5Z" fill="#FFD166"/></g>')
+    """Service sign: blue panel, white inset, dark charging post with cable and a sunflower bolt (reads as 'charging here')."""
+    return (f'<g transform="translate({x} {y})"><rect x="25" y="52" width="5" height="84" fill="{t["line"]}"/>'
+            f'<rect x="0" y="0" width="56" height="56" rx="6" fill="{SIGN}" stroke="#FFFFFF" stroke-width="2.5"/><rect x="-2" y="-2" width="60" height="60" rx="7" fill="none" stroke="{t["line"]}" stroke-width="1.6"/>'
+            f'<rect x="8" y="8" width="40" height="40" rx="4" fill="#FFFFFF"/>'
+            f'<g fill="none" stroke="#16233A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="16" y="14" width="13" height="27" rx="2.5" fill="#16233A"/><path d="M29 22 H33 Q37 22 37 26 V34 Q37 38 40 38"/><path d="M14 41 H31"/></g>'
+            f'<path d="M23.5 18 L19.5 25 H22.5 L21.5 31 L26 24 H23Z" fill="#FFD166"/></g>')
 
-def plaza(x, y, t, night):
+def plaza(x, y, t, night, cars=("car", "van")):
+    """Solar-roofed charging hub: canopy, ground line at y=60, one bay per car: charger post, cable, car parked on the ground."""
+    from kit import car as _car, van as _van
+    n = len(cars); bay = 96; w = n * bay + 10
     s = f'<g transform="translate({x} {y})" {st(t)}>'
-    s += f'<path d="M-10 0 L190 0 L176 -14 L4 -14Z" fill="{t["solar"]}"/>'
-    s += "".join(f'<path d="M{8+i*28} -12 L{20+i*28} -2" stroke="#93C1EA" stroke-width="1"/>' for i in range(6))
-    s += f'<rect x="-10" y="0" width="200" height="6" fill="{t["wall"]}"/><rect x="10" y="6" width="5" height="54" fill="{t["wall"]}"/><rect x="165" y="6" width="5" height="54" fill="{t["wall"]}"/>'
-    for i in range(3):
-        cx = 40 + i * 48
-        s += f'<rect x="{cx}" y="22" width="14" height="36" rx="3" fill="{t["wall"]}"/><path d="M{cx+8} 28 L{cx+4} 35 H{cx+7} L{cx+6} 41 L{cx+10} 34 H{cx+7}Z" fill="#FFD166" stroke-width="1"/>'
+    s += f'<path d="M-10 0 L{w} 0 L{w-14} -14 L4 -14Z" fill="{t["solar"]}"/>'
+    s += "".join(f'<path d="M{8+i*28} -12 L{20+i*28} -2" stroke="#93C1EA" stroke-width="1"/>' for i in range(int(w // 28)))
+    s += f'<rect x="-10" y="0" width="{w+10}" height="6" fill="{t["wall"]}"/><rect x="-4" y="6" width="5" height="54" fill="{t["wall"]}"/><rect x="{w-6}" y="6" width="5" height="54" fill="{t["wall"]}"/>'
+    s += f'<path d="M-14 60 H{w+8}" stroke-width="2.2"/>'
+    for i, kind in enumerate(cars):
+        bx = 6 + i * bay
+        s += f'<rect x="{bx}" y="26" width="13" height="34" rx="3" fill="{t["wall"]}"/><path d="M{bx+7} 31 L{bx+3} 38 H{bx+6} L{bx+5} 44 L{bx+9} 37 H{bx+6}Z" fill="#FFD166" stroke-width="1"/>'
+        s += f'<path d="M{bx+13} 40 Q{bx+24} 40 {bx+26} 48" fill="none" stroke-width="1.6"/>'
+        body = _van(t) if kind == "van" else _car(t, night)
+        s += f'<g transform="translate({bx+20} {60-34.5*0.8:.1f}) scale(.8)">{body}</g>'
     return s + '</g>'
 
 def defs(uid):
@@ -68,11 +77,13 @@ def highway_layers(t, night=False, uid="hw"):
     s += "".join(f'<rect x="{x}" y="329" width="40" height="3" fill="#FFFFFF" opacity=".9"/><rect x="{x+30}" y="372" width="40" height="3" fill="#FFFFFF" opacity=".9"/>' for x in range(-1200, 2400, 90))
     s += f'<path d="M-1200 302 H2400" stroke="{t["line"]}" stroke-width="2.2"/>' + "".join(f'<rect x="{x}" y="296" width="3" height="12" fill="{t["line"]}"/>' for x in range(-1200, 2400, 60))
     s += f'<rect x="-1200" y="394" width="3600" height="140" fill="{t["r3"]}" {st(t)}/>'
-    s += plaza(560, 236, t, night)
-    s += f'<g transform="translate(600 274) scale(.8)">{car(t, night)}</g>'
-    for x, y, f, sc in [(80, 300, car, 1), (340, 300, van, 1), (900, 343, car, 1), (1180, 300, car, .95), (-260, 343, van, 1)]:
-        s += f'<g transform="translate({x} {y}) scale({sc})">{f(t) if f is van else f(t, night)}</g>'
+    s += plaza(736, 236, t, night, cars=("car", "car"))
     L.append(("road", 0.6, s))
+    # far lane drives left-to-right faster than the road scrolls; near lane the other way: they look like they're driving
+    far_lane = "".join(f'<g transform="translate({x} 300)">{f(t) if f is van else f(t, night)}</g>' for x, f in [(-600, car), (80, car), (340, van), (1180, car), (1700, van)])
+    near_lane = "".join(f'<g transform="translate({x} 343) scale(-1 1) translate(-80 0)">{f(t) if f is van else f(t, night)}</g>' for x, f in [(-260, van), (520, car), (900, car), (1500, car)])
+    L.append(("traffic-far", 0.95, far_lane))
+    L.append(("traffic-near", 0.2, near_lane))
     s = ""
     xs = [-760, -420, -80, 260, 600, 940, 1280, 1620]
     for (name, d), x in zip(CITIES, xs):

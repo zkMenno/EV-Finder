@@ -23,7 +23,7 @@ def dflat(fn):
 def grid(t, night):
     names = {"house-solar":"House + solar","house-solar-rich":"House, rich","wallbox":"Wallbox","public-charger":"Public charger","lamp-post-charger":"Lamp-post charger",
              "turbine":"Wind turbine","solar-field":"Solar field","trees":"Trees","trees-rich":"Trees, rich","street-tree":"Street tree","ev":"EV","ev-van":"EV van",
-             "tram":"Tram","bike":"Bike","apartments":"Apartments","apartments-rich":"Apartments, rich","row-houses":"Row houses","road-bend":"Road bend",
+             "bus":"Electric bus","bike":"Bike","apartments":"Apartments","apartments-rich":"Apartments, rich","row-houses":"Row houses","road-bend":"Road bend",
              "road-straight":"Road straight","road-winding":"Winding road","sky":"Moon + stars" if night else "Sun"}
     return "".join(el(inner, names[k], t) for k, (inner, _) in export.els(t, night).items())
 sw = [("hill-1","#EEF6E8","#1F3324"),("hill-2","#DDEFD3","#284A2E"),("hill-3","#C7E4B8","#2F5A33"),("hill-rich-1","#B9DCA6","#1F3324"),("hill-rich-2","#7BB661","#284A2E"),

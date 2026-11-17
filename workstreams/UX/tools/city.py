@@ -28,12 +28,13 @@ def rowhouses(t, rich=False):
     return s + '</g>'
 
 def tram(t, lights=False):
-    s = (f'<g {st(t)}><path d="M6 0 H124 Q134 0 136 12 L138 34 H0 L2 12 Q4 0 6 0Z" fill="{t["roofr"]}"/>'
-         f'<path d="M50 0 L56 -10 H86 L92 0" fill="none" stroke-width="1.6"/><path d="M60 -10 L71 -22 M71 -22 L82 -10" fill="none" stroke-width="1.6"/>')
-    for i in range(5):
-        s += f'<rect x="{10 + i*24}" y="7" width="18" height="13" rx="2" fill="{t["window"]}" stroke-width="1.3"/>'
-    s += f'<rect x="0" y="26" width="138" height="4" fill="{t["solar"]}" stroke="none"/>'
-    s += f'<circle cx="26" cy="36" r="5" fill="{t["wall"]}"/><circle cx="112" cy="36" r="5" fill="{t["wall"]}"/></g>'
+    """Electric city bus (kept under the old name so callers don't change)."""
+    s = (f'<g {st(t)}><path d="M4 2 Q4 -2 10 -2 H126 Q134 -2 136 6 L138 30 Q138 34 134 34 H4 Q0 34 0 30 V8 Q0 2 4 2Z" fill="{t["roofr"]}"/>'
+         f'<rect x="30" y="-7" width="60" height="5" rx="2" fill="{t["solar"]}" stroke-width="1.2"/>')
+    for i in range(4):
+        s += f'<rect x="{10 + i*25}" y="6" width="19" height="13" rx="2" fill="{t["window"]}" stroke-width="1.3"/>'
+    s += f'<path d="M112 6 H128 Q132 6 133 10 L134 19 H112Z" fill="{t["window"]}" stroke-width="1.3"/><rect x="114" y="21" width="10" height="11" fill="{t["roofr"]}" stroke-width="1.1"/>'
+    s += f'<circle cx="26" cy="34" r="6.5" fill="{t["wall"]}"/><circle cx="108" cy="34" r="6.5" fill="{t["wall"]}"/></g>'
     return s
 
 def lampcharger(t):

@@ -12,3 +12,4 @@ Things are moved here, never deleted, so history stays one click away for Menno.
 | `questions-closed.md` | Closed and triaged questions (Q-001…Q-092) | QUESTIONS.md (open), DECISIONS.md |
 
 Archiving: `git mv` the file here, add a row above, fix live links that pointed to it. Owner: WS0.
+| design-assets/tram-*.svg | 2026-11-17 | UX: tram illustration replaced by an electric bus (Menno) |

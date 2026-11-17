@@ -107,7 +107,7 @@ def scene(t, rich, night=False):
     s += f'<path d="M-10 290 Q 120 230 230 275 Q 320 310 400 260 V460 H-10Z" fill="{H[1]}" {st(t)} filter="url(#sh)"/>'
     s += f'<g transform="translate(300 228) scale(.8)">{solarfield(t)}</g>'
     s += f'<path d="M-10 360 Q 100 320 200 350 Q 300 380 400 340 V460 H-10Z" fill="{H[2]}" {st(t)} filter="url(#sh)"/>'
-    s += road_winding(t, [(175, 475), (200, 410), (300, 405), (275, 352), (250, 318), (160, 326), (185, 292), (200, 274), (230, 265), (241, 254)])
+    s += road_winding(t, [(175, 475), (200, 410), (300, 405), (275, 352), (250, 318), (160, 326), (185, 292), (200, 274), (230, 265), (250, 256), (300, 240), (360, 242), (440, 236)], 46, 8)
     s += f'<g transform="translate(40 300)">{house(t, rich)}</g><g transform="translate(110 334)">{wallbox(t)}</g>'
     s += f'<g transform="translate(252 393)">{car(t, night)}</g>'
     for x, y, r in [(345, 298, 14), (368, 312, 11), (22, 395, 13), (340, 425, 13)]:
