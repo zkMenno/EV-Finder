@@ -1,0 +1,34 @@
+# Test fixture (fix/manual-price-year): hand-entered list prices with and without `year`.
+# Values are made up for the test; the URL is a placeholder.
+schema: manual-facts/v1
+entered_by: test
+facts:
+  - variant_id: tesla-model-3-gen1-lr
+    field: price_new
+    value: 52990
+    unit: EUR
+    country: BE
+    year: 2021
+    source_url: https://example.org/be-price-list-2021
+    retrieved: 2026-11-01
+    locator: "price table, Long Range row"
+    confidence: low
+  - variant_id: tesla-model-3-gen1-lr
+    field: price_new
+    value: 49990
+    unit: EUR
+    country: BE
+    year: 2023
+    source_url: https://example.org/be-price-list-2023
+    retrieved: 2026-11-01
+    locator: "price table, Long Range row"
+    confidence: low
+  - variant_id: tesla-model-3-gen1-lr
+    field: price_new
+    value: 55000
+    unit: EUR
+    country: FR
+    source_url: https://example.org/fr-price-list
+    retrieved: 2026-11-01
+    locator: "price table, Long Range row"
+    confidence: low
