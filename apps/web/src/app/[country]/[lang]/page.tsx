@@ -124,8 +124,6 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         terms={heroTerms}
         learnLinks={learnLinks}
       />
-      {/* Wide illustration bands with horizontal parallax (UX, Menno 2026-11-17): decorative, no text. */}
-      <ParallaxScene scene={highway} className="mt-12" testId="band-highway" />
       <section id="explore" aria-labelledby="explore-title" className="mt-12 scroll-mt-4">
         <h2 id="explore-title" className="text-2xl font-bold tracking-tight sm:text-3xl">
           {t("explore.title")}
@@ -154,8 +152,11 @@ export default async function ExplorePage({ params, searchParams }: Props) {
           payFromUrl={hasPayParam(sp)}
         />
       </section>
-      <ParallaxScene scene={canal} className="mt-12" testId="band-canal" />
+      {/* Wide illustration bands with horizontal parallax (UX, Menno 2026-11-17): decorative, no text.
+          Below Explore so the tool stays right under the hero (review: "Instant before clever"). */}
+      <ParallaxScene scene={highway} className="mt-12" testId="band-highway" />
       <ChargingLinks links={chargingLinks(country, { lang })} t={t} statsHref={`${siteBase(country, lang)}/charging`} />
+      <ParallaxScene scene={canal} className="mt-12" testId="band-canal" />
     </>
   );
 }
