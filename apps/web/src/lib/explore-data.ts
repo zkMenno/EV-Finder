@@ -1,6 +1,7 @@
 // Compact rows shipped to the browser for Explore. Same field names as PublishedVariant,
 // only the columns Explore needs, nulls dropped. Pure: safe on server and client.
 import type { FieldProvenance, PublishedVariant, Source } from "@ev/schema";
+import type { CompactBands, VariantBand, VariantUsedPrices } from "./variant-prices";
 
 export const EXPLORE_FIELDS = [
   "variant_id",
@@ -49,6 +50,13 @@ export const EXPLORE_FIELDS = [
   "charge_100_daily",
   "platform_name",
   "battery_pack_id",
+  // Hero shortlist scoring (T-080, shortlist rules): AC speed, heat pump, seats, mass, new or used.
+  "ac_kw",
+  "heat_pump",
+  "seats",
+  "kerb_mass_kg",
+  "mass_running_order_kg",
+  "on_sale_new",
 ] as const satisfies readonly (keyof PublishedVariant)[];
 
 /** Numeric fields that carry provenance in the client JSON. */
@@ -71,6 +79,8 @@ const NUMERIC = new Set<string>([
 
 export type ExploreRow = Pick<PublishedVariant, (typeof EXPLORE_FIELDS)[number]> & {
   provenance: Record<string, FieldProvenance>;
+  /** Used price bands by build year and country (T-081), compact; absent without data. */
+  used_bands?: CompactBands;
 };
 
 export interface ClientCatalogue {
@@ -80,7 +90,7 @@ export interface ClientCatalogue {
   rows: ExploreRow[];
 }
 
-export function toExploreRow(row: PublishedVariant): ExploreRow {
+export function toExploreRow(row: PublishedVariant, used?: VariantUsedPrices): ExploreRow {
   const out: Record<string, unknown> = {};
   for (const f of EXPLORE_FIELDS) {
     const v = row[f];
@@ -91,6 +101,8 @@ export function toExploreRow(row: PublishedVariant): ExploreRow {
     if (NUMERIC.has(k) || k.startsWith("price_new")) prov[k] = p;
   }
   out.provenance = prov;
+  const bands = compactBands(used?.get(row.variant_id));
+  if (bands) out.used_bands = bands;
   return out as ExploreRow;
 }
 
@@ -98,6 +110,16 @@ export function sourceNames(sources: Source[]): Record<string, string> {
   return Object.fromEntries(sources.map((s) => [s.id, s.name]));
 }
 
-export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[]): ClientCatalogue {
-  return { release, sources: sourceNames(sources), rows: rows.map(toExploreRow) };
+export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[], used?: VariantUsedPrices): ClientCatalogue {
+  return { release, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used)) };
+}
+
+/** Compact per-row bands for the client catalogue (T-092). */
+export function compactBands(per: Record<string, VariantBand[]> | undefined): CompactBands | undefined {
+  if (!per) return undefined;
+  const out: CompactBands = {};
+  for (const [cc, list] of Object.entries(per)) {
+    out[cc] = list.map((b) => [b.build_year, b.p25, b.median, b.p75, (b.estimate ? 1 : 0) | (b.confidence === "low" ? 2 : 0)]);
+  }
+  return out;
 }

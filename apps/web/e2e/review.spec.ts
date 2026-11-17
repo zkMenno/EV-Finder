@@ -182,6 +182,8 @@ test("T-008: table Tab stops — name link, heart and compare per row; Nerd adds
   expect(nerdStops).toBe(4);
   const sources = nerdRow.getByTestId("row-sources");
   await expect(sources).toHaveAccessibleName(/^Sources for /);
+  // The table sits below the hero (T-080); the popover closes on scroll, so scroll first.
+  await sources.scrollIntoViewIfNeeded();
   await sources.focus();
   await expect(page.locator(`[id="${await sources.getAttribute("aria-describedby")}"]`)).toBeVisible();
 });

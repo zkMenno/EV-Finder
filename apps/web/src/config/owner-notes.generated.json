@@ -1,0 +1,148 @@
+{
+  "imported": "2026-11-15",
+  "generations": {
+    "bmw-ix3-gen2": [
+      {
+        "model_year": 2026,
+        "variant": "iX3 40",
+        "verdict": null,
+        "favourite": false,
+        "note": "V2H, AC @ 11kw. Ugly"
+      }
+    ],
+    "hyundai-ioniq-5-gen1": [
+      {
+        "model_year": 2024,
+        "variant": "84 kWh RWD (V1.2)",
+        "verdict": "shortlist",
+        "favourite": true,
+        "note": "Regen flippers + i-Pedal"
+      },
+      {
+        "model_year": 2022,
+        "variant": "Long Range 2WD (V1.2)",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": "Regen flippers + i-Pedal"
+      }
+    ],
+    "hyundai-ioniq-6-gen1": [
+      {
+        "model_year": 2023,
+        "variant": "Long Range 2WD",
+        "verdict": null,
+        "favourite": false,
+        "note": "Regen flippers + i-Pedal"
+      }
+    ],
+    "kia-ev3-gen1": [
+      {
+        "model_year": 2025,
+        "variant": "Long Range",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": "Regen flippers + i-Pedal"
+      }
+    ],
+    "kia-ev6-gen1": [
+      {
+        "model_year": 2024,
+        "variant": "Long Range 2WD (V1.2)",
+        "verdict": "shortlist",
+        "favourite": true,
+        "note": "Regen flippers + i-Pedal"
+      },
+      {
+        "model_year": 2021,
+        "variant": "Long Range 2WD (V1.1)",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": "Regen flippers + i-Pedal"
+      }
+    ],
+    "mercedes-cla-gen1": [
+      {
+        "model_year": 2025,
+        "variant": "Shooting Brake 250+",
+        "verdict": null,
+        "favourite": false,
+        "note": "Steering wheel + D-mode"
+      }
+    ],
+    "mg-mg4-gen1": [
+      {
+        "model_year": 2023,
+        "variant": "MG4 Electric 77 kWh",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": null
+      },
+      {
+        "model_year": 2022,
+        "variant": "MG4 Electric 64 kWh",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "polestar-2-gen1": [
+      {
+        "model_year": 2023,
+        "variant": "Long Range Single Motor",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "renault-megane-e-tech-gen1": [
+      {
+        "model_year": 2026,
+        "variant": "67 kWh 220hp",
+        "verdict": "consider",
+        "favourite": false,
+        "note": "V2H, AC @ 11kw"
+      },
+      {
+        "model_year": 2022,
+        "variant": "EV60 220hp",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "skoda-enyaq-gen1": [
+      {
+        "model_year": 2021,
+        "variant": "Enyaq iV 80",
+        "verdict": "consider",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "tesla-model-y-gen1": [
+      {
+        "model_year": 2022,
+        "variant": "Long Range AWD",
+        "verdict": "consider",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "volkswagen-id7-gen1": [
+      {
+        "model_year": 2024,
+        "variant": "ID.7 Pro S",
+        "verdict": "shortlist",
+        "favourite": false,
+        "note": null
+      },
+      {
+        "model_year": 2024,
+        "variant": "ID.7 Pro",
+        "verdict": "consider",
+        "favourite": false,
+        "note": null
+      }
+    ]
+  }
+}

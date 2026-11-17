@@ -1,0 +1,656 @@
+{
+  "schema": "web-shortlist-rules/v1",
+  "review": true,
+  "weight_step_factor": 1.5,
+  "picker": [
+    {
+      "id": "car_role",
+      "answers": [
+        "only",
+        "main",
+        "second"
+      ]
+    },
+    {
+      "id": "long_trips",
+      "answers": [
+        "never",
+        "few_a_year",
+        "monthly",
+        "often"
+      ],
+      "skip_if": {
+        "car_role": [
+          "second"
+        ]
+      }
+    },
+    {
+      "id": "charge_where",
+      "answers": [
+        "home",
+        "work",
+        "public_only"
+      ]
+    },
+    {
+      "id": "home_area",
+      "answers": [
+        "city",
+        "town",
+        "countryside"
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "id": "road-tripper",
+      "layer": false,
+      "picker": {
+        "car_role": [
+          "only",
+          "main"
+        ],
+        "long_trips": [
+          "monthly",
+          "often",
+          "few_a_year"
+        ]
+      },
+      "label": {
+        "en": "Main car that also does the road trips",
+        "nl": "Hoofdauto die ook de vakanties rijdt"
+      },
+      "short": {
+        "en": "Your only or main car, and it drives you on holiday too. Fast charging and winter range come first."
+      },
+      "calibrated": true,
+      "calibration": "Back-tested on Menno's 'EVs top tier' tab (research/R-32): 80% band match on 30 cars",
+      "bands": {
+        "800v": {
+          "shortlist": 68,
+          "consider": 63
+        },
+        "400v": {
+          "shortlist": 52,
+          "consider": 45
+        },
+        "default": {
+          "shortlist": 60,
+          "consider": 50
+        }
+      },
+      "gates": [
+        {
+          "id": "dc-not-terrible",
+          "field": "dc_km_per_20min",
+          "scale": 3,
+          "min": 300,
+          "rural_min": null,
+          "reason": {
+            "en": "Fast charging is too slow for long trips (adds less than 100 km in 20 minutes)."
+          }
+        },
+        {
+          "id": "winter-range-floor",
+          "field": "real_range_km",
+          "scale": 1,
+          "min": 250,
+          "rural_min": null,
+          "reason": {
+            "en": "Under 250 km in winter: too short as your only car."
+          }
+        }
+      ],
+      "factors": [
+        {
+          "id": "dc-speed",
+          "weight": 30,
+          "field": "dc_km_per_20min",
+          "kind": "linear",
+          "scale": 3,
+          "poor": 450,
+          "great": 1300
+        },
+        {
+          "id": "winter-range",
+          "weight": 20,
+          "field": "real_range_km",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 300,
+          "great": 430
+        },
+        {
+          "id": "space",
+          "weight": 12,
+          "field": "boot_l",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 380,
+          "great": 600
+        },
+        {
+          "id": "efficiency",
+          "weight": 10,
+          "field": "consumption_kwh_100km",
+          "kind": "linear",
+          "scale": 10,
+          "poor": 290,
+          "great": 210
+        },
+        {
+          "id": "one-pedal",
+          "weight": 10,
+          "field": "one_pedal",
+          "kind": "unknown"
+        },
+        {
+          "id": "v2l",
+          "weight": 5,
+          "field": "bidi",
+          "kind": "unknown"
+        },
+        {
+          "id": "home-power",
+          "weight": 5,
+          "field": "bidi",
+          "kind": "unknown"
+        },
+        {
+          "id": "ac-speed",
+          "weight": 4,
+          "field": "ac_kw",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 7,
+          "great": 22
+        }
+      ],
+      "extra_factors": [],
+      "weight_steps": {},
+      "bonuses": [
+        {
+          "id": "newest-version",
+          "points": 4
+        },
+        {
+          "id": "lfp-daily-100",
+          "points": 2
+        }
+      ],
+      "penalties": [
+        {
+          "id": "too-big-for-b-roads",
+          "points": -16,
+          "applies_with": "rural",
+          "rule": "Wide or heavy SUV (width over ~1.95 m or kerb mass over ~2,300 kg) on narrow rural roads."
+        },
+        {
+          "id": "older-version",
+          "points": -6,
+          "applies_with": null,
+          "rule": "An older version of a model that has a newer, better-charging version on the list."
+        }
+      ],
+      "filter_presets": [
+        {
+          "field": "dc_km_per_20min",
+          "min": 200,
+          "why": {
+            "en": "Adds 200+ km in 20 minutes of fast charging"
+          }
+        },
+        {
+          "field": "real_range_km",
+          "min": 350,
+          "why": {
+            "en": "350+ km real range (about 280+ in winter)"
+          }
+        },
+        {
+          "field": "boot_l",
+          "min": 380,
+          "why": {
+            "en": "Room for holiday luggage"
+          }
+        }
+      ]
+    },
+    {
+      "id": "daily-driver",
+      "layer": false,
+      "picker": {
+        "car_role": [
+          "only",
+          "main"
+        ],
+        "long_trips": [
+          "never"
+        ]
+      },
+      "label": {
+        "en": "Main car for every day, holidays another way",
+        "nl": "Hoofdauto voor elke dag, vakantie op een andere manier"
+      },
+      "short": {
+        "en": "Commuting, school runs and shopping. For holidays you take the train, rent or borrow a car."
+      },
+      "calibrated": false,
+      "calibration": "Research thresholds only (research/R-33); not yet back-tested",
+      "bands": {
+        "default": {
+          "shortlist": 62,
+          "consider": 48
+        }
+      },
+      "gates": [
+        {
+          "id": "winter-range-daily",
+          "field": "real_range_km",
+          "scale": 1,
+          "min": 200,
+          "rural_min": 250,
+          "reason": {
+            "en": "Under 200 km real range (250 km in the countryside): your longest normal day plus a cold morning would be tight."
+          }
+        }
+      ],
+      "factors": [
+        {
+          "id": "winter-range",
+          "weight": 18,
+          "field": "real_range_km",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 200,
+          "great": 380
+        },
+        {
+          "id": "space",
+          "weight": 16,
+          "field": "boot_l",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 300,
+          "great": 550
+        },
+        {
+          "id": "efficiency",
+          "weight": 14,
+          "field": "consumption_kwh_100km",
+          "kind": "linear",
+          "scale": 10,
+          "poor": 220,
+          "great": 140
+        },
+        {
+          "id": "dc-speed",
+          "weight": 10,
+          "field": "dc_km_per_20min",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 80,
+          "great": 220
+        },
+        {
+          "id": "ac-speed",
+          "weight": 8,
+          "field": "ac_kw",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 3.7,
+          "great": 11
+        },
+        {
+          "id": "one-pedal",
+          "weight": 8,
+          "field": "one_pedal",
+          "kind": "unknown"
+        },
+        {
+          "id": "heat-pump",
+          "weight": 8,
+          "field": "heat_pump",
+          "kind": "heat-pump"
+        },
+        {
+          "id": "battery-health-risk",
+          "weight": 10,
+          "field": "cooling_id",
+          "kind": "cooling"
+        },
+        {
+          "id": "v2l",
+          "weight": 4,
+          "field": "bidi",
+          "kind": "unknown"
+        },
+        {
+          "id": "home-power",
+          "weight": 4,
+          "field": "bidi",
+          "kind": "unknown"
+        }
+      ],
+      "extra_factors": [],
+      "weight_steps": {},
+      "bonuses": [],
+      "penalties": [],
+      "filter_presets": [
+        {
+          "field": "real_range_km",
+          "min": 250,
+          "why": {
+            "en": "250+ km real range covers a long working day in winter"
+          }
+        },
+        {
+          "field": "boot_l",
+          "min": 300,
+          "why": {
+            "en": "Room for a weekly shop or a pram"
+          }
+        }
+      ]
+    },
+    {
+      "id": "runabout",
+      "layer": false,
+      "picker": {
+        "car_role": [
+          "second"
+        ]
+      },
+      "label": {
+        "en": "Second car for short trips",
+        "nl": "Tweede auto voor korte ritten"
+      },
+      "short": {
+        "en": "The household's second car: work, school, shops. The other car does the long trips."
+      },
+      "calibrated": false,
+      "calibration": "Research thresholds only (research/R-33); not yet back-tested",
+      "bands": {
+        "default": {
+          "shortlist": 60,
+          "consider": 45
+        }
+      },
+      "gates": [
+        {
+          "id": "winter-range-runabout",
+          "field": "real_range_km",
+          "scale": 1,
+          "min": 120,
+          "rural_min": 160,
+          "reason": {
+            "en": "Under 120 km real range (160 km in the countryside): too little for a cold day of errands."
+          }
+        }
+      ],
+      "factors": [
+        {
+          "id": "size",
+          "weight": 18,
+          "field": "length_mm",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 4500,
+          "great": 3700
+        },
+        {
+          "id": "efficiency",
+          "weight": 18,
+          "field": "consumption_kwh_100km",
+          "kind": "linear",
+          "scale": 10,
+          "poor": 200,
+          "great": 130
+        },
+        {
+          "id": "battery-health-risk",
+          "weight": 16,
+          "field": "cooling_id",
+          "kind": "cooling"
+        },
+        {
+          "id": "winter-range",
+          "weight": 14,
+          "field": "real_range_km",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 120,
+          "great": 280
+        },
+        {
+          "id": "ac-speed",
+          "weight": 8,
+          "field": "ac_kw",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 3.7,
+          "great": 11
+        },
+        {
+          "id": "heat-pump",
+          "weight": 8,
+          "field": "heat_pump",
+          "kind": "heat-pump"
+        },
+        {
+          "id": "dc-speed",
+          "weight": 6,
+          "field": "dc_km_per_20min",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 0,
+          "great": 120
+        },
+        {
+          "id": "space",
+          "weight": 6,
+          "field": "boot_l",
+          "kind": "linear",
+          "scale": 1,
+          "poor": 200,
+          "great": 400
+        }
+      ],
+      "extra_factors": [],
+      "weight_steps": {},
+      "bonuses": [],
+      "penalties": [],
+      "filter_presets": [
+        {
+          "field": "real_range_km",
+          "min": 150,
+          "why": {
+            "en": "150+ km real range: a full day of errands, even in winter"
+          }
+        },
+        {
+          "field": "length_mm",
+          "max": 4300,
+          "why": {
+            "en": "Small enough for town parking"
+          }
+        }
+      ],
+      "sort_default": "price_used_asc"
+    },
+    {
+      "id": "kerbside-charger",
+      "layer": true,
+      "picker": {
+        "charge_where": [
+          "public_only",
+          "work"
+        ]
+      },
+      "label": {
+        "en": "No charger at home",
+        "nl": "Geen laadpaal thuis"
+      },
+      "short": {
+        "en": "You park on the street or in a shared garage and charge at public points, work or the supermarket."
+      },
+      "calibrated": false,
+      "calibration": "Research thresholds only (research/R-33); not yet back-tested",
+      "bands": {},
+      "gates": [],
+      "factors": [],
+      "extra_factors": [
+        {
+          "id": "fast-on-400v",
+          "weight": 8,
+          "field": "fast_on_400v",
+          "kind": "bool"
+        },
+        {
+          "id": "lfp-daily-100",
+          "weight": 4,
+          "field": "charge_100_daily",
+          "kind": "bool"
+        }
+      ],
+      "weight_steps": {
+        "efficiency": 2,
+        "dc-speed": 1,
+        "ac-speed": 1,
+        "winter-range": 1
+      },
+      "bonuses": [],
+      "penalties": [],
+      "filter_presets": [
+        {
+          "field": "dc_km_per_20min",
+          "min": 120,
+          "why": {
+            "en": "Adds 120+ km during a 20-minute shop"
+          }
+        },
+        {
+          "field": "ac_kw",
+          "min": 11,
+          "why": {
+            "en": "Uses the full speed of 11 kW street posts"
+          }
+        }
+      ]
+    }
+  ],
+  "modifiers": [
+    {
+      "id": "urban",
+      "picker": {
+        "home_area": [
+          "city"
+        ]
+      },
+      "label": {
+        "en": "City"
+      },
+      "weight_steps": {
+        "size": 1,
+        "winter-range": -1,
+        "efficiency": 1
+      },
+      "use_rural_gates": false,
+      "penalties": []
+    },
+    {
+      "id": "suburban",
+      "picker": {
+        "home_area": [
+          "town"
+        ]
+      },
+      "label": {
+        "en": "Town or suburb"
+      },
+      "weight_steps": {},
+      "use_rural_gates": false,
+      "penalties": []
+    },
+    {
+      "id": "rural",
+      "picker": {
+        "home_area": [
+          "countryside"
+        ]
+      },
+      "label": {
+        "en": "Countryside"
+      },
+      "weight_steps": {
+        "winter-range": 1,
+        "heat-pump": 1,
+        "ac-speed": 1
+      },
+      "use_rural_gates": true,
+      "penalties": [
+        {
+          "id": "too-big-for-b-roads",
+          "points": -8,
+          "applies_with": null,
+          "rule": "Wide or heavy SUV on narrow lanes (width > ~1.95 m, a gap field)"
+        }
+      ]
+    }
+  ],
+  "addons": [
+    {
+      "id": "high-mileage",
+      "label": {
+        "en": "I drive a lot (25,000+ km a year)"
+      },
+      "weight_steps": {
+        "efficiency": 2,
+        "battery-health-risk": 1,
+        "dc-speed": 1
+      }
+    },
+    {
+      "id": "family-full-car",
+      "label": {
+        "en": "Often a full car"
+      },
+      "weight_steps": {
+        "space": 2
+      }
+    },
+    {
+      "id": "tow",
+      "label": {
+        "en": "I tow a trailer or caravan"
+      },
+      "weight_steps": {}
+    },
+    {
+      "id": "snow-mountain",
+      "label": {
+        "en": "Snow, steep or unpaved roads"
+      },
+      "weight_steps": {
+        "heat-pump": 1
+      }
+    },
+    {
+      "id": "keep-8-years",
+      "label": {
+        "en": "Keep it 8+ years"
+      },
+      "weight_steps": {
+        "battery-health-risk": 1
+      }
+    },
+    {
+      "id": "used-budget",
+      "label": {
+        "en": "Buying used, fixed budget"
+      },
+      "weight_steps": {}
+    }
+  ]
+}

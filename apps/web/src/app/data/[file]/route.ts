@@ -17,7 +17,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ file: s
   }
   let body = bodies.get(cat);
   if (!body) {
-    body = JSON.stringify(toClientCatalogue(cat.release(), cat.sources(), cat.rows()));
+    body = JSON.stringify(toClientCatalogue(cat.release(), cat.sources(), cat.rows(), cat.variantUsedPrices()));
     bodies.set(cat, body);
   }
   return new Response(body, {

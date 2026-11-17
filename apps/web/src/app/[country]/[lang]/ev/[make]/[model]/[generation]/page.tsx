@@ -27,6 +27,7 @@ import { DASH, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { seeListings } from "@/lib/listings";
 import { DIFF_KEYS, fieldsFor, specDiff, SPEC_FIELDS, variantDeltas, type SpecField } from "@/lib/spec-diff";
 import { KnownIssues } from "../../../_components/KnownIssues";
+import { OwnerNote } from "../../../_components/OwnerNote";
 import { Registrations } from "../../../_components/Registrations";
 import { YearsBadge } from "../../../_components/YearsBadge";
 import { FieldLabel, SpecValue, textValue } from "../../../_components/SpecValue";
@@ -167,6 +168,7 @@ export default async function GenerationPage({ params }: Props) {
         />
       </div>
 
+      <OwnerNote ctx={ctx} generationIds={[g.id]} />
       <KnownIssues ctx={ctx} generationId={g.id} name={fullName} />
 
       <section aria-labelledby="timeline" className="mt-8">
