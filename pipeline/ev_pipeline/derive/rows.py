@@ -47,6 +47,7 @@ ESTIMATE_SOURCE = "model-estimate"
 EPS = 1e-9
 # validation.csv reason when a DC average would exceed the row's DC peak.
 DC_AVG_ABOVE_PEAK = "DC average above the published DC peak"
+AC_OPTIONAL_NOT_ABOVE = "optional on-board charger not above the standard one"
 ESTIMATE_CONTRADICTED = "estimate from battery_kwh_gross contradicted by a citation"
 
 DIRECT_FIELDS = (
@@ -56,6 +57,7 @@ DIRECT_FIELDS = (
     "consumption_kwh_100km",
     "consumption_motorway_kwh_100km",
     "ac_kw",
+    "ac_kw_optional",  # T-063, Decision 034
     "dc_peak_kw",
     "dc_avg_10_80_kw",
     "dc_minutes_10_80",
@@ -79,6 +81,7 @@ ROW_FLOAT_ORDER = (
     "wltp_range_km",
     "consumption_kwh_100km",
     "ac_kw",
+    "ac_kw_optional",
     "dc_peak_kw",
     "dc_avg_10_80_kw",
     "ac_km_per_h",
@@ -366,6 +369,12 @@ def build_rows(
                 continue
             values[f] = x
             pv[f] = from_merged(mg)
+        # T-063: an optional charger is by definition bigger than the standard one.
+        std, opt = values.get("ac_kw"), values.get("ac_kw_optional")
+        if std is not None and opt is not None and opt <= std + EPS:
+            drop(vid, "ac_kw_optional", opt, "kW", f"{AC_OPTIONAL_NOT_ABOVE} ({std:g} kW)")
+            del values["ac_kw_optional"]
+            pv.pop("ac_kw_optional", None)
         inh = inherited.get(vid, {})
         for f, (val, p) in inh.get("numbers", {}).items():
             if f not in values and f != "battery_kwh_gross":
