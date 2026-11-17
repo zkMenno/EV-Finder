@@ -18,7 +18,7 @@ Right now `main` only blocks force-pushes and deletion. Once code arrives, shoul
 ### Q-008 · Maker documents and unclear-licence registries · coordinator · 2026-11-15
 Decision 009 lets only sources with a named licence or written permission reach a release. Maker spec sheets and price lists have no licence; we would cite single facts by URL and date. KBA, SDES and EU Safety Gate reuse terms weren't checked tonight. **Default:** all four are `blocked` in data/sources.yaml. Can cited single facts from maker documents count as releasable (facts aren't copyrightable, but EU database right may apply)?
 
-**Answer:**
+**Answer:** Yes, single cited facts (Menno, 2026-11-17, popup). Decision 068. KBA/SDES/Safety Gate stay blocked.
 
 ### Q-028 · "See listings" URL patterns are guesses · T-008 / T-009 · builder · 2026-11-15
 `apps/web/src/config/countries.ts` holds 2–3 marketplace search templates per country, all `verified: false` (best guesses, nothing fetched). **Default:** ship them marked unverified; someone opens each by hand before launch. Cazoo (UK) is skipped because it closed.

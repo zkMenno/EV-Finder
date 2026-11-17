@@ -24,6 +24,7 @@ gate_files:
   - pipeline/pytest.ini
   - "**/conftest.py"
   - .github/dependabot.yml
+  - config/approved_changes.yaml
 test_files:
   - "**/tests/**"
   - "**/test/**"

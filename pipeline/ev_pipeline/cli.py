@@ -37,6 +37,7 @@ COMMAND_MODULES = [
     "ev_pipeline.commands.sources",
     "ev_pipeline.commands.manual",
     "ev_pipeline.commands.used_price",
+    "ev_pipeline.commands.verify",
 ]
 
 

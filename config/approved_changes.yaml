@@ -1,0 +1,79 @@
+# Release diff (T-123): what may change between release N-1 and N without blocking QA.
+#
+# `ev release` compares every record set below per id and field (pipeline/ev_pipeline/release/
+# differ.py). Each change gets a status:
+#   blocking  an unapproved id removal, a field change beyond its threshold, a number that lost
+#             its source, or a file that disappeared -> the release fails QA and is not published
+#   approved  matched an entry under `approved` (needs a reason and the PR or Decision)
+#   retired   a removed variant id that this release's retired_ids map redirects (T-062)
+#   review    any other change: listed in data/review/release_diff.csv, never blocks
+#
+# Fields are dotted paths inside one record, e.g. `wltp_range_km`, `price_new.NL.amount`,
+# `scores.road-tripper/home/rural.score`. List items are keyed by their id fields in brackets:
+# `bands.NL[2021].median`, `cells[motorway/winter/heat-pump].wh_km`. Patterns are shell
+# globs (`*` also matches dots and brackets), so `bands.*.median` covers every country/year.
+# Units: `rel` is a share of the old value (0.05 = 5 %), `abs` is in the field's own unit
+# (km, kWh, kW, €, points, °C). With both set, a change must exceed both to block.
+# `any: true` = every change blocks. No matching threshold = review only.
+
+schema: approved-changes/v1
+
+# Floats are compared after rounding to this many decimals (row numbers are 1-decimal anyway).
+precision: 3
+
+# Keys skipped at any depth: run metadata and the per-row provenance (provenance is checked
+# separately: a number whose source list goes empty is `source_lost`, always blocking).
+ignore:
+  - release
+  - generated_at
+  - packaged_at
+  - provenance
+  - retrieved_at
+  - fact_ids
+  - test_ids
+
+# Record sets per release file. `records` is a list (keyed by `id`) or a dict (keyed by its keys).
+files:
+  - {file: catalogue.json, records: rows, id: variant_id}
+  - {file: catalogue.json, records: generations, id: id}
+  - {file: shortlist_scores.json, records: variants, id: variant_id}
+  - {file: used_prices.json, records: variants, id: variant_id}
+  - {file: consumption_matrix.json, records: variants, id: variant_id}
+  - {file: "towns/*.json", records: towns, id: id}
+  - {file: "towns/*.json", records: stations}
+
+# First match wins (file glob + field glob).
+thresholds:
+  # catalogue: spec figures move rarely; a jump is usually a matching or unit bug
+  - {file: catalogue.json, field: battery_kwh_net, rel: 0.03, abs: 1.0}
+  - {file: catalogue.json, field: wltp_range_km, rel: 0.05, abs: 10}
+  - {file: catalogue.json, field: epa_range_km, rel: 0.05, abs: 10}
+  - {file: catalogue.json, field: consumption_kwh_100km, rel: 0.08, abs: 0.5}
+  - {file: catalogue.json, field: consumption_motorway_kwh_100km, rel: 0.10, abs: 0.5}
+  - {file: catalogue.json, field: real_range_km, rel: 0.10, abs: 15}
+  - {file: catalogue.json, field: ac_kw, rel: 0.05}
+  - {file: catalogue.json, field: "dc_*", rel: 0.10}
+  - {file: catalogue.json, field: power_kw, rel: 0.05}
+  - {file: catalogue.json, field: weight_kg, rel: 0.05}
+  - {file: catalogue.json, field: seats, any: true}
+  - {file: catalogue.json, field: "price_new.*.amount", rel: 0.10}
+  - {file: catalogue.json, field: year_start, any: true}
+  - {file: catalogue.json, field: year_end, any: true}
+  # editorial scores (points 0..100) and their band
+  - {file: shortlist_scores.json, field: "scores.*.score", abs: 10}
+  - {file: shortlist_scores.json, field: "scores.*.band", any: true}
+  # used price bands (each country's currency)
+  - {file: used_prices.json, field: "bands.*.median", rel: 0.15}
+  - {file: used_prices.json, field: "bands.*.p25", rel: 0.15}
+  - {file: used_prices.json, field: "bands.*.p75", rel: 0.15}
+  # consumption matrix cells (Wh/km)
+  - {file: consumption_matrix.json, field: "cells*wh_km", rel: 0.10}
+  # town climate (°C) and station attachment
+  - {file: "towns/*.json", field: "jan_*_c", abs: 1.0}
+  - {file: "towns/*.json", field: station_id, any: true}
+
+# Changes someone meant. Required: reason, approved_by ("PR #123" or "Decision 061").
+# Optional scope: release (number or list; omit = every release), file, id, field (globs,
+# default "*"), change (changed | cleared | removed | source_lost | file_removed | any).
+# Entries that match nothing in a release are listed as stale in qa.json: delete them then.
+approved: []

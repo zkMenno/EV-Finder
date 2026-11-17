@@ -74,10 +74,10 @@ def release1_model_y() -> list[dict[str, Any]]:
 
 
 def corrected_model_y() -> list[dict[str, Any]]:
-    """Placeholder for T-110's corrected LR AWD figures, inside the maker range A-35 gives
-    (WLTP 530-570 km); DC in line with the Performance. Swap for T-110's sourced values."""
+    """T-110's sourced LR AWD figures (RDW TGK, CC0): gen1 533 km, Juniper 586 km WLTP;
+    DC rescaled to the corrected range (252 and 288 km per 20 min)."""
     rows = release1_model_y()
-    for r, wltp, dc in ((rows[0], 533, 262.0), (rows[3], 568, 258.0)):
+    for r, wltp, dc in ((rows[0], 533, 252.0), (rows[3], 586, 288.0)):
         fixed = _row(r["variant_id"], r["generation_id"], wltp=wltp, net=r["battery_kwh_net"],
                      dc20=dc)  # fmt: skip
         r.clear()

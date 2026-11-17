@@ -39,6 +39,12 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-31 | One process doc, one decisions log per kind; project docs are pointers (was P-19) | Workflow described in 5 places, decisions in 2 (17 Nov) | *prose* | WS0 | 2026-11-17 | — |
 | G-32 | Retire docs into `_archive/` (git mv + row in `_archive/README.md`), never delete; chats never read, search or cite `_archive/` unless Menno asks | Menno (17 Nov): move, don't delete; keep old docs out of every chat's context | `.rgignore` (Grep skips it) + AGENTS.md, docs/process §2, project instructions v1.6 *prose* | WS0 | 2026-11-17 | — |
 | G-33 | Run the full local gate in the session before opening or updating a PR; one PR per batch; no "just to check" CI runs (was P-21) | GardenLayer burned ~2,900 Actions min in 17 days (#813), mostly re-running red PRs | *prose* (AGENTS.md, docs/process/ci-budget.md); candidate: ci-ok warns if a PR gets > 3 pushes | WS0 | 2026-11-17 | — |
+| G-34 | Launch/deploy needs a fresh release: `latest` newer than the last merge into release inputs | A-35 B1: release 1 predated every launch data task; build log hid it | REVIEW R4; fetch-release warns on missing files (#46); to build: CI launch gate | WS1/WS0 | 2026-11-17 | — |
+| G-35 | Each launch-scope sentence has an acceptance test on the published release | A-35 B2: €15k and €35k gave the same top 10 | REVIEW R4; T-115 e2e | WS2 | 2026-11-17 | — |
+| G-36 | One implementation per rule; the back-test runs the ranking visitors see | A-35 B3: web and pipeline scored different bases | REVIEW D3; Decision 065; T-114 | WS0 | 2026-11-17 | — |
+| G-37 | Implausible spec figures go to review, not the release | A-35 B4: Model Y LR 719 km WLTP was the #1 pick | to build: qa.json plausibility gate (T-111); REVIEW D4 | WS1 | 2026-11-17 | — |
+| G-38 | Every public string exists in all six languages; every launch country is served | A-35 B5 | to build: `i18n.test.ts` all six (T-117); REVIEW D6 | WS2 | 2026-11-17 | — |
+| G-39 | A decision de-dupe keeps the union of both texts | A-35 S1: e885fa0 dropped the newer Decision 060 text | REVIEW D12 | WS0 | 2026-11-17 | 2026-11-17 |
 
 **Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17 · P-21 (CI budget)→G-33; the rest became G-21–G-31.
 

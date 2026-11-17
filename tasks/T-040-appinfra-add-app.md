@@ -1,6 +1,6 @@
 # T-040 AppInfra "add an app" checklist + EV staging
 Role: WS4   Lane: infra   Wave: 6
-Status: todo
+Status: doing (WS4, 2026-11-17): staging runbook in PR #59; server steps wait on Menno
 
 ## Goal
 Write the missing checklist and use it to put EV Finder staging on the shared server.
