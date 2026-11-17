@@ -20,8 +20,8 @@ describe("nerdValue (T-097)", () => {
   });
 
   it("uses the raw kWh/100 km, not ×10 Wh/km", () => {
-    expect(nerdValue(num("consumption_kwh_100km", 16.4), tEn, "en")).toBe("16.4\u00a0kWh/100\u00a0km");
-    expect(nerdValue(num("consumption_kwh_100km", 16.4), tNl, "nl")).toBe("16,4\u00a0kWh/100\u00a0km");
+    expect(nerdValue(num("consumption_kwh_100km", 16.4), tEn, "en")).toBe("16.4 kWh/100 km");
+    expect(nerdValue(num("consumption_kwh_100km", 16.4), tNl, "nl")).toBe("16,4 kWh/100 km");
   });
 
   it("gives every numeric rule field a metric unit", () => {
@@ -37,7 +37,7 @@ describe("nerdValue (T-097)", () => {
 
   it("labels words and yes/no instead of showing raw ids", () => {
     expect(nerdValue({ known: true, field: "heat_pump", raw: "option" }, tNl, "nl")).toBe("optie");
-    expect(nerdValue({ known: true, field: "cooling_id", raw: "air" }, tEn, "en")).toBe("air-cooled");
+    expect(nerdValue({ known: true, field: "cooling_id", raw: "air" }, tEn, "en")).toBe("air");
     expect(nerdValue({ known: true, field: "fast_on_400v", raw: true }, tNl, "nl")).toBe("ja");
   });
 

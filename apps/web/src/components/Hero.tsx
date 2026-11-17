@@ -913,7 +913,8 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               </th>
               {/* The car's own figure with its unit (T-097), not the scaled scoring value. May wrap at
                   the spaces of the unit ("387 km in 20 min") on a phone; the number itself never splits
-                  (no spaces inside formatted numbers; FR uses a no-break space). */}
+                  (no spaces inside formatted numbers; FR uses a no-break space). Units and words stay short and
+                  breakable so the table fits a 360 px card in every language (axe: no scroll region). */}
               <td className="tabular-nums" data-testid={`hero-nerd-value-${f.id}`}>{nerdValue(f, t, locale)}</td>
               <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score, locale, 2)}</td>
               <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
