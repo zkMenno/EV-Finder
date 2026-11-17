@@ -32,6 +32,7 @@ from typing import Any
 
 from ev_pipeline.derive.used_price import (
     age_at,
+    build_years,
     choose_curve,
     kept_share,
     pick_list_price,
@@ -80,7 +81,11 @@ def fit_points(
     as_of: date,
     p: dict[str, Any],
 ) -> list[Point]:
-    """Points where a (gated) sample row and a list price both exist, same currency."""
+    """Points where a (gated) sample row and a list price both exist, same currency.
+
+    Only variants built in the sample's year count (used_price.build_years, the same years a
+    visitor gets rows for): a sample year outside every variant's years gives no point, and a
+    generation sample averages only over the variants a visitor sees for that year."""
     by_gen: dict[str, list[dict[str, Any]]] = defaultdict(list)
     by_id: dict[str, dict[str, Any]] = {}
     for r in rows:
@@ -92,6 +97,7 @@ def fit_points(
             vs = [by_id[s["variant_id"]]] if s["variant_id"] in by_id else []
         else:
             vs = by_gen.get(str(s["generation_id"]), [])
+        vs = [v for v in vs if s["build_year"] in build_years(v, as_of)]
         if not vs:
             continue
         amounts: dict[str, float] = {}
@@ -109,7 +115,7 @@ def fit_points(
                 segment=str(vs[0].get("segment")),
                 country=s["country"],
                 build_year=s["build_year"],
-                age=round(age_at(s["build_year"], as_of, int(p["mid_year_month"])), 3),
+                age=age_at(s["build_year"], as_of, int(p["mid_year_month"])),
                 share=s["median"] / lpm,
                 samples=s["n"],
                 sample_median=s["median"],

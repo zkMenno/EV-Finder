@@ -81,7 +81,7 @@ def test_points_pair_samples_with_list_prices() -> None:
     assert len(pts) == 12
     pt = pts[0]
     assert pt.list_price == 40000
-    assert pt.share == pytest.approx(A * math.exp(-K * pt.age), rel=1e-3)  # age rounded
+    assert pt.share == pytest.approx(A * math.exp(-K * pt.age), rel=1e-9)
 
 
 def test_points_skip_missing_list_price_or_other_currency() -> None:
@@ -91,6 +91,26 @@ def test_points_skip_missing_list_price_or_other_currency() -> None:
     samples[0]["currency"] = "GBP"  # g0 2018: list price is EUR
     pts = dep.fit_points(samples, rows, up.list_prices(facts, years), AS_OF, params())
     assert {pt.generation_id for pt in pts} == {"g0"} and len(pts) == 3
+
+
+def test_points_use_only_variants_built_in_the_sample_year() -> None:
+    """#64 review: a point averages only over the variants a visitor sees for that year, and a
+    sample year outside every variant's build years gives no point (the release has no row)."""
+    rows = [
+        {"variant_id": "g0-early", "generation_id": "g0", "segment": "C",
+         "year_start": 2016, "year_end": 2019},
+        {"variant_id": "g0-late", "generation_id": "g0", "segment": "C",
+         "year_start": 2020, "year_end": 2023},
+    ]  # fmt: skip
+    f1, y1 = _prices(rows[:1], 30000.0)
+    f2, y2 = _prices(rows[1:], 50000.0)  # list prices exist for every year 2016-2025
+    samples = _samples(rows[:1])  # build years 2018, 2020, 2022, 2024
+    pts = dep.fit_points(samples, rows, up.list_prices(f1 + f2, y1 + y2), AS_OF, params())
+    by_year = {pt.build_year: pt for pt in pts}
+    assert set(by_year) == {2018, 2020, 2022}  # 2024: no variant built that year
+    assert by_year[2018].variant_list_prices == {"g0-early": 30000.0}
+    assert by_year[2020].variant_list_prices == {"g0-late": 50000.0}
+    assert by_year[2018].list_price == 30000.0
 
 
 def test_fit_recovers_the_curve() -> None:
