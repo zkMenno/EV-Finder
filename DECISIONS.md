@@ -737,4 +737,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Tasks T-120–T-129. One reviewer, tuned, not a stack of reviewers. Slightly slower merges; fewer late surprises.
 
+## Decision 063: One process doc, a lean QUESTIONS.md, and retire-don't-delete into `_archive/`
+
+**Status:** Accepted (Menno via the verification chat, 2026-11-17; logged and reviewed as a gate change by WS0)
+**Date:** 2026-11-17
+
+**Context:** The workflow was described in five places, decisions in two, and QUESTIONS.md had 83 "open" items, most of them engineering defaults. Menno: move old docs, don't delete them.
+
+**Decision:** `docs/process/README.md` is the one process doc. Project instructions live in `docs/process/project-instructions.md`. QUESTIONS.md holds only what Menno must answer; the rest moved to the archive with "default stands", and all ids were kept. AGENTS.md: when unsure, take the reversible default and note it; only Menno-only decisions block. Retired files go to `_archive/` (git mv plus a README row). Chats never read it unless Menno asks, and `.rgignore` keeps it out of searches (rule G-32). WS0 reviewed the AGENTS.md lines that went straight to main (266b373, e097843) and keeps them. The CI budget rule is G-33 (PR #45).
+
+**Consequences:** Fewer places to keep in sync. Gate files still change through a PR from now on (G-06); straight-to-main is for STATUS/HANDOFF/INBOX only.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
