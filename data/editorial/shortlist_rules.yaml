@@ -49,6 +49,9 @@ profiles:
         evidence: "Used EVs tab: 54 kWh IONIQ 5 / EV6 (250-255 km winter) were the lowest tier (A4) despite fast charging."
 
     factors:
+      # Units (WS2 ask, 2026-11-15): the schema has no `unit` key. Convention: a gate or factor
+      # with `sheet_field: dc_km_per_h` (or `min_km_per_h`) is in km per HOUR, i.e. field x 3;
+      # without it, numbers are in the field's own unit (dc_km_per_20min = km per 20 min).
       - id: dc-speed
         label: {en: "Fast-charging speed (km added per hour, 10-80%)"}
         field: dc_km_per_20min       # x3 = km per hour
@@ -167,7 +170,7 @@ profiles:
       - {id: winter-range, field: real_range_km, poor: 200, great: 380, weight: 18}
       - {id: space, field: boot_l, poor: 300, great: 550, weight: 16}
       - {id: efficiency, field: consumption_kwh_100km, poor: 220, great: 140, weight: 14, note: "kWh/100 km x10 = Wh/km; poor/great in Wh/km"}
-      - {id: dc-speed, field: dc_km_per_20min, poor: 80, great: 220, weight: 10, note: "Occasional rescue charge, not a priority"}
+      - {id: dc-speed, field: dc_km_per_20min, poor: 80, great: 220, weight: 10, note: "Occasional rescue charge, not a priority. Values in km added per 20 min (no sheet_field: field unit)"}
       - {id: ac-speed, field: ac_kw, poor: 3.7, great: 11, weight: 8}
       - {id: one-pedal, field: one_pedal, status: gap, weight: 8}
       - {id: heat-pump, field: heat_pump, weight: 8, note: "standard = 1, option = 0.6 (check the car), none = 0, not disclosed = 0.5"}
@@ -200,7 +203,7 @@ profiles:
       - {id: winter-range, field: real_range_km, poor: 120, great: 280, weight: 14}
       - {id: ac-speed, field: ac_kw, poor: 3.7, great: 11, weight: 8, note: "Zoe 22 kW AC is a plus where 22 kW posts exist"}
       - {id: heat-pump, field: heat_pump, weight: 8}
-      - {id: dc-speed, field: dc_km_per_20min, poor: 0, great: 120, weight: 6, note: "Nice to have; no DC at all is allowed here"}
+      - {id: dc-speed, field: dc_km_per_20min, poor: 0, great: 120, weight: 6, note: "Nice to have; no DC at all is allowed here. Values in km added per 20 min (no sheet_field: field unit)"}
       - {id: space, field: boot_l, poor: 200, great: 400, weight: 6}
     filter_presets:
       - {field: real_range_km, min: 150, why: {en: "150+ km real range: a full day of errands, even in winter"}}
