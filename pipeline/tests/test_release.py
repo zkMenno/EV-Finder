@@ -228,7 +228,10 @@ def approve(mp: pytest.MonkeyPatch, tmp: Path, **entry: object) -> None:
 
 
 def test_release_numbering_and_diff(
-    data_dir: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    data_dir: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
 ) -> None:
     assert next_release_number(data_dir / "releases") == 1
     assert release_cmd(False, data_dir=data_dir, now=NOW) == 0
@@ -246,6 +249,9 @@ def test_release_numbering_and_diff(
 
     # T-123: the battery change is beyond its threshold, so it blocks until approved.
     assert release_cmd(False, data_dir=data_dir, now=NOW) == 1
+    assert "Release diff 1 -> 2" in (data_dir / "review" / "qa.md").read_text()
+    assert "citroen-e-c4-c41-50-kwh battery_kwh_net changed" in capsys.readouterr().err
+    assert (data_dir / "review" / "release_diff.csv").exists()
     approve(
         monkeypatch, tmp_path, file="catalogue.json", id="citroen-e-c4-c41-50-kwh",
         field="battery_kwh_net", reason="test: openev corrected", approved_by="PR #1",
