@@ -10,14 +10,25 @@
         "note": "V2H, AC @ 11kw. Ugly"
       }
     ],
-    "hyundai-ioniq-5-gen1": [
+    "hyundai-ioniq-3-gen1": [
+      {
+        "model_year": 2026,
+        "variant": "IONIQ 3 61 kWh",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "hyundai-ioniq-5-facelift": [
       {
         "model_year": 2024,
         "variant": "84 kWh RWD (V1.2)",
         "verdict": "shortlist",
         "favourite": true,
         "note": "Regen flippers + i-Pedal"
-      },
+      }
+    ],
+    "hyundai-ioniq-5-gen1": [
       {
         "model_year": 2022,
         "variant": "Long Range 2WD (V1.2)",
@@ -44,14 +55,25 @@
         "note": "Regen flippers + i-Pedal"
       }
     ],
-    "kia-ev6-gen1": [
+    "kia-ev4-gen1": [
+      {
+        "model_year": 2025,
+        "variant": "Hatchback 81.4 kWh",
+        "verdict": "consider",
+        "favourite": true,
+        "note": "Regen flippers + i-Pedal"
+      }
+    ],
+    "kia-ev6-facelift": [
       {
         "model_year": 2024,
         "variant": "Long Range 2WD (V1.2)",
         "verdict": "shortlist",
         "favourite": true,
         "note": "Regen flippers + i-Pedal"
-      },
+      }
+    ],
+    "kia-ev6-gen1": [
       {
         "model_year": 2021,
         "variant": "Long Range 2WD (V1.1)",
@@ -67,6 +89,15 @@
         "verdict": null,
         "favourite": false,
         "note": "Steering wheel + D-mode"
+      }
+    ],
+    "mg-im6-gen1": [
+      {
+        "model_year": 2025,
+        "variant": "Long Range",
+        "verdict": "consider",
+        "favourite": false,
+        "note": "Weak regen / No one-pedal driving"
       }
     ],
     "mg-mg4-gen1": [
@@ -94,6 +125,15 @@
         "note": null
       }
     ],
+    "polestar-4-gen1": [
+      {
+        "model_year": 2026,
+        "variant": "SUV Rear Motor",
+        "verdict": "shortlist",
+        "favourite": false,
+        "note": null
+      }
+    ],
     "renault-megane-e-tech-gen1": [
       {
         "model_year": 2026,
@@ -105,6 +145,24 @@
       {
         "model_year": 2022,
         "variant": "EV60 220hp",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "renault-scenic-e-tech-gen1": [
+      {
+        "model_year": 2023,
+        "variant": "EV87 220hp",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "skoda-elroq-gen1": [
+      {
+        "model_year": 2024,
+        "variant": "Elroq 85",
         "verdict": "fallback",
         "favourite": false,
         "note": null
@@ -128,6 +186,15 @@
         "note": null
       }
     ],
+    "volkswagen-id5-gen1": [
+      {
+        "model_year": 2022,
+        "variant": "ID.5 Pro",
+        "verdict": "consider",
+        "favourite": false,
+        "note": null
+      }
+    ],
     "volkswagen-id7-gen1": [
       {
         "model_year": 2024,
@@ -142,6 +209,117 @@
         "verdict": "consider",
         "favourite": false,
         "note": null
+      }
+    ],
+    "volvo-ex50-gen1": [
+      {
+        "model_year": 2027,
+        "variant": null,
+        "verdict": "shortlist",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "volvo-ex60-gen1": [
+      {
+        "model_year": 2026,
+        "variant": "P10 AWD",
+        "verdict": "shortlist",
+        "favourite": false,
+        "note": "V2H, AC @ 11kw! Regen via screen + one-pedal"
+      },
+      {
+        "model_year": 2026,
+        "variant": "P6 AWD",
+        "verdict": "shortlist",
+        "favourite": false,
+        "note": "V2H, AV @ 11kw! Regen via screen + one-pedal"
+      }
+    ],
+    "xpeng-g6-facelift": [
+      {
+        "model_year": 2025,
+        "variant": "RWD Long Range (v1.3)",
+        "verdict": "shortlist",
+        "favourite": true,
+        "note": "Level 3 ADAS, Regen via screen + Xpedal"
+      }
+    ],
+    "xpeng-g6-gen1": [
+      {
+        "model_year": 2024,
+        "variant": "RWD Long Range (v1.1)",
+        "verdict": "fallback",
+        "favourite": false,
+        "note": "Level 3 ADAS, Regen via screen + Xpedal"
+      }
+    ],
+    "xpeng-l03-gen1": [
+      {
+        "model_year": 2026,
+        "variant": "RWD Long Range",
+        "verdict": "shortlist",
+        "favourite": true,
+        "note": "VLA 2.0 (self driving). Regen via screen + Xpedal"
+      }
+    ],
+    "xpeng-l05-gen1": [
+      {
+        "model_year": 2027,
+        "variant": null,
+        "verdict": "shortlist",
+        "favourite": true,
+        "note": null
+      }
+    ],
+    "xpeng-p7-plus-gen1": [
+      {
+        "model_year": 2026,
+        "variant": "RWD Long Range",
+        "verdict": "shortlist",
+        "favourite": true,
+        "note": "Level 3 ADAS, Regen via screen + Xpedal"
+      }
+    ],
+    "zeekr-001-gen1": [
+      {
+        "model_year": 2024,
+        "variant": "Long Range RWD",
+        "verdict": "shortlist",
+        "favourite": false,
+        "note": null
+      }
+    ],
+    "zeekr-7gt-gen1": [
+      {
+        "model_year": 2026,
+        "variant": "Core RWD",
+        "verdict": "shortlist",
+        "favourite": true,
+        "note": "Regen in screen + one-pedal"
+      },
+      {
+        "model_year": 2026,
+        "variant": "Long Range RWD",
+        "verdict": "shortlist",
+        "favourite": false,
+        "note": "Regen in screen + one-pedal"
+      }
+    ],
+    "zeekr-7x-gen1": [
+      {
+        "model_year": 2025,
+        "variant": "Core RWD",
+        "verdict": "consider",
+        "favourite": false,
+        "note": "Quite chubby for B roads. Regen in screen + one-pedal"
+      },
+      {
+        "model_year": 2025,
+        "variant": "Long Range RWD",
+        "verdict": "consider",
+        "favourite": false,
+        "note": "Quite chubby for B roads. Regen in screen + one-pedal"
       }
     ]
   }

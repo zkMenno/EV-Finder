@@ -25,7 +25,7 @@ describe("seeListings", () => {
   it("builds slug and name placeholders", () => {
     const nl = seeListings("nl", { make_name: "Mercedes-Benz", model_name: "EQA" });
     expect(nl.find((l) => l.id === "autoscout24-nl")!.url).toBe("https://www.autoscout24.nl/lst/mercedes-benz/eqa?fuel=E");
-    expect(nl.find((l) => l.id === "marktplaats")!.url).toBe("https://www.marktplaats.nl/q/Mercedes-Benz+EQA/");
+    expect(nl.find((l) => l.id === "marktplaats")!.url).toBe("https://www.marktplaats.nl/l/auto-s/q/Mercedes-Benz+EQA/");
   });
 
   it("strips accents in slugs and URL-encodes names", () => {

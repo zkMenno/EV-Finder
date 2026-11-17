@@ -180,7 +180,7 @@ def test_source_alias_note_travels_with_the_count(real_seed) -> None:
         ("MINI COOPER", "COOPER S ELECTRIC LEVEL 2", "mini-cooper-se"),
         ("TESLA MODEL 3", "MODEL 3 LONG RANGE", "tesla-model-3"),
         ("VOLKSWAGEN ID3", "ID3 PRO S", "volkswagen-id3"),
-        ("VOLKSWAGEN ID5", "ID5 MATCH PRO", None),
+        ("VOLKSWAGEN ID5", "ID5 MATCH PRO", "volkswagen-id5"),  # in the seed since T-068
         ("KIA NIRO", "NIRO 2 EV", "kia-niro-ev"),
     ],
 )

@@ -13,6 +13,10 @@
 #   priority      lower = shown first
 #   verified      true only after a manual check of the live site
 # Loaded at build time by apps/web/scripts/listings.mjs.
+# T-041 (WS3, 2026-11-15): patterns checked against the sites' own URLs as they appear in search
+# engine indexes (no site was fetched: "See listings" links are opened by people, never by us)
+# and, for La Centrale, Menno's own saved searches (data/editorial, July 2025). `verified` stays
+# false until a person taps the link once (checklist: workstreams/WS3/T-041-checklist.md).
 
 country: de
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
@@ -23,6 +27,10 @@ default_language: de
 listings:
   - site: mobile-de
     label: mobile.de
+    # evidence: mobile.de's own SEO pages use https://suchen.mobile.de/auto/tesla-model-3-elektro.html
+    # (indexed: "680 Tesla Model 3 mit Elektro-Antrieb"). Not switched: their slugs for names like
+    # "ID.3" are unknown, and the free-text search below forgives name differences. The
+    # search.html form and `ft=ELECTRICITY` are not seen indexed (unchecked).
     url_template: "https://suchen.mobile.de/fahrzeuge/search.html?isSearchRequest=true&q={makeName}+{modelName}"
     filters:
       electric: { ft: ELECTRICITY }
@@ -30,6 +38,7 @@ listings:
     verified: false
   - site: autoscout24-de
     label: AutoScout24
+    # evidence: same /lst/{make}/{model} structure as autoscout24.nl (indexed).
     url_template: "https://www.autoscout24.de/lst/{make}/{model}"
     filters:
       electric: { fuel: E }

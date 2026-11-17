@@ -52,7 +52,7 @@ describe("learn articles in the app", () => {
     expect(articles().length).toBeGreaterThan(0);
     for (const a of articles()) {
       expect(a.files.en).toBeDefined();
-      expect(articleFile(a, "it")?.fallback).toBe(true);
+      expect(articleFile(a, "it")?.fallback).toBe(!a.files.it); // falls back only without an IT file (T-039/T-082 added some)
       expect(ids.has(a.slug)).toBe(false);
     }
     const urls = sitemapUrls(getCatalogue(), "https://x.example");
