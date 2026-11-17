@@ -17,12 +17,14 @@ dependencies = [
 [project.optional-dependencies]
 # Kept in step with [dependency-groups].dev so `pip install -e ".[dev]"` works as a CI fallback.
 dev = [
+  "hypothesis>=6.170.15",
   "pytest>=8",
   "ruff>=0.6",
 ]
 
 [dependency-groups]
 dev = [
+  "hypothesis>=6.170.15",
   "pytest>=8",
   "ruff>=0.6",
 ]

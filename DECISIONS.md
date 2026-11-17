@@ -721,6 +721,28 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop. 2026-11-17 check: 2dehands.be (BE, same platform as Marktplaats) allows `/l/auto-s/q/` and is used. leboncoin.fr disallows `/recherche` for Claude agents and its robots file says automated access needs permission: not used. kleinanzeigen.de blocks filtered result pages (fuel, year), so an unfiltered search would mostly read non-EV cars: not used for now. _(Restored 2026-11-17 by WS0: the de-dupe in e885fa0 dropped this line; QA A-35 S1.)_
 
+## Decision 044: Release diff N vs N-1 blocks unapproved changes (T-123)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** A-20 B1 shipped a release whose numbers nobody had meant to change, and review only saw the code. T-123 asks for a differential test: same records, old against new, noise taken out, and a list of changes someone approved.
+
+**Decision:** (1) `release_diff` is a new **blocking** QA check, run inside every `ev release` build and by `check-release` (CI data-qa, rollback). It compares catalogue rows and generations, shortlist scores, used prices, consumption matrix, towns and stations per id and field (`pipeline/ev_pipeline/release/differ.py`). (2) Blocking: an unapproved record removal (unless retired_ids redirects it), a change beyond the field's threshold, a thresholded value that goes empty, a number that loses every source, or a file that disappears. Everything else is review: listed, never blocks. (3) Thresholds, record sets, ignored keys and approvals live in `config/approved_changes.yaml`; an approval needs a reason and `PR #n` or `Decision nnn`, and can be scoped to a release, file, id, field and kind; unused approvals are listed as stale. (4) Fail closed: a bad config or an N-1 whose files don't match their manifest fails the check. (5) Charging figures (Decision 040 item 4) go through the same report but stay review only. Outputs: `data/review/release_diff.csv`, qa.json `release_diff`, a qa.md section (which the data-refresh PR body already includes), and `ev release diff --from N-1 --to N [--check]`.
+
+**Consequences:** The first refresh after this merges will block on every intended change since release 1 (T-068 seed models, new matching rules). That's on purpose: someone looks at the list once and adds a release-scoped bulk approval naming the PR. `config/` is WS3's folder; this one file is WS1's (T-123), and changing a threshold counts as a gate change (REVIEW.md R3).
+
+## Decision 045: Sibling-variant real range scales by WLTP ratio, battery ratio only without it
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** The T-124 property tests (Hypothesis) found that the ladder's sibling-variant rung, which scaled a sibling's measured range by usable-battery ratio only, gave a same-pack variant with a lower WLTP (other wheels or trim) more real km than its own WLTP × 1.1. The spec's rung 3 scales "by usable kWh and wheel size"; we have no wheel size, but both variants' WLTP figures carry battery, wheels and trim together.
+
+**Decision:** Scale the sibling's measured km by own WLTP / sibling WLTP when both are known; fall back to the battery ratio otherwise. The note on the result says which ratio was used.
+
+**Consequences:** No change to today's release (all 203 rows with a real range use the body-ratio rung; no measured tests are licence-cleared yet). Once measured tests arrive, the synthetic back-test already improves (alpha-50: −2.0 % → +0.1 %). Reversible: one branch in `derive/metrics.real_range`.
+
 ## Decision 062: Verification layer: diff-triggered REVIEW.md, gates out of reach, evidence per PR, every miss becomes a check
 
 **Status:** Accepted (Menno via the verification chat, 2026-11-17; logged by WS0)
@@ -780,5 +802,60 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** Launch countries are NL, DE, FR, BE, UK, **ES and IT**. Spanish and Italian serve Spain (`/es/es`) and Italy (`/it/it`) only; no other Spanish- or Italian-speaking countries. Each new country gets what the others have: euro prices, a finance default with the CCD2 warning in the local language, used price bands (indices, samples or the Decision 064 estimate), and marketplace search links (link-outs only; Decision 004 and 060 rules apply to any sampling). Drafts are labelled; EN and NL stay the fully reviewed languages.
 
 **Consequences:** T-117, T-118, T-119. Supersedes the country list in Decision 051's launch scope; docs/spec/launch-scope.md updated.
+
+## Decision 046: Optional on-board charger: a citation routes a source's AC figure (T-063)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** Decision 034 split AC into `ac_kw` (standard charger) and `ac_kw_optional`. OpenEV and KilowattApp give one max-AC number and never say whether it is the option: 0 of 746 OpenEV AC records mention one (checked 2026-11-17). A-06 found rows showing the option as AC (e-208 / e-2008 11 kW where 7.4 is standard, Megane EV40 22 kW, MG4 Standard 11 kW).
+
+**Decision:** Before merging, a source `ac_kw` fact moves to `ac_kw_optional` only when a citation for that variant (seed `cited:` or data/manual) names that value as the optional charger and no citation names it as the standard one (`merge/ac_route.py`, ±2 % like `ac_kw`). Blocked citations (maker-docs, manual: Q-008) count as evidence for this, as in guard_contradicted (A-06 F3); they never ship. Without a citation nothing moves. A cited option not above the cited standard routes nothing and goes to review; a published option not above the standard is dropped (rows) and flagged (QA `ac_optional_not_above`).
+
+**Consequences:** Release values change only when WS3 adds citations. Until Q-008 is answered a routed row shows the option and an empty standard AC rather than a wrong one. Every move is listed in the run log (`sections.ac_kw_optional`).
+
+## Decision 067: Infra agents write runbooks; Menno applies them
+
+**Status:** Accepted (WS0, 2026-11-17; WS4 inbox asked to settle a conflict)
+**Date:** 2026-11-17
+
+**Context:** WS4 START.md assumed the chat SSHes to the shared server; infra/AGENTS.md rule 1 says agents never ssh or apply.
+
+**Decision:** infra/AGENTS.md wins: agents write files and copy-paste runbooks (with a read-only measure step), Menno runs them on the server. Fixed in WS4 START.md. Reason: the server is shared with GardenLayer and Dungeon Tracker, so the person who can see all three applies changes.
+
+**Consequences:** Staging (T-040, PR #59) waits for Menno to run the runbook once.
+
+## Decision 068: Single cited facts from maker documents may ship (Q-008)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup)
+**Date:** 2026-11-17
+
+**Context:** Maker spec sheets and price lists have no licence, so Decision 009 kept them `blocked`. That kept T-110's corrected figures and T-112's new prices out of the release (A-35 B2/B4).
+
+**Decision:** Single facts from maker documents (list price, WLTP range, battery size, consumption) may reach a release, one figure per car per document, each with its URL, retrieval date and confidence. Never copy a whole price list or spec table. KBA, SDES and EU Safety Gate stay blocked until their reuse terms are checked.
+
+**Consequences:** WS1 sets the `manual` / maker-document source status in data/sources.yaml accordingly (with T-116). The licence column says "facts cited, no licence".
+
+## Decision 069: A generation's sample band stands in for its variants (Decision 064 step 1)
+
+**Status:** Accepted (WS0 engineering default, 2026-11-17; reversible)
+**Date:** 2026-11-17
+
+**Context:** All 106 real used-price sample bands are per generation, but the web reads variant rows only, so Decision 064's "real band first" step never ran on real data (fresh review of #64). Spreading one median over cheap and dear trims misprices both a little; an estimate from a curve misprices more.
+
+**Decision:** When a variant has no own sample band for a build year and country, its row takes the generation's sample band for that year and country with `basis: band` and `scope: generation`, ahead of the depreciation estimate. Pages label it "typical for this generation". Variant-level samples, when they exist, win.
+
+**Consequences:** Schema gains optional `scope: variant | generation` on UsedPriceYearBand (WS0). WS1 implements it in #64; the back-test reports how often the real median falls inside the shown band.
+
+## Decision 080: Autotijd list prices are held; new prices come from makers (Menno)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup)
+**Date:** 2026-11-17
+
+**Context:** PR #65 (T-112) took 71 BE list prices one by one from autotijd.be ("all rights reserved", no reuse terms). Decision 068 clears single facts from maker documents only; repeated extraction from one third-party site is an EU database-right risk.
+
+**Decision:** Merge the rows but register autotijd as its own source with status `blocked`, so they never reach a release. A builder re-sources those prices from the makers' own price lists or configurators (Decision 068). Meanwhile those cars use a used band or rank last (Decision 064).
+
+**Consequences:** Release 2 prices only what makers publish. Autotijd could be unblocked later only with written permission (WS5).
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

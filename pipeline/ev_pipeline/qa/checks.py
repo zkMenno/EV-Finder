@@ -413,9 +413,19 @@ def impossible_values(
         avg, peak = r.get("dc_avg_10_80_kw"), r.get("dc_peak_kw")
         if _num(avg) and _num(peak) and avg > peak + EPS:
             add(r, "dc_avg_gt_peak", "dc_avg_10_80_kw", avg, f"average {avg} > peak {peak} kW")
-        ac = r.get("ac_kw")
-        if _num(ac) and ac > MAX_AC_KW + EPS:
-            add(r, "ac_gt_43", "ac_kw", ac, f"AC {ac} kW > {MAX_AC_KW:g} kW")
+        for af in ("ac_kw", "ac_kw_optional"):
+            ac = r.get(af)
+            if _num(ac) and ac > MAX_AC_KW + EPS:
+                add(r, "ac_gt_43", af, ac, f"AC {ac} kW > {MAX_AC_KW:g} kW")
+        std, opt = r.get("ac_kw"), r.get("ac_kw_optional")
+        if _num(std) and _num(opt) and opt <= std + EPS:
+            add(
+                r,
+                "ac_optional_not_above",
+                "ac_kw_optional",
+                opt,
+                f"optional {opt} <= standard {std} kW",
+            )
         for f in ROW_NUMBER_FIELDS:
             v = r.get(f)
             if _num(v) and v < 0:
