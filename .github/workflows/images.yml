@@ -157,7 +157,8 @@ jobs:
     timeout-minutes: 10
     env:
       IMAGE: ghcr.io/zkmenno/ev-finder-web:${{ github.sha }}
-      PATHS: /health / /nl/nl /fr/fr /nl/nl/top /nl/nl/compare /nl/nl/learn /nl/nl/data /nl/nl/about /robots.txt /sitemap.xml
+      # Launch pages only: parked features (e.g. /top, Decision 051) answer 404 on purpose.
+      PATHS: /health / /nl/nl /fr/fr /nl/nl/compare /nl/nl/learn /nl/nl/data /nl/nl/about /robots.txt /sitemap.xml
     steps:
       - name: Pull the pushed image
         run: docker pull "$IMAGE"
