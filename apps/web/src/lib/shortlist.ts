@@ -1,13 +1,15 @@
-// Hero shortlist (T-080) and profile picker (T-067): the shortlist rules (Decisions 038 / 050) applied
-// in the browser to published fields. Pure functions, shared by the server render and the client.
+// Hero shortlist (T-080) and profile picker (T-067). Pure functions, shared by the server render and
+// the client.
 //
 // Order of work (docs/spec/launch-scope.md): hard filters first (the visitor's own refine filters,
-// country, new/used, budget), then the profile's gates and presets, then the score. A value we
-// don't have never rules a car out and never counts as low: it scores neutral (0.5) and is shown
-// as "not known yet" (Decision 038).
-import type { Country, UsedPriceBand } from "@ev/schema";
+// country, new/used, budget, the profile's presets), then the score. Scores, bands, gates and
+// reasons come only from the release (`shortlist_scores.json`, T-069; Decision 065): the web no
+// longer scores factors itself, so the back-tested ranking is the one visitors see. The rules file
+// still gives the picker, the presets, the factor names and their weights (display only).
+import type { Country, ShortlistBand, UsedPriceBand } from "@ev/schema";
 import generated from "@/config/shortlist-rules.generated.json";
 import type { ExploreRow } from "./explore-data";
+import { comboFrom } from "./release-scores";
 import { applyFilters, priceFor } from "./filters";
 import type { ExploreFilters } from "./state";
 
@@ -189,22 +191,27 @@ export function presetCheck(row: ExploreRow, p: RulePreset): "pass" | "fail" | "
   return "pass";
 }
 
-// ── Scoring ─────────────────────────────────────────────────────────────────────────────────
+// ── Scores: read from the release, never computed here (Decision 065) ─────────────────────
 
-export type Band = "shortlist" | "consider" | "fallback";
+export type Band = ShortlistBand;
 
-export interface FactorScore {
+/** The pipeline's key for a resolved profile (pipeline/ev_pipeline/derive/shortlist.py `combos`):
+ *  trip profile + "+kerbside" (no charger at home) + ".urban" / ".rural" (no suffix = town). */
+export function comboKey(rp: ResolvedProfile): string {
+  const area = rp.modifier && rp.modifier.id !== "suburban" ? `.${rp.modifier.id}` : "";
+  return `${rp.base.id}${rp.layer ? "+kerbside" : ""}${area}`;
+}
+
+export interface FactorView {
   id: string;
-  /** 0..1; 0.5 when unknown. */
-  score: number;
-  known: boolean;
-  /** Effective weight after weight steps (before renormalising). */
+  /** 0..1 from the release; null when the car's value is not known (scored 0.5 there). */
+  score: number | null;
+  /** The rule weight after the layer's and modifier's weight steps (display only). */
   weight: number;
-  /** The value the factor read, in the rule's unit (e.g. km/h for road-tripper DC). */
-  value: number | string | boolean | null;
   /**
-   * The car's own figure before the rule's `scale`, with the field it came from (T-097). This is
-   * what a buyer reads ("387 km in 20 min"); `value` is the scoring unit and can differ (×3 = km/h).
+   * The car's own figure behind the factor, with the field it came from (T-097): what a buyer reads
+   * ("387 km in 20 min"), never the scaled scoring unit (×3 = km/h, ×10 = Wh/km, basis scale).
+   * Winter range and efficiency read the release's derived estimates, as the release scores them.
    */
   field: string | null;
   raw: number | string | boolean | null;
@@ -215,142 +222,95 @@ export interface Adjustment {
   points: number;
 }
 
-export interface ScoreResult {
+export interface PickScore {
   score: number;
   band: Band;
-  /** First gate failed on a known value, else null. */
-  ruledOut: RuleGate | null;
-  factors: FactorScore[];
+  /** Release reason codes ('+dc-speed', 'bonus:newest-version', …). */
+  reasons: string[];
+  factors: FactorView[];
   adjustments: Adjustment[];
-  /** Factor ids without data (scored neutral). */
+  /** Factor ids without data (from the release). */
   unknown: string[];
+  /** Release-derived inputs (winter_range_km, real_wh_km), estimates. */
+  derived: Record<string, number>;
 }
 
-export interface ScoreContext {
-  /** model_id → newest year_start and how many distinct year_starts the model has. */
-  modelYears: Map<string, { newest: number; distinct: number }>;
-}
-
-export function scoreContext(rows: readonly ExploreRow[]): ScoreContext {
-  const years = new Map<string, Set<number>>();
-  for (const r of rows) {
-    const s = years.get(r.model_id) ?? new Set<number>();
-    s.add(r.year_start);
-    years.set(r.model_id, s);
+/** Weight steps from the kerbside layer and the where-you-live modifier (the pipeline's combos;
+ *  add-ons such as keep-8-years are not in the release yet, so they don't change the order). */
+function steps(rp: ResolvedProfile): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const src of [rp.layer?.weight_steps, rp.modifier?.weight_steps]) {
+    for (const [k, n] of Object.entries(src ?? {})) out[k] = (out[k] ?? 0) + n;
   }
-  const modelYears = new Map<string, { newest: number; distinct: number }>();
-  for (const [id, s] of years) modelYears.set(id, { newest: Math.max(...s), distinct: s.size });
-  return { modelYears };
+  return out;
 }
 
-/** Same maths as data/editorial/backtest_rules.py `lin`: linear, clamped, unknown = 0.5. */
-export function lin(x: number | null, poor: number, great: number): number {
-  if (x === null) return 0.5;
-  return Math.max(0, Math.min(1, (x - poor) / (great - poor)));
+/** The factor rows of a profile with their effective weights (for the Nerd table). */
+export function factorRows(rp: ResolvedProfile, rules: ShortlistRules = RULES): { id: string; weight: number }[] {
+  const st = steps(rp);
+  return [...rp.base.factors, ...(rp.layer?.extra_factors ?? [])].map((f) => ({
+    id: f.id,
+    weight: Math.round(f.weight * Math.pow(rules.weight_step_factor, st[f.id] ?? 0) * 10) / 10,
+  }));
 }
 
-function factorScore(row: ExploreRow, f: RuleFactor, weight: number): FactorScore {
-  const base = { id: f.id, weight, field: f.field };
-  switch (f.kind) {
-    case "linear": {
-      const raw = f.field ? fieldValue(row, f.field) : null;
-      const v = raw === null ? null : raw * (f.scale ?? 1);
-      return { ...base, score: lin(v, f.poor!, f.great!), known: v !== null, value: v, raw };
-    }
-    case "heat-pump": {
-      const hp = row.heat_pump;
-      const s = hp === "standard" ? 1 : hp === "option" ? 0.6 : hp === "none" ? 0 : 0.5;
-      return { ...base, score: s, known: hp === "standard" || hp === "option" || hp === "none", value: hp ?? null, raw: hp ?? null };
-    }
-    case "cooling": {
-      const c = row.cooling_id;
-      const s = c === "liquid" || c === "refrigerant" ? 1 : c === "air" || c === "passive" ? 0 : 0.5;
-      return { ...base, score: s, known: s !== 0.5, value: c ?? null, raw: c ?? null };
-    }
-    case "bool": {
-      const v = f.field ? (row as unknown as Record<string, unknown>)[f.field] : undefined;
-      const known = typeof v === "boolean";
-      const b = known ? (v as boolean) : null;
-      return { ...base, score: v === true ? 1 : v === false ? 0 : 0.5, known, value: b, raw: b };
-    }
-    default:
-      return { ...base, score: 0.5, known: false, value: null, raw: null };
-  }
+/** Which value a factor's score is built on when it isn't the rule's own `field`: the release's
+ *  derived estimates (mirrors `field_overrides` in pipeline/ev_pipeline/derive/shortlist_params.yaml). */
+const SCORED_FIELD: Record<string, string> = { "winter-range": "winter_range_km", efficiency: "real_wh_km" };
+
+/** The car's own figure behind a factor (T-097), unscaled; null when not known. Yes/no factors
+ *  whose field is a structure (bidi modes) read the release's 0/1 score. */
+function ownValue(
+  f: RuleFactor,
+  row: ExploreRow,
+  derived: Record<string, number>,
+  score: number | null,
+): { field: string | null; raw: number | string | boolean | null } {
+  const field = SCORED_FIELD[f.id] ?? f.field;
+  if (field === null) return { field, raw: null };
+  const v = derived[field] ?? (row as unknown as Record<string, unknown>)[field];
+  if (typeof v === "number" && Number.isFinite(v)) return { field, raw: v };
+  if (typeof v === "boolean") return { field, raw: v };
+  if (typeof v === "string" && v !== "not-disclosed") return { field, raw: v };
+  if (f.kind === "bool" && (score === 0 || score === 1)) return { field, raw: score === 1 };
+  return { field, raw: null };
 }
 
-function bandKey(row: ExploreRow, bands: RuleProfile["bands"]): string {
-  const v = row.voltage_class_id;
-  const high = v === "800v" || v === "900v-plus" || (row.voltage_nominal_v ?? 0) >= 600;
-  if (high && bands["800v"]) return "800v";
-  if (v === "400v" && bands["400v"]) return "400v";
-  return bands.default ? "default" : "400v";
-}
-
-/** "Wide or heavy SUV": kerb mass over ~2,300 kg (width is a gap field). Unknown mass = no penalty. */
-function tooBig(row: ExploreRow): boolean {
-  if (typeof row.kerb_mass_kg === "number") return row.kerb_mass_kg > 2300;
-  // Mass in running order includes a 75 kg driver (Decision 023).
-  if (typeof row.mass_running_order_kg === "number") return row.mass_running_order_kg > 2375;
-  return false;
-}
-
-function penaltyApplies(id: string, row: ExploreRow): boolean {
-  return id === "too-big-for-b-roads" ? tooBig(row) : false;
-}
-
-export function scoreRow(row: ExploreRow, rp: ResolvedProfile, ctx: ScoreContext, rules: ShortlistRules = RULES): ScoreResult {
-  const { base, layer, modifier, addons } = rp;
-  const rural = modifier?.use_rural_gates === true;
-  let ruledOut: RuleGate | null = null;
-  for (const g of base.gates) {
-    const raw = fieldValue(row, g.field);
-    if (raw === null) continue;
-    const lim = rural && g.rural_min !== null ? g.rural_min : g.min;
-    if (raw * g.scale < lim) {
-      ruledOut = g;
-      break;
-    }
-  }
-  const steps: Record<string, number> = {};
-  for (const src of [layer?.weight_steps, modifier?.weight_steps, ...addons.map((a) => a.weight_steps)]) {
-    for (const [k, n] of Object.entries(src ?? {})) steps[k] = (steps[k] ?? 0) + n;
-  }
-  const rows = [...base.factors, ...(layer?.extra_factors ?? [])];
-  const factors = rows.map((f) => factorScore(row, f, f.weight * Math.pow(rules.weight_step_factor, steps[f.id] ?? 0)));
-  const wsum = factors.reduce((s, f) => s + f.weight, 0);
-  let pts = wsum > 0 ? (100 * factors.reduce((s, f) => s + f.score * f.weight, 0)) / wsum : 50;
-
-  const adjustments: Adjustment[] = [];
-  const add = (id: string, points: number) => {
-    adjustments.push({ id, points });
-    pts += points;
+/** The release score of one row for a profile; null when the release has none for it. */
+export function scoreFor(row: ExploreRow, rp: ResolvedProfile, rules: ShortlistRules = RULES): PickScore | null {
+  const c = comboFrom(row.shortlist, comboKey(rp));
+  if (!c) return null;
+  const trip = rp.base.id;
+  const fv = row.shortlist?.f?.[trip] ?? {};
+  const unknownAll = row.shortlist?.u?.[trip] ?? [];
+  const derived = row.shortlist?.d ?? {};
+  const rule = new Map([...rp.base.factors, ...(rp.layer?.extra_factors ?? [])].map((f) => [f.id, f]));
+  const factors = factorRows(rp, rules).map((f) => {
+    const score = typeof fv[f.id] === "number" ? fv[f.id]! : null;
+    const r = rule.get(f.id);
+    return { ...f, score, ...(r ? ownValue(r, row, derived, score) : { field: null, raw: null }) };
+  });
+  const points = new Map<string, number>();
+  for (const b of rp.base.bonuses) points.set(`bonus:${b.id}`, b.points);
+  for (const p of [...rp.base.penalties, ...(rp.modifier?.penalties ?? [])]) points.set(`penalty:${p.id}`, p.points);
+  const adjustments = c.reasons
+    .filter((r) => r.startsWith("bonus:") || r.startsWith("penalty:"))
+    .map((r) => ({ id: r.slice(r.indexOf(":") + 1), points: points.get(r) ?? 0 }));
+  return {
+    score: c.score,
+    band: c.band,
+    reasons: c.reasons,
+    factors,
+    adjustments,
+    unknown: factors.filter((f) => f.score === null && unknownAll.includes(f.id)).map((f) => f.id),
+    derived,
   };
-  const my = ctx.modelYears.get(row.model_id);
-  const versions = my !== undefined && my.distinct > 1;
-  for (const b of base.bonuses) {
-    if (b.id === "newest-version" && versions && row.year_start === my.newest) add(b.id, b.points);
-    if (b.id === "lfp-daily-100" && row.charge_100_daily === true) add(b.id, b.points);
-  }
-  const applied = new Set<string>();
-  for (const p of base.penalties) {
-    if (p.id === "older-version") {
-      if (versions && row.year_start < my.newest) add(p.id, p.points);
-      continue;
-    }
-    if (p.applies_with !== null && p.applies_with !== modifier?.id) continue;
-    if (penaltyApplies(p.id, row)) {
-      add(p.id, p.points);
-      applied.add(p.id);
-    }
-  }
-  for (const p of modifier?.penalties ?? []) {
-    if (!applied.has(p.id) && penaltyApplies(p.id, row)) add(p.id, p.points);
-  }
+}
 
-  const score = Math.round(pts * 10) / 10;
-  const b = base.bands[bandKey(row, base.bands)] ?? { shortlist: 60, consider: 50 };
-  const band: Band = score >= b.shortlist ? "shortlist" : score >= b.consider ? "consider" : "fallback";
-  return { score, band, ruledOut, factors, adjustments, unknown: factors.filter((f) => !f.known).map((f) => f.id) };
+/** Explore's "Suggested" sort: the release score; ruled out or not scored → null (sorted last). */
+export function suggestedScore(row: ExploreRow, rp: ResolvedProfile): number | null {
+  const c = comboFrom(row.shortlist, comboKey(rp));
+  return c && c.band !== "ruled-out" ? c.score : null;
 }
 
 // ── Prices: used band for the build years that fit, else the new price ─────────────────────
@@ -505,7 +465,7 @@ export interface HeroQuery {
 export interface HeroPick {
   rank: number;
   row: ExploreRow;
-  result: ScoreResult;
+  result: PickScore;
   price: PriceFit | null;
   /** Presets this car passes only because the value is not known yet. */
   presetUnknown: PresetField[];
@@ -514,6 +474,8 @@ export interface HeroPick {
 }
 
 export interface HeroResult {
+  /** "no-scores": the release has no shortlist_scores.json, so nothing is ranked (Decision 065). */
+  status: "ranked" | "no-scores";
   picks: HeroPick[];
   /** Models that qualified (before cutting to TOP_N). */
   qualifying: number;
@@ -521,13 +483,23 @@ export interface HeroResult {
   unpriced: number;
   ruledOutByGate: number;
   overBudget: number;
+  /** Variants that passed the filters but have no release score for this profile. */
+  unscored: number;
 }
 
-export function rankHero(rows: readonly ExploreRow[], rp: ResolvedProfile, q: HeroQuery, rules: ShortlistRules = RULES): HeroResult {
-  const ctx = scoreContext(rows);
+export function rankHero(
+  rows: readonly ExploreRow[],
+  rp: ResolvedProfile,
+  q: HeroQuery,
+  opts: { hasScores: boolean },
+  rules: ShortlistRules = RULES,
+): HeroResult {
+  const empty: HeroResult = { status: "no-scores", picks: [], qualifying: 0, unpriced: 0, ruledOutByGate: 0, overBudget: 0, unscored: 0 };
+  if (!opts.hasScores) return empty;
   const presets = presetsFor(rp).filter((p) => !q.presetsOff.includes(p.field));
   let ruledOutByGate = 0;
   let overBudget = 0;
+  let unscored = 0;
   const best = new Map<string, HeroPick & { count: number }>();
   for (const row of applyFilters([...rows], q.filters, q.country)) {
     if (q.cond === "new" && row.on_sale_new !== true) continue;
@@ -538,8 +510,12 @@ export function rankHero(rows: readonly ExploreRow[], rp: ResolvedProfile, q: He
       overBudget++;
       continue;
     }
-    const result = scoreRow(row, rp, ctx, rules);
-    if (result.ruledOut) {
+    const result = scoreFor(row, rp, rules);
+    if (!result) {
+      unscored++;
+      continue;
+    }
+    if (result.band === "ruled-out") {
       ruledOutByGate++;
       continue;
     }
@@ -570,11 +546,13 @@ export function rankHero(rows: readonly ExploreRow[], rp: ResolvedProfile, q: He
   );
   const picks = sorted.slice(0, TOP_N).map(({ count, ...p }, i) => ({ ...p, rank: i + 1, alternatives: count - 1 }));
   return {
+    status: "ranked",
     picks,
     qualifying: sorted.length,
     unpriced: picks.filter((p) => p.price === null).length,
     ruledOutByGate,
     overBudget,
+    unscored,
   };
 }
 
@@ -582,14 +560,10 @@ export function rankHero(rows: readonly ExploreRow[], rp: ResolvedProfile, q: He
 
 export interface Reason {
   id: string;
-  value: number | string | boolean | null;
 }
 
-/** The two strongest known factors (score ≥ 0.6, by weighted score) plus the bonuses. */
-export function reasons(result: ScoreResult, max = 2): Reason[] {
-  return result.factors
-    .filter((f) => f.known && f.score >= 0.6)
-    .sort((a, b) => b.score * b.weight - a.score * a.weight)
-    .slice(0, max)
-    .map((f) => ({ id: f.id, value: f.value }));
+/** The release's strongest plus factors (in its order, at most `max`) plus its bonuses. */
+export function reasons(result: PickScore, max = 2): Reason[] {
+  const plus = result.reasons.filter((r) => r.startsWith("+")).slice(0, max).map((r) => ({ id: r.slice(1) }));
+  return plus;
 }

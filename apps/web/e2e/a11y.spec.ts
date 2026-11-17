@@ -2,6 +2,7 @@
 // Fails on critical and serious violations; moderate and minor ones are recorded in
 // audits/A-04-accessibility.md (the summary per page is attached to the test report).
 import AxeBuilder from "@axe-core/playwright";
+import { HAS_SCORES } from "./release";
 import { expect, test, type Page } from "@playwright/test";
 
 // width: phone checks at 360 px (T-096: the Dutch card view only showed its label problems there).
@@ -29,14 +30,15 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
     path: "/nl/en/compare?ids=renault-zoe-ph1-r240,renault-zoe-ph2-r135",
     ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()),
   },
-  // T-096: the hero with answers (cards, compare buttons, Nerd table) in EN and NL.
-  { name: "hero-en-nerd", path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId("hero-nerd").first()).toBeVisible()) },
-  { name: "hero-nl", path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId("hero-card").first()).toBeVisible()) },
-  { name: "hero-nl-360", width: 360, path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId("hero-card").first()).toBeVisible()) },
-  { name: "hero-en-nerd-360", width: 360, path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId("hero-nerd").first()).toBeVisible()) },
-  // T-119: Spain and Italy in their own language (Decision 066).
-  { name: "hero-es", path: "/es/es?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId("hero-card").first()).toBeVisible()) },
-  { name: "hero-it-360", width: 360, path: "/it/it?role=only&trips=monthly&budget=30000", ready: async (p) => void (await expect(p.getByTestId("hero-card").first()).toBeVisible()) },
+  // T-096: the hero with answers (cards, compare buttons, Nerd table) in EN and NL. Without release
+  // scores (Decision 065) the same pages show the "ranking not available" state, which is checked.
+  { name: "hero-en-nerd", path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-nerd" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-nl", path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-nl-360", width: 360, path: "/nl/nl?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-en-nerd-360", width: 360, path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-nerd" : "hero-no-scores").first()).toBeVisible()) },
+  // T-119: Spain and Italy in their own language (Decision 066); same no-scores switch as above.
+  { name: "hero-es", path: "/es/es?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
+  { name: "hero-it-360", width: 360, path: "/it/it?role=only&trips=monthly&budget=30000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   // Dutch compare buttons: "Vergelijk" must be inside the name (Label in Name), cards and variant page.
   { name: "explore-cards-nl", path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
   { name: "explore-cards-nl-360", width: 360, path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },

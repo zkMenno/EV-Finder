@@ -10,7 +10,7 @@ import { nerdValue, numberParts } from "./nerd-value";
 
 const tEn = makeT(en as Dict);
 const tNl = makeT({ ...en, ...nl } as Dict);
-const num = (field: string, raw: number) => ({ known: true, field, raw });
+const num = (field: string, raw: number) => ({ field, raw });
 
 describe("nerdValue (T-097)", () => {
   it("shows the car's own DC figure in km per 20 min, not the scaled km/h", () => {
@@ -29,16 +29,20 @@ describe("nerdValue (T-097)", () => {
     expect(nerdValue(num("boot_l", 470), tEn, "en")).toBe("470 L");
     expect(nerdValue(num("ac_kw", 11), tEn, "en")).toBe("11 kW");
     expect(nerdValue(num("length_mm", 4250), tNl, "nl")).toBe("4,25 m");
+    // The release's derived estimates (T-114): winter range in km, real efficiency in Wh/km.
+    expect(nerdValue(num("winter_range_km", 301.6), tEn, "en")).toBe("302 km in winter (est.)");
+    expect(nerdValue(num("winter_range_km", 301.6), tNl, "nl")).toBe("302 km in de winter (schatting)");
+    expect(nerdValue(num("real_wh_km", 187.4), tEn, "en")).toBe("187 Wh/km");
   });
 
   it("unknown stays 'not known yet' (NL: nog onbekend)", () => {
-    expect(nerdValue({ known: false, field: "dc_km_per_20min", raw: null }, tNl, "nl")).toBe("nog onbekend");
+    expect(nerdValue({ field: "dc_km_per_20min", raw: null }, tNl, "nl")).toBe("nog onbekend");
   });
 
   it("labels words and yes/no instead of showing raw ids", () => {
-    expect(nerdValue({ known: true, field: "heat_pump", raw: "option" }, tNl, "nl")).toBe("optie");
-    expect(nerdValue({ known: true, field: "cooling_id", raw: "air" }, tEn, "en")).toBe("air");
-    expect(nerdValue({ known: true, field: "fast_on_400v", raw: true }, tNl, "nl")).toBe("ja");
+    expect(nerdValue({ field: "heat_pump", raw: "option" }, tNl, "nl")).toBe("optie");
+    expect(nerdValue({ field: "cooling_id", raw: "air" }, tEn, "en")).toBe("air");
+    expect(nerdValue({ field: "fast_on_400v", raw: true }, tNl, "nl")).toBe("ja");
   });
 
   it("has the unit strings in all six languages, each with {v}", () => {

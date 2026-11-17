@@ -17,7 +17,7 @@ import { heroFromSearchParams } from "@/lib/hero-state";
 import { hasTowns } from "@/lib/trip-model";
 import { article, articleTitle } from "@/lib/learn";
 import { LISTING_SITES } from "@/lib/listings";
-import { rankHero, resolveProfile, scoreContext, scoreRow, type UsedBands } from "@/lib/shortlist";
+import { rankHero, resolveProfile, suggestedScore, type UsedBands } from "@/lib/shortlist";
 import { fromSearchParams, hasLevelParam, hasPayParam, hasViewParam } from "@/lib/state";
 import { localizeTaxonomy } from "@/lib/taxonomy";
 import { pageMeta, servedRoute } from "./ev/_lib/context";
@@ -46,7 +46,10 @@ export default async function ExplorePage({ params, searchParams }: Props) {
 
   const cat = getCatalogue();
   const used = cat.variantUsedPrices();
-  const all = cat.rows().map((r) => toExploreRow(r, used));
+  // Release shortlist scores (Decision 065): the only basis for the hero and "Suggested" order.
+  const scores = cat.shortlistScores();
+  const hasScores = scores !== null;
+  const all = cat.rows().map((r) => toExploreRow(r, used, scores));
   const state = fromSearchParams(sp);
   // No towns for this country yet (ES/IT, T-119): no trip check rather than borrowed weather.
   const tripFit = tripFitEnabled() && hasTowns(country);
@@ -55,13 +58,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   // Hero (T-080) answers also drive Explore's "Suggested" sort (T-067).
   const hero = heroFromSearchParams(sp);
   const profile = resolveProfile(hero.answers);
-  const sctx = scoreContext(all);
-  const scorer = profile
-    ? (r: (typeof all)[number]) => {
-        const res = scoreRow(r, profile, sctx);
-        return res.ruledOut ? null : res.score;
-      }
-    : undefined;
+  const scorer = profile ? (r: (typeof all)[number]) => suggestedScore(r, profile) : undefined;
   const matches = sortRows(applyFilters(all, state.filters, cfg.code), state.sort, state.dir, cfg.code, scorer);
 
   // Hero (T-080): ranked on the server from the URL, re-ranked in the browser on every change.
@@ -80,7 +77,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         presetsOff: hero.presetsOff,
         usedBands,
         nowYear,
-      })
+      }, { hasScores })
     : null;
   const makes = [...new Map(all.map((r) => [r.make_id, r.make_name])).entries()]
     .map(([id, name]) => ({ id, name }))
@@ -112,6 +109,8 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         base={siteBase(country, lang)}
         initial={hero}
         initialResult={heroResult}
+        hasScores={hasScores}
+        release={cat.release()}
         dataUrl={dataUrl}
         total={all.length}
         finance={financeProfile(cfg.code)}
@@ -145,6 +144,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
           dataUrl={dataUrl}
           sources={sourceNames(cat.sources())}
           tripFit={tripFit}
+          hasScores={hasScores}
           finance={financeProfile(cfg.code)}
           payFromUrl={hasPayParam(sp)}
         />

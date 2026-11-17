@@ -42,6 +42,33 @@ describe("catalogue", () => {
     expect(c.sources().length).toBeGreaterThan(0);
   });
 
+  it("shortlist scores (T-114): read from shortlist_scores.json next to catalogue.json, null without it", () => {
+    const dir = releaseDir(8, "8");
+    process.env.CATALOGUE_DIR = dir;
+    expect(getCatalogue().shortlistScores()).toBeNull();
+    expect(toClientCatalogue(8, [], getCatalogue().rows(), undefined, null).scores).toBe(false);
+
+    const dir2 = releaseDir(9, "9");
+    const vid = fixture.rows[0]!.variant_id;
+    writeFileSync(
+      path.join(dir2, "9", "shortlist_scores.json"),
+      JSON.stringify({ release: 9, generated_at: "2026-11-17T00:00:00Z", variants: [{ variant_id: vid, derived: { winter_range_km: 300 }, scores: { "road-tripper": { score: 61.5, band: "shortlist", reasons: ["+dc-speed"] } } }] }),
+    );
+    process.env.CATALOGUE_DIR = dir2;
+    const c = getCatalogue();
+    expect(c.shortlistScores()?.variants.get(vid)?.scores["road-tripper"]).toEqual({ score: 61.5, band: "shortlist", reasons: ["+dc-speed"] });
+    const client = toClientCatalogue(9, [], c.rows(), undefined, c.shortlistScores());
+    expect(client.scores).toBe(true);
+    expect(client.rows.find((r) => r.variant_id === vid)?.shortlist).toEqual({ s: { "road-tripper": [61.5, "shortlist", "+dc-speed"] }, d: { winter_range_km: 300 } });
+  });
+
+  it("dev fixture carries the pipeline-made fixture scores for every row", () => {
+    process.env.CATALOGUE_DIR = mkdtempSync(path.join(tmpdir(), "ev-empty-"));
+    const c = getCatalogue();
+    const s = c.shortlistScores()!;
+    for (const r of c.rows()) expect(s.variants.has(r.variant_id), r.variant_id).toBe(true);
+  });
+
   it("ignores a bad latest pointer", () => {
     expect(latestCataloguePath(releaseDir(2, "nope"))).toBeNull();
     expect(latestCataloguePath(releaseDir(2, "3"))).toBeNull();

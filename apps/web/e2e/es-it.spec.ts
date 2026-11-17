@@ -1,6 +1,7 @@
 // T-119 (Decision 066): Spain and Italy are served at /es/es and /it/it (+ English), and Spanish
 // and Italian appear for those two countries only. Runs on the published release like the others.
 import { expect, test } from "@playwright/test";
+import { HAS_SCORES, NO_SCORES_REASON } from "./release";
 
 const ROUTES = [
   { country: "es", lang: "es", name: "España" },
@@ -49,9 +50,11 @@ test("ES/IT: hreflang and sitemap carry es-ES and it-IT, and no Spanish or Itali
 });
 
 // Acceptance: a hero walk for ES and IT at two budgets, in their own language, euro prices.
+// The ranked hero needs the release's shortlist_scores.json (Decision 065), like hero.spec.ts.
 for (const { country, lang } of ROUTES) {
   for (const budget of [20000, 40000]) {
     test(`ES/IT: hero walk ${country}/${lang} at €${budget}`, async ({ page }) => {
+      test.skip(!HAS_SCORES, NO_SCORES_REASON);
       await page.setViewportSize({ width: 360, height: 800 });
       await page.goto(`/${country}/${lang}?role=only&trips=monthly&budget=${budget}`);
       await expect(page.locator("html")).toHaveAttribute("lang", lang);

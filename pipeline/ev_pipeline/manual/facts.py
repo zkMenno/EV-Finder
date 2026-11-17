@@ -5,6 +5,9 @@ File format (`schema: manual-facts/v1`)::
     schema: manual-facts/v1
     entered_by: menno            # default for every fact in the file (optional)
     fixture: false               # true = example/test file, never loaded by a release
+    source: manual               # optional data/sources.yaml id for every fact in the file
+                                 # (default `manual`); e.g. a third-party site with its own
+                                 # status, so the licence gate decides per site (Decision 080)
     facts:
       - variant_id: vw-id3-pro-58kwh     # or generation_id (exactly one)
         field: warranty_years            # a schema FactField
@@ -24,10 +27,10 @@ File format (`schema: manual-facts/v1`)::
         claim: true                      # optional, default true (maker documents are claims)
         notes: "..."                     # optional
 
-Every fact becomes a schema `Fact` with source id `manual` and is checked against the JSON
-Schema `Fact` def plus the extra rules above. The release loads them as source `manual`,
-which data/sources.yaml keeps `blocked` until Q-008 is answered, so the licence gate drops
-them (counted under `gated_sources`) and they stay internal-only.
+Every fact becomes a schema `Fact` with source id `manual` (or the file's `source`) and is
+checked against the JSON Schema `Fact` def plus the extra rules above. The release loads them
+as source `manual`, which data/sources.yaml keeps `blocked` until Q-008 is answered, so the
+licence gate drops them (counted under `gated_sources`) and they stay internal-only.
 
 Folders whose name starts with `_` (e.g. `data/manual/_example/`) and files with
 `fixture: true` are validated by `ev manual check` but never loaded by a release.
@@ -75,7 +78,7 @@ EXTRA_UNITS: dict[str, str] = {
 STRING_UNITS = {"id", "enum"}
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 
-FILE_KEYS = {"schema", "entered_by", "fixture", "facts", "notes"}
+FILE_KEYS = {"schema", "entered_by", "fixture", "facts", "notes", "source"}
 FACT_KEYS = {
     "variant_id",
     "generation_id",
@@ -198,12 +201,14 @@ def _value_problems(fname: str, value: Any, unit: str) -> list[str]:
     return out
 
 
-def _source_dict(registry: Registry | None, url: str, name: str | None) -> dict[str, Any]:
-    entry = registry.sources.get(MANUAL_SOURCE_ID) if registry is not None else None
+def _source_dict(
+    registry: Registry | None, url: str, name: str | None, source_id: str = MANUAL_SOURCE_ID
+) -> dict[str, Any]:
+    entry = registry.sources.get(source_id) if registry is not None else None
     base = entry.name if entry is not None else DEFAULT_SOURCE_NAME
     licence = (entry.licence if entry is not None else DEFAULT_LICENCE) or DEFAULT_LICENCE
     src: dict[str, Any] = {
-        "id": MANUAL_SOURCE_ID,
+        "id": source_id,
         "name": f"{base}: {name}" if name else base,
         "url": url,
         "licence": licence.split("(")[0].strip() or licence,
@@ -242,6 +247,17 @@ def parse_manual_file(
         file_issue("`facts` must be a non-empty list")
         return [], issues, fixture
     file_by = _text(data.get("entered_by"))
+    source_id = MANUAL_SOURCE_ID
+    if "source" in data:
+        sid = _text(data.get("source"))
+        if not sid or not ID_RE.match(sid):
+            file_issue(f"source must be a data/sources.yaml id, got {data.get('source')!r}")
+            return [], issues, fixture
+        if registry is not None and registry.loaded and sid not in registry.sources:
+            # Fail closed: an unregistered source could never be gated by its own status.
+            file_issue(f"source {sid!r} is not in data/sources.yaml")
+            return [], issues, fixture
+        source_id = sid
     stem = f"{topic}/{path.stem}"
     validator = _validator("Fact")
     out: list[ManualFact] = []
@@ -335,13 +351,15 @@ def parse_manual_file(
             if fname != "dc_curve" and isinstance(value, int) and not isinstance(value, bool):
                 value_out = float(value)
             fd: dict[str, Any] = {
-                "id": f"{MANUAL_SOURCE_ID}:{record_key}",
+                "id": f"{source_id}:{record_key}",
                 "subject_type": subject_type,
                 "subject_id": subject_id,
                 "field": fname,
                 "value": value_out,
                 "unit": unit,
-                "source": _source_dict(registry, str(url).strip(), _text(raw.get("source_name"))),
+                "source": _source_dict(
+                    registry, str(url).strip(), _text(raw.get("source_name")), source_id
+                ),
                 "source_record": f"{rel}#{i}",
                 "retrieved_at": retrieved.isoformat() if retrieved else "",
                 "confidence": conf,
@@ -406,8 +424,9 @@ def load_manual_dir(
 ) -> ManualLoad:
     """All data/manual/<topic>/*.yaml files. `for_release` skips `_`-folders and fixtures.
 
-    Duplicate (subject, field, country, year) entries across files are errors: one
-    hand-entered value per fact, so a second one has to replace the first, not compete with it.
+    Duplicate (source, subject, field, country, year) entries across files are errors: one
+    hand-entered value per fact, source and year, so a second one has to replace the first, not
+    compete with it.
     """
     res = ManualLoad()
     root = data_dir / "manual"
@@ -437,9 +456,11 @@ def load_manual_dir(
         res.issues += issues
         for mf in facts:
             f = mf.fact
+            # Per source (Decision 080): a held third-party value may sit next to the maker
+            # value that replaces it; the licence gate decides which one ships.
             dup = (
-                f"{f.subject_id.root}|{f.field.value}|{f.country.value if f.country else ''}"
-                f"|{mf.year or ''}"
+                f"{f.source.id.root}|{f.subject_id.root}|{f.field.value}|"
+                f"{f.country.value if f.country else ''}|{mf.year or ''}"
             )
             if dup in seen and not fixture:
                 res.issues.append(
@@ -495,7 +516,7 @@ def attach_manual_facts(
         problems.append(
             Problem(
                 "manual",
-                MANUAL_SOURCE_ID,
+                f.source.id.root,
                 mf.record_key,
                 f.subject_id.root,
                 f.field.value,
@@ -517,7 +538,7 @@ def attach_manual_facts(
             out.append(
                 MatchedFact(
                     f,
-                    MANUAL_SOURCE_ID,
+                    f.source.id.root,
                     MANUAL_PRIORITY,
                     mf.year,  # price_new: the year the price applies to (used price lookup)
                     info.generation_id,
@@ -541,7 +562,7 @@ def attach_manual_facts(
             out.append(
                 MatchedFact(
                     copy,
-                    MANUAL_SOURCE_ID,
+                    f.source.id.root,
                     MANUAL_PRIORITY,
                     mf.year,
                     sid,
