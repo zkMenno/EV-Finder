@@ -8,7 +8,7 @@
 target: github
 
 github:
-  repo: zkMenno/EV-Finder
+  repo: zkMenno/EV-Shortlist  # renamed from EV-Finder on 2026-11-17 (GitHub redirects old URLs)
   tag: "data-v{n}"
   # Public download URL of one asset; {repo}, {tag} and {asset} are filled in.
   download_url: "https://github.com/{repo}/releases/download/{tag}/{asset}"
