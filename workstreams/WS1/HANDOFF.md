@@ -1,35 +1,30 @@
-# WS1 handoff — 2026-11-15 ~12:55 UTC
+# WS1 handoff — 2026-11-17 ~07:00 local (06:00 UTC)
 
-Chat: https://claude.ai/code/session_01JuyZEVuT84JYBi2Cty9CzW (2nd WS1 session). Next chat: "Read workstreams/WS1/HANDOFF.md and START.md and go."
+Chat: https://claude.ai/code/session_01JuyZEWFXbkeYSii8dVSWnx (3rd WS1 session). Next chat prompt:
 
-## State: 2 PRs open, both branched from main
+```
+Attach github.com/zkMenno/EV-Finder with push access (add_repo, access: push), then read workstreams/WS1/HANDOFF.md and START.md and go.
+```
 
+## State: 3 PRs open
 | PR | Branch | What |
 |---|---|---|
-| [#15](https://github.com/zkMenno/EV-Finder/pull/15) | `t-069-shortlist-scores` | T-069: `shortlist_scores.json` per release (18 profile combos per variant, reasons, unknowns, 0..1 factors), Decisions 040–042, CHATS row. CI green. |
-| [#21](https://github.com/zkMenno/EV-Finder/pull/21) | `t-081-used-price-bands` | T-081 + T-056: `used_prices.json` (model bands per variant × build year × country, manual-sample override + qa.json back-test), Decision 043, research/R-40, audits/A-31, this handoff. |
+| [#44](https://github.com/zkMenno/EV-Finder/pull/44) | `t-123-release-diff` | T-123: blocking `release_diff` QA check, config/approved_changes.yaml, Decision 044. CI green. |
+| [#51](https://github.com/zkMenno/EV-Finder/pull/51) | `t-127-verify-pipeline` | T-127: `ev verify` + skill, audits/A-32, this handoff. **Branched from #44**: merge #44 first. |
+| [#49](https://github.com/zkMenno/EV-Finder/pull/49) | `t-124-property-tests` | T-124: Hypothesis property tests; Decision 045 (sibling rung by WLTP ratio). From main. |
 
-Merge #15 first; #21 then has a two-line DECISIONS.md conflict (keep both entries).
-
-## Waiting on others
-- **WS0 schema (T-066/T-065):** `ShortlistScoresRelease`, `UsedPricesRelease` (shapes in WS0 INBOX 11:55 and 12:40), plus the earlier TownsRelease, ConsumptionMatrixRelease, retired_ids, ac_kw_optional (T-063 blocked).
-- **WS0/Menno:** who notes manual price samples (layer 2)? Until someone does, every price band is a model estimate. Asked WS0 to put it in QUESTIONS.
-- **WS3:** `unit` on road-tripper DC rows and the winter field in shortlist_rules.yaml; cited list prices (UK, Tesla) for price coverage; T-068 EV6/IONIQ 5 84 kWh split; manual price aggregates format (WS3 INBOX 12:40).
-- **WS5:** permission to show AGPI / Autotrader RPI / Indicata as public trend lines (R-40 §1), only if wanted.
-- **Menno (QUESTIONS):** Q-047 (KilowattApp provenance: also decides whether its 1,099 values stay in the open bundle, A-31), Q-059.
+DECISIONS.md: #44 adds 044, #49 adds 045 at the same spot → a two-entry conflict; keep both.
 
 ## Open work for WS1 (next, in order)
-1. Review notes on #15 / #21 if they appear in the INBOX; rebase #21 after #15 merges.
-2. START §3 item 6: winter range quality. Rerun T-035 (EPA proxy back-test) on the calibrated matrix and report per profile-relevant field (winter range, DC km in 20 min) in qa.json. Needs live staging: `EV_DATA_DIR=<dir> uv run ev fetch fueleconomy && uv run ev normalise fueleconomy` (plus openev, kilowatt-openev).
-3. Refit `basis_scale` in `pipeline/ev_pipeline/derive/shortlist_params.yaml` after item 6 changes the matrix (method in Decision 042; the dry-run script pattern is in the T-069 handoff notes).
-4. T-063 and T-064 part 2 once unblocked.
+1. Review notes on #44 / #49 / #51 if they show up in the INBOX.
+2. A-32 findings 1–2 (task number from WS0): which source/rule changed `consumption_kwh_100km` (−11 % median on 45 variants) and why 19 variants lost `wltp_range_km`. Use `ev verify --data-dir <scratch>` and its `-release-diff.csv`.
+3. WS3 asks still open: '+' → 'plus' in `normalise.key` (T-068; flip the strict xfail in test_t124_properties when done), KBA/DfT/EEA aliases for the new models, optional `years:` on manual facts (T-031).
+4. WS0 delegated: Catalogue.retired_ids + FactField entries for ac_kw_optional/EPA/one_pedal/regen_paddles/ota_updates (unblocks T-063).
+5. rdw-tgk refresh failed (SnapshotError: nothing to snapshot).
 
-## Decisions made in this chat
-- 040, 041 (charging defaults; climate + consumption basis) logged as proposed earlier.
-- 042: shortlist scores = editorial release file; basis bridge (winter ×1.24, Wh/km ×1.155, DC ×1.42) keeps Menno's thresholds; unknown = 0.5 and listed; > half unknown → not-enough-data.
-- 043: used price model = list price at registration × kept share (DAT/ING/Allianz anchors), ±12 % band, samples override, indices internal only.
+## Live staging
+Recorded today in /tmp/live/data on the session machine (gone with the session). Recreate: copy data/ to a scratch dir, `EV_DATA_DIR=<dir> uv run ev refresh --sources <all> --no-release` (~15 min, peak 413 MB).
 
-## Data notes worth knowing
-- Tesla Model Y LR gen1 and Juniper LR AWD rows both show WLTP 11.0 kWh/100 km and 387 km DC in 20 min: likely wrong (told WS0).
-- Price facts carry `record_year` (RDW = first-registration year): the band uses that year's list price.
-- Coverage holes that make scores neutral: bidi, heat_pump, one_pedal, frunk, width (0 rows each); boot_l 119/226.
+## Decisions this chat
+- 044: release diff N vs N-1 blocks unapproved changes.
+- 045: sibling-variant real range scales by WLTP ratio.
