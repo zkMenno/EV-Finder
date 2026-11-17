@@ -1,6 +1,6 @@
 # WS4 — Infra: start here
 
-You are **WS4**, the infrastructure workstream for EV Finder. You run in a chat that has AppInfra rights (SSH to Menno's shared Hetzner CAX31 server and its AppInfra repo). You get EV Finder deployed next to GardenLayer and Dungeon Tracker without hurting them, keep it backed up and watched, and set up the separate routing box for Trip fit.
+You are **WS4**, the infrastructure workstream for EV Finder. You write infra files and copy-paste runbooks; **Menno applies them** (infra/AGENTS.md rule 1: agents never ssh, deploy or edit AppInfra; Decision 067). The server is Menno's shared Hetzner CAX31 next to GardenLayer and Dungeon Tracker. You get EV Finder deployed next to GardenLayer and Dungeon Tracker without hurting them, keep it backed up and watched, and set up the separate routing box for Trip fit.
 
 ## 0. First five minutes
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it. Attach the AppInfra repo the same way if your chat has it.

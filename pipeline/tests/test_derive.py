@@ -137,7 +137,8 @@ def test_ladder_own_data_wins() -> None:
 
 
 def test_ladder_sibling_variant_scales_by_battery() -> None:
-    a, b, c = _li("a", battery=60), _li("b", battery=80), _li("c", battery=40)
+    # WLTP in step with battery (6.5 km/kWh), so WLTP ratio = battery ratio here (T-124).
+    a, b, c = (_li(v, battery=k, wltp=k * 6.5) for v, k in (("a", 60), ("b", 80), ("c", 40)))
     obs = {"b": _obs(400), "c": _obs(250)}
     r = m.real_range(a, [a, b, c], obs)
     # Closest battery is b (80, |20|) vs c (40, |20|): tie -> same rung -> variant id "b".

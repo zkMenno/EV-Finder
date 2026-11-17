@@ -36,10 +36,11 @@ def test_leave_one_out_never_uses_the_cars_own_test() -> None:
     out = h.run_backtest(_tests())
     rungs = {r["rung"] for r in out["worst"]} | set(out["by_rung"])
     assert not rungs & {"exact-test", "owner-data"}
-    # alpha-50 is predicted from its sibling alpha-60 (mean of its two tests: 400 km).
+    # alpha-50 is predicted from its sibling alpha-60 (mean of its two tests: 400 km), scaled
+    # by WLTP 400/470 (T-124; battery 50/60 gave 333.3 km, -2.0 %, vs 340.4 km, +0.1 %).
     alpha50 = next(r for r in out["worst"] if r["variant_id"] == "testcar-alpha-gen1-50")
     assert alpha50["rung"] == "sibling-variant"
-    assert alpha50["predicted_km"] == round(400 * 50 / 60, 1)
+    assert alpha50["predicted_km"] == round(400 * 400 / 470, 1)
 
 
 def test_report_groups_and_worst_ten() -> None:

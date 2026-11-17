@@ -276,14 +276,20 @@ def real_range(
                     so[0].variant_id,
                 ),
             )
-            km = obs.km * li.battery_kwh_net / sib.battery_kwh_net
+            # Spec rung 3 scales by usable kWh and wheel size. Both variants' WLTP carries
+            # both (and trim), so it wins when known; battery ratio only without it. T-124:
+            # battery-only scaling gave a same-pack, lower-WLTP sibling more real km than WLTP.
+            if li.wltp_km and sib.wltp_km:
+                km, by = obs.km * li.wltp_km / sib.wltp_km, "WLTP ratio"
+            else:
+                km, by = obs.km * li.battery_kwh_net / sib.battery_kwh_net, "battery ratio"
             return LadderResult(
                 km,
                 "sibling-variant",
                 "low",
                 sorted(set(obs.source_ids)),
                 obs.fact_ids,
-                f"scaled from {sib.variant_id} by battery ratio",
+                f"scaled from {sib.variant_id} by {by}",
             )
 
     if not li.wltp_km:
