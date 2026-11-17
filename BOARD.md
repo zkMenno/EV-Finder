@@ -40,7 +40,7 @@ Builders take only tasks in **Launch**. Everything else needs Menno's yes. Built
 - 7 questions in [QUESTIONS.md](QUESTIONS.md): Q-003 PRs on main · Q-008 maker documents · Q-028 listing URL patterns · Q-037 RDW wording · Q-047 KilowattApp curves (blocks EV3/Inster rows) · Q-072 CCD2 warning wording · Q-079 Actions opening data-release PRs
 - T-041 listing templates: his tap check on a phone
 - Opening the WS4 chat (staging) and the WS5 chat
-- Real data in production waits for off-site backups (AppInfra #93; status not rechecked today)
+- Real data in production waits for off-site backups (AppInfra #93). EV holds nothing to back up at launch; the trigger and the AppInfra handoff are in ROADMAP.md Phase 0, "Backups" (2026-11-17)
 
 ## Workstreams and file ownership
 
