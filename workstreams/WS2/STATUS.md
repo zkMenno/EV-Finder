@@ -1,7 +1,7 @@
 # WS2 status
 
 - **State:** working (T-126 → T-125, per Menno 2026-11-17)
-- **Now:** #47 T-126 verify skill (review pending); fix PR for two hero bugs (NL Nerd 7 px overflow at 360 px, keep-8 ⓘ inside its label) being verified; then T-125 property tests
+- **Now:** #47 T-126 verify skill (review pending); fix PR for two hero bugs (NL Nerd 7 px overflow at 360 px, keep-8 ⓘ inside its label) being verified; then T-125 property tests; T-096 (hero compare-button label, found in review) queued
 - **Next:** (a) link /learn/batteries from hero cards once WS3's #35 merges; (b) winter range on hero cards + T-045 deltas once WS1 publishes the field; (c) e2e for used price by build year once a release ships used_prices.json (WS1 #21/#38); (d) read `shortlist_score` from WS1's T-069 (#15) if WS0 wants it
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
 - **Last updated:** 2026-11-17 05:41 UTC by WS2
