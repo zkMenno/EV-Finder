@@ -2,7 +2,7 @@
 
 The one process doc for every chat and agent on EV Finder. It replaces the claude.ai project doc `claude/operating-rules.md`, `workstreams/README.md` and the spec's Workflow tab (17 Nov 2026). Engineering rules for code stay in [AGENTS.md](../../AGENTS.md); product decisions in [docs/spec/product-decisions.md](../spec/product-decisions.md); review checks in `REVIEW.md` (until adopted: [draft](../../workstreams/WS0/drafts/REVIEW.md)); the rule register in [rules.md](rules.md). Owner: WS0. Change it with a small edit plus a line in [rules.md](rules.md).
 
-Short version for Project Settings: the claude.ai project doc `claude/project-instructions.md` (WS0 updates it and tells Menno to re-paste).
+Short version for Project Settings: [project-instructions.md](project-instructions.md) (WS0 updates it and tells Menno to re-paste).
 
 ## 1. Decide, don't ask
 - Reason, pick the recommended option, do it, and log it in DECISIONS.md (one entry: date, decision, why). Each workstream takes numbers from its own block (top of DECISIONS.md).
