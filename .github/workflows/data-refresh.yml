@@ -98,6 +98,21 @@ jobs:
             if [ -f data/review/qa.md ] && [ -z "$RELEASE" ]; then echo "### QA (not published)"; cat data/review/qa.md; fi
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # T-116: a blocked release shows only its first 15 blocking changes in the summary; the
+      # full list is needed to approve or fix them. Only the QA files (derived from releasable
+      # facts), never the match/merge review queues or raw data.
+      - name: Upload the QA review (release not published)
+        if: always() && steps.refresh.outputs.release == ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: qa-review
+          path: |
+            data/review/qa.json
+            data/review/qa.md
+            data/review/release_diff.csv
+          if-no-files-found: ignore
+          retention-days: 7
+
       # Everything the pr job needs, built here so that job runs no pipeline code:
       # release/ (= data/releases/N), latest, pr-body.md.
       - name: Package the release for the pr job
