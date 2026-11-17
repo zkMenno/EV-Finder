@@ -845,7 +845,6 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
           </dl>
           {level !== "simple" && unknownLabels.length ? <p className="mt-2 text-xs text-slate-700">{t("hero.card.unknown", { list: unknownLabels.join(", ") })}</p> : null}
           {level !== "simple" && pick.alternatives > 0 ? <p className="mt-1 text-xs text-slate-700">{t("hero.card.alternatives", { n: pick.alternatives })}</p> : null}
-          {level === "nerd" ? <NerdScore pick={pick} r={r} /> : null}
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
@@ -877,6 +876,8 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
           </div>
         </div>
       </div>
+      {/* Full card width (not beside the rank badge): the score table needs the room on a phone. */}
+      {level === "nerd" ? <NerdScore pick={pick} r={r} /> : null}
     </li>
   );
 }
@@ -889,7 +890,10 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
       <p className="font-semibold">
         {t("hero.card.score", { score: formatNumber(res.score, locale, 1), band: t(`hero.band.${res.band}` as MsgKey) })}
       </p>
-      <table className="mt-1 w-full text-left [overflow-wrap:anywhere]">
+      {/* Numbers never break mid-value; only factor names wrap. If a language still needs more room,
+          the table scrolls inside the card instead of widening the page (verify-web, 360 px). */}
+      <div className="mt-1 overflow-x-auto">
+      <table className="w-full text-left [&_td]:pr-2 [&_th]:pr-2">
         <caption className="sr-only">{t("hero.nerd.factors")}</caption>
         <thead>
           <tr>
@@ -902,16 +906,17 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
         <tbody>
           {res.factors.map((f) => (
             <tr key={f.id}>
-              <th scope="row" className="font-normal">
+              <th scope="row" className="font-normal hyphens-auto [overflow-wrap:anywhere]">
                 {t(`hero.factor.${f.id}` as MsgKey)}
               </th>
-              <td className="tabular-nums">{f.known ? (typeof f.value === "number" ? formatNumber(f.value, locale, 1) : String(f.value)) : t("hero.card.notKnown")}</td>
-              <td className="tabular-nums">{formatNumber(f.score, locale, 2)}</td>
-              <td className="tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
+              <td className={f.known && typeof f.value === "number" ? "whitespace-nowrap tabular-nums" : "tabular-nums"}>{f.known ? (typeof f.value === "number" ? formatNumber(f.value, locale, 1) : String(f.value)) : t("hero.card.notKnown")}</td>
+              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score, locale, 2)}</td>
+              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
       {res.adjustments.length ? (
         <p className="mt-1">{t("hero.nerd.adjust", { list: res.adjustments.map((a) => `${t(`hero.adj.${a.id}` as MsgKey)} ${a.points > 0 ? "+" : ""}${a.points}`).join(", ") })}</p>
       ) : null}
