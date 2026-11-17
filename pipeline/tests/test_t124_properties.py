@@ -17,6 +17,7 @@ from hypothesis import strategies as st
 
 from ev_pipeline.derive.metrics import (
     BODY_RATIOS,
+    WALL_PER_BATTERY_WLTP,
     LadderInput,
     RealObservation,
     ac_km_per_h,
@@ -125,7 +126,8 @@ def test_battery_cap_never_adds_km(kw: float, cons: float, kwh: float, minutes: 
 @given(st.floats(min_value=10, max_value=150), st.floats(min_value=50, max_value=1000))
 def test_consumption_estimate_round_trips(kwh: float, km: float) -> None:
     c = consumption_estimate(kwh, km)
-    assert math.isclose(c * km / 100, kwh, rel_tol=1e-12)
+    # T-071: the estimate is wall basis; dividing out the charging-loss factor gives net kWh.
+    assert math.isclose(c * km / 100 / WALL_PER_BATTERY_WLTP, kwh, rel_tol=1e-12)
 
 
 # --- invariants ------------------------------------------------------------------------
