@@ -1,0 +1,37 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: peugeot-e-208-p21
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/peugeot+e-208/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2020
+  n: 7
+  p25: 14900.0
+  median: 16900.0
+  p75: 17000.0
+- build_year: 2021
+  n: 43
+  p25: 15400.0
+  median: 15900.0
+  p75: 16900.0
+- build_year: 2022
+  n: 34
+  p25: 15900.0
+  median: 17000.0
+  p75: 18200.0
+- build_year: 2023
+  n: 23
+  p25: 18000.0
+  median: 20500.0
+  p75: 21400.0
+- build_year: 2024
+  n: 23
+  p25: 24200.0
+  median: 25900.0
+  p75: 27900.0

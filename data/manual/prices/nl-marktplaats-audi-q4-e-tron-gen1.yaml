@@ -1,0 +1,37 @@
+# T-081 manual price aggregate (WS3, Decision 060). Aggregates only.
+schema: manual-price-aggregates/v1
+generation_id: audi-q4-e-tron-gen1
+country: NL
+currency: EUR
+observed_at: '2026-11-15'
+source:
+  name: Marktplaats search results (public result pages only, Decision 060)
+  url: https://www.marktplaats.nl/l/auto-s/q/audi+q4+e-tron/
+method: Fixed asking prices of electric cars on the first result pages of one make+model search, grouped by build
+  year as shown on the results page. No listing page opened; no per-car data kept. Asking prices, not sale prices.
+rows:
+- build_year: 2021
+  n: 32
+  p25: 23900.0
+  median: 27200.0
+  p75: 30800.0
+- build_year: 2022
+  n: 26
+  p25: 27900.0
+  median: 29400.0
+  p75: 33900.0
+- build_year: 2023
+  n: 19
+  p25: 31800.0
+  median: 34000.0
+  p75: 36900.0
+- build_year: 2024
+  n: 17
+  p25: 39800.0
+  median: 42400.0
+  p75: 45900.0
+- build_year: 2025
+  n: 8
+  p25: 42900.0
+  median: 44600.0
+  p75: 48800.0

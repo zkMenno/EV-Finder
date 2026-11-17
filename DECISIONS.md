@@ -698,4 +698,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** Fitment stays internal until Q-008 (source `manual` is blocked). The model's numbers are unchanged; only labels are added.
 
+## Decision 060: Price samples from public search-result pages, aggregates only (owner's choice)
+
+**Status:** Accepted (Menno, 2026-11-15; logged by WS3, T-081)
+**Date:** 2026-11-15
+
+**Context:** T-081 needs used price samples (layer 2) to calibrate and replace model estimates. R-03 assumed staff note them by hand; an agent doing it is automated access, which Decision 004 kept off. Menno chose to let an agent do it, accepting the terms-of-service and database-right risk (R-03), with one limit: read search-result pages for specific make/model (and variant/year) searches, the way a person tracks prices, and never open individual listings.
+
+**Decision:** An agent may read a marketplace's public search-result pages, only where robots.txt allows the path for our user agent, with an honest user agent, a few pages per model, 8 s or more between requests, and it stops for good on any 403/429 or bot challenge from that site. It keeps only aggregates per generation and build year (count, P25, median, P75 of fixed asking prices, fuel = electric); no listing ids, titles, seller data or locations are stored. Files go in data/manual/prices/ with the search page as source. This narrows Decision 004 for layer 2 only; layer 3 (scheduled sampling) stays off.
+
+**Consequences:** 2026-11-15 check: AutoScout24 disallows ClaudeBot in robots.txt; La Centrale and mobile.de answered 403. Those are not used. Marktplaats (NL) and Autotrader (UK) result pages were reachable and allowed. Reversible: delete the files and stop.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

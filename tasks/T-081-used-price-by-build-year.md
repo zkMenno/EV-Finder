@@ -22,5 +22,8 @@ Layer 3 sampling, listing feeds.
 - Release 1 data: 99 of 226 variants get a band (NL/BE 326 model bands, DE 336, FR 326; UK 0: no UK list prices). Spot checks: EV6 77 kWh RWD 2022 NL ≈ €24.1k, Zoe R135 2020 NL ≈ €13.6k (plausible, not verified against listings).
 - Not done: the back-test has no samples to run on (none exist). Who collects them is with WS0/Menno.
 - Surprise: the price facts carry `record_year`, so the band uses the list price of that build year (RDW first-registration year), not today's price.
+- WS3, 2026-11-15 (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), branch t-081-manual-price-samples: Menno chose agent sampling of search-result pages only (Decision 060). 24 files in data/manual/prices/ (NL, Marktplaats): 81 build-year rows over 20 models, fixed asking prices of electric cars from the first 5 result pages of one make+model search. Shared generation years skipped (never guessed); build year 2026+ dropped (mostly new/demo stock); facelift generations of #31 left out until it merges. Loads in WS1's `load_samples` (PR #21): 81 rows, 0 problems.
+- Not sampled: AutoScout24 (robots.txt disallows ClaudeBot), La Centrale and mobile.de (403, stopped), Autotrader UK (/car-search disallowed in robots.txt; model pages show too few cars). DE, FR, BE and UK still have no samples.
+- Caveats: Marktplaats free-text search mixes trims and mileages; asking prices, not sale prices; small n for some years (min 5).
 
 ## Review
