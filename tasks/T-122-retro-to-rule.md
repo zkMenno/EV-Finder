@@ -1,6 +1,6 @@
 # T-122 Retro → rule pipeline + rule register
 Role: WS0   Lane: docs/process/, AGENTS.md, .githooks/   Wave: process
-Status: review (WS0, 2026-11-17; register docs/process/rules.md; G-19 nightly PARKED e2e left to WS2)
+Status: done (merged PR #42, 2026-11-17)
 
 ## Goal
 Every miss and every retro proposal ends as an enforced check or a rejected idea within a day, and rules get pruned.
@@ -22,3 +22,7 @@ workstreams/WS1/STATUS.md and WS2/STATUS.md retros; WS0 INBOX lines from 15–17
 ## Handoff notes
 
 ## Review
+
+
+## Review
+WS0 subagents (fresh), 2026-11-17: R0–R3, D11, D12: pass (6b120ca), after 3 rounds (round 1 found the Test-change marker bypass; round 3 checked the merge of main). Details on PR #42.

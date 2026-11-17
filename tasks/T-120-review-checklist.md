@@ -1,6 +1,6 @@
 # T-120 Diff-triggered review checklist (REVIEW.md)
 Role: WS0   Lane: REVIEW.md, AGENTS.md (review section)   Wave: process
-Status: review (WS0, 2026-11-17, branch process/verification-layer)
+Status: done (merged PR #42, 2026-11-17)
 
 ## Goal
 Reviewers check only what a diff triggers, against rules that live on `main`, with evidence instead of opinions.
@@ -21,3 +21,7 @@ More reviewer chats. Tune one reviewer; don't stack reviewers.
 ## Handoff notes
 
 ## Review
+
+
+## Review
+WS0 subagents (fresh), 2026-11-17: R0–R3, D11, D12: pass (6b120ca), after 3 rounds (round 1 found the Test-change marker bypass; round 3 checked the merge of main). Details on PR #42.

@@ -1,6 +1,6 @@
 # T-121 Gate guard: a change can't edit its own checks
 Role: WS0   Lane: .github/workflows/ci.yml   Wave: process
-Status: review (WS0, 2026-11-17; observe mode until 2026-11-24, then enforce)
+Status: done (merged PR #42, 2026-11-17)
 
 ## Goal
 PRs that change code and also weaken the checks that judge it get stopped for a separate WS0 review.
@@ -27,3 +27,7 @@ GitHub branch protection settings (Menno-only; WS0 may ask via QUESTIONS if want
 - Blocking: the PR template's comment text satisfied the `Test-change:` check. Now a real line `Test-change: <reason>` outside HTML comments is required (`has_marker`, test added).
 - Fixed: nested `**/conftest.py` and `.github/dependabot.yml` are gate files; `sleep(` narrowed to `time.sleep(` / `waitForTimeout(`; the guard's own test data is exempt.
 - Before enforce (2026-11-24): renamed/moved test files (diff-filter R) and removed asserts aren't caught yet; `gate-ok` label author isn't checked. Do these with the enforce switch.
+
+
+## Review
+WS0 subagents (fresh), 2026-11-17: R0–R3, D11, D12: pass (6b120ca), after 3 rounds (round 1 found the Test-change marker bypass; round 3 checked the merge of main). Details on PR #42.
