@@ -17,7 +17,7 @@ import * as yaml from "js-yaml";
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const FINANCE_FILE = path.resolve(here, "../../../data/taxonomy/finance_profiles.yaml");
 export const OUT_FILE = path.resolve(here, "../src/config/finance.generated.json");
-export const COUNTRY_CODES = ["NL", "DE", "FR", "BE", "UK"];
+export const COUNTRY_CODES = ["NL", "DE", "FR", "BE", "UK", "ES", "IT"]; // ES, IT: Decision 066 (T-118)
 /** The calculator only handles this product today; lease has no figures (Decision 017). */
 export const PRODUCT = "used-car-loan";
 

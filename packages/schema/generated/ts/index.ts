@@ -611,6 +611,10 @@ export interface PublishedVariant {
    */
   dc_km_per_10min?: number | null;
   real_range_km?: number | null;
+  /**
+   * Derived estimate (T-072): km on a full usable battery at -5 °C and colder, mixed driving, from the consumption matrix. The temperature step is not validated by winter road tests yet (Q-059).
+   */
+  real_range_winter_km?: number | null;
   real_range_rung?: RealRangeRung | null;
   power_kw?: number | null;
   accel_0_100_s?: number | null;
@@ -2541,6 +2545,7 @@ export interface UsedPriceBand {
   build_year?: number | null;
   basis?: UsedPriceBasis;
   source?: UsedPriceSourceRef;
+  scope?: "variant" | "generation";
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -3410,6 +3415,14 @@ export interface UsedPriceYearBand {
   list_basis?: string;
   list_source_ids?: string[];
   observed_at?: string;
+  /**
+   * band rows: variant = this variant's own samples; generation = its generation's samples standing in (Decision 069).
+   */
+  scope?: "variant" | "generation";
+  /**
+   * estimate rows: countries whose samples fitted the curve, e.g. [BE, NL].
+   */
+  curve_fitted_on?: CountryCode[];
 }
 /**
  * releases/<n>/used_prices.json (T-081, T-113, Decision 064). Top level allows extra summary keys (curves, backtest, status).
@@ -3436,5 +3449,9 @@ export interface UsedPricesRelease {
   generation_bands?: {}[];
   curves?: {};
   backtest?: {};
+  /**
+   * Band half-width around estimates as a share of the median (params file), e.g. 0.12.
+   */
+  spread?: number;
   [k: string]: unknown;
 }
