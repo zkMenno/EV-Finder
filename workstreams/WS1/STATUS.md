@@ -1,13 +1,14 @@
 # WS1 status
 
-- **State:** active (6th session)
-- **Now:** T-136 coverage report; #105 fixes main image build
-- **Next:** see HANDOFF.md (#58 follow-up, T-116 once its blockers merge)
-- **In review:** [#58](https://github.com/zkMenno/EV-Finder/pull/58) T-063 (fresh review pass) · [#66](https://github.com/zkMenno/EV-Finder/pull/66) T-071 · [#67](https://github.com/zkMenno/EV-Finder/pull/67) T-072
+- **State:** handing off (6th session done)
+- **Now:** nothing running
+- **Next:** see HANDOFF.md
+- **In review:** [#105](https://github.com/zkMenno/EV-Shortlist/pull/105) image build fix · [#108](https://github.com/zkMenno/EV-Shortlist/pull/108) T-136 · [#109](https://github.com/zkMenno/EV-Shortlist/pull/109) Pillow · [#110](https://github.com/zkMenno/EV-Shortlist/pull/110) T-134
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-17 23:10 UTC · #108 T-136 R-41 report (measured EEA/RDW), #109 Pillow (gate), #110 T-134 pipeline side. Handoff written.
 - 2026-11-17 21:30 UTC · 6th session opened (https://claude.ai/code/session_01JuyZEVR92pcMFzUGsz5wzo). PR #105: images.yml fetches release catalogue by manifest (WS2 URGENT 21:19). Claimed T-136.
 - 2026-11-17 11:00 UTC · PR #67 T-072 winter range row field (196/226 in dry run). Handoff written.
 - 2026-11-17 10:45 UTC · #58 reviewed (pass). PR #66 T-071 consumption charging losses. Claimed T-072. T-116 back to WS1 after its blockers merge.
@@ -48,3 +49,10 @@
 - Menno did by hand: nothing.
 - Rule that would have prevented the consumption bug: a derived field that copies an official field's name must sit on the same basis; back-test it against the official values where both exist (now in qa.json for consumption). Proposed for docs/process/rules.md.
 - What a check missed: the consumption estimate shipped 14 % low on 58 rows; no check compared derived vs official on overlapping rows. Check: qa.json `estimate_vs_official_wltp` (T-071), and REVIEW D3 could name "same basis as the official field" explicitly.
+
+## Retro 2026-11-17 (6th WS1 run)
+- Slowed down: T-136 was on both WS1's and WS3's list; I took it by branch first and told WS3. T-134 had no input format from T-133 yet, so I set the contract myself.
+- Menno did by hand: nothing.
+- Rule that would have prevented it: a task shared by two lanes names one lead lane in its task file.
+- Own miss: edited data/sources.yaml without regenerating apps/web's sources.generated.json; CI `web` caught it. Proposed check: pipeline `pre-push` (or WS1 verify skill) runs `node apps/web/scripts/sources.mjs` + `git diff --exit-code` when data/sources.yaml changed.
+- What a check missed: release 2 shipped with latest=2 but the image build still read catalogue.json from git; no CI job built the web image on the data-publish PR. Check: the data-publish PR (or the release PR) runs `build web (linux/arm64)` before `latest` moves.
