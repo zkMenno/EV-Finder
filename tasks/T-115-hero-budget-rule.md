@@ -1,6 +1,6 @@
 # T-115 Budget filter uses band → estimate → new price; unpriced cars rank last
 Role: builder   Lane: WS2: apps/web/src/lib/shortlist.ts, hero components   Wave: launch fixes (A-35)
-Status: review (WS0 subagent, 2026-11-17, PR #PRNUM)
+Status: review (WS0 subagent, 2026-11-17, PR #70)
 
 ## Goal
 Budget changes the result (Decision 064).
