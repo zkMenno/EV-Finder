@@ -9,6 +9,12 @@ band for that variant and build year, and every sample row is back-tested agains
 List price per country and build year, in this order: a price_new fact for that year; the
 nearest year within `max_year_gap`; for DE/FR/BE the Dutch price moved to local VAT (low
 confidence). No list price → no band ("not enough data"), never a guess.
+
+Source gate (T-111, QA A-35 S2): every sample file must resolve to a data/sources.yaml entry
+(`source.id`, else the URL host in an entry's `site_hosts`) that may feed our aggregates
+(`Registry.aggregate_input_problem`: releasable, or `use: aggregates-only` with a logged owner
+decision, Decision 060). Other samples are dropped and listed in the run log; a missing
+registry drops them all (fail closed).
 """
 
 from __future__ import annotations
@@ -21,6 +27,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+
+from ev_pipeline.release.gate import Registry, load_registry
 
 FILE_NAME = "used_prices.json"
 PARAMS_FILE = Path(__file__).with_name("used_price_params.yaml")
@@ -174,6 +182,7 @@ def load_samples(dir_: Path) -> tuple[list[dict[str, Any]], list[str]]:
                     "observed_at": str(doc["observed_at"]),
                     "currency": doc["currency"],
                     "source": {"name": src["name"], "url": src["url"]},
+                    "source_id": src.get("id"),
                     "build_year": int(r["build_year"]),
                     "n": int(r["n"]),
                     "p25": r.get("p25"),
@@ -182,6 +191,26 @@ def load_samples(dir_: Path) -> tuple[list[dict[str, Any]], list[str]]:
                 }
             )
     return rows, problems
+
+
+def gate_samples(
+    samples: list[dict[str, Any]], registry: Registry
+) -> tuple[list[dict[str, Any]], dict[str, str]]:
+    """Keep samples whose source may feed our aggregates; dropped file -> reason (A-35 S2).
+    Each kept sample gets `source_id` set to its registry id."""
+    kept: list[dict[str, Any]] = []
+    dropped: dict[str, str] = {}
+    for s in samples:
+        sid = s.get("source_id") or registry.source_for_url(s["source"]["url"])
+        if not sid:
+            dropped[s["file"]] = "source not in data/sources.yaml (no id, URL host not listed)"
+            continue
+        why = registry.aggregate_input_problem(str(sid))
+        if why is not None:
+            dropped[s["file"]] = f"{sid}: {why}"
+            continue
+        kept.append({**s, "source_id": str(sid)})
+    return kept, dropped
 
 
 # --- build ------------------------------------------------------------------------------------
@@ -207,12 +236,17 @@ def build_used_prices(
     release: int,
     generated_at: str,
     params_path: Path = PARAMS_FILE,
+    registry: Registry | None = None,
 ) -> UsedPriceResult:
     out = UsedPriceResult()
     p = load_params(params_path)
     as_of = date.fromisoformat(generated_at[:10])
     prices = list_prices(facts, fact_years)
     samples, problems = load_samples(data_dir / p["samples_dir"])
+    if registry is None:
+        registry = load_registry(data_dir / "sources.yaml")
+    samples_read = len(samples)
+    samples, dropped = gate_samples(samples, registry)
     if samples:
         out.inputs.append(
             {
@@ -261,6 +295,7 @@ def build_used_prices(
                             "estimate": False,
                             "observed_at": s["observed_at"],
                             "source": s["source"],
+                            "source_id": s["source_id"],
                             "confidence": "medium",
                         }
                     )
@@ -325,6 +360,8 @@ def build_used_prices(
         "variants": len(rows),
         "bands": dict(sorted(counts.items())),
         "sample_rows": len(samples),
+        "sample_rows_read": samples_read,
+        "sample_files_dropped_by_source_gate": dict(sorted(dropped.items())),
         "sample_problems": problems,
         "backtest": {k: v for k, v in bt.items() if k != "rows"},
     }
@@ -354,6 +391,7 @@ def generation_bands(
                 "age_band_years": None,
                 "build_year": s["build_year"],
                 "source": s["source"],
+                "source_id": s["source_id"],
             }
         )
     return out

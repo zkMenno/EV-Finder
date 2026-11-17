@@ -97,6 +97,15 @@ def check_release(release_dir: Path, data_dir: Path) -> dict[str, Any]:
         check_provenance(catalogue, facts),
         check_licence_gate(catalogue, facts, registry, charging),
     ]
+    # T-123: the committed release against N-1 under today's approved_changes.yaml.
+    from ev_pipeline.release.differ import release_diff_check
+
+    n = catalogue.get("release")
+    if isinstance(n, int):
+        diff_check, _ = release_diff_check(
+            data_dir, release_dir, n, write_review=False, fetch_new=True
+        )
+        checks.append(diff_check)
     failed = [c.id for c in checks if c.blocking and c.status == "fail"]
     impossible = impossible_values(catalogue, facts)
     return {

@@ -15,6 +15,7 @@ import type { ExploreRow } from "@/lib/explore-data";
 import { onFilters, publishAnswers, publishFilters } from "@/lib/filter-bus";
 import { effectiveLoan, monthlyFor, type FinanceProfileView } from "@/lib/finance";
 import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
+import { nerdValue } from "@/lib/nerd-value";
 import { heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "@/lib/hero-state";
 import { buildListingUrl, type ListingSite } from "@/lib/listing-url";
 import {
@@ -919,34 +920,6 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   );
 }
 
-/** The car's own value behind a factor, from the catalogue row or the release's derived inputs
- *  (in the factor's own unit: km per 20 min, km, Wh/km, litres, kW, metres; units: T-097). */
-function factorValue(id: string, pick: HeroPick, locale: string): string | null {
-  const row = pick.row;
-  const d = pick.result.derived;
-  const n = (v: number | null | undefined, digits: number) => (typeof v === "number" ? formatNumber(v, locale, digits) : null);
-  switch (id) {
-    case "dc-speed":
-      return n(row.dc_km_per_20min, 0);
-    case "winter-range":
-      return n(d.winter_range_km, 0);
-    case "efficiency":
-      return n(d.real_wh_km, 0);
-    case "space":
-      return n(row.boot_l, 0);
-    case "ac-speed":
-      return n(row.ac_kw, 1);
-    case "size":
-      return n(typeof row.length_mm === "number" ? row.length_mm / 1000 : null, 2);
-    case "heat-pump":
-      return row.heat_pump ?? null;
-    case "battery-health-risk":
-      return row.cooling_id ?? null;
-    default:
-      return null;
-  }
-}
-
 function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   const { t, locale } = r;
   const res = pick.result;
@@ -969,19 +942,20 @@ function NerdScore({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
           </tr>
         </thead>
         <tbody>
-          {res.factors.map((f) => {
-            const v = factorValue(f.id, pick, locale);
-            return (
-              <tr key={f.id}>
-                <th scope="row" className="font-normal hyphens-auto [overflow-wrap:anywhere]">
-                  {t(`hero.factor.${f.id}` as MsgKey)}
-                </th>
-                <td className={v !== null ? "whitespace-nowrap tabular-nums" : "tabular-nums"}>{v ?? (f.score === null ? t("hero.card.notKnown") : "—")}</td>
-                <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score ?? 0.5, locale, 2)}</td>
-                <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
-              </tr>
-            );
-          })}
+          {res.factors.map((f) => (
+            <tr key={f.id}>
+              <th scope="row" className="font-normal hyphens-auto [overflow-wrap:anywhere]">
+                {t(`hero.factor.${f.id}` as MsgKey)}
+              </th>
+              {/* The car's own figure with its unit (T-097), not the scaled scoring value. May wrap at
+                  the spaces of the unit ("387 km in 20 min") on a phone; the number itself never splits
+                  (no spaces inside formatted numbers; FR uses a no-break space). Units and words stay short and
+                  breakable so the table fits a 360 px card in every language (axe: no scroll region). */}
+              <td className="tabular-nums" data-testid={`hero-nerd-value-${f.id}`}>{nerdValue(f, t, locale)}</td>
+              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.score ?? 0.5, locale, 2)}</td>
+              <td className="whitespace-nowrap tabular-nums">{formatNumber(f.weight, locale, 1)}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
       </div>
