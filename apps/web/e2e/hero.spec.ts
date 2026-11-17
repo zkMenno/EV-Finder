@@ -120,8 +120,8 @@ test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside
 
 // Every served language, every card: German compounds and units are wider than Dutch (T-097 review
 // found 18 px). Only routes that are served (countries config); /nl/de would 308 to /nl/nl, so the
-// test fails if a route redirects. ES/IT join once T-119 serves them.
-for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de"]) test(`hero: ${route} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
+// test fails if a route redirects. ES/IT are served since T-119.
+for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de", "es/es", "it/it"]) test(`hero: ${route} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
   test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto(`/${route}?role=only&trips=monthly&level=nerd`);

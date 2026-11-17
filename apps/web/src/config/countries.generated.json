@@ -51,5 +51,25 @@
     "served": [
       "en"
     ]
+  },
+  "es": {
+    "languages": [
+      "es"
+    ],
+    "default_language": "es",
+    "served": [
+      "es",
+      "en"
+    ]
+  },
+  "it": {
+    "languages": [
+      "it"
+    ],
+    "default_language": "it",
+    "served": [
+      "it",
+      "en"
+    ]
   }
 }

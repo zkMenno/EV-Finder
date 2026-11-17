@@ -53,3 +53,32 @@ describe("hreflang and sitemap", () => {
     expect(urls.some((u) => u.includes("/compare"))).toBe(false);
   });
 });
+
+describe("Spain and Italy (T-119, Decision 066)", () => {
+  it("are served in their own language + EN, from config/countries/es.yaml and it.yaml", () => {
+    expect(COUNTRY_SLUGS).toEqual(expect.arrayContaining(["es", "it"]));
+    expect(COUNTRIES.es).toMatchObject({ code: "ES", currency: "EUR", defaultLang: "es", served: ["es", "en"] });
+    expect(COUNTRIES.it).toMatchObject({ code: "IT", currency: "EUR", defaultLang: "it", served: ["it", "en"] });
+    const pairs = servedPairs().map((p) => `${p.country}/${p.lang}`);
+    expect(pairs).toEqual(expect.arrayContaining(["es/es", "es/en", "it/it", "it/en"]));
+  });
+  it("Spanish and Italian appear for Spain and Italy only (no /nl/es style routes)", () => {
+    for (const { country, lang } of servedPairs()) {
+      if (lang === "es") expect(country).toBe("es");
+      if (lang === "it") expect(country).toBe("it");
+    }
+    for (const c of COUNTRY_SLUGS.filter((c) => c !== "es")) expect(isServed(c, "es"), c).toBe(false);
+    for (const c of COUNTRY_SLUGS.filter((c) => c !== "it")) expect(isServed(c, "it"), c).toBe(false);
+  });
+  it("hreflang and sitemap carry es-ES / it-IT", () => {
+    const h = hreflangs("/learn");
+    expect(h["es-ES"]).toBe("/es/es/learn");
+    expect(h["it-IT"]).toBe("/it/it/learn");
+    expect(h["en-ES"]).toBe("/es/en/learn");
+    expect(Object.keys(h).filter((k) => k.startsWith("es-") || k.startsWith("it-"))).toEqual(["es-ES", "it-IT"]);
+    const urls = sitemapUrls(getCatalogue(), "https://x.example");
+    expect(urls).toContain("https://x.example/es/es");
+    expect(urls).toContain("https://x.example/it/it/learn");
+    expect(urls.some((u) => /\/(nl|de|fr|be|uk)\/(es|it)(\/|$)/.test(u))).toBe(false);
+  });
+});
