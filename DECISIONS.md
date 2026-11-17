@@ -824,6 +824,16 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** infra/AGENTS.md wins: agents write files and copy-paste runbooks (with a read-only measure step), Menno runs them on the server. Fixed in WS4 START.md. Reason: the server is shared with GardenLayer and Dungeon Tracker, so the person who can see all three applies changes.
 
 **Consequences:** Staging (T-040, PR #59) waits for Menno to run the runbook once.
+## Decision 047: Derived WLTP consumption is wall basis: net kWh / WLTP x 1.16 (T-071)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** Rows without an official WLTP consumption got net kWh / WLTP km x 100, a battery-basis figure. Official WLTP consumption is measured at the wall and includes charging losses, so these 58 rows ran about 14 % low (WS2 report 2026-11-17; A-32 found −11 % on 45 rows). The hero Nerd table and the road-tripper efficiency factor read this field.
+
+**Decision:** The estimate is multiplied by 1.16, the median official / battery-basis ratio on release 1 (n 138, IQR 1.13–1.20). That is wall x 0.86 = battery, close to the matrix basis in Decision 041 (x 0.88), which stays as it is. qa.json reports our estimate against official figures every release (`estimate_vs_official_wltp`).
+
+**Consequences:** 58 rows and their motorway, AC km/h and DC km values rise or fall with it in release 2 (release diff approval needed). Refit the factor when the back-test drifts above 5 % median abs error.
 
 ## Decision 068: Single cited facts from maker documents may ship (Q-008)
 
