@@ -1,6 +1,6 @@
 # Staging feedback round 1: hero questions (T-132) and catalogue layout (T-130)
 
-UX, 2026-11-17. **Status: waiting for Menno's sign-off.** WS2 builds only after that (the sign-off line goes in tasks/T-132 and tasks/T-130).
+UX, 2026-11-17. **Status: signed off by Menno, 2026-11-17** (both layouts as shown; photo thumbnails on the shortlist rows on phone and desktop). WS2 builds.
 Frames: `*-light.png` / `*-dark.png` at 360 px (phone, 2×) and 1280 px (desktop). Contact sheets: `SHEET-t132-phone.png`, `SHEET-t132-desktop.png`, `SHEET-t130.png`. Generator: `workstreams/UX/tools/staging_r1.py` (real tokens + bundle.css).
 Numbers in the frames are **sample values for layout only**; car names come from `data/seed/top40.yaml`. Real values come from the release.
 

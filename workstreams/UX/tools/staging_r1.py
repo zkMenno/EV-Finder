@@ -262,10 +262,11 @@ MORE = [("MG4 Long Range", "€19–22k", "300"), ("Kia EV6 RWD 77 kWh", "€25k
 
 def m_row(i, c, on=False):
     nm, yrs, pr, wr, dc, why = c
-    return (f'<li class="row"><span class="rk">{i}</span><span><span class="nm">{nm}</span><br><span class="yrs">{yrs} · used</span></span>'
+    return (f'<li class="row"><span class="thumb" style="width:72px;height:48px;position:relative">{sym("car")}<span class="rk" style="position:absolute;left:-8px;top:-8px;width:26px;height:26px;font-size:14px;margin:0">{i}</span></span>'
+            f'<span><span class="nm">{nm}</span><br><span class="yrs">{yrs} · used</span></span>'
             f'<span class="addbtn{" on" if on else ""}" aria-label="Add to my shortlist">{TICK if on else STAR_ADD}</span>'
-            f'<span class="facts"><span class="price"><b>{pr}</b></span><span>{sym("winter")}<b>{wr} km</b> winter</span>'
-            f'<span>{sym("fast-charge")}<b>+{dc} km</b> in 20 min</span></span><p class="why">{why}</p></li>')
+            f'<span class="facts" style="grid-column:1/4"><span class="price"><b>{pr}</b></span><span>{sym("winter")}<b>{wr} km</b> winter</span>'
+            f'<span>{sym("fast-charge")}<b>+{dc} km</b> in 20 min</span></span><p class="why" style="grid-column:1/4">{why}</p><p class="credit" style="grid-column:1/4;padding:2px 0 0">Photo: maker press photo · credit here</p></li>')
 
 
 # ═════════ T-132 frames ═════════
@@ -340,7 +341,7 @@ def t132_d_question(theme="light"):
 def t132_d_results(theme="light"):
     def tr(i, c, on=False):
         nm, yrs, pr, wr, dc, why = c
-        return (f'<tr><td><span class="rk">{i}</span></td><td><span class="carc"><span class="thumb">{sym("car")}</span><span><span class="nm">{nm}</span><span class="sub">{yrs} · used</span></span></span></td>'
+        return (f'<tr><td><span class="rk">{i}</span></td><td><span class="carc"><span class="thumb">{sym("car")}</span><span><span class="nm">{nm}</span><span class="sub">{yrs} · used</span><span class="sub" style="font-size:12px">Photo: press · credit</span></span></span></td>'
                 f'<td class="r"><span class="num">{pr}</span></td><td class="r"><span class="num">{wr} km</span></td><td class="r"><span class="num">+{dc} km</span></td>'
                 f'<td><span class="whyc">{why}</span></td><td><span class="addbtn{" on" if on else ""}">{TICK if on else STAR_ADD}</span></td></tr>')
     head = (f'<thead><tr><th>#</th><th>Car</th><th class="r">Used price</th><th class="r">{sym("winter")} Winter range</th>'
