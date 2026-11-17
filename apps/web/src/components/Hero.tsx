@@ -144,9 +144,12 @@ function Choice<V extends string>({
   value,
   label,
   onChange,
+  info,
 }: {
   name: string;
   legend: string;
+  /** ⓘ tooltip next to the question (glossary term). */
+  info?: ReactNode;
   values: readonly V[];
   value: V | null;
   label: (v: V) => string;
@@ -154,7 +157,10 @@ function Choice<V extends string>({
 }) {
   return (
     <fieldset className="mt-3">
-      <legend className="text-sm font-semibold">{legend}</legend>
+      <legend className="text-sm font-semibold">
+        {legend}
+        {info ? <> {info}</> : null}
+      </legend>
       <div className="mt-2 flex flex-wrap gap-2">
         {values.map((v) => (
           <label key={v} className={chipCls}>
@@ -231,6 +237,8 @@ export function Hero(props: HeroProps) {
   const loan = useMemo(() => effectiveLoan(props.finance, loanSettings), [props.finance, loanSettings]);
   const money = (n: number) => formatMoney(n, props.currency, locale);
   const termText: TermText = { about: t("term.about"), learnMore: t("term.learnMore") };
+  // ⓘ for a glossary id; renders nothing until the release has the term (T-100 ids).
+  const tip = (id: string) => <TermInfo term={props.terms[id]} base={props.base} text={termText} />;
 
   useEffect(() => {
     let live = true;
@@ -342,10 +350,10 @@ export function Hero(props: HeroProps) {
             <Choice name="trips" legend={t("hero.q.trips")} values={TRIPS} value={hero.answers.trips} label={(v) => t(`hero.a.trips.${v}` as MsgKey)} onChange={(trips) => setAnswers({ trips })} />
           ) : null}
           <Choice name="charge" legend={t("hero.q.charge")} values={CHARGES} value={hero.answers.charge} label={(v) => t(`hero.a.charge.${v}` as MsgKey)} onChange={(charge) => setAnswers({ charge })} />
-          <Choice name="area" legend={t("hero.q.area")} values={AREAS} value={hero.answers.area} label={(v) => t(`hero.a.area.${v}` as MsgKey)} onChange={(area) => setAnswers({ area })} />
+          <Choice name="area" legend={t("hero.q.area")} values={AREAS} value={hero.answers.area} label={(v) => t(`hero.a.area.${v}` as MsgKey)} onChange={(area) => setAnswers({ area })} info={tip("home-area")} />
           <label className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm">
             <input type="checkbox" checked={hero.answers.keep8} onChange={(e) => setAnswers({ keep8: e.target.checked })} className="h-5 w-5" data-testid="hero-keep8" />
-            {t("hero.keep8")}
+            {t("hero.keep8")} {tip("keep-8-years")}
           </label>
 
           <div className="mt-3 rounded-md bg-slate-50 p-3" aria-live="polite" data-testid="hero-profile">
@@ -353,7 +361,8 @@ export function Hero(props: HeroProps) {
               <>
                 <p className="text-sm">
                   <span className="text-slate-700">{t("hero.profile.label")}: </span>
-                  <strong>{profileName(rp, t)}</strong>
+                  <strong>{profileName(rp, t)}</strong> {tip(rp.base.id)}
+                  {rp.layer ? tip(rp.layer.id) : null}
                 </p>
                 <p className="mt-1 text-sm text-slate-800">
                   {t(`hero.profile.${rp.base.id}.short` as MsgKey)}
@@ -400,6 +409,7 @@ export function Hero(props: HeroProps) {
           <BudgetField
             value={hero.budget}
             currency={props.currency}
+            info={tip("budget")}
             t={t}
             money={money}
             onChange={(budget) => update({ budget })}
@@ -466,12 +476,14 @@ export function Hero(props: HeroProps) {
 function BudgetField({
   value,
   currency,
+  info,
   t,
   money,
   onChange,
 }: {
   value: number | null;
   currency: Currency;
+  info?: ReactNode;
   t: T;
   money: (n: number) => string;
   onChange: (v: number | null) => void;
@@ -485,9 +497,12 @@ function BudgetField({
   }, [value]);
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold">
-        {t("hero.budget.label")} ({currency})
-      </label>
+      <div className="flex items-center gap-1">
+        <label htmlFor={id} className="text-sm font-semibold">
+          {t("hero.budget.label")} ({currency})
+        </label>
+        {info}
+      </div>
       <p id={`${id}-help`} className="text-sm text-slate-700">
         {t("hero.budget.help", { currency })}
       </p>
@@ -686,7 +701,9 @@ function Results(r: ResultsProps) {
 
       {top.length ? (
         <div className="mt-4 rounded-lg bg-[var(--sunflower-tint)] p-3 sm:p-4" data-testid="hero-shortlist">
-          <h3 className="text-lg font-semibold">{t("hero.results.shortlist")}</h3>
+          <h3 className="text-lg font-semibold">
+            {t("hero.results.shortlist")} <TermInfo term={r.props.terms.shortlist} base={r.props.base} text={{ about: t("term.about"), learnMore: t("term.learnMore") }} />
+          </h3>
           <ol className="mt-3 grid gap-3">
             {top.map((p) => (
               <Card key={p.row.model_id} pick={p} r={r} />
@@ -808,7 +825,9 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               <dd className="font-semibold tabular-nums">{row.real_range_km ? `${formatNumber(row.real_range_km, locale, 0)} km` : t("hero.card.notKnown")}</dd>
             </div>
             <div>
-              <dt className="text-slate-700">{t("hero.card.winter")}</dt>
+              <dt className="text-slate-700">
+                {t("hero.card.winter")} <TermInfo term={props.terms["real-winter-range"]} base={props.base} text={{ about: t("term.about"), learnMore: t("term.learnMore") }} />
+              </dt>
               <dd className="text-slate-800">{t("hero.card.notKnown")}</dd>
             </div>
             <div>
