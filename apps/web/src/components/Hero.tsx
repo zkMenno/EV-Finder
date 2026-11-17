@@ -68,6 +68,8 @@ export interface HeroProps {
   /** This country's "See listings" sites, best first. */
   listingSites: ListingSite[];
   terms: Record<string, UiTerm | undefined>;
+  /** Launch /learn guides that exist (winter range, charging in 2026, batteries). */
+  learnLinks?: { slug: string; title: string; href: string }[];
 }
 
 const QUICK_BUDGETS: Record<Currency, number[]> = {
@@ -308,7 +310,7 @@ export function Hero(props: HeroProps) {
   };
 
   return (
-    <div className="rounded-lg border border-slate-300 bg-white p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero">
+    <div className="evs-tex evs-tex--map evs-tex--no-sun rounded-lg border border-slate-300 bg-white p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero">
       <div className="grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-[2.375rem] font-extrabold leading-tight tracking-tight sm:text-[3.25rem]">{t("hero.title")}</h1>
@@ -701,6 +703,20 @@ function Results(r: ResultsProps) {
             ))}
           </ol>
         </div>
+      ) : null}
+      {r.props.learnLinks?.length ? (
+        <nav aria-label={t("hero.learn.title")} className="mt-6 rounded-md bg-slate-50 p-3" data-testid="hero-learn">
+          <p className="text-sm font-semibold">{t("hero.learn.title")}</p>
+          <ul className="mt-1 grid gap-1 text-sm">
+            {r.props.learnLinks.map((l) => (
+              <li key={l.slug}>
+                <a href={l.href} className="text-blue-800 underline underline-offset-2">
+                  {l.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       ) : null}
       <p className="mt-6">
         <a href="#explore" className="font-semibold text-blue-800 underline underline-offset-2">
