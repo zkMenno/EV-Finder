@@ -27,3 +27,4 @@ Layer 3 sampling, listing feeds.
 - Caveats: Marktplaats free-text search mixes trims and mileages; asking prices, not sale prices; small n for some years (min 5).
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — used_prices.json is not in release 1 (0 of 320 hero cards show a used band, A-35 B1); sample sources lack sources.yaml entries (S2).
