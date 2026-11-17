@@ -3,12 +3,15 @@
 // Pure and client-safe, so the unit wording is testable without rendering the hero.
 import type { MsgKey, T } from "@/i18n/t";
 import { formatNumber } from "./format";
-import type { FactorScore } from "./shortlist";
+import type { FactorView } from "./shortlist";
 
 /** Unit message (with `{v}`) and max fraction digits per numeric rule field. */
 const NUMERIC: Record<string, { key: MsgKey; digits: number; div?: number }> = {
   dc_km_per_20min: { key: "hero.nerd.unit.dc_km_per_20min", digits: 0 },
   real_range_km: { key: "hero.nerd.unit.real_range_km", digits: 0 },
+  // The release's own winter estimate (−10 °C) and real efficiency, as the release scores them (T-114).
+  winter_range_km: { key: "hero.nerd.unit.winter_range_km", digits: 0 },
+  real_wh_km: { key: "hero.nerd.unit.real_wh_km", digits: 0 },
   boot_l: { key: "hero.nerd.unit.boot_l", digits: 0 },
   consumption_kwh_100km: { key: "hero.nerd.unit.consumption_kwh_100km", digits: 1 },
   ac_kw: { key: "hero.nerd.unit.ac_kw", digits: 1 },
@@ -27,8 +30,8 @@ const WORDS: Record<string, MsgKey> = {
   passive: "hero.nerd.val.passive",
 };
 
-export function nerdValue(f: Pick<FactorScore, "known" | "field" | "raw">, t: T, locale: string): string {
-  if (!f.known || f.raw === null) return t("hero.card.notKnown");
+export function nerdValue(f: Pick<FactorView, "field" | "raw">, t: T, locale: string): string {
+  if (f.raw === null) return t("hero.card.notKnown");
   if (typeof f.raw === "boolean") return t(f.raw ? "hero.nerd.val.yes" : "hero.nerd.val.no");
   if (typeof f.raw === "number") {
     const u = f.field ? NUMERIC[f.field] : undefined;

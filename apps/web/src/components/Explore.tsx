@@ -5,7 +5,7 @@
 // Taxonomy-driven filters (voltage, chemistry, cooling) read their options from data.
 import { loadClientCatalogue } from "@/lib/client-catalogue";
 import { onAnswers, onFilters, publishFilters } from "@/lib/filter-bus";
-import { resolveProfile, scoreContext, scoreRow, type Answers } from "@/lib/shortlist";
+import { resolveProfile, suggestedScore, type Answers } from "@/lib/shortlist";
 import { profileName, SuggestedSort } from "./SuggestedSort";
 import type { Country, Currency, FieldProvenance } from "@ev/schema";
 import Link from "next/link";
@@ -87,6 +87,8 @@ export interface ExploreProps {
   finance: FinanceProfileView | null;
   /** The URL sets ?pay= (else the remembered price mode wins). */
   payFromUrl: boolean;
+  /** The release has shortlist_scores.json (Decision 065); without it "Suggested" can't order. */
+  hasScores?: boolean;
 }
 
 interface Ctx {
@@ -318,22 +320,9 @@ export function Explore(props: ExploreProps) {
     },
     [all, props.initialRows, props.code, fits],
   );
-  // "Suggested" sort (T-067): the hero's profile scores every row; a car a rule rules out goes last.
-  const scorer = useMemo(() => {
-    if (!rp) return undefined;
-    const list = all ?? props.initialRows;
-    const ctx = scoreContext(list);
-    const cache = new Map<string, number | null>();
-    return (r: ExploreRow) => {
-      let v = cache.get(r.variant_id);
-      if (v === undefined) {
-        const res = scoreRow(r, rp, ctx);
-        v = res.ruledOut ? null : res.score;
-        cache.set(r.variant_id, v);
-      }
-      return v;
-    };
-  }, [rp, all, props.initialRows]);
+  // "Suggested" sort (T-067): the release's score for the hero's profile (Decision 065); a car the
+  // release rules out, or doesn't score, goes last.
+  const scorer = useMemo(() => (rp ? (r: ExploreRow) => suggestedScore(r, rp) : undefined), [rp]);
   const matches = useMemo(() => {
     if (!all && !dirty && !(state.sort === "suggested" && answers !== props.initialAnswers)) return props.initialRows;
     return sortRows(runFilters(state.filters), state.sort, state.dir, props.code, scorer);
@@ -386,6 +375,7 @@ export function Explore(props: ExploreProps) {
           t={t}
           termText={ctx.termText}
           profileName={rp ? profileName(rp, t) : ""}
+          hasScores={props.hasScores !== false}
         />
         <div className="mb-3 flex flex-col gap-2">
           <PayModeToggle value={state.pay} onChange={setPay} ui={financeUi} />

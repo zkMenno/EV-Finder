@@ -2,11 +2,15 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import type { UsedPriceBand } from "@ev/schema";
+import type { PublishedVariant, ShortlistBand, UsedPriceBand } from "@ev/schema";
+import fixtureCatalogue from "../fixtures/catalogue.sample.json";
+import fixtureScores from "../fixtures/shortlist-scores.sample.json";
 import { loadRules, OUT_FILE, serialize } from "../../scripts/shortlist-rules.mjs";
-import type { ExploreRow } from "./explore-data";
+import { toExploreRow, type ExploreRow } from "./explore-data";
+import { parseShortlistScores } from "./release-scores";
 import {
   ageRange,
+  comboKey,
   isComplete,
   presetCheck,
   presetsFor,
@@ -14,10 +18,12 @@ import {
   rankHero,
   reasons,
   resolveProfile,
+  PRESET_FIELDS,
   RULES,
-  scoreContext,
-  scoreRow,
+  scoreFor,
+  suggestedScore,
   type Answers,
+  type ResolvedProfile,
 } from "./shortlist";
 import { defaultFilters } from "./state";
 
@@ -83,47 +89,111 @@ describe("picker → profile (Decision 050)", () => {
   });
 });
 
-describe("scoring parity with data/editorial/backtest_rules.py (road-tripper)", () => {
-  // Expected scores come from backtest_rules.score() on the same values (sheet units: DC in km/h,
-  // efficiency in Wh/km), run on 2026-11-15. Unknown factors (one-pedal, V2L, V2H) are 0.5 in both.
-  const cars: [string, Partial<ExploreRow>, number, string][] = [
-    ["fast800", { dc_km_per_20min: 260, real_range_km: 430, boot_l: 520, consumption_kwh_100km: 18, ac_kw: 11, voltage_class_id: "800v" }, 62.9, "fallback"],
-    ["mid400", { dc_km_per_20min: 160, real_range_km: 380, boot_l: 400, consumption_kwh_100km: 16.5, ac_kw: 11, voltage_class_id: "400v", charge_100_daily: true }, 39, "fallback"],
-    ["unknownboot", { dc_km_per_20min: 200, real_range_km: 400, consumption_kwh_100km: 15, ac_kw: 22, voltage_class_id: "400v" }, 52.8, "shortlist"],
-  ];
-  const ctx = scoreContext([]);
-  for (const [id, o, score, band] of cars) {
-    it(`${id}: ${score} (${band})`, () => {
-      const r = scoreRow(row(id, o), roadTripper, ctx);
-      expect(r.score).toBe(score);
-      expect(r.band).toBe(band);
-      expect(r.ruledOut).toBeNull();
-    });
-  }
-  it("a known value under a gate rules the car out; an unknown one never does", () => {
-    expect(scoreRow(row("slow", { dc_km_per_20min: 90, real_range_km: 300 }), roadTripper, ctx).ruledOut?.id).toBe("dc-not-terrible");
-    expect(scoreRow(row("blank"), roadTripper, ctx).ruledOut).toBeNull();
-    expect(scoreRow(row("blank"), roadTripper, ctx).score).toBe(50);
+// ── Release scores (T-114, Decision 065) ─────────────────────────────────────────────────────
+// The fixture is the pipeline's own output (pipeline/ev_pipeline/derive/shortlist.py, T-069) for
+// the dev fixture rows; see its `note`. The web must show exactly these scores, never its own.
+const fixtureCat = fixtureCatalogue as unknown as { rows: PublishedVariant[] };
+const releaseScores = parseShortlistScores(fixtureScores)!;
+const fixtureRows = fixtureCat.rows.map((r) => toExploreRow(r, undefined, releaseScores));
+
+/** A row carrying a release score for one combination. */
+function scored(r: ExploreRow, combo: string, score: number, band: ShortlistBand = "shortlist", reasonCodes: string[] = []): ExploreRow {
+  return { ...r, shortlist: { s: { ...(r.shortlist?.s ?? {}), [combo]: [score, band, ...reasonCodes] } } };
+}
+
+/** Every complete answer set → its profile. */
+const ALL_PROFILES: ResolvedProfile[] = [];
+for (const role of ["only", "main", "second"] as const)
+  for (const trips of [null, "never", "few_a_year", "monthly", "often"] as const)
+    for (const charge of ["home", "work", "public_only"] as const)
+      for (const area of [null, "city", "town", "countryside"] as const) {
+        const rp = resolveProfile(A({ role, trips, charge, area }));
+        if (rp) ALL_PROFILES.push(rp);
+      }
+
+describe("release scores (Decision 065)", () => {
+  it("every picker answer set maps onto a combination the pipeline ships", () => {
+    const combos = new Set((fixtureScores as { combos: string[] }).combos);
+    expect(ALL_PROFILES.length).toBeGreaterThan(20);
+    for (const rp of ALL_PROFILES) expect(combos.has(comboKey(rp)), comboKey(rp)).toBe(true);
+    expect(comboKey(roadTripper)).toBe("road-tripper");
+    expect(comboKey(resolveProfile(A({ role: "only", trips: "often", charge: "public_only", area: "countryside" }))!)).toBe("road-tripper+kerbside.rural");
+    expect(comboKey(resolveProfile(A({ role: "second", charge: "home", area: "city" }))!)).toBe("runabout.urban");
   });
-  it("rural gates use the rural minimum", () => {
-    const daily = resolveProfile(A({ role: "main", trips: "never", area: "countryside" }))!;
-    expect(scoreRow(row("r", { real_range_km: 220 }), daily, ctx).ruledOut?.id).toBe("winter-range-daily");
-    const dailyTown = resolveProfile(A({ role: "main", trips: "never", area: "town" }))!;
-    expect(scoreRow(row("r", { real_range_km: 220 }), dailyTown, ctx).ruledOut).toBeNull();
+  it("parses the pipeline's file and skips malformed entries", () => {
+    expect(releaseScores.variants.size).toBe(fixtureCat.rows.length);
+    expect(parseShortlistScores(null)).toBeNull();
+    expect(parseShortlistScores({ variants: "x" })).toBeNull();
+    const p = parseShortlistScores({ release: 2, generated_at: "t", variants: [
+      { variant_id: "a", scores: { "road-tripper": { score: 70, band: "shortlist", reasons: ["+dc-speed", 3] }, bad: { score: "x", band: "shortlist" }, odd: { score: 1, band: "great" } } },
+      { variant_id: "b", scores: {} },
+      { scores: { "road-tripper": { score: 1, band: "fallback" } } },
+    ] })!;
+    expect([...p.variants.keys()]).toEqual(["a"]);
+    expect(p.variants.get("a")!.scores).toEqual({ "road-tripper": { score: 70, band: "shortlist", reasons: ["+dc-speed"] } });
   });
-  it("newest version +4, older version −6, heavy SUV −16 in the countryside", () => {
-    const rows = [row("old", { model_id: "m", year_start: 2021 }), row("new", { model_id: "m", year_start: 2024 })];
-    const c = scoreContext(rows);
-    expect(scoreRow(rows[1]!, roadTripper, c).score).toBe(54);
-    expect(scoreRow(rows[0]!, roadTripper, c).score).toBe(44);
-    const rural = resolveProfile(A({ role: "only", trips: "often", area: "countryside" }))!;
-    expect(scoreRow(row("big", { kerb_mass_kg: 2500 }), rural, ctx).adjustments).toEqual([{ id: "too-big-for-b-roads", points: -16 }]);
-    const daily = resolveProfile(A({ role: "main", trips: "never", area: "countryside" }))!;
-    expect(scoreRow(row("big", { kerb_mass_kg: 2500 }), daily, ctx).adjustments).toEqual([{ id: "too-big-for-b-roads", points: -8 }]);
+  it("shows exactly the release score, band and reasons for every variant and profile", () => {
+    for (const rp of ALL_PROFILES) {
+      for (const r of fixtureRows) {
+        const want = releaseScores.variants.get(r.variant_id)!.scores[comboKey(rp)]!;
+        const got = scoreFor(r, rp)!;
+        expect(got.score).toBe(want.score);
+        expect(got.band).toBe(want.band);
+        expect(got.reasons).toEqual(want.reasons);
+      }
+    }
   });
-  it("reasons name the strongest known factors only", () => {
-    const r = scoreRow(row("fast800", cars[0]![1]), roadTripper, ctx);
-    expect(reasons(r).map((x) => x.id)).toEqual(["winter-range", "efficiency"]);
+  it("the hero order is the release order: best score per model, ruled-out cars never shown", () => {
+    const q = { country: "NL" as const, cond: "any" as const, budget: null, filters: defaultFilters(), presetsOff: [...PRESET_FIELDS], nowYear: 2026 };
+    for (const rp of ALL_PROFILES) {
+      const res = rankHero(fixtureRows, rp, q, { hasScores: true });
+      const best = new Map<string, number>();
+      for (const r of fixtureRows) {
+        const s = releaseScores.variants.get(r.variant_id)!.scores[comboKey(rp)]!;
+        if (s.band === "ruled-out") continue;
+        best.set(r.model_id, Math.max(best.get(r.model_id) ?? -1, s.score));
+      }
+      const want = [...best.values()].sort((x, y) => y - x).slice(0, 10);
+      expect(res.status).toBe("ranked");
+      expect(res.picks.map((p) => p.result.score), comboKey(rp)).toEqual(want);
+      expect(res.picks.every((p) => p.result.band !== "ruled-out")).toBe(true);
+    }
+  });
+  it("no scores file → 'ranking not available', never a ranking on another basis", () => {
+    const res = rankHero(fixtureRows, roadTripper, { country: "NL", cond: "any", budget: null, filters: defaultFilters(), presetsOff: [], nowYear: 2026 }, { hasScores: false });
+    expect(res).toMatchObject({ status: "no-scores", picks: [], qualifying: 0 });
+  });
+  it("a car the release didn't score for this profile is not ranked (counted as unscored)", () => {
+    const rows = [scored(row("a"), "road-tripper", 60), row("b"), scored(row("c"), "runabout", 90)];
+    const res = rankHero(rows, roadTripper, { country: "NL", cond: "any", budget: null, filters: defaultFilters(), presetsOff: [], nowYear: 2026 }, { hasScores: true });
+    expect(res.picks.map((p) => p.row.variant_id)).toEqual(["a"]);
+    expect(res.unscored).toBe(2);
+  });
+  it("reason line codes come from the release: plus factors first, bonuses as adjustments", () => {
+    const r = scored(row("a"), "road-tripper", 71.2, "shortlist", ["+dc-speed", "+winter-range", "+space", "-efficiency", "bonus:newest-version"]);
+    const s = scoreFor(r, roadTripper)!;
+    expect(reasons(s).map((x) => x.id)).toEqual(["dc-speed", "winter-range"]);
+    expect(s.adjustments).toEqual([{ id: "newest-version", points: 4 }]);
+  });
+  it("Nerd factors: release 0..1 values with rule weights; unknown stays null", () => {
+    const vid = fixtureRows.find((r) => releaseScores.variants.get(r.variant_id)!.unknown["road-tripper"]?.includes("one-pedal"))!;
+    const s = scoreFor(vid, roadTripper)!;
+    expect(s.factors.map((f) => f.id)).toEqual(roadTripper.base.factors.map((f) => f.id));
+    expect(s.factors.find((f) => f.id === "one-pedal")!.score).toBeNull();
+    const dc = releaseScores.variants.get(vid.variant_id)!.factors["road-tripper"]!["dc-speed"];
+    expect(s.factors.find((f) => f.id === "dc-speed")!.score).toBe(dc);
+    expect(s.derived).toEqual(releaseScores.variants.get(vid.variant_id)!.derived);
+  });
+  it("Nerd values are the car's own figures (T-097), on the basis the release scored (T-114)", () => {
+    const vid = fixtureRows.find((r) => typeof r.dc_km_per_20min === "number" && releaseScores.variants.get(r.variant_id)!.derived.winter_range_km)!;
+    const s = scoreFor(vid, roadTripper)!;
+    const f = (id: string) => s.factors.find((x) => x.id === id)!;
+    // DC: the row's own km per 20 min, not ×3 km/h and not the basis-scaled value.
+    expect(f("dc-speed")).toMatchObject({ field: "dc_km_per_20min", raw: vid.dc_km_per_20min });
+    // Winter range and efficiency: the release's derived estimates the score was built on.
+    expect(f("winter-range")).toMatchObject({ field: "winter_range_km", raw: s.derived.winter_range_km });
+    expect(f("efficiency").field).toBe("real_wh_km");
+    expect(f("efficiency").raw).toBe(s.derived.real_wh_km ?? null);
   });
 });
 
@@ -159,29 +229,30 @@ describe("prices", () => {
 describe("rankHero", () => {
   const rows: ExploreRow[] = [];
   for (let i = 0; i < 14; i++) {
-    rows.push(row(`car${i}`, { dc_km_per_20min: 200 + i * 10, real_range_km: 350 + i * 10, boot_l: 400 }));
+    rows.push(scored(row(`car${i}`, { dc_km_per_20min: 200 + i * 10, real_range_km: 350 + i * 10, boot_l: 400 }), "road-tripper", 40 + i));
   }
-  rows.push(row("car13b", { model_id: "car13-model", year_start: 2020, dc_km_per_20min: 200, real_range_km: 350, boot_l: 400 }));
+  rows.push(scored(row("car13b", { model_id: "car13-model", year_start: 2020, dc_km_per_20min: 200, real_range_km: 350, boot_l: 400 }), "road-tripper", 41));
   const q = { country: "NL" as const, cond: "any" as const, budget: null, filters: defaultFilters(), presetsOff: [], nowYear: 2026 };
+  const on = { hasScores: true };
 
   it("one card per model, top 10, best first", () => {
-    const res = rankHero(rows, roadTripper, q);
+    const res = rankHero(rows, roadTripper, q, on);
     expect(res.picks).toHaveLength(10);
     expect(res.picks[0]!.row.variant_id).toBe("car13");
     expect(res.picks[0]!.alternatives).toBe(1);
     expect(new Set(res.picks.map((p) => p.row.model_id)).size).toBe(10);
   });
   it("presets are hard filters on known values; removing one brings cars back", () => {
-    const withPresets = rankHero(rows, roadTripper, q).qualifying;
-    const off = rankHero(rows, roadTripper, { ...q, presetsOff: ["dc_km_per_20min", "real_range_km"] }).qualifying;
-    const strict = rankHero(rows, roadTripper, { ...q, filters: { ...defaultFilters(), rangeMin: 420 } }).qualifying;
+    const withPresets = rankHero(rows, roadTripper, q, on).qualifying;
+    const off = rankHero(rows, roadTripper, { ...q, presetsOff: ["dc_km_per_20min", "real_range_km"] }, on).qualifying;
+    const strict = rankHero(rows, roadTripper, { ...q, filters: { ...defaultFilters(), rangeMin: 420 } }, on).qualifying;
     expect(off).toBe(withPresets);
     expect(strict).toBeLessThan(withPresets);
   });
   it("budget re-ranks: cars with a known price over budget drop out", () => {
     const priced = rows.map((r, i) => ({ ...r, on_sale_new: true, price_new: { NL: { amount: 20000 + i * 3000, currency: "EUR" } } }) as ExploreRow);
-    const all = rankHero(priced, roadTripper, q);
-    const cheap = rankHero(priced, roadTripper, { ...q, budget: 40000 });
+    const all = rankHero(priced, roadTripper, q, on);
+    const cheap = rankHero(priced, roadTripper, { ...q, budget: 40000 }, on);
     expect(cheap.picks[0]!.row.variant_id).not.toBe(all.picks[0]!.row.variant_id);
     expect(cheap.picks.every((p) => (p.price?.amount ?? 0) <= 40000)).toBe(true);
   });
@@ -234,20 +305,17 @@ describe("Explore 'Suggested' sort (T-067)", async () => {
   it("orders by score, ruled-out cars last, and the URL key round-trips", async () => {
     const { fromSearchParams, toSearchParams, defaultState } = await import("./state");
     const rows = [
-      row("slow", { dc_km_per_20min: 60, real_range_km: 400 }),
-      row("good", { dc_km_per_20min: 250, real_range_km: 450, boot_l: 500 }),
-      row("ok", { dc_km_per_20min: 150, real_range_km: 360 }),
+      scored(row("slow"), "road-tripper", 0, "ruled-out", ["gate:dc-not-terrible"]),
+      scored(row("good"), "road-tripper", 72),
+      scored(row("ok"), "road-tripper", 55, "consider"),
+      row("unscored"),
     ];
-    const ctx = scoreContext(rows);
-    const score = (r: ExploreRow) => {
-      const s = scoreRow(r, roadTripper, ctx);
-      return s.ruledOut ? null : s.score;
-    };
-    expect(sortRows(rows, "suggested", "desc", "NL", score).map((r) => r.variant_id)).toEqual(["good", "ok", "slow"]);
+    const score = (r: ExploreRow) => suggestedScore(r, roadTripper);
+    expect(sortRows(rows, "suggested", "desc", "NL", score).map((r) => r.variant_id)).toEqual(["good", "ok", "slow", "unscored"]);
     const st = { ...defaultState(), sort: "suggested" as const, dir: "desc" as const };
     expect(fromSearchParams(toSearchParams(st)).sort).toBe("suggested");
   });
-  it("names the heaviest factors after weight steps", () => {
+  it("names the heaviest factors after the layer's and modifier's weight steps", () => {
     expect(topFactors(roadTripper)).toEqual(["dc-speed", "winter-range", "space"]);
     const kerb = resolveProfile(A({ role: "main", trips: "never", charge: "public_only" }))!;
     expect(topFactors(kerb)[0]).toBe("efficiency");

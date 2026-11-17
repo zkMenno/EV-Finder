@@ -84,7 +84,14 @@ async function measureCatalogue() {
   const cat = JSON.parse(readFileSync(file, "utf8"));
   // The app's own transform (type-only imports, so Node's type stripping can load it).
   const { toClientCatalogue } = await import(pathToFileURL(path.join(WEB_DIR, "src/lib/explore-data.ts")).href);
-  const body = Buffer.from(JSON.stringify(toClientCatalogue(cat.release, cat.sources, cat.rows)));
+  // The optional files the data route adds (used prices per build year, release shortlist scores).
+  const { parseVariantUsedPrices } = await import(pathToFileURL(path.join(WEB_DIR, "src/lib/variant-prices.ts")).href);
+  const { parseShortlistScores } = await import(pathToFileURL(path.join(WEB_DIR, "src/lib/release-scores.ts")).href);
+  const side = (name) => {
+    const p = path.join(path.dirname(file), name);
+    return existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : null;
+  };
+  const body = Buffer.from(JSON.stringify(toClientCatalogue(cat.release, cat.sources, cat.rows, parseVariantUsedPrices(side("used_prices.json")), parseShortlistScores(side("shortlist_scores.json")))));
   return { file: path.relative(process.cwd(), file), rows: cat.rows.length, raw: body.length, gz: gzipBytes(body) };
 }
 

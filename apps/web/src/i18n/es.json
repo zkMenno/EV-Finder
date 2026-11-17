@@ -694,8 +694,10 @@
   "hero.nerd.rules": "Archivo de reglas: data/editorial/shortlist_rules.yaml (en nuestro repositorio público). Un valor desconocido cuenta 0,5, nunca se adivina.",
   "hero.nerd.unit.dc_km_per_20min": "{v} km en 20 min",
   "hero.nerd.unit.real_range_km": "{v} km",
+  "hero.nerd.unit.winter_range_km": "{v} km en invierno (estim.)",
   "hero.nerd.unit.boot_l": "{v} l",
   "hero.nerd.unit.consumption_kwh_100km": "{v} kWh/100 km",
+  "hero.nerd.unit.real_wh_km": "{v} Wh/km",
   "hero.nerd.unit.ac_kw": "{v} kW",
   "hero.nerd.unit.length_mm": "{v} m",
   "hero.nerd.val.yes": "sí",
@@ -736,5 +738,14 @@
   "usedYear.about": "unos {amount}",
   "usedYear.samples": "{n} anuncios",
   "usedYear.estimate": "Por año de fabricación, precio de venta habitual (P25–P75). Estimación a partir del precio de tarifa y del valor que conservan los eléctricos a esa edad, no anuncios contados.",
-  "usedYear.low": "Basado en un precio de tarifa de un año cercano o de otro país."
+  "usedYear.low": "Basado en un precio de tarifa de un año cercano o de otro país.",
+  "hero.nerd.source": "Las puntuaciones vienen de la versión de datos {n} (shortlist_scores.json), las mismas que comprobamos a posteriori.",
+  "hero.band.not-enough-data": "faltan datos",
+  "hero.band.ruled-out": "descartado",
+  "hero.noScores": "Clasificación aún no disponible.",
+  "hero.noScores.why": "Esta versión de los datos aún no tiene puntuaciones de selección, así que todavía no ordenamos los coches según tus respuestas. Preferimos no mostrar nada antes que una clasificación con otra base. La tabla de abajo muestra todos los coches.",
+  "hero.keep8.pending": "Aún no cambia el orden: las puntuaciones para esta respuesta no están en la versión de datos.",
+  "hero.why.winter-range.winter": "{km} km de autonomía en invierno (estimación)",
+  "hero.card.winterEstimate": "estimación a −10 °C",
+  "hero.caveat.winterEstimate": "La autonomía en invierno es nuestra propia estimación a −10 °C, de nuestro modelo de consumo (las mismas cifras que usa la clasificación)."
 }

@@ -694,8 +694,10 @@
   "hero.nerd.rules": "File delle regole: data/editorial/shortlist_rules.yaml (nel nostro repository pubblico). Un valore sconosciuto vale 0,5, mai una stima a caso.",
   "hero.nerd.unit.dc_km_per_20min": "{v} km in 20 min",
   "hero.nerd.unit.real_range_km": "{v} km",
+  "hero.nerd.unit.winter_range_km": "{v} km in inverno (stima)",
   "hero.nerd.unit.boot_l": "{v} l",
   "hero.nerd.unit.consumption_kwh_100km": "{v} kWh/100 km",
+  "hero.nerd.unit.real_wh_km": "{v} Wh/km",
   "hero.nerd.unit.ac_kw": "{v} kW",
   "hero.nerd.unit.length_mm": "{v} m",
   "hero.nerd.val.yes": "sì",
@@ -736,5 +738,14 @@
   "usedYear.about": "circa {amount}",
   "usedYear.samples": "{n} annunci",
   "usedYear.estimate": "Per anno di costruzione, prezzo richiesto tipico (P25–P75). Stima dal prezzo di listino e dal valore che le auto elettriche conservano a quell'età, non annunci contati.",
-  "usedYear.low": "Basato su un prezzo di listino di un anno vicino o di un altro paese."
+  "usedYear.low": "Basato su un prezzo di listino di un anno vicino o di un altro paese.",
+  "hero.nerd.source": "I punteggi vengono dalla versione dei dati {n} (shortlist_scores.json), gli stessi che verifichiamo a posteriori.",
+  "hero.band.not-enough-data": "dati insufficienti",
+  "hero.band.ruled-out": "escluso",
+  "hero.noScores": "Classifica non ancora disponibile.",
+  "hero.noScores.why": "Questa versione dei dati non ha ancora punteggi di selezione, quindi non ordiniamo ancora le auto in base alle tue risposte. Preferiamo non mostrare nulla piuttosto che una classifica su un'altra base. La tabella qui sotto elenca tutte le auto.",
+  "hero.keep8.pending": "Non cambia ancora l'ordine: i punteggi per questa risposta non sono nella versione dei dati.",
+  "hero.why.winter-range.winter": "{km} km di autonomia in inverno (stima)",
+  "hero.card.winterEstimate": "stima a −10 °C",
+  "hero.caveat.winterEstimate": "L'autonomia invernale è una nostra stima a −10 °C, dal nostro modello di consumo (gli stessi dati usati dalla classifica)."
 }

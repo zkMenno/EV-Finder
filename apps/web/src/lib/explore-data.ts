@@ -1,6 +1,7 @@
 // Compact rows shipped to the browser for Explore. Same field names as PublishedVariant,
 // only the columns Explore needs, nulls dropped. Pure: safe on server and client.
 import type { FieldProvenance, PublishedVariant, Source } from "@ev/schema";
+import type { CompactScores, ReleaseScores, VariantScores } from "./release-scores";
 import type { CompactBands, VariantBand, VariantUsedPrices } from "./variant-prices";
 
 export const EXPLORE_FIELDS = [
@@ -81,16 +82,20 @@ export type ExploreRow = Pick<PublishedVariant, (typeof EXPLORE_FIELDS)[number]>
   provenance: Record<string, FieldProvenance>;
   /** Used price bands by build year and country (T-081), compact; absent without data. */
   used_bands?: CompactBands;
+  /** Shortlist scores from the release (T-114, Decision 065), compact; absent without data. */
+  shortlist?: CompactScores;
 };
 
 export interface ClientCatalogue {
   release: number;
+  /** The release has shortlist_scores.json (else the hero says "ranking not available yet"). */
+  scores: boolean;
   /** source id → display name, for the provenance popovers. */
   sources: Record<string, string>;
   rows: ExploreRow[];
 }
 
-export function toExploreRow(row: PublishedVariant, used?: VariantUsedPrices): ExploreRow {
+export function toExploreRow(row: PublishedVariant, used?: VariantUsedPrices, scores?: ReleaseScores | null): ExploreRow {
   const out: Record<string, unknown> = {};
   for (const f of EXPLORE_FIELDS) {
     const v = row[f];
@@ -103,6 +108,8 @@ export function toExploreRow(row: PublishedVariant, used?: VariantUsedPrices): E
   out.provenance = prov;
   const bands = compactBands(used?.get(row.variant_id));
   if (bands) out.used_bands = bands;
+  const ss = compactScores(scores?.variants.get(row.variant_id));
+  if (ss) out.shortlist = ss;
   return out as ExploreRow;
 }
 
@@ -110,8 +117,8 @@ export function sourceNames(sources: Source[]): Record<string, string> {
   return Object.fromEntries(sources.map((s) => [s.id, s.name]));
 }
 
-export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[], used?: VariantUsedPrices): ClientCatalogue {
-  return { release, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used)) };
+export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[], used?: VariantUsedPrices, scores?: ReleaseScores | null): ClientCatalogue {
+  return { release, scores: !!scores, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used, scores)) };
 }
 
 /** Compact per-row bands for the client catalogue (T-092). */
@@ -121,5 +128,23 @@ export function compactBands(per: Record<string, VariantBand[]> | undefined): Co
   for (const [cc, list] of Object.entries(per)) {
     out[cc] = list.map((b) => [b.build_year, b.p25, b.median, b.p75, (b.estimate ? 1 : 0) | (b.confidence === "low" ? 2 : 0)]);
   }
+  return out;
+}
+
+/** Compact per-row shortlist scores for the client catalogue (T-114). */
+export function compactScores(v: VariantScores | undefined): CompactScores | undefined {
+  if (!v) return undefined;
+  const s: CompactScores["s"] = {};
+  for (const [k, c] of Object.entries(v.scores)) s[k] = [c.score, c.band, ...c.reasons];
+  const out: CompactScores = { s };
+  const f: NonNullable<CompactScores["f"]> = {};
+  for (const [trip, fs] of Object.entries(v.factors)) {
+    const known = Object.entries(fs).filter((e): e is [string, number] => e[1] !== null);
+    if (known.length) f[trip] = Object.fromEntries(known);
+  }
+  if (Object.keys(f).length) out.f = f;
+  const u = Object.fromEntries(Object.entries(v.unknown).filter(([, l]) => l.length));
+  if (Object.keys(u).length) out.u = u;
+  if (Object.keys(v.derived).length) out.d = { ...v.derived };
   return out;
 }
