@@ -1,10 +1,10 @@
 # WS2 status
 
 - **State:** active
-- **Now:** T-137 English only, PR #111 in CI + fresh review
+- **Now:** #104 parallax landing merged; next T-137 (English only, Decision 082)
 - **Next:** T-130 catalogue page + "Show all cars" (after UX layout), T-131 Popular used EVs, T-135 photo cards, T-132 hero redesign (after UX); #104 parallax still open
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-17 21:48 UTC by WS2 (3rd chat)
+- **Last updated:** 2026-11-17 21:53 UTC by WS2 (2nd chat)
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
