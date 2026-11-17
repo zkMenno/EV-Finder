@@ -54,4 +54,5 @@
 - Slowed down: T-136 was on both WS1's and WS3's list; I took it by branch first and told WS3. T-134 had no input format from T-133 yet, so I set the contract myself.
 - Menno did by hand: nothing.
 - Rule that would have prevented it: a task shared by two lanes names one lead lane in its task file.
+- Own miss: edited data/sources.yaml without regenerating apps/web's sources.generated.json; CI `web` caught it. Proposed check: pipeline `pre-push` (or WS1 verify skill) runs `node apps/web/scripts/sources.mjs` + `git diff --exit-code` when data/sources.yaml changed.
 - What a check missed: release 2 shipped with latest=2 but the image build still read catalogue.json from git; no CI job built the web image on the data-publish PR. Check: the data-publish PR (or the release PR) runs `build web (linux/arm64)` before `latest` moves.
