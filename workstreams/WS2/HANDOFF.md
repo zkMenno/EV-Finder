@@ -6,12 +6,12 @@ Previous chat: https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS (long; st
 - Merged on 17 Nov, each after a fresh reviewer PASS and green CI on the head: #43 T-095, #47 T-126 (verify tool), #50 (Dutch Nerd hero fits phones; keep-8 ⓘ outside its label), #53 (verify fixes), #52 T-125 (property tests).
 - Open:
   - #54 review follow-ups: merged (PASS at df203ab). Leftover should-fix S1: the compare 'at most 4' property rarely generates 5+ valid ids, so it only bites at ~10,000 runs (ids.test.ts covers the cap today). Feed it a joined `fc.uniqueArray(variantId, { minLength: 5, maxLength: 10 })` too. Do this with T-097.
-  - **#55** T-096 hero compare button label-in-name, plus axe rule `label-content-name-mismatch` on for every a11y page. Fresh review running.
+  - #55 T-096: merged after fix round 1 (PASS at 1114105). Explore, hero and variant compare buttons are named visible word + car; the a11y suite runs NL card view, NL variant and 360 px pages. Leftover nits: put the visible word and ': car' in one span (Chromium reads 'Compare : Car'); the variant button uses `disabled` when the tray is full (Explore and hero use `aria-disabled` + a reason).
   - **#48** docs only (WS2 STATUS, WS0/WS1 INBOX lines, task T-096). **Needs WS0 or Menno to merge**: Menno OK'd WS2 merging its own reviewed code PRs, not docs, and a direct push to main was blocked.
 - Merge rule we follow: one at a time; merge main into the branch, re-run CI (workflow_dispatch), merge only with the reviewer's PASS on that head (R0 re-checked after a main merge).
 
 ## Next tasks (in order)
-1. Finish #54 and #55: act on review findings (max 3 rounds), then merge.
+1. All WS2 code PRs are merged. Only #48 (docs) waits for WS0/Menno.
 2. **T-097** (task file in #54): Nerd table "Value" column.
    - Today it shows the scaled internal value (`raw × scale`, e.g. "1.161,6" for 387 km in 20 min).
    - Text and boolean factors show raw English codes ("standard", "liquid", "true").

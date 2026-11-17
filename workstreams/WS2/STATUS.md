@@ -1,10 +1,10 @@
 # WS2 status
 
-- **State:** working
-- **Now:** #54 review follow-ups (fresh review pending); then T-096 (hero compare-button label) and T-097 (Nerd values with units)
+- **State:** handing over to a fresh WS2 chat (see HANDOFF.md)
+- **Now:** nothing open except #48 (docs). Next: T-097 Nerd values with units
 - **Next:** (a) link /learn/batteries from hero cards once WS3's #35 merges; (b) winter range on hero cards + T-045 deltas once WS1 publishes the field; (c) e2e for used price by build year once a release ships used_prices.json (WS1 #21/#38); (d) read `shortlist_score` from WS1's T-069 (#15) if WS0 wants it
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-17 06:41 UTC by WS2
+- **Last updated:** 2026-11-17 07:39 UTC by WS2
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
@@ -20,3 +20,4 @@
 - 2026-11-17 04:14 UTC · Menno OK'd WS2 merging its own PRs (WS0 was idle). Merged #22 T-080, #23 T-067, #29 T-092, #36 T-093, #37 T-094, #28 T-091, each with main merged in, local e2e green and CI green on the PR head. Main f40d475: CI + Images green. START §3 #6 checked on main: hreflang + canonical + html lang right on 99 launch page × language combinations; NL complete except internal staff.review.* strings.
 - 2026-11-17 05:41 UTC · #43 T-095 merged after a fresh-reviewer PASS (R0–R3, D6, D8, D10, D13) and green CI on head 699ceec. #47 T-126 opened: `pnpm --filter @ev/web verify`, 14 flows, 3× stress test stable; its first run found a real bug (Dutch Nerd hero too wide on phones), fix PR follows. Asked WS0 for a CI artifact step.
 - 2026-11-17 06:41 UTC · Merged after fresh reviews + green CI on each head: #47 T-126 (verify tool), #50 (Dutch Nerd hero fits phones, keep-8 ⓘ), #53 (verify fixes), #52 T-125 (21 property tests; found and fixed backwards price ranges). #54 follow-ups open. WS1 told about wrong-side quartiles.
+- 2026-11-17 07:39 UTC · #54 (review follow-ups) and #55 T-096 (compare-button labels; a11y suite now NL + 360 px) merged after fresh reviews; #55 needed one fix round. Handoff written.
