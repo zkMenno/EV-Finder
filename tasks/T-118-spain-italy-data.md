@@ -23,8 +23,10 @@ Anything not on docs/spec/launch-scope.md.
 WS3 builder agent, 2026-11-17.
 
 **Done**
-- `config/countries/es.yaml` (languages [es]) and `it.yaml` ([it]). Currency is euro through the
-  Country/Currency defaults (no currency key in country files). Link-outs, all `verified: false`,
+- `config/countries/es.yaml` (languages [es]) and `it.yaml` ([it]). Currency and locale are not
+  country-file keys (the loaders reject unknown keys): they live in apps/web/src/config/countries.ts
+  (`currency: "EUR"`, name) and format.ts (language locale), so T-119 adds the es/it entries there.
+  The pipeline side is euro already (ECB rows, IT prices in EUR). Link-outs, all `verified: false`,
   evidence in the file comments, tap list in workstreams/WS3/T-041-checklist.md:
   ES Wallapop (`/coches-segunda-mano/{make}-{model}`, indexed) + AutoScout24.es (`/lst/`, same
   platform as the indexed .it/.nl); IT AutoScout24.it (`/lst/`, indexed) + Subito (free-text `q`
