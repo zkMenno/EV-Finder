@@ -4,8 +4,8 @@ schema: used-price-params/v1
 model_version: "0.1"
 anchors_as_of: "2026-09-28"   # DAT 3-year BEV figure; refit when it moves by more than 3 points
 
-countries: [NL, DE, FR, BE, UK]
-currency: {NL: EUR, DE: EUR, FR: EUR, BE: EUR, UK: GBP}
+countries: [NL, DE, FR, BE, UK, ES, IT]   # ES, IT: Decision 066 (launch countries)
+currency: {NL: EUR, DE: EUR, FR: EUR, BE: EUR, UK: GBP, ES: EUR, IT: EUR}
 
 # Share of the list price kept, by age in whole years since first registration (linear between).
 # 1, 3, 5 = anchors (R-40 §2); 2 and 4 = geometric mean of their neighbours; 6-10 = -8 % a year.
@@ -30,9 +30,9 @@ rounding: 100                    # round amounts to this many currency units
 #   2. the nearest record year in that country, at most `max_year_gap` away
 #   3. EU countries only: the NL price for that year, ex Dutch VAT, plus local VAT (low confidence)
 max_year_gap: 2
-vat: {NL: 0.21, DE: 0.19, FR: 0.20, BE: 0.21, UK: 0.20}   # standard rates, 2026
+vat: {NL: 0.21, DE: 0.19, FR: 0.20, BE: 0.21, UK: 0.20, ES: 0.21, IT: 0.22}   # standard rates, 2026
 cross_country_from: NL
-cross_country_to: [DE, FR, BE]   # not UK: other currency and right-hand-drive market
+cross_country_to: [DE, FR, BE, ES, IT]   # not UK: other currency and right-hand-drive market
 
 # Age is measured at the release date from the middle of the build year (1 July).
 mid_year_month: 7
@@ -56,8 +56,10 @@ fit:
 # Output of `ev used-price fit --release 1 --as-of 2026-11-17` (106 gated sample rows from
 # Marktplaats NL + 2dehands BE, Decision 060; RDW list prices). Refit with the same command
 # when samples or list prices (T-112) change; paste the new block in its own PR (G-06).
+# This block: refit with PR #78 (only variants built in the sample year), 2026-11-17.
 fitted:
-  method: least squares on ln(share of list price kept) vs age; one point per sample row
+  method: least squares on ln(share of list price kept) vs age; one point per sample
+    row
   fitted_at: '2026-11-17'
   on_release: 1
   samples_observed:
@@ -65,56 +67,56 @@ fitted:
   - NL
   default:
     points:
-      0: 0.884
-      1: 0.788
-      2: 0.702
-      3: 0.625
-      4: 0.557
-      5: 0.497
-      6: 0.443
-      7: 0.395
-      8: 0.352
-      9: 0.313
-      10: 0.279
-      11: 0.249
-      12: 0.222
-    extrapolated_from_age: 10
+      0: 0.886
+      1: 0.79
+      2: 0.705
+      3: 0.629
+      4: 0.561
+      5: 0.501
+      6: 0.447
+      7: 0.399
+      8: 0.356
+      9: 0.318
+      10: 0.283
+      11: 0.253
+      12: 0.226
+    extrapolated_from_age: 9
     max_age: 12
-    a: 0.8837
-    k: 0.1152
+    a: 0.8858
+    k: 0.114
     quality:
-      points: 85
+      points: 76
       generations: 19
       countries:
       - BE
       - NL
       age_range:
       - 1.4
-      - 9.4
-      r2_log: 0.719
-      in_sample_median_abs_error: 0.097
+      - 8.4
+      r2_log: 0.675
+      in_sample_median_abs_error: 0.1
   by_segment:
     J-medium:
       points:
-        0: 0.878
-        1: 0.782
-        2: 0.697
-        3: 0.621
-        4: 0.553
-        5: 0.493
-        6: 0.44
+        0: 0.9
+        1: 0.8
+        2: 0.71
+        3: 0.631
+        4: 0.56
+        5: 0.497
+        6: 0.442
         7: 0.392
-        8: 0.349
-        9: 0.311
-        10: 0.277
-        11: 0.247
-        12: 0.22
+        8: 0.348
+        9: 0.309
+        10: 0.275
+        11: 0.244
+        12: 0.217
       extrapolated_from_age: 6
       max_age: 12
-      a: 0.8777
-      k: 0.1153
+      a: 0.9004
+      k: 0.1187
       quality:
-        points: 37
+        points: 33
         generations: 6
         countries:
         - BE
@@ -122,17 +124,23 @@ fitted:
         age_range:
         - 1.4
         - 5.4
-        r2_log: 0.639
-        in_sample_median_abs_error: 0.079
+        r2_log: 0.593
+        in_sample_median_abs_error: 0.081
   holdout:
-    method: 'leave one generation out: fit on the other generations, estimate this one'
+    method: 'leave one generation out: fit on the other generations, then the visitor''s
+      path (choose_curve, kept_share on the yearly table, rounded band per variant)'
     fitted:
-      rows_compared: 85
-      median_abs_error: 0.098
-      median_error: 0.028
-      within_15pct: 0.671
+      rows_compared: 76
+      median_abs_error: 0.108
+      median_error: 0.013
+      within_15pct: 0.645
+      in_band: 0.526
+      curves_used:
+        fitted: 43
+        fitted:J-medium: 33
     published:
-      rows_compared: 85
-      median_abs_error: 0.139
-      median_error: -0.137
-      within_15pct: 0.553
+      rows_compared: 76
+      median_abs_error: 0.148
+      median_error: -0.148
+      within_15pct: 0.5
+      in_band: 0.355
