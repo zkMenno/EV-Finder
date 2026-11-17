@@ -5,7 +5,7 @@ Previous chat: https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS (long; st
 ## State
 - Merged on 17 Nov, each after a fresh reviewer PASS and green CI on the head: #43 T-095, #47 T-126 (verify tool), #50 (Dutch Nerd hero fits phones; keep-8 ⓘ outside its label), #53 (verify fixes), #52 T-125 (property tests).
 - Open:
-  - **#54** review follow-ups (compare URL property, numeric-cell e2e guard, verify port probe, task status). Fresh review was running when this was written.
+  - #54 review follow-ups: merged (PASS at df203ab). Leftover should-fix S1: the compare 'at most 4' property rarely generates 5+ valid ids, so it only bites at ~10,000 runs (ids.test.ts covers the cap today). Feed it a joined `fc.uniqueArray(variantId, { minLength: 5, maxLength: 10 })` too. Do this with T-097.
   - **#55** T-096 hero compare button label-in-name, plus axe rule `label-content-name-mismatch` on for every a11y page. Fresh review running.
   - **#48** docs only (WS2 STATUS, WS0/WS1 INBOX lines, task T-096). **Needs WS0 or Menno to merge**: Menno OK'd WS2 merging its own reviewed code PRs, not docs, and a direct push to main was blocked.
 - Merge rule we follow: one at a time; merge main into the branch, re-run CI (workflow_dispatch), merge only with the reviewer's PASS on that head (R0 re-checked after a main merge).
