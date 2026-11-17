@@ -62,6 +62,9 @@ class SourceEntry:
     # lets a hand-entered fact name a non-manual source only when its URL is on these hosts.
     access: str = ""
     hosts: tuple[str, ...] = ()
+    # Host/path prefixes a hand-entered fact naming this source may cite (PR #80 round 2):
+    # for sources on a shared host (github.com), the source's own `<owner>/<repo>/` path.
+    cite_paths: tuple[str, ...] = ()
 
 
 def licence_problem(licence: str) -> str | None:
@@ -156,6 +159,7 @@ def parse_registry(data: dict[str, Any]) -> Registry:
             cited_hosts=tuple(str(h) for h in s.get("cited_hosts") or []),
             access=str(s.get("access") or "").strip().lower(),
             hosts=tuple(str(h).lower() for h in s.get("hosts") or []),
+            cite_paths=tuple(str(h) for h in s.get("cite_paths") or []),
         )
     aliases = {a: next(iter(ids)) for a, ids in alias_of.items() if len(ids) == 1 and a not in out}
     return Registry(out, loaded=True, aliases=aliases)

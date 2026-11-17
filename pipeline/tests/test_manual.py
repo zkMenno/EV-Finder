@@ -562,6 +562,51 @@ def test_url_matches_host_and_path_prefix() -> None:
     assert not url_matches(cision, "https://mb.cision.com.evil.example/Main/23604/x.pdf")
     assert url_matches("WWW.Audi-MediaCenter.com", "https://www.audi-mediacenter.com/en/x")
     assert url_matches("*.googleusercontent.com", "https://doc-0.googleusercontent.com/a")
+    # Dot segments, plain or percent-encoded, can't step out of an allowed prefix.
+    for probe in (
+        "https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/../../../occasions/x",
+        "https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/%2e%2e/%2E%2E/x",
+        "https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/.%2e/x",
+        "https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/./x",
+        "https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/a%2f..%2fb",
+    ):
+        assert not url_matches(lw, probe), probe
+
+
+def test_open_source_on_a_shared_host_is_matched_by_its_own_repo_only(tmp_path: Path) -> None:
+    d = tmp_path / "data"
+    d.mkdir()
+    shutil.copy(RELEASE_FIX / "sources.yaml", d / "sources.yaml")
+    _add_source(d, CITED)
+    repo = "github.com/open-ev-data/open-ev-data-dataset/"
+    openev = {"id": "openev", "name": "Open EV Data", "licence": "CDLA-Permissive-2.0",
+              "access": "bulk", "status": "active", "hosts": ["github.com"]}  # fmt: skip
+    _add_source(d, openev)
+    other = {**PRICE, "source": "openev", "source_url": "https://github.com/someone/ev-prices"}
+    _write_topic(d, "x", [other])
+    reg = load_registry(d / "sources.yaml")
+    # Without cite_paths, github.com (a shared host) never vouches for a claim.
+    assert any("'openev' is not a hand-entry source" in i.message
+               for i in load_manual_dir(d, TODAY, reg).errors)  # fmt: skip
+    _add_source(d, {**openev, "cite_paths": [repo]})
+    reg = load_registry(d / "sources.yaml")
+    load = load_manual_dir(d, TODAY, reg)
+    assert load.facts == [] and any("'openev'" in i.message for i in load.errors)
+    own = {**other, "source_url": f"https://{repo}blob/main/src/tesla/model_3.json"}
+    _write_topic(d, "x", [own])
+    assert load_manual_dir(d, TODAY, reg).errors == []
+    _write_topic(d, "x", [{**own, "source_url": f"https://{repo}%2e%2e/%2e%2e/someone/x"}])
+    assert load_manual_dir(d, TODAY, reg).errors != []
+
+
+def test_repo_open_sources_on_github_cite_only_their_own_repo() -> None:
+    reg = load_registry(REPO_DATA / "sources.yaml")
+    for sid, repo in (
+        ("openev", "open-ev-data/open-ev-data-dataset"),
+        ("kilowatt-openev", "KilowattApp/open-ev-data"),
+    ):
+        assert f"github.com/{repo}/" in reg.sources[sid].cite_paths
+        assert all("/" in p for p in reg.sources[sid].cite_paths), sid
 
 
 @pytest.mark.parametrize("where", ["fact", "file"])

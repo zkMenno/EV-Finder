@@ -36,8 +36,9 @@ facts from maker documents. For such a source the fact's URL host must be in its
 error until the fact names a blocked source (e.g. `cited-third-party`), so a third-party
 figure can never ship as a maker fact. A `cited_hosts` entry is a host or a host/path prefix
 (`url_matches`). The file or fact `source:` may only name an `access: manual` source, or a
-source whose own `hosts` serve the fact's URL, so a third-party page can't borrow the id (and
-licence) of an open source such as `rdw`.
+source whose own `hosts` serve the fact's URL (on a shared host such as github.com: its
+`cite_paths` only), so a third-party page can't borrow the id (and licence) of an open source
+such as `rdw` or `openev`. Dot segments (also percent-encoded) never match a path prefix.
 
 Folders whose name starts with `_` (e.g. `data/manual/_example/`) and files with
 `fixture: true` are validated by `ev manual check` but never loaded by a release.
@@ -51,7 +52,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 import yaml
 
@@ -226,6 +227,20 @@ def _source_dict(
 
 
 MANUAL_ACCESS = "manual"
+# Hosts that serve many owners' content: a source's fetch `hosts` entry for one of these never
+# lets a manual fact claim that source; only its `cite_paths` (its own repo or folder) do.
+SHARED_HOSTS = frozenset(
+    {
+        "github.com",
+        "raw.githubusercontent.com",
+        "gitlab.com",
+        "docs.google.com",
+        "drive.google.com",
+        "*.googleusercontent.com",
+        "mb.cision.com",
+        "cdn.uc.assets.prezly.com",
+    }
+)
 
 
 def url_matches(pattern: str, url: str) -> bool:
@@ -238,7 +253,9 @@ def url_matches(pattern: str, url: str) -> bool:
     if not fnmatch.fnmatchcase(host, pat_host.lower()):  # hosts ignore case; paths don't
         return False
     want = [seg for seg in pat_path.split("/") if seg]
-    have = [seg for seg in parts.path.split("/") if seg]
+    have = [unquote(seg) for seg in parts.path.split("/") if seg]
+    if want and any(h in (".", "..") or "/" in h or "\\" in h for h in have):
+        return False  # a dot segment or encoded slash could step out of the allowed prefix
     if len(have) < len(want):
         return False
     return all(
@@ -251,13 +268,15 @@ def _source_claim_problems(registry: Registry | None, source_id: str, url: str) 
     (`access: manual`: manual, maker-docs, autotijd, cited-third-party), or a source whose own
     `hosts` serve the cited URL (an RDW page may say `source: rdw`). Otherwise a press or review
     figure could borrow an open source's id and licence and reach the release and the CC BY
-    bundle. Applies to fixtures too: there is no reason to test a laundered label."""
+    bundle. A source on a shared host (SHARED_HOSTS, e.g. github.com) matches only its
+    `cite_paths`. Applies to fixtures too: there is no reason to test a laundered label."""
     if registry is None or not registry.loaded:
         return []
     entry = registry.sources.get(registry.canonical(source_id))
     if entry is None or entry.access == MANUAL_ACCESS:
         return []
-    if any(url_matches(h, url) for h in entry.hosts):
+    allowed = entry.cite_paths or tuple(h for h in entry.hosts if h not in SHARED_HOSTS)
+    if any(url_matches(h, url) for h in allowed):
         return []
     host = (urlparse(url.strip()).hostname or "").lower()
     return [

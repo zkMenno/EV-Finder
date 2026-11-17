@@ -11,9 +11,9 @@
 # Licences marked "(to confirm)" were not verified tonight; they stay blocked until checked.
 schema: sources/v1
 sources:
-  - {id: openev, name: Open EV Data, owner: open-ev-data (GitHub), licence: CDLA-Permissive-2.0, access: bulk, cadence: monthly, status: active, hosts: [github.com],
+  - {id: openev, name: Open EV Data, owner: open-ev-data (GitHub), licence: CDLA-Permissive-2.0, access: bulk, cadence: monthly, status: active, hosts: [github.com], cite_paths: [github.com/open-ev-data/open-ev-data-dataset/, raw.githubusercontent.com/open-ev-data/open-ev-data-dataset/],
      terms: "Licence verified from the LICENCE file in the repo, 2026-11-15."}
-  - {id: kilowatt-openev, name: "Open EV Data (KilowattApp)", owner: Tijs Teulings / KilowattApp (GitHub), licence: MIT-with-attribution, access: bulk, cadence: monthly, status: active, hosts: [github.com],
+  - {id: kilowatt-openev, name: "Open EV Data (KilowattApp)", owner: Tijs Teulings / KilowattApp (GitHub), licence: MIT-with-attribution, access: bulk, cadence: monthly, status: active, hosts: [github.com], cite_paths: [github.com/KilowattApp/open-ev-data/, raw.githubusercontent.com/KilowattApp/open-ev-data/],
      terms: "Licence verified from LICENSE, 2026-11-15. Must show visible attribution to 'Open EV Data (https://github.com/KilowattApp/open-ev-data)' on the About/credits page. Default curves (is_default_charging_curve) are dropped."}
   - {id: rdw, name: "Dutch open vehicle register (opendata.rdw.nl)", owner: RDW (NL), licence: CC0-1.0, access: api, cadence: weekly, status: active, hosts: [opendata.rdw.nl],
      terms: "Primary NL register. Registrations, type-approval specs, catalogue price, defects, recalls. Bijsluiter: reusers may not state the data comes from RDW nor use its logo (Q-037). Decision 037: credit 'Dutch open vehicle register (opendata.rdw.nl), CC0' with a link, no RDW logo or house style, until RDW replies."}
