@@ -184,6 +184,8 @@ def _gate_reason(registry: Registry, sid: str, licence: str | None = None) -> st
     if licence is not None:
         if "odbl" in licence.lower():
             return f"ODbL licence ({licence}) cannot go into a CC BY release"
+        if registry.cited_facts(sid):
+            return None  # Decision 068: same rule as the release gate (reason_blocked)
         return licence_problem(licence)
     return None
 

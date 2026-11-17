@@ -108,6 +108,12 @@ class Registry:
             return None  # Decision 068: single cited maker facts, no licence needed
         return licence_problem(entry.licence)
 
+    def cited_facts(self, source_id: str) -> bool:
+        """True when `source_id` ships under Decision 068 (`use: cited-facts` + `decision`):
+        its licence text names no licence on purpose, so a licence re-check must skip it."""
+        entry = self.sources.get(self.canonical(source_id))
+        return bool(entry and entry.use == CITED_FACTS and entry.decision)
+
     def aggregate_input_problem(self, source_id: str) -> str | None:
         """None when our own aggregates may be derived from `source_id` (T-111, A-35 S2):
         releasable, or active with `use: aggregates-only` and a logged owner `decision`."""
