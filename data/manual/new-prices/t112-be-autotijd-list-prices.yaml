@@ -1,0 +1,948 @@
+# T-112 (A-35 B2, Decision 064), 2026-11-17: new list prices in Belgium, incl. 21 % VAT.
+# Source: Autotijd.be 'Belgische prijzen' pages, which republish the importers' Belgian price lists
+# month by month (third-party copy; the page says 'De vermelde prijzen zijn steeds inclusief btw').
+# Rule: the earliest list on the site that carries the variant's powertrain, cheapest trim (base
+# list price, no options). Where that list is later than the variant's first year the notes say so
+# and confidence is low: it is the earliest list we could read, not the launch price.
+# Every value was checked against the page (row text quoted) on the retrieval date.
+# Source `manual` is blocked until Q-008, so these do not ship yet (see the T-112 PR).
+schema: manual-facts/v1
+entered_by: ws3-builder (agent, T-112)
+facts:
+  - variant_id: audi-a6-e-tron-gen1-avant
+    field: price_new
+    value: 78450
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/audi/a6-avant-e-tron/a6-avant-e-tron-prijslijst-september-2024
+    source_name: "Autotijd.be, Belgian price list audi a6-avant-e-tron, September 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "performance 367 pk | Advanced | € 78.450"
+    locator: "Price table, row as quoted (type Elektrisch); list dated September 2024"
+    confidence: low
+    claim: true
+    notes: "Release row says 350 kW; BE list has the 270 kW (367 pk) 'performance' RWD as the base Avant. Cheapest trim."
+  - variant_id: audi-a6-e-tron-gen1-sportback
+    field: price_new
+    value: 76800
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/audi/a6-sportback-e-tron/a6-sportback-e-tron-prijslijst-september-2024
+    source_name: "Autotijd.be, Belgian price list audi a6-sportback-e-tron, September 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "performance 367 pk | Advanced | € 76.800"
+    locator: "Price table, row as quoted (type Elektrisch); list dated September 2024"
+    confidence: low
+    claim: true
+    notes: "Release row says 350 kW; BE list has the 270 kW (367 pk) 'performance' RWD as the base Sportback. Cheapest trim."
+  - variant_id: audi-e-tron-q8-50
+    field: price_new
+    value: 76500
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/audi/q8-e-tron/q8-e-tron-prijslijst-december-2022
+    source_name: "Autotijd.be, Belgian price list audi q8-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "50 quattro 341 pk Advanced AWD |  | € 76.500"
+    locator: "Price table, row as quoted (type Elektrisch); list dated December 2022"
+    confidence: medium
+    claim: true
+    notes: "First BE list for the Q8 e-tron; cheapest trim."
+  - variant_id: audi-e-tron-q8-55
+    field: price_new
+    value: 88300
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/audi/q8-e-tron/q8-e-tron-prijslijst-december-2022
+    source_name: "Autotijd.be, Belgian price list audi q8-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "55 quattro 408 pk Advanced AWD |  | € 88.300"
+    locator: "Price table, row as quoted (type Elektrisch); list dated December 2022"
+    confidence: medium
+    claim: true
+    notes: "First BE list for the Q8 e-tron; cheapest trim."
+  - variant_id: audi-e-tron-q8-quattro
+    field: price_new
+    value: 88300
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/audi/q8-e-tron/q8-e-tron-prijslijst-december-2022
+    source_name: "Autotijd.be, Belgian price list audi q8-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "55 quattro 408 pk Advanced AWD |  | € 88.300"
+    locator: "Price table, row as quoted (type Elektrisch); list dated December 2022"
+    confidence: low
+    claim: true
+    notes: "Open EV 'quattro' row (300 kW, 100 kWh) = the 55 quattro (408 pk = 300 kW); cheapest trim."
+  - variant_id: audi-e-tron-q8-quattro-sportback
+    field: price_new
+    value: 90300
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/audi/q8-sportback-e-tron/q8-sportback-e-tron-prijslijst-december-2022
+    source_name: "Autotijd.be, Belgian price list audi q8-sportback-e-tron, December 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "55 quattro 408 pk Advanced AWD |  | € 90.300"
+    locator: "Price table, row as quoted (type Elektrisch); list dated December 2022"
+    confidence: low
+    claim: true
+    notes: "Open EV 'quattro Sportback' row (300 kW) = the Sportback 55 quattro; cheapest trim."
+  - variant_id: byd-atto-3-gen1-60kwh
+    field: price_new
+    value: 46740
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/byd/atto-3/atto-3-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list byd atto-3, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "60 kWh 204 pk Launch Edition |  | € 46.740"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: medium
+    claim: true
+    notes: "First BE list; only version."
+  - variant_id: byd-atto-3-gen1-standard-range-extended-range
+    field: price_new
+    value: 46740
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/byd/atto-3/atto-3-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list byd atto-3, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "60 kWh 204 pk Launch Edition |  | € 46.740"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: low
+    claim: true
+    notes: "Open EV row with a 60 kWh pack, 150 kW: the same car as the 60.5 kWh row in this list."
+  - variant_id: citroen-e-c4-c41-54kwh
+    field: price_new
+    value: 39635
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/citroen/c4/c4-prijslijst-maart-2024
+    source_name: "Autotijd.be, Belgian price list citroen c4, March 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "54 kWh 156 pk | You | € 39.635"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2024"
+    confidence: medium
+    claim: true
+    notes: "First BE list with the 54 kWh / 156 pk (115 kW) version; cheapest trim."
+  - variant_id: cupra-born-gen1-77kwh
+    field: price_new
+    value: 49070
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/cupra/born/born-prijslijst-augustus-2022
+    source_name: "Autotijd.be, Belgian price list cupra born, August 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "77 kWh 231 pk eBoost |  | € 49.070"
+    locator: "Price table, row as quoted (type Elektrisch); list dated August 2022"
+    confidence: medium
+    claim: true
+    notes: "First BE list for the Born; only 77 kWh version."
+  - variant_id: dacia-spring-gen1-electric-45
+    field: price_new
+    value: 17490
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-januari-2022
+    source_name: "Autotijd.be, Belgian price list dacia spring, January 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "45 pk Comfort |  | € 17.490"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (January 2022); the Spring was on sale from 2021. Cheapest trim."
+  - variant_id: dacia-spring-gen1-essential
+    field: price_new
+    value: 20990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list dacia spring, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "26,8 kWh 45 pk Essential |  | € 20.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: medium
+    claim: true
+    notes: "First BE list with the Essential trim."
+  - variant_id: dacia-spring-gen1-extreme-65
+    field: price_new
+    value: 22690
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list dacia spring, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "26,8 kWh 65 pk Extreme |  | € 22.690"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site with the 65 pk Extreme (launched 2022)."
+  - variant_id: dacia-spring-gen1-facelift-65
+    field: price_new
+    value: 16990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/dacia/spring/spring-prijslijst-april-2024
+    source_name: "Autotijd.be, Belgian price list dacia spring, April 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Electric 45 pk | Essential | € 16.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2024"
+    confidence: medium
+    claim: true
+    notes: "First BE list for the 2024 facelift; the row covers the 45 and 65 pk motors, so the cheapest (45 pk Essential) is used. 65 pk Expression: EUR 18,990."
+  - variant_id: fiat-500e-332-icon
+    field: price_new
+    value: 32390
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/fiat/500e/500e-prijslijst-mei-2022
+    source_name: "Autotijd.be, Belgian price list fiat 500e, May 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Icon Berline 118 pk |  | € 32.390"
+    locator: "Price table, row as quoted (type Elektrisch); list dated May 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list with an 'Icon' (hatchback); the car launched 2020-21."
+  - variant_id: fiat-500e-332-la-prima
+    field: price_new
+    value: 37900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/fiat/500e/500e-prijslijst-augustus-2021
+    source_name: "Autotijd.be, Belgian price list fiat 500e, August 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "3+1 42 kWh 118 pk La Prima |  | € 37.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated August 2021"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site; La Prima only in the 3+1 body there (hatchback La Prima by Bocelli, May 2022: EUR 36,390)."
+  - variant_id: fiat-500e-332-pop
+    field: price_new
+    value: 28900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/fiat/500e/500e-prijslijst-augustus-2021
+    source_name: "Autotijd.be, Belgian price list fiat 500e, August 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "42 kWh 118 pk |  | € 28.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated August 2021"
+    confidence: low
+    claim: true
+    notes: "The release row is the 42 kWh / 87 kW car; this is the cheapest 42 kWh version in the earliest BE list (no trim name given)."
+  - variant_id: ford-mustang-mach-e-gen1-sr-rwd
+    field: price_new
+    value: 50750
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
+    source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "68 kWh 269 pk |  | € 50.750"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (March 2022); on sale from 2021."
+  - variant_id: ford-mustang-mach-e-gen1-er-rwd
+    field: price_new
+    value: 58900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
+    source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "88 kWh 294 pk |  | € 58.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (March 2022); on sale from 2021."
+  - variant_id: ford-mustang-mach-e-gen1-er-awd
+    field: price_new
+    value: 61175
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
+    source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "88 kWh 351 pk AWD |  | € 61.175"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (March 2022); on sale from 2021."
+  - variant_id: ford-mustang-mach-e-gen1-gt
+    field: price_new
+    value: 75750
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-maart-2022
+    source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, March 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "GT 88 kWh 487 pk AWD |  | € 75.750"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2022"
+    confidence: medium
+    claim: true
+    notes: "Earliest BE list on the site; GT from 2022."
+  - variant_id: ford-mustang-mach-e-gen1-select
+    field: price_new
+    value: 61700
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-december-2022
+    source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, December 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "76 kWh 269 pk Base Standard Range |  | € 61.700"
+    locator: "Price table, row as quoted (type Elektrisch); list dated December 2022"
+    confidence: low
+    claim: true
+    notes: "Open EV 'Select' (RWD, 198 kW) mapped to the Standard Range RWD base version of the first MY2023 BE list."
+  - variant_id: ford-mustang-mach-e-gen1-extended-range
+    field: price_new
+    value: 74800
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/ford/mustang-mach-e/mustang-mach-e-prijslijst-december-2022
+    source_name: "Autotijd.be, Belgian price list ford mustang-mach-e, December 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "99 kWh 351 pk Premium Extended Range AWD |  | € 74.800"
+    locator: "Price table, row as quoted (type Elektrisch); list dated December 2022"
+    confidence: low
+    claim: true
+    notes: "Open EV 'Extended Range' (AWD, 258 kW = 351 pk) in the first MY2023 BE list."
+  - variant_id: honda-e-gen1-e
+    field: price_new
+    value: 34500
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/honda/e/e-prijslijst-oktober-2019
+    source_name: "Autotijd.be, Belgian price list honda e, October 2019 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "35,5 kWh Base 136 pk |  | € 34.500"
+    locator: "Price table, row as quoted (type Elektrisch); list dated October 2019"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list."
+  - variant_id: honda-e-gen1-advance
+    field: price_new
+    value: 37500
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/honda/e/e-prijslijst-oktober-2019
+    source_name: "Autotijd.be, Belgian price list honda e, October 2019 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "35,5 kWh Advance 154 pk |  | € 37.500"
+    locator: "Price table, row as quoted (type Elektrisch); list dated October 2019"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list."
+  - variant_id: hyundai-ioniq-5-gen1-58kwh-rwd
+    field: price_new
+    value: 45999
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-5/ioniq-5-prijslijst-april-2021
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-5, April 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "58 kWh 170 pk Core |  | € 45.999"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2021"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; cheapest trim."
+  - variant_id: hyundai-ioniq-5-gen1-77kwh-rwd
+    field: price_new
+    value: 58499
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-5/ioniq-5-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-5, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "77 kWh 228 pk Core |  | € 58.499"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: medium
+    claim: true
+    notes: "First BE list on the site with the 77.4 kWh pack; cheapest trim."
+  - variant_id: hyundai-ioniq-5-gen1-77kwh-awd
+    field: price_new
+    value: 62499
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-5/ioniq-5-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-5, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "77 kWh 325 pk Core AWD |  | € 62.499"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: medium
+    claim: true
+    notes: "First BE list on the site with the 77.4 kWh pack; cheapest trim."
+  - variant_id: hyundai-ioniq-6-gen1-53kwh-rwd
+    field: price_new
+    value: 47499
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "53 kWh 151 pk Core |  | € 47.499"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; cheapest trim."
+  - variant_id: hyundai-ioniq-6-gen1-77kwh-rwd
+    field: price_new
+    value: 52499
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "77,4 kWh 229 pk Core |  | € 52.499"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; cheapest trim."
+  - variant_id: hyundai-ioniq-6-gen1-77kwh-awd
+    field: price_new
+    value: 63499
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "77,4 kWh 325 pk Balance AWD |  | € 63.499"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; only AWD trim."
+  - variant_id: hyundai-ioniq-6-gen1-awd
+    field: price_new
+    value: 63499
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "77,4 kWh 325 pk Balance AWD |  | € 63.499"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: low
+    claim: true
+    notes: "Open EV 'AWD' row (239 kW) = the 77.4 kWh AWD; launch BE list."
+  - variant_id: hyundai-ioniq-6-gen1-standard-range
+    field: price_new
+    value: 47499
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/ioniq-6/ioniq-6-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list hyundai ioniq-6, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "53 kWh 151 pk Core |  | € 47.499"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: low
+    claim: true
+    notes: "Open EV 'Standard Range' row (111 kW) = the 53 kWh RWD; launch BE list."
+  - variant_id: hyundai-kona-electric-os-64kwh
+    field: price_new
+    value: 43999
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/hyundai/kona/kona-prijslijst-april-2022
+    source_name: "Autotijd.be, Belgian price list hyundai kona, April 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "64,0 kWh 204 pk Techno |  | € 43.999"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site with EV rows (April 2022); on sale from 2018. Cheapest 64 kWh trim."
+  - variant_id: kia-ev6-gen1-gt
+    field: price_new
+    value: 65990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/kia/ev6/ev6-prijslijst-augustus-2021
+    source_name: "Autotijd.be, Belgian price list kia ev6, August 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "77,4kWh 584 pk GT AWD |  | € 65.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated August 2021"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list."
+  - variant_id: mercedes-eqa-h243-300-350-4matic
+    field: price_new
+    value: 60742
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/mercedes/eqa/eqa-prijslijst-januari-2022
+    source_name: "Autotijd.be, Belgian price list mercedes eqa, January 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "EQA 300 4MATIC 228 pk Luxury Line AWD |  | € 60.742"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (January 2022); the row covers the 300 and 350 4MATIC, so the cheaper 300 is used (350 4MATIC Luxury Line: EUR 63,646)."
+  - variant_id: mercedes-eqa-h243-300-4matic
+    field: price_new
+    value: 62194
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/mercedes/eqa/eqa-prijslijst-maart-2024
+    source_name: "Autotijd.be, Belgian price list mercedes eqa, March 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "300 4MATIC 228 pk AWD | Luxury Line | € 62.194"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2024"
+    confidence: low
+    claim: true
+    notes: "First BE list on the site after the 2023 update; cheapest trim."
+  - variant_id: mercedes-eqa-h243-base
+    field: price_new
+    value: 56870
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/mercedes/eqa/eqa-prijslijst-maart-2024
+    source_name: "Autotijd.be, Belgian price list mercedes eqa, March 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "250+ 190 pk | Business Line | € 56.870"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2024"
+    confidence: low
+    claim: true
+    notes: "Open EV 'Base' (140 kW, FWD) is the EQA 250 or 250+; only the 250+ is in the first post-2023 BE list. Cheapest trim."
+  - variant_id: mercedes-eqb-gen1-base
+    field: price_new
+    value: 58685
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/mercedes/eqb/eqb-prijslijst-maart-2024
+    source_name: "Autotijd.be, Belgian price list mercedes eqb, March 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "250+ 190 pk | Business Line | € 58.685"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2024"
+    confidence: low
+    claim: true
+    notes: "Open EV 'Base' (140 kW, FWD) is the EQB 250 or 250+; first post-2023 BE list on the site. Cheapest trim."
+  - variant_id: mercedes-eqb-gen1-350-4matic
+    field: price_new
+    value: 69333
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/mercedes/eqb/eqb-prijslijst-maart-2024
+    source_name: "Autotijd.be, Belgian price list mercedes eqb, March 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "350 4MATIC 292 pk AWD | AMG Line | € 69.333"
+    locator: "Price table, row as quoted (type Elektrisch); list dated March 2024"
+    confidence: low
+    claim: true
+    notes: "First post-2023 BE list on the site; only trim."
+  - variant_id: mg-zs-ev-gen1-standard-range
+    field: price_new
+    value: 35885
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/mg/zs/zs-prijslijst-juli-2023
+    source_name: "Autotijd.be, Belgian price list mg zs, July 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "177 pk | Comfort Standard Range | € 35.885"
+    locator: "Price table, row as quoted (type Elektrisch); list dated July 2023"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (July 2023); the 51 kWh Standard Range was on sale from 2021. Cheapest trim."
+  - variant_id: peugeot-e-2008-p24-54kwh
+    field: price_new
+    value: 45965
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/peugeot/2008/2008-prijslijst-mei-2023
+    source_name: "Autotijd.be, Belgian price list peugeot 2008, May 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "EV 51 kWh 156 pk First Edition |  | € 45.965"
+    locator: "Price table, row as quoted (type Elektrisch); list dated May 2023"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list (First Edition only). Regular trims from October 2023: Active EUR 40,615."
+  - variant_id: polestar-2-gen1-sr-single-fwd
+    field: price_new
+    value: 45900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/polestar/2/2-prijslijst-april-2021
+    source_name: "Autotijd.be, Belgian price list polestar 2, April 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "64 kWh 224 pk |  | € 45.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2021"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (April 2021)."
+  - variant_id: polestar-2-gen1-lr-single-fwd
+    field: price_new
+    value: 49900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/polestar/2/2-prijslijst-april-2021
+    source_name: "Autotijd.be, Belgian price list polestar 2, April 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "78 kWh 231 pk |  | € 49.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2021"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (April 2021)."
+  - variant_id: polestar-2-gen1-lr-dual-2020
+    field: price_new
+    value: 53900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/polestar/2/2-prijslijst-april-2021
+    source_name: "Autotijd.be, Belgian price list polestar 2, April 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "78 kWh 408 pk AWD |  | € 53.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2021"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (April 2021); the car was sold from 2020."
+  - variant_id: porsche-macan-electric-gen1-base
+    field: price_new
+    value: 88100
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/porsche/macan/macan-prijslijst-januari-2024
+    source_name: "Autotijd.be, Belgian price list porsche macan, January 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "408 pk AWD | 4 | € 88.100"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2024"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; the release 'Base' row (300 kW, AWD) is the Macan 4."
+  - variant_id: porsche-macan-electric-gen1-turbo
+    field: price_new
+    value: 120700
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/porsche/macan/macan-prijslijst-januari-2024
+    source_name: "Autotijd.be, Belgian price list porsche macan, January 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "639 pk AWD | Turbo | € 120.700"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2024"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list."
+  - variant_id: porsche-taycan-gen1-base
+    field: price_new
+    value: 97433
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/porsche/taycan/taycan-prijslijst-mei-2023
+    source_name: "Autotijd.be, Belgian price list porsche taycan, May 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "79,2 kWh 326 pk |  | € 97.433"
+    locator: "Price table, row as quoted (type Elektrisch); list dated May 2023"
+    confidence: low
+    claim: true
+    notes: "Release row spans 2023-2025; first BE list on the site in that span. Cheapest (79.2 kWh) version."
+  - variant_id: renault-5-e-tech-gen1-base
+    field: price_new
+    value: 32900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/renault/5-e-tech-electric/5-e-tech-electric-prijslijst-mei-2024
+    source_name: "Autotijd.be, Belgian price list renault 5-e-tech-electric, May 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "52 kWh 150 pk | techno | € 32.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated May 2024"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; the release 'Base' row (90 kW / 50 kWh net) is the 52 kWh 150 pk car. Cheapest trim."
+  - variant_id: renault-scenic-e-tech-gen1-base
+    field: price_new
+    value: 46950
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/renault/scenic-e-tech-electric/scenic-e-tech-electric-prijslijst-januari-2024
+    source_name: "Autotijd.be, Belgian price list renault scenic-e-tech-electric, January 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "87 kWh 220 pk | techno long range | € 46.950"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2024"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; the release 'Base' row (160 kW / 84 kWh net) is the 87 kWh long range. Cheapest trim."
+  - variant_id: tesla-model-3-gen1-long-range
+    field: price_new
+    value: 57990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-januari-2022
+    source_name: "Autotijd.be, Belgian price list tesla model-3, January 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Long Range 441 pk AWD |  | € 57.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (January 2022); the row spans 2019-2023."
+  - variant_id: tesla-model-3-gen1-performance
+    field: price_new
+    value: 63990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-januari-2022
+    source_name: "Autotijd.be, Belgian price list tesla model-3, January 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Performance 513 pk AWD |  | € 63.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (January 2022); the row spans 2019-2023."
+  - variant_id: tesla-model-3-gen1-sr-plus-lfp
+    field: price_new
+    value: 50990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-januari-2022
+    source_name: "Autotijd.be, Belgian price list tesla model-3, January 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "325 pk |  | € 50.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (January 2022); the single-motor car then was the LFP RWD."
+  - variant_id: tesla-model-3-highland-performance
+    field: price_new
+    value: 56970
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-3/model-3-prijslijst-april-2024
+    source_name: "Autotijd.be, Belgian price list tesla model-3, April 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "338 kW AWD | Performance | € 56.970"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2024"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list for the Highland Performance."
+  - variant_id: tesla-model-s-palladium-long-range
+    field: price_new
+    value: 104990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-s/model-s-prijslijst-november-2021
+    source_name: "Autotijd.be, Belgian price list tesla model-s, November 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "AWD |  | € 104.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated November 2021"
+    confidence: medium
+    claim: true
+    notes: "First BE list for the 2021 Model S."
+  - variant_id: tesla-model-s-palladium-plaid
+    field: price_new
+    value: 129990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-s/model-s-prijslijst-november-2021
+    source_name: "Autotijd.be, Belgian price list tesla model-s, November 2021 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Plaid AWD |  | € 129.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated November 2021"
+    confidence: medium
+    claim: true
+    notes: "First BE list for the 2021 Model S."
+  - variant_id: tesla-model-y-gen1-long-range
+    field: price_new
+    value: 63000
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-januari-2022
+    source_name: "Autotijd.be, Belgian price list tesla model-y, January 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Long Range 351 pk AWD |  | € 63.000"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (January 2022); European deliveries from 2021."
+  - variant_id: tesla-model-y-gen1-rwd
+    field: price_new
+    value: 46990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list tesla model-y, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Single Motor 347 pk |  | € 46.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site with the single-motor car (launched 2022)."
+  - variant_id: tesla-model-y-gen1-long-range-rwd
+    field: price_new
+    value: 49970
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-april-2024
+    source_name: "Autotijd.be, Belgian price list tesla model-y, April 2024 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "347 pk | Long Range Single Motor | € 49.970"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2024"
+    confidence: medium
+    claim: true
+    notes: "First BE list with the Long Range RWD."
+  - variant_id: tesla-model-y-juniper-long-range-awd
+    field: price_new
+    value: 61990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/tesla/model-y/model-y-prijslijst-januari-2025
+    source_name: "Autotijd.be, Belgian price list tesla model-y, January 2025 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Long Range AWD | Launch Series | € 61.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2025"
+    confidence: low
+    claim: true
+    notes: "Launch Series only (fully loaded) in the launch BE list; the plain Long Range AWD came later."
+  - variant_id: toyota-bz4x-gen1-front-wheel-drive-all-wheel-drive
+    field: price_new
+    value: 60955
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/toyota/bz4x/bz4x-prijslijst-april-2022
+    source_name: "Autotijd.be, Belgian price list toyota bz4x, April 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "71 kWh 218 pk Style AWD |  | € 60.955"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2022"
+    confidence: low
+    claim: true
+    notes: "The release row is AWD, 160 kW (218 pk); launch BE list, cheapest AWD trim. FWD 204 pk from EUR 49,920."
+  - variant_id: volkswagen-id3-gen1-pro
+    field: price_new
+    value: 37225
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volkswagen/id3/id3-prijslijst-januari-2022
+    source_name: "Autotijd.be, Belgian price list volkswagen id3, January 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "58 kWh 145 pk Pro |  | € 37.225"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (January 2022); on sale from 2020. Pro Performance (204 pk): EUR 38,815."
+  - variant_id: volkswagen-id3-gen1-pro-2023
+    field: price_new
+    value: 45485
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volkswagen/id3/id3-prijslijst-april-2023
+    source_name: "Autotijd.be, Belgian price list volkswagen id3, April 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "58 kWh 204 pk Pro Performance |  | € 45.485"
+    locator: "Price table, row as quoted (type Elektrisch); list dated April 2023"
+    confidence: medium
+    claim: true
+    notes: "First BE list for the 2023 ID.3; cheapest trim."
+  - variant_id: volvo-ex30-gen1-base
+    field: price_new
+    value: 38990
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
+    source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Single Motor 272 pk Core |  | € 38.990"
+    locator: "Price table, row as quoted (type Elektrisch); list dated June 2023"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; cheapest trim."
+  - variant_id: volvo-ex30-gen1-69-kwh
+    field: price_new
+    value: 44240
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
+    source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Single Motor Extended Range 272 pk Core |  | € 44.240"
+    locator: "Price table, row as quoted (type Elektrisch); list dated June 2023"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; cheapest trim."
+  - variant_id: volvo-ex30-gen1-twin-motor-performance
+    field: price_new
+    value: 50490
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
+    source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Twin Motor Performance 428 pk Plus AWD |  | € 50.490"
+    locator: "Price table, row as quoted (type Elektrisch); list dated June 2023"
+    confidence: medium
+    claim: true
+    notes: "Launch BE list; cheapest trim."
+  - variant_id: volvo-ex30-gen1-twin-motor
+    field: price_new
+    value: 50490
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/ex30/ex30-prijslijst-juni-2023
+    source_name: "Autotijd.be, Belgian price list volvo ex30, June 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Twin Motor Performance 428 pk Plus AWD |  | € 50.490"
+    locator: "Price table, row as quoted (type Elektrisch); list dated June 2023"
+    confidence: low
+    claim: true
+    notes: "Open EV 'Twin Motor' row (315 kW): the EX30's only twin-motor version is the Twin Motor Performance."
+  - variant_id: volvo-xc40-recharge-gen1-p8-twin
+    field: price_new
+    value: 57900
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-februari-2022
+    source_name: "Autotijd.be, Belgian price list volvo xc40, February 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Recharge Twin 408 pk Plus AWD |  | € 57.900"
+    locator: "Price table, row as quoted (type Elektrisch); list dated February 2022"
+    confidence: low
+    claim: true
+    notes: "Earliest BE list on the site (February 2022); on sale from 2020."
+  - variant_id: volvo-xc40-recharge-gen1-p6-single-fwd
+    field: price_new
+    value: 48050
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-februari-2022
+    source_name: "Autotijd.be, Belgian price list volvo xc40, February 2022 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Recharge 231 pk Core |  | € 48.050"
+    locator: "Price table, row as quoted (type Elektrisch); list dated February 2022"
+    confidence: medium
+    claim: true
+    notes: "First BE list on the site with the single-motor FWD car; cheapest trim."
+  - variant_id: volvo-xc40-recharge-gen1-single-rwd-my24
+    field: price_new
+    value: 52450
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list volvo xc40, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Recharge 238 pk Core |  | € 52.450"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: low
+    claim: true
+    notes: "First BE list with the MY24 RWD single motor (238 pk); cheapest trim."
+  - variant_id: volvo-xc40-recharge-gen1-twin-motor
+    field: price_new
+    value: 62300
+    unit: EUR
+    country: BE
+    source_url: https://autotijd.be/prijzen/volvo/xc40/xc40-prijslijst-januari-2023
+    source_name: "Autotijd.be, Belgian price list volvo xc40, January 2023 (importer list prices incl. VAT, third-party copy)"
+    retrieved: 2026-11-17
+    quote: "Recharge Twin 408 pk Plus AWD |  | € 62.300"
+    locator: "Price table, row as quoted (type Elektrisch); list dated January 2023"
+    confidence: low
+    claim: true
+    notes: "Open EV 'Twin Motor' 2023 row; first BE list of 2023, cheapest trim."
+  # --- Maker source (not Autotijd) -------------------------------------------------------
+  - variant_id: hyundai-ioniq-5-gen1-n
+    field: price_new
+    value: 74900
+    unit: EUR
+    country: DE
+    source_url: https://www.hyundai.news/de/articles/press-releases/neuer-hyundai-ioniq-5-n-startet-ab-74900-euro.html
+    source_name: "Hyundai Motor Deutschland press release 'Neuer Hyundai IONIQ 5 N startet ab 74.900 Euro' (2023-12-13)"
+    retrieved: 2026-11-17
+    quote: "geht in Deutschland ab 74.900 Euro an den Start und ist ab sofort bestellbar"
+    locator: "Press release body, launch price for Germany"
+    confidence: medium
+    claim: true
+    notes: "Launch price. The release does not say 'incl. VAT', but German consumer list prices must include VAT (PAngV). BE list March 2024 (Autotijd): 84 kWh 650 pk N Performance EUR 77,999."
