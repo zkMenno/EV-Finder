@@ -23,7 +23,8 @@
     "charging-links": "node scripts/charging-links.mjs",
     "budget": "node scripts/budget.mjs",
     "fetch-release": "node scripts/fetch-release.mjs",
-    "theme": "node scripts/theme.mjs"
+    "theme": "node scripts/theme.mjs",
+    "verify": "node scripts/verify.mjs"
   },
   "dependencies": {
     "@ev/schema": "workspace:*",
