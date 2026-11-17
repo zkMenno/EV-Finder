@@ -455,6 +455,22 @@ describe("budget rule (Decision 064)", async () => {
       expect(res.shortlistN).toBe(2);
       expect(res.picks.slice(0, 2).every((p) => p.price !== null)).toBe(true);
     });
+    it("release-2 shape (NL road-tripper €15k): 1 priced car + 8 higher-scoring unpriced → 1 ranked pick, the rest unranked (A-35 B2)", () => {
+      // Release 2 had Dacia Spring (€13,600 estimate, score 54) and 8 unpriced premium models
+      // (Zeekr 001 78.9 … GV60 39.2). The unpriced cars may not take places 2-5.
+      const spring = scored(withBands("spring", [model(2024, 13600)], { model_id: "spring" }), "road-tripper", 54);
+      const premium = [78.9, 75.1, 68, 67.6, 56.1, 55, 47.9, 39.2].map((s, i) => scored(row(`prem${i}`, { model_id: `prem${i}`, generation_id: `prem${i}-g` }), "road-tripper", s));
+      const res = rankHero([...premium, spring], roadTripper, q(15000), on);
+      expect(res.priced).toBe(1);
+      expect(res.shortlistN).toBe(1);
+      expect(res.picks.map((p) => p.rank)).toEqual([1, null, null, null, null, null, null, null, null]);
+      expect(res.picks[0]!.row.variant_id).toBe("spring");
+      // No unpriced car carries a place number in 1-5, or anywhere.
+      for (const p of res.picks) expect(p.rank === null).toBe(p.price === null);
+      // Enough priced cars: places run 1..n over priced cars only.
+      const full = rankHero(rows, roadTripper, q(35000), on);
+      expect(full.picks.filter((p) => p.rank !== null).map((p) => p.rank)).toEqual(Array.from({ length: full.priced }, (_, i) => i + 1));
+    });
     it("€15k and €35k give different top 10s, and every top-5 price is within the budget", () => {
       const low = rankHero(rows, roadTripper, q(15000), on);
       const high = rankHero(rows, roadTripper, q(35000), on);

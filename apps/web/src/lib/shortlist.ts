@@ -494,7 +494,8 @@ export interface HeroQuery {
 }
 
 export interface HeroPick {
-  rank: number;
+  /** 1-based place among the priced picks; null for a car with no price (never ranked as a pick, Decision 064). */
+  rank: number | null;
   row: ExploreRow;
   result: PickScore;
   price: PriceFit | null;
@@ -510,6 +511,8 @@ export interface HeroResult {
   picks: HeroPick[];
   /** How many of the picks form "Your shortlist": priced cars only, at most SHORTLIST_N (Decision 064). */
   shortlistN: number;
+  /** Priced picks; they come first in `picks`. The rest have no price and no rank. */
+  priced: number;
   /** Models that qualified (before cutting to TOP_N). */
   qualifying: number;
   /** How many of the qualifying picks have no price yet. */
@@ -553,7 +556,7 @@ export function rankHero(
   opts: { hasScores: boolean },
   rules: ShortlistRules = RULES,
 ): HeroResult {
-  const empty: HeroResult = { status: "no-scores", picks: [], shortlistN: 0, qualifying: 0, unpriced: 0, ruledOutByGate: 0, overBudget: 0, unscored: 0 };
+  const empty: HeroResult = { status: "no-scores", picks: [], shortlistN: 0, priced: 0, qualifying: 0, unpriced: 0, ruledOutByGate: 0, overBudget: 0, unscored: 0 };
   if (!opts.hasScores) return empty;
   const presets = presetsFor(rp).filter((p) => !q.presetsOff.includes(p.field));
   let ruledOutByGate = 0;
@@ -619,11 +622,15 @@ export function rankHero(
       (b.row.real_range_km ?? 0) - (a.row.real_range_km ?? 0) ||
       `${a.row.make_name} ${a.row.model_name}`.localeCompare(`${b.row.make_name} ${b.row.model_name}`),
   );
-  const picks = sorted.slice(0, TOP_N).map(({ count, ...p }, i) => ({ ...p, rank: i + 1, alternatives: count - 1 }));
+  // Only priced cars get a place number: an unpriced car is never a ranked pick, so it can't sit in
+  // places 1-5 when fewer than 5 priced cars fit (A-35 B2 on release 2: 1 priced + 8 unpriced at €15k).
+  const picks = sorted.slice(0, TOP_N).map(({ count, ...p }, i) => ({ ...p, rank: p.price !== null ? i + 1 : null, alternatives: count - 1 }));
+  const priced = picks.filter((p) => p.price !== null).length;
   return {
     status: "ranked",
     picks,
-    shortlistN: Math.min(SHORTLIST_N, picks.filter((p) => p.price !== null).length),
+    shortlistN: Math.min(SHORTLIST_N, priced),
+    priced,
     qualifying: sorted.length,
     unpriced: picks.filter((p) => p.price === null).length,
     ruledOutByGate,

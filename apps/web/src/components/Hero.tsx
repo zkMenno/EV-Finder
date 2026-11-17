@@ -25,6 +25,7 @@ import {
   CHARGES,
   presetsFor,
   rankHero,
+  SHORTLIST_N,
   reasons,
   resolveProfile,
   ROLES,
@@ -676,9 +677,11 @@ function Results(r: ResultsProps) {
       </section>
     );
   }
-  // "Your shortlist" = priced cars only (Decision 064); unpriced cars follow under "Also worth a look".
+  // "Your shortlist" = priced cars only (Decision 064); more priced cars follow under "Also worth a
+  // look"; cars with no price get their own section without place numbers, after every priced car.
   const top = result?.picks.slice(0, result.shortlistN) ?? [];
-  const more = result?.picks.slice(result?.shortlistN ?? 0) ?? [];
+  const more = result?.picks.slice(result?.shortlistN ?? 0, result?.priced ?? 0) ?? [];
+  const noPrice = result?.picks.slice(result?.priced ?? 0) ?? [];
   const activePresets = r.presets.filter((p) => !r.hero.presetsOff.includes(p.field));
   return (
     <section aria-labelledby={id} className="mt-8" data-testid="hero-results">
@@ -697,7 +700,9 @@ function Results(r: ResultsProps) {
         <>
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <h2 id={id} className="font-[family-name:var(--font-display)] text-2xl font-bold">
-              {t("hero.results.title", { n: Math.min(10, result?.picks.length ?? 10) })}
+              {result && result.priced === 0 && result.picks.length > 0
+                ? t("hero.results.titleUnpriced")
+                : t("hero.results.title", { n: result ? Math.min(10, result.priced) : 10 })}
             </h2>
             <button type="button" onClick={r.share} className="min-h-11 text-sm text-blue-800 underline underline-offset-2">
               {r.copied ? t("hero.results.copied") : t("hero.results.share")}
@@ -757,6 +762,19 @@ function Results(r: ResultsProps) {
               <Card key={p.row.model_id} pick={p} r={r} />
             ))}
           </ol>
+        </div>
+      ) : null}
+      {noPrice.length ? (
+        <div className="mt-6" data-testid="hero-no-price">
+          {/* Fewer than five priced cars fit: say so plainly instead of ranking unpriced cars as picks. */}
+          <h3 className="text-lg font-semibold">
+            {t((result?.priced ?? 0) < SHORTLIST_N ? "hero.results.noPriceFits" : "hero.results.noPriceList")}
+          </h3>
+          <ul className="mt-3 grid gap-3">
+            {noPrice.map((p) => (
+              <Card key={p.row.model_id} pick={p} r={r} />
+            ))}
+          </ul>
         </div>
       ) : null}
       {r.props.learnLinks?.length ? (
@@ -847,11 +865,14 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   const priceHow = level === "nerd" && pick.price ? priceHowText(pick.price, t, locale, r.money, props.sources) : null;
 
   return (
-    <li className="min-w-0 rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank} data-variant={row.variant_id} data-price={pick.price?.amount} data-price-basis={pick.price?.basis ?? "none"}>
+    <li className="min-w-0 rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank ?? undefined} data-variant={row.variant_id} data-price={pick.price?.amount} data-price-basis={pick.price?.basis ?? "none"}>
       <div className="flex items-start gap-3">
-        <span className="mt-0.5 inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-[var(--ink)] px-2 text-sm font-bold text-[var(--surface)]" aria-label={t("hero.card.rank", { n: pick.rank })}>
-          {pick.rank}
-        </span>
+        {/* A car with no price has no place number (Decision 064): it is not a ranked pick. */}
+        {pick.rank !== null ? (
+          <span className="mt-0.5 inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-[var(--ink)] px-2 text-sm font-bold text-[var(--surface)]" aria-label={t("hero.card.rank", { n: pick.rank })}>
+            {pick.rank}
+          </span>
+        ) : null}
         <div className="min-w-0 flex-1">
           <h4 className="text-base font-semibold">
             <a href={generationHref(props.base, row)} className="text-blue-800 underline-offset-2 hover:underline">
