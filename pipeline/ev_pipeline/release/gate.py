@@ -30,6 +30,7 @@ _NO_LICENCE = {"", "none", "unknown", "n/a"}
 # now, credited, reuse terms being confirmed in writing; a "no" removes it next release.
 RELEASABLE_STATUSES = frozenset({"active", "active_pending_confirmation"})
 WRITTEN_PERMISSION = "written"
+AGGREGATES_ONLY = "aggregates-only"
 MISSING_REGISTRY = "no data/sources.yaml (licence registry missing; release blocked)"
 
 
@@ -42,6 +43,13 @@ class SourceEntry:
     owner: str = ""
     terms: str = ""
     permission: str = ""  # "written" = explicit written permission from the owner
+    # T-111 (A-35 S2): `use: aggregates-only` + `decision`: the owner accepted, in a logged
+    # decision, that we derive our own aggregates from the site (Decision 060). Its values
+    # never ship; only figures we compute from them may, and only through derive/used_price.
+    use: str = ""
+    decision: str = ""
+    # Sites a hand-noted aggregate may cite as its URL (not the fetch allowlist `hosts`).
+    site_hosts: tuple[str, ...] = ()
 
 
 def licence_problem(licence: str) -> str | None:
@@ -83,6 +91,27 @@ class Registry:
             return None
         return licence_problem(entry.licence)
 
+    def aggregate_input_problem(self, source_id: str) -> str | None:
+        """None when our own aggregates may be derived from `source_id` (T-111, A-35 S2):
+        releasable, or active with `use: aggregates-only` and a logged owner `decision`."""
+        why = self.reason_blocked(source_id)
+        if why is None:
+            return None
+        entry = self.sources.get(self.canonical(source_id))
+        if entry is None or entry.status not in RELEASABLE_STATUSES:
+            return why
+        if entry.use == AGGREGATES_ONLY and entry.decision:
+            return None
+        return why
+
+    def source_for_url(self, url: str) -> str | None:
+        """The registry id whose `site_hosts` names the URL's host, else None."""
+        from urllib.parse import urlsplit
+
+        host = (urlsplit(url).hostname or "").lower()
+        hits = [e.id for e in self.sources.values() if host and host in e.site_hosts]
+        return hits[0] if len(hits) == 1 else None
+
     def releasable(self, source_id: str) -> bool:
         return self.reason_blocked(source_id) is None
 
@@ -107,6 +136,9 @@ def parse_registry(data: dict[str, Any]) -> Registry:
             owner=str(s.get("owner") or ""),
             terms=str(s.get("terms") or ""),
             permission=str(s.get("permission") or "").strip().lower(),
+            use=str(s.get("use") or "").strip().lower(),
+            decision=str(s.get("decision") or "").strip(),
+            site_hosts=tuple(str(h).lower() for h in s.get("site_hosts") or []),
         )
     aliases = {a: next(iter(ids)) for a, ids in alias_of.items() if len(ids) == 1 and a not in out}
     return Registry(out, loaded=True, aliases=aliases)

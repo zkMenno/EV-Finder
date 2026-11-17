@@ -32,3 +32,10 @@ Reviewer: fresh agent (2026-11-17), head 76ebe52 (first pass on 2ea43ab): R0–R
 - should-fix: the "6 languages" 360 px test opened /nl/{lang}; /nl/de, /nl/fr 308 to /nl/nl, so only NL + EN were tested → fixed in fix/hero-nerd-360-routes (served routes + redirect check).
 - nit: "11,7 kWh/100 km" wraps to 3 lines at 360 px, readable. pre-existing: ES/IT not served (T-119).
 - Merged by Menno as #56 (dabb31d), 2026-11-17 10:28 UTC.
+
+Reviewer: fresh agent (2026-11-17), PR #68 head 6f9c75a: R0–R3, D8, D10: pass
+- Round 1 (7202907): R0 fail, de/de + be/de Nerd table clipped 16 px on CI (system font wider than dev) → fixed: words may break, numbers in nowrap spans, test adds a 12 % wider pass.
+- Round 2 (e5d2c33): pass, should-fix: Score/Weight headers broke mid-word ("Poi/ds") → fixed: one "Points 0–1 × Weight" column.
+- Round 3 (6f9c75a): CI green; 6 routes × 360/1280 × light/dark: axe 0 in 24 runs, 0/220 numbers split, 0 px clipped; no header mid-word breaks (normal + 12 %); Explore 169.9 KB gzip. Main merged in afterwards (1857c21, docs-only change), CI re-run before merge.
+
+Reviewer: WS0 subagent (2026-11-17), head 1857c21: R0–R3, D8, D10: pass; vitest 362/362, hero+a11y e2e 50/50; DE/BE-DE/FR 360 px light+dark 0 px overflow; Explore 169.9 KB < 200 KB. Nit: Value column cramped at 360 px (readable).

@@ -803,6 +803,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-117, T-118, T-119. Supersedes the country list in Decision 051's launch scope; docs/spec/launch-scope.md updated.
 
+## Decision 046: Optional on-board charger: a citation routes a source's AC figure (T-063)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-17)
+**Date:** 2026-11-17
+
+**Context:** Decision 034 split AC into `ac_kw` (standard charger) and `ac_kw_optional`. OpenEV and KilowattApp give one max-AC number and never say whether it is the option: 0 of 746 OpenEV AC records mention one (checked 2026-11-17). A-06 found rows showing the option as AC (e-208 / e-2008 11 kW where 7.4 is standard, Megane EV40 22 kW, MG4 Standard 11 kW).
+
+**Decision:** Before merging, a source `ac_kw` fact moves to `ac_kw_optional` only when a citation for that variant (seed `cited:` or data/manual) names that value as the optional charger and no citation names it as the standard one (`merge/ac_route.py`, ±2 % like `ac_kw`). Blocked citations (maker-docs, manual: Q-008) count as evidence for this, as in guard_contradicted (A-06 F3); they never ship. Without a citation nothing moves. A cited option not above the cited standard routes nothing and goes to review; a published option not above the standard is dropped (rows) and flagged (QA `ac_optional_not_above`).
+
+**Consequences:** Release values change only when WS3 adds citations. Until Q-008 is answered a routed row shows the option and an empty standard AC rather than a wrong one. Every move is listed in the run log (`sections.ac_kw_optional`).
+
 ## Decision 067: Infra agents write runbooks; Menno applies them
 
 **Status:** Accepted (WS0, 2026-11-17; WS4 inbox asked to settle a conflict)
@@ -813,5 +824,16 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 **Decision:** infra/AGENTS.md wins: agents write files and copy-paste runbooks (with a read-only measure step), Menno runs them on the server. Fixed in WS4 START.md. Reason: the server is shared with GardenLayer and Dungeon Tracker, so the person who can see all three applies changes.
 
 **Consequences:** Staging (T-040, PR #59) waits for Menno to run the runbook once.
+
+## Decision 068: Single cited facts from maker documents may ship (Q-008)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup)
+**Date:** 2026-11-17
+
+**Context:** Maker spec sheets and price lists have no licence, so Decision 009 kept them `blocked`. That kept T-110's corrected figures and T-112's new prices out of the release (A-35 B2/B4).
+
+**Decision:** Single facts from maker documents (list price, WLTP range, battery size, consumption) may reach a release, one figure per car per document, each with its URL, retrieval date and confidence. Never copy a whole price list or spec table. KBA, SDES and EU Safety Gate stay blocked until their reuse terms are checked.
+
+**Consequences:** WS1 sets the `manual` / maker-document source status in data/sources.yaml accordingly (with T-116). The licence column says "facts cited, no licence".
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

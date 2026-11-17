@@ -24,7 +24,7 @@ import os
 import shutil
 import sys
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
@@ -64,6 +64,7 @@ from ev_pipeline.match.seed import (
     load_seed,
     load_source_holds,
 )
+from ev_pipeline.merge.ac_route import route_optional_ac
 from ev_pipeline.merge.corroborate import apply_corroboration
 from ev_pipeline.merge.generation_years import corroborate_years
 from ev_pipeline.merge.merge import Merged, has_citation, merge_variant_facts
@@ -135,6 +136,8 @@ class ReleaseResult:
     shortlist_backtest: dict[str, Any] | None = None
     # T-081: used price bands per variant, build year and country (used_prices.json).
     used_prices: dict[str, Any] | None = None
+    # T-111: values the plausibility gate took out of the rows (Issue dicts, qa.json).
+    plausibility_withheld: list[dict[str, Any]] = field(default_factory=list)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -363,6 +366,15 @@ def build_release(
     by_variant: dict[str, list[MatchedFact]] = {}
     for mf in spec_facts:
         by_variant.setdefault(mf.fact.subject_id.root, []).append(mf)
+    # T-063 (Decision 034): a source ac_kw that a citation names as the optional charger
+    # moves to ac_kw_optional before merging; without a citation nothing moves.
+    by_variant, ac_routed, ac_route_problems = route_optional_ac(
+        by_variant, evidence, policies.for_field("ac_kw")
+    )
+    problems += [
+        Problem("merge", "-", "-", rp.variant_id, "ac_kw_optional", "", "kW", rp.message)
+        for rp in ac_route_problems
+    ]
     # T-057: usable kWh above the linked pack's gross never merges; it goes to conflicts.csv.
     by_variant, pack_conflicts = guard_usable_vs_pack(
         by_variant, links, {vid: info.generation_id for vid, info in result.variants.items()}
@@ -420,6 +432,13 @@ def build_release(
                 row.pop(f, None)
                 row["provenance"].pop(f, None)
     problems += row_problems
+    # T-111 (A-35 B4): implausible values go to review, out of the rows, before anything is
+    # derived from the rows (matrix, shortlist, used prices).
+    from ev_pipeline.qa.plausibility import WITHHOLD, apply_gate
+    from ev_pipeline.qa.plausibility import load_config as load_plausibility
+
+    plaus = apply_gate(rows, load_plausibility())
+    conflicts_plausibility = plaus.review_rows
 
     all_facts = spec_facts + result.count_facts + corro_used
     sources: dict[str, dict[str, Any]] = {}
@@ -592,7 +611,7 @@ def build_release(
         unmatched_count=len(result.unmatched) + sum(result.other_makes.values()),
         inputs=inputs,
         unmatched_rows=unmatched,
-        conflicts=conflicts,
+        conflicts=conflicts + conflicts_plausibility,
         gated=gated,
         taxonomy_tables=optional.counts(),
         taxonomy_held_back=optional.held_back,
@@ -604,6 +623,7 @@ def build_release(
         shortlist=shortlist.document,
         shortlist_backtest=shortlist.backtest,
         used_prices=used.document,
+        plausibility_withheld=[i.to_dict() for i in plaus.issues if i.action == WITHHOLD],
         sections={
             "epa_range_km": epa_summary(rows),
             "generation_years": years.log,
@@ -614,7 +634,12 @@ def build_release(
             "retired_ids": retired.log,
             "shortlist_scores": shortlist.log,
             "used_prices": used.log,
+            "plausibility": plaus.log(),
             "pack_links": link_coverage(link_report),
+            "ac_kw_optional": {
+                "routed": [asdict(r) for r in ac_routed],
+                "problems": [asdict(r) for r in ac_route_problems],
+            },
         },
     )
     raw = catalogue_bytes(catalogue)
@@ -1084,7 +1109,7 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
     # failure raises ReleaseError and removes tmp (R-05 §1, T-035, Decision 016).
     from ev_pipeline.qa.release_step import finish_release
 
-    finish_release(res.catalogue, res.facts, tmp, data_dir)
+    finish_release(res.catalogue, res.facts, tmp, data_dir, res.plausibility_withheld)
     # T-064: per-generation split + manifest.json (sizes, sha256) before the folder goes live.
     from ev_pipeline.release.publish import PublishError, load_config, package
 

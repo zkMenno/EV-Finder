@@ -15,6 +15,12 @@ curves:
     points: {0: 1.0, 1: 0.75, 2: 0.62, 3: 0.515, 4: 0.465, 5: 0.42, 6: 0.386, 7: 0.355, 8: 0.327, 9: 0.301, 10: 0.277}
     extrapolated_from_age: 6     # ages >= 6 are extrapolated: confidence low
     max_age: 12                  # older cars: no band (curve too uncertain)
+    # T-113: citation of this published curve (the fallback when no `fitted` block exists).
+    source:
+      name: "DAT residual values, 3-year-old BEVs 51.5 % of list price (via autohaus.de); other ages per research/R-40"
+      url: https://www.autohaus.de/nachrichten/gw-trends/dat-spritpreise-machen-gebrauchte-e-autos-teurer-3909599
+      ref: research/R-40-used-ev-price-anchors.md
+      date: "2026-09-28"
 
 spread: 0.12                     # P25 / P75 = median x (1 -/+ spread); R-40 §2
 rounding: 100                    # round amounts to this many currency units
@@ -35,3 +41,98 @@ mid_year_month: 7
 samples_dir: manual/prices
 min_samples: 5                   # a sampled band needs at least this many cars (T-056)
 max_sample_age_days: 120         # older aggregates are ignored for bands (still back-tested)
+
+# T-113 (Decision 064): depreciation fit on our own samples (derive/depreciation.py).
+# A fitted curve replaces the published one only with enough points and generations;
+# a segment gets its own curve only with enough of its own. Ages in years, shares of list price.
+fit:
+  min_points: 20
+  min_generations: 8
+  segment_min_points: 15
+  segment_min_generations: 5
+  max_age: 12
+  worst_listed: 5
+
+# Output of `ev used-price fit --release 1 --as-of 2026-11-17` (106 gated sample rows from
+# Marktplaats NL + 2dehands BE, Decision 060; RDW list prices). Refit with the same command
+# when samples or list prices (T-112) change; paste the new block in its own PR (G-06).
+fitted:
+  method: least squares on ln(share of list price kept) vs age; one point per sample row
+  fitted_at: '2026-11-17'
+  on_release: 1
+  samples_observed:
+  - BE
+  - NL
+  default:
+    points:
+      0: 0.884
+      1: 0.788
+      2: 0.702
+      3: 0.625
+      4: 0.557
+      5: 0.497
+      6: 0.443
+      7: 0.395
+      8: 0.352
+      9: 0.313
+      10: 0.279
+      11: 0.249
+      12: 0.222
+    extrapolated_from_age: 10
+    max_age: 12
+    a: 0.8837
+    k: 0.1152
+    quality:
+      points: 85
+      generations: 19
+      countries:
+      - BE
+      - NL
+      age_range:
+      - 1.4
+      - 9.4
+      r2_log: 0.719
+      in_sample_median_abs_error: 0.097
+  by_segment:
+    J-medium:
+      points:
+        0: 0.878
+        1: 0.782
+        2: 0.697
+        3: 0.621
+        4: 0.553
+        5: 0.493
+        6: 0.44
+        7: 0.392
+        8: 0.349
+        9: 0.311
+        10: 0.277
+        11: 0.247
+        12: 0.22
+      extrapolated_from_age: 6
+      max_age: 12
+      a: 0.8777
+      k: 0.1153
+      quality:
+        points: 37
+        generations: 6
+        countries:
+        - BE
+        - NL
+        age_range:
+        - 1.4
+        - 5.4
+        r2_log: 0.639
+        in_sample_median_abs_error: 0.079
+  holdout:
+    method: 'leave one generation out: fit on the other generations, estimate this one'
+    fitted:
+      rows_compared: 85
+      median_abs_error: 0.098
+      median_error: 0.028
+      within_15pct: 0.671
+    published:
+      rows_compared: 85
+      median_abs_error: 0.139
+      median_error: -0.137
+      within_15pct: 0.553

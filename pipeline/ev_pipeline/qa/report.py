@@ -14,6 +14,7 @@ from ev_pipeline.qa.checks import (
     check_sections,
     check_top40_coverage,
 )
+from ev_pipeline.qa.plausibility import check_plausibility
 from ev_pipeline.release.gate import Registry
 
 
@@ -24,6 +25,8 @@ def run_qa(
     policies: Policies,
     previous: dict[str, Any] | None = None,
     charging: dict[str, Any] | None = None,
+    plausibility_cfg: dict[str, Any] | None = None,
+    plausibility_withheld: list[dict[str, Any]] | None = None,
 ) -> list[Check]:
     return [
         check_provenance(catalogue, facts),
@@ -32,6 +35,7 @@ def run_qa(
         check_outliers(catalogue, previous, facts),
         check_top40_coverage(catalogue),
         check_sections(catalogue, charging),
+        check_plausibility(catalogue.get("rows", []), plausibility_cfg, plausibility_withheld),
     ]
 
 
@@ -93,6 +97,11 @@ def qa_md(doc: dict[str, Any]) -> str:
     if out.get("impossible"):
         lines += ["", "## Impossible values (first 10)", ""]
         lines += [f"- {i['variant_id']}: {i['detail']}" for i in out["impossible"][:10]]
+    pl = (doc["checks"].get("plausibility") or {}).get("details") or {}
+    if pl.get("withheld") or pl.get("review"):
+        lines += ["", "## Plausibility (first 10 each)", ""]
+        for kind in ("withheld", "review"):
+            lines += [f"- {kind}: {i['variant_id']}: {i['detail']}" for i in pl.get(kind, [])[:10]]
     flags = doc["checks"]["diff"]["details"].get("flags") or []
     if flags:
         lines += ["", "## Diff flags", "", *[f"- {f}" for f in flags]]
