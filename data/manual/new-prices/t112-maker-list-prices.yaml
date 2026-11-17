@@ -19,3 +19,263 @@ facts:
     confidence: medium
     claim: true
     notes: "Launch price. The release does not say 'incl. VAT', but German consumer list prices must include VAT (PAngV). BE list March 2024 (Autotijd): 84 kWh 650 pk N Performance EUR 77,999."
+  - variant_id: volvo-ex30-gen1-base
+    field: price_new
+    value: 38990
+    unit: EUR
+    country: BE
+    source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
+    source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
+    retrieved: 2026-11-17
+    quote: "EX30 Single Motor RWD Core €38 990 €37 669"
+    locator: "Price table 'Prijs BE (21%)', row EX30 Single Motor RWD Core; launch press release"
+    confidence: high
+    claim: true
+    notes: "Launch price at order opening (7 June 2023), cheapest trim (Core). Prices incl. VAT per the table footnote."
+  - variant_id: volvo-ex30-gen1-69-kwh
+    field: price_new
+    value: 44240
+    unit: EUR
+    country: BE
+    source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
+    source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
+    retrieved: 2026-11-17
+    quote: "EX30 RWD Core €44 240 €42 702"
+    locator: "Price table 'Prijs BE (21%)', row EX30 Single Motor Extended Range RWD Core"
+    confidence: high
+    claim: true
+    notes: "Launch price, Single Motor Extended Range, cheapest trim (Core). Incl. VAT."
+  - variant_id: volvo-ex30-gen1-twin-motor-performance
+    field: price_new
+    value: 50490
+    unit: EUR
+    country: BE
+    source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
+    source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
+    retrieved: 2026-11-17
+    quote: "EX30 Twin Motor Performance AWD Plus €50 490 €48 694"
+    locator: "Price table 'Prijs BE (21%)', row EX30 Twin Motor Performance AWD Plus"
+    confidence: high
+    claim: true
+    notes: "Launch price, cheapest trim offered with Twin Motor Performance (Plus). Incl. VAT."
+  - variant_id: volvo-ex30-gen1-twin-motor
+    field: price_new
+    value: 50490
+    unit: EUR
+    country: BE
+    source_url: https://mb.cision.com/Main/23604/4174345/3536170.pdf
+    source_name: "Volvo Car Belux press release 'Klein maar krachtig: maak kennis met de volledig elektrische Volvo EX30' (ID 313242, 2023-06-07), PDF via Cision"
+    retrieved: 2026-11-17
+    quote: "EX30 Twin Motor Performance AWD Plus €50 490 €48 694"
+    locator: "Price table 'Prijs BE (21%)', row EX30 Twin Motor Performance AWD Plus"
+    confidence: low
+    claim: true
+    notes: "The launch list has only one twin-motor EX30 (Twin Motor Performance); this release row duplicates it. Same price as volvo-ex30-gen1-twin-motor-performance."
+  - variant_id: volvo-xc40-recharge-gen1-p8-twin
+    field: price_new
+    value: 62900
+    unit: EUR
+    country: BE
+    source_url: https://mb.cision.com/Main/23604/4175532/3537364.pdf
+    source_name: "Volvo Car Belux press release 'Prix de vente confirmé pour la XC40 P8 Recharge 100% électrique' (ID 260528, 2019-11-27), PDF via Cision"
+    retrieved: 2026-11-17
+    quote: "sera commercialisé au prix de 62.900 € TVA comprise"
+    locator: "Press release body, Belgian launch price (Luxembourg price given separately)"
+    confidence: high
+    claim: true
+    notes: "Launch price of the XC40 P8 Recharge (twin motor, 78 kWh) in Belgium, incl. VAT."
+  - variant_id: audi-e-tron-q8-50
+    field: price_new
+    value: 74400
+    unit: EUR
+    country: DE
+    source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
+    source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
+    retrieved: 2026-11-17
+    quote: "Audi Q8 50 e-tron : 74.400 Euro"
+    locator: "Section 'Preise in Deutschland'"
+    confidence: high
+    claim: true
+    notes: "German launch base price. German consumer list prices include VAT (PAngV)."
+  - variant_id: audi-e-tron-q8-55
+    field: price_new
+    value: 85300
+    unit: EUR
+    country: DE
+    source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
+    source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
+    retrieved: 2026-11-17
+    quote: "Audi Q8 55 e-tron : 85.300 Euro"
+    locator: "Section 'Preise in Deutschland'"
+    confidence: high
+    claim: true
+    notes: "German launch base price incl. VAT."
+  - variant_id: audi-e-tron-q8-quattro
+    field: price_new
+    value: 85300
+    unit: EUR
+    country: DE
+    source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
+    source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
+    retrieved: 2026-11-17
+    quote: "Audi Q8 55 e-tron : 85.300 Euro"
+    locator: "Section 'Preise in Deutschland'"
+    confidence: low
+    claim: true
+    notes: "Release row (100 kWh, 300 kW quattro SUV) matches the Q8 55 e-tron; same price as audi-e-tron-q8-55."
+  - variant_id: audi-e-tron-q8-quattro-sportback
+    field: price_new
+    value: 87550
+    unit: EUR
+    country: DE
+    source_url: https://www.audi-mediacenter.com/de/der-audi-q8-e-tron-bis-2025-15069/markteinfuehrung-und-preise-15088
+    source_name: "Audi MediaCenter, 'Der Audi Q8 e-tron: Markteinführung und Preise' (2022-12-19)"
+    retrieved: 2026-11-17
+    quote: "Audi Q8 Sportback 55 e-tron : 87.550 Euro"
+    locator: "Section 'Preise in Deutschland'"
+    confidence: low
+    claim: true
+    notes: "Release row (100 kWh, 300 kW quattro Sportback) matches the Q8 Sportback 55 e-tron."
+  - variant_id: audi-a6-e-tron-gen1-avant
+    field: price_new
+    value: 77250
+    unit: EUR
+    country: DE
+    source_url: https://www.audi-mediacenter.com/de/der-audi-a6-e-tron-die-neue-elektrische-avantgarde-16391/markteinfuehrung-und-preis-16403
+    source_name: "Audi MediaCenter, 'Der Audi A6 e-tron: Markteinführung und Preis' (2024-12-03)"
+    retrieved: 2026-11-17
+    quote: "der A6 Avant e-tron performance 77.250 Euro"
+    locator: "Section 'Markteinführung und Preis'"
+    confidence: low
+    claim: true
+    notes: "Release row says 350 kW RWD; the RWD launch version is the A6 e-tron performance (270 kW). A cheaper RWD entry version (ab 64.450 Euro) followed in Oct 2024."
+  - variant_id: audi-a6-e-tron-gen1-sportback
+    field: price_new
+    value: 75600
+    unit: EUR
+    country: DE
+    source_url: https://www.audi-mediacenter.com/de/der-audi-a6-e-tron-die-neue-elektrische-avantgarde-16391/markteinfuehrung-und-preis-16403
+    source_name: "Audi MediaCenter, 'Der Audi A6 e-tron: Markteinführung und Preis' (2024-12-03)"
+    retrieved: 2026-11-17
+    quote: "Der A6 Sportback e-tron performance kostet 75.600 Euro"
+    locator: "Section 'Markteinführung und Preis'"
+    confidence: low
+    claim: true
+    notes: "Release row says 350 kW RWD; the RWD launch version is the A6 Sportback e-tron performance (270 kW). A cheaper RWD entry version (ab 62.800 Euro) followed in Oct 2024."
+  - variant_id: dacia-spring-gen1-electric-45
+    field: price_new
+    value: 17070
+    unit: EUR
+    country: NL
+    source_url: https://cdn.group.renault.com/dac/nl/brochures-en-prijslijsten/prijslijst/archief/prijslijst-spring-07-2021.pdf
+    source_name: "Dacia Nederland price list 'Nieuwe Dacia Spring', Prijslijst juli 2021 (maker PDF, Renault Group CDN archive)"
+    retrieved: 2026-11-17
+    quote: "Electric 45 Comfort 33 / 44 A 0 14.107,44 2.962,56 0,00 17.070,00"
+    locator: "Table 'Versieprijzen nieuwe Dacia Spring', row Electric 45 Comfort, column 'Fiscale waarde €'"
+    confidence: medium
+    claim: true
+    notes: "Earliest NL maker list found (July 2021; NL sales started spring 2021). Cheapest trim (Comfort). NL 'fiscale waarde' (catalogue price incl. 21 % BTW and BPM, excl. delivery costs), the same basis as the RDW catalogusprijs."
+  - variant_id: dacia-spring-gen1-essential
+    field: price_new
+    value: 19885
+    unit: EUR
+    country: NL
+    source_url: https://cdn.group.renault.com/dac/nl/brochures-en-prijslijsten/prijslijst/archief/prijslijst-spring-09-2022.pdf
+    source_name: "Dacia Nederland price list Dacia Spring, Prijslijst september 2022 (maker PDF, Renault Group CDN archive)"
+    retrieved: 2026-11-17
+    quote: "Electric 45 Essential 33 / 44 A 0 16.433,88 3.451,12 0,00 19.885,00"
+    locator: "Table 'Versieprijzen', row Electric 45 Essential, column 'Fiscale waarde €'"
+    confidence: medium
+    claim: true
+    notes: "First NL list with the Essential trim found (September 2022; release row starts 2023). NL 'fiscale waarde' (catalogue price incl. 21 % BTW and BPM, excl. delivery costs), the same basis as the RDW catalogusprijs."
+  - variant_id: dacia-spring-gen1-facelift-65
+    field: price_new
+    value: 17910
+    unit: EUR
+    country: NL
+    source_url: https://cdn.group.renault.com/dac/nl/brochures-en-prijslijsten/prijslijst/archief/prijslijst-spring-nov24.pdf
+    source_name: "Dacia Nederland price list Dacia Spring, Prijslijst november 2024 (maker PDF, Renault Group CDN archive)"
+    retrieved: 2026-11-17
+    quote: "Electric 45 Expression 33 / 44 A 0 14.801,65 3.108,35 0,00 17.910,00"
+    locator: "Table 'Versieprijzen', row Electric 45 Expression, column 'Fiscale waarde €'"
+    confidence: low
+    claim: true
+    notes: "Facelift launched spring 2024; November 2024 is the earliest facelift list found, so not the launch price. Cheapest version (Electric 45 Expression) for a release row that covers 45 and 65. NL 'fiscale waarde' (catalogue price incl. 21 % BTW and BPM, excl. delivery costs), the same basis as the RDW catalogusprijs."
+  - variant_id: renault-scenic-e-tech-gen1-base
+    field: price_new
+    value: 46900
+    unit: EUR
+    country: NL
+    source_url: https://cdn.group.renault.com/ren/nl/brochures-en-prijslijsten/prijzenarchief/scenic/scenic-prijslijst-april24.pdf
+    source_name: "Renault Nederland price list Scenic E-Tech electric, April 2024 (maker PDF, Renault Group CDN archive)"
+    retrieved: 2026-11-17
+    quote: "EV87 220 pk long range techno 87 KWh 160 / 220 A 0 38.760,33 8.139,67 0,00 46.900,00"
+    locator: "Version price table, row EV87 220 pk long range techno, column 'Fiscale waarde €'"
+    confidence: low
+    claim: true
+    notes: "Release row is 160 kW, i.e. the 87 kWh long range (cheapest trim: techno). The 125 kW / 60 kWh comfort range starts lower (41.400,00). April 2024 is the earliest NL list found. NL 'fiscale waarde' (catalogue price incl. 21 % BTW and BPM, excl. delivery costs), the same basis as the RDW catalogusprijs."
+  - variant_id: renault-5-e-tech-gen1-base
+    field: price_new
+    value: 26895
+    unit: EUR
+    country: NL
+    source_url: https://cdn.group.renault.com/ren/nl/brochures-en-prijslijsten/prijzenarchief/renault5/renault5-prijslijst-6mei25.pdf
+    source_name: "Renault Nederland price list Renault 5 E-Tech electric, 6 May 2025 (maker PDF, Renault Group CDN archive)"
+    retrieved: 2026-11-17
+    quote: "120 pk urban range evolution 40 kWh 90 / 120 A 0 21.676,03 4.551,97 667,00 26.895,00"
+    locator: "Version price table, row 120 pk urban range evolution, column 'Fiscale waarde €'"
+    confidence: low
+    claim: true
+    notes: "Release row is 90 kW: the 40 kWh urban range, cheapest trim (evolution). May 2025 is the earliest NL list found, about a year after launch. Includes 667 BPM (EV BPM from 2025). NL 'fiscale waarde' (catalogue price incl. 21 % BTW and BPM, excl. delivery costs), the same basis as the RDW catalogusprijs."
+  - variant_id: toyota-bz4x-gen1-front-wheel-drive-all-wheel-drive
+    field: price_new
+    value: 60480
+    unit: EUR
+    country: BE
+    source_url: https://cdn.uc.assets.prezly.com/ac15f85c-a3f6-4c59-b9c1-f2619912973d/-/inline/no/297x210toyotapricelist22bz4xbe7.pdf
+    source_name: "Toyota Belgium price list bZ4X (V00), 01.06.2022 (maker PDF in Toyota's Prezly press room)"
+    retrieved: 2026-11-17
+    quote: "O45H4SL00 49.983,47 10.496,53 60.480,00"
+    locator: "Price table, row 71.4 kWh AWDi Style 160/218 (code O45H4SL00), column 'BTW inbegrepen / TVA comprise'"
+    confidence: medium
+    claim: true
+    notes: "Release row is AWD 160 kW; cheapest AWDi trim (Style). Launch-year list (June 2022)."
+  - variant_id: peugeot-e-2008-p24-54kwh
+    field: price_new
+    value: 40250
+    unit: EUR
+    country: NL
+    source_url: https://www.louwman.nl/uploads/2023/Peugeot/prijslijsten/prijzen-en-specificaties-nieuwe-peugeot-2008-suv-per-1-augustus-2023_louwman.pdf
+    source_name: "Peugeot Nederland 'Prijzen en specificaties nieuwe Peugeot 2008 SUV per 1 augustus 2023' (maker price list, PDF hosted by dealer group Louwman)"
+    retrieved: 2026-11-17
+    quote: "Active EV 54kWh 156pk A 0 € 41,420 € 40,250"
+    locator: "Table 'Versieprijzen', row Active EV 54kWh 156pk, column 'fiscale waarde'"
+    confidence: medium
+    claim: true
+    notes: "Launch list of the 54 kWh / 115 kW e-2008 (1 August 2023), cheapest trim (Active). NL 'fiscale waarde' (catalogue price incl. 21 % BTW and BPM, excl. delivery costs), the same basis as the RDW catalogusprijs."
+  - variant_id: volkswagen-id3-gen1-pro-2023
+    field: price_new
+    value: 39995
+    unit: EUR
+    country: DE
+    source_url: https://www.volkswagen-newsroom.com/de/pressemitteilungen/volkswagen-gibt-basispreis-fuer-neuen-id3-bekannt-15552
+    source_name: "Volkswagen Newsroom press release 'Volkswagen gibt Basispreis für neuen ID.3 bekannt' (2023-03-06)"
+    retrieved: 2026-11-17
+    quote: "wird in Deutschland ab 39.995 Euro (inkl. 19 Prozent Mehrwertsteuer) erhältlich sein"
+    locator: "Press release body, German base price of the ID.3 Pro (58 kWh, 150 kW)"
+    confidence: high
+    claim: true
+    notes: "Launch base price of the 2023 ID.3 Pro, incl. VAT."
+  - variant_id: hyundai-ioniq-6-gen1-77kwh-rwd
+    field: price_new
+    value: 46745
+    unit: GBP
+    country: UK
+    source_url: https://www.hyundai.news/uk/articles/press-releases/hyundai-motor-uk-announces-ioniq-6-range-pricing-and-specification.html
+    source_name: "Hyundai Motor UK press release 'Hyundai Motor UK announces IONIQ 6 range pricing and specification' (2022-12-08)"
+    retrieved: 2026-11-17
+    quote: "Starting from £46,745, the Premium Rear Wheel Drive"
+    locator: "Press release body, UK launch price of the Premium RWD (77.4 kWh)"
+    confidence: high
+    claim: true
+    notes: "UK launch price (OTR, incl. VAT), cheapest RWD trim. UK launch had only the 77.4 kWh battery."

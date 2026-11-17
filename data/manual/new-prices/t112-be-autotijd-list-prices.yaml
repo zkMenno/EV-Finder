@@ -791,7 +791,7 @@ facts:
     locator: "Price table, row as quoted (type Elektrisch); list dated January 2025"
     confidence: low
     claim: true
-    notes: "Launch Series only (fully loaded) in the launch BE list; the plain Long Range AWD came later."
+    notes: "Launch Series only (fully loaded) in the launch BE list; the plain Long Range AWD came later. Overstates the base price (PR #65 review N2); held (Decision 080) and no maker base price found yet: tesla.com answers 403 from our environment."
   - variant_id: toyota-bz4x-gen1-front-wheel-drive-all-wheel-drive
     field: price_new
     value: 60955
