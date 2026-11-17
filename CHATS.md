@@ -29,3 +29,4 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS1 (6th) | Data pipeline: unblock main image build (#105), T-136 catalogue coverage report, T-134 image fields | https://claude.ai/code/session_01JuyZEVR92pcMFzUGsz5wzo | 2026-11-17 |
 | WS3 (2nd, 2026-11-17) | Catalogue curation: T-133 photo sourcing + press terms, T-131 popular used EVs, T-136 coverage report (with WS1) | https://claude.ai/code/session_01JuyZEVjrfQKWiDUR4dRCvD | 2026-11-17 |
 | UX (3rd, 2026-11-17) | T-132 hero questions redesign, T-130 catalogue layout (staging feedback) | https://claude.ai/code/session_01JuyZEXhFGuqeTx2pch1Dh | 2026-11-17 |
+| WS2 (3rd, 2026-11-17) | Web app: T-137 English only, then T-130/T-131/T-135/T-132 | https://claude.ai/code/session_01JuyZEUgDrkg5ED4ZkeyEzg | 2026-11-17 |
