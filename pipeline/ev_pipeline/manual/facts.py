@@ -26,11 +26,15 @@ File format (`schema: manual-facts/v1`)::
         confidence: medium               # high | medium | low
         claim: true                      # optional, default true (maker documents are claims)
         notes: "..."                     # optional
+        source: cited-third-party        # optional, overrides the file's source for this fact
 
-Every fact becomes a schema `Fact` with source id `manual` (or the file's `source`) and is
-checked against the JSON Schema `Fact` def plus the extra rules above. The release loads them
-as source `manual`, which data/sources.yaml keeps `blocked` until Q-008 is answered, so the
-licence gate drops them (counted under `gated_sources`) and they stay internal-only.
+Every fact becomes a schema `Fact` with source id `manual` (or the fact's / file's `source`)
+and is checked against the JSON Schema `Fact` def plus the extra rules above. The licence gate
+decides per source. `manual` is releasable under Decision 068 (`use: cited-facts`): single
+facts from maker documents. For such a source the fact's URL host must be in its
+`cited_hosts` in data/sources.yaml (fixtures excepted); a press, dealer or review page is an
+error until the fact names a blocked source (e.g. `cited-third-party`), so a third-party
+figure can never ship as a maker fact.
 
 Folders whose name starts with `_` (e.g. `data/manual/_example/`) and files with
 `fixture: true` are validated by `ev manual check` but never loaded by a release.
@@ -49,7 +53,7 @@ import yaml
 
 from ev_pipeline.match.matcher import CURRENCIES, MatchedFact, MatchResult, Problem
 from ev_pipeline.match.seed import CANONICAL_UNITS, Seed
-from ev_pipeline.release.gate import Registry
+from ev_pipeline.release.gate import CITED_FACTS, Registry
 from ev_pipeline.release.validate import (
     _validator,
     in_range,
@@ -96,6 +100,7 @@ FACT_KEYS = {
     "confidence",
     "claim",
     "notes",
+    "source",
 }
 
 
@@ -216,6 +221,26 @@ def _source_dict(
     return src
 
 
+def _cited_host_problems(
+    registry: Registry | None, source_id: str, url: str, fixture: bool
+) -> list[str]:
+    """Decision 068: a `use: cited-facts` source ships without a licence, so each fact must
+    cite one of its listed maker hosts. Fixture files are exempt (never released)."""
+    if fixture or registry is None or not registry.loaded:
+        return []
+    entry = registry.sources.get(registry.canonical(source_id))
+    if entry is None or entry.use != CITED_FACTS:
+        return []
+    host = (urlparse(url.strip()).hostname or "").lower()
+    if host in entry.cited_hosts:
+        return []
+    return [
+        f"source_url host {host!r} is not a maker host in `{entry.id}` cited_hosts"
+        " (data/sources.yaml, Decision 068): add it there if this is the maker's own document,"
+        " else give the fact a blocked source such as `source: cited-third-party`"
+    ]
+
+
 def parse_manual_file(
     path: Path,
     rel: str,
@@ -268,6 +293,15 @@ def parse_manual_file(
         msgs: list[str] = []
         for k in sorted(set(raw) - FACT_KEYS):
             msgs.append(f"unknown key {k!r}")
+        fact_source = source_id
+        if "source" in raw:
+            sid = _text(raw.get("source"))
+            if not sid or not ID_RE.match(sid):
+                msgs.append(f"source must be a data/sources.yaml id, got {raw.get('source')!r}")
+            elif registry is not None and registry.loaded and sid not in registry.sources:
+                msgs.append(f"source {sid!r} is not in data/sources.yaml")
+            else:
+                fact_source = sid
         vid, gid = _text(raw.get("variant_id")), _text(raw.get("generation_id"))
         if bool(vid) == bool(gid):
             msgs.append("give exactly one of variant_id or generation_id")
@@ -325,6 +359,8 @@ def parse_manual_file(
         url = raw.get("source_url")
         if not _url_ok(url):
             msgs.append("source_url is required and must be an http(s) URL")
+        else:
+            msgs += _cited_host_problems(registry, fact_source, str(url), fixture)
         retrieved = _as_date(raw.get("retrieved"))
         if raw.get("retrieved") is None:
             msgs.append("retrieved date is required")
@@ -351,14 +387,14 @@ def parse_manual_file(
             if fname != "dc_curve" and isinstance(value, int) and not isinstance(value, bool):
                 value_out = float(value)
             fd: dict[str, Any] = {
-                "id": f"{source_id}:{record_key}",
+                "id": f"{fact_source}:{record_key}",
                 "subject_type": subject_type,
                 "subject_id": subject_id,
                 "field": fname,
                 "value": value_out,
                 "unit": unit,
                 "source": _source_dict(
-                    registry, str(url).strip(), _text(raw.get("source_name")), source_id
+                    registry, str(url).strip(), _text(raw.get("source_name")), fact_source
                 ),
                 "source_record": f"{rel}#{i}",
                 "retrieved_at": retrieved.isoformat() if retrieved else "",

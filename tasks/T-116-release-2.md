@@ -21,6 +21,7 @@ audits/A-35 B1, S7; Decision 035, 044
 Anything not on docs/spec/launch-scope.md.
 
 ## Handoff notes
+- WS1 (T-116 prep), 2026-11-17, source status (Decision 068, 080): `manual` is `active` with `use: cited-facts`, `decision: "068"` and a `cited_hosts` list of maker hosts; every manual fact must cite a listed host or name a blocked source. New blocked source `cited-third-party` holds 12 press/dealer/review facts in data/manual/heat-pump/r21-heat-pump.yaml. Dry run on the repo: 58 maker facts releasable (a06 11, r21 6, t110 12, t112 21, t118 8), held: autotijd 71, cited-third-party 12. The CC BY open-data bundle refuses `cited-facts` sources (a leak the new test caught: "facts cited, no licence" passed the licence check). `maker-docs` (seed `cited:`) stays blocked: 31 cites include third-party hosts (xr793.com, vaielettrico.it, projekt-renault.de, rinnovabili.it); WS3 must give those a `source_id:` before it flips.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B1, S7 fixed. -->

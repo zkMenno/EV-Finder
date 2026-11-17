@@ -5,6 +5,7 @@ from __future__ import annotations
 import shutil
 from datetime import UTC, date, datetime
 from pathlib import Path
+from urllib.parse import urlparse
 
 import pytest
 import yaml
@@ -199,13 +200,14 @@ def test_example_folder_is_checked_but_never_released(tmp_path: Path) -> None:
 
 
 def test_repo_example_and_registry_entry() -> None:
-    """The committed example passes `ev manual check`; `manual` is blocked (Q-008)."""
+    """The committed example passes `ev manual check`; `manual` is releasable (Decision 068,
+    was blocked under Q-008)."""
     # Real repo data, so check against the real date: a fixed TODAY fails every newer fact.
     code, lines = check(REPO_DATA, date.today())
     assert code == 0, lines
-    assert "internal only (status blocked)" in lines[-1]
+    assert lines[-1].endswith("Release status of source `manual`: releasable")
     reg = load_registry(REPO_DATA / "sources.yaml")
-    assert reg.reason_blocked("manual") == "status blocked"
+    assert reg.reason_blocked("manual") is None
 
 
 def test_check_command_exit_codes(tmp_path: Path, capsys) -> None:
@@ -406,3 +408,118 @@ def test_repo_autotijd_rows_are_held() -> None:
     code, lines = check(REPO_DATA, date.today())
     assert code == 0, lines
     assert any(ln.startswith("Source `autotijd`:") and "internal only" in ln for ln in lines)
+
+
+# --- Decision 068: single cited maker facts ship; third-party and Autotijd rows never do ---
+
+CITED = {
+    "id": "manual",
+    "name": "Manual entries",
+    "licence": "facts cited, no licence (Decision 068)",
+    "status": "active",
+    "use": "cited-facts",
+    "decision": "068",
+    "cited_hosts": ["maker.example"],
+}
+THIRD = {"id": "cited-third-party", "name": "Press pages", "licence": "none", "status": "blocked"}
+MAKER_PRICE = {**PRICE, "value": 49990, "source_url": "https://maker.example/price.pdf"}
+
+
+def test_cited_facts_ship_without_a_licence_only_with_a_decision() -> None:
+    from ev_pipeline.release.gate import parse_registry
+
+    assert parse_registry({"sources": [CITED]}).reason_blocked("manual") is None
+    no_decision = {**CITED, "decision": ""}
+    assert "no named licence" in parse_registry({"sources": [no_decision]}).reason_blocked("manual")
+    held = {**CITED, "status": "blocked"}
+    assert parse_registry({"sources": [held]}).reason_blocked("manual") == "status blocked"
+
+
+def test_cited_fact_must_cite_a_listed_maker_host(tmp_path: Path) -> None:
+    d = tmp_path / "data"
+    d.mkdir()
+    shutil.copy(RELEASE_FIX / "sources.yaml", d / "sources.yaml")
+    _add_source(d, CITED)
+    _add_source(d, THIRD)
+    press = {
+        **PRICE,
+        "variant_id": "nissan-leaf-ze0-24kwh",
+        "source_url": "https://press.example/x",
+    }
+    _write_topic(d, "x", [MAKER_PRICE, press])
+    reg = load_registry(d / "sources.yaml")
+    load = load_manual_dir(d, TODAY, reg)
+    assert [mf.fact.source.url for mf in load.facts] == ["https://maker.example/price.pdf"]
+    assert any("'press.example' is not a maker host" in i.message for i in load.errors)
+    # Naming the blocked third-party source per fact makes it valid internal evidence.
+    _write_topic(d, "x", [MAKER_PRICE, {**press, "source": "cited-third-party"}])
+    load = load_manual_dir(d, TODAY, reg)
+    assert load.errors == []
+    assert {mf.fact.source.id.root for mf in load.facts} == {"manual", "cited-third-party"}
+    assert any(str(mf.fact.id).startswith("cited-third-party:") for mf in load.facts)
+    # A per-fact source must be registered, like a file source.
+    _write_topic(d, "x", [{**press, "source": "no-such-site"}])
+    assert any(
+        "not in data/sources.yaml" in i.message for i in load_manual_dir(d, TODAY, reg).errors
+    )
+    # Fixture files are never released, so the host rule does not apply to them.
+    _write_topic(d, "x", [press], fixture=True)
+    assert load_manual_dir(d, TODAY, reg, for_release=False).errors == []
+
+
+def test_release_ships_maker_facts_and_holds_third_party_and_autotijd(data_dir: Path) -> None:
+    d = data_dir
+    _set_manual_registry(d, CITED)
+    _add_source(d, THIRD)
+    _add_source(d, AUTOTIJD)
+    leaf = "nissan-leaf-ze0-24kwh"
+    _write_topic(d, "held", [{**PRICE, "value": 51111}], source="autotijd")
+    _write_topic(
+        d,
+        "maker",
+        [
+            MAKER_PRICE,
+            {**PRICE, "variant_id": leaf, "value": 29999, "source_url": "https://press.example/a",
+             "source": "cited-third-party"},
+        ],
+    )  # fmt: skip
+    res = build_release(d, now=NOW)
+    be = {
+        f["subject_id"]: f
+        for f in res.facts
+        if f["field"] == "price_new" and f.get("country") == "BE"
+    }
+    assert be["tesla-model-3-gen1-lr"]["value"] == 49990
+    assert be["tesla-model-3-gen1-lr"]["source"]["id"] == "manual"
+    assert leaf not in be  # the third-party figure never ships
+    assert not any(f["source"]["id"] in ("autotijd", "cited-third-party") for f in res.facts)
+    assert res.gated["autotijd"]["reason"] == "status blocked"
+    assert res.gated["cited-third-party"]["reason"] == "status blocked"
+    ids = {s["id"] for s in res.catalogue["sources"]}
+    assert "manual" in ids and not ids & {"autotijd", "cited-third-party"}
+
+    # The CC BY open-data bundle still needs a named licence: cited maker facts stay out.
+    from ev_pipeline.opendata.bundle import source_allowed
+
+    reg = load_registry(d / "sources.yaml")
+    licences = {s["id"]: s.get("licence") or "" for s in res.catalogue["sources"]}
+    assert not source_allowed(reg, licences, "manual")
+
+
+def test_repo_manual_facts_split_as_decision_068_says() -> None:
+    """Real data/manual: maker facts are releasable and cite a listed maker host; every
+    Autotijd row and every press/dealer/review fact is held."""
+    reg = load_registry(REPO_DATA / "sources.yaml")
+    load = load_manual_dir(REPO_DATA, date.today(), reg)
+    assert load.errors == [], [i.text() for i in load.errors]
+    hosts = set(reg.sources["manual"].cited_hosts)
+    shipping = [mf for mf in load.facts if reg.releasable(mf.fact.source.id.root)]
+    held = [mf for mf in load.facts if not reg.releasable(mf.fact.source.id.root)]
+    assert shipping and held
+    assert {mf.fact.source.id.root for mf in shipping} == {"manual"}
+    assert all((urlparse(str(mf.fact.source.url)).hostname or "") in hosts for mf in shipping)
+    assert not any("autotijd" in str(mf.fact.source.url) for mf in shipping)
+    assert {mf.fact.source.id.root for mf in held} <= {"autotijd", "cited-third-party"}
+    assert reg.reason_blocked("autotijd") == "status blocked"
+    assert reg.reason_blocked("cited-third-party") == "status blocked"
+    assert reg.reason_blocked("maker-docs") == "status blocked"  # seed cites: not in this step

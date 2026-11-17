@@ -6,6 +6,8 @@
 #   Git-cloned sources list github.com: git does not go through net.py, but net.check_git_url
 #   refuses any clone URL that is not https://github.com/<owner>/<repo> on this list (A-05 L6).
 # Rule: only `active` sources with a named licence or written permission reach a public release.
+#   Exception (Decision 068): `use: cited-facts` + `decision:` = single facts cited from maker
+#   documents; each fact's URL host must be in `cited_hosts`. Never in the CC BY open-data bundle.
 # Licences marked "(to confirm)" were not verified tonight; they stay blocked until checked.
 schema: sources/v1
 sources:
@@ -31,8 +33,19 @@ sources:
   - {id: eu-safety-gate, name: EU Safety Gate, owner: European Commission, licence: CC-BY-4.0 (to confirm), access: bulk, cadence: weekly, status: blocked, terms: "Confirm Commission reuse terms."}
   - {id: maker-docs, name: Maker documents and price lists, owner: various OEMs, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,
      terms: "Facts cited one by one with URL + date; no copying of tables. Needs a decision before it counts as releasable (Q-008). Seed `cited:` values in data/seed/variants.yaml carry this id (A-06 F3), also for maker documents hosted by third parties; while blocked they never ship and only withhold a lone value they contradict (qa/value_guard.guard_contradicted)."}
-  - {id: manual, name: "Manual entries (hand-entered, cited by URL)", owner: EV Finder staff, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,
-     terms: "data/manual/<topic>/*.yaml, one cited fact each (URL, retrieved date, quote or page). Mostly maker documents, so internal-only like maker-docs until Q-008 is answered; validate with `ev manual check`."}
+  - {id: manual, name: "Manual entries (hand-entered, cited by URL)", owner: EV Finder staff, licence: "facts cited, no licence (Decision 068)", access: manual, cadence: ad hoc, status: active, use: cited-facts, decision: "068",
+     terms: "data/manual/<topic>/*.yaml, one cited fact each (URL, retrieved date, quote or page); validate with `ev manual check`. Decision 068 (Menno, 2026-11-17): single facts from maker documents (list price, WLTP range, battery, consumption) may ship, one figure per car per document, never a whole price list or spec table. Each fact's URL host must be in cited_hosts (manual/facts.py); press, dealer and review pages name `source: cited-third-party` (blocked). Not in the CC BY open-data bundle (no licence).",
+     cited_hosts: [
+       # maker and importer press rooms, price lists and sites
+       www.audi-mediacenter.com, emea-dam.audi.com, www.hyundai.news, media.mercedes-benz.ch, www.mg.co.uk,
+       cdn.group.renault.com, renault.co.uk, www.skoda.co.uk, www.volkswagen-newsroom.com, volkswagen.ie, www.volkswagen.it,
+       # maker documents on a hosting service the maker uses: Volvo Car Belux press releases (Cision),
+       # Toyota Belgium press room (Prezly), Peugeot NL price list PDF hosted by Louwman (importer/dealer group)
+       mb.cision.com, cdn.uc.assets.prezly.com, www.louwman.nl,
+       # official register (CC0), cited where a maker figure was checked against it
+       opendata.rdw.nl]}
+  - {id: cited-third-party, name: "Facts cited from press, dealer and review pages", owner: various, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,
+     terms: "Decision 068 clears maker documents only. Facts in data/manual/ that cite a press, dealer or review page (fact-level `source: cited-third-party`) stay internal evidence and never reach a release."}
   - {id: autotijd, name: "Autotijd.be Belgian price lists (third-party copies of importer lists)", owner: Autotijd.be, licence: none (all rights reserved; no reuse terms), access: manual, cadence: ad hoc, status: blocked,
      terms: "Decision 080 (Menno, 2026-11-17): site says '(c) ... Alle rechten voorbehouden' and gives no reuse terms; repeated extraction from one site risks EU database right. The T-112 rows in data/manual/new-prices/ (file-level `source: autotijd`) are kept as internal evidence only and never reach a release. Re-source from makers (Decision 068). Unblock only with written permission (WS5)."}
   - {id: nyland, name: Bjørn Nyland range/charging tests, owner: Bjørn Nyland, licence: none, access: manual, cadence: ad hoc, status: waiting_permission, hosts: [docs.google.com, "*.googleusercontent.com"],

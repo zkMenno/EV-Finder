@@ -42,6 +42,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://www.discoverev.co.uk/ev-reviews/tesla-model-3-long-range-2021-review
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "DiscoverEV, Tesla Model 3 Long Range 2021 review"
     retrieved: 2026-11-15
     locator: "R-21 row 4: says the Model Y was Tesla's first car with a heat pump; a German guide (einfacheauto.de, Feb 2023) says Tesla fits it as standard on all cars"
@@ -53,6 +54,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://www.autobild.de/artikel/waermepumpe-im-elektroauto-reichweite-22410821.html
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "Auto Bild, Wärmepumpe im Elektroauto (30 Dec 2025)"
     retrieved: 2026-11-15
     locator: "R-21 row 5: lists the Model Y among cars with a standard heat pump"
@@ -64,6 +66,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://www.greenmotor.co.uk/2012/03/renault-zoe-ze-unmasked-keenly-priced.html
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "Green Motor, Renault Zoe Z.E. unmasked (March 2012)"
     retrieved: 2026-11-15
     locator: "R-21 row 8: launch coverage describes the heat pump as a core Zoe feature, with no trim caveat"
@@ -75,6 +78,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://professional.auto-motor-und-sport.de/static-download/news/1775221/pl_zoe_0919.pdf
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "Renault Deutschland, ZOE price list 09/2019"
     retrieved: 2026-11-15
     locator: "R-21 row 9: the '2-circuit heat pump' row reads as included on Life, Experience and Intens (symbol reading inferred)"
@@ -119,6 +123,7 @@ facts:
     value: option
     unit: enum
     source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
     retrieved: 2026-11-15
     locator: "R-21 row 25: dealer list, appears to cover 2022-23 models: option"
@@ -130,6 +135,7 @@ facts:
     value: option
     unit: enum
     source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
     retrieved: 2026-11-15
     locator: "R-21 row 28: dealer list: option"
@@ -141,6 +147,7 @@ facts:
     value: option
     unit: enum
     source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
     retrieved: 2026-11-15
     locator: "R-21 row 29: dealer list: option; Auto Bild 2025: usually standard only on top trims"
@@ -152,6 +159,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://www.autobild.de/artikel/waermepumpe-im-elektroauto-reichweite-22410821.html
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "Auto Bild, Wärmepumpe im Elektroauto (30 Dec 2025)"
     retrieved: 2026-11-15
     locator: "R-21 row 44: Auto Bild and a dealer list both say standard"
@@ -163,6 +171,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://www.autobild.de/artikel/waermepumpe-im-elektroauto-reichweite-22410821.html
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "Auto Bild, Wärmepumpe im Elektroauto (30 Dec 2025)"
     retrieved: 2026-11-15
     locator: "R-21 row 45: Auto Bild and a dealer list both say standard"
@@ -174,6 +183,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
     retrieved: 2026-11-15
     locator: "R-21 row 46: dealer list: standard (single source)"
@@ -185,6 +195,7 @@ facts:
     value: standard
     unit: enum
     source_url: https://www.meinauto.de/lp/elektroautos-mit-waermepumpe
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "meinauto.de, Elektroautos mit Wärmepumpe (undated dealer list)"
     retrieved: 2026-11-15
     locator: "R-21 row 47: dealer list: standard (single source)"
@@ -218,6 +229,7 @@ facts:
     value: option
     unit: enum
     source_url: https://www.conceptcarz.com/a46088/kia-uk-pricing-specifications-niro-range.aspx
+    source: cited-third-party   # press/dealer/review page, not a maker document (Decision 068)
     source_name: "Kia UK pricing and specification release for the second-generation Niro (Apr 2022, reprinted by conceptcarz)"
     retrieved: 2026-11-17
     locator: "Release says Niro EV '3' gets V2L as standard with the option of a heat pump"
