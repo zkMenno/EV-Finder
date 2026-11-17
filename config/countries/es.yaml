@@ -1,0 +1,60 @@
+# "See listings" deep links for this country (T-009, moved here in wave 4).
+# Public search URLs only: we link out and never fetch them. No sampling targets, rates or
+# partner/affiliate ids here (Decision 004). Every pattern is an unverified guess until someone
+# opens it by hand (verified: false, Q-028).
+#
+# Fields per site:
+#   site          stable id
+#   label         button text
+#   url_template  https URL; placeholders {make} {model} (our slugs), {makeName} {modelName}
+#                 (display names), {MAKE} {MODEL} (upper-cased names); all URL-encoded
+#   filters       our filter -> query parameters added to the URL (only "electric" today)
+#   slug_overrides  our make/model slug -> the site's slug (optional)
+#   priority      lower = shown first
+#   verified      true only after a manual check of the live site
+# Loaded at build time by apps/web/scripts/listings.mjs.
+# T-118 (WS3, 2026-11-17, Decision 066): patterns checked the T-041 way, against the sites' own
+# URLs as they appear in search-engine indexes. No marketplace page was fetched. `verified` stays
+# false until a person taps the link once (checklist: workstreams/WS3/T-041-checklist.md, ES/IT).
+
+country: es
+# UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
+# these languages plus English. /{country}/ redirects to default_language. Read by
+# apps/web/scripts/countries.mjs. Spanish and Italian serve Spain and Italy only (Decision 066).
+languages: [es]
+default_language: es
+listings:
+  - site: wallapop
+    label: Wallapop
+    # evidence: indexed search-engine URL https://es.wallapop.com/coches-segunda-mano/tesla-model-3
+    # (make and model slugs joined by "-", same form as ours). No electric filter found indexed, so
+    # none is added. Our slugs that differ from Wallapop's (e.g. id3 vs id-3) need overrides once a
+    # person has tapped the link.
+    url_template: "https://es.wallapop.com/coches-segunda-mano/{make}-{model}"
+    filters: {}
+    priority: 1
+    verified: false
+  - site: autoscout24-es
+    label: AutoScout24
+    # evidence: same /lst/{make}/{model} structure as autoscout24.it (indexed:
+    # https://www.autoscout24.it/lst/tesla/model-3/parma) and autoscout24.nl; fuel=E as on the other
+    # AutoScout24 sites (unchecked for .es).
+    url_template: "https://www.autoscout24.es/lst/{make}/{model}"
+    filters:
+      electric: { fuel: E }
+    priority: 2
+    verified: false
+  # Not added: coches.net, the largest Spanish used-car site. Its indexed model pages use
+  # underscores (https://www.coches.net/tesla/model_3/segunda-mano/), which our {model} slug cannot
+  # produce without an override per model. Add it with slug_overrides once the top models are known.
+
+# "Find a charger / plan a trip" link-out block (T-024; spec docs/spec/charging-buildout.md,
+# "Where we link out"). Read by apps/web/scripts/charging-links.mjs. URLs are copied from the
+# spec only. Spain is not in the spec's per-country table, so the order follows the spec's rule
+# (local map first, ABRP, Chargemap, Chargeprice) with Electromaps first: the spec lists it as
+# "strong in Spain and Italy". Not yet opened by hand (unverified).
+charging_links:
+  - {order: 1, job: map, tool: electromaps, label: Electromaps, url: "https://www.electromaps.com/"}
+  - {order: 2, job: route-planner, tool: abrp, label: "A Better Routeplanner (ABRP)", url: "https://abetterrouteplanner.com/"}
+  - {order: 3, job: map, tool: chargemap, label: Chargemap, url: "https://chargemap.com/"}
+  - {order: 4, job: price-compare, tool: chargeprice, label: Chargeprice, url: "https://www.chargeprice.app/"}

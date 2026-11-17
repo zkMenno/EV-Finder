@@ -34,7 +34,11 @@ def test_parse_keeps_launch_towns_and_rounds(tmp_path: Path) -> None:
     towns = gn.parse(gn.read_zip(FIX / "geonames" / "cities5000.zip"), gn.launch_countries(), log)
     names = {t["name"] for t in towns}
     assert {"Brussels", "Berlin", "Amsterdam", "London", "Angoulême"} <= names
-    assert "Madrid" not in names  # not a launch country
+    assert "Madrid" in names  # ES is a launch country since Decision 066 (config/countries/es.yaml)
+    others = {k: v for k, v in gn.launch_countries().items() if k != "ES"}
+    zipped = gn.read_zip(FIX / "geonames" / "cities5000.zip")
+    rest = {t["name"] for t in gn.parse(zipped, others, Counter())}
+    assert "Madrid" not in rest  # towns outside the given countries are dropped
     assert log["skipped: not a town (PPLX/historical)"] == 1  # Zuidwijk
     bxl = next(t for t in towns if t["name"] == "Brussels")
     assert bxl["country"] == "be" and bxl["lat"] == 50.85 and bxl["id"] == "geonames:2800866"
@@ -69,7 +73,7 @@ def test_geonames_normalise_from_fixtures(tmp_path: Path, monkeypatch: pytest.Mo
     assert gn.normalise_cmd(from_fixtures=True) == 0
     lines = (tmp_path / "staging" / "geonames.towns.jsonl").read_text().splitlines()
     meta = json.loads((tmp_path / "staging" / "geonames.towns.meta.json").read_text())
-    assert len(lines) == 6 and meta["licence"] == "CC-BY-4.0"
+    assert len(lines) == 7 and meta["licence"] == "CC-BY-4.0"  # incl. Madrid (ES, Decision 066)
     assert meta["attribution"] == "GeoNames (geonames.org), CC BY 4.0"
     assert meta["retrieved_at"] == "2026-11-15"
 
@@ -224,7 +228,7 @@ def test_build_towns_joins_nearest_station_with_provenance(
     st = _staging(tmp_path, monkeypatch)
     res = build_towns(st, load_registry(REGISTRY), 3, "2026-11-15T01:00:00+00:00")
     assert res.log["status"] == "shipped"
-    assert set(res.documents) == {"be", "de", "fr", "nl", "uk"}
+    assert set(res.documents) == {"be", "de", "es", "fr", "nl", "uk"}  # es: Madrid fixture
     nl = res.documents["nl"]
     ams = next(t for t in nl["towns"] if t["name"] == "Amsterdam")
     assert ams["station_id"] == "06260" and 0 < ams["station_km"] < 60
@@ -298,7 +302,7 @@ def test_release_writes_town_files(tmp_path: Path, monkeypatch: pytest.MonkeyPat
     assert release_cmd(False, data_dir=d, now=datetime(2026, 11, 15, 1, tzinfo=UTC)) == 0
     out = d / "releases" / "1" / "towns"
     assert sorted(p.name for p in out.iterdir()) == [
-        "be.json", "de.json", "fr.json", "nl.json", "uk.json"
+        "be.json", "de.json", "es.json", "fr.json", "nl.json", "uk.json"
     ]  # fmt: skip
     nl = json.loads((out / "nl.json").read_text())
     assert nl["release"] == 1 and nl["towns"]
