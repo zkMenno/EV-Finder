@@ -1,0 +1,12 @@
+# Successors for variant ids that left the catalogue (T-062, Decision 033; read by
+# pipeline/ev_pipeline/release/retired.py). An id without an entry here maps to null (410 page).
+# Validate: covered by pipeline/tests/test_shared_year_source_names.py.
+schema: retired-ids/v1
+ids:
+  # Release 1 rows made from OpenEV "AWD" / "Base" MY2023-25 records. T-068 split the Ioniq 5
+  # (gen1 to 2024, facelift from 2024) and T-110 pinned OpenEV MY2023-24 "AWD" / "Base" to the
+  # gen1 77.4 kWh seed rows, which now carry those records (PR #91 review).
+  hyundai-ioniq-5-gen1-awd: hyundai-ioniq-5-gen1-77kwh-awd
+  hyundai-ioniq-5-gen1-base: hyundai-ioniq-5-gen1-77kwh-rwd
+  # The Ioniq 5 N launched in 2024 on the 84 kWh pack: it now sits on the facelift generation.
+  hyundai-ioniq-5-gen1-n: hyundai-ioniq-5-facelift-n
