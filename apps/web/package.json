@@ -24,6 +24,7 @@
     "budget": "node scripts/budget.mjs",
     "fetch-release": "node scripts/fetch-release.mjs",
     "theme": "node scripts/theme.mjs",
+    "scenes": "node scripts/scenes.mjs",
     "verify": "node scripts/verify.mjs"
   },
   "dependencies": {

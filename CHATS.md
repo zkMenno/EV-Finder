@@ -30,4 +30,5 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS3 (2nd, 2026-11-17) | Catalogue curation: T-133 photo sourcing + press terms, T-131 popular used EVs, T-136 coverage report (with WS1) | https://claude.ai/code/session_01JuyZEVjrfQKWiDUR4dRCvD | 2026-11-17 |
 | UX (3rd, 2026-11-17) | T-132 hero questions redesign, T-130 catalogue layout (staging feedback) | https://claude.ai/code/session_01JuyZEXhFGuqeTx2pch1Dh | 2026-11-17 |
 | WS2 (3rd, 2026-11-17) | Web app: T-137 English only, then T-130/T-131/T-135/T-132 | https://claude.ai/code/session_01JuyZEUgDrkg5ED4ZkeyEzg | 2026-11-17 |
+| Ariakit check | One-off: is Ariakit worth using? Menno chose to park it (WS0 INBOX 2026-11-17 22:29) | https://claude.ai/code/session_01JuyZEVE3XPjPi5qVFQmbjL | 2026-11-17 |
 | QA (review 2) | Launch review 2 on release 2, `qa/launch-review-2`, A-36 (workstreams/QA/INBOX.md "QA launch review 2") | https://claude.ai/code/session_01JuyZEVMaifWkAiJdWaWbcE | 2026-11-17 |
