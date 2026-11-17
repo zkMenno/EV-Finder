@@ -589,8 +589,15 @@ class GenerationEvidence:
     kwh: dict[str, set[float]] = field(default_factory=dict)  # gen id -> battery sizes
     with_variants: set[str] = field(default_factory=set)
 
-    def add_variant(self, gen_id: str, name: str | None, kwh: set[float]) -> None:
-        self.with_variants.add(gen_id)
+    def add_variant(
+        self, gen_id: str, name: str | None, kwh: set[float], makes_variant: bool = True
+    ) -> None:
+        # Attach-only records (RDW, TGK, ADEME, ...) never make a variant, so they add name and
+        # battery evidence but do not count as "this generation has variants": otherwise a
+        # generation with no published row (Kia EV6 / XPeng G6 facelift, T-068) turns its
+        # shared year ambiguous and RDW parks the cars at model level on the other one.
+        if makes_variant:
+            self.with_variants.add(gen_id)
         if name:
             self.names.setdefault(gen_id, set()).add(key(name))
         self.kwh.setdefault(gen_id, set()).update(kwh | kwh_in_text(name))
@@ -745,7 +752,8 @@ def build_evidence(
             continue
         hits = [g for g in model.generations if g.covers(rec.year)]
         if len(hits) == 1:
-            ev.add_variant(hits[0].id, rec.variant_name or "base", record_kwh(rec))
+            ev.add_variant(hits[0].id, rec.variant_name or "base", record_kwh(rec),
+                           makes_variant=sid not in ATTACH_ONLY_SOURCES)  # fmt: skip
     return ev
 
 
