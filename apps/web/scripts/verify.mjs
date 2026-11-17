@@ -145,16 +145,17 @@ function changedFiles(base) {
   return [...lines].map((f) => path.relative(WEB, path.join(REPO, f)).split(path.sep).join("/"));
 }
 
-async function waitFor(url, ms) {
+async function waitFor(url, ms, abort = () => false) {
   const end = Date.now() + ms;
-  while (Date.now() < end) {
+  do {
+    if (abort()) return false;
     try {
       if ((await fetch(url)).ok) return true;
     } catch {
       /* not up yet */
     }
     await new Promise((r) => setTimeout(r, 500));
-  }
+  } while (Date.now() < end);
   return false;
 }
 
@@ -169,6 +170,16 @@ function startServer(o) {
   };
   const child = spawn("pnpm", ["exec", "next", "start", "-p", String(o.port)], { cwd: WEB, env, stdio: "ignore", detached: true });
   return { child, catDir };
+}
+
+/** Playwright's wording → buyer-report wording ("Timeout 10000ms exceeded" says nothing useful). */
+export function plainError(err, step) {
+  const [kind, val] = Object.entries(step)[0];
+  const sel = Array.isArray(val) ? val[0] : val;
+  const t = /Timeout (\d+)ms exceeded/.exec(err);
+  if (t) return `waited ${Number(t[1]) / 1000} s for ${kind === "goto" ? "the page" : `“${sel}”`}: it never appeared or couldn't be used`;
+  if (/net::ERR_|ECONNREFUSED/.test(err)) return "the app didn't answer";
+  return err;
 }
 
 const firstLine = (e) => String(e?.message ?? e).split("\n").find((l) => l.trim()) ?? String(e);
@@ -320,18 +331,30 @@ async function main() {
   let server = null;
   const base = o.url ?? `http://localhost:${o.port}`;
   if (!o.url) {
+    // Something already answering on our port would be tested instead of this build.
+    if (await waitFor(`${base}/health`, 1)) {
+      console.error(`verify: port ${o.port} is already in use. Stop that server, pick another --port, or pass --url ${base} to test it on purpose.`);
+      process.exit(2);
+    }
     server = startServer(o);
-    if (!(await waitFor(`${base}/health`, 60000))) {
-      console.error(`verify: the app didn't start on ${base} within 60 s`);
-      process.kill(-server.child.pid);
+    let exited = null;
+    server.child.on("exit", (code) => (exited = code ?? "signal"));
+    const up = await waitFor(`${base}/health`, 60000, () => exited !== null);
+    if (!up) {
+      console.error(exited !== null ? `verify: the app stopped while starting (exit ${exited}). Is there a production build?` : `verify: the app didn't start on ${base} within 60 s`);
+      try {
+        process.kill(-server.child.pid);
+      } catch {
+        /* already gone */
+      }
       process.exit(2);
     }
   }
   const { chromium } = await import("@playwright/test");
-  const browser = await chromium.launch();
-  const shotChecksById = new Map();
+  let browser = null;
   const results = []; // { run, feature, ok, steps: [], checks: [], ms, finalUrl }
   try {
+    browser = await chromium.launch();
     for (let run = 1; run <= o.repeat; run++) {
       for (const f of features) {
         const t0 = Date.now();
@@ -348,7 +371,7 @@ async function main() {
             await runStep(page, s, base, timeout);
             steps.push({ n: i + 1, label, ok: true, ms: Date.now() - t });
           } catch (e) {
-            const err = firstLine(e).replace(/\s+/g, " ");
+            const err = plainError(firstLine(e).replace(/\s+/g, " "), s);
             steps.push({ n: i + 1, label, ok: false, ms: Date.now() - t, err });
             failedStep = { n: i + 1, label, err };
             break;
@@ -366,15 +389,10 @@ async function main() {
         }
         if (!failedStep) for (const g of await globalChecks(page, keys, errors)) checks.push({ ...g, expected: "none" });
         const finalUrl = page.url();
-        // Screenshot-time checks (phone width, second language) run once; their result counts for
-        // every run, so a steady failure never shows up as "flaky".
+        // Phone width and the second language are re-measured on every run (so --repeat proves
+        // they are stable); the screenshots themselves are saved on run 1 only.
         let shots = [];
-        if (o.shots && run === 1 && !failedStep) {
-          const shotChecks = [];
-          shots = await screenshots(browser, f.id, finalUrl, o, keys, shotChecks);
-          shotChecksById.set(f.id, shotChecks);
-        }
-        checks.push(...(shotChecksById.get(f.id) ?? []));
+        if (o.shots && !failedStep) shots = await screenshots(browser, f.id, finalUrl, o, keys, checks, run === 1);
         await ctx.close();
         const ok = !failedStep && checks.every((c) => c.ok);
         results.push({ run, feature: f, ok, steps, checks, ms: Date.now() - t0, finalUrl, shots });
@@ -382,7 +400,7 @@ async function main() {
       }
     }
   } finally {
-    await browser.close();
+    await browser?.close();
     if (server) {
       try {
         process.kill(-server.child.pid);
@@ -398,7 +416,7 @@ async function main() {
 }
 
 /** 360 + 1280 px × light + dark of the final URL, plus 360 px light in a second language. */
-async function screenshots(browser, id, url, o, keys, checks) {
+async function screenshots(browser, id, url, o, keys, checks, save = true) {
   const out = [];
   const shot = async (w, scheme, u, name) => {
     const ctx = await browser.newContext({ viewport: { width: w, height: w < 500 ? 800 : 900 }, colorScheme: scheme, deviceScaleFactor: 1 });
@@ -408,7 +426,7 @@ async function screenshots(browser, id, url, o, keys, checks) {
     await p.goto(u, { waitUntil: "load" });
     await p.waitForTimeout(600);
     const file = `${id}--${name}.png`;
-    await p.screenshot({ path: path.join(o.out, file) });
+    if (save) await p.screenshot({ path: path.join(o.out, file) });
     if (name.startsWith(o.lang)) for (const g of await globalChecks(p, keys, errors)) checks.push({ ...g, what: `${g.what} (${o.lang.toUpperCase()})`, expected: "none" });
     // Horizontal scroll at phone width breaks the layout for most buyers.
     if (w < 500) {
@@ -417,7 +435,7 @@ async function screenshots(browser, id, url, o, keys, checks) {
     }
     await p.close();
     await ctx.close();
-    out.push(file);
+    if (save) out.push(file);
   };
   await shot(360, "light", url, "360-light");
   await shot(360, "dark", url, "360-dark");
