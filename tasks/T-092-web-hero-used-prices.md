@@ -15,3 +15,4 @@ Launch scope §1: each hero card shows the used price band for the build years t
 - 2026-11-15 WS2: `src/lib/variant-prices.ts`, `catalogue.variantUsedPrices()`, `shortlist.ts variantFit()`. Per-variant bands win over generation `used_prices`. Effective once #21 merges and a release with the file is published + the site rebuilt.
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — code path works per unit tests, but release 1 has no used_prices.json, so every hero card says "Price not known yet" (A-35 B1).

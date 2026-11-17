@@ -1,0 +1,20 @@
+{
+ "release": 1,
+ "variants": [
+  {
+   "variant_id": "a",
+   "bands": {
+    "NL": [
+     {
+      "build_year": 2021,
+      "median": 20000,
+      "list_source_ids": [
+       "rdw",
+       "openev"
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

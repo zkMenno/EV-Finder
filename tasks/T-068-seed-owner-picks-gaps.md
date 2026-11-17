@@ -27,3 +27,5 @@ Decision 038, research/R-32. EV Database car ids in the picks file help matching
 - **Cross-lane edit (flag for WS1):** `pipeline/tests/test_registrations.py` one expectation: DfT 'VOLKSWAGEN ID5 / ID5 MATCH PRO' now places on `volkswagen-id5` (it asserted "not in seed"). Placement spot checks for 60 source names were run locally (all as expected except the P7 key clash).
 - Validators: validate_seed.py OK (35 makes, 99 models, 122 generations), self-test ok, validate_variants.py OK; pipeline pytest 1353 passed; ruff clean.
 
+## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — seed merged, but release 1 was not rebuilt, so none of the 36 models or facelift generations is live (A-35 B1, S8).

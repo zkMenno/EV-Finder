@@ -8,6 +8,8 @@ _Last updated: 2026-11-17 09:30 UTC by WS0. Every task in "review" whose work is
 
 Builders take only tasks in **Launch**. Everything else needs Menno's yes. Built work for parked features stays behind feature flags (off).
 
+**Launch fixes from QA A-35 (blockers, do first):** T-110 Model Y + seed figures (WS3) · T-111 plausibility + licence gates (WS1) · T-112 new list prices (WS3) · T-113 depreciation estimate (WS1) · T-114 hero reads release scores (WS2) · T-115 budget rule (WS2) · T-116 release 2 (WS1, after T-110–T-113) · T-117 DE/FR/ES/IT strings (WS2 + WS3) · T-118 Spain + Italy data (WS3 + WS1) · T-119 /es/es + /it/it (WS2). Decisions 064–066.
+
 **Launch, hero:** T-080 hero shortlist (WS2) · T-067 profile picker + suggested sort (WS2) · T-066 schema shortlist rules (WS0) · T-069 shortlist scores in the release (WS1) · T-068 seed gaps for picks (WS3) · T-081 used price by build year (WS1 + WS3) · T-056 free price indices (WS1) · T-043 loan estimate only (WS2/WS3)
 **Launch, catalogue:** T-010 compare · T-045 differences only · T-050 country + language URLs · T-012 i18n · T-051 / T-052 seed coverage · T-041 listing templates · T-062 / T-063 data fixes · T-065 schema follow-ups
 **Launch, data:** T-064 releases out of git · T-034 climate · T-032 / T-033 consumption model (winter range) · T-035 back-test · T-031 heat pump seed · open data download (built, Decision 016)

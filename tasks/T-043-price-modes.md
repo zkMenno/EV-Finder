@@ -34,3 +34,4 @@ What was done:
 Left: lease partner feeds (Next); legal wording per country (Q-072, R-03); UK finance links stay off until the FCA question is answered.
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — NL hero has no monthly estimate (A-35 S6); the Buy/Loan/Lease toggle on catalogue pages is a parked mode (S4).
