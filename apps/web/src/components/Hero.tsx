@@ -47,10 +47,8 @@ import { generationHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import { LoanBox, LoanWarning, useLoanSettings, type FinanceUi } from "./PriceMode";
 import { profileName } from "./SuggestedSort";
 import { TermInfo, type TermText } from "./Term";
-import cityDay from "@/assets/illustrations/scene-city-hero-day.svg";
-import cityNight from "@/assets/illustrations/scene-city-night.svg";
-import villageDay from "@/assets/illustrations/scene-village-hero-day.svg";
-import villageNight from "@/assets/illustrations/scene-village-night.svg";
+import { ParallaxScene } from "@/components/parallax/ParallaxScene";
+import { city as cityScene, village as villageScene } from "@/components/parallax/scenes.generated";
 
 export interface HeroProps {
   country: CountrySlug;
@@ -115,18 +113,13 @@ function presetLabel(p: ActivePreset, t: T, locale: string): string {
   return t(`hero.preset.${p.field}.${p.min !== undefined ? "min" : "max"}` as MsgKey, { n });
 }
 
-// ── Home-hero scene (UX design v6): village, or city for city answers; day and night versions ──
+// ── Home-hero scene (UX design v6): village, or city for city answers; day and night, layered ──
 
 function Scene({ city }: { city: boolean }) {
-  const day = city ? cityDay : villageDay;
-  const night = city ? cityNight : villageNight;
+  // Depth + parallax (Menno 2026-11-17): flat SVG first, drifting layers on top when motion is allowed.
   return (
-    <div className="mx-auto w-full max-w-[14rem] md:max-w-[22rem]" aria-hidden="true">
-      {/* Decorative (alt=""); the theme CSS shows one of the two (globals.css .evs-scene). */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={day.src} width={day.width} height={day.height} alt="" className="evs-scene evs-scene--day" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={night.src} width={night.width} height={night.height} alt="" loading="lazy" className="evs-scene evs-scene--night" />
+    <div className="mx-auto w-full max-w-[14rem] md:max-w-[22rem]">
+      <ParallaxScene scene={city ? cityScene : villageScene} testId="hero-scene" />
     </div>
   );
 }
