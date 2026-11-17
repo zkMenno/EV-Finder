@@ -836,4 +836,26 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** WS1 sets the `manual` / maker-document source status in data/sources.yaml accordingly (with T-116). The licence column says "facts cited, no licence".
 
+## Decision 069: A generation's sample band stands in for its variants (Decision 064 step 1)
+
+**Status:** Accepted (WS0 engineering default, 2026-11-17; reversible)
+**Date:** 2026-11-17
+
+**Context:** All 106 real used-price sample bands are per generation, but the web reads variant rows only, so Decision 064's "real band first" step never ran on real data (fresh review of #64). Spreading one median over cheap and dear trims misprices both a little; an estimate from a curve misprices more.
+
+**Decision:** When a variant has no own sample band for a build year and country, its row takes the generation's sample band for that year and country with `basis: band` and `scope: generation`, ahead of the depreciation estimate. Pages label it "typical for this generation". Variant-level samples, when they exist, win.
+
+**Consequences:** Schema gains optional `scope: variant | generation` on UsedPriceYearBand (WS0). WS1 implements it in #64; the back-test reports how often the real median falls inside the shown band.
+
+## Decision 080: Autotijd list prices are held; new prices come from makers (Menno)
+
+**Status:** Accepted (Menno, 2026-11-17, question popup)
+**Date:** 2026-11-17
+
+**Context:** PR #65 (T-112) took 71 BE list prices one by one from autotijd.be ("all rights reserved", no reuse terms). Decision 068 clears single facts from maker documents only; repeated extraction from one third-party site is an EU database-right risk.
+
+**Decision:** Merge the rows but register autotijd as its own source with status `blocked`, so they never reach a release. A builder re-sources those prices from the makers' own price lists or configurators (Decision 068). Meanwhile those cars use a used band or rank last (Decision 064).
+
+**Consequences:** Release 2 prices only what makers publish. Autotijd could be unblocked later only with written permission (WS5).
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
