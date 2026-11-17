@@ -729,5 +729,10 @@
   "owner.label": "One owner's picks for an only car with regular long trips, Dutch and French market, November 2026. Opinion, not a test; it doesn't change our numbers.",
   "hero.card.estimate": "Estimate: list price × value kept at that age, not counted listings.",
   "hero.card.estimateLow": "Rough estimate: based on a list price from a nearby year or another country.",
-  "hero.learn.title": "Good to know before you buy"
+  "hero.learn.title": "Good to know before you buy",
+  "usedYear.range": "{low} to {high}",
+  "usedYear.about": "about {amount}",
+  "usedYear.samples": "{n} listings",
+  "usedYear.estimate": "By build year, typical asking price (P25–P75). Estimate from the list price and the value EVs keep at that age, not counted listings.",
+  "usedYear.low": "Based on a list price from a nearby year or another country."
 }
