@@ -99,10 +99,13 @@ test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside
   await expect(page.getByRole("checkbox", { name: "I want to keep it 8 years or more", exact: true })).toHaveCount(1);
 });
 
-// Every language, every card: German compounds and units are wider than Dutch (T-097 review found 18 px).
-for (const lang of ["nl", "en", "de", "fr", "es", "it"]) test(`hero: ${lang} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
+// Every served language, every card: German compounds and units are wider than Dutch (T-097 review
+// found 18 px). Only routes that are served (countries config); /nl/de would 308 to /nl/nl, so the
+// test fails if a route redirects. ES/IT join once T-119 serves them.
+for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de"]) test(`hero: ${route} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto(`/nl/${lang}?role=only&trips=monthly&level=nerd`);
+  await page.goto(`/${route}?role=only&trips=monthly&level=nerd`);
+  expect(new URL(page.url()).pathname, "route was redirected, so this language isn't really tested").toBe(`/${route}`);
   await expect(page.getByTestId("hero-nerd").first()).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
