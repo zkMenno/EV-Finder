@@ -21,3 +21,4 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS0 (verification) | Verification + learning loops from the Claude Code team article: REVIEW.md draft, T-120–T-129, project instructions v1.4 | https://claude.ai/code/session_01JuyZEV7e51dUQJ3Qyr6HHx | 2026-11-17 |
 | QA | Launch review 1 on `qa/launch-review-1`: REVIEW.md R0–R3 + D items, hero/catalogue walk, A-35 (reads workstreams/QA/START.md + INBOX.md) | https://claude.ai/code/session_01JuyZEVyEVMBvP2cYXfjX9M | 2026-11-17 |
 | WS0 CI | CI minutes: adapted GardenLayer #813 into rule G-33 (was P-21) + docs/process/ci-budget.md | https://claude.ai/code/session_01JuyZEXAdCd9f82L5yxijfL | 2026-11-17 |
+| WS2 (2nd, 2026-11-17) | Web app: T-097 CI fix + review, then START §3 | https://claude.ai/code/session_01JuyZEX8cuXWPhPXbCY6bGD | 2026-11-17 |
