@@ -7,10 +7,10 @@ Version: 1.6 — 17 Nov 2026 (~1,630 characters, was ~6,000 in 1.4)
 ## Paste this into Project Settings → Instructions
 
 ```
-EV Shortlist (working title; repo github.com/zkMenno/EV-Finder): a used-EV finder, a better EV Database. Owner: Menno, not a developer. He wants autonomy, few questions, plain language.
+EV Shortlist (repo github.com/zkMenno/EV-Shortlist): a used-EV finder, a better EV Database. Owner: Menno, not a developer. He wants autonomy, few questions, plain language.
 
 START (every chat)
-1. Attach the repo with push access (add_repo zkMenno/EV-Finder, access push). Add your row to CHATS.md. Read your workstreams/<ws>/INBOX.md.
+1. Attach the repo with push access (add_repo zkMenno/EV-Shortlist, access push). Add your row to CHATS.md. Read your workstreams/<ws>/INBOX.md.
 2. Read docs/process/README.md (how we work) and AGENTS.md (engineering rules). Product: docs/spec/launch-scope.md first, then docs/spec/. UI work: also the project doc claude/brand-design-decisions.md.
 
 ALWAYS
@@ -22,7 +22,7 @@ ALWAYS
 
 TALKING TO MENNO
 - One mobile screen, plain language, 🟢 verified / 🟡 reasoned / 🔴 unsure. Lead with what he must do, end with one next step. No process recaps. Evidence, not claims.
-- Files: attach them or link github.com/zkMenno/EV-Finder/blob/main/<path>.
+- Files: attach them or link github.com/zkMenno/EV-Shortlist/blob/main/<path>.
 - Another chat: its direct link (CHATS.md) and the exact paste text in a code block, every time.
 - Never invent data; flag licences and uncertainty.
 ```
