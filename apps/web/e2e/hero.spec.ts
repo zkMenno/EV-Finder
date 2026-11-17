@@ -71,3 +71,10 @@ test("hero: Nerd shows how the score is built", async ({ page }) => {
   await page.goto("/nl/en?role=only&trips=monthly&level=nerd");
   await expect(page.getByTestId("hero-nerd").first()).toContainText("Score");
 });
+
+test("hero: links the launch /learn guides that exist", async ({ page }) => {
+  await page.goto("/nl/en?role=main&trips=never");
+  const learn = page.getByTestId("hero-learn");
+  await expect(learn.getByRole("link", { name: "Winter range explained" })).toHaveAttribute("href", "/nl/en/learn/winter-range");
+  await expect(learn.getByRole("link")).toHaveCount(3);
+});

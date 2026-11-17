@@ -728,7 +728,7 @@ variants:
   - generation_id: hyundai-ioniq-5-gen1
     id: hyundai-ioniq-5-gen1-58kwh-rwd
     name: "58 kWh RWD"
-    years: [2021, null]
+    years: [2021, 2024]
     drivetrain: rwd
     specs:
       battery_kwh_net: 58
@@ -776,7 +776,7 @@ variants:
   - generation_id: hyundai-ioniq-5-gen1
     id: hyundai-ioniq-5-gen1-77kwh-rwd
     name: "77.4 kWh RWD"
-    years: [2022, null]
+    years: [2022, 2024]
     drivetrain: rwd
     specs:
       battery_kwh_net: 77.4
@@ -792,7 +792,7 @@ variants:
   - generation_id: hyundai-ioniq-5-gen1
     id: hyundai-ioniq-5-gen1-77kwh-awd
     name: "77.4 kWh AWD"
-    years: [2022, null]
+    years: [2022, 2024]
     drivetrain: awd
     specs:
       battery_kwh_net: 77.4
@@ -956,7 +956,7 @@ variants:
   - generation_id: kia-ev6-gen1
     id: kia-ev6-gen1-58kwh-rwd
     name: "58 kWh RWD"
-    years: [2021, null]
+    years: [2021, 2024]
     drivetrain: rwd
     specs:
       battery_kwh_net: 58
@@ -972,7 +972,7 @@ variants:
   - generation_id: kia-ev6-gen1
     id: kia-ev6-gen1-77kwh-rwd
     name: "77.4 kWh RWD"
-    years: [2021, null]
+    years: [2021, 2024]
     drivetrain: rwd
     specs:
       battery_kwh_net: 77.4
@@ -988,7 +988,7 @@ variants:
   - generation_id: kia-ev6-gen1
     id: kia-ev6-gen1-77kwh-awd
     name: "77.4 kWh AWD"
-    years: [2021, null]
+    years: [2021, 2024]
     drivetrain: awd
     specs:
       battery_kwh_net: 77.4
@@ -1004,7 +1004,7 @@ variants:
   - generation_id: kia-ev6-gen1
     id: kia-ev6-gen1-gt
     name: "GT"
-    years: [2022, null]
+    years: [2022, 2024]
     drivetrain: awd
     specs:
       battery_kwh_net: 77.4

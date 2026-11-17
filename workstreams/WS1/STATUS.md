@@ -1,11 +1,11 @@
 # WS1 status
 
-- **State:** active; queue items 1–6 done or in review, rest blocked on merges/schema
-- **Now:** idle on WS1 queue: everything left waits for merges, schema or keys (see HANDOFF.md)
-- **Next:** T-064 part 2 after #4 merges + Data publish; T-063 after schema; ERA5-Land once CDS key lands
-- **In review (merge in this order):** #4 → #5 → #7 → #9 → #10 → #11 → #12 → #13
-- **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (merge + Data publish), EV3/Inster rows (Q-047), launch gate (Q-059)
-- **Last updated:** 2026-11-15 10:30 UTC by WS1
+- **State:** active (2nd session, https://claude.ai/code/session_01JuyZEVuT84JYBi2Cty9CzW); handing off to a fresh chat
+- **Now:** nothing running
+- **Next:** START §3 item 6 (winter range quality: rerun T-035 on the calibrated matrix, per-profile fields in qa.json); T-063 once the schema lands
+- **In review:** [#15](https://github.com/zkMenno/EV-Finder/pull/15) T-069 shortlist scores (CI green) → then [#21](https://github.com/zkMenno/EV-Finder/pull/21) T-081 + T-056 used price bands (trivial DECISIONS.md conflict after #15: keep both)
+- **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
+- **Last updated:** 2026-11-15 12:55 UTC by WS1
 
 ## Log
 - 2026-11-15 09:35 UTC · WS1 chat opened (https://claude.ai/code/session_01JuyZEUoRSsomn4V9CyYzLY), 1197 pipeline tests green on main. Claimed T-064.
@@ -14,6 +14,15 @@
 - 2026-11-15 10:25 UTC · PR #9 T-034 (7,654 towns, 7,203 with Jan mean + P10; ERA5-Land stub) and PR #10 T-032/T-033 (EPA tests, matrix 57 KB gzip). Schema requests + Decision 041 proposal to WS0; shapes to WS2; taxonomy defaults to WS3.
 - 2026-11-15 10:30 UTC · PR #11 T-035 (EPA proxy back-test, calibration, A-30) and PR #12 T-062 pipeline part. EPA power gate tried and rejected (A-30 follow-up). HANDOFF.md written. T-051 part 2 was done overnight; its leftovers are Q-047/Q-083.
 - 2026-11-15 10:40 UTC · PR #13 EPA range-class matching rule (fixes EV6/Ioniq 5 wrong attachments). Retro below.
+- 2026-11-15 11:30 UTC · 2nd session opened; #4–#13 merged by WS0. Claimed T-069.
+- 2026-11-15 11:55 UTC · PR #15 T-069: shortlist_scores.json (18 combos, basis bridge, Decision 042; back-test 6/10 exact). Decisions 040–042 logged.
+- 2026-11-15 12:40 UTC · PR #21 T-081 + T-056: used_prices.json (model bands for 99/226 variants, Decision 043, research/R-40); index terms: none licensed.
+- 2026-11-15 12:55 UTC · Item 7 open data bundle check: pass (audits/A-31), Q-047 risk noted. HANDOFF.md rewritten.
+
+## Retro 2026-11-15 (second WS1 run)
+- Went well: three queue items in ~90 minutes, no PR chain (both PRs branch from main), CI green on #15 first try.
+- Friction: the rules' thresholds sat on a different data basis than our fields; caught only by the dry run on real rows. Proposed rule: every derived score or band gets a dry run on the latest release rows before tests are written (pipeline/AGENTS.md).
+- Friction: two PRs both append to DECISIONS.md and STATUS.md. Proposed rule: STATUS/HANDOFF changes go in the last PR of a session only.
 
 ## Retro 2026-11-15 (first WS1 run)
 - Went well: queue items 1–7 done in one run as a PR chain; live fetches checked every licence line and memory (< 400 MB peak).

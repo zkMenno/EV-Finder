@@ -128,6 +128,7 @@ def test_release_end_to_end(data_dir: Path) -> None:
         "qa.md",
         "run_log.json",
         "sources.json",  # source health per source (addendum 6 P3)
+        "used_prices.json",  # used price bands per build year (T-081)
     ]
     assert (data_dir / "releases" / "latest").read_text().strip() == "1"
     raw = (out / "catalogue.json").read_bytes()

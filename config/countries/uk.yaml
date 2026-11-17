@@ -13,6 +13,10 @@
 #   priority      lower = shown first
 #   verified      true only after a manual check of the live site
 # Loaded at build time by apps/web/scripts/listings.mjs.
+# T-041 (WS3, 2026-11-15): patterns checked against the sites' own URLs as they appear in search
+# engine indexes (no site was fetched: "See listings" links are opened by people, never by us)
+# and, for La Centrale, Menno's own saved searches (data/editorial, July 2025). `verified` stays
+# false until a person taps the link once (checklist: workstreams/WS3/T-041-checklist.md).
 
 country: uk
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
@@ -23,6 +27,9 @@ default_language: en
 listings:
   - site: autotrader-uk
     label: Autotrader
+    # evidence: indexed model pages (https://www.autotrader.co.uk/cars/uk/tesla/model-3,
+    # /cars/used/tesla/.../electric/...) confirm make/model naming; the car-search query form with
+    # make, model and fuel-type parameters is the site's own search URL (not found indexed, unchecked).
     url_template: "https://www.autotrader.co.uk/car-search?make={makeName}&model={modelName}"
     filters:
       electric: { fuel-type: Electric }

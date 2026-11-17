@@ -362,9 +362,9 @@ def _rel(path: Path, data_dir: Path) -> str:
         return path.name
 
 
-# Topic folders under data/manual/ with their own file format and loader (T-025 charging,
-# T-081 price aggregates). The manual-facts loader leaves them alone.
-OWN_SCHEMA_TOPICS = frozenset({"charging", "prices"})
+# Topic folders with their own format and loader, not manual facts:
+# prices/ = used price sample aggregates, read by derive/used_price.py (T-081, Decision 060).
+OWN_LOADER_TOPICS = frozenset({"prices"})
 
 
 def load_manual_dir(
@@ -392,8 +392,8 @@ def load_manual_dir(
             )
             continue
         topic = path.parent.name
-        if topic in OWN_SCHEMA_TOPICS:
-            continue  # read by their own loaders, not manual facts
+        if topic in OWN_LOADER_TOPICS:
+            continue
         example = topic.startswith("_")
         facts, issues, fixture = parse_manual_file(path, rel, topic, today, registry)
         if example or fixture:

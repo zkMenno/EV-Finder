@@ -2,6 +2,7 @@
 // open in a new tab. Renders nothing when the country has no links (and no ABRP line is asked for).
 // `statsHref` adds our own "charging network in numbers" page (T-061, same tab) at the end.
 import Link from "next/link";
+import { parkedEnabled } from "@/config/features";
 import { hasMsgKey, type T } from "@/i18n";
 import type { ChargingLink } from "@/lib/charging-links";
 
@@ -18,7 +19,10 @@ export function ChargingLinks({
   headingLevel?: 2 | 3;
   statsHref?: string;
 }) {
+  // Parked until after launch (Decision 051): CHARGING_LINKS=1 or PARKED=1 shows it.
+  if (!parkedEnabled("chargingLinks")) return null;
   if (!links.length && !abrp) return null;
+  if (!parkedEnabled("chargingPages")) statsHref = undefined;
   const H = headingLevel === 2 ? "h2" : "h3";
   const job = (j: string) => {
     const key = `charging.job.${j}`;

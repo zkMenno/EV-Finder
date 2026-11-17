@@ -16,7 +16,7 @@
     {
       "site": "marktplaats",
       "label": "Marktplaats",
-      "url_template": "https://www.marktplaats.nl/q/{makeName}+{modelName}/",
+      "url_template": "https://www.marktplaats.nl/l/auto-s/q/{makeName}+{modelName}/",
       "filters": {},
       "slug_overrides": {},
       "priority": 2,
@@ -83,7 +83,13 @@
           "energies": "elec"
         }
       },
-      "slug_overrides": {},
+      "slug_overrides": {
+        "megane-e-tech-electric": "MEGANE",
+        "scenic-e-tech": "SCENIC",
+        "niro-ev": "E-NIRO;KIA:NIRO",
+        "zs-ev": "MG ZS;MG:ZS",
+        "xc40-recharge": "XC40"
+      },
       "priority": 2,
       "verified": false
     },
