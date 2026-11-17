@@ -143,7 +143,14 @@ def test_single_rule(tmp_path: Path, change: dict, needle: str) -> None:
 
 def test_price_curve_enum_and_file_level_entered_by(tmp_path: Path) -> None:
     rows = [
-        {**GOOD, "field": "price_new", "unit": "EUR", "value": 41990, "country": "NL"},
+        {
+            **GOOD,
+            "field": "price_new",
+            "unit": "EUR",
+            "value": 41990,
+            "country": "NL",
+            "year": 2024,
+        },
         {
             **GOOD,
             "field": "dc_curve",
@@ -158,7 +165,8 @@ def test_price_curve_enum_and_file_level_entered_by(tmp_path: Path) -> None:
     facts, issues, _ = parse_manual_file(p, "data/manual/x/t.yaml", "x", TODAY)
     assert issues == [], [i.message for i in issues]
     assert [m.entered_by for m in facts] == ["menno"] * 3
-    assert facts[0].fact.country.value == "NL" and facts[0].record_key.endswith(":NL")
+    assert facts[0].fact.country.value == "NL" and facts[0].record_key.endswith(":NL:2024")
+    assert facts[0].year == 2024
 
 
 def test_expected_units_cover_every_field_but_price() -> None:
@@ -253,6 +261,57 @@ def test_release_lists_bad_manual_entries(data_dir: Path) -> None:
     assert not any(f["source"]["id"] == "manual" for f in res.facts)
 
 
+def test_price_year_is_parsed_and_kept_apart_per_year() -> None:
+    p = FIX / "new-prices" / "fixture-new-prices.yaml"
+    facts, issues, _ = parse_manual_file(p, "data/manual/new-prices/f.yaml", "new-prices", TODAY)
+    assert [(m.fact.country.value, m.year) for m in facts] == [
+        ("BE", 2021), ("BE", 2023), ("FR", None)
+    ]  # fmt: skip
+    assert facts[0].record_key.endswith(":BE:2021") and facts[1].record_key.endswith(":BE:2023")
+    # no year: kept, with a warning (not an error) that the estimate cannot use it
+    assert [i.warning for i in issues] == [True] and "no `year`" in issues[0].message
+
+
+@pytest.mark.parametrize(
+    ("change", "needle"),
+    [
+        ({"year": 2021}, "year is only for price_new"),
+        ({"field": "price_new", "unit": "EUR", "value": 40000, "country": "NL", "year": "2021"},
+         "whole year"),
+        ({"field": "price_new", "unit": "EUR", "value": 40000, "country": "NL", "year": 1990},
+         "outside 2000"),
+    ],
+)  # fmt: skip
+def test_bad_year(tmp_path: Path, change: dict, needle: str) -> None:
+    p = _write(tmp_path, [{**GOOD, **change}])
+    facts, issues, _ = parse_manual_file(p, "data/manual/x/t.yaml", "x", TODAY)
+    assert facts == [] and any(needle in i.message for i in issues), [i.message for i in issues]
+
+
+def test_manual_price_year_feeds_the_used_price_lookup(data_dir: Path) -> None:
+    """The bug: manual price_new facts had no record year, so used_price.list_prices skipped
+    them. Now the year reaches fact_years and the estimate's list-price lookup."""
+    d = _with_manual(data_dir, "new-prices")
+    _set_manual_registry(d, {**BLOCKED, "status": "active", "licence": "CC-BY-4.0"})
+    res = build_release(d, now=NOW)
+    years = {
+        (f["country"], f["value"]): y
+        for f, y in zip(res.facts, res.fact_years, strict=True)
+        if f["source"]["id"] == "manual" and f["field"] == "price_new"
+    }
+    assert years == {("BE", 52990): 2021, ("BE", 49990): 2023, ("FR", 55000): None}
+    up = res.used_prices
+    assert up is not None
+    v = next(v for v in up["variants"] if v["variant_id"] == "tesla-model-3-gen1-lr")
+    be = {b["build_year"]: b for b in v["bands"]["BE"]}
+    assert (be[2021]["list_price"], be[2021]["list_basis"]) == (53000, "year")
+    assert be[2021]["list_source_ids"] == ["manual"]
+    assert (be[2023]["list_price"], be[2023]["list_basis"]) == (50000, "year")
+    assert be[2022]["list_basis"] == "nearest_year"
+    # FR has no year: never used as FR's own list price
+    assert all(b.get("list_basis") != "year" for b in v["bands"].get("FR", []))
+
+
 def test_own_schema_topics_are_left_alone(tmp_path: Path) -> None:
     """data/manual/prices and data/manual/charging have their own loaders (T-081, T-025)."""
     shutil.copytree(REPO_DATA / "manual", tmp_path / "manual")
@@ -264,3 +323,86 @@ def test_own_schema_topics_are_left_alone(tmp_path: Path) -> None:
     # Real date: this copies the repo's manual data, whose facts carry real retrieval dates.
     code, lines = check(tmp_path, date.today())
     assert code == 0, lines
+
+
+# --- Decision 080: a file may name its own source; a blocked one never ships ---------------
+
+AUTOTIJD = {
+    "id": "autotijd",
+    "name": "Autotijd.be",
+    "licence": "none (all rights reserved; no reuse terms)",
+    "status": "blocked",
+}
+PRICE = {
+    "variant_id": "tesla-model-3-gen1-lr",
+    "field": "price_new",
+    "value": 50000,
+    "unit": "EUR",
+    "country": "BE",
+    "source_url": "https://example.org/price",
+    "retrieved": "2026-11-01",
+    "quote": "EUR 50.000",
+    "entered_by": "test",
+    "confidence": "low",
+}
+
+
+def _add_source(d: Path, entry: dict) -> None:
+    p = d / "sources.yaml"
+    reg = yaml.safe_load(p.read_text())
+    reg["sources"] = [s for s in reg["sources"] if s["id"] != entry["id"]] + [entry]
+    p.write_text(yaml.safe_dump(reg))
+
+
+def _write_topic(d: Path, name: str, facts: list[dict], **file_keys) -> None:
+    (d / "manual" / "new-prices").mkdir(parents=True, exist_ok=True)
+    (d / "manual" / "new-prices" / f"{name}.yaml").write_text(
+        yaml.safe_dump({"schema": "manual-facts/v1", **file_keys, "facts": facts})
+    )
+
+
+def test_file_source_must_be_registered(tmp_path: Path) -> None:
+    d = tmp_path / "data"
+    d.mkdir()
+    shutil.copy(RELEASE_FIX / "sources.yaml", d / "sources.yaml")
+    _write_topic(d, "x", [PRICE], source="no-such-site")
+    reg = load_registry(d / "sources.yaml")
+    load = load_manual_dir(d, TODAY, reg)
+    assert load.facts == []
+    assert any("not in data/sources.yaml" in i.message for i in load.errors)
+    _write_topic(d, "x", [PRICE], source="Not An Id")
+    assert any("sources.yaml id" in i.message for i in load_manual_dir(d, TODAY, reg).errors)
+
+
+def test_blocked_file_source_never_ships_even_when_manual_is_releasable(data_dir: Path) -> None:
+    d = data_dir
+    _set_manual_registry(d, {**BLOCKED, "status": "active", "licence": "CC-BY-4.0"})
+    _add_source(d, AUTOTIJD)
+    held = {**PRICE, "variant_id": "tesla-model-3-gen1-lr", "value": 51111}
+    other = {**PRICE, "variant_id": "nissan-leaf-ze0-24kwh", "value": 29999}
+    _write_topic(d, "held", [held, other], source="autotijd")
+    maker = {**PRICE, "value": 49990, "source_url": "https://maker.example/price"}
+    _write_topic(d, "maker", [maker])  # same car + country, source `manual`: not a duplicate
+    load = load_manual_dir(d, TODAY, load_registry(d / "sources.yaml"))
+    assert load.errors == [] and len(load.facts) == 3
+    assert {mf.fact.source.id.root for mf in load.facts} == {"autotijd", "manual"}
+
+    res = build_release(d, now=NOW)
+    prices = [f for f in res.facts if f["field"] == "price_new" and f.get("country") == "BE"]
+    assert not any(f["source"]["id"] == "autotijd" for f in res.facts)
+    assert {f["value"] for f in prices} == {49990}  # only the maker value ships
+    assert res.gated["autotijd"] == {"reason": "status blocked", "records": 2}
+    assert "autotijd" not in {s["id"] for s in res.catalogue["sources"]}
+
+
+def test_repo_autotijd_rows_are_held() -> None:
+    """Decision 080: every Autotijd row in the repo names the blocked `autotijd` source."""
+    reg = load_registry(REPO_DATA / "sources.yaml")
+    assert reg.reason_blocked("autotijd") == "status blocked"
+    load = load_manual_dir(REPO_DATA, date.today(), reg, for_release=False)
+    autotijd_urls = [mf for mf in load.facts if "autotijd.be" in str(mf.fact.source.url)]
+    assert autotijd_urls, "expected the T-112 Autotijd rows"
+    assert all(mf.fact.source.id.root == "autotijd" for mf in autotijd_urls)
+    code, lines = check(REPO_DATA, date.today())
+    assert code == 0, lines
+    assert any(ln.startswith("Source `autotijd`:") and "internal only" in ln for ln in lines)
