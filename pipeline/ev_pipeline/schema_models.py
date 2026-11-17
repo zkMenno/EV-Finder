@@ -2634,6 +2634,10 @@ class PublishedVariant(BaseModel):
         description='Derived: km added in 10 min at motorway consumption (dc_avg_10_80_kw / motorway consumption * 100 / 6).',
     )
     real_range_km: float | None = None
+    real_range_winter_km: float | None = Field(
+        None,
+        description='Derived estimate (T-072): km on a full usable battery at -5 °C and colder, mixed driving, from the consumption matrix. The temperature step is not validated by winter road tests yet (Q-059).',
+    )
     real_range_rung: RealRangeRung | None = None
     power_kw: float | None = None
     accel_0_100_s: float | None = None

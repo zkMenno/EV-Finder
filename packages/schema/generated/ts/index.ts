@@ -601,6 +601,10 @@ export interface PublishedVariant {
    */
   dc_km_per_10min?: number | null;
   real_range_km?: number | null;
+  /**
+   * Derived estimate (T-072): km on a full usable battery at -5 °C and colder, mixed driving, from the consumption matrix. The temperature step is not validated by winter road tests yet (Q-059).
+   */
+  real_range_winter_km?: number | null;
   real_range_rung?: RealRangeRung | null;
   power_kw?: number | null;
   accel_0_100_s?: number | null;
