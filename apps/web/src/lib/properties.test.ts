@@ -286,13 +286,13 @@ describe("hero ranking", () => {
     );
   });
 
-  it("ranks are 1..n, at most 10, one card per model, best score first", () => {
+  it("ranks are 1..n over priced picks (unpriced: no rank), at most 10, one card per model, best score first", () => {
     fc.assert(
       fc.property(fc.array(fc.tuple(knownValues, fc.integer({ min: 0, max: 1000 })), { minLength: 1, maxLength: 25 }), fc.constantFrom(...PROFILES), (vals, rp) => {
         const rows = vals.map(([v, sc], i) => withScore({ ...baseRow(i % 7), variant_id: `v${i}`, ...v } as ExploreRow, rp, sc / 10));
         const { picks, qualifying } = rankHero(rows, rp, heroQuery, { hasScores: true });
         expect(picks.length).toBe(Math.min(10, qualifying));
-        expect(picks.map((p) => p.rank)).toEqual(picks.map((_, i) => i + 1));
+        expect(picks.map((p) => p.rank)).toEqual(picks.map((p, i) => (p.price !== null ? i + 1 : null)));
         expect(new Set(picks.map((p) => p.row.model_id)).size).toBe(picks.length);
         for (let i = 1; i < picks.length; i++) expect(picks[i - 1]!.result.score).toBeGreaterThanOrEqual(picks[i]!.result.score);
       }),
@@ -319,6 +319,9 @@ describe("hero budget (Decision 064)", () => {
         const first = res.picks.findIndex((p) => p.price === null);
         if (first >= 0) expect(res.picks.slice(first).every((p) => p.price === null)).toBe(true);
         expect(res.shortlistN).toBe(Math.min(5, res.picks.filter((p) => p.price !== null).length));
+        // No unpriced car carries a place number, so none can sit in places 1-5 (A-35 B2).
+        for (const p of res.picks) expect(p.rank === null).toBe(p.price === null);
+        expect(res.priced).toBe(res.picks.filter((p) => p.price !== null).length);
       }),
     );
   });

@@ -23,7 +23,11 @@ for (const [name, qs] of PROFILES) {
     expect(n).toBe(Math.min(5, bases.filter((b) => b !== "none").length));
     if (HAS_USED_PRICES) expect(n, "a release with used prices has priced cars for this profile").toBeGreaterThan(0);
     for (const basis of await short.evaluateAll((els) => els.map((e) => e.getAttribute("data-price-basis")))) expect(basis).not.toBe("none");
-    await expect(page.getByTestId("hero-more").getByTestId("hero-card")).toHaveCount(10 - n);
+    // After the shortlist: more priced cars ("hero-more"), then unpriced cars without a place number.
+    const more = await page.getByTestId("hero-more").getByTestId("hero-card").count();
+    const noPrice = page.getByTestId("hero-no-price").getByTestId("hero-card");
+    expect(more + (await noPrice.count())).toBe(10 - n);
+    for (const c of await noPrice.evaluateAll((els) => els.map((e) => [e.getAttribute("data-price-basis"), e.getAttribute("data-rank")]))) expect(c).toEqual(["none", null]);
     await expect(page.getByTestId("hero-why").first()).not.toBeEmpty();
   });
 }
@@ -193,7 +197,15 @@ test("hero: road-tripper NL at €15k and €35k gives different top 10s; the to
       .getByTestId("hero-shortlist")
       .getByTestId("hero-card")
       .evaluateAll((els) => els.map((e) => ({ price: Number(e.getAttribute("data-price")), basis: e.getAttribute("data-price-basis") })));
-    return { all, short, noPriced: await page.getByTestId("hero-no-priced").count() };
+    // Decision 064 / A-35 B2: no unpriced card carries a place number, so none is in places 1-5.
+    const cards = await page.getByTestId("hero-card").evaluateAll((els) => els.map((e) => ({ rank: e.getAttribute("data-rank"), basis: e.getAttribute("data-price-basis") })));
+    for (const c of cards) expect(c.rank === null, `rank ${c.rank} with basis ${c.basis}`).toBe(c.basis === "none");
+    const ranked = cards.filter((c) => c.rank !== null);
+    expect(ranked.map((c) => Number(c.rank))).toEqual(ranked.map((_, i) => i + 1));
+    const unpricedCards = cards.filter((c) => c.basis === "none").length;
+    // Fewer than 5 priced cars: the unpriced section says plainly that no more priced cars fit.
+    if (unpricedCards && ranked.length < 5) await expect(page.getByTestId("hero-no-price").getByRole("heading", { level: 3 })).toHaveText(/No more cars with a known price fit/);
+    return { all, short, ranked: ranked.length, noPriced: await page.getByTestId("hero-no-priced").count() };
   };
   const low = await top("budget=15000");
   const lowOff = await top(`budget=15000&${PRESETS_OFF}`);
