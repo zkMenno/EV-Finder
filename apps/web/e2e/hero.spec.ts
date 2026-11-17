@@ -17,7 +17,11 @@ for (const [name, qs] of PROFILES) {
     // Decision 064: the shortlist holds priced cars only (up to 5); unpriced cars follow under "more".
     const short = page.getByTestId("hero-shortlist").getByTestId("hero-card");
     const n = await short.count();
-    expect(n).toBeLessThanOrEqual(5);
+    // The shortlist is as long as the priced cars allow: min(5, priced cards in the top 10), since
+    // priced cars come first. With used prices in the release, no profile without a budget is empty.
+    const bases = await page.getByTestId("hero-card").evaluateAll((els) => els.map((e) => e.getAttribute("data-price-basis")));
+    expect(n).toBe(Math.min(5, bases.filter((b) => b !== "none").length));
+    if (HAS_USED_PRICES) expect(n, "a release with used prices has priced cars for this profile").toBeGreaterThan(0);
     for (const basis of await short.evaluateAll((els) => els.map((e) => e.getAttribute("data-price-basis")))) expect(basis).not.toBe("none");
     await expect(page.getByTestId("hero-more").getByTestId("hero-card")).toHaveCount(10 - n);
     await expect(page.getByTestId("hero-why").first()).not.toBeEmpty();
@@ -174,27 +178,68 @@ for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de"]) test
 
 // T-115 (Decision 064, A-35 B2): the budget changes the result. Needs a release with used prices and
 // shortlist scores (release 2); skipped on release 1.
+const ROAD = "/nl/en?role=only&trips=monthly&charge=home";
+// The road-tripper's own presets (350+ km real range, 200+ km in 20 min, 380+ l boot) leave no priced
+// NL car at €15k in today's data, so the €15k shortlist is checked with them removed (pxoff) and the
+// preset run must then explain its empty shortlist instead of silently showing nothing.
+const PRESETS_OFF = "pxoff=boot_l,dc_km_per_20min,real_range_km";
 test("hero: road-tripper NL at €15k and €35k gives different top 10s; the top 5 stay within budget", async ({ page }) => {
   test.skip(!HAS_SCORES || !HAS_USED_PRICES, "needs a release with shortlist_scores.json and used_prices.json (Decisions 064/065)");
-  const top = async (budget: number) => {
-    await page.goto(`/nl/en?role=only&trips=monthly&charge=home&budget=${budget}`);
+  const top = async (qs: string) => {
+    await page.goto(`${ROAD}&${qs}`);
     await expect(page.getByTestId("hero-card").first()).toBeVisible();
-    const cards = page.getByTestId("hero-card");
-    const all = await cards.evaluateAll((els) => els.map((e) => e.getAttribute("data-variant")));
+    const all = await page.getByTestId("hero-card").evaluateAll((els) => els.map((e) => e.getAttribute("data-variant")));
     const short = await page
       .getByTestId("hero-shortlist")
       .getByTestId("hero-card")
       .evaluateAll((els) => els.map((e) => ({ price: Number(e.getAttribute("data-price")), basis: e.getAttribute("data-price-basis") })));
-    return { all, short };
+    return { all, short, noPriced: await page.getByTestId("hero-no-priced").count() };
   };
-  const low = await top(15000);
-  const high = await top(35000);
+  const low = await top("budget=15000");
+  const lowOff = await top(`budget=15000&${PRESETS_OFF}`);
+  const high = await top("budget=35000");
   expect(low.all).not.toEqual(high.all);
-  for (const [r, b] of [[low, 15000], [high, 35000]] as const) {
+  expect(lowOff.all).not.toEqual(high.all);
+  // Not an empty pass: the release has priced road-tripper cars within both budgets.
+  expect(lowOff.short.length, "€15k shortlist (presets off) is empty").toBeGreaterThan(0);
+  expect(high.short.length, "€35k shortlist is empty").toBeGreaterThan(0);
+  // An empty shortlist always says why.
+  expect(low.noPriced).toBe(low.short.length === 0 ? 1 : 0);
+  for (const [r, b] of [[low, 15000], [lowOff, 15000], [high, 35000]] as const) {
     for (const c of r.short) {
       expect(c.basis).not.toBe("none");
       expect(c.price).toBeLessThanOrEqual(b);
     }
   }
+  // An unpriced card at €15k may not stand for a generation (else model) whose known prices are all
+  // over €15k (T-115 review: unpriced Q6 / ID.7 / Taycan versions leaked into the €15k list).
+  for (const qs of ["budget=15000", `budget=15000&${PRESETS_OFF}`]) {
+    await page.goto(`${ROAD}&${qs}`);
+    const dataUrl = /\/data\/catalogue-\w+\.json/.exec(await page.content())![0];
+    type Row = { variant_id: string; generation_id: string; model_id: string; on_sale_new?: boolean; price_new?: Record<string, { amount: number }>; used_bands?: Record<string, [number, number | null, number][]> };
+    const rows = ((await (await page.request.get(dataUrl)).json()) as { rows: Row[] }).rows;
+    const prices = (r: Row) => [...(r.used_bands?.NL ?? []).map((b) => b[2]), ...(r.on_sale_new && r.price_new?.NL ? [r.price_new.NL.amount] : [])];
+    const unpriced = await page.locator('[data-testid="hero-card"][data-price-basis="none"]').evaluateAll((els) => els.map((e) => e.getAttribute("data-variant")));
+    expect(unpriced.length, "the release has unpriced cars, so this check runs").toBeGreaterThan(0);
+    for (const id of unpriced) {
+      const me = rows.find((r) => r.variant_id === id)!;
+      const gen = rows.filter((r) => r.generation_id === me.generation_id).flatMap(prices);
+      const known = gen.length ? gen : rows.filter((r) => r.model_id === me.model_id).flatMap(prices);
+      if (known.length) expect(Math.min(...known), `${id}: every sibling price is over €15k`).toBeLessThanOrEqual(15000);
+    }
+  }
 });
 
+// Nerd mode names how each price was made from the release row's own fields (Decision 064).
+test("hero: Nerd price text comes from the used price row (curve, countries, source, date), not a fixed citation", async ({ page }) => {
+  test.skip(!HAS_SCORES || !HAS_USED_PRICES, "needs a release with shortlist_scores.json and used_prices.json (Decisions 064/065)");
+  await page.goto(`${ROAD}&budget=35000&level=nerd`);
+  const est = page.locator('[data-testid="hero-card"][data-price-basis="estimate"]').first();
+  await expect(est).toBeVisible();
+  const how = est.getByTestId("hero-price-how");
+  await expect(how).toContainText(/depreciation curve/);
+  await expect(how).toContainText(/\(\d{4}-\d{2}-\d{2}\)/);
+  await expect(how).not.toContainText("R-40");
+  const band = page.locator('[data-testid="hero-card"][data-price-basis="band"]').first();
+  await expect(band.getByTestId("hero-price-how")).toContainText(/counted listings/);
+});

@@ -329,14 +329,16 @@ describe("Explore 'Suggested' sort (T-067)", async () => {
 describe("budget rule (Decision 064)", async () => {
   const { parseVariantUsedPrices } = await import("./variant-prices");
   const { compactBands } = await import("./explore-data");
-  // Shapes as the pipeline writes them (pipeline/ev_pipeline/derive/used_price.py).
+  // Shapes as main's pipeline writes them (pipeline/ev_pipeline/derive/used_price.py, #64; schema UsedPriceYearBand).
+  const FITTED_SOURCE = { name: "Depreciation curve fitted on our own used price samples (T-113)", ref: "pipeline/ev_pipeline/derive/used_price_params.yaml#fitted" };
   const model = (y: number, median: number, extra: Record<string, unknown> = {}) => ({
-    build_year: y, p25: median - 2000, median, p75: median + 2000, currency: "EUR", samples: 0, method: "model", estimate: true,
+    build_year: y, p25: median - 2000, median, p75: median + 2000, currency: "EUR", samples: 0, method: "model", basis: "estimate", estimate: true,
+    curve: "fitted", curve_fitted_on: ["BE", "NL"], source: FITTED_SOURCE, date: "2026-11-17",
     age_years: 2026 - y, kept_share: 0.55, list_price: Math.round(median / 0.55), list_basis: "year", list_source_ids: ["rdw-catalogusprijs"], confidence: "medium", ...extra,
   });
-  const samples = (y: number, median: number) => ({
-    build_year: y, p25: median - 1500, median, p75: median + 1500, currency: "EUR", samples: 7, method: "samples", estimate: false,
-    observed_at: "2026-11-01", source: { name: "Manual sample (AutoScout24 search)", url: "https://example.org" }, confidence: "medium",
+  const samples = (y: number, median: number, scope: "variant" | "generation" = "variant") => ({
+    build_year: y, p25: median - 1500, median, p75: median + 1500, currency: "EUR", samples: 7, method: "samples", basis: "band", scope, estimate: false,
+    date: "2026-11-01", observed_at: "2026-11-01", source: { name: "Manual sample (AutoScout24 search)", url: "https://example.org" }, source_id: "manual-autoscout24", confidence: "medium",
   });
   const withBands = (id: string, bands: object[], o: Partial<ExploreRow> = {}) =>
     row(id, { year_start: 2020, year_end: 2024, used_bands: compactBands(parseVariantUsedPrices({ variants: [{ variant_id: id, bands: { NL: bands } }] }).get(id)), ...o });
@@ -346,12 +348,12 @@ describe("budget rule (Decision 064)", async () => {
     const r = withBands("s", [samples(2021, 18000), model(2023, 26000)]);
     const { fit, status } = priceFit(r, opts(20000));
     expect(status).toBe("fits");
-    expect(fit).toMatchObject({ kind: "used", basis: "band", amount: 18000, yearFrom: 2021, yearTo: 2021, sources: ["Manual sample (AutoScout24 search)"] });
+    expect(fit).toMatchObject({ kind: "used", basis: "band", scope: "variant", amount: 18000, yearFrom: 2021, yearTo: 2021, how: { src: "Manual sample (AutoScout24 search)", url: "https://example.org", date: "2026-11-01", n: 7 } });
   });
   it("(1) the generation's sourced band counts as a real band", () => {
     const r = row("g", { year_start: 2019, year_end: null });
     const bands = { "g-gen": [{ generation_id: "g-gen", country: "NL", currency: "EUR", median: 21000, p25: 19000, p75: 23000, samples: 9, period: "2026-10", source_id: "src-a", age_band_years: "3-5" }] } as UsedBands;
-    expect(priceFit(r, { ...opts(25000), usedBands: bands }).fit).toMatchObject({ basis: "band", amount: 21000, sources: ["src-a"] });
+    expect(priceFit(r, { ...opts(25000), usedBands: bands }).fit).toMatchObject({ basis: "band", scope: "generation", amount: 21000, sourceIds: ["src-a"] });
   });
   it("(1) beats (2): a real band that fits wins over an estimate that fits", () => {
     const r = withBands("p", [samples(2021, 19000), model(2022, 18000)]);
@@ -361,7 +363,8 @@ describe("budget rule (Decision 064)", async () => {
     const r = withBands("e", [model(2021, 17000), model(2022, 21000), model(2023, 26000)]);
     const { fit, status } = priceFit(r, opts(22000));
     expect(status).toBe("fits");
-    expect(fit).toMatchObject({ kind: "used", basis: "estimate", estimate: true, amount: 21000, yearFrom: 2021, yearTo: 2022, keptShare: 0.55, listPrice: Math.round(21000 / 0.55), sources: ["rdw-catalogusprijs"] });
+    expect(fit).toMatchObject({ kind: "used", basis: "estimate", estimate: true, amount: 21000, yearFrom: 2021, yearTo: 2022 });
+    expect(fit!.how).toEqual({ src: FITTED_SOURCE.name, ref: FITTED_SOURCE.ref, date: "2026-11-17", curve: "fitted", on: ["BE", "NL"], list: Math.round(21000 / 0.55), ls: ["rdw-catalogusprijs"], kept: 0.55 });
   });
   it("(3) the new price, for a car on sale new; 'new' condition uses only that", () => {
     const r = row("n", { on_sale_new: true, price_new: { NL: { amount: 33000, currency: "EUR" } } as ExploreRow["price_new"] });
@@ -382,6 +385,48 @@ describe("budget rule (Decision 064)", async () => {
   it("over: every price the car has is above the budget", () => {
     const r = withBands("ov", [samples(2022, 28000), model(2023, 31000)]);
     expect(priceFit(r, opts(20000))).toEqual({ fit: null, status: "over" });
+  });
+
+  it("reads basis and scope, not only method/estimate: a generation band stands in as a real band", () => {
+    const r = withBands("gs", [samples(2021, 18000, "generation"), model(2022, 21000)]);
+    expect(priceFit(r, opts(20000)).fit).toMatchObject({ basis: "band", scope: "generation", estimate: false, amount: 18000 });
+    // basis wins over a stale method/estimate pair.
+    const odd = withBands("odd", [{ ...model(2022, 19000), basis: "band", method: "model" }]);
+    expect(priceFit(odd, opts(20000)).fit).toMatchObject({ basis: "band" });
+  });
+  it("an estimate never stands in for a build year that has a real band (same year over budget → that year is over)", () => {
+    const r = withBands("sy", [samples(2022, 26000), model(2022, 19000)]);
+    expect(priceFit(r, opts(20000))).toEqual({ fit: null, status: "over" });
+  });
+
+  describe("Nerd price text is built from the row's own fields (Decision 064)", async () => {
+    const { priceHowText } = await import("./price-how");
+    const en = (await import("@/i18n/en.json")).default as Record<string, string>;
+    const t = ((k: string, v: Record<string, string | number> = {}) => (en[k] ?? k).replace(/\{(\w+)\}/g, (_, x) => String(v[x] ?? `{${x}}`))) as never;
+    const money = (n: number) => `€${n}`;
+    const names = { "rdw-catalogusprijs": "RDW list prices" };
+    const fitOf = (bands: object[], budget = 40000) => priceFit(withBands("h", bands), opts(budget)).fit!;
+    it("fitted estimate: curve, countries, source and date from the row, list price source by name; no fixed R-40 citation", () => {
+      const s = priceHowText(fitOf([model(2022, 21000)]), t, "en-GB", money, names)!;
+      expect(s).toContain("fitted on our own used price samples from Belgium, Netherlands");
+      expect(s).toContain(`Curve: ${FITTED_SOURCE.name} (2026-11-17)`);
+      expect(s).toContain("RDW list prices");
+      expect(s).toContain("55 %");
+      expect(s).not.toMatch(/R-40/);
+    });
+    it("segment curve and published curve read differently", () => {
+      expect(priceHowText(fitOf([model(2022, 21000, { curve: "fitted:J-medium" })]), t, "en-GB", money, names)).toContain("segment J-medium");
+      const pub = priceHowText(fitOf([model(2022, 21000, { curve: "published", curve_fitted_on: undefined, source: { name: "DAT residual values (via autohaus.de)" }, date: "2026-09-28" })]), t, "en-GB", money, names)!;
+      expect(pub).toContain("a published depreciation curve");
+      expect(pub).toContain("DAT residual values (via autohaus.de) (2026-09-28)");
+      expect(pub).not.toContain("fitted");
+    });
+    it("bands: variant scope names the version, generation scope says typical for this generation", () => {
+      expect(priceHowText(fitOf([samples(2021, 18000)]), t, "en-GB", money, names)).toBe("Used price band from 7 counted listings of this version (2026-11-01). Source: Manual sample (AutoScout24 search).");
+      expect(priceHowText(fitOf([samples(2021, 18000, "generation")]), t, "en-GB", money, names)).toBe("Used price band from 7 counted listings of all versions of this generation (2026-11-01). Source: Manual sample (AutoScout24 search).");
+      // The card itself labels it at every level (Decision 069).
+      expect(en["hero.card.generationBand"]).toMatch(/^Typical for this generation/);
+    });
   });
 
   describe("ranking", () => {
@@ -425,6 +470,30 @@ describe("budget rule (Decision 064)", async () => {
       const res = rankHero([a, b], roadTripper, q(15000), on);
       expect(res.picks.map((p) => p.row.variant_id)).toEqual(["m-b"]);
       expect(res.picks[0]!.alternatives).toBe(1);
+    });
+    it("an unpriced version doesn't carry a model whose priced versions are all over budget (T-115 review)", () => {
+      // Same generation: one version priced at €40k, one unpriced. At €15k neither may show.
+      const dear = scored(withBands("x-dear", [model(2023, 40000)], { model_id: "x", generation_id: "x-g1" }), "road-tripper", 60);
+      const free = scored(row("x-free", { model_id: "x", generation_id: "x-g1" }), "road-tripper", 99);
+      expect(rankHero([dear, free], roadTripper, q(15000), on).picks).toEqual([]);
+      expect(rankHero([dear, free], roadTripper, q(15000), on).overBudget).toBe(2);
+      // No budget: the unpriced version stays, listed last.
+      expect(rankHero([dear, free], roadTripper, q(null), on).picks.map((p) => p.row.variant_id)).toEqual(["x-dear"]);
+      // A sibling that fits keeps the generation in; the priced one is the card.
+      const fits = scored(withBands("x-ok", [model(2021, 14000)], { model_id: "x", generation_id: "x-g1" }), "road-tripper", 30);
+      expect(rankHero([dear, free, fits], roadTripper, q(15000), on).picks.map((p) => p.row.variant_id)).toEqual(["x-ok"]);
+      // Generation without any price: the model's other generations decide.
+      const newGen = scored(row("x-g2-free", { model_id: "x", generation_id: "x-g2" }), "road-tripper", 99);
+      expect(rankHero([dear, newGen], roadTripper, q(15000), on).picks).toEqual([]);
+      // A model with no price anywhere stays (unpriced, last), as Decision 064 says.
+      const lone = scored(row("y-free", { model_id: "y", generation_id: "y-g1" }), "road-tripper", 99);
+      expect(rankHero([dear, lone], roadTripper, q(15000), on).picks.map((p) => [p.row.variant_id, p.price])).toEqual([["y-free", null]]);
+    });
+    it("the visitor's refine filters can't hide the over-budget sibling", () => {
+      const dear = scored(withBands("z-dear", [model(2023, 40000)], { model_id: "z", generation_id: "z-g1", real_range_km: 200 }), "road-tripper", 60);
+      const free = scored(row("z-free", { model_id: "z", generation_id: "z-g1", real_range_km: 500 }), "road-tripper", 99);
+      const res = rankHero([dear, free], roadTripper, { ...q(15000), filters: { ...defaultFilters(), rangeMin: 400 } }, on);
+      expect(res.picks).toEqual([]);
     });
   });
 });

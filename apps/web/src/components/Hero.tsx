@@ -16,6 +16,7 @@ import { onFilters, publishAnswers, publishFilters } from "@/lib/filter-bus";
 import { effectiveLoan, monthlyFor, type FinanceProfileView } from "@/lib/finance";
 import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { nerdValue, numberParts } from "@/lib/nerd-value";
+import { priceHowText } from "@/lib/price-how";
 import { heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "@/lib/hero-state";
 import { buildListingUrl, type ListingSite } from "@/lib/listing-url";
 import {
@@ -837,19 +838,13 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   else if (pick.price.low !== null && pick.price.high !== null)
     price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high), country: COUNTRIES[props.country].name });
   else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount), country: COUNTRIES[props.country].name });
-  const priceNote = pick.price?.basis === "estimate" ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate") : null;
-  // Nerd mode: how the price was made and where it comes from (Decision 064).
-  const srcNames = (pick.price?.sources ?? []).map((id) => props.sources[id] ?? id).join(", ");
-  let priceHow: string | null = null;
-  if (level === "nerd" && pick.price?.basis === "estimate") {
-    priceHow = t("hero.card.estimateHow", {
-      list: pick.price.listPrice ? r.money(pick.price.listPrice) : t("hero.card.notKnown"),
-      kept: pick.price.keptShare ? `${formatNumber(pick.price.keptShare * 100, locale, 0)} %` : t("hero.card.notKnown"),
-      sources: srcNames || t("hero.card.notKnown"),
-    });
-  } else if (level === "nerd" && pick.price?.basis === "band") {
-    priceHow = t("hero.card.bandHow", { sources: srcNames || t("hero.card.notKnown") });
-  }
+  const priceNote =
+    pick.price?.basis === "estimate"
+      ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate")
+      : pick.price?.basis === "band" && pick.price.scope === "generation"
+        ? t("hero.card.generationBand")
+        : null;
+  const priceHow = level === "nerd" && pick.price ? priceHowText(pick.price, t, locale, r.money, props.sources) : null;
 
   return (
     <li className="min-w-0 rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank} data-variant={row.variant_id} data-price={pick.price?.amount} data-price-basis={pick.price?.basis ?? "none"}>

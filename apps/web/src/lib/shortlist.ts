@@ -8,7 +8,8 @@
 // still gives the picker, the presets, the factor names and their weights (display only).
 import type { Country, ShortlistBand, UsedPriceBand } from "@ev/schema";
 import generated from "@/config/shortlist-rules.generated.json";
-import type { ExploreRow } from "./explore-data";
+import { BAND_ESTIMATE, BAND_GENERATION, BAND_LOW, type ExploreRow } from "./explore-data";
+import type { PriceHow } from "./variant-prices";
 import { comboFrom } from "./release-scores";
 import { applyFilters, priceFor } from "./filters";
 import type { ExploreFilters } from "./state";
@@ -336,11 +337,12 @@ export interface PriceFit {
   estimate?: boolean;
   /** Built on a list price from a nearby year or another country. */
   lowConfidence?: boolean;
-  /** Estimate method inputs for Nerd mode: the list price and the share of value kept. */
-  listPrice?: number | null;
-  keptShare?: number | null;
-  /** Source ids (estimate: of the list price) or a source name (band). */
-  sources?: string[];
+  /** Band rows: "generation" = the generation's samples standing in, "typical for this generation" (Decision 069). */
+  scope?: "variant" | "generation";
+  /** How the figure was made, from the release row's own fields (Nerd mode, Decision 064). */
+  how?: PriceHow;
+  /** Generation bands from the catalogue (`usedFit`): their source ids. */
+  sourceIds?: string[];
 }
 
 /** Bands for one generation in one country with enough samples (PriceBand.MIN_SAMPLES = 5). */
@@ -382,7 +384,8 @@ export function usedFit(row: ExploreRow, bands: UsedPriceBand[] | undefined, bud
     yearFrom: fit.from,
     yearTo: fit.to,
     samples: fit.b.samples,
-    sources: [fit.b.source_id],
+    scope: "generation",
+    sourceIds: [fit.b.source_id],
   };
 }
 
@@ -403,12 +406,17 @@ export function variantFit(
   if (!list?.length) return null;
   const start = Math.max(row.year_start, years.from ?? -Infinity);
   const end = Math.min(row.year_end ?? Infinity, years.to ?? Infinity);
-  const inYears = list.filter(([y, , , , flags]) => y >= start && y <= end && (estimate === undefined || ((flags & 1) === 1) === estimate));
+  const isEst = (flags: number) => (flags & BAND_ESTIMATE) === BAND_ESTIMATE;
+  // An estimate never stands in for a build year that has a real band (Decision 064, step 1 first).
+  const realYears = new Set(list.filter(([, , , , f]) => !isEst(f)).map(([y]) => y));
+  const inYears = list.filter(
+    ([y, , , , flags]) => y >= start && y <= end && (estimate === undefined || isEst(flags) === estimate) && !(estimate === true && realYears.has(y)),
+  );
   const fits = budget === null ? inYears : inYears.filter(([, , median]) => median <= budget);
   if (!fits.length) return null;
   const newest = fits[fits.length - 1]!;
-  const [year, p25, median, p75, flags, listPrice, keptShare, sources] = newest;
-  const est = (flags & 1) === 1;
+  const [year, p25, median, p75, flags, how] = newest;
+  const est = isEst(flags);
   return {
     kind: "used",
     basis: est ? "estimate" : "band",
@@ -418,10 +426,9 @@ export function variantFit(
     yearFrom: budget === null ? year : fits[0]![0],
     yearTo: year,
     estimate: est,
-    lowConfidence: (flags & 2) === 2,
-    listPrice: listPrice ?? null,
-    keptShare: keptShare ?? null,
-    sources: sources ? sources.split(",") : [],
+    lowConfidence: (flags & BAND_LOW) === BAND_LOW,
+    ...(est ? {} : { scope: (flags & BAND_GENERATION) === BAND_GENERATION ? ("generation" as const) : ("variant" as const) }),
+    ...(how ? { how } : {}),
   };
 }
 
@@ -513,6 +520,32 @@ export interface HeroResult {
   unscored: number;
 }
 
+/**
+ * Unpriced versions don't carry an expensive model into a cheap list (T-115 review, Decision 064).
+ * An unpriced variant counts as over budget when its generation has known prices and none of them
+ * fits; when its generation has no price at all, the same test runs on the model's other
+ * generations. Any sibling that fits keeps it in (listed last, as unpriced). No budget: never over.
+ * Prices are compared before the visitor's refine filters, so a filter can't hide the evidence.
+ */
+export function siblingsOverBudget(
+  rows: readonly ExploreRow[],
+  q: Pick<HeroQuery, "budget" | "cond">,
+  pf: (row: ExploreRow) => { status: PriceStatus },
+): (row: ExploreRow) => boolean {
+  if (q.budget === null) return () => false;
+  const groups = new Map<string, "fits" | "over">();
+  for (const row of rows) {
+    if (q.cond === "new" && row.on_sale_new !== true) continue;
+    const st = pf(row).status;
+    if (st === "unpriced") continue;
+    for (const k of [`g:${row.generation_id}`, `m:${row.model_id}`]) {
+      if (st === "fits") groups.set(k, "fits");
+      else if (!groups.has(k)) groups.set(k, "over");
+    }
+  }
+  return (row) => (groups.get(`g:${row.generation_id}`) ?? groups.get(`m:${row.model_id}`)) === "over";
+}
+
 export function rankHero(
   rows: readonly ExploreRow[],
   rp: ResolvedProfile,
@@ -527,13 +560,22 @@ export function rankHero(
   let overBudget = 0;
   let unscored = 0;
   const best = new Map<string, HeroPick & { count: number }>();
+  const priceOpts = { ...q, yearMin: q.filters.yearMin, yearMax: q.filters.yearMax };
+  const fitOf = new Map<ExploreRow, ReturnType<typeof priceFit>>();
+  const pf = (row: ExploreRow) => {
+    let v = fitOf.get(row);
+    if (!v) fitOf.set(row, (v = priceFit(row, priceOpts)));
+    return v;
+  };
+  const over = siblingsOverBudget(rows, q, pf);
   for (const row of applyFilters([...rows], q.filters, q.country)) {
     if (q.cond === "new" && row.on_sale_new !== true) continue;
     const checks = presets.map((p) => [p.field, presetCheck(row, p)] as const);
     if (checks.some(([, c]) => c === "fail")) continue;
     // Budget is a hard filter on the price (Decision 064); a car with no price at all stays, last.
-    const { fit, status } = priceFit(row, { ...q, yearMin: q.filters.yearMin, yearMax: q.filters.yearMax });
-    if (status === "over") {
+    // An unpriced version whose siblings are all over budget doesn't carry its model in either.
+    const { fit, status } = pf(row);
+    if (status === "over" || (status === "unpriced" && over(row))) {
       overBudget++;
       continue;
     }
