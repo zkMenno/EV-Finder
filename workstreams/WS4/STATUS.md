@@ -1,10 +1,10 @@
 # WS4 status
 
-- **State:** waiting on Menno (server steps)
-- **Now:** T-040 staging: runbook + measure script in PR #59; Menno runs it on the server
-- **Next:** read measure.sh output → close Q-001 numbers, Postgres checks (pg_trgm/PostGIS), EV database + login, then off-site backups (AppInfra #93)
-- **Blocked:** everything that needs the server. This session has no SSH and no AppInfra repo, and infra/AGENTS.md rule 1 says agents never apply. Menno runs the steps.
-- **Last updated:** 2026-11-17 10:15 UTC by WS4
+- **State:** staging live
+- **Now:** staging.evshortlist.com deploys from every push to `main` (images.yml: push → smoke-web → deploy-staging), #88 done
+- **Next:** PR #90 (infra files reference-only) review + merge; live (`ev`) waits for Menno's "launch"; then Q-001 numbers, EV database, off-site backups (AppInfra #93)
+- **Blocked:** nothing for staging
+- **Last updated:** 2026-11-17 20:05 UTC by WS4 (staging deploy chat)
 
 ## Server facts (measured)
 - 2026-11-17 ~10:00 UTC, from GitHub, not the server: GHCR `ev-finder-web` and `ev-finder-jobs` pull anonymously (public). Newest finished main web tag: `sha-3c6ce03`.
@@ -12,6 +12,8 @@
 
 ## Log
 - 2026-11-17 10:15 UTC · Session 1. Read START, INBOX, infra docs. T-064 part 2 is already done: release `data-v1` has 98 assets. Wrote the staging runbook (infra/README.md "Staging first run"), basic-auth glob import in ev.caddy, read-only `infra/scripts/measure.sh` → PR #59. Caddy validate couldn't run locally (Docker Hub 429).
+
+- 2026-11-17 20:05 UTC · Staging deploy (#88). PR #89: full-sha tags, smoke-web (read-only, staging limits, no network: pages 2xx, no writes outside /tmp + .next/cache), deploy-staging. PR #94: dropped parked /top from smoke paths. First deploy b8b6533: `deployed ev-staging:b8b6533…`, /health 200 release 1, x-robots-tag noindex.
 
 ## Retro (session 1)
 - **What slowed me down:** START.md says WS4 has SSH + AppInfra rights; this chat had neither, and infra/AGENTS.md forbids agent SSH anyway. Docker Hub rate limit blocked the Caddy check.
