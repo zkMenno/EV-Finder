@@ -22,3 +22,4 @@ Battery test referrals (after launch).
 - EN + NL still need Menno's read before `review: done`.
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — all /learn guides incl. EN/NL show "Draft: review needed"; 3 extra guides are beyond launch scope (A-35 S5).

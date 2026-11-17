@@ -22,3 +22,6 @@ Decision 038, research/R-32, `data/editorial/backtest_rules.py` (reference logic
 - Back-test on release 1 rows + a fresh matrix: road-tripper 6 of 10 exact (60 %), 8 within one band. Misses: EV6 2024 (no 84 kWh row yet, T-068), Polestar 2 and Model Y 2022 score high (Model Y LR gen1 data looks wrong: WLTP 11.0 kWh/100 km), Enyaq 80 and Megane 2026 low.
 - Neutral today for lack of data: bidi (V2L/V2H), heat_pump, one_pedal, frunk, width. Coverage per field is in coverage.md.
 - Left for T-066: typed `ShortlistScoresRelease`, `unit` on rule rows, `winter_range_km` as a named field; then delete the bridge blocks in shortlist_params.yaml.
+
+## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — shortlist_scores.json is not in the published release 1 (A-35 B1), and the web hero doesn't use these scores or basis_scale (B3).

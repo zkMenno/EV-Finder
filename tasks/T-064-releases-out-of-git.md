@@ -43,3 +43,4 @@ Database-backed catalogue (comes with Postgres).
 - Tests: `tests/test_release_publish.py` (33), no network (MockTransport, fake `gh`).
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — release files still tracked in git (A-35 S7); fetch-release now warns when a wanted file is absent (QA PR).

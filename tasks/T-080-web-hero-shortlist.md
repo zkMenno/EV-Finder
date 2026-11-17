@@ -28,3 +28,4 @@ Accounts, alerts, Trip fit routes, lease figures.
 - JS budget: Explore first load 167.7 KB gzip (was 156.3).
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — hero renders 10/top 5/reasons/listings, axe clean, no overflow at 360 px; but the budget has no effect on unpriced cars (A-35 B2), and the ranking differs from the back-tested pipeline rules (B3).

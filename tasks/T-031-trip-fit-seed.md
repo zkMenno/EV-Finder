@@ -23,3 +23,4 @@ Model code.
 - Decision 059. ID.5 fact waits for T-068 (PR #31).
 
 ## Review
+- Reviewed by QA, 2026-11-17 (main @ d086d49, REVIEW.md draft R0–R3 + triggered D items): changes needed — heat pump facts merged but not in release 1 (A-35 B1).
