@@ -65,6 +65,7 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 ### Pull requests
 - Small. One task per PR. Fill in the PR template.
 - CI must be green before review. A failing test means the PR doesn't reach a reviewer.
+- Run the gate locally first (lint, types, tests, build for the lanes you touched) and open the PR only when it's green. CI stays the independent check; it isn't your test runner. See docs/process/ci-budget.md.
 - Merges go one at a time, rebased on the latest `main`.
 - **Dependabot PRs** (Decision 039): patch and minor updates merge themselves once every check is green. Majors get the `dependabot-major` label: the coordinator reviews the breaking changes, fixes workflow inputs if needed, merges and logs it. Don't send these to Menno.
 

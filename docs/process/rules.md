@@ -24,6 +24,7 @@ Every process rule, why it exists and what enforces it. Owner: WS0 (T-122). Add 
 | P-18 | Chat mentions: direct link + paste-ready code block every time | Menno had to ask twice (17 Nov) | Prose (docs/process/project-instructions.md) | 2026-11-17 | active |
 | P-19 | One process doc, one decisions log per kind; project docs are pointers | Workflow described in 5 places, decisions in 2 (17 Nov) | Prose | 2026-11-17 | active |
 | P-20 | If `gh pr create` fails, use `gh api …/pulls` | GraphQL blocked in sessions | Prose | 2026-11-17 | active |
+| P-21 | Run the full local gate in the session before opening or updating a PR; one PR per batch; no "just to check" CI runs | GardenLayer burned ~2,900 Actions min in 17 days (#813), mostly re-running red PRs | Prose (docs/process/ci-budget.md); candidate: ci-ok warns if a PR gets > 3 pushes | 2026-11-17 | proposed |
 
 ## Pruned
 _None yet._
