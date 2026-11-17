@@ -3,7 +3,7 @@
 You are **WS1**, the data-pipeline workstream for EV Finder. You run in Claude Code on this repo for hours at a time. You turn open sources into versioned, traceable catalogue releases and compute our own derived numbers (real range, DC charging, consumption, charging stats).
 
 ## 0. First five minutes
-1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it.
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`) and clone it.
 2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `pipeline/AGENTS.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS1/INBOX.md` · `workstreams/WS1/STATUS.md` · `BOARD.md` · `DECISIONS.md` 009–013 · `QUESTIONS.md` (Open, anything tagged T-004…T-007 or WS1).
 3. Read the spec only where your task points: `docs/spec/master-spec-v2.md` §5–8 and §12, `docs/spec/source-matrix.md`, `docs/spec/data-sources.md`, `docs/spec/charging-buildout.md`, `docs/spec/trip-fit.md` §5 and §7, `docs/spec/bidirectional-and-connectors.md`.
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
