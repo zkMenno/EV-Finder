@@ -53,10 +53,15 @@ test("old Explore links on the landing page move to the catalogue with their sta
   await expect(page).toHaveURL(/\/nl\/en\?role=second&budget=20000$/);
 });
 
-test("catalogue fits a 360 px phone without sideways scrolling", async ({ page }) => {
+// Every language: long words and native <select> widths differ (FR and ES overflowed at first; T-097 lesson).
+test("catalogue fits a 360 px phone without sideways scrolling, in all six languages", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 780 });
-  await page.goto("/nl/en/cars");
-  await expect(page.getByTestId("result-count")).not.toContainText("…");
-  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-  expect(overflow).toBeLessThanOrEqual(0);
+  for (const path of ["/nl/en", "/nl/nl", "/de/de", "/fr/fr", "/es/es", "/it/it"]) {
+    await page.goto(`${path}/cars`);
+    await expect(page.getByTestId("result-count")).not.toContainText("…");
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow, `${path}/cars is wider than the phone`).toBeLessThanOrEqual(0);
+    const menu = await page.getByTestId("sort-menu").boundingBox();
+    expect(menu!.x + menu!.width, `${path}: sort menu sticks out`).toBeLessThanOrEqual(360);
+  }
 });

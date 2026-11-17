@@ -1187,7 +1187,7 @@ function firstOfGeneration(rows: ExploreRow[]): [ExploreRow, boolean][] {
 function SortMenu({ state, onChange, t }: { state: ExploreState; onChange: (k: SortKey) => void; t: T }) {
   const inMenu = (MENU_SORTS as readonly string[]).includes(state.sort ?? "");
   return (
-    <div className="mb-3 flex items-center gap-2">
+    <div className="mb-3 flex min-w-0 items-center gap-2">
       <label htmlFor="sort-menu" className="text-sm text-slate-800">
         {t("sort.label")}
       </label>
@@ -1198,7 +1198,8 @@ function SortMenu({ state, onChange, t }: { state: ExploreState; onChange: (k: S
           const k = e.target.value;
           if ((MENU_SORTS as readonly string[]).includes(k)) onChange(k as SortKey);
         }}
-        className="min-h-11 rounded-md border border-slate-500 bg-white px-3 py-2 text-sm font-semibold"
+        // min-w-0 + max-w-full: a native select is as wide as its longest option (FR/ES overflowed 360 px).
+        className="min-h-11 min-w-0 max-w-full flex-1 rounded-md border border-slate-500 bg-white px-3 py-2 text-sm font-semibold sm:flex-none"
         data-testid="sort-menu"
       >
         {!inMenu ? <option value="">{t("sort.other")}</option> : null}
