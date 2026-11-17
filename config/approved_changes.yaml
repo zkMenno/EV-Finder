@@ -76,4 +76,174 @@ thresholds:
 # Optional scope: release (number or list; omit = every release), file, id, field (globs,
 # default "*"), change (changed | cleared | removed | source_lost | file_removed | any).
 # Entries that match nothing in a release are listed as stale in qa.json: delete them then.
-approved: []
+# T-116 release 2 vs release 1: every blocking change traced to its PR / Decision (data-refresh
+# run 44137008063: 248 blocking; reproduced locally from the same staging). One anchor per group
+# holds the reason; one line per variant + field group + change. Scoped to release 2 only.
+approved:
+  # T110: 3 variants, 16 changes
+  - &t110
+    release: 2
+    file: catalogue.json
+    approved_by: "PR #60 (T-110)"
+    reason: "T-110: maker / type-approval figures cited in data/manual/specs/t110-a35-maker-checks.yaml (Decision 068) replace wrong release-1 values (A-35 B4, S8): Model Y LR gen1 WLTP 719 -> 533 km, Juniper LR AWD 719 -> 586 km (consumption 11.0 -> 16.9 / 14.8), MG4 Standard Long Range consumption 13.6 -> 16.0 (mg.co.uk brochure). Real range, motorway consumption and DC km follow."
+    id: mg-mg4-gen1-standard-long-range
+    field: "consumption_*"
+    change: changed
+  - {<<: *t110, id: mg-mg4-gen1-standard-long-range, field: "dc_km_per_*", change: changed}
+  - {<<: *t110, id: tesla-model-y-gen1-long-range, field: "consumption_*", change: changed}
+  - {<<: *t110, id: tesla-model-y-gen1-long-range, field: "dc_km_per_*", change: changed}
+  - {<<: *t110, id: tesla-model-y-gen1-long-range, field: "real_range_km", change: changed}
+  - {<<: *t110, id: tesla-model-y-gen1-long-range, field: "wltp_range_km", change: changed}
+  - {<<: *t110, id: tesla-model-y-juniper-long-range-awd, field: "consumption_*", change: changed}
+  - {<<: *t110, id: tesla-model-y-juniper-long-range-awd, field: "dc_km_per_*", change: changed}
+  - {<<: *t110, id: tesla-model-y-juniper-long-range-awd, field: "real_range_km", change: changed}
+  - {<<: *t110, id: tesla-model-y-juniper-long-range-awd, field: "wltp_range_km", change: changed}
+  # T111: 5 variants, 10 changes
+  - &t111
+    release: 2
+    file: catalogue.json
+    approved_by: "PR #62 (T-111)"
+    reason: "T-111 plausibility gate (A-35 B4, qa_plausibility.yaml from PR #61) withholds implausible release-1 values: WLTP over 8.2 km/kWh for an SUV (Atto 3 60 kWh 510 km, Kona SX2 LR 484 km / SR 305 km = first-generation Kona figures, Enyaq 85 752 km / 77 kWh) and Model S Raven LR DC km 1.49x its generation + pack peers. Real range derived from those WLTP figures clears with them. Withheld values stay in conflicts.csv for a data fix."
+    id: byd-atto-3-gen1-60kwh
+    field: "real_range_km"
+    change: cleared
+  - {<<: *t111, id: byd-atto-3-gen1-60kwh, field: "wltp_range_km", change: cleared}
+  - {<<: *t111, id: hyundai-kona-electric-sx2-long-range, field: "real_range_km", change: cleared}
+  - {<<: *t111, id: hyundai-kona-electric-sx2-long-range, field: "wltp_range_km", change: cleared}
+  - {<<: *t111, id: hyundai-kona-electric-sx2-standard-range, field: "real_range_km", change: cleared}
+  - {<<: *t111, id: hyundai-kona-electric-sx2-standard-range, field: "wltp_range_km", change: cleared}
+  - {<<: *t111, id: skoda-enyaq-gen1-85, field: "real_range_km", change: cleared}
+  - {<<: *t111, id: skoda-enyaq-gen1-85, field: "wltp_range_km", change: cleared}
+  - {<<: *t111, id: tesla-model-s-facelift-raven-long-range, field: "dc_km_per_*", change: cleared}
+  # T068: 4 variants, 14 changes
+  - &t068
+    release: 2
+    file: catalogue.json
+    approved_by: "PR #31 (T-068, Decision 057)"
+    reason: "T-068 split the EV6 facelift (63/84 kWh, 2024+) into its own generation (Decision 057). Release 1 put facelift data on gen1: the GT's 560 km was TGK version F5E22/E11B11 (84 kWh RWD, 2024+; the GT's own versions are 424/450 km), so it clears and consumption / real range / DC km fall back to the EPA-based estimate; NL price of the 77 kWh RWD came from RDW 2025/2026 plates and now from gen1 years (49,290 -> 57,260 EUR). ADEME's undated current-list records can no longer be placed in one of two generations (matcher: 'no year and model has 2 generations'), so ADEME's FR price, weight and the 77 kWh AWD consumption leave gen1 (the AWD falls back to the Decision 047 estimate 18.6)."
+    id: kia-ev6-gen1-58kwh-rwd
+    field: "price_new.FR.amount"
+    change: cleared
+  - {<<: *t068, id: kia-ev6-gen1-58kwh-rwd, field: "weight_kg", change: cleared}
+  - {<<: *t068, id: kia-ev6-gen1-77kwh-awd, field: "consumption_*", change: changed}
+  - {<<: *t068, id: kia-ev6-gen1-77kwh-awd, field: "price_new.FR.amount", change: cleared}
+  - {<<: *t068, id: kia-ev6-gen1-77kwh-awd, field: "weight_kg", change: cleared}
+  - {<<: *t068, id: kia-ev6-gen1-77kwh-rwd, field: "price_new.FR.amount", change: cleared}
+  - {<<: *t068, id: kia-ev6-gen1-77kwh-rwd, field: "price_new.NL.amount", change: changed}
+  - {<<: *t068, id: kia-ev6-gen1-77kwh-rwd, field: "weight_kg", change: cleared}
+  - {<<: *t068, id: kia-ev6-gen1-gt, field: "consumption_*", change: changed}
+  - {<<: *t068, id: kia-ev6-gen1-gt, field: "dc_km_per_*", change: changed}
+  - {<<: *t068, id: kia-ev6-gen1-gt, field: "real_range_km", change: changed}
+  - {<<: *t068, id: kia-ev6-gen1-gt, field: "wltp_range_km", change: cleared}
+  # D047: 55 variants, 208 changes
+  - &d047
+    release: 2
+    file: catalogue.json
+    approved_by: "Decision 047 (PR #66, T-071)"
+    reason: "T-071: derived WLTP consumption is wall basis, battery kWh / WLTP km x 100 x 1.16 (Decision 047). Rows without an official figure: consumption and motorway consumption x1.155-1.166, DC km in 10/20 min x0.861-0.863 with them (DC km = kWh / consumption). Checked per variant: release 2 provenance note says 'x 1.16' and the consumption ratio is 1.13-1.19."
+    id: audi-a6-e-tron-gen1-avant
+    field: "consumption_*"
+    change: changed
+  - {<<: *d047, id: audi-a6-e-tron-gen1-avant, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: audi-a6-e-tron-gen1-sportback, field: "consumption_*", change: changed}
+  - {<<: *d047, id: audi-a6-e-tron-gen1-sportback, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: audi-e-tron-q8-quattro, field: "consumption_*", change: changed}
+  - {<<: *d047, id: audi-e-tron-q8-quattro, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: audi-e-tron-q8-quattro-sportback, field: "consumption_*", change: changed}
+  - {<<: *d047, id: audi-e-tron-q8-quattro-sportback, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: audi-q6-e-tron-gen1-quattro-sportback, field: "consumption_*", change: changed}
+  - {<<: *d047, id: audi-q6-e-tron-gen1-quattro-sportback, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: bmw-i3-i01-60ah, field: "consumption_*", change: changed}
+  - {<<: *d047, id: bmw-i3-i01-60ah, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: bmw-i3-i01-94ah, field: "consumption_*", change: changed}
+  - {<<: *d047, id: bmw-i3-i01-94ah, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: byd-atto-3-gen1-standard-range, field: "consumption_*", change: changed}
+  - {<<: *d047, id: byd-atto-3-gen1-standard-range, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: byd-atto-3-gen1-standard-range-2025, field: "consumption_*", change: changed}
+  - {<<: *d047, id: byd-atto-3-gen1-standard-range-2025, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: byd-atto-3-gen1-standard-range-extended-range, field: "consumption_*", change: changed}
+  - {<<: *d047, id: byd-atto-3-gen1-standard-range-extended-range, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: citroen-e-c4-c41-54kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: citroen-e-c4-c41-54kwh, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: cupra-tavascan-gen1-base, field: "consumption_*", change: changed}
+  - {<<: *d047, id: cupra-tavascan-gen1-base, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: cupra-tavascan-gen1-vz, field: "consumption_*", change: changed}
+  - {<<: *d047, id: cupra-tavascan-gen1-vz, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: dacia-spring-gen1-essential, field: "consumption_*", change: changed}
+  - {<<: *d047, id: dacia-spring-gen1-essential, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: dacia-spring-gen1-essential-comfort, field: "consumption_*", change: changed}
+  - {<<: *d047, id: dacia-spring-gen1-essential-comfort, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: dacia-spring-gen1-essential-extreme, field: "consumption_*", change: changed}
+  - {<<: *d047, id: dacia-spring-gen1-essential-extreme, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: fiat-500e-312-24kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: fiat-500e-332-icon, field: "consumption_*", change: changed}
+  - {<<: *d047, id: fiat-500e-332-icon, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: fiat-500e-332-la-prima, field: "consumption_*", change: changed}
+  - {<<: *d047, id: fiat-500e-332-la-prima, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: fiat-500e-332-pop, field: "consumption_*", change: changed}
+  - {<<: *d047, id: fiat-500e-332-pop, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: ford-mustang-mach-e-gen1-er-awd, field: "consumption_*", change: changed}
+  - {<<: *d047, id: ford-mustang-mach-e-gen1-er-awd, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: ford-mustang-mach-e-gen1-premium, field: "consumption_*", change: changed}
+  - {<<: *d047, id: ford-mustang-mach-e-gen1-premium, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: ford-mustang-mach-e-gen1-select, field: "consumption_*", change: changed}
+  - {<<: *d047, id: ford-mustang-mach-e-gen1-select, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: hyundai-ioniq-6-gen1-53kwh-rwd, field: "consumption_*", change: changed}
+  - {<<: *d047, id: hyundai-ioniq-electric-gen1-28kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: hyundai-ioniq-electric-gen1-28kwh, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: kia-soul-ev-ps-27kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: nissan-leaf-ze0-24kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: nissan-leaf-ze0-24kwh, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: nissan-leaf-ze0-30kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: nissan-leaf-ze0-30kwh, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: nissan-leaf-ze1-62-kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: nissan-leaf-ze1-62-kwh, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-long-range-dual-motor, field: "consumption_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-long-range-dual-motor, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-performance-pack, field: "consumption_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-performance-pack, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-performance-pack-long-range-dual-motor, field: "consumption_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-performance-pack-long-range-dual-motor, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-standard-range-single-motor, field: "consumption_*", change: changed}
+  - {<<: *d047, id: polestar-2-gen1-standard-range-single-motor, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: porsche-taycan-gen1-base, field: "consumption_*", change: changed}
+  - {<<: *d047, id: porsche-taycan-gen1-base, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: renault-5-e-tech-gen1-110-kw, field: "consumption_*", change: changed}
+  - {<<: *d047, id: renault-5-e-tech-gen1-110-kw, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: renault-5-e-tech-gen1-base, field: "consumption_*", change: changed}
+  - {<<: *d047, id: renault-5-e-tech-gen1-base, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: skoda-elroq-gen1-base, field: "consumption_*", change: changed}
+  - {<<: *d047, id: skoda-elroq-gen1-base, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: smart-eq-fortwo-451-ed, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-3-gen1-long-range, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-3-gen1-long-range, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: tesla-model-3-gen1-performance, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-3-gen1-performance, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: tesla-model-3-highland-long-range, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-3-highland-long-range, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-facelift-100d, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-facelift-100d, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-facelift-p100d, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-facelift-p100d, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-facelift-raven-long-range, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-gen1-60, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-gen1-85, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-gen1-85, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-gen1-85d-90d, field: "consumption_*", change: changed}
+  - {<<: *d047, id: tesla-model-s-gen1-85d-90d, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volkswagen-e-golf-mk7-24kwh, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volkswagen-e-golf-mk7-24kwh, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volkswagen-id-buzz-gen1-cargo, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volkswagen-id-buzz-gen1-cargo, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volkswagen-id7-gen1-tour, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volkswagen-id7-gen1-tour, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volvo-ex30-gen1-twin-motor, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volvo-ex30-gen1-twin-motor, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volvo-ex30-gen1-twin-motor-performance, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volvo-ex30-gen1-twin-motor-performance, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volvo-xc40-recharge-ex40-base, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volvo-xc40-recharge-ex40-base, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volvo-xc40-recharge-ex40-twin-motor, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volvo-xc40-recharge-ex40-twin-motor, field: "dc_km_per_*", change: changed}
+  - {<<: *d047, id: volvo-xc40-recharge-gen1-twin-motor, field: "consumption_*", change: changed}
+  - {<<: *d047, id: volvo-xc40-recharge-gen1-twin-motor, field: "dc_km_per_*", change: changed}
