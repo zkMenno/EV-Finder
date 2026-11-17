@@ -1,7 +1,9 @@
 name: Images
 
 # Builds linux/arm64 images for the AppInfra server (Hetzner CAX31, Arm) and pushes them to GHCR
-# (Decisions 005, 006). No deploy step: deploy is a manual SSH step for now (infra/README.md).
+# (Decisions 005, 006). On main, the web image is then smoke-tested under the server's runtime
+# limits and deployed to staging (staging.evshortlist.com) through AppInfra's `deploy` command
+# (issue #88, AppInfra #103). Live (`ev`) is not deployed from here until Menno says "launch".
 # Pull requests that touch an image's inputs build both images too, but never push (T-013 review),
 # so a broken Dockerfile shows up before it reaches main.
 on:
@@ -27,9 +29,10 @@ on:
 permissions:
   contents: read
 
+# Pull requests cancel their older runs; main runs queue instead, so a deploy is never cut off mid-way.
 concurrency:
   group: images-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   # Pull requests and manual runs off main: build both images, never log in, never push.
@@ -55,14 +58,16 @@ jobs:
 
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
-      # Tags: sha-<short> (what the server should pin), plus `main` for the newest main build.
+      # Tags: sha-<short>, the full sha (what the server pins), plus `main` for the newest main build.
       - id: meta
         uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           # GHCR names must be lowercase, so the owner is spelled out rather than taken from github.repository_owner.
           images: ghcr.io/zkmenno/ev-finder-${{ matrix.image }}
+          # Full 40-character sha: the only tag AppInfra's deploy-app.sh accepts (#88).
           tags: |
             type=sha,prefix=sha-
+            type=sha,prefix=,format=long
             type=raw,value=main,enable={{is_default_branch}}
 
       - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
@@ -71,10 +76,10 @@ jobs:
           file: ${{ matrix.dockerfile }}
           platforms: linux/arm64
           # Web image: public origin for canonical / hreflang / sitemap URLs (A-05 F3). Repository
-          # variable APP_URL once the domain exists; the infra placeholder until then (infra/README.md).
+          # variable APP_URL if set; otherwise the domain AppInfra serves (#88). Staging runs the same image.
           # The jobs image ignores it.
           build-args: |
-            APP_URL=${{ vars.APP_URL || 'https://ev.example.com' }}
+            APP_URL=${{ vars.APP_URL || 'https://evshortlist.com' }}
           push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -110,14 +115,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Tags: sha-<short> (what the server should pin), plus `main` for the newest main build.
+      # Tags: sha-<short>, the full sha (what the server pins), plus `main` for the newest main build.
       - id: meta
         uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
           # GHCR names must be lowercase, so the owner is spelled out rather than taken from github.repository_owner.
           images: ghcr.io/zkmenno/ev-finder-${{ matrix.image }}
+          # Full 40-character sha: the only tag AppInfra's deploy-app.sh accepts (#88).
           tags: |
             type=sha,prefix=sha-
+            type=sha,prefix=,format=long
             type=raw,value=main,enable={{is_default_branch}}
 
       - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
@@ -126,10 +133,10 @@ jobs:
           file: ${{ matrix.dockerfile }}
           platforms: linux/arm64
           # Web image: public origin for canonical / hreflang / sitemap URLs (A-05 F3). Repository
-          # variable APP_URL once the domain exists; the infra placeholder until then (infra/README.md).
+          # variable APP_URL if set; otherwise the domain AppInfra serves (#88). Staging runs the same image.
           # The jobs image ignores it.
           build-args: |
-            APP_URL=${{ vars.APP_URL || 'https://ev.example.com' }}
+            APP_URL=${{ vars.APP_URL || 'https://evshortlist.com' }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -137,3 +144,113 @@ jobs:
           sbom: true
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+
+  # Main only: run the pushed web image the way AppInfra runs ev-staging (read-only root, user node,
+  # writable only /tmp 32 MB and .next/cache 64 MB, 384 MB / 0.5 CPU, no network) and fail if it
+  # is unhealthy or writes anywhere else (#88 point 3). Pulls a public image, so no token needed.
+  smoke-web:
+    needs: push
+    name: smoke web (server runtime limits)
+    runs-on: ubuntu-24.04-arm
+    permissions: {}
+    timeout-minutes: 10
+    env:
+      IMAGE: ghcr.io/zkmenno/ev-finder-web:${{ github.sha }}
+      PATHS: /health / /nl/nl /fr/fr /nl/nl/top /nl/nl/compare /nl/nl/learn /nl/nl/data /nl/nl/about /robots.txt /sitemap.xml
+    steps:
+      - name: Pull the pushed image
+        run: docker pull "$IMAGE"
+
+      - name: Run it read-only with the staging limits
+        run: |
+          set -eu
+          run() {  # $1 = name, rest = extra docker flags
+            name=$1; shift
+            docker run -d --name "$name" "$@" --user node --network none \
+              --memory 384m --memory-swap 384m --cpus 0.5 \
+              --tmpfs /tmp:size=32m,mode=1777 \
+              --tmpfs /app/apps/web/.next/cache:size=64m,uid=1000,gid=1000 \
+              -e APP_URL=https://evshortlist.com -e STAFF_PAGES=0 -e TRIP_FIT=0 "$IMAGE"
+          }
+          fetch_all() {  # GETs every path inside the container (it has no network), fails on 5xx
+            docker exec -e PATHS="$PATHS" "$1" node -e '
+              (async () => { let bad = 0;
+                for (const p of process.env.PATHS.split(" ")) {
+                  const r = await fetch("http://127.0.0.1:3000" + p, { redirect: "follow" }).catch(e => ({ status: String(e) }));
+                  console.log(r.status, p); if (!(r.status < 500)) bad++;
+                } process.exit(bad ? 1 : 0); })()'
+          }
+          wait_healthy() {
+            for i in $(seq 1 60); do
+              docker exec "$1" node -e 'fetch("http://127.0.0.1:3000/health").then(r=>process.exit(r.status===200?0:1)).catch(()=>process.exit(1))' && return 0
+              sleep 2
+            done
+            docker logs "$1"; return 1
+          }
+          # 1) Exactly as on the server: read-only root.
+          run ro --read-only
+          wait_healthy ro
+          fetch_all ro
+          fetch_all ro   # second pass hits the warm caches
+          docker logs ro 2>&1 | tee ro.log
+          if grep -nE 'EROFS|EACCES|read-only file system' ro.log; then
+            echo "::error::the web image tried to write outside /tmp and .next/cache"; exit 1
+          fi
+          # 2) Same run on a writable root: docker diff lists every path written outside the tmpfs mounts.
+          run rw
+          wait_healthy rw
+          fetch_all rw
+          fetch_all rw
+          docker diff rw | tee diff.txt
+          # Informational: on the server these writes would fail (step 1 is the hard check).
+          if grep -q . diff.txt; then
+            echo "::warning::the web image writes outside /tmp and .next/cache (paths above); tell AppInfra in a handoff issue"
+          fi
+          echo "OK: healthy and serving pages on a read-only root"
+
+  # Main only: deploy the image to staging via AppInfra (#88 point 2). Secrets live in the
+  # `staging` environment (Menno adds them by hand; never in a chat). The server's forced
+  # `deploy` command accepts only `deploy <app> <full sha>`.
+  deploy-staging:
+    needs: [push, smoke-web]
+    name: deploy ev-staging
+    runs-on: ubuntu-24.04
+    environment:
+      name: staging
+      url: https://staging.evshortlist.com
+    permissions: {}
+    timeout-minutes: 10
+    concurrency:
+      group: deploy-ev-staging
+      cancel-in-progress: false
+    steps:
+      - name: Deploy over SSH
+        env:
+          STAGING_SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          set -eu
+          for v in STAGING_SSH_KEY SSH_HOST SSH_USER SSH_KNOWN_HOSTS; do
+            [ -n "$(printenv "$v")" ] || { echo "::error::secret $v is missing from the staging environment"; exit 1; }
+          done
+          install -m 700 -d ~/.ssh
+          echo "$STAGING_SSH_KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$SSH_USER@$SSH_HOST" deploy ev-staging "$GITHUB_SHA"
+
+      - name: Wait for /health to answer 200
+        run: |
+          set -eu
+          for i in $(seq 1 24); do
+            code=$(curl -sS -o body.json -w '%{http_code}' --max-time 10 https://staging.evshortlist.com/health || true)
+            echo "try $i: $code $(cat body.json 2>/dev/null || true)"
+            [ "$code" = 200 ] && exit 0
+            sleep 5
+          done
+          echo "::error::staging /health did not answer 200 within 2 minutes"; exit 1
+
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.ssh/id_ed25519
