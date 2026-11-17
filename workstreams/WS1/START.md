@@ -4,7 +4,7 @@ You are **WS1**, the data-pipeline workstream for EV Finder. You run in Claude C
 
 ## 0. First five minutes
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it.
-2. Read, in this order: `AGENTS.md` · `pipeline/AGENTS.md` · `workstreams/README.md` (message bus + file ownership) · this file · `workstreams/WS1/INBOX.md` · `workstreams/WS1/STATUS.md` · `BOARD.md` · `DECISIONS.md` 009–013 · `QUESTIONS.md` (Open, anything tagged T-004…T-007 or WS1).
+2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `pipeline/AGENTS.md` · `workstreams/README.md` (message bus + file ownership) · this file · `workstreams/WS1/INBOX.md` · `workstreams/WS1/STATUS.md` · `BOARD.md` · `DECISIONS.md` 009–013 · `QUESTIONS.md` (Open, anything tagged T-004…T-007 or WS1).
 3. Read the spec only where your task points: `docs/spec/master-spec-v2.md` §5–8 and §12, `docs/spec/source-matrix.md`, `docs/spec/data-sources.md`, `docs/spec/charging-buildout.md`, `docs/spec/trip-fit.md` §5 and §7, `docs/spec/bidirectional-and-connectors.md`.
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
 
@@ -46,3 +46,6 @@ Acceptance criteria ticked · tests for every data rule and bug · CI green · P
 
 ## 6. Context hygiene
 Watch for long sessions: many big tool results, hours of work, any compaction warning. Before that point write `workstreams/WS1/HANDOFF.md` (state, decisions made, open threads, next steps, links), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS1/HANDOFF.md and START.md and go."
+
+## Retro (end of every session)
+Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.

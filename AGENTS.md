@@ -40,7 +40,7 @@ Folders under `apps/`, `pipeline/`, `packages/` and `infra/` get their own neste
 | Coordinator | Turns the spec into tasks, plans waves, keeps the board, merges, owns the schema | `BOARD.md`, `tasks/`, `DECISIONS.md`, `QUESTIONS.md`, `packages/schema` |
 | Researcher | Answers one research question; no code | `research/R-xx-slug.md` |
 | Builder | One task in one lane on one branch; opens a pull request | Code in its lane + handoff notes in the task file |
-| Reviewer / tester | Fresh agent; checks the PR against acceptance criteria, runs and extends tests | Review notes in the task file |
+| Reviewer / tester | Fresh agent (no build context); runs the items in `REVIEW.md` **read from `origin/main`** that the diff triggers, against acceptance criteria, with evidence | Review notes in the task file (`## Review`: SHA + item ids + verdicts) |
 | Auditor | Security, dependency, load and data-quality checks | `audits/A-xx-slug.md` + new tasks for findings |
 
 **Lanes:** each builder owns one folder (e.g. `pipeline/sources/rdw`, `apps/web/explore`). Never edit files outside your lane. If you must, stop and ask. Only the coordinator changes `packages/schema`.
@@ -60,8 +60,19 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 - Commit messages: imperative, focused on why. Reference the task (`T-012`) and decisions (`per Decision 004`) when relevant.
 - `main` is always deployable. Never force-push to `main`.
 
+### Review
+- Reviews follow `REVIEW.md` (Decision 062). Read it from `origin/main` (`git show origin/main:REVIEW.md`), never from the PR branch.
+- One review is for one commit: record the head SHA; if the head moves, re-run R0 and the triggered items.
+- Evidence, not opinion: every verdict cites a command result, screenshot or number.
+- A PR that changes gate files (`config/gate-files.yaml`: CI, REVIEW.md, AGENTS.md, test config, QA thresholds) and other files at once is stopped by `gate-guard` (T-121); split the gate change into its own PR.
+
 ### Pull requests
 - Small. One task per PR. Fill in the PR template.
+- Start of every session: check open PRs and the workstream's HANDOFF.md before new work.
+- Never rebase a pushed branch; merge `main` in. Grep for conflict markers before every push (`.githooks/pre-push` does it: `git config core.hooksPath .githooks`).
+- After a push from a Claude session, CI may not start: trigger it with `workflow_dispatch` and trust only the run on the PR head commit.
+- If `gh pr create` fails, use `gh api repos/zkMenno/EV-Finder/pulls -f title=… -f head=… -f base=main -f body=…`.
+- STATUS.md, HANDOFF.md and INBOX lines may go straight to `main` (log files, docs only), so task PRs don't collide on them.
 - CI must be green before review. A failing test means the PR doesn't reach a reviewer.
 - Merges go one at a time, rebased on the latest `main`.
 - **Dependabot PRs** (Decision 039): patch and minor updates merge themselves once every check is green. Majors get the `dependabot-major` label: the coordinator reviews the breaking changes, fixes workflow inputs if needed, merges and logs it. Don't send these to Menno.
