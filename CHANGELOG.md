@@ -6,7 +6,7 @@ What shipped, per wave. Written at the end of each wave, not per commit. Focuses
 
 ## 2026-11-15 — Overnight prototype 1 (waves 1–4, addenda 4–7, backlog)
 
-A working prototype on `proto/overnight-1` (PR #1). Summary for humans in MORNING.md.
+A working prototype on `proto/overnight-1` (PR #1). Summary for humans in workstreams/OVERNIGHT/MORNING.md.
 
 - **Data pipeline:** one schema (JSON Schema → TS + Pydantic) and live adapters for Open EV Data (both datasets), RDW (fleet, WLTP sample, catalogue price, type approvals, inspection defects), EEA, KBA, DfT, ADEME, fueleconomy.gov, Wikidata, Bundesnetzagentur and DfT charging statistics. Match → merge → derive → QA → release with a licence gate that fails closed, conflicts never averaged, per-field source rules, and coverage and QA reports per release. `ev refresh` updates only what changed, with snapshots, source health checks, rollback and a weekly data-PR workflow (Decisions 009, 010, 020, 021, 023, 024).
 - **Catalogue:** 63 models, 81 generations, 244 variants. Top-40 used models from registration data; generations from registration and Wikidata evidence; nothing new entered from memory. Older cars still lean on low-confidence seed values.

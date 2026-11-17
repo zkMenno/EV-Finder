@@ -26,6 +26,22 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-18 | WS0 merges green + reviewed PRs at least once a day, in one pass; small housekeeping rides in its task PR | WS1 retro: 9-PR chain waiting on WS0 | *prose* (WS0 STATUS) | WS0 | 2026-11-17 | — |
 | G-19 | Parked-feature e2e runs nightly in a `PARKED=1` build | WS2 retro: parked e2e only run by hand | to build: WS2 follow-up (T-095) | WS2 | 2026-11-17 | — |
 | G-20 | Every number visible on a page has source + date + licence in Nerd mode | product principle | REVIEW D7 | WS2 | 2026-11-15 | — |
+| G-21 | One owner per file; read right before writing; small edits (was P-01) | Two chats nearly overwrote the decisions file (15 Nov) | *prose* (docs/process/README.md) | all | 2026-11-15 | — |
+| G-22 | Spec mirrored in docs/spec/; repo copy wins for builders (was P-02) | Overnight build couldn't read the claude.ai spec | *prose* | WS0 | 2026-11-15 | — |
+| G-23 | Chats talk through INBOX files, never via Menno (was P-03) | Menno relayed AppInfra answers by hand | *prose* | all | 2026-11-15 | — |
+| G-24 | Measure before sizing (server, memory) (was P-04) | Server facts guessed before measured | *prose* | WS4 | 2026-11-15 | — |
+| G-25 | Project instructions live in a versioned file (was P-05) | Instructions lived only in a chat message | *prose* (docs/process/project-instructions.md) | WS0 | 2026-11-15 | — |
+| G-26 | QUESTIONS.md holds only what Menno must answer (was P-06) | 83 "open" questions, ~76 engineering defaults (17 Nov) | *prose*; candidate: CI warns when > 10 open | WS0 | 2026-11-17 | — |
+| G-27 | Release must match its inputs; reports must match the release (was P-13) | A-20 B1: stale release; MORNING.md quoted numbers it didn't contain | CI pytest (test_real_release); T-123, T-127 | WS1 | 2026-11-17 | — |
+| G-28 | Every commit ends with `Verified: <how>` (was P-16) | Unverified work wasn't findable | to build: T-128 | WS0 | 2026-11-17 | — |
+| G-29 | Flaky tests: no skip/sleep/retry; fix or delete + log (was P-17) | Article: flaky tests teach rerunning | CI `gate-guard` (observe) + T-128 | WS0 | 2026-11-17 | — |
+| G-30 | Chat mentions: direct link + paste-ready code block every time (was P-18) | Menno had to ask twice (17 Nov) | *prose* (project instructions) | all | 2026-11-17 | — |
+| G-31 | One process doc, one decisions log per kind; project docs are pointers (was P-19) | Workflow described in 5 places, decisions in 2 (17 Nov) | *prose* | WS0 | 2026-11-17 | — |
+
+**Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17; the rest became G-21–G-31.
+
+## Pruned
+_None yet._
 
 ## Retro proposals processed (17 Nov 2026)
 

@@ -4,7 +4,7 @@ You are **WS4**, the infrastructure workstream for EV Finder. You run in a chat 
 
 ## 0. First five minutes
 1. Attach the repo with push access (`add_repo zkMenno/EV-Finder`, access `push`) and clone it. Attach the AppInfra repo the same way if your chat has it.
-2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `infra/AGENTS.md` · `infra/README.md` · `workstreams/README.md` (message bus + file ownership) · this file · `workstreams/WS4/INBOX.md` · `workstreams/WS4/STATUS.md` · `DECISIONS.md` 003, 005, 006, 013 · `QUESTIONS.md` (Q-001, Q-003, Q-006).
+2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `infra/AGENTS.md` · `infra/README.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS4/INBOX.md` · `workstreams/WS4/STATUS.md` · `DECISIONS.md` 003, 005, 006, 013 · `QUESTIONS.md` (Q-001, Q-003, Q-006).
 3. Spec: `docs/spec/master-spec-v2.md` §13 (hosting) and `docs/spec/trip-fit.md` §7 (routing).
 4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
 

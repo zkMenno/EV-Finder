@@ -2,7 +2,7 @@
 
 A free, independent finder for used (and new) electric cars: one canonical EV catalogue (Make → Model → Generation → Variant), our own real-world range and charging stats, and used prices per country. A finder, not a marketplace: we link out and never host listings.
 
-Read this file in full at the start of every session. Then read your task file. If something here conflicts with your task file, stop and ask in `QUESTIONS.md`.
+Read this file in full at the start of every session. Then read your task file. If something here conflicts with your task file, this file wins; tell WS0 in its INBOX.
 
 ## Project identity
 
@@ -17,7 +17,7 @@ Read this file in full at the start of every session. Then read your task file. 
 AGENTS.md            this file: shared rules for every agent
 CLAUDE.md            thin wrapper for Claude hosts → points here
 BOARD.md             Now / Next / Blocked / Done (coordinator only)
-QUESTIONS.md         questions for Menno; he answers inline
+QUESTIONS.md         only what Menno must answer; he answers inline
 DECISIONS.md         numbered decisions with context and reasons
 ROADMAP.md           phases, ideas, parking lot
 CHANGELOG.md         what shipped, per wave
@@ -35,6 +35,8 @@ Folders under `apps/`, `pipeline/`, `packages/` and `infra/` get their own neste
 
 ## Roles and lanes
 
+How chats, workstreams, ownership, review and retros work: [docs/process/README.md](docs/process/README.md). This file holds the engineering rules.
+
 | Role | Does | Writes |
 |---|---|---|
 | Coordinator | Turns the spec into tasks, plans waves, keeps the board, merges, owns the schema | `BOARD.md`, `tasks/`, `DECISIONS.md`, `QUESTIONS.md`, `packages/schema` |
@@ -43,13 +45,13 @@ Folders under `apps/`, `pipeline/`, `packages/` and `infra/` get their own neste
 | Reviewer / tester | Fresh agent (no build context); runs the items in `REVIEW.md` **read from `origin/main`** that the diff triggers, against acceptance criteria, with evidence | Review notes in the task file (`## Review`: SHA + item ids + verdicts) |
 | Auditor | Security, dependency, load and data-quality checks | `audits/A-xx-slug.md` + new tasks for findings |
 
-**Lanes:** each builder owns one folder (e.g. `pipeline/sources/rdw`, `apps/web/explore`). Never edit files outside your lane. If you must, stop and ask. Only the coordinator changes `packages/schema`.
+**Lanes:** each builder owns one folder (e.g. `pipeline/sources/rdw`, `apps/web/explore`). Never edit files outside your lane. If you must, write the request to the owner's INBOX (or flag the one-line cross-lane change in your PR and the owner's INBOX). Only the coordinator changes `packages/schema`.
 
 ## Task lifecycle
 
 `todo` → builder claims it (writes name + date in Status) → `doing` → PR opened → `review` → reviewer passes → coordinator merges → `done`.
 
-**Blocked?** Set `blocked`, write the question in `QUESTIONS.md` with the task id, and stop. Do not guess.
+**Unsure?** Engineering judgement calls are yours: take the reversible default, write it in the task's Handoff notes (or DECISIONS for anything architectural) and carry on. **Blocked** only on something Menno must decide (money, legal or licence risk, public or irreversible steps, his accounts, scope; see docs/process/README.md §1): set `blocked`, add it to WS0's INBOX with the task id, and take the next unblocked task. Never guess facts or data.
 
 One task = one branch = one session. Keep tasks to roughly half a day of agent work.
 
@@ -116,7 +118,7 @@ Pre-approved by Menno (2026-11-15): read, search and fetch any public website, d
 - Stay in your lane; follow the acceptance criteria.
 - Write tests for every data rule and every bug you fix.
 - Write handoff notes in the task file before you finish.
-- Ask in `QUESTIONS.md` when unsure.
+- Take the reversible default when unsure, and write down which one you took.
 
 ### Don't
 - Touch files outside your lane or change the schema (unless you're the coordinator).
@@ -154,7 +156,9 @@ Pre-approved by Menno (2026-11-15): read, search and fetch any public website, d
 
 ## References
 
+- [docs/process/README.md](docs/process/README.md): how we work (workstreams, ownership, verify + learn)
 - [DECISIONS.md](DECISIONS.md): decisions and the link to the spec
+- [docs/spec/product-decisions.md](docs/spec/product-decisions.md): product decisions in one list
 - [ROADMAP.md](ROADMAP.md): phases and the Phase 0 checklist
 - [BOARD.md](BOARD.md): current work
 - [tasks/TEMPLATE.md](tasks/TEMPLATE.md): task file format
