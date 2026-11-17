@@ -48,10 +48,9 @@ generation, variant and learn pages are static, so the origin is **baked in at i
   `pnpm build` (`apps/web/scripts/check-app-url.mjs`) fails when it is missing, not https, or a
   local host. After the build, the Dockerfile fails if a prerendered page contains `localhost` or
   no page links to `APP_URL`.
-- `.github/workflows/images.yml` passes `APP_URL=${{ vars.APP_URL || 'https://ev.example.com' }}`.
-  **Placeholder until the domain exists:** `https://ev.example.com`, the same placeholder as
-  `deploy/ev.caddy`. Once the domain is chosen, set the repository variable `APP_URL`
-  (Settings → Secrets and variables → Actions → Variables), rebuild, and replace the Caddy names.
+- `.github/workflows/images.yml` passes `APP_URL=${{ vars.APP_URL || 'https://evshortlist.com' }}`
+  (since #88: the domain AppInfra serves). The repository variable `APP_URL` (Settings → Secrets
+  and variables → Actions → Variables) overrides it; if set, it must equal the server's `APP_URL`.
 - `web.env` on the server may repeat `APP_URL`, but it must have the **same value**: static pages
   keep the build-time origin. The staging container runs the same image, so its canonicals point at
   production (it should stay `noindex` behind Caddy).
