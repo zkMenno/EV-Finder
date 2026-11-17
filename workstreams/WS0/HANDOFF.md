@@ -1,4 +1,4 @@
-# WS0 handoff (2026-11-17 20:45 UTC, A-35 fixes chat)
+# WS0 handoff (2026-11-17 21:15 UTC, A-35 fixes chat — mission done)
 
 Repo renamed by Menno to **zkMenno/EV-Shortlist** (use it for add_repo and every `gh api repos/zkMenno/EV-Shortlist/...`; the old name fails through the proxy). Project instructions, AGENTS.md (#92) and process docs/START prompts (#93) updated.
 
@@ -9,16 +9,11 @@ Mission: fix QA A-35 launch blockers. Done = release 2 published (`latest` = 2, 
 Default taken: a reviewed PR whose files don't overlap with what landed on main since its green CI may merge without another CI run; overlap → merge main in + CI.
 
 ## Release 2 state
-Data refresh run 44152473152 on main passed QA and opened **#91 "Data release 2"** (226 → 271 variants, 0 blocking, 248 approved via #87). Fresh review: changes requested:
-- CI red: web + pipeline jobs don't fetch release files (gate PR to ci.yml); pipeline tests: "Nyland" named in qa.json (backtest/epa.py note), plausibility-withheld rows (Atto 3, Kona SX2 ×2, Enyaq 85) still publish winter range/basis, RDW model registrations on 4 EV6 gen1 + 2 XPeng G6 rows.
-- Ioniq 5 gen1 (awd/base/n) disappear; facelift ids carry gen1 figures → investigate, keep gen1.
-- Model Y gen1 winter range 83 % of real range vs Ioniq 6 61 % → check.
-- publish.yaml repo → EV-Shortlist.
-- Hero NL €15k: 8 of 9 cards unpriced; Leaf e+/Zoe/e-208 priced under €15k missing → web fix (Decision 064: unpriced never top 5).
-A-35 status on release 2 + main: B1 fixed (used prices 171/271, winter range 241/271, NL €35k 10/10 cards priced, 8/10 winter), B2 partial (€15k), B3 to re-check, B4 fixed (Model Y 533/586 km), B5 fixed (e2e 37/1).
+**Published 2026-11-17 21:00 UTC**: PR #91 merged (round-2 fresh review pass on 42bb9d8), data-publish green, `data/releases/latest` = 2, GitHub Release data-v2 (151 assets). Release diff vs 1: 0 blocking, 249 approved. Hero walk on release 2: NL €35k 10/10 cards priced, 8/10 winter range; €15k one priced pick + unpriced list (cheaper cars fail road-tripper presets); DE/FR/ES/IT no English (e2e). A-35 B1–B5 + S7 marked fixed in T-110–T-119 `## Review` lines.
+Fix PRs merged after the first release-2 review: #95 #96 #97 #99 #100 #101 #102 #103.
 
-Running now: WS1 subagent (fixes 1–7 above, one PR each); WS2 subagent (fix/hero-unpriced-never-top5 + B3 re-check).
-Next: fresh reviews → merge → `gh workflow run data-refresh.yml --ref main -R zkMenno/EV-Shortlist` (replaces the unmerged release PR; may need extra approvals in config/approved_changes.yaml) → fresh review of the new release PR incl. hero walk → merge → data-publish → latest = 2 → A-35 `## Review` lines → QA review 2 prompt.
+## Next
+QA launch review 2 in a fresh chat (prompt in WS0 INBOX / given to Menno); QA INBOX has the scope. WS0 then triages A-36.
 
 ## Follow-ups noted
 - FR loan.warning wording per country (Q-072, Menno). IT CCD2: cite the Official Journal.
@@ -29,3 +24,7 @@ Next: fresh reviews → merge → `gh workflow run data-refresh.yml --ref main -
 - Car pages: some data labels English on non-English pages; `{country}` own-language names.
 - maker-docs: 11 seed citations are third-party copies (WS3 source_id). Test that used-price sources never include autotijd.
 - #59 staging runbook waits WS4; #90 (infra reference-only) is another chat's.
+- Ioniq 5 facelift base/awd rows carry pre-facelift figures (72.6 kWh, 507 km): WS3 adds facelift seed variants (RDW type-approval codes in #101).
+- Model Y winter vs real range on different bases (EPA-based matrix vs WLTP × 0.78): design follow-up (WS1).
+- eafo source: upstream 429 on 2026-11-17 refresh (previous data kept).
+- €15k road-tripper list is thin on real data (one priced pick): product question for Menno/QA, not a bug.
