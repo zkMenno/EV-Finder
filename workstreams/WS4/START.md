@@ -21,6 +21,8 @@ You own `infra/`, `pipeline/Dockerfile`, `apps/web/Dockerfile`, `.github/workflo
 - Every change to the server is written down in `infra/README.md` or the AppInfra README the same day.
 
 ## 3. Task list (in order; skip blocked ones, come back later)
+**Update 2026-11-17 (WS0):** the launch build is merged and green, but nothing is online yet. Goal for this session: **a staging site Menno can open on his phone** (T-040 + T-013), basic auth or an unlisted hostname until launch. Then backups for the EV database. Valhalla (T-037) is parked (after launch, Decision 051). Releases: publish `data-v1` as a GitHub Release asset (T-064 part 2) so the web image builds from the manifest.
+
 1. **Busy-evening capacity check** (due after 19:00 UTC on 15 Nov 2026): `docker stats`, memory, load, disk; write results to `workstreams/WS0/INBOX.md` so WS0 can close Q-001. Upgrade trigger: >10 GB real use or >70 % CPU for weeks.
 2. **T-040** "Add an app" checklist in the AppInfra README (7 touch points: compose service, Caddy site, DB script, deploy-key scope, watchdog `/health`, `backup.sh` entry, Umami site), then apply it for EV Finder staging: own database + login in the shared Postgres 17, `infra/deploy/compose.ev.yml`, `infra/deploy/ev.caddy`, deploy key, watchdog, Umami site.
 3. Postgres checks: minor version, `pg_trgm` and PostGIS available for the EV database; propose lowering the shared Postgres limit 6 → 5 GB; consider Umami 512 → 768 MB.
