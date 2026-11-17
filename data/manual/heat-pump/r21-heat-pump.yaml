@@ -25,6 +25,10 @@
 #                        (https://www.motor1.com/news/718065/renault-megane-e-tech-updated-pricing/)
 #   volvo-ex30-gen1      per variant: UK 2024 press release fits it on Single Motor Extended
 #                        Range; entry Single Motor marked optional (needs seed variants)
+#   ford-mustang-mach-e-gen1  2025- standard on all versions (Ford of Europe press release,
+#                        16 Apr 2025, https://media.ford.com/content/fordmedia/feu/en/news/2025/04/16/2025-Mustang-Mach-E-Unleashed.html);
+#                        2021-2024 not fitted per the same release ("now standard")
+#   mg-mg4-gen1          market-dependent (some EU trims yes, UK none): not entered
 #   tesla-model-3-highland  per variant: a US test says the 2026 Standard trim heats
 #                        resistively; other trims have a heat pump (needs seed variants)
 #
@@ -209,4 +213,23 @@ facts:
     locator: "Specification table, row 'Heat Pump': marked on Premium, N Line and N Line Evo"
     confidence: medium
     notes: "Market UK. Covers the 2026 update; the 2023 UK launch spec also listed a heat pump on both trims (electriccarsreport.com, secondary). Other markets and earlier non-UK cars not checked, hence medium."
-
+  - generation_id: kia-niro-ev-sg2
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://www.conceptcarz.com/a46088/kia-uk-pricing-specifications-niro-range.aspx
+    source_name: "Kia UK pricing and specification release for the second-generation Niro (Apr 2022, reprinted by conceptcarz)"
+    retrieved: 2026-11-17
+    locator: "Release says Niro EV '3' gets V2L as standard with the option of a heat pump"
+    confidence: medium
+    notes: "UK/IE. Fitted on the top trim: the Irish spec sheet marks it standard on 'K4 EV' only (https://www.imotors.ie/images/new-brands/kia/all-new-niro.specifications.pdf). DE not checked."
+  - generation_id: audi-q4-e-tron-gen1
+    field: heat_pump
+    value: option
+    unit: enum
+    source_url: https://emea-dam.audi.com/adobe/assets/urn:aaid:aem:ed7514ca-d6ee-4b4f-a1a0-5c9752143264/original/as/Q4etron_ProductGuide.pdf
+    source_name: "Audi Ireland, Q4 e-tron product and price guide (MY2027)"
+    retrieved: 2026-11-17
+    locator: "Options list: heat pump, option code 9M8, priced as an extra"
+    confidence: medium
+    notes: "IE. Guide covers the current model year only; earlier years assumed option too (UK dealer used listings show it as a paid extra). Re-check if a DE price list shows otherwise."

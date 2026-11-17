@@ -1,6 +1,6 @@
 # T-067 Owner's picks and "Suggested for you" on the web
 Role: builder   Lane: apps/web   Wave: 9
-Status: review, picker + Suggested sort part (WS2, 2026-11-15, branch t-067-suggested-sort, on top of T-080)
+Status: done (merged by WS2 with Menno's OK, 2026-11-17)
 
 ## Goal
 Show Menno's picks as a labelled editorial list and use the rules to suggest cars for the shortlist tray.

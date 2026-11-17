@@ -192,7 +192,8 @@ def test_example_folder_is_checked_but_never_released(tmp_path: Path) -> None:
 
 def test_repo_example_and_registry_entry() -> None:
     """The committed example passes `ev manual check`; `manual` is blocked (Q-008)."""
-    code, lines = check(REPO_DATA, TODAY)
+    # Real repo data, so check against the real date: a fixed TODAY fails every newer fact.
+    code, lines = check(REPO_DATA, date.today())
     assert code == 0, lines
     assert "internal only (status blocked)" in lines[-1]
     reg = load_registry(REPO_DATA / "sources.yaml")
