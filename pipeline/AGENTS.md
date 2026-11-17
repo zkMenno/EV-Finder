@@ -55,3 +55,8 @@ uv run ev version
 
 Fallback without uv: `pip install -e ".[dev]"` (dev extras mirror the uv dev group; keep
 them in step when you add a dev tool).
+
+## Derived scores, bands and models (rule G-10)
+- Before writing tests for a new or changed derived score, band or model, dry-run it on the latest release rows and check the units and data basis of every threshold.
+- Every derived model ships with a back-test section in `qa.json` (median error, worst cases).
+- Matching/attachment rule changes: spot-check EV6, Ioniq 5, MG4, Model Y LR vs Juniper, P7+ (REVIEW D4).

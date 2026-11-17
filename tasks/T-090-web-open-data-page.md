@@ -1,6 +1,6 @@
 # T-090 Open data download page
 Role: WS2   Lane: apps/web   Wave: 10
-Status: review (WS2, 2026-11-15, branch t-090-open-data-page)
+Status: merged (PR #25); fresh review via QA A-35; earlier note: WS2, 2026-11-15, branch t-090-open-data-page
 
 ## Goal
 `/{country}/{lang}/data`: the CC BY 4.0 bundle of the current release (Decision 016), launch scope §3.

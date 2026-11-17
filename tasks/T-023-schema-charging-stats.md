@@ -1,6 +1,6 @@
 # T-023 Schema: charging stats, charging taxonomies, abrp_typecode
 Role: coordinator (WS0)   Lane: packages/schema   Wave: 6
-Status: review (schema delegate for WS0, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: schema delegate for WS0, 2026-11-15
 
 ## Goal
 Add the types from Decision 012 so WS1 and WS3 can build on them.

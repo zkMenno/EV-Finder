@@ -1,6 +1,6 @@
 # T-045 Differences-only toggle and variant change timeline (Core)
 Role: WS2   Lane: apps/web   Wave: 7
-Status: review (WS2, 2026-11-15, branch t-045-differences-only)
+Status: merged (PR #24); fresh review via QA A-35; earlier note: WS2, 2026-11-15, branch t-045-differences-only
 
 ## Goal
 Show what actually differs between variants of a generation, and when it changed.

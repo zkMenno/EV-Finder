@@ -1,6 +1,6 @@
 # T-034 Climate normals + town search data
 Role: WS1   Lane: pipeline   Wave: 7
-Status: review (WS1, 2026-11-15)
+Status: merged (PR #9); fresh review via QA A-35; earlier note: WS1, 2026-11-15
 
 ## Goal
 January (and cold-snap P10) temperatures per town for the winter default.

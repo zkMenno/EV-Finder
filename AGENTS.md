@@ -2,7 +2,7 @@
 
 A free, independent finder for used (and new) electric cars: one canonical EV catalogue (Make → Model → Generation → Variant), our own real-world range and charging stats, and used prices per country. A finder, not a marketplace: we link out and never host listings.
 
-Read this file in full at the start of every session. Then read your task file. If something here conflicts with your task file, stop and ask in `QUESTIONS.md`.
+Read this file in full at the start of every session. Then read your task file. If something here conflicts with your task file, this file wins; tell WS0 in its INBOX.
 
 ## Project identity
 
@@ -17,7 +17,7 @@ Read this file in full at the start of every session. Then read your task file. 
 AGENTS.md            this file: shared rules for every agent
 CLAUDE.md            thin wrapper for Claude hosts → points here
 BOARD.md             Now / Next / Blocked / Done (coordinator only)
-QUESTIONS.md         questions for Menno; he answers inline
+QUESTIONS.md         only what Menno must answer; he answers inline
 DECISIONS.md         numbered decisions with context and reasons
 ROADMAP.md           phases, ideas, parking lot
 CHANGELOG.md         what shipped, per wave
@@ -29,27 +29,30 @@ pipeline/            Python data pipeline (Phase 0)
 packages/schema/     JSON Schema → generated TS + Python types (Phase 0)
 infra/               deploy config for the AppInfra server (Phase 0)
 .github/             CI, issue templates, Dependabot
+_archive/            retired files: never read unless Menno asks
 ```
 
 Folders under `apps/`, `pipeline/`, `packages/` and `infra/` get their own nested `AGENTS.md` once they hold code. Lane-specific rules go there, not here.
 
 ## Roles and lanes
 
+How chats, workstreams, ownership, review and retros work: [docs/process/README.md](docs/process/README.md). This file holds the engineering rules.
+
 | Role | Does | Writes |
 |---|---|---|
 | Coordinator | Turns the spec into tasks, plans waves, keeps the board, merges, owns the schema | `BOARD.md`, `tasks/`, `DECISIONS.md`, `QUESTIONS.md`, `packages/schema` |
 | Researcher | Answers one research question; no code | `research/R-xx-slug.md` |
 | Builder | One task in one lane on one branch; opens a pull request | Code in its lane + handoff notes in the task file |
-| Reviewer / tester | Fresh agent; checks the PR against acceptance criteria, runs and extends tests | Review notes in the task file |
+| Reviewer / tester | Fresh agent (no build context); runs the items in `REVIEW.md` **read from `origin/main`** that the diff triggers, against acceptance criteria, with evidence | Review notes in the task file (`## Review`: SHA + item ids + verdicts) |
 | Auditor | Security, dependency, load and data-quality checks | `audits/A-xx-slug.md` + new tasks for findings |
 
-**Lanes:** each builder owns one folder (e.g. `pipeline/sources/rdw`, `apps/web/explore`). Never edit files outside your lane. If you must, stop and ask. Only the coordinator changes `packages/schema`.
+**Lanes:** each builder owns one folder (e.g. `pipeline/sources/rdw`, `apps/web/explore`). Never edit files outside your lane. If you must, write the request to the owner's INBOX (or flag the one-line cross-lane change in your PR and the owner's INBOX). Only the coordinator changes `packages/schema`.
 
 ## Task lifecycle
 
 `todo` → builder claims it (writes name + date in Status) → `doing` → PR opened → `review` → reviewer passes → coordinator merges → `done`.
 
-**Blocked?** Set `blocked`, write the question in `QUESTIONS.md` with the task id, and stop. Do not guess.
+**Unsure?** Engineering judgement calls are yours: take the reversible default, write it in the task's Handoff notes (or DECISIONS for anything architectural) and carry on. **Blocked** only on something Menno must decide (money, legal or licence risk, public or irreversible steps, his accounts, scope; see docs/process/README.md §1): set `blocked`, add it to WS0's INBOX with the task id, and take the next unblocked task. Never guess facts or data.
 
 One task = one branch = one session. Keep tasks to roughly half a day of agent work.
 
@@ -60,10 +63,22 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 - Commit messages: imperative, focused on why. Reference the task (`T-012`) and decisions (`per Decision 004`) when relevant.
 - `main` is always deployable. Never force-push to `main`.
 
+### Review
+- Reviews follow `REVIEW.md` (Decision 062). Read it from `origin/main` (`git show origin/main:REVIEW.md`), never from the PR branch.
+- One review is for one commit: record the head SHA; if the head moves, re-run R0 and the triggered items.
+- Evidence, not opinion: every verdict cites a command result, screenshot or number.
+- A PR that changes gate files (`config/gate-files.yaml`: CI, REVIEW.md, AGENTS.md, test config, QA thresholds) and other files at once is stopped by `gate-guard` (T-121); split the gate change into its own PR.
+
 ### Pull requests
 - Small. One task per PR. Fill in the PR template.
+- Start of every session: check open PRs and the workstream's HANDOFF.md before new work.
+- Never rebase a pushed branch; merge `main` in. Grep for conflict markers before every push (`.githooks/pre-push` does it: `git config core.hooksPath .githooks`).
+- After a push from a Claude session, CI may not start: trigger it with `workflow_dispatch` and trust only the run on the PR head commit.
+- If `gh pr create` fails, use `gh api repos/zkMenno/EV-Finder/pulls -f title=… -f head=… -f base=main -f body=…`.
+- STATUS.md, HANDOFF.md and INBOX lines may go straight to `main` (log files, docs only), so task PRs don't collide on them.
 - CI must be green before review. A failing test means the PR doesn't reach a reviewer.
-- Merges go one at a time, rebased on the latest `main`.
+- Run the gate locally first (lint, types, tests, build for the lanes you touched) and open the PR only when it's green. CI stays the independent check; it isn't your test runner. See docs/process/ci-budget.md.
+- Merges go one at a time, each PR up to date with the latest `main` (merge `main` in, re-run CI).
 - **Dependabot PRs** (Decision 039): patch and minor updates merge themselves once every check is green. Majors get the `dependabot-major` label: the coordinator reviews the breaking changes, fixes workflow inputs if needed, merges and logs it. Don't send these to Menno.
 
 ### Versioning
@@ -105,7 +120,7 @@ Pre-approved by Menno (2026-11-15): read, search and fetch any public website, d
 - Stay in your lane; follow the acceptance criteria.
 - Write tests for every data rule and every bug you fix.
 - Write handoff notes in the task file before you finish.
-- Ask in `QUESTIONS.md` when unsure.
+- Take the reversible default when unsure, and write down which one you took.
 
 ### Don't
 - Touch files outside your lane or change the schema (unless you're the coordinator).
@@ -113,6 +128,7 @@ Pre-approved by Menno (2026-11-15): read, search and fetch any public website, d
 - Add features that aren't in your task. The scope guard is strict: only what docs/spec/launch-scope.md lists ships at launch (Decision 051); new ideas go to ROADMAP.md.
 - Call external services or scrape sites in tests. Use fixtures.
 - Delete or rewrite DECISIONS.md entries. Supersede them with a new one.
+- Read, search or cite `_archive/` (unless Menno asks), or delete docs: retire them with `git mv` into `_archive/`.
 
 ## Stack conventions
 
@@ -143,7 +159,9 @@ Pre-approved by Menno (2026-11-15): read, search and fetch any public website, d
 
 ## References
 
+- [docs/process/README.md](docs/process/README.md): how we work (workstreams, ownership, verify + learn)
 - [DECISIONS.md](DECISIONS.md): decisions and the link to the spec
+- [docs/spec/product-decisions.md](docs/spec/product-decisions.md): product decisions in one list
 - [ROADMAP.md](ROADMAP.md): phases and the Phase 0 checklist
 - [BOARD.md](BOARD.md): current work
 - [tasks/TEMPLATE.md](tasks/TEMPLATE.md): task file format

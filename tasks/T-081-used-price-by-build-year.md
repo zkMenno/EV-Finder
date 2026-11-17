@@ -1,6 +1,6 @@
 # T-081 Used price band per variant, build year and country
 Role: WS1 (+WS3 manual samples)   Lane: pipeline, data/manual   Wave: 10
-Status: review (WS1, 2026-11-15)
+Status: merged (PR #21, #29, #38); fresh review via QA A-35; earlier note: WS1, 2026-11-15
 
 ## Goal
 Give every launch variant a used price band per build year in each launch country, so the hero can filter by budget.

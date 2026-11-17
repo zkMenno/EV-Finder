@@ -1,6 +1,6 @@
 # T-035 Back-test harness for range and consumption models
 Role: WS1   Lane: pipeline   Wave: 7
-Status: review (WS1, 2026-11-15; El Prix routes wait for permission)
+Status: merged (PR #11, #27); fresh review via QA A-35; earlier note: WS1, 2026-11-15; El Prix routes wait for permission
 
 ## Goal
 Measure model error so Trip fit has an honest launch gate.

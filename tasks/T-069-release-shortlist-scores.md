@@ -1,6 +1,6 @@
 # T-069 Score every released variant with the shortlist rules
 Role: builder   Lane: pipeline/ev_pipeline/derive   Wave: 9
-Status: review (WS1, 2026-11-15; built on the YAML before T-066)
+Status: merged (PR #15); fresh review via QA A-35; earlier note: WS1, 2026-11-15; built on the YAML before T-066
 
 ## Goal
 Each release carries a per-variant, per-profile shortlist score with its reasons, from our own published fields.

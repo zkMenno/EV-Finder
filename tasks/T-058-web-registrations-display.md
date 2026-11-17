@@ -1,6 +1,6 @@
 # T-058 Web registrations display
 Role: WS2   Lane: apps/web   Wave: proposed by overnight 1
-Status: review (web builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: web builder, 2026-11-15
 
 ## Goal
 Show model-level counts (shared years) clearly and fix the duplicate React key when a row has two RDW entries in the same period (Q-066).

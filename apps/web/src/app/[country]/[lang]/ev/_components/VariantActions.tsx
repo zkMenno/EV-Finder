@@ -8,8 +8,6 @@ export interface VariantActionsText {
   favAdd: string;
   favRemove: string;
   compareAdd: string;
-  compareAddLabel: string;
-  compareRemoveLabel: string;
   compareFull: string;
   compare: string;
 }
@@ -25,7 +23,6 @@ export function VariantActions({ id, name, text }: { id: string; name: string; t
       <button
         type="button"
         aria-pressed={inCmp}
-        aria-label={inCmp ? text.compareRemoveLabel : full ? text.compareFull : text.compareAddLabel}
         title={full ? text.compareFull : undefined}
         disabled={full}
         data-testid="compare-toggle"
@@ -34,6 +31,8 @@ export function VariantActions({ id, name, text }: { id: string; name: string; t
       >
         <span aria-hidden="true">{inCmp ? "✓" : "+"}</span>
         {text.compare}
+        {/* Name = the visible word + the car (WCAG 2.5.3 Label in Name; T-096). */}
+        <span className="sr-only">: {name}</span>
       </button>
       <button
         type="button"

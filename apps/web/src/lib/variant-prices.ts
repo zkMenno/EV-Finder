@@ -28,11 +28,16 @@ function band(v: unknown): VariantBand | null {
   if (!v || typeof v !== "object") return null;
   const b = v as Record<string, unknown>;
   if (!Number.isInteger(b.build_year) || !num(b.median) || b.median <= 0) return null;
+  const median = b.median;
+  // A quartile on the wrong side of the median is a data error: show the median alone rather than
+  // a range that reads backwards (found by the T-125 property tests).
+  const p25 = optNum(b.p25);
+  const p75 = optNum(b.p75);
   return {
     build_year: b.build_year as number,
-    p25: optNum(b.p25),
-    median: b.median,
-    p75: optNum(b.p75),
+    p25: p25 !== null && p25 <= median ? p25 : null,
+    median,
+    p75: p75 !== null && p75 >= median ? p75 : null,
     currency: typeof b.currency === "string" ? b.currency : "",
     samples: Number.isInteger(b.samples) ? (b.samples as number) : 0,
     method: typeof b.method === "string" ? b.method : "",

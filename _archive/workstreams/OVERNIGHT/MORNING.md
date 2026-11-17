@@ -79,7 +79,7 @@ Research (all on the branch): R-02 launch countries, R-06 future markets, R-07 E
 6. **Q-077** · Email the Commission (DG MOVE) to reuse EAFO data?
 7. **Q-079** · Tick the GitHub setting so the weekly data PR can open (see section 0).
 
-All 70+ open questions are in [QUESTIONS.md](QUESTIONS.md); most only record a default and need no answer.
+All 70+ open questions are in [QUESTIONS.md](../../../QUESTIONS.md); most only record a default and need no answer.
 
 ## 6. Suggested wave 5
 1. T-055 real-range permissions (drafts for Menno to send) — the biggest quality gap.

@@ -1,6 +1,6 @@
 # T-008 Explore
 Role: builder   Lane: apps/web (explore)   Wave: 3
-Status: review (builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: builder, 2026-11-15
 
 ## Goal
 Explore table with filters, cards toggle, URL state, favourites, compare tray.

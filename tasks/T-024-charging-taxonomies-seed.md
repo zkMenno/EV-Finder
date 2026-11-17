@@ -1,6 +1,6 @@
 # T-024 Charging taxonomies and link-out config
 Role: WS3   Lane: data/taxonomy, config/countries   Wave: 6
-Status: review (overnight builder, 2026-11-15)
+Status: merged (PR #1); fresh review via QA A-35; earlier note: overnight builder, 2026-11-15
 
 ## Goal
 Seed the charging taxonomies and the per-country link-out block for the five launch countries.
