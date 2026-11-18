@@ -212,6 +212,12 @@
     "status": "blocked",
     "owner": "various OEMs"
   },
+  "maker-press-photos": {
+    "name": "Maker press photos",
+    "licence": "press terms per maker (data/images/press-terms.yaml; only verdict 'allowed' is used)",
+    "status": "active",
+    "owner": "various OEMs"
+  },
   "manual": {
     "name": "Manual entries (hand-entered, cited by URL)",
     "licence": "facts cited, no licence (Decision 068)",
@@ -325,5 +331,11 @@
     "licence": "CC0-1.0",
     "status": "active",
     "owner": "Wikimedia Foundation"
+  },
+  "wikimedia-commons": {
+    "name": "Wikimedia Commons (car photos)",
+    "licence": "per file: CC BY or CC BY-SA only (Decision 081)",
+    "status": "active",
+    "owner": "Wikimedia Commons contributors"
   }
 }
