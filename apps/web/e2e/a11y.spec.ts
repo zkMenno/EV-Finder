@@ -9,7 +9,7 @@ import { expect, test, type Page } from "@playwright/test";
 const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>; parked?: boolean; width?: number }[] = [
   {
     name: "explore-table",
-    path: "/nl/en?view=table",
+    path: "/nl/en/cars?view=table",
     ready: async (p) => {
       await expect(p.getByTestId("explore-row").first()).toBeVisible();
       await expect(p.getByTestId("result-count")).not.toContainText("…");
@@ -17,12 +17,12 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
   },
   {
     name: "explore-cards",
-    path: "/nl/en?view=cards",
+    path: "/nl/en/cars?view=cards",
     ready: async (p) => {
       await expect(p.getByTestId("result-count")).not.toContainText("…");
     },
   },
-  { name: "explore-nl-nerd-table", path: "/nl/nl?view=table&level=nerd", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "explore-nl-nerd-table", path: "/nl/nl/cars?view=table&level=nerd", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
   { name: "generation", path: "/nl/en/ev/renault/zoe/ph1", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "variant", path: "/nl/en/ev/renault/zoe/ph1/r240", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   {
@@ -40,8 +40,11 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
   { name: "hero-es", path: "/es/es?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   { name: "hero-it-360", width: 360, path: "/it/it?role=only&trips=monthly&budget=30000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   // Dutch compare buttons: "Vergelijk" must be inside the name (Label in Name), cards and variant page.
-  { name: "explore-cards-nl", path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
-  { name: "explore-cards-nl-360", width: 360, path: "/nl/nl?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "explore-cards-nl", path: "/nl/nl/cars?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "explore-cards-nl-360", width: 360, path: "/nl/nl/cars?view=cards", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  // T-130 catalogue page with its defaults (Most popular, cards), desktop and phone.
+  { name: "catalogue-en", path: "/nl/en/cars", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
+  { name: "catalogue-en-360", width: 360, path: "/nl/en/cars", ready: async (p) => void (await expect(p.getByTestId("result-count")).not.toContainText("…")) },
   { name: "variant-nl", path: "/nl/nl/ev/renault/zoe/ph1/r240", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "open-data", path: "/nl/en/data", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },
   { name: "learn-article", path: "/nl/en/learn/winter-range", ready: async (p) => void (await expect(p.locator("h1")).toBeVisible()) },

@@ -67,7 +67,7 @@ test("Explore keyboard: logical Tab order into the table with a visible focus ri
 });
 
 test("Explore empty state names the most restrictive filter and removes it", async ({ page }) => {
-  await page.goto("/nl/en?range=900&volt=800v");
+  await page.goto("/nl/en/cars?view=table&range=900&volt=800v");
   const empty = page.getByTestId("explore-empty");
   await expect(empty).toContainText(/No cars match: remove the “Min real range \(km\)” filter to see \d+/);
   await empty.getByTestId("explore-empty-remove").click();

@@ -1,31 +1,25 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import { catalogueRedirect } from "@/lib/catalogue-redirect";
 import { siteBase } from "@/lib/site-paths";
 import { ChargingLinks } from "@/components/ChargingLinks";
-import { Explore } from "@/components/Explore";
+import Link from "next/link";
 import { Hero } from "@/components/Hero";
 import { ParallaxScene } from "@/components/parallax/ParallaxScene";
 import { canal, highway } from "@/components/parallax/scenes.generated";
 import { showable } from "@/components/PriceBand";
 import { COUNTRIES, isCountrySlug, isServed } from "@/config/countries";
-import { tripFitEnabled } from "@/config/features";
 import { getClientDict, getT } from "@/i18n";
 import { clientCatalogueKey, getCatalogue } from "@/lib/catalogue";
 import { chargingLinks } from "@/lib/charging-links";
 import { sourceNames, toExploreRow } from "@/lib/explore-data";
-import { applyFilters, sortRows } from "@/lib/filters";
 import { financeProfile } from "@/lib/finance-profiles";
 import { heroFromSearchParams } from "@/lib/hero-state";
-import { hasTowns } from "@/lib/trip-model";
 import { article, articleTitle } from "@/lib/learn";
 import { LISTING_SITES } from "@/lib/listings";
-import { rankHero, resolveProfile, suggestedScore, type UsedBands } from "@/lib/shortlist";
-import { fromSearchParams, hasLevelParam, hasPayParam, hasViewParam } from "@/lib/state";
+import { rankHero, resolveProfile, type UsedBands } from "@/lib/shortlist";
 import { localizeTaxonomy } from "@/lib/taxonomy";
 import { pageMeta, servedRoute } from "./ev/_lib/context";
-
-/** Rows rendered on the server; the client takes over with the full list. */
-const SSR_ROWS = 25;
 
 type Props = {
   params: Promise<{ country: string; lang: string }>;
@@ -43,6 +37,10 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   if (!isCountrySlug(country) || !isServed(country, lang)) notFound();
   const cfg = COUNTRIES[country];
   const sp = await searchParams;
+  // T-130: Explore moved to /cars. Old shared Explore links (they carry view or sort, which the hero never writes)
+  // follow it with the same query, so no state is lost. Filter-only links stay: the hero reads them as refine filters.
+  const exploreLink = catalogueRedirect(sp);
+  if (exploreLink !== null) redirect(`${siteBase(country, lang)}/cars${exploreLink}`);
   const dict = getClientDict(lang);
   const t = getT(lang);
 
@@ -52,17 +50,9 @@ export default async function ExplorePage({ params, searchParams }: Props) {
   const scores = cat.shortlistScores();
   const hasScores = scores !== null;
   const all = cat.rows().map((r) => toExploreRow(r, used, scores));
-  const state = fromSearchParams(sp);
-  // No towns for this country yet (ES/IT, T-119): no trip check rather than borrowed weather.
-  const tripFit = tripFitEnabled() && hasTowns(country);
-  // Flag off: the trip filter flag in a shared URL is dropped, so no hidden filter counts as active.
-  if (!tripFit) state.filters.tripFit = false;
-  // Hero (T-080) answers also drive Explore's "Suggested" sort (T-067).
+  // Hero (T-080): answers come from the URL.
   const hero = heroFromSearchParams(sp);
   const profile = resolveProfile(hero.answers);
-  const scorer = profile ? (r: (typeof all)[number]) => suggestedScore(r, profile) : undefined;
-  const matches = sortRows(applyFilters(all, state.filters, cfg.code), state.sort, state.dir, cfg.code, scorer);
-
   // Hero (T-080): ranked on the server from the URL, re-ranked in the browser on every change.
   const usedBands: UsedBands = {};
   for (const b of cat.usedPrices()) {
@@ -124,36 +114,21 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         terms={heroTerms}
         learnLinks={learnLinks}
       />
-      <section id="explore" aria-labelledby="explore-title" className="mt-12 scroll-mt-4">
-        <h2 id="explore-title" className="text-2xl font-bold tracking-tight sm:text-3xl">
-          {t("explore.title")}
+      {/* T-130: the full list moved to the catalogue page; the landing links there. */}
+      <section aria-labelledby="all-cars-title" className="mt-12 rounded-lg border border-slate-300 bg-white p-6" data-testid="show-all-cars">
+        <h2 id="all-cars-title" className="text-xl font-bold tracking-tight">
+          {t("landing.allCars.title")}
         </h2>
-        <p className="mb-6 mt-2 max-w-3xl text-slate-800">{t("explore.intro")}</p>
-        <Explore
-          country={country}
-          code={cfg.code}
-          currency={cfg.currency}
-          lang={lang}
-          dict={dict}
-          initialState={state}
-          initialAnswers={hero.answers}
-          viewFromUrl={hasViewParam(sp)}
-          levelFromUrl={hasLevelParam(sp)}
-          taxonomy={tax}
-          asOf={cat.generatedAt().slice(0, 10)}
-          initialRows={matches.slice(0, SSR_ROWS)}
-          initialMatches={matches.length}
-          total={all.length}
-          dataUrl={dataUrl}
-          sources={sourceNames(cat.sources())}
-          tripFit={tripFit}
-          hasScores={hasScores}
-          finance={financeProfile(cfg.code)}
-          payFromUrl={hasPayParam(sp)}
-        />
+        <p className="mt-2 text-slate-800">{t("landing.allCars.body", { n: all.length })}</p>
+        <Link
+          href={`${siteBase(country, lang)}/cars`}
+          className="mt-4 inline-flex min-h-11 items-center rounded-md bg-blue-800 px-4 py-2 font-semibold text-white hover:bg-blue-950"
+          data-testid="show-all-cars-link"
+        >
+          {t("landing.allCars.button")}
+        </Link>
       </section>
-      {/* Wide illustration bands with horizontal parallax (UX, Menno 2026-11-17): decorative, no text.
-          Below Explore so the tool stays right under the hero (review: "Instant before clever"). */}
+      {/* Wide illustration bands with horizontal parallax (UX, Menno 2026-11-17): decorative, no text. */}
       <ParallaxScene scene={highway} className="mt-12" testId="band-highway" />
       <ChargingLinks links={chargingLinks(country, { lang })} t={t} statsHref={`${siteBase(country, lang)}/charging`} />
       <ParallaxScene scene={canal} className="mt-12" testId="band-canal" />

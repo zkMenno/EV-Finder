@@ -74,6 +74,9 @@ export default async function SiteLayout({ children, params }: Props) {
               <Link href={base} className="font-medium hover:underline">
                 {t("nav.explore")}
               </Link>
+              <Link href={`${base}/cars`} className="font-medium hover:underline">
+                {t("nav.allCars")}
+              </Link>
               {parkedEnabled("rankings") ? (
                 <Link href={`${base}/top`} className="font-medium hover:underline">
                   {t("nav.rankings")}
