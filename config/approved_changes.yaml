@@ -291,19 +291,16 @@ approved:
   - {<<: *t145, id: tesla-model-3-gen1-performance, field: consumption_motorway_kwh_100km, change: changed}
   - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.band", change: changed}
   - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.urban.band", change: changed}
-  # T148: 1 variant, 5 changes (Elroq RS gets the newest-version bonus once Elroq 50 / 60 / 85 have rows)
+  # T148: 1 variant, 2 changes (OpenEV Elroq "Base" loses an Elroq 60 price once the 60 has its own row)
   - &t148
     release: 3
-    file: shortlist_scores.json
+    file: catalogue.json
     approved_by: "PR #167 (T-148)"
-    reason: "T-148: PR #167 adds seed rows Elroq 50 / 60 / 85 (2024 on) and joins OpenEV's Elroq 'Base' (2025) into the 85. The RS (OpenEV, 2025) is then the latest start in the generation, so the shortlist rules give it the 'newest version' bonus (Decision 038): every road-tripper score +4.0 (e.g. 49.0 -> 53.0), five bands consider -> shortlist. Intended consequence, no RS figure changed. Measured: ev verify main vs PR #167 on the same staging (2026-11-18), 5 blocking, all this variant; release_diff.csv reasons gain 'bonus:newest-version'."
-    id: skoda-elroq-gen1-rs
-    field: "scores.road-tripper.band"
-    change: changed
-  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper.rural.band", change: changed}
-  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.band", change: changed}
-  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.rural.band", change: changed}
-  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.urban.band", change: changed}
+    reason: "T-148: OpenEV's Elroq 'Base' row (77 kWh, i.e. the Elroq 85, but with 150 kW) carried the NL list price 42005 and the used-price model of RDW Elroq 60 records (RDW 'ELROQ 60 150 kW 2026', catalogue price 42005), placed there by power. PR #167 adds seed rows Elroq 50 / 60 (Skoda technical data, 5 May 2025: 60 = 150 kW), so those records now sit on the 60 row and Base's price and used prices clear. A correction, not a loss. Measured: ev verify main vs PR #167 on the same staging (2026-11-18), 2 blocking, both this variant."
+    id: skoda-elroq-gen1-base
+    field: "price_new.NL.amount"
+    change: cleared
+  - {<<: *t148, file: used_prices.json, id: skoda-elroq-gen1-base, change: removed}
   # Release 3: nissan-leaf-ze1-62-kwh matrix cells move from the WLTP-ratio estimate to measured EPA tests
   # (13 blocking cells; the glob also approves 32 review-level rows of the same variant: 45 in all)
   - &leaf62
