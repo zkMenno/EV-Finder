@@ -24,6 +24,7 @@ Matching fixes in the pipeline (WS1 INBOX): P7 / P7+ name key, facelift rows pic
 - Cross-lane one line in `data/sources.yaml` (WS1): `a-cdn.xpeng.com/www/public/static/pdf/` added to `manual` cited_hosts (XPENG's own spec sheet). Flagged in WS1 INBOX.
 - P7+ battery left out: XPENG's preliminary DE sheet (09/2025) says 76.8 kWh net, press says 74.9 kWh (gross or net, they disagree). P7+ Standard Range has no row: not in the Dutch register yet, no maker document found.
 - 63 kWh battery is `low`: Hyundai says "63 kWh" without "usable".
+- 2026-11-18 WS3 (WS0 review should-fix): A-36 S7 is **partly fixed**. Still open: the Ioniq 5 facelift base WLTP stays 507 km in the release (RDW F5E62 stock matched by year; WS1 matching item). The PR #115 body named 8 Ioniq 5 ids; the gate PR #116 approvals cover 5 of them (WS0's count).
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-36 S7 fixed. -->

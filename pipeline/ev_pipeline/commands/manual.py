@@ -3,7 +3,10 @@
 Checks each fact against the schema `Fact` def plus the manual-entry rules (source URL,
 retrieved date, quote or locator, entered_by, unit matches field; see manual/facts.py).
 Ids that the seed or the latest release does not know are warnings, not errors (a variant
-may be added later), except in fixture files where they are expected. Exit 1 on any error.
+may be added later), except in fixture files where they are expected. An id listed in
+data/seed/retired_ids.yaml is an error that names the successor: such a fact never applies
+(A-36 S7: T-110 / T-112 facts on the retired hyundai-ioniq-5-gen1-n were silently dropped).
+Exit 1 on any error.
 """
 
 from __future__ import annotations
@@ -17,6 +20,7 @@ import yaml
 
 from ev_pipeline.manual.facts import ManualIssue, gate_reason, load_manual_dir
 from ev_pipeline.release.gate import load_registry
+from ev_pipeline.release.retired import load_hand_kept
 
 
 def _default_data_dir() -> Path:
@@ -56,12 +60,25 @@ def check(data_dir: Path, today=None) -> tuple[int, list[str]]:
     registry = load_registry(data_dir / "sources.yaml")
     load = load_manual_dir(data_dir, today, registry, for_release=False)
     gens, variants = known_ids(data_dir)
+    retired = load_hand_kept(data_dir / "seed")
     issues = list(load.issues)
     for mf in load.facts:
         if mf.path in load.fixture_files:
             continue  # example ids exist only in test fixtures
         f = mf.fact
         sid = f.subject_id.root
+        if sid in retired:
+            to = retired[sid]
+            issues.append(
+                ManualIssue(
+                    mf.path,
+                    None,
+                    mf.record_key,
+                    f"{f.subject_type.value} {sid} is retired (data/seed/retired_ids.yaml): "
+                    + (f"use {to}" if to else "it has no successor; remove the fact"),
+                )
+            )
+            continue
         if f.subject_type.value == "variant" and variants and sid not in variants:
             issues.append(
                 ManualIssue(mf.path, None, mf.record_key, f"variant {sid} unknown", warning=True)
