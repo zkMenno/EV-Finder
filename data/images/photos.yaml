@@ -1,0 +1,1211 @@
+schema: images-photos/v1
+notes:
+- 'One photo per generation (Decision 081). Source order: maker press (only makers ''allowed'' in press-terms.yaml; none today),
+  then Wikimedia Commons CC BY / CC BY-SA.'
+- 'Chosen by data/images/tools (search + rules), then checked by eye on contact sheets. Never hotlink: WS1 downloads file_url
+  once into our storage (T-134).'
+- CC BY-SA photos keep their licence and stay out of the CC BY open-data download (data rule 3).
+missing:
+- volvo-ex50-gen1
+- xpeng-l05-gen1
+photos:
+- generation_id: tesla-model-3-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2019_Tesla_Model_3_Long_Range_Dual_Motor_in_Red_Multi-Coat,_front_left,_2021-05-30.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/3c/2019_Tesla_Model_3_Long_Range_Dual_Motor_in_Red_Multi-Coat%2C_front_left%2C_2021-05-30.jpg
+  licence: CC-BY-SA-4.0
+  author: Elise240SX
+  credit: Elise240SX, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3036
+  height: 1637
+- generation_id: tesla-model-3-highland
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Tesla_Model_3_Highland_Performance_AWD.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/3c/2024_Tesla_Model_3_Highland_Performance_AWD.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 2592
+- generation_id: tesla-model-y-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Tesla_Model_Y,_front_5.16.21.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b0/2020_Tesla_Model_Y%2C_front_5.16.21.jpg
+  licence: CC-BY-SA-4.0
+  author: Kevauto
+  credit: Kevauto, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4300
+  height: 2478
+- generation_id: tesla-model-y-juniper
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Tesla_Model_Y_Juniper_Long_Range_AWD.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/a0/2025_Tesla_Model_Y_Juniper_Long_Range_AWD.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 2592
+- generation_id: tesla-model-s-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2015_Tesla_Model_S_60_hatchback_(25658214562)_(cropped).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b8/2015_Tesla_Model_S_60_hatchback_%2825658214562%29_%28cropped%29.jpg
+  licence: CC-BY-2.0
+  author: Jeremy from Sydney, Australia
+  credit: Jeremy from Sydney, Australia, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3957
+  height: 2516
+- generation_id: tesla-model-s-facelift
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Tesla_Model_S_(Facelift_ab_04-2016).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/6d/Tesla_Model_S_%28Facelift_ab_04-2016%29.jpg
+  licence: CC-BY-SA-4.0
+  author: Peteratkins
+  credit: Peteratkins, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3882
+  height: 2588
+- generation_id: tesla-model-s-palladium
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg
+  licence: CC-BY-SA-4.0
+  author: Dllu
+  credit: Dllu, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 11662
+  height: 8744
+- generation_id: renault-zoe-ph1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2015_Renault_ZOE_Dynamique_Automatic_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/43/2015_Renault_ZOE_Dynamique_Automatic_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4163
+  height: 2717
+- generation_id: renault-zoe-ph2
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Renault_Zoe_GT_Edition_Rapid_Charge.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/09/2022_Renault_Zoe_GT_Edition_Rapid_Charge.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 1908
+  height: 1568
+- generation_id: renault-megane-e-tech-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Renault_Megane_E-Tech_Launch_Edition_-_60kWh_(220PS)_Electric_-_Shadow_Grey_-_05-2024,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/1b/2022_Renault_Megane_E-Tech_Launch_Edition_-_60kWh_%28220PS%29_Electric_-_Shadow_Grey_-_05-2024%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4451
+  height: 2514
+- generation_id: renault-5-e-tech-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Renault_5_E-Tech_(2025)_(54519901504).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b6/Renault_5_E-Tech_%282025%29_%2854519901504%29.jpg
+  licence: CC-BY-2.0
+  author: Charles from Port Chester, New York
+  credit: Charles from Port Chester, New York, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4716
+  height: 3537
+- generation_id: renault-scenic-e-tech-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Renault_Scenic_E-Tech,_BAS_24,_Brussels_(P1170249-RR).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/e/e5/Renault_Scenic_E-Tech%2C_BAS_24%2C_Brussels_%28P1170249-RR%29.jpg
+  licence: CC-BY-SA-4.0
+  author: Matti Blume
+  credit: Matti Blume, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 3456
+- generation_id: renault-4-e-tech-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Renault-4-E-Tech-electric-2025-rouge-carmin-01-byRundvald.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/9/9d/Renault-4-E-Tech-electric-2025-rouge-carmin-01-byRundvald.jpg
+  licence: CC-BY-SA-4.0
+  author: Rundvald
+  credit: Rundvald, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4032
+  height: 3024
+- generation_id: nissan-leaf-ze0
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2017_Nissan_LEAF_(ZE0_MY17)_hatchback_(2018-11-02)_01.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/62/2017_Nissan_LEAF_%28ZE0_MY17%29_hatchback_%282018-11-02%29_01.jpg
+  licence: CC-BY-SA-4.0
+  author: EurovisionNim
+  credit: EurovisionNim, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3671
+  height: 1823
+- generation_id: nissan-leaf-ze1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2019_Nissan_Leaf_ZE1_(20190722).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/a9/2019_Nissan_Leaf_ZE1_%2820190722%29.jpg
+  licence: CC-BY-SA-4.0
+  author: オーバードライブ83
+  credit: オーバードライブ83, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4973
+  height: 2617
+- generation_id: nissan-leaf-gen3
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Nissan_Leaf_(ZE2)_IMG_8770.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/2/2f/Nissan_Leaf_%28ZE2%29_IMG_8770.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 2754
+- generation_id: nissan-ariya-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Nissan_Ariya_Evolve_e-4ORCE_in_Gun_Metallic,_Front_Left,_07-14-2023.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/64/2023_Nissan_Ariya_Evolve_e-4ORCE_in_Gun_Metallic%2C_Front_Left%2C_07-14-2023.jpg
+  licence: CC-BY-SA-4.0
+  author: Elise240SX
+  credit: Elise240SX, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3670
+  height: 2107
+- generation_id: volkswagen-e-golf-mk7
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:VW_e-Golf_(VII)_%E2%80%93_Frontansicht,_19._Juni_2014,_D%C3%BCsseldorf.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/8/87/VW_e-Golf_%28VII%29_%E2%80%93_Frontansicht%2C_19._Juni_2014%2C_D%C3%BCsseldorf.jpg
+  licence: CC-BY-SA-3.0-DE
+  author: M 93
+  credit: M 93, CC BY-SA 3.0 de, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3538
+  height: 1790
+- generation_id: volkswagen-e-golf-mk75
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2018_Volkswagen_e-Golf_Comfortline_in_Tungsten_Silver_Metallic,_front_left,_2022-06-13.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/57/2018_Volkswagen_e-Golf_Comfortline_in_Tungsten_Silver_Metallic%2C_front_left%2C_2022-06-13.jpg
+  licence: CC-BY-SA-4.0
+  author: Elise240SX
+  credit: Elise240SX, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4147
+  height: 2678
+- generation_id: volkswagen-id3-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Volkswagen_ID.3_1st_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/2/22/2020_Volkswagen_ID.3_1st_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4594
+  height: 2640
+- generation_id: volkswagen-id4-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Volkswagen_ID.4_Pro_(Netherlands)_front_view.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/02/2020_Volkswagen_ID.4_Pro_%28Netherlands%29_front_view.jpg
+  licence: CC-BY-2.0
+  author: Dennis Elzinga
+  credit: Dennis Elzinga, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4484
+  height: 2523
+- generation_id: volkswagen-id7-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Volkswagen_ID.7_Pro_S_Tourer_front_view.png
+  file_url: https://upload.wikimedia.org/wikipedia/commons/c/c1/2023_Volkswagen_ID.7_Pro_S_Tourer_front_view.png
+  licence: CC-BY-3.0
+  author: Ubi-testet
+  credit: Ubi-testet, CC BY 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3016
+  height: 1696
+- generation_id: volkswagen-id-buzz-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Volkswagen_ID.Buzz_Life_-_77kWh_(204PS)_Electric_-_Bay_Leaf_Green_-_01-2024,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/7/7e/2022_Volkswagen_ID.Buzz_Life_-_77kWh_%28204PS%29_Electric_-_Bay_Leaf_Green_-_01-2024%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4155
+  height: 2582
+- generation_id: volkswagen-id5-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Volkswagen_ID.5_GTX_front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/db/2025_Volkswagen_ID.5_GTX_front.jpg
+  licence: CC-BY-SA-4.0
+  author: LuvsMG481
+  credit: LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5765
+  height: 2952
+- generation_id: hyundai-ioniq-electric-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2019_Hyundai_Ioniq_Electric.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/53/2019_Hyundai_Ioniq_Electric.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 3456
+- generation_id: hyundai-kona-electric-os
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Hyundai_Kona_Electric_Preferred_in_Cyber_Grey,_Front_Right,_08-14-2022.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/39/2023_Hyundai_Kona_Electric_Preferred_in_Cyber_Grey%2C_Front_Right%2C_08-14-2022.jpg
+  licence: CC-BY-SA-4.0
+  author: Elise240SX
+  credit: Elise240SX, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3338
+  height: 2138
+- generation_id: hyundai-kona-electric-sx2
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Hyundai_Kona_Electric.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/e/e6/2023_Hyundai_Kona_Electric.jpg
+  licence: CC-BY-2.0
+  author: Rutger van der Maar
+  credit: Rutger van der Maar, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2005
+  height: 1245
+- generation_id: hyundai-ioniq-5-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Hyundai_Ioniq_5_Signature_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/ff/2023_Hyundai_Ioniq_5_Signature_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Mocarey15
+  credit: Mocarey15, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4160
+  height: 2340
+- generation_id: hyundai-ioniq-5-facelift
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Hyundai_IONIQ_5_in_New_Orleans_June_2025_-_2.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/d8/Hyundai_IONIQ_5_in_New_Orleans_June_2025_-_2.jpg
+  licence: CC-BY-SA-4.0
+  author: Infrogmation
+  credit: Infrogmation, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5184
+  height: 3888
+- generation_id: hyundai-ioniq-6-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Hyundai_IONIQ_6_Preferred_Long_Range_AWD_in_Ultimate_Red,_front_left,_2026-04-12.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b9/2025_Hyundai_IONIQ_6_Preferred_Long_Range_AWD_in_Ultimate_Red%2C_front_left%2C_2026-04-12.jpg
+  licence: CC-BY-SA-4.0
+  author: Elise240SX
+  credit: Elise240SX, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5254
+  height: 2906
+- generation_id: hyundai-inster-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Hyundai_Inster_in_Norway_(3).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/56/2025_Hyundai_Inster_in_Norway_%283%29.jpg
+  licence: CC-BY-SA-4.0
+  author: Ssu
+  credit: Ssu, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3082
+  height: 2312
+- generation_id: hyundai-ioniq-3-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2026_Hyundai_Ioniq_3_N_Line_(Europe)_front_view_01.png
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/14/2026_Hyundai_Ioniq_3_N_Line_%28Europe%29_front_view_01.png
+  licence: CC-BY-3.0
+  author: AutoGids
+  credit: AutoGids, CC BY 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2374
+  height: 1335
+- generation_id: kia-soul-ev-ps
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2016_Kia_Soul_EV_%2B,_front_right,_08-25-2023.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/e/e2/2016_Kia_Soul_EV_%2B%2C_front_right%2C_08-25-2023.jpg
+  licence: CC-BY-SA-4.0
+  author: MercurySable99
+  credit: MercurySable99, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4862
+  height: 3167
+- generation_id: kia-soul-ev-sk3
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Kia_e-Soul_(III)_%E2%80%93_f_29032026.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/7/79/Kia_e-Soul_%28III%29_%E2%80%93_f_29032026.jpg
+  licence: CC-BY-SA-3.0-DE
+  author: © M 93
+  credit: © M 93, CC BY-SA 3.0 de, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4073
+  height: 2310
+- generation_id: kia-niro-ev-de
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Kia_e-Niro_(front).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/f4/Kia_e-Niro_%28front%29.jpg
+  licence: CC-BY-SA-4.0
+  author: Fiver, der Hellseher
+  credit: Fiver, der Hellseher, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5152
+  height: 3864
+- generation_id: kia-niro-ev-sg2
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Kia_Niro_EV_Wave,_Electrify_Expo_Orlando.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/8/80/2024_Kia_Niro_EV_Wave%2C_Electrify_Expo_Orlando.jpg
+  licence: CC-BY-4.0
+  author: Pokemonprime
+  credit: Pokemonprime, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4032
+  height: 3024
+- generation_id: kia-ev6-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Kia_EV6_front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/7/7e/2022_Kia_EV6_front.jpg
+  licence: CC-BY-SA-4.0
+  author: DestinationFearFan
+  credit: DestinationFearFan, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3502
+  height: 2756
+- generation_id: kia-ev6-facelift
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Kia_EV6_GT_IAA_2025_DSC_2508.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/a1/2025_Kia_EV6_GT_IAA_2025_DSC_2508.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander-93
+  credit: Alexander-93, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4743
+  height: 2806
+- generation_id: kia-ev3-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Kia_EV3_Auto_Zuerich_2024_DSC_6374.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/e/e2/Kia_EV3_Auto_Zuerich_2024_DSC_6374.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander-93
+  credit: Alexander-93, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4712
+  height: 2782
+- generation_id: kia-ev4-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2026_Kia_EV4,_front_NYIAS_2025.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/d1/2026_Kia_EV4%2C_front_NYIAS_2025.jpg
+  licence: CC-BY-SA-4.0
+  author: Kevauto
+  credit: Kevauto, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3216
+  height: 1917
+- generation_id: bmw-i3-i01
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2013_BMW_i3_front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/bd/2013_BMW_i3_front.jpg
+  licence: CC-BY-2.0
+  author: Rutger van der Maar
+  credit: Rutger van der Maar, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3648
+  height: 2484
+- generation_id: bmw-i4-g26
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_BMW_I4_M50.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/4c/2022_BMW_I4_M50.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3605
+  height: 1926
+- generation_id: bmw-ix1-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023-04_BMW_iX1_U11_front_view.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b4/2023-04_BMW_iX1_U11_front_view.jpg
+  licence: CC-BY-SA-4.0
+  author: Wikisympathisant
+  credit: Wikisympathisant, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5184
+  height: 3456
+- generation_id: bmw-ix3-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_BMW_iX3_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/a6/2022_BMW_iX3_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Koenigseggvibes
+  credit: Koenigseggvibes, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2848
+  height: 1695
+- generation_id: bmw-ix3-gen2
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_BMW_iX3.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/1a/2025_BMW_iX3.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3558
+  height: 2530
+- generation_id: bmw-ix-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_BMW_iX_xDrive_50_in_Black,_front_left.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/ff/2022_BMW_iX_xDrive_50_in_Black%2C_front_left.jpg
+  licence: CC-BY-SA-3.0
+  author: Mr.choppers
+  credit: Mr.choppers, CC BY-SA 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4788
+  height: 2952
+- generation_id: bmw-i5-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_BMW_i5.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/e/e6/2023_BMW_i5.jpg
+  licence: CC-BY-SA-4.0
+  author: MrWalkr
+  credit: MrWalkr, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4926
+  height: 2944
+- generation_id: peugeot-e-208-p21
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Peugeot_e-208_E-Style_EV_-_50kWh_(136PS)_Electric_-_Agueda_Yellow_-_06-2024,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/36/2024_Peugeot_e-208_E-Style_EV_-_50kWh_%28136PS%29_Electric_-_Agueda_Yellow_-_06-2024%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4519
+  height: 2493
+- generation_id: peugeot-e-2008-p24
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Peugeot_e-2008_GT_Line.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/2/20/2020_Peugeot_e-2008_GT_Line.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4053
+  height: 2290
+- generation_id: peugeot-e-308-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Peugeot_e-308_Auto_Zuerich_2025_DSC_3384.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/1c/2025_Peugeot_e-308_Auto_Zuerich_2025_DSC_3384.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4696
+  height: 3070
+- generation_id: opel-corsa-e-f
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Opel_Corsa-e.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/2/22/2023_Opel_Corsa-e.jpg
+  licence: CC-BY-SA-4.0
+  author: Ssu
+  credit: Ssu, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4629
+  height: 3472
+- generation_id: opel-mokka-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Opel_Mokka-e_front_view.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/49/2021_Opel_Mokka-e_front_view.jpg
+  licence: CC-BY-2.0
+  author: Rutger van der Maar
+  credit: Rutger van der Maar, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 1713
+  height: 963
+- generation_id: opel-astra-electric-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2026_Opel_Astra_L_Sports_Tourer_Electric_IMG_6325.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/2/25/2026_Opel_Astra_L_Sports_Tourer_Electric_IMG_6325.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4843
+  height: 3224
+- generation_id: opel-ampera-e-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Opel_Ampera-E_-_Mondial_de_l%27Automobile_de_Paris_2016_-_001.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/0f/Opel_Ampera-E_-_Mondial_de_l%27Automobile_de_Paris_2016_-_001.jpg
+  licence: CC-BY-SA-4.0
+  author: Thesupermat
+  credit: Thesupermat, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5472
+  height: 3648
+- generation_id: fiat-500e-312
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2016_Fiat_500e,_Silver_Lake_(front_left).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/fc/2016_Fiat_500e%2C_Silver_Lake_%28front_left%29.jpg
+  licence: CC-BY-SA-3.0
+  author: Mr.choppers
+  credit: Mr.choppers, CC BY-SA 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4982
+  height: 3122
+- generation_id: fiat-500e-332
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Fiat_500e_3%2B1_La_Prima_at_NYIAS,_front_left.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/10/2022_Fiat_500e_3%2B1_La_Prima_at_NYIAS%2C_front_left.jpg
+  licence: CC-BY-SA-3.0
+  author: Mr.choppers
+  credit: Mr.choppers, CC BY-SA 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4903
+  height: 3414
+- generation_id: fiat-600e-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Fiat_600E_La_Prima.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/0a/2024_Fiat_600E_La_Prima.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3452
+  height: 2316
+- generation_id: skoda-enyaq-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Skoda_Enyaq_IV_80_Loft_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/e/e3/2021_Skoda_Enyaq_IV_80_Loft_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3016
+  height: 1574
+- generation_id: skoda-elroq-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Skoda_Elroq_-_front_view.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/04/Skoda_Elroq_-_front_view.jpg
+  licence: CC-BY-SA-4.0
+  author: Ssu
+  credit: Ssu, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3321
+  height: 2491
+- generation_id: mg-mg4-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2026_MG4_EV_(first_generation)_IMG_6946.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/d7/2026_MG4_EV_%28first_generation%29_IMG_6946.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5065
+  height: 2874
+- generation_id: mg-zs-ev-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_MG_ZS_EV_AZS1_Essence_front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/6a/2023_MG_ZS_EV_AZS1_Essence_front.jpg
+  licence: CC-BY-SA-4.0
+  author: LuvsMG481
+  credit: LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5696
+  height: 2875
+- generation_id: mg-mg5-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:MG5-front-right.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b2/MG5-front-right.jpg
+  licence: CC-BY-SA-4.0
+  author: Jan Ainali
+  credit: Jan Ainali, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 6952
+  height: 4128
+- generation_id: mg-s5-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_MG_S5_EV_D%2B.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/9/9a/2025_MG_S5_EV_D%2B.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 3456
+- generation_id: mg-marvel-r-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_MG_Marvel_R.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/de/2022_MG_Marvel_R.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3566
+  height: 2310
+- generation_id: mg-im6-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_MG_IM6.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/5b/2025_MG_IM6.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 2592
+- generation_id: polestar-2-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Polestar_2_in_Thunder,_Front_Right,_08-04-2022.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/f4/2022_Polestar_2_in_Thunder%2C_Front_Right%2C_08-04-2022.jpg
+  licence: CC-BY-SA-4.0
+  author: Elise240SX
+  credit: Elise240SX, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3910
+  height: 2083
+- generation_id: polestar-4-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Polestar_4_Plus_2.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/43/2023_Polestar_4_Plus_2.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 12682
+  height: 9216
+- generation_id: audi-e-tron-ge
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Audi_e-Tron_Sportback_S_Line_55_Quattro_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/66/2020_Audi_e-Tron_Sportback_S_Line_55_Quattro_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4308
+  height: 2413
+- generation_id: audi-e-tron-q8
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Audi_Q8_e-tron_Sportback_(2024)_(53625424826).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/59/Audi_Q8_e-tron_Sportback_%282024%29_%2853625424826%29.jpg
+  licence: CC-BY-2.0
+  author: Charles from Port Chester, New York
+  credit: Charles from Port Chester, New York, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4454
+  height: 3373
+- generation_id: audi-q4-e-tron-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Audi_Q4_e-tron_(Bulgaria)_front_view.png
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/62/2021_Audi_Q4_e-tron_%28Bulgaria%29_front_view.png
+  licence: CC-BY-3.0
+  author: ClubS1Video
+  credit: ClubS1Video, CC BY 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 1920
+  height: 1203
+- generation_id: audi-q6-e-tron-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2026_Audi_Q6_e-Tron_Sportback_front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/6c/2026_Audi_Q6_e-Tron_Sportback_front.jpg
+  licence: CC-BY-SA-4.0
+  author: LuvsMG481
+  credit: LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5542
+  height: 2992
+- generation_id: audi-a6-e-tron-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Audi_A6_e-tron_(54149425041).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/17/2024_Audi_A6_e-tron_%2854149425041%29.jpg
+  licence: CC-BY-2.0
+  author: Rutger van der Maar
+  credit: Rutger van der Maar, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2048
+  height: 1448
+- generation_id: audi-a2-e-tron-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Audi_A2_e-tron_Auto_Zuerich_2026_IMG_8601.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/59/Audi_A2_e-tron_Auto_Zuerich_2026_IMG_8601.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3500
+  height: 2339
+- generation_id: mercedes-eqa-h243
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Mercedes-Benz_EQA_250_AMG_Line_-_66kWh_(190PS)_Electric_-_Mountain_Grey_-_02-2024,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/9/9d/2021_Mercedes-Benz_EQA_250_AMG_Line_-_66kWh_%28190PS%29_Electric_-_Mountain_Grey_-_02-2024%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4250
+  height: 2901
+- generation_id: mercedes-eqc-n293
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2019_Mercedes-Benz_EQC_400_Sport_4MATIC.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/a5/2019_Mercedes-Benz_EQC_400_Sport_4MATIC.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4833
+  height: 2781
+- generation_id: mercedes-eqb-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Mercedes-Benz_EQB_300_AMG_Line_Premium_4Matic_-_66kWh_(228PS)_Electric_-_Polar_White_-_02-2024,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/e/e1/2023_Mercedes-Benz_EQB_300_AMG_Line_Premium_4Matic_-_66kWh_%28228PS%29_Electric_-_Polar_White_-_02-2024%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4103
+  height: 2734
+- generation_id: mercedes-eqb-glb
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Mercedes-Benz_GLB_250%2B_mit_EQ-Technologie_AMG_Line_(X_244)_%E2%80%93_f1_18042026.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/43/Mercedes-Benz_GLB_250%2B_mit_EQ-Technologie_AMG_Line_%28X_244%29_%E2%80%93_f1_18042026.jpg
+  licence: CC-BY-SA-3.0-DE
+  author: © M 93
+  credit: © M 93, CC BY-SA 3.0 de, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4080
+  height: 2219
+- generation_id: mercedes-cla-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Mercedes-Benz_CLA_250%2B_avec_technologie_EQ_Limited_Edition_(55085144824).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/2/26/Mercedes-Benz_CLA_250%2B_avec_technologie_EQ_Limited_Edition_%2855085144824%29.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexandre Prevot from Nancy, France
+  credit: Alexandre Prevot from Nancy, France, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3500
+  height: 2333
+- generation_id: jaguar-i-pace-x590
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2018_Jaguar_I-Pace_EV400_AWD_S_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/07/2018_Jaguar_I-Pace_EV400_AWD_S_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4579
+  height: 2424
+- generation_id: dacia-spring-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Dacia_Spring_Electric_(France)_front_view_01.png
+  file_url: https://upload.wikimedia.org/wikipedia/commons/c/c7/2021_Dacia_Spring_Electric_%28France%29_front_view_01.png
+  licence: CC-BY-3.0
+  author: Ubi-testet
+  credit: Ubi-testet, CC BY 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 1920
+  height: 1440
+- generation_id: smart-eq-fortwo-451
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Smart_fortwo_electric_drive_Generation_III_(front).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/49/Smart_fortwo_electric_drive_Generation_III_%28front%29.jpg
+  licence: CC-BY-SA-3.0
+  author: Overlaet
+  credit: Overlaet, CC BY-SA 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2420
+  height: 1815
+- generation_id: smart-eq-fortwo-453
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Smart_EQ_ForTwo_Edition_One_-_17kWh_(80PS)_Electric_-_Asphalt_Grey_-_02-2024,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/bb/2020_Smart_EQ_ForTwo_Edition_One_-_17kWh_%2880PS%29_Electric_-_Asphalt_Grey_-_02-2024%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4038
+  height: 2838
+- generation_id: smart-3-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Smart_-3.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/f8/2023_Smart_-3.jpg
+  licence: CC-BY-2.0
+  author: Rutger van der Maar
+  credit: Rutger van der Maar, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2048
+  height: 1448
+- generation_id: honda-e-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Honda_E_Advance_(52350506825).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/db/2020_Honda_E_Advance_%2852350506825%29.jpg
+  licence: CC-BY-2.0
+  author: Kieran White from Manchester, England
+  credit: Kieran White from Manchester, England, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4000
+  height: 2250
+- generation_id: mini-cooper-se-f56
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Mini_Cooper_SE_in_White_Silver_Metallic,_front_right.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/44/2022_Mini_Cooper_SE_in_White_Silver_Metallic%2C_front_right.jpg
+  licence: CC-BY-SA-3.0
+  author: Mr.choppers
+  credit: Mr.choppers, CC BY-SA 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5169
+  height: 3236
+- generation_id: mini-cooper-se-j01
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_MINI_Cooper_SE.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/8/8e/2024_MINI_Cooper_SE.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 2592
+- generation_id: cupra-born-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Cupra_Born_V1_EV_-_58kWh_(203PS)_Electric_-_Glacial_White_-_07-2024,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/bb/2023_Cupra_Born_V1_EV_-_58kWh_%28203PS%29_Electric_-_Glacial_White_-_07-2024%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4513
+  height: 2498
+- generation_id: cupra-tavascan-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Cupra_Tavascan_VZ1_EV_4Drive.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/05/2024_Cupra_Tavascan_VZ1_EV_4Drive.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3380
+  height: 2278
+- generation_id: byd-atto-3-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_BYD_Atto_3_(SC2E)_in_South_Tangerang_looking_from_front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/d5/2024_BYD_Atto_3_%28SC2E%29_in_South_Tangerang_looking_from_front.jpg
+  licence: CC-BY-4.0
+  author: VulcanSphere
+  credit: VulcanSphere, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4080
+  height: 2296
+- generation_id: byd-sealion-7-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_BYD_Sealion_7_Performance_front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/65/2025_BYD_Sealion_7_Performance_front.jpg
+  licence: CC-BY-SA-4.0
+  author: LuvsMG481
+  credit: LuvsMG481, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5470
+  height: 2701
+- generation_id: volvo-xc40-recharge-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Volvo_XC40_Recharge_Twin_EV_AWD.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/9/96/2021_Volvo_XC40_Recharge_Twin_EV_AWD.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2206
+  height: 1374
+- generation_id: volvo-xc40-recharge-ex40
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Volvo_EX40_Ultra_Twin_Motor_Black_Edition.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/54/2024_Volvo_EX40_Ultra_Twin_Motor_Black_Edition.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 3456
+- generation_id: volvo-ex30-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Volvo_EX30_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/7/71/2024_Volvo_EX30_Front.jpg
+  licence: CC-BY-SA-4.0
+  author: Vauxford
+  credit: Vauxford, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3948
+  height: 2524
+- generation_id: volvo-ec40-c40
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Volvo_C40_P8_Recharge_Twin_AWD_in_Crystal_White,_front_left,_06-21-2024.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/54/2024_Volvo_C40_P8_Recharge_Twin_AWD_in_Crystal_White%2C_front_left%2C_06-21-2024.jpg
+  licence: CC-BY-SA-4.0
+  author: Ethan Llamas
+  credit: Ethan Llamas, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5578
+  height: 4182
+- generation_id: volvo-ec40-ec40
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Volvo_EC40_Ultra_Twin_Motor_Black_Edition.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/3b/2024_Volvo_EC40_Ultra_Twin_Motor_Black_Edition.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 3456
+- generation_id: volvo-ex60-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Volvo_EX60_fl.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/f2/Volvo_EX60_fl.jpg
+  licence: CC-BY-SA-4.0
+  author: Herranderssvensson
+  credit: Herranderssvensson, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2128
+  height: 1553
+- generation_id: ford-mustang-mach-e-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2021_Ford_Mustang_Mach-E_(United_States)_front_view.png
+  file_url: https://upload.wikimedia.org/wikipedia/commons/b/bd/2021_Ford_Mustang_Mach-E_%28United_States%29_front_view.png
+  licence: CC-BY-3.0
+  author: Gold Pony
+  credit: Gold Pony, CC BY 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3470
+  height: 1952
+- generation_id: ford-explorer-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Ford_Explorer.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/46/2024_Ford_Explorer.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 12070
+  height: 9894
+- generation_id: ford-puma-gen-e-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Ford_Puma_Gen-E.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/65/2025_Ford_Puma_Gen-E.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3046
+  height: 2488
+- generation_id: ford-capri-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Ford_Capri.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/a4/2024_Ford_Capri.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 14122
+  height: 8762
+- generation_id: citroen-e-c4-c41
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:(SGP-Singapore)_Citroen_e-C4_showcar_@_The_Car_Expo_2024-04-14.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/66/%28SGP-Singapore%29_Citroen_e-C4_showcar_%40_The_Car_Expo_2024-04-14.jpg
+  licence: CC-BY-4.0
+  author: S5A-0043
+  credit: S5A-0043, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4193
+  height: 3354
+- generation_id: porsche-taycan-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Porsche_Taycan_4_Cross_Turismo_in_Dolomite_Silver_Metallic,_front_left.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/d3/2024_Porsche_Taycan_4_Cross_Turismo_in_Dolomite_Silver_Metallic%2C_front_left.jpg
+  licence: CC-BY-SA-4.0
+  author: Ethan Llamas
+  credit: Ethan Llamas, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5427
+  height: 3052
+- generation_id: porsche-macan-electric-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Porsche_Macan_Turbo_(United_States)_front_view.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/39/2025_Porsche_Macan_Turbo_%28United_States%29_front_view.jpg
+  licence: CC-BY-2.0
+  author: Charles
+  credit: Charles, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4896
+  height: 3672
+- generation_id: toyota-bz4x-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Toyota_bZ4X_Motion_EV_-_71kWh_(203PS)_Electric_-_Dark_Blue_-_12-2023,_Front.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/5/52/2022_Toyota_bZ4X_Motion_EV_-_71kWh_%28203PS%29_Electric_-_Dark_Blue_-_12-2023%2C_Front.jpg
+  licence: CC-BY-4.0
+  author: Harvey Bold
+  credit: Harvey Bold, CC BY 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4235
+  height: 2241
+- generation_id: xpeng-g6-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_XPeng_G6,_front_8.18.23.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/de/2023_XPeng_G6%2C_front_8.18.23.jpg
+  licence: CC-BY-SA-4.0
+  author: Kevauto
+  credit: Kevauto, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3606
+  height: 1954
+- generation_id: xpeng-g6-facelift
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Xpeng_G6_AWD_Performance_Black_Edition.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/0e/2025_Xpeng_G6_AWD_Performance_Black_Edition.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 3456
+- generation_id: xpeng-p7-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_XPeng_P7,_front_8.18.23.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/c/ce/2023_XPeng_P7%2C_front_8.18.23.jpg
+  licence: CC-BY-SA-4.0
+  author: Kevauto
+  credit: Kevauto, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3884
+  height: 2423
+- generation_id: xpeng-p7-plus-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:XPeng_P7%2B_IAA_2025_DSC_1811.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/11/XPeng_P7%2B_IAA_2025_DSC_1811.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5021
+  height: 3356
+- generation_id: xpeng-l03-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2026_Xpeng_L03_Long_Range_Plus.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/c/c9/2026_Xpeng_L03_Long_Range_Plus.jpg
+  licence: CC-BY-SA-4.0
+  author: Chanokchon
+  credit: Chanokchon, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4608
+  height: 2592
+- generation_id: zeekr-001-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2022_Zeekr_001_(front).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/0a/2022_Zeekr_001_%28front%29.jpg
+  licence: CC-BY-SA-4.0
+  author: User3204
+  credit: User3204, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 6234
+  height: 3712
+- generation_id: zeekr-7x-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2024_Zeekr_7X_front_view.png
+  file_url: https://upload.wikimedia.org/wikipedia/commons/4/4b/2024_Zeekr_7X_front_view.png
+  licence: CC-BY-3.0
+  author: iMoD Official
+  credit: iMoD Official, CC BY 3.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3313
+  height: 1863
+- generation_id: zeekr-7gt-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Zeekr_7GT_(01).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/c/ce/Zeekr_7GT_%2801%29.jpg
+  licence: CC-BY-SA-4.0
+  author: Y.Leclercq
+  credit: Y.Leclercq, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5256
+  height: 3504
+- generation_id: zeekr-x-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Zeekr_X_(front).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/34/2023_Zeekr_X_%28front%29.jpg
+  licence: CC-BY-SA-4.0
+  author: User3204
+  credit: User3204, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 6398
+  height: 3957
+- generation_id: genesis-gv60-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Genesis_GV60.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/67/2023_Genesis_GV60.jpg
+  licence: CC-BY-SA-4.0
+  author: Calreyn88
+  credit: Calreyn88, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3450
+  height: 2284
+- generation_id: leapmotor-b05-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Leapmotor_B05_front_Pozna%C5%84_Motor_Show_2026.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/1/1d/Leapmotor_B05_front_Pozna%C5%84_Motor_Show_2026.jpg
+  licence: CC-BY-SA-4.0
+  author: Peżot
+  credit: Peżot, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 6000
+  height: 4000
+- generation_id: lynk-co-02-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2025_Lynk_%26_Co_02_Heico_Sportiv_Auto_Zuerich_2025_DSC_3611.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/0/05/2025_Lynk_%26_Co_02_Heico_Sportiv_Auto_Zuerich_2025_DSC_3611.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 4156
+  height: 2764
+- generation_id: geely-e5-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Geely_E5_Auto_Zuerich_2026_IMG_8567.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/6/6b/Geely_E5_Auto_Zuerich_2026_IMG_8567.jpg
+  licence: CC-BY-SA-4.0
+  author: Alexander Migl
+  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 3624
+  height: 2122
+- generation_id: subaru-uncharted-gen1
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:Subaru_Uncharted,_Auto_2025,_Zurich_(20251029-P1074437).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/af/Subaru_Uncharted%2C_Auto_2025%2C_Zurich_%2820251029-P1074437%29.jpg
+  licence: CC-BY-SA-4.0
+  author: Matti Blume
+  credit: Matti Blume, CC BY-SA 4.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 5184
+  height: 3456
+- generation_id: ds-3-e-tense-crossback
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:2019_DS_3_Crossback_E-Tense_(53178409533).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/9/9c/2019_DS_3_Crossback_E-Tense_%2853178409533%29.jpg
+  licence: CC-BY-2.0
+  author: Rutger van der Maar
+  credit: Rutger van der Maar, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 2048
+  height: 1448
+- generation_id: ds-3-e-tense-facelift
+  source: commons
+  page_url: https://commons.wikimedia.org/wiki/File:DS_3_Crossback_E-Tense_(2023)_(54519974943).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/a/a0/DS_3_Crossback_E-Tense_%282023%29_%2854519974943%29.jpg
+  licence: CC-BY-2.0
+  author: Charles from Port Chester, New York
+  credit: Charles from Port Chester, New York, CC BY 2.0, via Wikimedia Commons
+  retrieved_at: '2026-11-17'
+  width: 6000
+  height: 4000

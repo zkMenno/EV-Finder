@@ -91,7 +91,7 @@ Verification is what lets many agents work at once without Menno checking every 
 ## 9. Product bar (every lane)
 - Every number traces to a Fact with source, date, confidence and licence; 2+ sources per headline field where possible; estimates labelled.
 - Simple by default, nerdy on demand: plain labels, ⓘ tooltip on every term, Simple / Detailed / Nerd.
-- Metric units, euros by default, six languages (EN, NL, DE, FR, ES, IT), light and dark, colour-blind safe, WCAG 2.2 AA.
+- Metric units, euros by default, English only at launch (Decision 082; NL, DE, FR, ES, IT strings stay in the repo for later), light and dark, colour-blind safe, WCAG 2.2 AA.
 - Honesty: flag licences, terms and uncertainty; never invent data.
 
 ## 10. Talking to Menno

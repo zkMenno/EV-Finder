@@ -25,15 +25,16 @@ test("Static pages: hash-based CSP, no nonce, no 'unsafe-inline'; the page hydra
   expect(src).toMatch(/'sha256-[A-Za-z0-9+/=]+'/);
   expect(src).not.toContain("unsafe-inline");
   expect(src).not.toContain("nonce-");
-  // Hydrated: the language switcher (client component) navigates.
-  await page.getByRole("combobox", { name: /Language/ }).selectOption("nl");
-  await expect(page).toHaveURL(/\/nl\/nl\/learn\/real-range$/);
+  // Hydrated: the country switcher (client component) navigates. (No language switcher while
+  // English is the only language, Decision 082.)
+  await page.getByRole("combobox", { name: /Country/ }).selectOption("be");
+  await expect(page).toHaveURL(/\/be\/en\/learn\/real-range$/);
   expect(violations).toEqual([]);
 });
 
 test("Dynamic pages: a fresh nonce per request, no 'unsafe-inline'; Explore works", async ({ page }) => {
   const violations = watchViolations(page);
-  const a = await scriptSrc(page, "/nl/en");
+  const a = await scriptSrc(page, "/nl/en/cars");
   expect(a).toMatch(/'nonce-[A-Za-z0-9+/=]+'/);
   expect(a).not.toContain("unsafe-inline");
   await expect(page.getByTestId("result-count")).not.toContainText("…");
@@ -45,7 +46,7 @@ test("Dynamic pages: a fresh nonce per request, no 'unsafe-inline'; Explore work
 });
 
 test("Security headers are set", async ({ request }) => {
-  const h = (await request.get("/nl/nl/top")).headers();
+  const h = (await request.get("/nl/en/top")).headers();
   expect(h["x-content-type-options"]).toBe("nosniff");
   expect(h["x-frame-options"]).toBe("DENY");
   expect(h["referrer-policy"]).toBe("strict-origin-when-cross-origin");
@@ -83,7 +84,7 @@ test("Staff review: the right credentials get the page, with a CSP", async ({ re
 });
 
 test("Public pages requested with prefetch headers still carry the CSP", async ({ request }) => {
-  for (const path of ["/nl/en", "/nl/en/learn/real-range", "/nl/nl/top"]) {
+  for (const path of ["/nl/en", "/nl/en/learn/real-range", "/nl/en/top"]) {
     for (const headers of PREFETCH_HEADERS) {
       const res = await request.get(path, { headers, maxRedirects: 0 });
       const csp = res.headers()["content-security-policy"] ?? "";

@@ -55,6 +55,8 @@ Listing feeds, price bands, Gem Score, alerts, battery-health context, PHEVs wit
 - Paid B2B API and widgets
 - Vans
 - China market
+- Catalogue long tail: rare models, ~900–1,200 variants in total (R-41 task 5; WS0 2026-11-18: after launch)
+- Ariakit (`@ariakit/react`, MIT, unstyled accessible React widgets; Menno, 2026-11-17): the preferred library if we ever need an autocomplete (combobox), dialog or complex multi-select (e.g. brand include/exclude). It must still pass apps/web rule 4: ask first, lazy-load it, stay under the 200 KB gzip Explore budget. Until then the hand-built pop-ups (`use-popover.ts`) stay.
 
 ## Decided
 

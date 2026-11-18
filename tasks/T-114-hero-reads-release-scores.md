@@ -35,3 +35,5 @@ Anything not on docs/spec/launch-scope.md.
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B3 fixed. -->
 
 WS0 subagent, 2026-11-17, 11160ab: R0–R3, D3, D6–D8, D10, D13 pass; hero scores = release scores on 7 answer sets; re-checked on release 2 (#100 review, 3 sets). **A-35 B3 fixed.**
+
+Reviewed by QA, 2026-11-17 (A-36, main be2de6f, release 2): pass for B3 (hero-nerd-source = shortlist_scores.json, e2e pass). Changes needed elsewhere: A-36 B1 (unknown preset values pass, T-138).

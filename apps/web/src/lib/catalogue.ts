@@ -21,6 +21,8 @@ import fixture from "../fixtures/catalogue.sample.json";
 // Dev fixture scores: the pipeline's own scorer (T-069) run on the fixture rows (see its `note`).
 import fixtureScores from "../fixtures/shortlist-scores.sample.json";
 import { isUsedPriceBand } from "./used-rankings";
+import popularityInputs from "../config/popularity.generated.json";
+import { rankGenerations, type Popularity, type PopularityInputs } from "./popularity";
 
 export interface Catalogue {
   release(): number;
@@ -56,6 +58,12 @@ export interface Catalogue {
    * source of the hero and "Suggested" ranking (Decision 065). Null when the release has none.
    */
   shortlistScores(): ReleaseScores | null;
+  /**
+   * "Most popular" score + rank per generation (T-130, Decision 038 blend). Today built from
+   * src/config/popularity.generated.json (top40 registrations + owner picks, weights in config/popularity.yaml);
+   * a release field from WS1 replaces it here once published, with no change for callers.
+   */
+  popularity(): Map<Id, Popularity>;
 }
 
 class JsonCatalogue implements Catalogue {
@@ -65,6 +73,7 @@ class JsonCatalogue implements Catalogue {
   private charging: ChargingStatsRelease | null | undefined;
   private used: VariantUsedPrices | undefined;
   private scores: ReleaseScores | null | undefined;
+  private pop: Map<Id, Popularity> | undefined;
 
   constructor(
     private readonly data: CatalogueFile,
@@ -133,6 +142,9 @@ class JsonCatalogue implements Catalogue {
     }
     this.used = parseVariantUsedPrices(doc);
     return this.used;
+  }
+  popularity(): Map<Id, Popularity> {
+    return (this.pop ??= rankGenerations(this.data.rows, popularityInputs as PopularityInputs));
   }
   shortlistScores(): ReleaseScores | null {
     if (this.scores !== undefined) return this.scores;

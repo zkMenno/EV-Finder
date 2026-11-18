@@ -1,10 +1,10 @@
 # WS3 status
 
-- **State:** active (3rd chat, 2026-11-17; link: Menno, add from CHATS.md)
-- **Now:** waiting for review: #115 + gate #116 (T-140, A-36 S7), #106 (T-131), #113 (T-133)
-- **Next:** T-136 task 2 (missing-model seed, ~40 models from R-41) after WS0 approves; A-36 S4 (NL loan rate) if a sourced NL APR exists; then HANDOFF.md 'Next steps'
-- **Blocked:** T-041 `verified` needs Menno's tap check; price samples for DE/FR/BE/UK; T-136 build waits on WS0 approval
-- **Last updated:** 2026-11-17 23:32 UTC by WS3
+- **State:** active (4th chat, 2026-11-18, https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9)
+- **Now:** T-136 task 2 PR #129 (35 models, EU match 95.6 %) waiting for review; next: absorb 2nd chat's stretch branch, then WS3 pre-push data-qa script
+- **Next:** T-136 task 2 (missing-model seed, ~40 models from R-41): approved by WS0 2026-11-18 08:58, soft-launch bar per Decision 048 (WS1 09:20); WS3 pre-push data-qa script (WS0: yes, own small PR); own config/popularity.yaml once #117 merges; A-36 S4 (NL loan rate) if a sourced NL APR exists; then HANDOFF.md 'Next steps'
+- **Blocked:** T-041 `verified` needs Menno's tap check; price samples for DE/FR/BE/UK
+- **Last updated:** 2026-11-18 11:20 UTC by WS3 (4th)
 
 ## Log
 - 2026-11-15 12:55 UTC · chat started (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), read START, INBOX, launch scope; claimed T-068.
@@ -23,6 +23,11 @@
 
 - 2026-11-17 23:12 UTC · 3rd chat: A-36 S7 → T-140 PR #115 (cited Ioniq 5 packs/WLTP, XPENG P7/P7+ rows, N facts off a retired id) + gate PR #116; verify-pipeline on fresh staging, 0 blocking with both.
 
+- 2026-11-18 09:11 UTC · #115 and #116 merged by WS0; A-36 S7 WS3 part done (facelift base 507 km stays a WS1 matching item).
+
+- 2026-11-18 09:25 UTC · 4th chat started; read HANDOFF, STATUS, START, INBOX 2026-11-18 lines; claimed T-136 task 2.
+- 2026-11-18 11:20 UTC · T-136 task 2 PR #129: 35 models / 37 generations, EEA match 86.7 → 95.6 %, ev verify 0 blocking; T03 + SEAT Mii left out (WS1 INBOX); T-140 should-fix note done.
+
 ## Retro (2026-11-17, 3rd chat)
 - Slowed down: fresh staging for verify-pipeline takes ~20 min (RDW, defects, TGK, Meteostat); verify itself ~5 min per run, and a baseline run on main is needed to tell my diff from staging drift.
 - Menno by hand: nothing.
@@ -34,3 +39,5 @@
 - Menno by hand: nothing this session.
 - Check that missed: my first photo filter read "e-2008" as a year and "Toyota" as "toy"; only the contact-sheet look caught wrong picks (rear views, interiors, wrong generation). Proposal: any generated image list gets a contact-sheet look before PR (WS3 lane rule).
 - Rule that would help: T-134 should reject a photo whose file_url 404s and report it back to WS3's INBOX.
+- 2026-11-18 10:15 UTC · 2nd chat: T-136 task 2 collided with the 4th chat (both approved); 4th chat owns it; my wider version (182 models, 97.7 % EEA match) on branch t-136-extra-models-2nd-chat.
+- 2026-11-18 11:20 UTC · 2nd chat: #106 should-fix → PR #128; #113 should-fix (Decision 083 CC0/PD, picks pinned by title, ruff) → PR #132.

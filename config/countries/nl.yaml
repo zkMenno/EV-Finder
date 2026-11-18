@@ -22,8 +22,9 @@ country: nl
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
 # these languages plus English. /{country}/ redirects to default_language. Read by
 # apps/web/scripts/countries.mjs.
-languages: [nl]
-default_language: nl
+# Decision 082: English only at launch. Hidden, not deleted: this country had [nl] (default nl); list them again to serve them.
+languages: []
+default_language: en
 listings:
   - site: autoscout24-nl
     label: AutoScout24

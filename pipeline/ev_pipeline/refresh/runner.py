@@ -480,6 +480,29 @@ def write_run_log(data_dir: Path, log: dict[str, Any], started: datetime) -> Pat
     return path
 
 
+def fetch_images(data_dir: Path) -> dict[str, Any]:
+    """T-134: download photos listed in data/images/photos.yaml that are not cached yet, so the
+    release step can resize them. Never fails the refresh: problems are logged, the release
+    goes out without the missing photos."""
+    from ev_pipeline.images.photos import load_photos
+    from ev_pipeline.images.store import CACHE_DIR, fetch_originals
+    from ev_pipeline.match.seed import load_seed
+
+    try:
+        seed = load_seed(data_dir / "seed" / "models.yaml")
+        photos, problems = load_photos(data_dir, set(seed.generations), datetime.now(UTC).date())
+        if not photos:
+            return {"outcome": "skipped", "reason": "no photos", "problems": len(problems)}
+        rep = fetch_originals(photos, data_dir / CACHE_DIR)
+        return {
+            "outcome": "partial" if rep.failed else "ok",
+            "problems": len(problems),
+            **rep.log(),
+        }
+    except Exception as exc:  # noqa: BLE001  photos must never block a data release
+        return {"outcome": "failed", "reason": f"{type(exc).__name__}: {exc}"[:500]}
+
+
 def _published_sources(data_dir: Path) -> set[str] | None:
     """Source ids cited by the latest release (None: no release yet, so every planned source
     must have staging data). A new source that never shipped does not block a release."""
@@ -522,6 +545,7 @@ def _release(
             "reason": "no staging data for " + ", ".join(missing) + " (a release that loses a"
             " whole source is never published)",
         }
+    images = fetch_images(data_dir)
     t = time.monotonic()
     try:
         res = build_release(data_dir)
@@ -533,6 +557,7 @@ def _release(
     ):
         return {"outcome": "skipped", "reason": "catalogue identical to the previous release"}
     summary = {
+        "images": images,
         "schema": "refresh-summary/v1",
         "release": res.release,
         "started_at": started.isoformat(),

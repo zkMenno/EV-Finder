@@ -100,6 +100,8 @@ function sortValue(r: ExploreRow, key: SortKey, country: Country, score?: Scorer
       return r.registered_count_nl ?? null;
     case "quality":
       return TIER_RANK[r.quality_tier];
+    case "popular":
+      return r.pop ?? null;
   }
 }
 

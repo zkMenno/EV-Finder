@@ -138,6 +138,8 @@ class ReleaseResult:
     used_prices: dict[str, Any] | None = None
     # T-111: values the plausibility gate took out of the rows (Issue dicts, qa.json).
     plausibility_withheld: list[dict[str, Any]] = field(default_factory=list)
+    # T-134: resized car photos (release-relative path -> WebP bytes), published as assets.
+    image_files: dict[str, bytes] = field(default_factory=dict)
 
 
 # --- loading -----------------------------------------------------------------------------
@@ -289,6 +291,44 @@ def compute_diff(prev: dict[str, Any] | None, cur: dict[str, Any]) -> dict[str, 
             "changed": len(changed),
         },
     }
+
+
+def generation_has_image(schema: dict[str, Any]) -> bool:
+    """T-134: attach `generations[].image` only once packages/schema defines it (WS0)."""
+    gen = schema.get("$defs", {}).get("Generation", {})
+    return "image" in gen.get("properties", {})
+
+
+def attach_images(
+    catalogue: dict[str, Any], data_dir: Path, today: date
+) -> tuple[dict[str, bytes], dict[str, Any]]:
+    """Car photos (T-134, Decision 081): validated photos.yaml entries whose original is in
+    data/cache/images get resized WebP files and a `generations[].image` field. Returns the
+    files to write and the run-log section. Nothing is fetched here (`ev images fetch`)."""
+    from ev_pipeline.images.photos import load_photos
+    from ev_pipeline.images.store import CACHE_DIR, build_release_images
+
+    gens = catalogue["generations"]
+    photos, problems = load_photos(data_dir, {g["id"] for g in gens}, today)
+    log: dict[str, Any] = {
+        "photos": len(photos),
+        "problems": [{"generation_id": p.generation_id, "reason": p.reason} for p in problems],
+    }
+    pf = data_dir / "images" / "photos.yaml"
+    if pf.exists():
+        log["photos_file"] = {"records": len(photos) + len(problems), "modified": _mtime(pf)}
+    if not photos:
+        log["status"] = "no photos"
+        return {}, log
+    if not generation_has_image(_schema()):
+        log["status"] = "held back: packages/schema has no Generation.image yet (WS0)"
+        return {}, log
+    rel = build_release_images(photos, data_dir / CACHE_DIR)
+    for g in gens:
+        if g["id"] in rel.fields:
+            g["image"] = rel.fields[g["id"]]
+    log.update(rel.log(), status="attached")
+    return rel.files, log
 
 
 def build_release(
@@ -547,6 +587,11 @@ def build_release(
         catalogue["generated_at"],
     )
     inputs += used.inputs
+    images, images_log = attach_images(catalogue, data_dir, today)
+    if images_log.get("photos_file"):
+        inputs.append(
+            {"path": str(data_dir / "images" / "photos.yaml"), **images_log["photos_file"]}
+        )
 
     for inp in inputs:
         inp["path"] = log_path(inp["path"], data_dir)
@@ -633,6 +678,7 @@ def build_release(
         shortlist_backtest=shortlist.backtest,
         used_prices=used.document,
         plausibility_withheld=[i.to_dict() for i in plaus.issues if i.action == WITHHOLD],
+        image_files=images,
         sections={
             "epa_range_km": epa_summary(rows),
             "generation_years": years.log,
@@ -643,6 +689,7 @@ def build_release(
             "retired_ids": retired.log,
             "shortlist_scores": shortlist.log,
             "used_prices": used.log,
+            "images": images_log,
             "real_range_winter_km": winter_log,
             "plausibility": plaus.log(),
             "pack_links": link_coverage(link_report),
@@ -1109,6 +1156,10 @@ def write_release(res: ReleaseResult, data_dir: Path, extras: dict[str, Any] | N
                 json.dumps(doc, separators=(",", ":"), ensure_ascii=False) + "\n",
                 encoding="utf-8",
             )
+    for rel_path, data in sorted(res.image_files.items()):
+        dest = tmp / rel_path
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(data)
     for name, doc in (_default_extras(res, data_dir) if extras is None else extras).items():
         if "/" in name or name.startswith("."):
             raise ReleaseError(f"bad extra file name: {name!r}")
