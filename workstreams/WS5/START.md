@@ -1,42 +1,36 @@
-# WS5 — Partnerships and growth: start here
+# WS5 lane brief: partnerships and growth
 
-You are **WS5**, the partnerships and growth workstream for EV Finder. You run in a claude.ai project chat with the repo attached. You get the permissions and partners the data depends on, prepare the brand and domain choice, and plan SEO and launch. Menno does marketing himself: you research, draft and plan; he approves anything that goes out in his name.
+For any batch chat whose prompt touches this lane. Owner: WS0 (the coordinator). How chats work: [docs/process/README.md](../../docs/process/README.md) §3; rules: [rules.md](../../docs/process/rules.md). The lane gets the permissions and partners the data depends on, prepares the brand and domain choice, and plans SEO and launch. Menno does marketing himself: the lane researches, drafts and plans; he approves anything that goes out in his name.
 
-## 0. First five minutes
-1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`) and clone it.
-2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS5/INBOX.md` · `workstreams/WS5/STATUS.md` · `BOARD.md` · `QUESTIONS.md` · the project's `claude/decisions.md` (Business, Markets, Product).
-3. Spec: `docs/spec/master-spec-v2.md` §1–2 and §14–16, `docs/spec/marketplaces.md`, `docs/spec/source-matrix.md` (which sources need permission), `docs/spec/charging-buildout.md` (SEO page ideas).
-4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
+## Start
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`); add your row to `CHATS.md`. Usually a claude.ai project chat.
+2. Read `AGENTS.md`, `REVIEW.md` (from `origin/main`), `docs/process/README.md`, your task files, this brief, `BOARD.md`, `QUESTIONS.md`, `docs/spec/product-decisions.md`.
+3. Before each task: check open PRs and `git ls-remote --heads origin | grep <task-id>`; stop if another chat has it (G-41). Check `docs/outreach/`, `docs/growth/`, `docs/brand/` for work already started.
+4. Spec: `docs/spec/master-spec-v2.md` §1–2 and §14–16, `marketplaces.md`, `source-matrix.md` (sources needing permission), `charging-buildout.md` (SEO page ideas).
 
-## 1. Lane
-You own `docs/outreach/`, `docs/growth/`, `docs/brand/` and your `STATUS.md`/`HANDOFF.md`. Affiliate tags and marketplace terms go to WS3's INBOX (country config); permission outcomes go to WS1's INBOX (source status) and WS0's INBOX (DECISIONS).
+## What the lane owns
+`docs/outreach/`, `docs/growth/`, `docs/brand/`. Affiliate tags and marketplace terms (for WS3's country config), permission outcomes (for WS1's source status) and decisions: one line each in `workstreams/WS0/INBOX.md`. Decision numbers: ask WS0 for a sub-range of 070–079.
 
-## 2. Hard rules
+## Lane rules
 - Nothing is sent, posted or registered in Menno's name without his approval. Drafts live in `docs/outreach/drafts/` with status `draft` → `approved` → `sent` (Menno sets approved).
-- Money over about €50/month or €200 one-off, the brand name and domain, public launch, and any legal or licence risk go to Menno as a question (via WS0's INBOX for QUESTIONS.md).
+- Money over ~€50/month or €200 one-off, the brand name and domain, public launch and any legal or licence risk go to Menno as a question (via WS0's INBOX for QUESTIONS.md). Never buy a domain.
 - Honesty: no invented traffic numbers or claims; say what we are and aren't (a finder, free for buyers, no paid rankings, no ads).
-- Marketing skills: use the marketing skills available in the chat (copywriting, SEO, launch, co-marketing, cold-email) and run prose that goes out under Menno's name through the unslop skill.
-- Partner and affiliate credentials never go in the repo (Decision 004).
-- Time-box research: answer the question, cite sources with links and dates, mark 🟢 verified / 🟡 reasoned / 🔴 unsure.
+- Use the marketing skills in the chat (copywriting, SEO, launch, co-marketing, cold-email); run prose that goes out under Menno's name through the unslop skill.
+- Partner and affiliate credentials never go in the repo (Decision 004). Never scrape marketplaces.
+- Time-box research; cite sources with links and dates; mark 🟢 verified / 🟡 reasoned / 🔴 unsure.
 
-## 3. Task list (in order; skip blocked ones, come back later)
-WS0 may already have started some of these; check `docs/` and your INBOX first.
-1. **Outreach drafts** (★ Menno approves): Bjørn Nyland (range sheet + consumption tests + box tests), Fastned (curves), NAF/Motor (El Prix), Spritmonitor, Euro NCAP, EV Database (cross-check), ABRP (typecode deep link), then the marketplace groups Autonex, Adevinta, Vend, OLX Group. One file each in `docs/outreach/drafts/`.
-2. **Affiliate programmes** per launch country (AutoScout24, mobile.de, leboncoin / La Centrale, Marktplaats, Autotrader UK): which exist, network, terms, payout, deep-link and cookie rules → `docs/growth/affiliates.md`; feed config needs to WS3.
-3. **Name + domain follow-up** (★): once Menno picks from `docs/brand/name-shortlist.md`, check trademark classes 9/35/42 in EUIPO, BOIP and UKIPO properly and draft the registration steps; never buy a domain yourself.
-4. **SEO plan** → `docs/growth/seo-plan.md`: programmatic pages (model, generation, ranking, /learn, "How many EV chargers in {country}", "Winter range of {model}"), schema.org types, hreflang for six languages, sitemap, internal links, how to outrank EV Database on used-car queries.
-5. **Launch and growth plan** → `docs/growth/launch-plan.md`: communities, press, Product Hunt-style launches, "The range you truly need" as the content hook, a measurement plan with cookie-less analytics.
-6. **Partnership pitch** one-pager for marketplaces: what we give them (pre-filtered EV buyers on their listings), what we ask (feed or affiliate), data we never take.
+## Verify before every push
+- Every claim in a doc has a link and a date; decisions Menno must take are listed at the top. Relative links resolve.
+- Commits end with `Verified: <how>`.
 
-## 4. Definition of done (per task)
-Document in your lane with sources · decisions needed from Menno listed at the top · STATUS.md updated · WS0's INBOX told what's ready and what needs Menno.
+## Done (per task)
+Document in the lane with sources · Menno's decisions listed at the top · PR · Status + Handoff notes in the task file · what's ready and what needs Menno in one WS0 INBOX line.
 
-## 5. Check-in rhythm
-- After every task: read your INBOX, update STATUS.md, append a summary to `workstreams/WS0/INBOX.md`.
-- Loop guard: the same dead end 3 times or 30 minutes without progress → log it, try one different approach, otherwise park it and move on.
+## Finish the batch
+State lives in task files and PRs, not here. When the batch is done or blocked: one line in `workstreams/WS0/INBOX.md` (`- YYYY-MM-DD HH:MM UTC · from <chat link> · …`, with the four retro answers), then stop. No STATUS or HANDOFF files.
 
-## 6. Context hygiene
-Before the chat gets long write `workstreams/WS5/HANDOFF.md` (state, who was contacted, open threads, next steps), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS5/HANDOFF.md and START.md and go."
-
-## Retro (end of every session)
-Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.
+## Open lane threads (WS0 turns them into tasks; the lane has not run yet)
+- Outreach drafts: Bjørn Nyland, Fastned, NAF/Motor (El Prix), Spritmonitor, Euro NCAP, EV Database (cross-check), ABRP, then the marketplace groups Autonex, Adevinta, Vend, OLX Group. One file each in `docs/outreach/drafts/`.
+- Affiliate programmes per launch country → `docs/growth/affiliates.md`.
+- Name + domain follow-up once Menno picks from `docs/brand/name-shortlist.md`: trademark classes 9/35/42 in EUIPO, BOIP, UKIPO.
+- SEO plan → `docs/growth/seo-plan.md`; launch and growth plan → `docs/growth/launch-plan.md`; partnership one-pager for marketplaces.

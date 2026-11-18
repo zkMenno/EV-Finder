@@ -96,6 +96,7 @@ FACT_KEYS = {
     "unit",
     "country",
     "year",
+    "years",
     "source_url",
     "source_name",
     "retrieved",
@@ -107,6 +108,24 @@ FACT_KEYS = {
     "notes",
     "source",
 }
+
+
+def _years_span(raw: object, today: date) -> tuple[tuple[int, int | None] | None, str]:
+    """`years: [from, to]` -> ((from, to), ''); to may be null (still built)."""
+
+    def whole(v: object) -> bool:
+        return isinstance(v, int) and not isinstance(v, bool) and 2000 <= v <= today.year + 1
+
+    bad = (
+        f"years must be [from, to]: whole years 2000-{today.year + 1}, to >= from or null"
+        f" (still built), got {raw!r}"
+    )
+    if not isinstance(raw, list) or len(raw) != 2:
+        return None, bad
+    lo, hi = raw
+    if not whole(lo) or not (hi is None or (whole(hi) and hi >= lo)):
+        return None, bad
+    return (lo, hi), ""
 
 
 def expected_unit(fname: str) -> str | None:
@@ -126,6 +145,11 @@ class ManualFact:
     locator: str | None = None
     notes: str | None = None
     year: int | None = None  # price_new: the year the price applies to (record year)
+    # Generation facts only: model years [from, to] (to None = still built) the fact holds
+    # for. It applies to the generation's variants whose years lie fully inside (WS3 ask,
+    # Decision 059: e.g. Model 3 heat pump from MY2021). A variant that straddles the
+    # boundary gets neither value: "not known" beats a wrong one.
+    years: tuple[int, int | None] | None = None
 
 
 @dataclass
@@ -397,6 +421,16 @@ def parse_manual_file(
                 " price estimate cannot use a list price without a year"
             )
 
+        years: tuple[int, int | None] | None = None
+        if raw.get("years") is not None:
+            years, why = _years_span(raw.get("years"), today)
+            if subject_type != "generation":
+                msgs.append("years is only for generation facts (a variant has its own years)")
+            elif why:
+                msgs.append(why)
+            elif years is not None:
+                record_key += f":{years[0]}-{'' if years[1] is None else years[1]}"
+
         if fname not in {f.value for f in FactField}:
             msgs.append(f"unknown field {fname!r} (must be a schema FactField)")
         elif fname == "registered_count":
@@ -501,6 +535,7 @@ def parse_manual_file(
                 locator=locator,
                 notes=_text(raw.get("notes")),
                 year=year,
+                years=years,
             )
         )
     return out, issues, fixture
@@ -563,7 +598,7 @@ def load_manual_dir(
             # value that replaces it; the licence gate decides which one ships.
             dup = (
                 f"{f.source.id.root}|{f.subject_id.root}|{f.field.value}|"
-                f"{f.country.value if f.country else ''}|{mf.year or ''}"
+                f"{f.country.value if f.country else ''}|{mf.year or ''}|{mf.years or ''}"
             )
             if dup in seen and not fixture:
                 res.issues.append(
@@ -571,7 +606,7 @@ def load_manual_dir(
                         rel,
                         None,
                         mf.record_key,
-                        f"duplicate of {seen[dup]} (same subject, field, country and year)",
+                        f"duplicate of {seen[dup]} (same subject, field, country and year(s))",
                         f.subject_id.root,
                         f.field.value,
                     )
@@ -658,6 +693,22 @@ def attach_manual_facts(
         if not vids:
             problem(mf, "generation has no variants in this release")
             continue
+        if mf.years is not None:
+            lo, hi = mf.years
+            vids = [
+                v
+                for v in vids
+                if result.variants[v].years
+                and min(result.variants[v].years) >= lo
+                and (hi is None or max(result.variants[v].years) <= hi)
+            ]
+            if not vids:
+                problem(
+                    mf,
+                    f"no variant of the generation lies fully inside years {lo}-{hi or ''}"
+                    " (straddling variants get neither value)",
+                )
+                continue
         for vid in vids:
             fd = f.model_dump(mode="json", exclude_none=True)
             fd.update({"id": f"{f.id}@{vid}", "subject_type": "variant", "subject_id": vid})

@@ -1,0 +1,112 @@
+[
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*05",
+"Va": "AGV",
+"Ve": "AGVYB0",
+"registrations": 808,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*05",
+"Va": "AGV",
+"Ve": "AGVYB1",
+"registrations": 263,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*06",
+"Va": "AGV",
+"Ve": "AGVYB0",
+"registrations": 2339,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*06",
+"Va": "AGV",
+"Ve": "AGVYB1",
+"registrations": 59,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*07",
+"Va": "AGV",
+"Ve": "AGVYB0",
+"registrations": 5896,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*07",
+"Va": "AGV",
+"Ve": "AGVYB1",
+"registrations": 338,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*08",
+"Va": "AGV",
+"Ve": "AGVYB0",
+"registrations": 244,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "RENAULT",
+"TAN": "e2*2007/46*0251*08",
+"Va": "AGV",
+"Ve": "AGVYB1",
+"registrations": 11,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "TESLA",
+"TAN": "",
+"Va": "",
+"Ve": "",
+"registrations": 1,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "TESLA",
+"TAN": ":e4*2007/46*0667*03",
+"Va": "85R",
+"Ve": "B21B4",
+"registrations": 1,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+},
+{
+"Year": 2015,
+"Mk": "",
+"TAN": "",
+"Va": "",
+"Ve": "",
+"registrations": 120,
+"table": "[CO2Emission].[latest].[co2cars]",
+"status": "F"
+}
+]
