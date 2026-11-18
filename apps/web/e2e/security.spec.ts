@@ -34,7 +34,7 @@ test("Static pages: hash-based CSP, no nonce, no 'unsafe-inline'; the page hydra
 
 test("Dynamic pages: a fresh nonce per request, no 'unsafe-inline'; Explore works", async ({ page }) => {
   const violations = watchViolations(page);
-  const a = await scriptSrc(page, "/nl/en");
+  const a = await scriptSrc(page, "/nl/en/cars");
   expect(a).toMatch(/'nonce-[A-Za-z0-9+/=]+'/);
   expect(a).not.toContain("unsafe-inline");
   await expect(page.getByTestId("result-count")).not.toContainText("…");

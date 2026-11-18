@@ -19,6 +19,8 @@ export const SORT_KEYS = [
   "quality",
   // T-067: order from the shortlist rules for the profile picked in the hero (src/lib/shortlist.ts).
   "suggested",
+  // T-130: registrations + owner picks blend (src/lib/popularity.ts); the catalogue page's default order.
+  "popular",
 ] as const;
 export type SortKey = (typeof SORT_KEYS)[number];
 export type SortDir = "asc" | "desc";
@@ -229,7 +231,8 @@ export function hasViewParam(src: ParamSource): boolean {
 }
 
 /** Serialise to URL params; defaults are omitted so the plain page URL stays clean. */
-export function toSearchParams(state: ExploreState): URLSearchParams {
+/** `defaultView`: the page's own default, left out of the URL (Explore on /cars defaults to cards, T-130). */
+export function toSearchParams(state: ExploreState, defaultView: View = "table"): URLSearchParams {
   const p = new URLSearchParams();
   const f = state.filters;
   for (const k of NUMERIC_FILTERS) {
@@ -242,7 +245,7 @@ export function toSearchParams(state: ExploreState): URLSearchParams {
   if (state.sort) p.set("sort", (state.dir === "desc" ? "-" : "") + state.sort);
   for (const k of Object.keys(LIST_PARAM) as ListFilter[]) if (f[k].length) p.set(LIST_PARAM[k], ids(f[k]).join(","));
   for (const k of Object.keys(FLAG_PARAM) as FlagFilter[]) if (f[k]) p.set(FLAG_PARAM[k], "1");
-  if (state.view === "cards") p.set("view", "cards");
+  if (state.view !== defaultView) p.set("view", state.view);
   if (state.level !== "detailed") p.set("level", state.level);
   if (state.pay !== "buy") p.set("pay", state.pay);
   return p;
@@ -326,7 +329,16 @@ const FIRST_DIR: Record<SortKey, SortDir> = {
   rdw: "desc",
   quality: "desc",
   suggested: "desc",
+  popular: "desc",
 };
+
+/** Sort menu (T-130): pick a key in its natural first direction (numbers high→low, price low→high). */
+export function sortBy(state: ExploreState, key: SortKey): ExploreState {
+  return { ...state, sort: key, dir: FIRST_DIR[key] };
+}
+
+/** The keys the catalogue page's sort menu offers, in menu order (T-130 design). */
+export const MENU_SORTS = ["popular", "price", "range", "battery", "dc", "years"] as const satisfies readonly SortKey[];
 
 /** Header click cycle: first direction → other direction → unsorted. */
 export function nextSort(state: ExploreState, key: SortKey): ExploreState {

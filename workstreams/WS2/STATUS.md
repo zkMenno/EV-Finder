@@ -1,10 +1,10 @@
 # WS2 status
 
 - **State:** active
-- **Now:** landing parallax (UX notes 2026-11-17) on fix/landing-parallax-bands (8564515), fresh review running; PR needs opening by Menno (API access)
-- **Next:** (a) link /learn/batteries from hero cards once WS3's #35 merges; (b) winter range on hero cards + T-045 deltas once WS1 publishes the field; (c) e2e for used price by build year once a release ships used_prices.json (WS1 #21/#38); (d) read `shortlist_score` from WS1's T-069 (#15) if WS0 wants it
+- **Now:** T-130 part 2 (catalogue visual layer: sidebar groups, phone sheet, pills, generation cards)
+- **Next:** T-131 Popular used EVs, T-135 photo cards, T-132 hero redesign; #111 needs main merged in
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-17 20:41 UTC by WS2 (2nd chat)
+- **Last updated:** 2026-11-18 08:55 UTC by WS2 (5th chat)
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
@@ -19,8 +19,15 @@
 
 - 2026-11-17 11:42 UTC · #68: the served-route test caught a real DE bug (16 px clip on CI, font-dependent); fixed with breakable words + nowrap numbers, merged Points×Weight column, 12 % wider-text pass in the 360 px test. Review passed. My self-merge was blocked by the session permission check; Menno merges.
 
+- 2026-11-17 21:48 UTC · 3rd WS2 chat (https://claude.ai/code/session_01JuyZEUgDrkg5ED4ZkeyEzg). T-137: all countries English only via config (served list), picker/banner hidden for single-language countries, e2e english-only.spec.ts for 7 countries. PR #111.
+
+- 2026-11-18 08:55 UTC · 5th WS2 chat (https://claude.ai/code/session_01JuyZEW7knztpvwmHJjJ3mb). Started T-130 part 2.
+
 ## Retro (first WS2 session, 2026-11-15)
 - **What slowed us down:** decision numbers clashed twice (053, 054 went to Dependabot decisions while in my START range); pushes from this session don't trigger CI (runs started with workflow_dispatch); a rebase of a pushed branch then a blocked force-push cost a messy merge with leftover conflict markers; stacked PRs need re-merging after every main change.
 - **What Menno had to do by hand:** nothing so far.
 - **Proposed rules (for WS0 to add to operating-rules / AGENTS.md):** (1) each workstream owns a fixed decision block (e.g. WS2 = 055–069) listed in DECISIONS.md, and WS0 takes from its own block; (2) never rebase a pushed branch, merge main in instead; (3) grep for conflict markers before every push (or a pre-push hook); (4) after a push from a Claude session, start CI with workflow_dispatch and trust the run on the PR head.
 - 2026-11-17 04:14 UTC · Menno OK'd WS2 merging its own PRs (WS0 was idle). Merged #22 T-080, #23 T-067, #29 T-092, #36 T-093, #37 T-094, #28 T-091, each with main merged in, local e2e green and CI green on the PR head. Main f40d475: CI + Images green. START §3 #6 checked on main: hreflang + canonical + html lang right on 99 launch page × language combinations; NL complete except internal staff.review.* strings.
+- 2026-11-17 23:58 UTC · WS2 (https://claude.ai/code/session_01JuyZEUuCTBUyPNJ74C3iRD): T-130 part 1 PR #117 (+ gate PR #118). Next: T-130 part 2 (design's visual layer), then T-131. Asked WS1 for a release popularity field.
+- 2026-11-18 00:45 UTC · #117 ready to merge (re-review PASS, CI green on da6521b); merge blocked in this session, asked WS0/Menno. Then #118.
+- 2026-11-18 08:55 UTC · #117 + #118 merged (T-130 part 1 done). Next: T-130 part 2 in a fresh WS2 chat.

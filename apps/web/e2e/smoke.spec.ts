@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("Explore: filter, add 2 to compare, reload, tray keeps 2", async ({ page, baseURL }) => {
+test("Explore (/cars, T-130): filter, add 2 to compare, reload, tray keeps 2", async ({ page, baseURL }) => {
   const origin = new URL(baseURL!).origin;
   const foreign: string[] = [];
   page.on("request", (req) => {
@@ -8,7 +8,7 @@ test("Explore: filter, add 2 to compare, reload, tray keeps 2", async ({ page, b
     if (!u.startsWith(origin) && !u.startsWith("data:")) foreign.push(u);
   });
 
-  await page.goto("/nl/en");
+  await page.goto("/nl/en/cars?view=table");
   // Server-rendered rows are there before the client takes over.
   await expect(page.getByTestId("explore-row").first()).toBeVisible();
   // Full list fetched from our own origin.
@@ -42,7 +42,7 @@ test("Explore: filter, add 2 to compare, reload, tray keeps 2", async ({ page, b
 });
 
 test("Country switch keeps the path, filters and the compare tray (Decision 015 + 082)", async ({ page }) => {
-  await page.goto("/nl/en?range=300");
+  await page.goto("/nl/en/cars?view=table&range=300");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByTestId("result-count")).not.toContainText("…");
   const toggles = page.getByTestId("compare-toggle");
@@ -53,12 +53,12 @@ test("Country switch keeps the path, filters and the compare tray (Decision 015 
   await expect(page.getByRole("combobox", { name: /Language/ })).toHaveCount(0);
 
   await page.getByRole("combobox", { name: /Country/ }).selectOption("uk");
-  await expect(page).toHaveURL(/\/uk\/en\?range=300$/);
+  await expect(page).toHaveURL(/\/uk\/en\/cars\?view=table&range=300$/);
   await expect(page.getByLabel(/new price \(GBP\)/i)).toBeVisible();
   await expect(page.getByTestId("compare-tray").getByRole("listitem")).toHaveCount(2);
 
   await page.getByRole("combobox", { name: /Country/ }).selectOption("be");
-  await expect(page).toHaveURL(/\/be\/en\?range=300$/);
+  await expect(page).toHaveURL(/\/be\/en\/cars\?view=table&range=300$/);
   await expect(page.locator("#f-rangeMin")).toHaveValue("300");
   await expect(page.getByTestId("compare-tray").getByRole("link")).toHaveAttribute("href", /^\/be\/en\/compare\?ids=/);
 });
@@ -88,13 +88,14 @@ test("Language URLs: old URLs redirect to English, <html lang>, hreflang, no hea
   expect(sm).not.toContain("/compare");
 });
 
-test("Explore rows link to variant pages; header links to Rankings and Compare", async ({ page }) => {
-  await page.goto("/nl/en");
+test("Explore rows link to variant pages; header links to All cars, Rankings and Compare", async ({ page }) => {
+  await page.goto("/nl/en/cars?view=table");
   const nav = page.getByRole("navigation", { name: /Hoofdmenu|Main/ });
   // Rankings are parked (Decision 051): the header links to them only when they are switched on.
   if (process.env.E2E_PARKED === "1") await expect(nav.getByRole("link", { name: "Rankings" })).toHaveAttribute("href", "/nl/en/top");
   else await expect(nav.getByRole("link", { name: "Rankings" })).toHaveCount(0);
   await expect(nav.getByRole("link", { name: "Compare", exact: true })).toHaveAttribute("href", "/nl/en/compare");
+  await expect(nav.getByRole("link", { name: "All cars" })).toHaveAttribute("href", "/nl/en/cars");
 
   const first = page.getByTestId("explore-row").first().getByRole("rowheader").getByRole("link");
   const href = await first.getAttribute("href");
