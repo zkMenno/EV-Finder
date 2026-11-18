@@ -11,6 +11,20 @@ export function priceFor(row: ExploreRow, country: Country): number | null {
   return row.price_new?.[country]?.amount ?? null;
 }
 
+/**
+ * Typical used prices (band medians, all build years) of a row where the visitor lives (T-081
+ * bands, estimates included: Decision 064). Empty without bands for that country.
+ */
+export function usedMedians(row: ExploreRow, country: Country): number[] {
+  return (row.used_bands?.[country] ?? []).map((b) => b[2]);
+}
+
+/** The cheapest typical used price of a row (used-price sort, T-130). */
+export function usedFrom(row: ExploreRow, country: Country): number | null {
+  const m = usedMedians(row, country);
+  return m.length ? Math.min(...m) : null;
+}
+
 /** A row with a missing value is excluded only when that filter is active. */
 export function applyFilters(rows: ExploreRow[], f: ExploreFilters, country: Country): ExploreRow[] {
   const checks: ((r: ExploreRow) => boolean)[] = [];
@@ -29,6 +43,16 @@ export function applyFilters(rows: ExploreRow[], f: ExploreFilters, country: Cou
     });
   };
   max((r) => priceFor(r, country), f.priceMax);
+  // Used price: some build year's typical price lies inside the chosen range, within the chosen build
+  // years when those are set too (no bands = no match).
+  if (f.usedMin !== null || f.usedMax !== null) {
+    const lo = f.usedMin ?? 0;
+    const hi = f.usedMax ?? Infinity;
+    const y0 = f.yearMin ?? -Infinity;
+    const y1 = f.yearMax ?? Infinity;
+    checks.push((r) => (r.used_bands?.[country] ?? []).some(([y, , m]) => m >= lo && m <= hi && y >= y0 && y <= y1));
+  }
+  min((r) => r.real_range_winter_km, f.winterMin);
   min((r) => r.real_range_km, f.rangeMin);
   min((r) => r.battery_kwh_net, f.batteryMin);
   // Decision 009: the DC filter uses km added in 20 min (motorway consumption).
@@ -102,6 +126,10 @@ function sortValue(r: ExploreRow, key: SortKey, country: Country, score?: Scorer
       return TIER_RANK[r.quality_tier];
     case "popular":
       return r.pop ?? null;
+    case "used":
+      return usedFrom(r, country);
+    case "winter":
+      return r.real_range_winter_km ?? null;
   }
 }
 
@@ -129,6 +157,8 @@ export function sortRows(rows: ExploreRow[], key: SortKey | null, dir: SortDir, 
  * Groups fields that one control sets together (the voltage range).
  */
 export const FILTER_GROUPS = [
+  ["usedMin", "usedMax"],
+  ["winterMin"],
   ["priceMax"],
   ["eras"],
   ["segments"],

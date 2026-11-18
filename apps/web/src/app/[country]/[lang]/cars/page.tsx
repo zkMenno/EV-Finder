@@ -10,6 +10,7 @@ import { getClientDict, getT } from "@/i18n";
 import { clientCatalogueKey, getCatalogue } from "@/lib/catalogue";
 import { sourceNames, toExploreRow } from "@/lib/explore-data";
 import { applyFilters, sortRows } from "@/lib/filters";
+import { brandCounts, generationCount } from "@/lib/generation-cards";
 import { financeProfile } from "@/lib/finance-profiles";
 import { heroFromSearchParams } from "@/lib/hero-state";
 import { resolveProfile, suggestedScore } from "@/lib/shortlist";
@@ -18,8 +19,9 @@ import { localizeTaxonomy } from "@/lib/taxonomy";
 import { hasTowns } from "@/lib/trip-model";
 import { pageMeta, servedRoute } from "../ev/_lib/context";
 
-/** Rows rendered on the server; the client takes over with the full list. */
+/** Rows rendered on the server (table) and generations (cards); the client takes over with the full list. */
 const SSR_ROWS = 25;
+const SSR_CARDS = 12;
 const HOW_ID = "how-we-rank";
 
 type Props = {
@@ -67,6 +69,14 @@ export default async function CataloguePage({ params, searchParams }: Props) {
   const scorer = profile ? (r: (typeof all)[number]) => suggestedScore(r, profile) : undefined;
   const matches = sortRows(applyFilters(all, state.filters, cfg.code), state.sort, state.dir, cfg.code, scorer);
   const tax = localizeTaxonomy(cat.taxonomy(), lang);
+  // The first rows for the table and every variant of the first generations for the cards, so a
+  // server-rendered card already shows its whole span (one card per generation, T-130).
+  const firstGens = new Set<string>();
+  for (const r of matches) {
+    if (firstGens.size >= SSR_CARDS) break;
+    firstGens.add(r.generation_id);
+  }
+  const initialRows = matches.filter((r, i) => i < SSR_ROWS || firstGens.has(r.generation_id));
   const pct = weightPercents(popularityInputs.weights);
 
   return (
@@ -87,9 +97,12 @@ export default async function CataloguePage({ params, searchParams }: Props) {
         levelFromUrl={hasLevelParam(sp)}
         taxonomy={tax}
         asOf={cat.generatedAt().slice(0, 10)}
-        initialRows={matches.slice(0, SSR_ROWS)}
+        initialRows={initialRows}
         initialMatches={matches.length}
         total={all.length}
+        totalModels={generationCount(all)}
+        initialMatchModels={generationCount(matches)}
+        brands={brandCounts(all)}
         dataUrl={`/data/catalogue-${clientCatalogueKey(cat)}.json`}
         sources={sourceNames(cat.sources())}
         tripFit={tripFit}

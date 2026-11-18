@@ -943,4 +943,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** apps/web/AGENTS.md rule 4 changes in its own gate PR. The hand-built popovers (`use-popover.ts`: Num, Term ⓘ, Explore) stay for now: they are on Explore's first paint and an Ariakit popover there would eat most of the remaining ~25 KB budget headroom; revisit if the budget is raised or Ariakit's popover chunk proves small (measure first).
 
+## Decision 085: Official WLTP range shown next to our real range; real range leads
+
+**Status:** Accepted (Menno, 2026-11-18)
+**Date:** 2026-11-18
+
+**Context:** We lead with our own real-world range (and winter range). People also know and compare the official WLTP figure from ads and brochures; hiding it makes our numbers harder to trust and compare.
+
+**Decision:** Wherever range appears (catalogue cards and rows, filters, car/variant pages, compare, hero cards), show the **real range first and most prominent**, with the **official WLTP range right next to it, in the same section** (smaller or secondary style, labelled "Official (WLTP)"). Winter range stays with the real range. Filters: a range filter defaults to real range, with WLTP available in the same filter group (e.g. a toggle or second slider). Sorting by range defaults to real range. If WLTP is missing, say so; never back-fill it from our estimate.
+
+**Consequences:** T-143 (WS2, with UX for the layout). Data already in the release (`wltp_range_km`); no pipeline change. If decision 084 is not taken by the docs PR that logs people carriers, that PR uses 084 as planned.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

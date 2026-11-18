@@ -97,7 +97,7 @@ def check_release(release_dir: Path, data_dir: Path) -> dict[str, Any]:
     checks: list[Check] = [
         check_provenance(catalogue, facts),
         check_licence_gate(catalogue, facts, registry, charging),
-        check_images(catalogue),
+        check_images(catalogue, release_dir),
     ]
     # T-123: the committed release against N-1 under today's approved_changes.yaml.
     from ev_pipeline.release.differ import release_diff_check
