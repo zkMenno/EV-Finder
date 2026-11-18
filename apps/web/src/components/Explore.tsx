@@ -892,8 +892,8 @@ const DC_STEPS = [100, 150, 200] as const;
 /** Winter range slider bounds (km); 0 = any. */
 const WINTER_MAX = 500;
 const WINTER_STEP = 10;
-/** T-143: the official WLTP slider's top (longest WLTP figures in the catalogue are ~700–800 km). */
-const WLTP_MAX = 800;
+/** T-143: the official WLTP slider's top (release 2's longest WLTP figure is 850 km). */
+const WLTP_MAX = 900;
 
 function BrandFilter({ f, onChange, brands, ctx }: { f: ExploreFilters; onChange: (p: Partial<ExploreFilters>) => void; brands: ExploreProps["brands"]; ctx: Ctx }) {
   const { t } = ctx;
@@ -1545,6 +1545,8 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
 /** Provenance key → column label, in display order. Price uses `price_new.<CC>`. */
 const PROV_LABELS: readonly [string, MsgKey][] = [
   ["real_range_km", "col.range"],
+  // T-143 review: the WLTP line in the range cell is not a Tab stop, so its sources must be reachable here.
+  ["wltp_range_km", "range.wltp.label"],
   ["battery_kwh_net", "col.battery"],
   ["dc_km_per_20min", "col.dc"],
   ["dc_km_per_10min", "col.dc"],

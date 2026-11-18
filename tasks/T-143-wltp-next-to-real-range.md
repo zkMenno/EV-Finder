@@ -13,7 +13,7 @@ Decision 085 (Menno, 2026-11-18): everywhere range shows, our real range comes f
 - [x] EN strings (Decision 082: English only at launch); other language files get keys only if the i18n tests require them.
 - [x] Contrast WCAG AA; 360 px and 1280 px, light + dark, plus one run with ~6 % wider letters (CI fonts); axe clean.
 - [x] Unit tests + e2e for the filter toggle and one variant page; verify-web skill; evidence pack with screenshots in the PR; `Verified:` on every commit.
-- [x] Fresh review (REVIEW.md from origin/main) passes.
+- [x] Fresh review (REVIEW.md from origin/main) passes (see Review below).
 
 ## Inputs
 Decision 085; docs/design/ (UX patterns); `wltp_range_km`, `real_range_km`, `real_range_winter_km` in the release.
@@ -30,6 +30,10 @@ New data fields or pipeline changes.
 - **Judgement calls (reversible):** tooltip text is ours (`range.wltp.tip`, one sentence, AC) instead of the glossary `wltp.short` (two sentences); the ⓘ still links to /learn/wltp. Spec-page label changed from "Official range (WLTP)" to "Official (WLTP)" (Decision 085 wording). DE/FR/ES/IT got draft strings only because `i18n.test.ts` requires every public key (not served at launch, Decision 082).
 - **For UX (docs/design, not my lane):** CarCard README could note the WLTP line under the range facts.
 - Feature-map flow `wltp-next-to-real-range` added (verify-web).
+- **Not in scope here:** the rankings pages (`top/[list]`) still show real range only. They are parked behind a feature flag (launch-scope.md) and the acceptance criteria don't list them; when they come back, add `OfficialRange` next to their range (Decision 085 says "wherever range appears").
+- Data note (from review): in release 2, Tesla Model 3 gen1 Long Range and Performance have no WLTP, so they show "not known". Worth a WS3/WS1 look.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
+- Fresh subagent (no build context), 2026-11-18, head `e1bd868`: **PASS WITH NITS**, REVIEW.md from origin/main; full comment with items and evidence: https://github.com/zkMenno/EV-Shortlist/pull/147#issuecomment-6978100176
+- Builder follow-up commit (after the review): should-fix `PROV_LABELS` (WLTP in the Nerd Sources list) + unit test; nit 2 WLTP slider top 800 → 900 km; nit 3 e2e now requires a "not known" row on a release; nit 4 rankings exclusion noted above; nit 1 this section. Delta re-checked by a fresh subagent (see the PR).

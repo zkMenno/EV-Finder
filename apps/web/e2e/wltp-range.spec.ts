@@ -1,9 +1,14 @@
 import { expect, test } from "@playwright/test";
+import { existsSync } from "node:fs";
+import path from "node:path";
 
 // T-143 (Decision 085): our real range leads; the official WLTP range sits next to it, labelled
 // "Official (WLTP)". The range filter and sort default to real range; WLTP is a second control.
 
 /** The official km a line shows (its highest value on a card), from data-km (the text also holds the source popover). */
+/** Running on a published release (not the dev fixture). */
+const HAS_RELEASE = existsSync(path.resolve(process.cwd(), process.env.E2E_CATALOGUE_DIR ?? "../../data/releases", "latest"));
+
 const kmOf = (s: string | null) => Number(s ?? NaN);
 
 test("filter: the WLTP slider sits in the range group, keeps its value in the URL and only keeps cars at or above it", async ({ page }) => {
@@ -73,6 +78,8 @@ test("cards and rows: real range first, then 'Official (WLTP)'; a car without WL
     if (!(await more.count())) break;
     await more.click();
   }
+  // Release 2 has 20 such rows; the dev fixture may have none.
+  if (HAS_RELEASE) expect(await unknown.count()).toBeGreaterThan(0);
   if (await unknown.count()) {
     await expect(unknown.first()).toHaveText(/^Official \(WLTP\)\s*not known$/);
   }
