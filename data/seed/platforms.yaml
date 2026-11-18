@@ -192,7 +192,7 @@ platforms:
     owner: Volkswagen Group
     nominal_v: not-disclosed
     voltage_class_id: not-disclosed
-    notes: "T-145. Audi: 'The e-tron GT concept is using the J1 performance platform developed by Porsche' (Audi technology portal, AUDI AG 2021, https://www.audi-technology-portal.de/en/download?file=2950, read 2026-11-18 via search; the concept, not the production car, so uncertain). Voltage class not read from a maker document. Linked by the e-tron GT 2024-update variants only."
+    notes: "T-145. Audi: 'The e-tron GT concept is using the J1 performance platform developed by Porsche' (Audi technology portal, 'The J1 performance platform - the first e-tron GT concept', status 10/2019, https://www.audi-technology-portal.de/en/download?file=2950, read 2026-11-18 via search; the concept, not the production car, so uncertain). Voltage class not read from a maker document. Linked by the e-tron GT 2024-update variants only."
   - id: audi-mlb-evo
     name: "MLB evo (e-tron / Q8 e-tron)"
     owner: Volkswagen Group
