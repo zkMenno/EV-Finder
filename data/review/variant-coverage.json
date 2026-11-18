@@ -7,9 +7,9 @@
   "tgk_versions_year_outside_generations": 61,
   "generations_with_tgk_versions": 235,
   "fingerprint_groups": 659,
-  "groups_have": 229,
+  "groups_have": 228,
   "groups_several": 43,
-  "groups_tie": 133,
+  "groups_tie": 134,
   "groups_no_fit": 41,
   "groups_no_variant": 213,
   "candidate_groups": 254,
@@ -19,7 +19,7 @@
     "eu_bev_registrations": 9109550,
     "eu_cars_on_tgk_versions_of_seed_generations": 8595681,
     "pct_eu_registrations_seed_generations_via_tgk": 94.4,
-    "pct_eu_registrations_on_groups_we_have": 68.1,
+    "pct_eu_registrations_on_groups_we_have": 67.7,
     "candidate_groups_sold_in_eu": 219
   },
   "top_models_not_in_seed": [
