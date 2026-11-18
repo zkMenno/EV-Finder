@@ -249,7 +249,7 @@ def test_real_seed_migration_is_complete(real) -> None:
     [
         ("SMART", "FORTWO COUPE ED", RDW, "smart-eq-fortwo"),
         ("SMART", "FORTWO CABRIO ED", RDW, "smart-eq-fortwo"),
-        ("SMART", "FORFOUR ED", RDW, None),  # the forfour is not in the seed
+        ("SMART", "FORFOUR ED", RDW, "smart-eq-forfour"),  # T-136: own model
         ("MG", "ROEWE ZS EV", RDW, "mg-zs-ev"),
         ("MERCEDES-BENZ", "CLASSE EQA", EEA, "mercedes-eqa"),
         ("MERCEDES-BENZ", "CLASSE EQA", RDW, None),  # scoped to EEA
@@ -259,6 +259,25 @@ def test_real_seed_migration_is_complete(real) -> None:
         ("AUDI", "E-TRON GT", RDW, "audi-e-tron-gt"),  # T-136: own model, not the e-tron
         ("BMW", "4ER", KBA, "bmw-i4"),
         ("PEUGEOT", "208", OPENEV, None),  # never for spec sources
+        # T-136 van-based people carriers (M1 only): longest alias wins, cargo names stay out.
+        ("TOYOTA", "PROACE CITY VERSO ELECTRIC", EEA, "toyota-proace-city-verso"),
+        ("TOYOTA", "PROACE", EEA, "toyota-proace-verso"),
+        ("RENAULT", "KANGOO E-TECH ELECTRIC", EEA, "renault-kangoo-e-tech"),
+        ("RENAULT", "KANGOO VAN E-TECH ELECTRIC", EEA, None),
+        ("OPEL", "VIVARO ZAFIRA LIFE", EEA, "opel-zafira-e-life"),
+        ("OPEL", "COMBO-E LIFE L1 EDITION", EEA, "opel-combo-e-life"),
+        ("CITROEN", "JUMPY SPACETOURER", EEA, "citroen-e-spacetourer"),
+        ("CITROEN", "E-BERLINGO VAN", RDW, None),
+        ("PEUGEOT", "EXPERT TRAVELLER", EEA, "peugeot-e-traveller"),
+        ("PEUGEOT", "E-RIFTER", EEA, "peugeot-e-rifter"),
+        ("MERCEDES-BENZ", "ECITAN TOURER/EQT", EEA, "mercedes-eqt"),
+        ("MERCEDES-BENZ", "EVITO TOURER", EEA, "mercedes-evito-tourer"),
+        ("MERCEDES-BENZ", "EQV 300", EEA, "mercedes-eqv"),
+        ("NISSAN", "NISSAN E-NV200", EEA, "nissan-e-nv200"),
+        ("FORD", "TRANSIT CUSTOM", EEA, "ford-e-tourneo-custom"),
+        ("FORD", "TOURNEO COURIER", EEA, "ford-e-tourneo-courier"),
+        ("FIAT", "ULYSSE TRIPOD", EEA, "fiat-e-ulysse"),
+        ("KIA", "PV5 PASSENGER", EEA, "kia-pv5-passenger"),
     ],
 )
 def test_real_seed_scoped(real, make, model, source, expected) -> None:
