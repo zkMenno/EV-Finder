@@ -240,6 +240,7 @@
   "field.charger_400v_kw": "Leistung an 400-V-Ladern",
   "field.fast_on_400v": "Schnell an älteren 400-V-Ladern",
   "field.ac_kw": "AC-Ladeleistung",
+  "field.ac_kw.optional": "optional",
   "field.ac_km_per_h": "AC: nachgeladene km pro Stunde",
   "field.power_kw": "Leistung",
   "field.accel_0_100_s": "0–100 km/h",

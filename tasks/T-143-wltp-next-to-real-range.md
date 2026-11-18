@@ -1,7 +1,7 @@
 # T-143 Official WLTP range next to our real range (real range leads)
 
 Role: builder   Lane: WS2 (apps/web); UX for the visual pattern   Wave: launch
-Status: review (batch chat https://claude.ai/code/session_01JuyZEWUcQc9VrZx4Ru21x6, 2026-11-18)
+Status: done (merged as #147, 53072c6, 2026-11-18)
 
 ## Goal
 Decision 085 (Menno, 2026-11-18): everywhere range shows, our real range comes first and most prominent, and the official WLTP range sits right next to it in the same section, labelled "Official (WLTP)".
