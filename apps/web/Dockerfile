@@ -7,7 +7,7 @@
 ARG NODE_VERSION=22
 # Public origin for canonical, hreflang and sitemap URLs (A-05 F3). Static pages bake it in at
 # build time, so it must be a build arg; `pnpm build` fails without a public https origin.
-# Placeholder until the domain exists (infra/README.md "APP_URL"): https://ev.example.com.
+# CI passes the repo variable APP_URL, else https://evshortlist.com (infra/README.md "APP_URL", #88).
 ARG APP_URL
 
 # ---- base: Node + pnpm (version from "packageManager" in package.json, via corepack) ----
