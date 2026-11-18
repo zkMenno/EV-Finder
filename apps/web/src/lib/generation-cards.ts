@@ -36,6 +36,8 @@ export interface GenCard {
   used: UsedSpan | null;
   winter: Span | null;
   summer: Span | null;
+  /** T-143: official WLTP range over the matching variants (null = not known for any of them). */
+  wltp: Span | null;
   dc20: Span | null;
   battery: Span | null;
   newPrice: Span | null;
@@ -115,6 +117,7 @@ export function generationCards(rows: ExploreRow[], country: Country, scope: Ban
       used: usedSpan(list, country, scope),
       winter: span(list, (r) => r.real_range_winter_km),
       summer: span(list, (r) => r.real_range_km),
+      wltp: span(list, (r) => r.wltp_range_km),
       dc20: span(list, (r) => r.dc_km_per_20min),
       battery: span(list, (r) => r.battery_kwh_net),
       newPrice: span(list, (r) => r.price_new?.[country]?.amount),

@@ -135,3 +135,27 @@ describe("used price with build years (review #126)", () => {
     expect(applyFilters([a], f({ usedMax: 25000, yearMin: 2021 }), "NL")).toHaveLength(1);
   });
 });
+
+describe("official WLTP range (T-143, Decision 085)", () => {
+  const a = row({ variant_id: "a", real_range_km: 380, wltp_range_km: 450 });
+  const b = row({ variant_id: "b", real_range_km: 400, wltp_range_km: null });
+  const c = row({ variant_id: "c", real_range_km: 300, wltp_range_km: 520 });
+
+  it("WLTP filter: at least the chosen km; a car without WLTP never matches (no back-fill from real range)", () => {
+    expect(applyFilters([a, b, c], f({ wltpMin: 400 }), "NL").map((r) => r.variant_id)).toEqual(["a", "c"]);
+    expect(applyFilters([a, b, c], f({ wltpMin: 500 }), "NL").map((r) => r.variant_id)).toEqual(["c"]);
+    expect(applyFilters([a, b, c], f({}), "NL")).toHaveLength(3);
+  });
+
+  it("range sort stays on real range; the WLTP sort orders by WLTP, missing last", () => {
+    expect(sortRows([a, b, c], "range", "desc", "NL").map((r) => r.variant_id)).toEqual(["b", "a", "c"]);
+    expect(sortRows([a, b, c], "wltp", "desc", "NL").map((r) => r.variant_id)).toEqual(["c", "a", "b"]);
+    expect(sortRows([a, b, c], "wltp", "asc", "NL").map((r) => r.variant_id)).toEqual(["a", "c", "b"]);
+  });
+
+  it("the WLTP filter is its own removable group", () => {
+    const fl = f({ wltpMin: 400, winterMin: 200 });
+    expect(activeGroups(fl)).toEqual(expect.arrayContaining(["wltpMin", "winterMin"]));
+    expect(withoutGroup(fl, "wltpMin")).toMatchObject({ wltpMin: null, winterMin: 200 });
+  });
+});
