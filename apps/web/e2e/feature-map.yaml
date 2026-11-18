@@ -136,9 +136,9 @@ features:
   # ── Explore (the full list under the hero) ──────────────────────────────────────────────────
   - id: explore-filter-url
     title: "Explore: a filter narrows the list and lives in the URL"
-    triggers: [src/components/Explore.tsx, src/lib/filters.ts, src/lib/state.ts, src/lib/explore-data.ts, src/lib/filter-bus.ts]
+    triggers: [src/components/Explore.tsx, src/lib/filters.ts, src/lib/state.ts, src/lib/explore-data.ts, src/lib/filter-bus.ts, "src/app/[[]country]/[[]lang]/cars/**"]
     steps:
-      - goto: /nl/en
+      - goto: /nl/en/cars?view=table
       - wait: "@explore-row"
       - fill: ["#f-rangeMin", "350"]
       - wait: "@result-count"
@@ -154,11 +154,41 @@ features:
         what: the result count
         why: the count doesn't update
 
+  - id: catalogue-popular
+    title: "Landing → 'Show all cars' → catalogue, most popular first (T-130)"
+    triggers: ["src/app/[[]country]/[[]lang]/cars/**", "src/app/[[]country]/[[]lang]/page.tsx", src/lib/popularity.ts, src/lib/catalogue-redirect.ts, src/config/popularity.generated.json, scripts/popularity.mjs, src/components/Explore.tsx, src/lib/state.ts, src/lib/filters.ts, src/i18n/*.json]
+    steps:
+      - goto: /nl/en
+      - follow: "@show-all-cars-link"
+      - wait: "@popular-tag"
+    expect:
+      - url: "/nl/en/cars"
+        what: the catalogue page
+        why: the landing's 'Show all cars' button doesn't lead to the full list
+      - text: "h1"
+        contains: All electric cars
+        what: the catalogue heading
+        why: the button lands on the wrong page
+      - visible: "@sort-menu"
+        what: the sort menu
+        why: there's no way to change the order
+      - text: "(//*[@data-testid='popular-tag'])[1]"
+        contains: "#1 popular"
+        what: the most popular car first
+        why: the default order isn't popularity
+      - visible: "@popular-why"
+        what: the line that says what 'Most popular' means, with 'How we rank'
+        why: "the ranking isn't explained (Decision 038, the owner's picks are labelled as opinion)"
+      - text: "@how-we-rank"
+        contains: one person's verdict
+        what: the How we rank section
+        why: the owner's picks aren't labelled as one person's opinion
+
   - id: explore-compare
     title: "Explore → Compare with 'differences only'"
     triggers: [src/components/Explore.tsx, src/components/CompareTray.tsx, src/components/CompareTable.tsx, src/lib/compare-store.ts, "src/app/[[]country]/[[]lang]/compare/**"]
     steps:
-      - goto: /nl/en?view=table
+      - goto: /nl/en/cars?view=table
       - wait: "@compare-toggle"
       - click: "(//*[@data-testid='compare-toggle'])[1]"
       - click: "(//*[@data-testid='compare-toggle'])[2]"
@@ -182,7 +212,7 @@ features:
     title: "Model → generation → variant pages, with sources on the numbers"
     triggers: ["src/app/[[]country]/[[]lang]/ev/**", src/components/SpecDiff.tsx, src/components/DiffOnly.tsx, src/components/Term.tsx, src/components/PriceBand.tsx, src/lib/spec-diff.ts]
     steps:
-      - goto: /nl/en?view=table
+      - goto: /nl/en/cars?view=table
       - wait: "@explore-row"
       - follow: "(//*[@data-testid='explore-row'])[1]//a[contains(@href,'/ev/')]"
     expect:
@@ -237,39 +267,42 @@ features:
         what: the chosen theme on the page
         why: the theme switch does nothing
 
-  - id: language-switch
-    title: "Language switch keeps the filters"
-    triggers: ["src/app/[[]country]/[[]lang]/layout.tsx", src/components/Switchers.tsx, src/config/countries*.ts, src/i18n/**]
+  - id: english-only
+    title: "English only (Decision 082): hidden languages redirect to /{country}/en, no language picker"
+    triggers: ["src/app/[[]country]/[[]lang]/layout.tsx", src/components/Switchers.tsx, src/config/countries*.ts, src/lib/lang.ts, src/proxy.ts, scripts/countries.mjs, src/config/countries.generated.json, src/i18n/**]
     steps:
-      - goto: /nl/en?range=300
-      - select: ["role=combobox[name=/^(Language|Taal)$/]", "nl"]
+      - goto: /be/fr/learn/real-range?range=300
     expect:
-      - lang: nl
-        what: the Dutch page
-        why: the language switch doesn't change the language
-      - url: "/nl/nl.*range=300"
-        what: the filter after switching
-        why: switching language loses the filters (design principle 3)
+      - url: "/be/en/learn/real-range.*range=300"
+        what: the English page with the query kept
+        why: a hidden language is still served, or the redirect drops the path or filters
+      - lang: en
+        what: the English page
+        why: the page isn't English
+      - count: "role=combobox[name=/^Language$/]"
+        eq: 0
+        what: no language picker
+        why: the picker offers a language we don't serve
 
   - id: country-spain-italy
-    title: "Spain and Italy: picking España opens the Spanish site with a ranked hero"
+    title: "Spain and Italy: picking España opens the English Spanish site with a ranked hero"
     triggers: [src/config/countries*.ts, src/components/Switchers.tsx, scripts/countries.mjs, scripts/listings.mjs, src/config/countries.generated.json]
     steps:
-      - goto: /nl/nl?role=only&trips=monthly&budget=30000
-      - follow: "@hero-countries a[href^='/es/es']"
+      - goto: /nl/en?role=only&trips=monthly&budget=30000
+      - follow: "@hero-countries a[href^='/es/en']"
       - wait: "@hero-card"
     expect:
-      - lang: es
-        what: the Spanish page
-        why: Spain isn't served in Spanish (Decision 066)
-      - url: "/es/es.*budget=30000"
-        what: the Spanish address with the answers kept
-        why: switching country loses the hero answers or lands on another language
+      - lang: en
+        what: the English page for Spain
+        why: Spain isn't served in English (Decision 082)
+      - url: "/es/en.*budget=30000"
+        what: the Spanish address in English with the answers kept
+        why: switching country loses the hero answers or lands on a hidden language
       - count: "@hero-card"
         min: 1
         what: ranked cars for Spain
         why: the Spanish hero shows no cars
-      - count: "@hero-countries a[href^='/it/it']"
+      - count: "@hero-countries a[href^='/it/en']"
         eq: 1
         what: Italy in the country step
         why: Italy can't be picked

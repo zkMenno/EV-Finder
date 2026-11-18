@@ -1,74 +1,50 @@
 {
   "nl": {
-    "languages": [
-      "nl"
-    ],
-    "default_language": "nl",
+    "languages": [],
+    "default_language": "en",
     "served": [
-      "nl",
       "en"
     ]
   },
   "de": {
-    "languages": [
-      "de"
-    ],
-    "default_language": "de",
+    "languages": [],
+    "default_language": "en",
     "served": [
-      "de",
       "en"
     ]
   },
   "fr": {
-    "languages": [
-      "fr"
-    ],
-    "default_language": "fr",
+    "languages": [],
+    "default_language": "en",
     "served": [
-      "fr",
       "en"
     ]
   },
   "be": {
-    "languages": [
-      "nl",
-      "fr",
-      "de"
-    ],
-    "default_language": "nl",
+    "languages": [],
+    "default_language": "en",
     "served": [
-      "nl",
-      "fr",
-      "de",
       "en"
     ]
   },
   "uk": {
-    "languages": [
-      "en"
-    ],
+    "languages": [],
     "default_language": "en",
     "served": [
       "en"
     ]
   },
   "es": {
-    "languages": [
-      "es"
-    ],
-    "default_language": "es",
+    "languages": [],
+    "default_language": "en",
     "served": [
-      "es",
       "en"
     ]
   },
   "it": {
-    "languages": [
-      "it"
-    ],
-    "default_language": "it",
+    "languages": [],
+    "default_language": "en",
     "served": [
-      "it",
       "en"
     ]
   }

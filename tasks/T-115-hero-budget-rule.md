@@ -43,3 +43,5 @@ Anything not on docs/spec/launch-scope.md.
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B2 fixed. -->
 
 WS0 subagent, 2026-11-17, f791fd6 + 331d0bf: pass; band → estimate → new price; unpriced cars never numbered (release 2: NL €15k one priced pick + unpriced list, €35k 10 priced picks). **A-35 B2 fixed** (thin €15k list is real data: cheaper cars fail the road-tripper presets).
+
+Reviewed by QA, 2026-11-17 (A-36, release 2, 80-run hero walk): pass for B2 (€15k ≠ €35k in 20/20; 0 shortlisted cards over budget; 288 unpriced cards, none numbered). Changes needed: A-36 B1 (no-data Dacia Spring is the only €15k road-tripper pick, T-138) and S5 (unpriced premium cars at €15k).

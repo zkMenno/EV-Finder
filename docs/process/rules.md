@@ -45,6 +45,7 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-37 | Implausible spec figures go to review, not the release | A-35 B4: Model Y LR 719 km WLTP was the #1 pick | to build: qa.json plausibility gate (T-111); REVIEW D4 | WS1 | 2026-11-17 | — |
 | G-38 | Every public string exists in every served language (EN only, Decision 082); every launch country is served at `/{country}/en/` | A-35 B5 | to build: `i18n.test.ts` all six (T-117); REVIEW D6 | WS2 | 2026-11-17 | — |
 | G-39 | A decision de-dupe keeps the union of both texts | A-35 S1: e885fa0 dropped the newer Decision 060 text | REVIEW D12 | WS0 | 2026-11-17 | 2026-11-17 |
+| G-40 | Note-only commits must not trigger image builds (or deploys) | 17 Nov: main's image build broke (release 2 catalogue missing) and every handoff/inbox commit re-ran it, ~20 failure emails to Menno in an evening | `paths-ignore` on the push trigger in `.github/workflows/images.yml` | WS0 | 2026-11-17 | — |
 
 **Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17 · P-21 (CI budget)→G-33; the rest became G-21–G-31.
 

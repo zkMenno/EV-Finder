@@ -10,22 +10,23 @@ describe("country languages from config (Decision 015)", () => {
   it("the committed JSON matches config/countries/*.yaml", () => {
     expect(readFileSync(OUT_FILE, "utf8")).toBe(serialize(loadCountryLanguages()));
   });
-  it("serves each country's own languages + EN; default from config", () => {
-    expect(COUNTRIES.be.served).toEqual(["nl", "fr", "de", "en"]);
-    expect(COUNTRIES.uk.served).toEqual(["en"]);
-    expect(COUNTRIES.be.defaultLang).toBe("nl");
+  it("Decision 082: every country serves English only, English is the default", () => {
+    expect(COUNTRY_SLUGS).toHaveLength(7);
     for (const c of COUNTRY_SLUGS) {
-      expect(COUNTRIES[c].served).toContain("en");
-      expect(COUNTRIES[c].served).toContain(COUNTRIES[c].defaultLang);
+      expect(COUNTRIES[c].served, c).toEqual(["en"]);
+      expect(COUNTRIES[c].defaultLang, c).toBe("en");
+      for (const l of ["nl", "de", "fr", "es", "it"]) expect(isServed(c, l), `${c}/${l}`).toBe(false);
     }
-    expect(isServed("nl", "de")).toBe(false);
-    expect(isServed("be", "de")).toBe(true);
   });
   it("validates the YAML keys", () => {
-    expect(() => validateLanguages("nl", { languages: ["nl"], default_language: "en" })).toThrow(/default_language/);
+    expect(() => validateLanguages("nl", { languages: ["nl"], default_language: "de" })).toThrow(/default_language/);
     expect(() => validateLanguages("nl", { languages: ["xx"], default_language: "xx" })).toThrow(/not one of/);
-    expect(() => validateLanguages("nl", { languages: [], default_language: "nl" })).toThrow(/non-empty/);
+    expect(() => validateLanguages("nl", { languages: [], default_language: "nl" })).toThrow(/default_language/);
+    expect(() => validateLanguages("nl", { default_language: "en" })).toThrow(/must be a list/);
     expect(validateLanguages("uk", { languages: ["en"], default_language: "en" }).served).toEqual(["en"]);
+    // Empty list = English only (Decision 082); adding a language back serves it again.
+    expect(validateLanguages("nl", { languages: [], default_language: "en" }).served).toEqual(["en"]);
+    expect(validateLanguages("be", { languages: ["nl", "fr"], default_language: "nl" }).served).toEqual(["nl", "fr", "en"]);
   });
 });
 
@@ -34,11 +35,15 @@ describe("hreflang and sitemap", () => {
     const h = hreflangs("/ev/a/b");
     const pairs = servedPairs();
     expect(Object.keys(h)).toHaveLength(pairs.length + 1);
-    expect(h["fr-BE"]).toBe("/be/fr/ev/a/b");
+    expect(h["fr-BE"]).toBeUndefined();
+    expect(h["en-BE"]).toBe("/be/en/ev/a/b");
     expect(h["en-GB"]).toBe("/uk/en/ev/a/b");
+    // Decision 082: only English alternates, one per launch country.
+    expect(Object.keys(h).filter((k) => k !== "x-default").every((k) => k.startsWith("en-"))).toBe(true);
     expect(h["x-default"]).toBe(`${siteBase(X_DEFAULT.country, X_DEFAULT.lang)}/ev/a/b`);
     expect(new Set(pairs.map((p) => hreflangTag(p.country, p.lang))).size).toBe(pairs.length);
-    expect(hreflangs("")["nl-NL"]).toBe("/nl/nl");
+    expect(hreflangs("")["nl-NL"]).toBeUndefined();
+    expect(hreflangs("")["en-NL"]).toBe("/nl/en");
     expect(alternates("de", "en", "top").canonical).toBe("/de/en/top");
   });
   it("sitemap lists only served pairs, every variant once per pair", () => {
@@ -46,7 +51,8 @@ describe("hreflang and sitemap", () => {
     const urls = sitemapUrls(cat, "https://x.example");
     expect(urls.some((u) => u.startsWith("https://x.example/nl/de"))).toBe(false);
     expect(urls.some((u) => u.startsWith("https://x.example/uk/nl"))).toBe(false);
-    expect(urls).toContain("https://x.example/be/fr");
+    expect(urls).toContain("https://x.example/be/en");
+    expect(urls.some((u) => /^https:\/\/x\.example\/[a-z]{2}\/(nl|de|fr|es|it)(\/|$)/.test(u))).toBe(false);
     expect(new Set(urls).size).toBe(urls.length);
     const variants = urls.filter((u) => u.split("/").length === 10);
     expect(variants).toHaveLength(cat.rows().length * servedPairs().length);
@@ -54,31 +60,25 @@ describe("hreflang and sitemap", () => {
   });
 });
 
-describe("Spain and Italy (T-119, Decision 066)", () => {
-  it("are served in their own language + EN, from config/countries/es.yaml and it.yaml", () => {
+describe("Spain and Italy (Decision 066, in English per Decision 082)", () => {
+  it("are launch countries served in English, from config/countries/es.yaml and it.yaml", () => {
     expect(COUNTRY_SLUGS).toEqual(expect.arrayContaining(["es", "it"]));
-    expect(COUNTRIES.es).toMatchObject({ code: "ES", currency: "EUR", defaultLang: "es", served: ["es", "en"] });
-    expect(COUNTRIES.it).toMatchObject({ code: "IT", currency: "EUR", defaultLang: "it", served: ["it", "en"] });
+    expect(COUNTRIES.es).toMatchObject({ code: "ES", currency: "EUR", defaultLang: "en", served: ["en"] });
+    expect(COUNTRIES.it).toMatchObject({ code: "IT", currency: "EUR", defaultLang: "en", served: ["en"] });
     const pairs = servedPairs().map((p) => `${p.country}/${p.lang}`);
-    expect(pairs).toEqual(expect.arrayContaining(["es/es", "es/en", "it/it", "it/en"]));
+    expect(pairs).toEqual(expect.arrayContaining(["es/en", "it/en"]));
+    expect(pairs).not.toContain("es/es");
+    expect(pairs).not.toContain("it/it");
   });
-  it("Spanish and Italian appear for Spain and Italy only (no /nl/es style routes)", () => {
-    for (const { country, lang } of servedPairs()) {
-      if (lang === "es") expect(country).toBe("es");
-      if (lang === "it") expect(country).toBe("it");
-    }
-    for (const c of COUNTRY_SLUGS.filter((c) => c !== "es")) expect(isServed(c, "es"), c).toBe(false);
-    for (const c of COUNTRY_SLUGS.filter((c) => c !== "it")) expect(isServed(c, "it"), c).toBe(false);
-  });
-  it("hreflang and sitemap carry es-ES / it-IT", () => {
+  it("hreflang and sitemap carry en-ES / en-IT, not es-ES / it-IT", () => {
     const h = hreflangs("/learn");
-    expect(h["es-ES"]).toBe("/es/es/learn");
-    expect(h["it-IT"]).toBe("/it/it/learn");
     expect(h["en-ES"]).toBe("/es/en/learn");
-    expect(Object.keys(h).filter((k) => k.startsWith("es-") || k.startsWith("it-"))).toEqual(["es-ES", "it-IT"]);
+    expect(h["en-IT"]).toBe("/it/en/learn");
+    expect(h["es-ES"]).toBeUndefined();
+    expect(h["it-IT"]).toBeUndefined();
     const urls = sitemapUrls(getCatalogue(), "https://x.example");
-    expect(urls).toContain("https://x.example/es/es");
-    expect(urls).toContain("https://x.example/it/it/learn");
-    expect(urls.some((u) => /\/(nl|de|fr|be|uk)\/(es|it)(\/|$)/.test(u))).toBe(false);
+    expect(urls).toContain("https://x.example/es/en");
+    expect(urls).toContain("https://x.example/it/en/learn");
+    expect(urls).not.toContain("https://x.example/es/es");
   });
 });

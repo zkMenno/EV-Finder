@@ -63,10 +63,11 @@ describe("price band", () => {
 
 describe("switchers and listing links", () => {
   it("country switch keeps the path and query; keeps the language if served, else the default", () => {
-    expect(swapCountry("/nl/nl/compare", "?ids=a,b", "de")).toBe("/de/de/compare?ids=a,b");
+    // Decision 082: English only, so every switch lands on /{country}/en.
     expect(swapCountry("/nl/en/compare", "?ids=a,b", "de")).toBe("/de/en/compare?ids=a,b");
-    expect(swapCountry("/nl/nl", "", "uk")).toBe("/uk/en");
-    expect(swapCountry("/nl/nl", "?range=300", "be")).toBe("/be/nl?range=300");
+    expect(swapCountry("/nl/nl/compare", "?ids=a,b", "de")).toBe("/de/en/compare?ids=a,b");
+    expect(swapCountry("/nl/en", "", "uk")).toBe("/uk/en");
+    expect(swapCountry("/nl/en", "?range=300", "be")).toBe("/be/en?range=300");
   });
   it("language switch swaps the language segment and keeps path + query", () => {
     expect(swapLang("/nl/nl", "?price=30000", "en")).toBe("/nl/en?price=30000");

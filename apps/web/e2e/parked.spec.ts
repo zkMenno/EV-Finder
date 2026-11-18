@@ -16,3 +16,13 @@ test("parked features are hidden: rankings, charging page and links, known issue
   const sitemap = await (await request.get("/sitemap.xml")).text();
   expect(sitemap).not.toMatch(/\/[a-z]{2}\/[a-z]{2}\/(top|charging)(<|\/)/);
 });
+
+// A-36: bidirectional charging is parked; hero cards never name V2L / V2H / V2G (the "not known yet"
+// line listed "power out (V2L), powering a home (V2H/V2G)" on release 2).
+test("hero cards never name parked bidirectional features", async ({ page }) => {
+  for (const qs of ["role=only&trips=monthly&charge=home&budget=35000", "role=second&charge=home&budget=15000"]) {
+    await page.goto(`/nl/en?${qs}&level=detailed`);
+    await expect(page.getByTestId("hero-card").first()).toBeVisible();
+    for (const text of await page.getByTestId("hero-card").allInnerTexts()) expect(text).not.toMatch(/V2[LHG]/);
+  }
+});
