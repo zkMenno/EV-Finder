@@ -1,10 +1,10 @@
 # WS2 status
 
 - **State:** active
-- **Now:** T-130 part 2 PR #126 (fresh review running); then #111 merge-main, verify tooltip fix, T-131
-- **Next:** T-131 Popular used EVs, T-135 photo cards, T-132 hero redesign; #111 needs main merged in
+- **Now:** #126 (T-130 part 2) review PASS + CI green, waiting for a merge by Menno/WS0; #137 gate line
+- **Next:** T-131 Popular used EVs, T-135 photo cards (6th chat owns T-132)
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-18 09:35 UTC by WS2 (5th chat)
+- **Last updated:** 2026-11-18 11:55 UTC by WS2 (5th chat)
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
@@ -23,8 +23,18 @@
 
 - 2026-11-18 08:55 UTC · 5th WS2 chat (https://claude.ai/code/session_01JuyZEW7knztpvwmHJjJ3mb). Started T-130 part 2.
 - 2026-11-18 09:12 UTC · 6th WS2 chat (https://claude.ai/code/session_01JuyZEWZuyZEW). No part-2 branch found on origin; starting T-130 part 2 on t-130-catalogue-visual.
+- 2026-11-18 10:15 UTC · 6th chat: stopped T-130 part 2, the 5th chat's #126 already covers it (under fresh review). Nothing pushed over it; two ideas left in WS2 INBOX. Next task: asking Menno.
+- 2026-11-18 10:25 UTC · 6th chat: Menno picked T-132 hero redesign for this chat (branch t-132-hero-questions); 5th chat keeps #126, T-131, T-135.
 
 - 2026-11-18 09:35 UTC · T-130 part 2 PR #126: filter groups, phone sheet, pills, one card per generation, used price + winter filters. Full e2e 132 passed, verify 6/6.
+
+- 2026-11-18 11:55 UTC · #126: four review rounds (sheet focus bug, CI-only 360 px overflow twice, resize, groups); re-review 4 PASS, CI green on f049fea. Merge blocked in this session → Menno/WS0. #137 gate PR. Handoff written.
+
+## Retro (5th chat, 2026-11-18)
+- **Slowed down:** main moved three times under #126 (each merge = CI + re-check); a "nit" fix broke CI because local fonts are narrower; two WS2 chats built T-130 part 2 at once.
+- **Menno by hand:** merging #126 (session can't merge); splitting the two WS2 chats.
+- **Rule that would have prevented it:** check remote branches + open PRs for the task id before starting and before the first push (6th chat's proposal, seconded).
+- **What a check missed, and which check catches it:** the 360 px overflow passed locally and failed on CI twice; the new e2e "catalogue cards fit 360 px … with wider text" catches it locally (proven red on the broken layout). Proposal: every 360 px check runs once with 6 % wider letters.
 
 ## Retro (first WS2 session, 2026-11-15)
 - **What slowed us down:** decision numbers clashed twice (053, 054 went to Dependabot decisions while in my START range); pushes from this session don't trigger CI (runs started with workflow_dispatch); a rebase of a pushed branch then a blocked force-push cost a messy merge with leftover conflict markers; stacked PRs need re-merging after every main change.

@@ -1,3 +1,60 @@
+# WS2 handoff — 2026-11-18 11:55 UTC (5th chat → next catalogue chat: T-131, T-135)
+
+Chat: https://claude.ai/code/session_01JuyZEW7knztpvwmHJjJ3mb
+
+## State
+- **#126 T-130 part 2: ready to merge.** Fresh re-review 4 PASS on 45ce05c; head f049fea = that + main merged + review records; CI (pull_request + dispatch) and Images green on f049fea. Main moved since only outside apps/web. This session can't merge (auto-mode refuses): **Menno or WS0 merges.**
+- **#137 (gate-only)**: apps/web/AGENTS.md line for #126 + fixes WS0's #118 should-fix (redirect on any view/sort). Merge after #126. Main's #125 also edited apps/web/AGENTS.md (rule 4): merge main into #137 first if it conflicts.
+- Open should-fix on #126: the used-price Nerd line shows source + date but no licence. Asked WS1 (WS1 INBOX 10:05) for `licence` on used_prices.json band sources; show it when it lands.
+- The other WS2 line (6th chat, https://claude.ai/code/session_01JuyZEWZuyZEW) owns **T-132** (Hero.tsx). Ask in WS2 INBOX before touching hero files.
+
+## What #126 built (for T-131/T-135)
+- `src/lib/generation-cards.ts`: `generationCards(rows, cc, filters)` → one `GenCard` per generation (lead variant, spans, used band). T-135 puts the photo + credit on `GenerationCard` in Explore.tsx (16:9 on desktop, 116 px left on phones; credit line under every photo, Decision 081). Image fields: WS1 #110 (merged), `generations[].image`; fetch-release must pull `images/*`.
+- Filters panel = sidebar on lg, bottom sheet below (one DOM). T-132's "Refine · n" sheet can reuse the pattern (`FiltersPanel` effect: focus, trap, Escape, lg closes).
+- New state: `umin`/`umax`, `winter`; sorts `used`, `winter`.
+
+## Next (in order)
+1. Get #126 and #137 merged (Menno/WS0).
+2. **T-131** Popular used EVs on the landing (data/editorial/popular_used.yaml from WS3 #106: check it merged; 12 cards, `why` line, owner verdicts labelled as one person's opinion; skip ids without rows). Landing page.tsx only, not Hero.tsx: tell the 6th chat anyway.
+3. **T-135** photo cards (see above).
+4. WS0 ask: verify flow `tooltip` takes the first of ~336 hidden nodes (scripts/verify.mjs ~223, `.first()`): match `:visible` or scope to the clicked term; small PR, `Test-change:` line.
+5. Follow-ups from the #126 reviews (not blocking): phones show level/view/price-mode toggles above the list (first card at y≈760 at 360×800; design has none there: move them into the sheet?); used band reads p25–p75 even under "Up to €25,000" (label "typical"?); DE compact money doesn't shorten thousands (round to 1 000 first) once German returns.
+
+## Lessons
+- **CI fonts are wider than local ones.** Run the 360 px check with letters widened (catalogue.spec "wider text" test does 6 %); re-run it after every layout tweak, even a "nit" fix (db62961 broke CI that way).
+- A merge of main can bring apps/web changes the reviewer never saw: `git diff --stat HEAD~1 HEAD -- apps/web` **before** writing the merge message.
+- A `useEffect` that depends on a callback prop re-runs every render: keep callbacks in a ref (the sheet stole focus on every keystroke).
+- `<details open={cond}>` snaps shut when `cond` turns false: only ever open from code.
+- Two WS2 chats built the same task: check `git ls-remote --heads origin | grep t-1NN` and open PRs before starting and before the first push.
+
+---
+
+# WS2 handoff — 2026-11-18 10:40 UTC (6th chat → next chat for T-132)
+
+Chat: https://claude.ai/code/session_01JuyZEWZuyZEW
+
+## State
+- Two WS2 chats ran at once. **T-130 part 2 is the 5th chat's PR #126** (under fresh review). The 6th chat built the same thing in parallel, found #126 on push, pushed nothing over it (ideas for #126 in WS2 INBOX 10:15).
+- Menno's call (10:25): **6th-chat line takes T-132 hero redesign** on branch `t-132-hero-questions` (not created yet). 5th chat keeps #126, T-131, T-135. Claim is in tasks/T-132 Status + WS2 INBOX.
+- Nothing open from the 6th chat.
+
+## T-132 plan (start here)
+Spec: docs/design/explorations/staging-r1/README.md §T-132 (signed off by Menno) + frames t132-m1…m4 (phone) and t132-d1/d2 (desktop), contact sheets SHEET-t132-*.png. Components: docs/design/components/{AnswerTile,ProgressRoad,ResultRow}/README.md.
+Code today: `apps/web/src/components/Hero.tsx` (1013 lines: Step 133, Choice 146, NumberSelect 190, Hero 231, BudgetField 489, Refine 550, Results 664, Card 833, NerdScore 957), state in `src/lib/hero-state.ts` (URL), ranking in `src/lib/shortlist.ts` (don't change scoring: Decision 065), e2e `e2e/hero.spec.ts` (13 tests) + verify flows hero-* in `e2e/feature-map.yaml`.
+Suggested split (two PRs, each half a day):
+1. **Questions**: one question per screen (country → 4 driving questions → budget); `ProgressRoad` (ol, aria-current="step", 4 stops); `AnswerTile` (fieldset + radios, ≥ 64 px, tick when picked; country 2 columns); answer trail of pills (list of buttons, jump back; after step 2 collapse into the profile name); budget step = big € field, 6 quick picks (3×2 incl. "No limit"), ≈ monthly box, New/Used/Either switch, "Show my top 10", "More filters (optional)". Every answer still writes the URL; back = previous question. Copy changes listed in the README (en.json, then all 6 languages: D6). "Keep it 8 years" moves to the refine sheet. Slide-in ≈ 250 ms, reduced motion instant.
+2. **Results**: phone = profile bar (name, country, budget, Edit) → "Your shortlist" (sunflower tint) 5 compact rows (rank, name, years, price band, winter km, km/20 min, one "Why:" line, shortlist button) → "Also worth a look" 6–10 one-liners; desktop = sticky answers sidebar + top-10 table with aligned columns; "Refine · n" (phone: bottom sheet like #126's filter sheet, reuse it after #126 merges); "Show all cars" box at the end. Photos wait for T-135 (5th chat): leave the thumbnail slot.
+Before/after screenshots 360 + 1280, light + dark (AC). Run `node scripts/verify.mjs --changed --base origin/main`; flow `tooltip` fails on main too (WS0 asked WS2 to fix it: match `:visible` or scope to the clicked term; small separate PR, `Test-change:` line).
+
+## Lessons (this chat)
+- Before starting a task, check **open PRs and remote branches for the task id** (`gh api repos/zkMenno/EV-Shortlist/pulls`, `git ls-remote --heads origin | grep t-1NN`) *and again before the first push*. The handoff can be an hour stale while another chat is on it. Proposed rule for WS0.
+- Server components can't call functions from a `"use client"` file, even pure ones: keep shared helpers in `src/lib/`.
+- `Intl.NumberFormat` compact in de-DE doesn't shorten thousands: round first.
+- Country names in sentences need prepositions per language ("aux Pays-Bas"): use per-country keys, not `Intl.DisplayNames`.
+
+---
+
+## Previous handoff
 # WS2 handoff — 2026-11-18 00:20 UTC
 
 Chat: https://claude.ai/code/session_01JuyZEUuCTBUyPNJ74C3iRD
