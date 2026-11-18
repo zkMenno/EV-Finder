@@ -2377,7 +2377,7 @@ variants:
         retrieved: 2026-11-18
         quote: "Its 60 kW (82 hp) engine delivers a maximum torque of 160 Nm immediately available."
         confidence: high
-    notes: "Rear-wheel drive: Renault Group, 'Twingo Electric: electric gives it even more spark' ('a rear-mounted motor', renaultgroup.com). One battery and motor for the whole run."
+    notes: "Rear-wheel drive: Renault Group, 'Twingo Electric: electric gives it even more spark' ('a rear-mounted motor', https://www.renaultgroup.com/en/news-on-air/news/twingo-electric-electric-gives-it-even-more-spark/). One battery and motor for the whole run."
     confidence: medium
   - generation_id: volkswagen-e-up-gen1
     id: volkswagen-e-up-gen1-18kwh
@@ -2418,30 +2418,6 @@ variants:
         confidence: high
     notes: "Front-wheel drive: same page ('A single-speed gearbox transmits forces to the front axle'). Gross 36.8 kWh on the same page. RDW TGK: WLTP 274 km / 37 kWh drawn, first admitted 2021-2023; many 2016-2021 versions list no range, so they need other evidence to choose between the two e-up! rows."
     confidence: high
-  - generation_id: kia-ev3-gen1
-    id: kia-ev3-gen1-standard
-    name: "Standard (58.3 kWh)"
-    years: [2024, null]
-    drivetrain: fwd
-    specs: {}
-    cited:
-      battery_kwh_gross:
-        value: 58.3
-        source_url: https://prod2-press.kia.com/eu/en/home/media-resouces/press-releases/2024/Kia-EV3.html
-        source_name: "Kia Europe press release 'Kia EV3', 23 May 2024"
-        retrieved: 2026-11-18
-        quote: "The EV3 Standard model is offered exclusively with a 58.3kWh battery"
-        confidence: low
-        notes: "Low on the basis only: Kia does not say gross or usable. TGK's 65 kWh drawn on the 436 km version fits it either way."
-      power_kw:
-        value: 150
-        source_url: https://prod2-press.kia.com/eu/en/home/media-resouces/press-releases/2024/Kia-EV3.html
-        source_name: "Kia Europe press release 'Kia EV3', 23 May 2024"
-        retrieved: 2026-11-18
-        quote: "Both models utilize a 150kW/283Nm electric motor"
-        confidence: high
-    notes: "Front-wheel drive: same release ('a state-of-the-art front-wheel drive electric powertrain'). No WLTP for the Standard model in the release; RDW TGK lists 436 km. The Long Range (81.4 kWh) is not added yet: the 2026 two-motor EV3 (RDW TGK 572 km, EPA AWD records) would land on it by battery and flip it to AWD; it needs its own AWD row from a Kia page first."
-    confidence: medium
   - generation_id: jeep-avenger-gen1
     id: jeep-avenger-gen1-54kwh
     name: "Avenger Electric 54 kWh / 115 kW"
