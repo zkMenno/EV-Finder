@@ -1,0 +1,314 @@
+# T-140 (A-36 S7), 2026-11-17: catalogue gaps QA found in release 2.
+#  - Ioniq 5 facelift rows carried pre-facelift packs (72.6 / 78 kWh from Open EV Data) and the
+#    pre-facelift WLTP (507 km: RDW still registers left-over F5E62 stock in 2025).
+#  - hyundai-ioniq-5-gen1-73kwh-awd had no figures at all.
+#  - XPENG P7 and P7+ had no rows (no Open EV Data record for the European cars).
+# Source `manual` (Decision 068). Every value below was read on the page named, on the date given.
+#
+# Ioniq 5 variant codes in EU type approval e9*2018/858*11054 (RDW TGK), mapped with NL
+# registrations (RDW m9d7-ebf2 + 8ys7-d773, 2026-11-17: electric power per variant code):
+#   pre-facelift: F5E42 58 kWh RWD (124.9 kW) · F5E32 72.6 kWh RWD (160 kW) · F5E14 72.6 kWh AWD
+#                 F5E62 77.4 kWh RWD (168.1 kW) · F5E54 77.4 kWh AWD · F5E74 Ioniq 5 N
+#   facelift (extension 06 onward): F5E12 63 kWh RWD (124.9 kW) · F5E22 84 kWh RWD (168.1 kW)
+#                 F5E34 84 kWh AWD · A5E22 / A5E34 N Line RWD / AWD
+# WLTP figures are the version with the lowest consumption (the "up to" figure Hyundai quotes).
+schema: manual-facts/v1
+entered_by: ws3 (agent, T-140)
+facts:
+  # --- Hyundai Ioniq 5 gen1 72.6 kWh (2021-2022) ------------------------------------------
+  - variant_id: hyundai-ioniq-5-gen1-73kwh-awd
+    field: wltp_range_km
+    value: 462
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*04&codevarianttgk=F5E14
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*04, variant F5E14 (Hyundai Ioniq 5 72.6 kWh AWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "462", "verbruikvolledigelekwltpbgr": "176.00"'
+    locator: "The two F5E14 versions give 462 km / 176 Wh/km and 432 km / 188 Wh/km (wheel sizes); the same pair on extensions 01, 03 and 04"
+    confidence: medium
+    claim: true
+    notes: "Hyundai's 2021 launch figure for the 72.6 kWh AWD was about 460 km. Release 2 had no figures on this row."
+  - variant_id: hyundai-ioniq-5-gen1-73kwh-awd
+    field: consumption_kwh_100km
+    value: 17.6
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*04&codevarianttgk=F5E14
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*04, variant F5E14 (Hyundai Ioniq 5 72.6 kWh AWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "176.00"'
+    locator: "WLTP combined, Wh/km (176 Wh/km = 17.6 kWh/100 km), the 462 km version"
+    confidence: medium
+    claim: true
+  - variant_id: hyundai-ioniq-5-gen1-73kwh-rwd
+    field: wltp_range_km
+    value: 485
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*04&codevarianttgk=F5E32
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*04, variant F5E32 (Hyundai Ioniq 5 72.6 kWh RWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "485", "verbruikvolledigelekwltpbgr": "166.00"'
+    locator: "The two F5E32 versions give 485 km / 166 Wh/km and 470 km / 171 Wh/km; the same pair on extensions 01, 03 and 04"
+    confidence: medium
+    claim: true
+    notes: "Release 2 shows 451 km from one RDW registration figure with 3 conflicting values set aside; the type approval itself gives 485 / 470 km."
+  - variant_id: hyundai-ioniq-5-gen1-73kwh-rwd
+    field: consumption_kwh_100km
+    value: 16.6
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*04&codevarianttgk=F5E32
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*04, variant F5E32 (Hyundai Ioniq 5 72.6 kWh RWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "166.00"'
+    locator: "WLTP combined, Wh/km (166 Wh/km = 16.6 kWh/100 km), the 485 km version"
+    confidence: medium
+    claim: true
+
+  # --- Hyundai Ioniq 5 facelift 84 kWh (2024-) --------------------------------------------
+  - variant_id: hyundai-ioniq-5-facelift-base
+    field: battery_kwh_net
+    value: 84.0
+    unit: kWh
+    source_url: https://www.hyundai.news/cz/articles/press-releases/inovovany-ioniq-5-vstupuje-na-esky-trh.html
+    source_name: "Hyundai Motor Czech press release 'Inovovaný IONIQ 5 vstupuje na český trh' (15.08.2024)"
+    retrieved: 2026-11-17
+    quote: "U verze s dlouhým dojezdem rovněž došlo k navýšení využitelné kapacity akumulátoru, a to na 84 kWh."
+    locator: "Body text: the long-range version's usable capacity rises to 84 kWh; RWD 229 PS, 570 km WLTP"
+    confidence: medium
+    claim: true
+    notes: "Hyundai calls 84 kWh the usable capacity here. Open EV Data's 2025 'Base' gives 72.6 kWh, the 2021-2022 pack (A-36 S7). Hyundai Motor Deutschland 08.08.2024 agrees: 'Der größere Akku bietet 84 statt wie bisher 77,4 kWh'."
+  - variant_id: hyundai-ioniq-5-facelift-base
+    field: wltp_range_km
+    value: 570
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*12&codevarianttgk=F5E22
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*12, variant F5E22 (Hyundai Ioniq 5 facelift 84 kWh RWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "570", "verbruikvolledigelekwltpbgr": "160.40"'
+    locator: "The two F5E22 versions give 570 km / 160.4 Wh/km and 530 km / 169.9 Wh/km; the same pair on extensions 06 to 12"
+    confidence: medium
+    claim: true
+    notes: "Matches Hyundai's '570 km dle WLTP' for the 84 kWh RWD (CZ press release 15.08.2024). Release 2's 507 km is the pre-facelift 77.4 kWh figure (variant F5E62): RDW still registered left-over F5E62 cars in 2025."
+  - variant_id: hyundai-ioniq-5-facelift-base
+    field: consumption_kwh_100km
+    value: 16.0
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*12&codevarianttgk=F5E22
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*12, variant F5E22 (Hyundai Ioniq 5 facelift 84 kWh RWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "160.40"'
+    locator: "WLTP combined, Wh/km (160.4 Wh/km = 16.0 kWh/100 km), the 570 km version"
+    confidence: medium
+    claim: true
+    notes: "Hyundai Motor Deutschland 08.08.2024 gives 'kombiniert 16,0-17,2' kWh/100 km for the 168 kW version."
+  - variant_id: hyundai-ioniq-5-facelift-awd
+    field: battery_kwh_net
+    value: 84.0
+    unit: kWh
+    source_url: https://www.hyundai.news/cz/articles/press-releases/inovovany-ioniq-5-vstupuje-na-esky-trh.html
+    source_name: "Hyundai Motor Czech press release 'Inovovaný IONIQ 5 vstupuje na český trh' (15.08.2024)"
+    retrieved: 2026-11-17
+    quote: "U verze s dlouhým dojezdem rovněž došlo k navýšení využitelné kapacity akumulátoru, a to na 84 kWh."
+    locator: "Body text: the long-range version (RWD or AWD, 325 PS, 605 Nm, 546 km) has 84 kWh usable"
+    confidence: medium
+    claim: true
+    notes: "Open EV Data's 2025 'AWD' gives 72.6 kWh (A-36 S7)."
+  - variant_id: hyundai-ioniq-5-facelift-awd
+    field: wltp_range_km
+    value: 546
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*12&codevarianttgk=F5E34
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*12, variant F5E34 (Hyundai Ioniq 5 facelift 84 kWh AWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "546", "verbruikvolledigelekwltpbgr": "167.60"'
+    locator: "F5E34 drivetrain rows 1 and 2 on extension 12; 546 km on extensions 06, 07, 09, 11 and 12, next to a 500 km / 182.1 Wh/km version on 06, 07, 09, 10 and 11 (wheel sizes)"
+    confidence: medium
+    claim: true
+    notes: "Matches Hyundai's '546 km' for the 84 kWh AWD (CZ press release 15.08.2024)."
+  - variant_id: hyundai-ioniq-5-facelift-awd
+    field: consumption_kwh_100km
+    value: 16.8
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*12&codevarianttgk=F5E34
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*12, variant F5E34 (Hyundai Ioniq 5 facelift 84 kWh AWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "167.60"'
+    locator: "WLTP combined, Wh/km (167.6 Wh/km = 16.8 kWh/100 km), the 546 km version"
+    confidence: medium
+    claim: true
+    notes: "Hyundai Motor Deutschland 08.08.2024 gives 'kombiniert 16,8-18,2' kWh/100 km for the 239 kW version."
+
+  # --- Hyundai Ioniq 5 facelift 63 kWh RWD (new seed variant) ------------------------------
+  - variant_id: hyundai-ioniq-5-facelift-63kwh-rwd
+    field: wltp_range_km
+    value: 440
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*12&codevarianttgk=F5E12
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*12, variant F5E12 (Hyundai Ioniq 5 facelift 63 kWh RWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "440", "verbruikvolledigelekwltpbgr": "155.80"'
+    locator: "One F5E12 version, the same on extensions 06 to 12"
+    confidence: medium
+    claim: true
+    notes: "Matches Hyundai's '440 km dle WLTP' for the 63 kWh RWD (CZ press release 15.08.2024)."
+  - variant_id: hyundai-ioniq-5-facelift-63kwh-rwd
+    field: consumption_kwh_100km
+    value: 15.6
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e9*2018/858*11054*12&codevarianttgk=F5E12
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e9*2018/858*11054*12, variant F5E12 (Hyundai Ioniq 5 facelift 63 kWh RWD, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "155.80"'
+    locator: "WLTP combined, Wh/km (155.8 Wh/km = 15.6 kWh/100 km)"
+    confidence: medium
+    claim: true
+    notes: "Hyundai Motor Deutschland 08.08.2024: 'IONIQ 5 (63 kW): kombiniert 15,6' (the release's own label for the 63 kWh car)."
+  - variant_id: hyundai-ioniq-5-facelift-63kwh-rwd
+    field: battery_kwh_net
+    value: 63.0
+    unit: kWh
+    source_url: https://www.hyundai.news/de/articles/press-releases/hyundai-ioniq-5-facelift-ab-sofort-bestellbar.html
+    source_name: "Hyundai Motor Deutschland press release 'Hyundai IONIQ 5 Facelift ab sofort bestellbar' (08.08.2024)"
+    retrieved: 2026-11-17
+    quote: "eine kleinere Batterieversion mit 63 kWh"
+    locator: "Body text: entry version with rear-wheel drive"
+    confidence: low
+    claim: true
+    notes: "Low: Hyundai states one capacity and does not say usable for this pack (the CZ release says usable only for 84 kWh). Hyundai's other capacity figures (58, 72.6, 77.4, 84) are the usable ones."
+
+  # --- XPENG P7 (2023-2025, Europe) ---------------------------------------------------------
+  - variant_id: xpeng-p7-gen1-rwd-long-range
+    field: battery_kwh_net
+    value: 82.7
+    unit: kWh
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "Nettobatterikapacitet 82.7 kWh"
+    locator: "p. 1, Prestanda: one value for all three columns (gross 86.2 kWh, NCM)"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-gen1-rwd-long-range
+    field: wltp_range_km
+    value: 576
+    unit: km
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "WLTP Räckvidd upp till 576 km"
+    locator: "p. 1, Prestanda, RWD Long Range column"
+    confidence: medium
+    claim: true
+    notes: "RDW registrations agree (39 of 40 NL P7 E1L cars: 576 km, 168 Wh/km). The type-approval register (e5*2018/858*00179, E1L) also lists a later 621 km / 160.2 Wh/km version that one NL car carries."
+  - variant_id: xpeng-p7-gen1-rwd-long-range
+    field: consumption_kwh_100km
+    value: 16.8
+    unit: kWh/100km
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "Förbrukning (kWh/100km) 16.8 kWh/100km"
+    locator: "p. 1, Prestanda, RWD Long Range column"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-gen1-rwd-long-range
+    field: power_kw
+    value: 203
+    unit: kW
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "Effekt 203 kW"
+    locator: "p. 1, Prestanda, RWD Long Range column"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-gen1-awd-performance
+    field: battery_kwh_net
+    value: 82.7
+    unit: kWh
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "Nettobatterikapacitet 82.7 kWh"
+    locator: "p. 1, Prestanda: one value for all three columns"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-gen1-awd-performance
+    field: wltp_range_km
+    value: 505
+    unit: km
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "upp till 505 km"
+    locator: "p. 1, Prestanda, WLTP Räckvidd row, AWD Performance and Wing Edition columns"
+    confidence: medium
+    claim: true
+    notes: "RDW registrations agree (40 of 40 NL P7 E2L cars: 505 km, 192 Wh/km); the type-approval register lists 514 km / 187.9 Wh/km."
+  - variant_id: xpeng-p7-gen1-awd-performance
+    field: consumption_kwh_100km
+    value: 19.2
+    unit: kWh/100km
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "19.2 kWh/100km"
+    locator: "p. 1, Prestanda, Förbrukning row, AWD Performance column"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-gen1-awd-performance
+    field: power_kw
+    value: 348
+    unit: kW
+    source_url: https://a-cdn.xpeng.com/www/public/static/pdf/SW-P7-Specsheet-min.b299212f.pdf
+    source_name: "XPENG Sweden, P7 specification sheet (RWD Long Range / AWD Performance / Wing Edition)"
+    retrieved: 2026-11-17
+    quote: "348 kW (F145 + R203)"
+    locator: "p. 1, Prestanda, Effekt row, AWD Performance column"
+    confidence: medium
+    claim: true
+
+  # --- XPENG P7+ (2026-, Europe) ------------------------------------------------------------
+  - variant_id: xpeng-p7-plus-gen1-rwd-long-range
+    field: wltp_range_km
+    value: 530
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e5*2018/858*00541*01&codevarianttgk=A0A0
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e5*2018/858*00541*01, variant A0A0 (XPENG P7+ RWD Long Range, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "530", "verbruikvolledigelekwltpbgr": "164.00"'
+    locator: "Variant A0A0, version B58A0B (one drivetrain row); the same on extension 00. NL registrations: 230 kW, 530 km (40 of 40)"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-plus-gen1-rwd-long-range
+    field: consumption_kwh_100km
+    value: 16.4
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e5*2018/858*00541*01&codevarianttgk=A0A0
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e5*2018/858*00541*01, variant A0A0 (XPENG P7+ RWD Long Range, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "164.00"'
+    locator: "WLTP combined, Wh/km (164 Wh/km = 16.4 kWh/100 km)"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-plus-gen1-awd-performance
+    field: wltp_range_km
+    value: 500
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e5*2018/858*00541*01&codevarianttgk=A0B0
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e5*2018/858*00541*01, variant A0B0 (XPENG P7+ AWD Performance, CC0)"
+    retrieved: 2026-11-17
+    quote: '"actieradiusvolledigelekwltpbgr": "500", "verbruikvolledigelekwltpbgr": "174.00"'
+    locator: "Variant A0B0, version CB8A0C, drivetrain rows 1 and 2. NL registrations: 500 km, 174 Wh/km (25 of 25)"
+    confidence: medium
+    claim: true
+  - variant_id: xpeng-p7-plus-gen1-awd-performance
+    field: consumption_kwh_100km
+    value: 17.4
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e5*2018/858*00541*01&codevarianttgk=A0B0
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e5*2018/858*00541*01, variant A0B0 (XPENG P7+ AWD Performance, CC0)"
+    retrieved: 2026-11-17
+    quote: '"verbruikvolledigelekwltpbgr": "174.00"'
+    locator: "WLTP combined, Wh/km (174 Wh/km = 17.4 kWh/100 km)"
+    confidence: medium
+    claim: true

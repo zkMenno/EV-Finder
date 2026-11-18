@@ -12,8 +12,8 @@ test("open data page: files with size and sha256, CC BY citation, footer link", 
   await expect(page.getByTestId("open-cite")).toContainText("CC BY 4.0");
 });
 
-test("open data page in Dutch", async ({ page }) => {
-  await page.goto("/nl/nl/data");
+test("open data page for NL (English, Decision 082)", async ({ page }) => {
+  await page.goto("/nl/en/data");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Open data");
-  await expect(page.getByTestId("open-cite")).toContainText("Bron:");
+  await expect(page.getByTestId("open-cite")).toContainText("Source:");
 });

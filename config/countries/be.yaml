@@ -22,8 +22,9 @@ country: be
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
 # these languages plus English. /{country}/ redirects to default_language. Read by
 # apps/web/scripts/countries.mjs.
-languages: [nl, fr, de]
-default_language: nl
+# Decision 082: English only at launch. Hidden, not deleted: this country had [nl, fr, de] (default nl); list them again to serve them.
+languages: []
+default_language: en
 listings:
   - site: 2dehands
     label: 2dehands

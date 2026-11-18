@@ -1,0 +1,262 @@
+# Maker press/media photo terms, one row per seed make (T-133, Decision 081).
+#
+# Our use: one photo per generation on a free car-finder site (cards and model pages), to identify
+# the car. We are not a news outlet, and affiliate links are planned (WS5), so the site is not
+# purely non-commercial either.
+#
+# verdict:
+#   allowed      the terms clearly cover our use: the maker photo may be used
+#   not_allowed  the terms limit use to journalists / news media, or forbid copying without
+#                written permission: never use, fall back to Wikimedia Commons
+#   unclear      "editorial use only" or similar, without saying who may use it; or terms not
+#                found. Decision 081: unclear = not used (Commons fallback)
+#
+# A maker moves to `allowed` only with written permission (an email from the press office,
+# requested in Menno's name: a draft for him, never sent by an agent) or terms that name our use.
+# quote: a short extract (under 25 words) of the clause the verdict rests on, never the full terms.
+# Re-check every 6 months (terms change); checked_at = the date a person or agent read the clause.
+# photo_hosts: hosts the press files would come from; empty while no maker is allowed (WS1 adds them to
+# data/sources.yaml `maker-press-photos`, T-134 contract).
+schema: images-press-terms/v1
+checked_by: WS3 (2nd chat, 2026-11-17)
+summary: No maker's public press terms cover a non-media car-finder site. All 35 makes fall back to Commons.
+makers:
+  - make_id: tesla
+    terms_url: https://www.tesla.com/en_EU/tesla-gallery
+    checked_at: 2026-11-17
+    quote: "you are a member of the news media; (2) use of the content is in connection with a story or an article"
+    verdict: not_allowed
+    photo_hosts: []
+    note: News media only; also "not for ... commercial purposes".
+  - make_id: renault
+    terms_url: https://www.ampere.cars/en/?p=6347
+    checked_at: 2026-11-17
+    quote: "made available exclusively for non-commercial editorial use. Journalists, influencers and media professionals may use this content"
+    verdict: not_allowed
+    photo_hosts: []
+    note: Text from the Renault Group (Ampere) press-kit terms; media.renaultgroup.com terms page not found in this pass.
+  - make_id: dacia
+    terms_url: https://www.ampere.cars/en/?p=6347
+    checked_at: 2026-11-17
+    quote: "made available exclusively for non-commercial editorial use. Journalists, influencers and media professionals may use this content"
+    verdict: not_allowed
+    photo_hosts: []
+    note: Renault Group brand (same media site as Renault); same reading.
+  - make_id: nissan
+    terms_url: https://global.nissannews.com/en/pages/terms-of-use
+    checked_at: 2026-11-17
+    quote: "Editorial use means that news media or academic outlets may distribute Nissan's Creative Assets"
+    verdict: not_allowed
+    photo_hosts: []
+    note: Other uses need a permission email to the Nissan newsroom.
+  - make_id: volkswagen
+    terms_url: https://www.volkswagen-newsroom.com/en/terms-of-service-35
+    checked_at: 2026-11-17
+    quote: "intended solely for personal information purposes, or may be used for editorial purposes on social media and networks"
+    verdict: unclear
+    photo_hosts: []
+    note: Also forbids using image data "for commercial purposes or pass on such data to third parties".
+  - make_id: audi
+    terms_url: https://www.audi-mediacenter.com/en/terms-of-service
+    checked_at: 2026-11-17
+    quote: "intended exclusively for use by journalists and employees of media companies as a source for their own media reporting"
+    verdict: not_allowed
+    photo_hosts: []
+  - make_id: porsche
+    terms_url: https://newsroom.porsche.com/en/images-videos/porsche-newsroom-terms-and-conditions.html
+    checked_at: 2026-11-17
+    quote: "It is not permitted to pass on texts, images, audio or video data to unauthorised third parties."
+    verdict: unclear
+    photo_hosts: []
+    note: Terms (22/04/2024) forbid book projects and similar commercial use; they do not say who may use the images.
+  - make_id: skoda
+    terms_url: https://www.skoda-storyboard.com/en/
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: Škoda Storyboard terms page not found in this pass. Same group as VW and Audi (journalist/editorial terms).
+  - make_id: cupra
+    terms_url: https://www.seat-cupra-mediacenter.com/
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: SEAT/CUPRA Media Center legal note not read in this pass.
+  - make_id: hyundai
+    terms_url: https://www.hyundai.news/content/newsroom/eu/terms-of-use.html
+    checked_at: 2026-11-17
+    quote: "exclusively to be used for editorial purposes ... needs to be differentiated from a commercial purpose (advertising and/ or promotional purposes)"
+    verdict: unclear
+    photo_hosts: []
+  - make_id: kia
+    terms_url: https://www.kianewscenter.com/
+    checked_at: 2026-11-17
+    quote: "This media asset is free for editorial broadcast, print, online and radio use. It is restricted for use for other purposes."
+    verdict: unclear
+    photo_hosts: []
+    note: Line shown under each asset on the Kia global newscenter; the Kia Europe press site terms page was not readable in this pass.
+  - make_id: genesis
+    terms_url: https://www.genesis.com/worldwide/en/terms-of-use/terms-of-use.html
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: No public press-photo terms found; Hyundai Motor Group brand.
+  - make_id: bmw
+    terms_url: https://www.press.bmwgroup.com/new-zealand/info/legal
+    checked_at: 2026-11-17
+    quote: "This image is copyright free for editorial use © BMW AG"
+    verdict: unclear
+    photo_hosts: []
+    note: Caption line on BMW Group PressClub images; the legal notice itself only reserves all rights.
+  - make_id: mini
+    terms_url: https://www.press.bmwgroup.com/new-zealand/info/legal
+    checked_at: 2026-11-17
+    quote: "This image is copyright free for editorial use © BMW AG"
+    verdict: unclear
+    photo_hosts: []
+    note: BMW Group PressClub, same terms as BMW.
+  - make_id: peugeot
+    terms_url: https://www.media.stellantis.com/em-en/page/legal-notes
+    checked_at: 2026-11-17
+    quote: "for reporting purposes on social media networks, or by journalists, influencers and media company employees as a source for their own media editorial"
+    verdict: not_allowed
+    photo_hosts: []
+    note: Stellantis media site terms cover all Stellantis brands.
+  - make_id: opel
+    terms_url: https://www.media.stellantis.com/em-en/page/legal-notes
+    checked_at: 2026-11-17
+    quote: "for reporting purposes on social media networks, or by journalists, influencers and media company employees as a source for their own media editorial"
+    verdict: not_allowed
+    photo_hosts: []
+  - make_id: fiat
+    terms_url: https://www.media.stellantis.com/em-en/page/legal-notes
+    checked_at: 2026-11-17
+    quote: "for reporting purposes on social media networks, or by journalists, influencers and media company employees as a source for their own media editorial"
+    verdict: not_allowed
+    photo_hosts: []
+  - make_id: citroen
+    terms_url: https://www.media.stellantis.com/em-en/page/legal-notes
+    checked_at: 2026-11-17
+    quote: "for reporting purposes on social media networks, or by journalists, influencers and media company employees as a source for their own media editorial"
+    verdict: not_allowed
+    photo_hosts: []
+  - make_id: ds
+    terms_url: https://www.media.stellantis.com/em-en/page/legal-notes
+    checked_at: 2026-11-17
+    quote: "for reporting purposes on social media networks, or by journalists, influencers and media company employees as a source for their own media editorial"
+    verdict: not_allowed
+    photo_hosts: []
+  - make_id: leapmotor
+    terms_url: https://www.media.stellantis.com/em-en/page/legal-notes
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: Leapmotor International is a Stellantis joint venture; whether the Stellantis media terms cover it was not checked.
+  - make_id: volvo
+    terms_url: https://media.volvocars.com/global/en-gb/media/photos/6614
+    checked_at: 2026-11-17
+    quote: "may be downloaded for editorial and strictly private use. For commercial use, the prior written permission of Volvo Cars is required."
+    verdict: unclear
+    photo_hosts: []
+    note: The newsroom says it serves "journalists, bloggers and other professional publishers". Closest to allowed; a permission email would settle it.
+  - make_id: polestar
+    terms_url: https://www.polestar.com/dato-assets/11286/1712578923-231011_polestar_branding-guidelines-external.pdf
+    checked_at: 2026-11-17
+    quote: "Any use of the Polestar brand assets does require permission through a license explicitly given in writing from Polestar."
+    verdict: not_allowed
+    photo_hosts: []
+    note: The brand guidelines list "Cars (in images or moving material)" as brand assets.
+  - make_id: smart
+    terms_url: https://www.smart.mercedes-benz.com/StaticErrorPages/legal-notes.html
+    checked_at: 2026-11-17
+    quote: "They may not be copied, either for commercial purposes or for redistribution, nor may they be modified and used on other websites."
+    verdict: not_allowed
+    photo_hosts: []
+    note: Old smart (Mercedes) legal notes; the current smart Europe GmbH (Geely/Mercedes JV) press terms were not checked.
+  - make_id: zeekr
+    terms_url: null
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: Not checked in this pass.
+  - make_id: lynk-co
+    terms_url: null
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: Not checked in this pass.
+  - make_id: geely
+    terms_url: null
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: Not checked in this pass.
+  - make_id: mercedes
+    terms_url: https://group.mercedes-benz.com/provider
+    checked_at: 2026-11-17
+    quote: "The text, images, graphics, sound files, animation files, video files and their arrangement on Mercedes-Benz Internet sites are all subject to Copyright"
+    verdict: unclear
+    photo_hosts: []
+    note: media.mercedes-benz.com terms of use not read in this pass; group legal notice says no copying for commercial use or reposting.
+  - make_id: ford
+    terms_url: https://media.ford.com/content/fordmedia/feu/en/
+    checked_at: 2026-11-17
+    quote: "Images, video and audio from this Web site are provided without login for the purpose of editorial use only."
+    verdict: unclear
+    photo_hosts: []
+    note: Ford Media Center multimedia licence; commercial use needs approval from media@ford.com.
+  - make_id: toyota
+    terms_url: https://pressroom.toyota.com/terms-agreements/
+    checked_at: 2026-11-17
+    quote: "All materials on this site are for editorial use only. The use of these materials for advertising, marketing or any other commercial purpose is prohibited."
+    verdict: unclear
+    photo_hosts: []
+    note: US pressroom; Toyota Europe newsroom terms not found in this pass.
+  - make_id: honda
+    terms_url: https://hondanews.eu/
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: hondanews.eu terms not found in this pass.
+  - make_id: subaru
+    terms_url: null
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: Not checked in this pass.
+  - make_id: jaguar
+    terms_url: https://media.jaguarlandrover.com/node/9508
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: JLR media site has a separate "User Licence" page that was not read in this pass.
+  - make_id: mg
+    terms_url: https://mg.co.uk/media-centre
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: MG UK media centre offers downloads; no usage terms found on it in this pass.
+  - make_id: byd
+    terms_url: https://www.byd.com/fr-ch/terms-of-use
+    checked_at: 2026-11-17
+    quote: "ne peuvent être utilisés, téléchargés, copiés ou distribués de quelque manière que ce soit sans l'accord préalable écrit de BYD"
+    verdict: not_allowed
+    photo_hosts: []
+    note: Site terms (images need prior written consent). The BYD EU image bank may carry its own terms; not read.
+  - make_id: xpeng
+    terms_url: https://www.xpeng.com/pressroom/blog
+    checked_at: 2026-11-17
+    quote: null
+    verdict: unclear
+    photo_hosts: []
+    note: Pressroom shares images via links; no usage terms found in this pass.

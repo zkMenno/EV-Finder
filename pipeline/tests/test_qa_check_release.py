@@ -59,7 +59,7 @@ def test_fixture_release_passes_via_latest_pointer(data, cat, facts) -> None:
     _write_release(data, cat, facts)
     report = check_release(data / "releases" / "latest", data)
     assert report["status"] == "pass" and report["blocking_failures"] == []
-    assert set(report["checks"]) == {"provenance", "licence_gate", "release_diff"}
+    assert set(report["checks"]) == {"provenance", "licence_gate", "images", "release_diff"}
     assert main(["check-release", str(data / "releases" / "latest")]) == 0
 
 

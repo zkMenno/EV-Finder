@@ -20,7 +20,7 @@ test("T-017: every page talks only to our own origin", async ({ page, baseURL })
   const origin = new URL(baseURL!).origin;
   const foreign = watchForeign(page, origin);
 
-  await page.goto("/nl/nl/cars?view=table");
+  await page.goto("/nl/en/cars?view=table");
   await exploreReady(page);
   // Open a provenance popover and a glossary ⓘ (they must not load anything foreign either).
   await page.getByTestId("explore-row").first().locator("td button").first().hover();
@@ -37,9 +37,9 @@ test("T-017: every page talks only to our own origin", async ({ page, baseURL })
     variantHref!,
     generationHref,
     modelHref,
-    "/nl/nl/compare?ids=nissan-leaf-ze1-40kwh,renault-zoe-ph2-r135",
-    "/nl/nl/learn/real-range",
-    ...(process.env.E2E_PARKED === "1" ? ["/nl/nl/top", "/nl/nl/top/fastest-dc"] : ["/nl/nl/learn"]),
+    "/nl/en/compare?ids=nissan-leaf-ze1-40kwh,renault-zoe-ph2-r135",
+    "/nl/en/learn/real-range",
+    ...(process.env.E2E_PARKED === "1" ? ["/nl/en/top", "/nl/en/top/fastest-dc"] : ["/nl/en/learn"]),
     "/uk/en",
   ]) {
     const res = await page.goto(path);
@@ -51,7 +51,7 @@ test("T-017: every page talks only to our own origin", async ({ page, baseURL })
 });
 
 test("T-010: compare tray survives a country switch and drives the compare page", async ({ page }) => {
-  await page.goto("/nl/nl/cars?view=table");
+  await page.goto("/nl/en/cars?view=table");
   await exploreReady(page);
   const toggles = page.getByTestId("compare-toggle");
   await toggles.nth(0).click();
@@ -60,13 +60,13 @@ test("T-010: compare tray survives a country switch and drives the compare page"
   const labels = await page.getByTestId("compare-tray").getByRole("listitem").allInnerTexts();
 
   // Another country: same tray, compare link uses the new country.
-  await page.goto("/de/de");
+  await page.goto("/de/en");
   const tray = page.getByTestId("compare-tray");
   await expect(tray.getByRole("listitem")).toHaveCount(2);
   const link = tray.getByRole("link");
-  await expect(link).toHaveAttribute("href", /^\/de\/de\/compare\?ids=[^,]+,[^,]+$/);
+  await expect(link).toHaveAttribute("href", /^\/de\/en\/compare\?ids=[^,]+,[^,]+$/);
   await link.click();
-  await expect(page).toHaveURL(/\/de\/de\/compare\?ids=/);
+  await expect(page).toHaveURL(/\/de\/en\/compare\?ids=/);
   const table = page.getByTestId("compare-table");
   await expect(table).toBeVisible();
   for (const l of labels) await expect(table.locator("thead")).toContainText(l.replace(/×/g, "").trim().split("\n")[0]!.trim());
@@ -77,7 +77,7 @@ test("T-010: compare tray survives a country switch and drives the compare page"
 });
 
 test("T-008: Explore URL state round-trips (filters, sort, view, level) through a reload", async ({ page }) => {
-  const url = "/nl/nl?range=200&sort=-range&view=cards&level=nerd";
+  const url = "/nl/en?range=200&sort=-range&view=cards&level=nerd";
   await page.goto(url);
   await expect(page.getByTestId("explore-cards")).toBeVisible();
   await expect(page.locator("#f-rangeMin")).toHaveValue("200");
@@ -224,7 +224,8 @@ test("About page: linked in the footer, explains the site, credits the release's
   // source, release 1 several); each source is unit-tested in credits.test.ts.
   expect(await page.getByTestId("credits").locator("tbody tr").count()).toBeGreaterThanOrEqual(1);
 
-  await page.goto("/nl/nl/about");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^Over /);
-  await expect(page.getByRole("heading", { name: "Bronvermelding / databronnen" })).toBeVisible();
+  // Another country's about page is English too (Decision 082).
+  await page.goto("/be/en/about");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^About /);
+  await expect(page.getByRole("heading", { name: "Credits / data sources" })).toBeVisible();
 });

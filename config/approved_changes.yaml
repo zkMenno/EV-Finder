@@ -247,3 +247,25 @@ approved:
   - {<<: *d047, id: volvo-xc40-recharge-ex40-twin-motor, field: "dc_km_per_*", change: changed}
   - {<<: *d047, id: volvo-xc40-recharge-gen1-twin-motor, field: "consumption_*", change: changed}
   - {<<: *d047, id: volvo-xc40-recharge-gen1-twin-motor, field: "dc_km_per_*", change: changed}
+  # T-140 release 3 vs release 2: cited Ioniq 5 facts (A-36 S7). Scoped to release 3 only.
+  - &t140
+    release: 3
+    file: catalogue.json
+    approved_by: "PR #115 (T-140)"
+    reason: "T-140 (A-36 S7): cited figures in data/manual/specs/t140-a36-catalogue-gaps.yaml (Decision 068) replace pre-facelift values on the Ioniq 5 facelift (Open EV Data 72.6 / 78 kWh -> Hyundai 84 kWh usable; AWD WLTP 480 -> 546 km and base consumption 18.0 -> 16.0 from the EU type approval F5E34 / F5E22), the T-110 Ioniq 5 N 84 kWh fact now points at the live id (was the retired hyundai-ioniq-5-gen1-n), and the 72.6 kWh RWD gets its type-approval WLTP (451 -> 485 km, F5E32). Real range, DC minutes / km, the consumption matrix and shortlist scores follow from those inputs."
+    id: hyundai-ioniq-5-facelift-awd
+    field: "battery_kwh_net"
+    change: changed
+  - {<<: *t140, id: hyundai-ioniq-5-facelift-awd, field: "wltp_range_km", change: changed}
+  - {<<: *t140, id: hyundai-ioniq-5-facelift-awd, field: "real_range_km", change: changed}
+  - {<<: *t140, id: hyundai-ioniq-5-facelift-awd, field: "dc_*", change: changed}
+  - {<<: *t140, id: hyundai-ioniq-5-facelift-base, field: "battery_kwh_net", change: changed}
+  - {<<: *t140, id: hyundai-ioniq-5-facelift-base, field: "consumption_*", change: changed}
+  - {<<: *t140, id: hyundai-ioniq-5-facelift-base, field: "dc_*", change: changed}
+  - {<<: *t140, id: hyundai-ioniq-5-facelift-n, field: "battery_kwh_net", change: changed}
+  - {<<: *t140, id: hyundai-ioniq-5-gen1-73kwh-rwd, field: "wltp_range_km", change: changed}
+  - {<<: *t140, file: consumption_matrix.json, id: hyundai-ioniq-5-facelift-base, field: "cells*", change: changed}
+  - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-facelift-awd, field: "scores.*", change: changed}
+  - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-facelift-base, field: "scores.*", change: changed}
+  - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-gen1-73kwh-awd, field: "scores.*", change: changed}
+  - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-gen1-73kwh-rwd, field: "scores.*", change: changed}

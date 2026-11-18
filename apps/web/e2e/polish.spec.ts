@@ -16,7 +16,7 @@ test("Num popover links its badges to the glossary", async ({ page }) => {
 test("Explore cards at 360 px: no sideways scroll, every card readable", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 800 });
   for (const level of ["simple", "detailed", "nerd"]) {
-    await page.goto(`/nl/nl?view=cards&level=${level}`);
+    await page.goto(`/nl/en?view=cards&level=${level}`);
     await expect(page.getByTestId("explore-card").first()).toBeVisible();
     await expect(page.getByTestId("result-count")).not.toContainText("…");
     const [sw, iw] = await page.evaluate(() => [document.documentElement.scrollWidth, window.innerWidth]);
@@ -113,7 +113,7 @@ test("Compare: share copies the link, differences only keeps the price mode, pri
 test("Used-price rankings are hidden while no list has 5 priced cars (release 1)", async ({ page }) => {
   test.skip(process.env.E2E_PARKED !== "1", "rankings are parked (Decision 051)");
   for (const cap of ["15k", "20k", "25k"]) {
-    const res = await page.goto(`/nl/nl/top/best-used-under-${cap}`);
+    const res = await page.goto(`/nl/en/top/best-used-under-${cap}`);
     expect(res?.status()).toBe(404);
   }
   await page.goto("/nl/en/top");

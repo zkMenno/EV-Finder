@@ -1,0 +1,13 @@
+{
+  "files": [
+    { "width": 800, "path": "images/hyundai-ioniq-5-gen1-0a1b2c3d-800.webp", "bytes": 48213, "sha256": "0a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f9" }
+  ],
+  "source": "commons",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Example_EV.jpg",
+  "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Example_EV.jpg",
+  "licence": "CC0",
+  "author": null,
+  "credit": "Wikimedia Commons",
+  "retrieved_at": "2026-11-18",
+  "make_id": null
+}
