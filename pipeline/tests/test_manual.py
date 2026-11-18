@@ -751,3 +751,28 @@ def test_years_lets_two_scoped_facts_share_a_generation_and_field(tmp_path: Path
     )
     load = load_manual_dir(d, TODAY, load_registry(d / "sources.yaml"), for_release=False)
     assert not load.errors and [mf.years for mf in load.facts] == [(2019, 2020), (2021, None)]
+
+
+def test_check_fails_on_facts_for_retired_ids(tmp_path: Path) -> None:
+    """A-36 S7: a fact on a retired id never applies, so `ev manual check` stops it."""
+    d = tmp_path / "data"
+    shutil.copytree(FIX / "warranty", d / "manual" / "warranty")
+    (d / "seed").mkdir(parents=True)
+    (d / "seed" / "retired_ids.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "schema": "retired-ids/v1",
+                "ids": {
+                    "tesla-model-3-gen1-lr": "tesla-model-3-gen1-lr-2021",
+                    "nissan-leaf-ze0": None,
+                },
+            }
+        )
+    )
+    code, lines = check(d, today=TODAY)
+    assert code == 1
+    text = "\n".join(lines)
+    assert "error: variant tesla-model-3-gen1-lr is retired" in text
+    assert "use tesla-model-3-gen1-lr-2021" in text
+    assert "generation nissan-leaf-ze0 is retired" in text and "no successor" in text
+    assert "2 errors" in text
