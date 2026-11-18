@@ -48,6 +48,7 @@ import { readStorage, writeStorage } from "@/lib/storage";
 import { voltageBounds, type UiTaxonomy } from "@/lib/taxonomy";
 import { useListStore } from "@/lib/use-list-store";
 import { Missing, Num } from "./Num";
+import { OfficialRange, type OfficialRangeText } from "./OfficialRange";
 import { numLabels, type NumLabels } from "./num-labels";
 import { QualityBadge } from "./QualityBadge";
 import { InfoTip, TermInfo, TermLabel, type TermText } from "./Term";
@@ -525,6 +526,7 @@ function groupLabel(g: FilterGroup, f: ExploreFilters, c: Ctx): string {
   switch (g) {
     case "usedMin": return t("filters.used");
     case "winterMin": return t("filters.winter");
+    case "wltpMin": return t("filters.wltp");
     case "priceMax": return t("filters.price");
     case "eras": return list(t("filters.era"), f.eras);
     case "segments": return list(t("filters.segment"), f.segments.map((v) => t(`segment.${v}` as MsgKey)));
@@ -890,6 +892,8 @@ const DC_STEPS = [100, 150, 200] as const;
 /** Winter range slider bounds (km); 0 = any. */
 const WINTER_MAX = 500;
 const WINTER_STEP = 10;
+/** T-143: the official WLTP slider's top (longest WLTP figures in the catalogue are ~700–800 km). */
+const WLTP_MAX = 800;
 
 function BrandFilter({ f, onChange, brands, ctx }: { f: ExploreFilters; onChange: (p: Partial<ExploreFilters>) => void; brands: ExploreProps["brands"]; ctx: Ctx }) {
   const { t } = ctx;
@@ -1018,6 +1022,7 @@ function FiltersPanel({
     };
   }, [open]);
   const winter = f.winterMin ?? 0;
+  const wltp = f.wltpMin ?? 0;
   const anyOf = (...keys: (keyof ExploreFilters)[]) => keys.some((k) => { const v = f[k]; return Array.isArray(v) ? v.length > 0 : typeof v === "boolean" ? v : v !== null; });
   const moreOpen = anyOf("priceMax", "rangeMin", "eras", "fast400", "charge100", "segments", "voltageClasses", "chemistries", "coolings", "bootMin", "lengthMax", "acMin", "voltageMin", "voltageMax", "excludeMakes") || (f.dcMin !== null && !(DC_STEPS as readonly number[]).includes(f.dcMin));
   return (
@@ -1076,7 +1081,7 @@ function FiltersPanel({
               <NumberFilter id="usedMax" termId="" label={t("filters.used.max", { currency: ctx.currency })} value={f.usedMax} step={1000} onChange={(v) => onChange({ usedMax: v })} ctx={ctx} />
             </div>
           </Group>
-          <Group title={t("filters.winter")} open testId="fg-winter">
+          <Group title={t("filters.rangeGroup")} open testId="fg-winter">
             <span className="flex items-start justify-between gap-1">
               <label htmlFor="f-winterMin" className="text-sm">
                 {winter > 0 ? t("filters.winter.atLeast", { n: winter }) : t("filters.winter.any")}
@@ -1096,6 +1101,30 @@ function FiltersPanel({
                 onChange({ winterMin: v > 0 ? v : null });
               }}
               className="w-full accent-blue-800"
+            />
+            {/* T-143 (Decision 085): real range leads; the official WLTP figure is the second control in the same group. */}
+            <span className="mt-2 flex items-start justify-between gap-1">
+              <label htmlFor="f-wltpMin" className="text-xs text-slate-700">
+                {wltp > 0 ? t("filters.wltp.atLeast", { n: wltp }) : t("filters.wltp.any")}
+              </label>
+              <InfoTip label={t("range.wltp.label")} href={`${ctx.base}/learn/wltp`} text={ctx.termText}>
+                <span className="block">{t("range.wltp.tip")}</span>
+              </InfoTip>
+            </span>
+            <input
+              id="f-wltpMin"
+              type="range"
+              min={0}
+              max={WLTP_MAX}
+              step={WINTER_STEP}
+              value={wltp}
+              aria-valuetext={wltp > 0 ? t("filters.wltp.atLeast", { n: wltp }) : t("filters.wltp.any")}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange({ wltpMin: v > 0 ? v : null });
+              }}
+              className="w-full accent-blue-800"
+              data-testid="filter-wltp"
             />
           </Group>
           <Group title={t("filters.body")} open testId="fg-body">
@@ -1193,6 +1222,7 @@ function ActivePills({ filters: f, ctx, brands, onChange }: { filters: ExploreFi
         drop(g, f.usedMin !== null && f.usedMax !== null ? t("pill.used.range", { min: money(f.usedMin), max: money(f.usedMax) }) : f.usedMax !== null ? t("pill.used.max", { max: money(f.usedMax) }) : t("pill.used.min", { min: money(f.usedMin ?? 0) }));
         break;
       case "winterMin": drop(g, t("pill.winter", { n: n(f.winterMin ?? 0) })); break;
+      case "wltpMin": drop(g, t("pill.wltp", { n: n(f.wltpMin ?? 0) })); break;
       case "priceMax": drop(g, t("pill.price", { max: money(f.priceMax ?? 0) })); break;
       case "rangeMin": drop(g, t("pill.range", { n: n(f.rangeMin ?? 0) })); break;
       case "batteryMin": drop(g, t("pill.battery", { n: n(f.batteryMin ?? 0) })); break;
@@ -1292,6 +1322,32 @@ function rangeNote(r: ExploreRow, c: Ctx): string | undefined {
   return c.level === "nerd" ? `${label} [${r.real_range_rung}]` : label;
 }
 
+/** T-143 (Decision 085): the strings and ⓘ link of the "Official (WLTP)" line. */
+function wltpText(c: Ctx): OfficialRangeText {
+  return { label: c.t("range.wltp.label"), notKnown: c.t("range.wltp.notKnown"), tip: c.t("range.wltp.tip") };
+}
+
+/** Real range leads; the official WLTP range sits under it in the same cell (no ⓘ in the table: Tab stops, rule 12). */
+function rangeCell(r: ExploreRow, c: Ctx) {
+  return (
+    <span className="inline-flex flex-col items-end gap-0.5">
+      {num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c))}
+      <OfficialRange
+        value={r.wltp_range_km}
+        provenance={r.provenance.wltp_range_km}
+        sources={c.sources}
+        locale={c.locale}
+        labels={c.labels}
+        level={c.level === "nerd" ? "nerd" : "simple"}
+        asOf={c.asOf}
+        focusable={!c.inTable}
+        text={wltpText(c)}
+        info={false}
+      />
+    </span>
+  );
+}
+
 const NO_NAMES = new Map<string, string>();
 
 function named(map: Map<string, string>, id: string | null | undefined, c: Ctx): string {
@@ -1354,7 +1410,7 @@ const COLS: Col[] = [
   { id: "variant", key: null, label: "col.variant", term: "variant", levels: DN, cell: (r) => r.variant_name },
   { id: "years", key: "years", label: "col.years", term: "model-years", levels: ALL, cell: (r, c) => formatYears(r.year_start, r.year_end, c.t("years.now")) },
   { id: "era", key: "era", label: "col.era", term: "era", levels: DN, cell: (r) => r.era },
-  { id: "range", key: "range", label: "col.range", term: "real-range", num: true, levels: ALL, cell: (r, c) => num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c)) },
+  { id: "range", key: "range", label: "col.range", term: "real-range", num: true, levels: ALL, cell: rangeCell },
   { id: "battery", key: "battery", label: "col.battery", term: "usable-vs-gross", num: true, levels: DN, cell: (r, c) => num(r, c, r.battery_kwh_net, "battery_kwh_net", "kWh") },
   { id: "dc", key: "dc", label: "col.dc", term: "dc-km-20min", num: true, levels: ALL, cell: (r, c) => num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0) },
   { id: "ac", key: "ac", label: "col.ac", term: "ac-charging", num: true, levels: DN, cell: (r, c) => num(r, c, r.ac_km_per_h, "ac_km_per_h", "km/h", 0) },
@@ -1722,6 +1778,25 @@ function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: 
             <TermInfo term={c.tax.terms["dc-km-20min"]} base={c.base} text={c.termText} />
           </span>
         ), "fact-dc20")}
+        {/* T-143: the official WLTP range right under the real winter + summer range, secondary style. */}
+        <div className="col-span-3 min-w-0">
+          <dt className="sr-only">{t("range.wltp.label")}</dt>
+          <dd className="min-w-0">
+            <OfficialRange
+              value={g.wltp?.max}
+              valueText={g.wltp ? spanText(g.wltp, c) : undefined}
+              provenance={g.wltp?.row.provenance.wltp_range_km}
+              sources={c.sources}
+              locale={c.locale}
+              labels={c.labels}
+              level={c.level === "nerd" ? "nerd" : "simple"}
+              asOf={c.asOf}
+              text={wltpText(c)}
+              info={{ href: `${c.base}/learn/wltp`, termText: c.termText }}
+              testId="fact-wltp"
+            />
+          </dd>
+        </div>
       </dl>
       {level !== "simple" ? (
         <dl className="grid grid-cols-2 gap-2 text-sm">

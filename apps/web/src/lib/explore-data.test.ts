@@ -11,3 +11,11 @@ describe("Explore rows keep WLTP, never EPA (T-061)", () => {
     expect(r.wltp_range_km).toBe(400);
   });
 });
+
+describe("WLTP ships with its provenance (T-143, Decision 085)", () => {
+  it("keeps the official WLTP figure's source and confidence for <Num>", () => {
+    const prov = { source_ids: ["openev"] as [string], confidence: "medium" as const };
+    const r = row({ variant_id: "x", wltp_range_km: 452, provenance: { wltp_range_km: prov } });
+    expect(r.provenance.wltp_range_km).toEqual(prov);
+  });
+});

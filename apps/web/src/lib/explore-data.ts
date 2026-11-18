@@ -73,8 +73,10 @@ const NUMERIC = new Set<string>([
   "real_range_km",
   "real_range_winter_km",
   "battery_kwh_net",
-  // wltp_range_km / consumption_kwh_100km ship without provenance: Explore never shows them, they
-  // only feed the trip estimate, which carries its own "fixture matrix" provenance (T-036).
+  // T-143 (Decision 085): the official WLTP range shows next to the real range, so it ships with its provenance.
+  "wltp_range_km",
+  // consumption_kwh_100km ships without provenance: Explore never shows it, it only feeds the trip
+  // estimate, which carries its own "fixture matrix" provenance (T-036).
   "dc_km_per_20min",
   "dc_km_per_10min",
   "dc_peak_kw",
