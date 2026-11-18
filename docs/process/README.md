@@ -16,7 +16,7 @@ Short version for Project Settings: [project-instructions.md](project-instructio
 - Shared files: `BOARD.md` (status), `QUESTIONS.md` (only what Menno must answer), `DECISIONS.md`, `CHATS.md` (every chat with its link), `REVIEW.md`, `docs/process/`, `docs/spec/`.
 - **One inbox:** `workstreams/WS0/INBOX.md`, the coordinator's (append-only: `- YYYY-MM-DD HH:MM UTC · from <chat> · message`; the coordinator marks handled items by appending `→ done`). Batch chats append one line when they finish, get blocked or need a decision; cross-lane requests go there too, and the coordinator puts them in the next brief.
 - **State lives in task files and PRs** (Status, Handoff notes, `## Review`), not in chats. Before starting, check open PRs for your tasks: the newest state may not be on main yet.
-- Lane files `workstreams/<lane>/START.md` are **lane briefs** (lane rules and context, owned by the coordinator). The old per-lane INBOX, STATUS and HANDOFF files are history: the coordinator drains their open items into briefs and then retires them to `_archive/`.
+- Lane files `workstreams/<lane>/START.md` are **lane briefs** (lane rules and context, owned by the coordinator). The old per-lane INBOX, STATUS and HANDOFF files were retired to `_archive/` on 18 Nov 2026; their open items sit at the end of the coordinator's INBOX.
 - Need Menno? Ask the coordinator via its INBOX, or use a popup if you're talking to him.
 - Read a file right before you write it, make small edits, write only files you own (§4).
 - Every chat attaches the repo with push access first (`add_repo zkMenno/EV-Shortlist`, access `push`) and adds its row to CHATS.md in its first commit.
@@ -44,7 +44,7 @@ Direct links to running chats: [CHATS.md](../../CHATS.md).
 Finished one-off runs (OVERNIGHT, OVERNIGHT2) are in `_archive/`. Lanes that need special rights (WS4 AppInfra, WS5 claude.ai project) still run as batch chats with those rights.
 
 ## 4. File ownership
-One owner per path; others write to the owner's INBOX. Builders also edit Status + Handoff notes of their own task file; reviewers only the `## Review` section.
+One owner per path; others write to the coordinator's INBOX (`workstreams/WS0/INBOX.md`), and the coordinator puts the request in the owning lane's next brief. Builders also edit Status + Handoff notes of their own task file; reviewers only the `## Review` section.
 
 | Path | Owner |
 |---|---|

@@ -1,15 +1,37 @@
-# UX — Brand and design: start here
+# UX lane brief: brand and design
 
-The UX/design workstream already runs as its own claude.ai project chat. Its decisions live in the project doc `claude/brand-design-decisions.md` and its design system at https://claude.ai/artifact/EiqvMW5NcFgxFq6c5YHuPP.
+For any batch chat whose prompt touches this lane. Owner: WS0 (the coordinator). How chats work: [docs/process/README.md](../../docs/process/README.md) §3; rules: [rules.md](../../docs/process/rules.md). Brand decisions live in the project doc `claude/brand-design-decisions.md`; the design system is https://claude.ai/artifact/EiqvMW5NcFgxFq6c5YHuPP, mirrored in `docs/design/` (start at [SOURCE.md](../../docs/design/SOURCE.md)). Design board: https://claude.ai/artifact/7oaYaK26i6xQBogFuuctMp. Keep system and board in sync.
 
-## When you (the UX chat) get repo access
-1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`).
-2. Read `AGENTS.md`, `REVIEW.md` (from `origin/main`; what reviewers check), open PRs + your HANDOFF.md, `docs/process/README.md`, this file, `workstreams/UX/INBOX.md`.
-3. Mirror the design system into `docs/design/` (README, patterns, tokens.json, component READMEs, bundle.css) — you own `docs/design/`.
-4. Send the range-as-route brief to `workstreams/WS2/INBOX.md`. Respect Decisions 012 and 013: no charger map of our own, no point-level charger data; estimate charge stops from range and typical motorway spacing; hand off to the ABRP deep link. The Trip fit routing box (T-037) and the browser consumption matrix (T-033) are the geo approach WS2 will use.
-5. Keep `workstreams/UX/STATUS.md` current; read your INBOX after every task.
+## Start
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`); add your row to `CHATS.md`.
+2. Read `AGENTS.md`, `REVIEW.md` (from `origin/main`), `docs/process/README.md`, your task files, this brief, `claude/brand-design-decisions.md`.
+3. Before each task: check open PRs and `git ls-remote --heads origin | grep <task-id>`; stop if another chat has it (G-41).
 
-Rules from the repo apply: one owner per path, read before write, small edits, never push to `main` without a PR once Q-003 is answered.
+## What the lane owns
+`docs/design/` and `workstreams/UX/tools/`. Builds happen in WS2 (`apps/web/`): hand a signed-off design over with one line in `workstreams/WS0/INBOX.md`; WS2's batch asks for a design check on staging the same way.
 
-## Retro (end of every session)
-Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.
+## Lane rules
+- Go slower on brand work: explore → show → let Menno pick → refine. Don't push to the design system before he approves a direction. Send rendered PNGs of options; ask with popups (max 4).
+- Breathing room: backgrounds never touch or crowd text. WCAG 2.2 AA contrast (`workstreams/UX/tools/contrast.py`), light "Day trip" and dark "Night drive" themes, colour-blind safe.
+- Fonts: Bitter headings + logo, Atkinson Hyperlegible body and numbers, Patrick Hand notes; self-hosted OFL.
+- Charging: no charger map of our own, no point-level charger data (Decisions 012, 013).
+- Artifacts: always `list_files` / read before republishing the design system or board.
+
+## Verify before every push
+- Contrast check on changed tokens; preview renders (`tools/harness.py`, Chrome headless) at 360 and 1280 px, light + dark.
+- Commits end with `Verified: <how>`.
+
+## Gotchas
+- `tools/` generators (board.py, logo, icons, textures, scenes) expect fonts from npm `@fontsource/*` and paths under /home/claude: adapt paths per session.
+- Illustration layers: order and depth per scene in `docs/design/assets/Illustrations/layers/manifest.json`; WS2 re-copies scenes after every change, so say which files changed.
+
+## Done (per task)
+Design signed off by Menno (or the reversible default noted) · `docs/design/` updated · PR with renders · Status + Handoff notes in the task file · WS2 told via one WS0 INBOX line.
+
+## Finish the batch
+State lives in task files and PRs, not here. When the batch is done or blocked: one line in `workstreams/WS0/INBOX.md` (`- YYYY-MM-DD HH:MM UTC · from <chat link> · …`, with the four retro answers), then stop. No STATUS or HANDOFF files.
+
+## Open lane threads (from the retired UX STATUS/HANDOFF, 2026-11-18; WS0 turns them into tasks)
+- Design check on staging once WS2 builds T-132 / T-130.
+- `--line-strong` (input and filter-pill borders) measures 2.83–2.91:1 in both themes; Field README asks 3:1+ (from the Ariakit chat).
+- Variant finder differences-only highlight for WS2; EV-media logo audit; logo round 2 after the name is final.

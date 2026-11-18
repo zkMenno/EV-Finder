@@ -1,26 +1,28 @@
-# QA — launch review: start here (from WS0, 2026-11-17)
+# QA lane brief: fresh-eyes review
 
-You are the **QA reviewer** for EV Shortlist (repo EV-Shortlist). Almost every launch task was merged without a fresh reviewer (Status "review"). Your job for the next ~2–3 hours: check the launch build as a buyer and as a reviewer would, fix small things, and list the rest.
+For any batch chat whose prompt is a review or audit. Owner: WS0 (the coordinator). How chats work: [docs/process/README.md](../../docs/process/README.md) §3 and §8; rules: [rules.md](../../docs/process/rules.md). QA checks the build as a buyer and a reviewer would, fixes small things and lists the rest. A QA chat has no build context for what it reviews.
 
-## Setup
-1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`), clone, branch `qa/launch-review-1` from `main`. Add your row to `CHATS.md`.
-2. Read `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md, `docs/spec/launch-scope.md` (the only scope that counts), `BOARD.md` "Launch scope", `docs/design/README.md`.
-3. Run the web app locally on the current release (see `apps/web/README.md`) and the pipeline tests.
+## Start
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`); add your row to `CHATS.md`. Branch `qa/<slug>` from `main`.
+2. Read `AGENTS.md`, `REVIEW.md` **from `origin/main`** (`git show origin/main:REVIEW.md`), `docs/process/README.md`, `docs/spec/launch-scope.md` (the only scope that counts), your task files or audit brief, `docs/design/README.md`.
+3. Fetch the release before pipeline tests or walks: `cd pipeline && uv run ev release fetch latest` (the web build fetches only a few files). Run the web app locally on the current release (`apps/web/README.md`).
 
-## Do, in order
-1. **Walk the hero** for each of the 4 profiles × 2 countries (NL, UK) × 2 budgets (€15k, €35k): does it return 10 cars with variant + build years, top 5 marked, a reason line, winter range, a used price band for those years, a working "See listings" link? Screenshot each at 360 px and 1280 px (Playwright), save under `audits/A-35-screens/` (small PNGs only).
-2. **Walk the catalogue**: Explore filters + URL state, a model / generation / variant page, Compare with "differences only", Simple / Detailed / Nerd, tooltips, light + dark theme, NL and EN.
-3. **Data rules spot-check**: 10 random numbers on variant pages → each has a source, date and licence in Nerd mode; estimates labelled; no number without a source.
-4. **Scope check**: anything visible that launch-scope.md parks (trip routes, charging pages, bidi badges, clue box, lease figures, accounts) must be behind a flag and off.
-5. **Accessibility**: axe on hero, Explore, a variant page, /learn; WCAG AA contrast (UX hard rule).
-6. Fix small things yourself (copy, missing i18n keys, broken links, a11y issues, flags left on) in small commits; one PR "QA launch review 1".
-7. Everything else → `audits/A-35-launch-review-1.md`: blocker / should-fix / nice-to-have, with page, steps and screenshot, and which workstream owns it. For each launch task you verified, write "Reviewed by QA, 2026-11-17: pass / changes needed" under `## Review` in its task file (you may edit only that section).
+## What the lane owns
+`audits/A-35…` (numbers from WS0), `## Review` sections in task files, `workstreams/QA/tools/`. Small fixes elsewhere ride in the QA PR, each flagged to the owning lane in one `workstreams/WS0/INBOX.md` line.
 
-## Numbers you may use
-Audits A-35–A-39, tasks T-110–T-119 (for follow-ups). No decisions; propose them in WS0's INBOX.
+## How to review
+- Review one commit: record the head SHA; if the head moves, re-run R0 and the triggered items (G-07).
+- Run the REVIEW.md items the diff triggers, with evidence per item (command result, screenshot, number); rate must-fix / should-fix / nit / pre-existing. Up to 3 fix rounds, then escalate to WS0.
+- Launch walks: hero for each profile × country × budget (does each pick fit the profile, not only the budget and rank?), catalogue (filters + URL state, model / generation / variant pages, compare "differences only", Simple / Detailed / Nerd, tooltips, light + dark), data spot-check (random numbers have source, date, licence; estimates labelled; one source id = one citation), scope check (parked features behind flags, off), axe + WCAG AA.
+- Screenshots 360 + 1280 px (also once with ~6 % wider letters, G-44), small PNGs only, under `audits/A-xx-screens/`.
 
-## Finish
-PR open, CI green, one line in `workstreams/WS0/INBOX.md`: "QA review 1 done, PR #x, A-35: n blockers".
+## Gotchas
+- Walk tools from earlier reviews: `workstreams/QA/tools/hero-walk.mjs`, `catalogue-walk.mjs`.
+- Don't run the hero walk and the e2e suite at the same time (axe tests time out). Screenshot the results, not the page top.
+- Every miss you find becomes a proposed check (rules.md row or REVIEW item) in your INBOX line.
 
-## Retro (end of every session)
-Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.
+## Done
+PR open with fixes, CI green on the head · audit report with blocker / should-fix / nice-to-have, page, steps, screenshot, owning lane · `## Review` written in each task file you checked (SHA + item ids + verdicts).
+
+## Finish the batch
+State lives in the audit, task files and PRs. When done: one line in `workstreams/WS0/INBOX.md` (`- YYYY-MM-DD HH:MM UTC · from <chat link> · QA … done, PR #x, A-xx: n blockers`, with the four retro answers), then stop. No STATUS or HANDOFF files.

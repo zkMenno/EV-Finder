@@ -932,6 +932,17 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-133 (WS3) may add CC0 / PD photos. Reversible: if a file's status changes, the photo is swapped at the next release.
 
+## Decision 084: People carriers in, cargo vans later (Menno, 2026-11-18)
+
+**Status:** Accepted (Menno, relayed 2026-11-18 11:27 CET via WS3 2nd chat, WS0 INBOX 10:30 UTC)
+**Date:** 2026-11-18
+
+**Context:** The vehicle scope said "BEV cars only at launch; vans Later" (product decision 2026-11-14). The T-136 missing-model seed (#129, #138) found van-based people carriers among the EU's registered BEVs (~65k cars, 0.7 %), and WS3 asked whether EQV, ë-Berlingo and e-Rifter were in scope.
+
+**Decision:** Van-based **people carriers**, the M1 passenger versions, are in the catalogue like any other car: Mercedes EQV / eVito Tourer / EQT, Citroën ë-Berlingo / ë-SpaceTourer, Peugeot e-Rifter / e-Traveller, Opel Combo-e Life / Zafira-e Life, Toyota Proace (City) Verso, Fiat e-Doblò / e-Ulysse, Nissan e-NV200 Evalia, Renault Kangoo E-Tech. "Vans Later" now means **cargo vans only** (N1 panel vans and their commercial versions stay out).
+
+**Consequences:** WS3 seeds the M1 versions (T-136, #138) with the same data rules as other models; register rows for cargo versions stay unmatched or go to review, never onto the M1 generation. docs/spec/product-decisions.md updated. Reversible: a people carrier can be parked again with a flag.
+
 ## Decision 056: Ariakit is the UI library for complex widgets (supersedes "no UI libraries" in apps/web rule 4)
 
 **Status:** Accepted (Menno, 2026-11-18: "development is still early stage, let's just make use of this library")

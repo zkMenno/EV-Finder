@@ -1,49 +1,50 @@
-# WS3 — Catalogue curation and content: start here
+# WS3 lane brief: catalogue curation and content
 
-You are **WS3**, the curation workstream for EV Finder. You run in Claude Code (or a claude.ai project chat with the repo attached) for hours at a time. You keep the hand-made parts of the catalogue right: generations and seed data, taxonomy tables, maker-document facts with citations, glossary terms, /learn texts in six languages, and the per-country config (marketplace searches, charging link-outs).
+For any batch chat whose prompt touches this lane. Owner: WS0 (the coordinator). How chats work: [docs/process/README.md](../../docs/process/README.md) §3; rules: [rules.md](../../docs/process/rules.md). The lane keeps the hand-made parts of the catalogue right: makes, models, generations and variants in the seed, taxonomy tables, cited maker-document facts, photos, glossary, /learn texts, editorial lists and per-country config.
 
-## 0. First five minutes
-1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`) and clone it.
-2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS3/INBOX.md` · `workstreams/WS3/STATUS.md` · `BOARD.md` · `data/seed/README.md` · `data/taxonomy/README.md` · `DECISIONS.md` 009–011 · `QUESTIONS.md` (Open: Q-007, Q-008, Q-014, Q-021, Q-028).
-3. Read the spec only where your task points: `docs/spec/battery-and-voltage-guide.md`, `docs/spec/bidirectional-and-connectors.md`, `docs/spec/charging-buildout.md` ("First-time buyers"), `docs/spec/trip-fit.md` §4 and §9, `docs/spec/marketplaces.md`, `docs/spec/source-matrix.md` ("Honest gaps").
-4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
+## Start
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`); add your row to `CHATS.md`.
+2. Read `AGENTS.md`, `REVIEW.md` (from `origin/main`), `docs/process/README.md`, your task files, this brief, `data/seed/README.md`, `data/taxonomy/README.md`.
+3. Before each task and again before its first push: check open PRs and `git ls-remote --heads origin | grep <task-id>`; stop if another chat has it (G-41). Two WS3 chats built T-136 twice.
+4. Spec only where the task points: `docs/spec/battery-and-voltage-guide.md`, `bidirectional-and-connectors.md`, `charging-buildout.md`, `trip-fit.md` §4 and §9, `marketplaces.md`, `source-matrix.md` ("Honest gaps"). Scope: `launch-scope.md` (Decision 051). Vehicle scope: BEV cars incl. van-based people carriers (M1); cargo vans later (Decision 084).
 
-## 1. Lane
-You own `data/seed/`, `data/manual/`, `data/taxonomy/`, `content/` (create it: `content/learn/<slug>/<lang>.md`) and `config/` (countries, price-index), plus your `STATUS.md`/`HANDOFF.md`.
-The pipeline (WS1) validates and releases what you write; the web app (WS2) renders it. Schema changes go to WS0's INBOX. Affiliate tags arrive from WS5 via your INBOX; secrets never go in the repo (Decision 004).
+## What the lane owns
+`data/seed/`, `data/manual/`, `data/taxonomy/`, `content/`, `config/` (countries, popularity, price-index; no secrets, Decision 004), plus the lists the lane maintains in `data/images/` (photos, press terms) and `data/editorial/` (popular used). The pipeline (WS1) validates and releases what you write; the web app (WS2) renders it. Changes in `pipeline/` (guard tests, matcher asks) or the schema: one line in `workstreams/WS0/INBOX.md`, and flag any one-line cross-lane change in the PR. Decision numbers: block 057–061.
 
-## 2. Hard rules
-- Every hand-entered fact has a source URL, retrieval date and confidence. Maker documents: cite single facts by URL and date; never copy tables wholesale. Until Menno answers Q-008, maker-document facts are `internal` (cross-check only), not releasable.
+## Lane rules
+- Every hand-entered fact has a source URL, retrieval date and confidence. Maker documents: cite single facts by URL and date (single cited maker facts ship, Decision 068); never copy tables wholesale. Nothing from EV Database, marketplaces or Kilowatt rows that cite ev-database.org.
 - Never fill from memory. Unknown = `not-disclosed` or empty. `iso15118_20_support` defaults to not disclosed, never inferred.
-- Taxonomies are rows, not code: a new chemistry, voltage class, caveat or usage profile is a new row with plain-language text.
-- Writing style for users: plain words first, technical term underneath, one or two sentences per tooltip, no jargon, no cheerleading. Every claim on a /learn page links to its rule or statistic. Translations: write EN first, then NL, DE, FR, ES, IT; mark machine-drafted languages `review: needed` in front matter.
-- Validate seed changes with `data/seed/validate_seed.py` and `validate_variants.py` before every PR.
-- One task = one branch (`t-0NN-slug`) = one PR. Never push to `main`.
+- Seed rows are our own structure; one generation per real platform or facelift split (Decision 057). A new model without enough facts for a card stays out of the hero.
+- Taxonomies are rows, not code: a new chemistry, voltage class, caveat or profile is a new row with plain-language text.
+- Writing for users: plain words first, technical term underneath, one or two sentences per tooltip, no jargon, no cheerleading. Every claim on a /learn page links to its rule or statistic. English first (Decision 082); other languages marked `review: needed`.
+- Photos: Wikimedia Commons under CC BY / CC BY-SA, CC0 or worldwide PD (Decisions 081, 083), licence checked on the file page; credit line under every photo. Press photos only for makes marked `allowed` in `data/images/press-terms.yaml`.
+- Owner verdicts are one person's opinion: label them so.
 
-## 3. Task list (updated 2026-11-15 11:00 by WS0 for the strict launch scope, Decision 051; in order, skip blocked ones)
-**Read `docs/spec/launch-scope.md` first.** Only tasks tagged Launch on BOARD.md; anything else needs Menno's yes. Built work for parked features stays behind feature flags, off by default.
+## Verify before every push
+- `sh data/seed/data_qa.sh` (G-45): the four CI data-qa steps (validate_seed, validate_variants, validate_taxonomy, backtest_rules). Until #130 merges, run those four by hand.
+- Seed, manual or taxonomy change: the `verify-pipeline` skill (`pipeline/.claude/skills/verify/SKILL.md`): `ev verify` on main, then on your branch with `--base main`; the report diff is your change. Approvals in `config/approved_changes.yaml` go in their own gate PR.
+- After any seed change, print the new generations' built rows (battery, WLTP, power) and look at them before the PR: only that caught the e-tron GT facelift pack.
+- Matching regression for seed or alias changes: load main's and the branch's `models.yaml` with `ev_pipeline.match.seed.load_seed`, run `find_model_noted` / `find_by_source_alias` over every staging record, diff the model ids (0 changes for previously matched records).
+- Any generated image list: look at a contact sheet before the PR (rear views, interiors, wrong generation).
+- Commits end with `Verified: <how>`.
 
-1. **T-068** seed gaps for the owner's picks (so the shortlist rules can score them).
-2. **T-031** heat pump per variant for the top 40 (import research/R-21's table; ~20 models still open: cite or leave not-disclosed).
-3. **finance_profiles** rows for T-043 from research/R-20 (ECB MIR series ids; NL blank; defaults 48 months / 10 % labelled).
-4. **T-081 manual price samples** in `data/manual/prices/*.yaml` (aggregates by hand from public pages with URL + date; never scrape; Decision 004) for the top 40 per launch country, to calibrate WS1's model.
-5. **T-041** verify "See listings" templates for the five countries.
-6. /learn launch pages: **T-039** winter range, **T-027** charging in 2026, **T-082** batteries + used battery health (EN + NL reviewed; DE/FR/ES/IT marked review: needed).
-7. Glossary sweep: every Explore column, filter, hero step and profile has a tooltip in EN + NL.
-Parked (don't start): T-019/T-021 bidi rows and page, T-024 charging links, T-029 ABRP codes, T-042, T-046 clues.
+## Gotchas
+- EEA per-year registrations: `python3 -I research/R-41-catalogue-coverage/pull_eea.py /tmp/t136` (~8 min), then R-41's `coverage.py`.
+- RDW BEV years per name: `data/staging/rdw.records.jsonl`, only `record_key` starting `m9d7-ebf2:` (the others repeat the count per spec). RDW's API rate-limits grouped queries (429): use the staged file.
+- Commons, Wikipedia and Wikidata rate-limit this egress: batch searches (6 per query).
+- OpenEV ignores `markets`: China-only files (NEDC/CLTC) would ship as EU variants (e.g. Leapmotor T03); OpenEV's 2024–2025 e-tron GT files repeat the old pack.
+- Adding make SEAT breaks KBA 'SEAT BORN' / 'SEAT TAVASCAN' → Cupra until WS1 lets source aliases win for a known make. EEA/RDW name EQE/EQS saloon and SUV alike.
+- `ev manual check` only warns on unknown ids: facts on a retired id silently never apply (check `data/seed/retired_ids.yaml`).
 
-**Numbers you may use without asking:** decisions 057–061, tasks T-100–T-109. Fetch `main` before numbering anything.
+## Done (per task)
+Acceptance criteria ticked · data_qa.sh and verify pass · every new fact cited · English complete · PR with evidence · Status + Handoff notes in the task file · fresh review before merge · what WS1/WS2 can now use, in one INBOX line.
 
-## 4. Definition of done (per task)
-Acceptance criteria ticked · validators pass · every new fact cited · EN complete and other languages present (or marked) · PR opened · handoff notes in the task file · STATUS.md updated · WS1/WS2 told in their INBOX what they can now use.
+## Finish the batch
+State lives in task files and PRs, not here. When the batch is done or blocked: one line in `workstreams/WS0/INBOX.md` (`- YYYY-MM-DD HH:MM UTC · from <chat link> · …`, with the four retro answers or a link to them), then stop. No STATUS or HANDOFF files.
 
-## 5. Check-in rhythm
-- Every ~30 minutes on long tasks: commit, push your branch, update STATUS.md.
-- After every task: read your INBOX, update STATUS.md, append "T-0NN PR #x ready for review" to `workstreams/WS0/INBOX.md`.
-- Loop guard: same problem 3 times or 30 minutes without progress → log it, try one different approach, otherwise park it and move on. Time-box research: answer the question, don't explore everything.
-
-## 6. Context hygiene
-Before the chat gets long write `workstreams/WS3/HANDOFF.md` (state, decisions, open threads, next steps), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS3/HANDOFF.md and START.md and go."
-
-## Retro (end of every session)
-Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.
+## Open lane threads (from the retired WS3 HANDOFF/STATUS, 2026-11-18; WS0 turns them into tasks)
+- T-136: #138 (T-136c, one consolidated seed incl. people carriers) replaces #129 and branch `t-136-extra-models-2nd-chat` (WS1 7th, WS0 INBOX 11:15).
+- e-tron GT facelift: seed variants S / RS / RS performance with cited 105/97 kWh packs (Audi eTD PDFs on uploads.audi-mediacenter.com), then split per Decision 057.
+- Generation-level platform links where a maker page names the platform (`stellantis-stla-medium`, `mercedes-eva2` unused): e-3008/e-5008, EQE/EQS (+SUV). Cited only.
+- A-36 S4 NL loan rate only with an official sourced series; A-36 S3 /learn with Menno; price samples DE/FR/BE/UK; heat pump gaps; La Centrale slugs.
+- T-041 `verified` waits for Menno's tap check (`workstreams/WS3/T-041-checklist.md`). Coverage gap list: `workstreams/WS3/coverage-gaps-2026-11-18.md`.
