@@ -5,6 +5,7 @@ import { Missing, Num } from "@/components/Num";
 import { OfficialRange } from "@/components/OfficialRange";
 import { Term, TermInfo } from "@/components/Term";
 import { hasMsgKey, type MsgKey } from "@/i18n";
+import { acOptionalKw } from "@/lib/ac-optional";
 import { hiddenForNoDc } from "@/lib/dc";
 import { DASH, formatMoney } from "@/lib/format";
 import type { SpecField } from "@/lib/spec-diff";
@@ -117,6 +118,40 @@ export function SpecValue({ ctx, row, field }: { ctx: PageCtx; row: PublishedVar
         className="text-sm"
       />
     );
+  // The optional bigger on-board charger sits next to the standard one: "7.4 kW (11 kW optional)".
+  const opt = field.key === "ac_kw" ? acOptionalKw(row) : null;
+  if (opt !== null) {
+    const optProv = row.provenance.ac_kw_optional;
+    return (
+      <span className="inline-flex flex-wrap items-start gap-x-1" data-testid="ac-optional">
+        <Num
+          value={typeof v === "number" ? v : null}
+          unit={field.unit}
+          digits={field.digits}
+          provenance={prov}
+          sources={sourcesFor(ctx, prov)}
+          locale={ctx.locale}
+          labels={ctx.labels}
+          asOf={ctx.asOf}
+        />
+        <span className="inline-flex items-start">
+          <span aria-hidden="true">(</span>
+          <Num
+            value={opt}
+            unit={field.unit}
+            digits={field.digits}
+            provenance={optProv}
+            sources={sourcesFor(ctx, optProv)}
+            locale={ctx.locale}
+            labels={ctx.labels}
+            asOf={ctx.asOf}
+          />
+          <span>&nbsp;{ctx.t("field.ac_kw.optional")}</span>
+          <span aria-hidden="true">)</span>
+        </span>
+      </span>
+    );
+  }
   const note =
     field.key === "real_range_km" && row.real_range_rung ? msg(ctx, `rung.${row.real_range_rung}`, row.real_range_rung) : undefined;
   return (
