@@ -83,7 +83,7 @@ facts:
     confidence: low
     claim: true
     notes: "Our row is 'GTX / Pro 4Motion (77 kWh)'; the cheapest 77 kWh AWD car on the list is the Pro 4MOTION (the GTX 4MOTION is 79 kWh, 54.990,00)."
-  - variant_id: volkswagen-id7-gen1-pro
+  - variant_id: volkswagen-id7-gen1-pro-s
     field: price_new
     value: 63200
     unit: EUR
@@ -96,21 +96,23 @@ facts:
     locator: "PDF page 175, ID.7 motorizzazioni table (Anno Modello 2025, validità 03.02.2025)"
     confidence: low
     claim: true
-    notes: "Our 'PRO' row has 86 kWh, which the list sells as the Pro S (the 77 kWh Pro is 60.800,00). Matched on battery and power."
-  - variant_id: volkswagen-id7-gen1-tour
-    field: price_new
-    value: 64000
-    unit: EUR
-    country: IT
-    year: 2025
-    source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
-    source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
-    retrieved: 2026-11-17
-    quote: "ED54QM  ID.7 Tourer Pro S  86 (net)  210/285  51.776,00  64.000,00"
-    locator: "PDF page 189, ID.7 Tourer motorizzazioni table (Anno Modello 2025)"
-    confidence: low
-    claim: true
-    notes: "Our Tour row: 86 kWh, 210 kW = Tourer Pro S. Cheapest 86 kWh Tourer."
+    notes: "Our 'PRO' row has 86 kWh, which the list sells as the Pro S (the 77 kWh Pro is 60.800,00). Matched on battery and power. T-146: moved from OpenEV's 'PRO' row (volkswagen-id7-gen1-pro, now retired) to the seed Pro S row."
+  # T-146: parked. OpenEV's "Tour" row (volkswagen-id7-gen1-tour) is retired: its records join the seed
+  # Pro S row, which covers saloon and Tourer and carries the saloon list price above (the lower one).
+  # - variant_id: volkswagen-id7-gen1-tour
+  #   field: price_new
+  #   value: 64000
+  #   unit: EUR
+  #   country: IT
+  #   year: 2025
+  #   source_url: https://www.volkswagen.it/idhub/content/dam/onehub_pkw/importers/it/download/listini/Listino-prezzi-Gamma-Volkswagen_MY25.pdf
+  #   source_name: "Volkswagen Italia, Listino prezzi Gamma Volkswagen MY25 (maker price list)"
+  #   retrieved: 2026-11-17
+  #   quote: "ED54QM  ID.7 Tourer Pro S  86 (net)  210/285  51.776,00  64.000,00"
+  #   locator: "PDF page 189, ID.7 Tourer motorizzazioni table (Anno Modello 2025)"
+  #   confidence: low
+  #   claim: true
+  #   notes: "Our Tour row: 86 kWh, 210 kW = Tourer Pro S. Cheapest 86 kWh Tourer."
   - variant_id: renault-5-e-tech-gen1-110-kw
     field: price_new
     value: 33190

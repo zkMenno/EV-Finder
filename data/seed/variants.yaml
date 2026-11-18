@@ -661,6 +661,83 @@ variants:
       seats: 5
     notes: "Dual motor. WLTP roughly 480 km."
     confidence: low
+  # --- T-146 (variant queue batch, 2026-11-18): ID.7 by battery. OpenEV's only ID.7 rows ("PRO", "Tour",
+  # MY2024-25) carry 86 kWh net / 91 gross / 210 kW / 700 km: the Pro S figures, so the 77 kWh Pro versions
+  # in RDW TGK fit no row ("no-fit", ~46k EU cars) and the Pro S ones sat on a row named Pro. ---
+  - generation_id: volkswagen-id7-gen1
+    id: volkswagen-id7-gen1-pro-77kwh
+    name: "Pro (77 kWh)"
+    years: [2023, null]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 77
+        source_url: https://www.volkswagen-newsroom.com/en/the-volkswagen-id7-17897/id7-drive-efficiency-and-dynamics-17900
+        source_name: "Volkswagen Newsroom, 'The Volkswagen ID.7: drive, efficiency and dynamics' (2023)"
+        retrieved: 2026-11-18
+        quote: "the battery offers a net energy content of 77 kWh (gross: 82 kWh)"
+        confidence: high
+      wltp_range_km:
+        value: 621
+        source_url: https://www.volkswagen-newsroom.com/en/the-volkswagen-id7-17897/id7-drive-efficiency-and-dynamics-17900
+        source_name: "Volkswagen Newsroom, 'The Volkswagen ID.7: drive, efficiency and dynamics' (2023)"
+        retrieved: 2026-11-18
+        quote: "a WLTP range of up to 621 kilometres"
+        confidence: medium
+        notes: "Saloon, best case. RDW TGK lists 638-656 km on later Pro versions and 504 km on a 2026 version."
+    notes: "Rear-wheel drive and 210 kW: VW ID.7 GTX page ('40 kW (54 PS) more than the power of the rear-wheel drive ID.7 Pro and ID.7 Pro S models', GTX 250 kW). Saloon and Tourer."
+    confidence: high
+  - generation_id: volkswagen-id7-gen1
+    id: volkswagen-id7-gen1-pro-s
+    name: "Pro S (86 kWh)"
+    years: [2024, null]
+    # OpenEV "PRO" and "Tour" (MY2024-25) carry this car's figures (86 net, 91 gross, 210 kW, 700 km
+    # WLTP), not the 77 kWh Pro's: they join this row. Their old release ids are in retired_ids.yaml.
+    source_names:
+      openev: ["PRO", "Tour"]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 86
+        source_url: https://volkswagen-newsroom.com/en/the-new-id7-pro-s-and-id7-tourer-pro-s-international-media-drive-18617/drive-18620
+        source_name: "Volkswagen Newsroom, 'The new ID.7 Pro S and ID.7 Tourer Pro S: drive' (2024)"
+        retrieved: 2026-11-18
+        quote: "providing an energy content of 86 kWh (net); the gross energy content is 91 kWh"
+        confidence: high
+      power_kw:
+        value: 210
+        source_url: https://volkswagen-newsroom.com/en/the-new-id7-pro-s-and-id7-tourer-pro-s-international-media-drive-18617/drive-18620
+        source_name: "Volkswagen Newsroom, 'The new ID.7 Pro S and ID.7 Tourer Pro S: drive' (2024)"
+        retrieved: 2026-11-18
+        quote: "APP550 with 210 kW."
+        confidence: high
+    notes: "Rear-wheel drive: VW international media drive ('a 210 kW (286 PS) electric drive motor, which is compactly integrated into the rear axle'). WLTP up to 709 km saloon, 690 km Tourer (VW Newsroom, June 2024)."
+    confidence: high
+  - generation_id: volkswagen-id7-gen1
+    id: volkswagen-id7-gen1-gtx
+    name: "GTX (86 kWh)"
+    years: [2024, null]
+    drivetrain: awd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 86
+        source_url: https://www.volkswagen-newsroom.com/en/the-new-id7-gtx-and-id7-gtx-tourer-international-media-drive-18609/the-gtx-drive-in-detail-18610
+        source_name: "Volkswagen Newsroom, 'The new ID.7 GTX and ID.7 GTX Tourer: the GTX drive in detail' (2024)"
+        retrieved: 2026-11-18
+        quote: "providing an energy content of 86 kWh (net)"
+        confidence: high
+      power_kw:
+        value: 250
+        source_url: https://www.volkswagen-newsroom.com/en/the-new-id7-gtx-and-id7-gtx-tourer-international-media-drive-18609/the-gtx-drive-in-detail-18610
+        source_name: "Volkswagen Newsroom, 'The new ID.7 GTX and ID.7 GTX Tourer: the GTX drive in detail' (2024)"
+        retrieved: 2026-11-18
+        quote: "Together, both motors provide a system output of 250 kW (340 PS)"
+        confidence: high
+    notes: "All-wheel drive: same page ('equipped as standard with an electric 4MOTION all-wheel drive system'). WLTP up to 595 km saloon, 584 km Tourer (same page)."
+    confidence: high
   - generation_id: hyundai-ioniq-electric-gen1
     id: hyundai-ioniq-electric-gen1-28kwh
     name: "28 kWh"
