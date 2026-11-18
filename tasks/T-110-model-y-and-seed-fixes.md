@@ -30,3 +30,5 @@ Anything not on docs/spec/launch-scope.md.
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B4, S8 fixed. -->
 
 WS0 subagent reviews, 2026-11-17: #60 merged; on release 2 (#91 round 2, 42bb9d8) Model Y gen1 LR AWD 533 km, Juniper 586 km, plausibility gate passes. **A-35 B4 fixed.**
+
+Reviewed by QA, 2026-11-17 (A-36, main be2de6f, release 2): pass for B4 (Model Y gen1 LR 533 km / 16.9, Juniper LR AWD 586 km / 14.8). S8 half: Ioniq 5 facelift / N packs and the empty gen1-73kwh-awd row remain (A-36 S7).

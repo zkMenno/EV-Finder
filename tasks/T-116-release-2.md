@@ -29,3 +29,5 @@ Anything not on docs/spec/launch-scope.md.
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B1, S7 fixed. -->
 
 WS0 subagent, 2026-11-17, 42bb9d8 (round 2): R0–R4, D1, D4, licence, S7, hero walk pass; release diff vs 1: 0 blocking, 249 approved (#87); data-v2 published with 151 assets. **A-35 B1, S7 fixed.**
+
+Reviewed by QA, 2026-11-17 (A-36): pass for B1 (release 2 has used prices, scores, winter range 237/271; check-release pass). Changes needed: S7 half (release 1 still 99 tracked files) and A-36 B3 (image build broken by the manifest-only release, #105), A-36 B2 (manual source collapse, T-139).
