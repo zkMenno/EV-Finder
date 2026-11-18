@@ -87,6 +87,8 @@ def run_propose(data_dir: Path) -> dict[str, Any]:
     eea = ev.load(data_dir / "raw" / ev.DIR)
     proposal = vp.place_versions(records, seed, result, nl, eea)
     cov = vp.coverage(proposal, seed, published_variant_count(data_dir))
+    if eea is not None and eea.by_name:
+        cov["model_level"] = vp.model_coverage(seed, eea, scoped=result.scoped_aliases)
     cov["inputs"] = {
         "staging": sorted(
             str(Path(str(i.get("path"))).relative_to(data_dir.parent))
@@ -129,7 +131,13 @@ def run_propose(data_dir: Path) -> dict[str, Any]:
 
 def propose_cmd(args: argparse.Namespace) -> int:
     cov = run_propose(_data_dir(args))
-    print(json.dumps({k: v for k, v in cov.items() if k != "top_models_not_in_seed"}, indent=2))
+    short = {k: v for k, v in cov.items() if k not in ("top_models_not_in_seed", "inputs")}
+    if "model_level" in short:
+        ml = dict(short["model_level"])
+        ml["biggest_unmatched"] = ml["biggest_unmatched"][:10]
+        ml.pop("seed_models_without_eu_registrations", None)
+        short["model_level"] = ml
+    print(json.dumps(short, indent=2))
     return 0
 
 

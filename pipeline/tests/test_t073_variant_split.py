@@ -267,3 +267,23 @@ def test_split_is_at_gaps_not_at_a_fixed_distance_from_the_lowest() -> None:
         [99.1, 102.0, 104.5, 106.2, 107.1, 108.9],
         [120.0],
     ]
+
+
+def test_model_coverage_counts_named_registrations_through_the_seed_matcher() -> None:
+    rows = [
+        {"Year": 2020, "Mk": "RENAULT", "Cn": "ZOE", "Va": "A", "Ve": "B", "registrations": 10},
+        {"Year": 2020, "Mk": "NISSAN", "Cn": "LEAF", "Va": "A", "Ve": "C", "registrations": 5},
+        {"Year": 2020, "Mk": "RENAULT", "Cn": "TWINGO", "Va": "X", "Ve": "Y", "registrations": 4},
+        {"Year": 2020, "Mk": "FISKER", "Cn": "OCEAN", "Va": "X", "Ve": "Z", "registrations": 1},
+        {"Year": 2020, "Mk": "RENAULT", "Cn": "", "Va": "", "Ve": "", "registrations": 3},
+    ]
+    cov = vp.model_coverage(parse_seed(SEED), ev.from_rows(rows))
+    assert cov["base_registrations_with_a_name"] == 20  # the blank name can't be placed
+    assert cov["matched_to_a_seed_model"] == 15
+    assert cov["pct_eu_registrations_model_level"] == 75.0
+    gaps = {(g["make"], g["name"]): g["reason"] for g in cov["biggest_unmatched"]}
+    assert gaps == {
+        ("RENAULT", "TWINGO"): "model not in seed",
+        ("FISKER", "OCEAN"): "make not in seed",
+    }
+    assert "volkswagen-e-golf" in cov["seed_models_without_eu_registrations"]

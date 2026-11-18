@@ -58,6 +58,7 @@ from typing import Any
 
 from ev_pipeline.match.matcher import (
     MatchResult,
+    find_by_source_alias,
     find_generation,
     find_model_noted,
     tgk_energies,
@@ -382,6 +383,61 @@ def coverage(p: Proposal, seed: Seed, published_variants: int | None) -> dict[st
         {"make": mk, "model": md, "versions": n} for (mk, md), n in p.no_model.most_common(25)
     ]
     return out
+
+
+def model_coverage(
+    seed: Seed, eea: EeaVersionCounts, scoped: bool = True, top: int = 60
+) -> dict[str, Any]:
+    """% of EU BEV registrations whose EEA make + commercial name the seed matcher places on
+    a seed model (EEA's own aliases, `aliases_by_source: eea`), as `ev release` would.
+
+    Base: registrations with a commercial name (blank names can't be placed by anyone).
+    Returns the share, the counts and the biggest unplaced names (the gap list)."""
+    from datetime import date
+
+    from ev_pipeline.sources.eea.adapter import SOURCE as EEA_SOURCE
+
+    today = date.today()
+    matched = base = 0
+    by_model: Counter[str] = Counter()
+    gaps: Counter[tuple[str, str, str]] = Counter()
+    for (mk, cn), n in eea.by_name.items():
+        if not cn:
+            continue
+        base += n
+        rec = SourceRecord(
+            source=EEA_SOURCE,
+            record_key=f"coverage:{mk}|{cn}",
+            kind="registration_count",
+            make=mk or "?",
+            model=cn,
+            retrieved_at=today,
+            confidence="high",
+        )
+        make_id = seed.make_id_for(mk, EEA_SOURCE.id.root, scoped=scoped)
+        model, why = None, "make not in seed"
+        if make_id:
+            model, why, _ = find_model_noted(seed, make_id, rec, scoped)
+        if model is None:
+            hit, _ = find_by_source_alias(seed, rec, scoped)
+            if hit is not None:
+                model, why = hit, ""
+        if model is None:
+            gaps[(mk, cn, why.split(" (")[0])] += n
+            continue
+        matched += n
+        by_model[model.id] += n
+    return {
+        "base_registrations_with_a_name": base,
+        "matched_to_a_seed_model": matched,
+        "pct_eu_registrations_model_level": round(100 * matched / base, 1) if base else None,
+        "seed_models_with_eu_registrations": len(by_model),
+        "seed_models_without_eu_registrations": sorted(set(seed.models) - set(by_model)),
+        "biggest_unmatched": [
+            {"make": mk, "name": cn, "reason": why, "registrations": n}
+            for (mk, cn, why), n in gaps.most_common(top)
+        ],
+    }
 
 
 def load_nl_cars(versions_json: Path) -> dict[tuple[str, str, str], int]:

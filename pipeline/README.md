@@ -247,7 +247,9 @@ uv run ev variants propose
   generation has none yet). `no-fit` + `no-variant` are the candidates for WS3. Each row cites
   its TGK record keys, NL plates and EU registrations (EEA, counts only).
 - `variant-coverage.json`: models / generations / variants / candidates / % of EU
-  registrations, for the coverage line in catalogue PRs (Decision 048).
+  registrations, for the coverage line in catalogue PRs (Decision 048). `model_level` is the
+  soft-launch bar: % of EU BEV registrations (EEA make + name, 2010 onwards) the seed matcher
+  places on a seed model, plus the biggest unplaced names (the gap list).
 
 ### What `ev release` reads
 

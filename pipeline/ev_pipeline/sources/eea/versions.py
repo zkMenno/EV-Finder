@@ -60,11 +60,12 @@ VERSION_TABLES: tuple[EeaTable, ...] = OLD_TABLES + TABLES
 
 
 def query_for(t: EeaTable) -> str:
-    """Counts only: no spec column is selected (Decision 049)."""
+    """Counts only: no spec column is selected (Decision 049). `Cn` (commercial name) is a
+    label, used to measure model-level coverage through the seed matcher."""
     return (
-        "SELECT Year, Mk, TAN, Va, Ve, SUM(R) AS registrations "
+        "SELECT Year, Mk, Cn, TAN, Va, Ve, SUM(R) AS registrations "
         f"FROM {t.table} WHERE Ft = 'electric' AND {t.where} "
-        "GROUP BY Year, Mk, TAN, Va, Ve ORDER BY Mk, TAN, Va, Ve"
+        "GROUP BY Year, Mk, Cn, TAN, Va, Ve ORDER BY Mk, Cn, TAN, Va, Ve"
     )
 
 
@@ -167,6 +168,7 @@ class EeaVersionCounts:
 
     by_version: dict[tuple[str, str, str], int]
     by_make: dict[str, int]
+    by_name: dict[tuple[str, str], int]  # (make, commercial name) as reported, upper case
     total: int
     years: list[int]
     retrieved_at: str | None = None
@@ -186,6 +188,7 @@ def load(raw_dir: Path) -> EeaVersionCounts | None:
 def from_rows(rows: Iterable[dict[str, Any]], retrieved_at: str | None = None) -> EeaVersionCounts:
     by_version: dict[tuple[str, str, str], int] = {}
     by_make: dict[str, int] = {}
+    by_name: dict[tuple[str, str], int] = {}
     years: set[int] = set()
     total = 0
     for r in rows:
@@ -197,11 +200,13 @@ def from_rows(rows: Iterable[dict[str, Any]], retrieved_at: str | None = None) -
             years.add(int(r["Year"]))
         mk = _s(r.get("Mk")).upper()
         by_make[mk] = by_make.get(mk, 0) + n
+        nk = (mk, _s(r.get("Cn")).upper())
+        by_name[nk] = by_name.get(nk, 0) + n
         if not _s(r.get("Va")) and not _s(r.get("Ve")):
             continue  # no version codes: counts toward the EU total only
         k = version_key(_s(r.get("TAN")), _s(r.get("Va")), _s(r.get("Ve")))
         by_version[k] = by_version.get(k, 0) + n
-    return EeaVersionCounts(by_version, by_make, total, sorted(years), retrieved_at)
+    return EeaVersionCounts(by_version, by_make, by_name, total, sorted(years), retrieved_at)
 
 
 def _retrieved(raw_dir: Path) -> str | None:
