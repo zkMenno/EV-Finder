@@ -334,7 +334,7 @@
   },
   "wikimedia-commons": {
     "name": "Wikimedia Commons (car photos)",
-    "licence": "per file: CC BY or CC BY-SA only (Decision 081)",
+    "licence": "per file: CC BY, CC BY-SA, CC0 or worldwide public domain (Decisions 081, 083)",
     "status": "active",
     "owner": "Wikimedia Commons contributors"
   }

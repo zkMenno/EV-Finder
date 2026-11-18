@@ -47,3 +47,5 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | WS2 (7th, 2026-11-18) | batch: T-132 hero redesign, part 1 questions (PR #145), then part 2 results | https://claude.ai/code/session_01JuyZEXjrE | 2026-11-18 |
 | batch: merge 4 | Fresh review + merge #141→#139, #129→#144→#146 (close #140/#142/#143), #132, #136, #145 | https://claude.ai/code/session_01JuyZEY24JJEfAQBWgh5L9e | 2026-11-18 |
 | batch: T-143 | WLTP next to real range (Decision 085), apps/web | https://claude.ai/code/session_01JuyZEWUcQc9VrZx4Ru21x6 | 2026-11-18 |
+| batch: data / release 3 | WS1: merge #148, CC0/PD photo allowlist + #132, Leaf release-3 blocker, #134 photos_pending, small data asks, data release 3 | https://claude.ai/code/session_01JuyZEYBjTWasMqN2MESUcC | 2026-11-18 |
+| batch: web | WS2: T-132 part 2 (hero results), english-only loop, AC optional charger, brand fonts, --line-strong contrast, verify tooltip, Sources popover, T-143 done | https://claude.ai/code/session_01JuyZEXBt7oHBm4SwQBwRz1 | 2026-11-18 |
