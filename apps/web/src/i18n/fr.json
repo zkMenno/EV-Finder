@@ -240,6 +240,7 @@
   "field.charger_400v_kw": "Puissance sur bornes 400 V",
   "field.fast_on_400v": "Rapide sur les anciennes bornes 400 V",
   "field.ac_kw": "Puissance de recharge AC",
+  "field.ac_kw.optional": "en option",
   "field.ac_km_per_h": "AC : km récupérés par heure",
   "field.power_kw": "Puissance",
   "field.accel_0_100_s": "0–100 km/h",

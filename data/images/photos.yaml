@@ -1,10 +1,11 @@
 schema: images-photos/v1
 notes:
-- 'One photo per generation (Decision 081). Source order: maker press (only makers ''allowed'' in press-terms.yaml; none today),
-  then Wikimedia Commons CC BY / CC BY-SA.'
+- 'One photo per generation (Decisions 081, 083). Source order: maker press (only makers ''allowed'' in press-terms.yaml;
+  none today), then Wikimedia Commons CC BY / CC BY-SA, or CC0 / worldwide public domain with the template read from the file
+  page (licence_template).'
 - 'Chosen by data/images/tools (search + rules), then checked by eye on contact sheets. Never hotlink: WS1 downloads file_url
   once into our storage (T-134).'
-- CC BY-SA photos keep their licence and stay out of the CC BY open-data download (data rule 3).
+- Photos keep their own licence and stay out of the CC BY open-data download (data rule 3).
 missing:
 - volvo-ex50-gen1
 - xpeng-l05-gen1
@@ -111,14 +112,17 @@ photos:
   height: 2514
 - generation_id: renault-5-e-tech-gen1
   source: commons
-  page_url: https://commons.wikimedia.org/wiki/File:Renault_5_E-Tech_(2025)_(54519901504).jpg
-  file_url: https://upload.wikimedia.org/wikipedia/commons/b/b6/Renault_5_E-Tech_%282025%29_%2854519901504%29.jpg
-  licence: CC-BY-2.0
+  page_url: https://commons.wikimedia.org/wiki/File:Renault_5_E-Tech_(2025)_(54712533273).jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/f/f6/Renault_5_E-Tech_%282025%29_%2854712533273%29.jpg
+  licence: CC0-1.0
   author: Charles from Port Chester, New York
-  credit: Charles from Port Chester, New York, CC BY 2.0, via Wikimedia Commons
+  credit: Charles from Port Chester, New York (CC0), via Wikimedia Commons
   retrieved_at: '2026-11-17'
-  width: 4716
-  height: 3537
+  width: 5855
+  height: 3877
+  licence_template: cc-zero
+  licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: renault-scenic-e-tech-gen1
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:Renault_Scenic_E-Tech,_BAS_24,_Brussels_(P1170249-RR).jpg
@@ -161,14 +165,17 @@ photos:
   height: 2617
 - generation_id: nissan-leaf-gen3
   source: commons
-  page_url: https://commons.wikimedia.org/wiki/File:Nissan_Leaf_(ZE2)_IMG_8770.jpg
-  file_url: https://upload.wikimedia.org/wikipedia/commons/2/2f/Nissan_Leaf_%28ZE2%29_IMG_8770.jpg
-  licence: CC-BY-SA-4.0
-  author: Alexander Migl
-  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  page_url: https://commons.wikimedia.org/wiki/File:2026_Nissan_Leaf_B7_G.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/d/d9/2026_Nissan_Leaf_B7_G.jpg
+  licence: CC0-1.0
+  author: TTTNIS
+  credit: TTTNIS (CC0), via Wikimedia Commons
   retrieved_at: '2026-11-17'
-  width: 4608
-  height: 2754
+  width: 5075
+  height: 2625
+  licence_template: self|cc-zero
+  licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: nissan-ariya-gen1
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:2023_Nissan_Ariya_Evolve_e-4ORCE_in_Gun_Metallic,_Front_Left,_07-14-2023.jpg
@@ -341,14 +348,17 @@ photos:
   height: 3167
 - generation_id: kia-soul-ev-sk3
   source: commons
-  page_url: https://commons.wikimedia.org/wiki/File:Kia_e-Soul_(III)_%E2%80%93_f_29032026.jpg
-  file_url: https://upload.wikimedia.org/wikipedia/commons/7/79/Kia_e-Soul_%28III%29_%E2%80%93_f_29032026.jpg
-  licence: CC-BY-SA-3.0-DE
-  author: © M 93
-  credit: © M 93, CC BY-SA 3.0 de, via Wikimedia Commons
+  page_url: https://commons.wikimedia.org/wiki/File:2020_Kia_e-Soul_au_SIAM_2020.jpg
+  file_url: https://upload.wikimedia.org/wikipedia/commons/7/74/2020_Kia_e-Soul_au_SIAM_2020.jpg
+  licence: public-domain
+  author: Bull-Doser
+  credit: Bull-Doser (Public domain), via Wikimedia Commons
   retrieved_at: '2026-11-17'
-  width: 4073
-  height: 2310
+  width: 2257
+  height: 1489
+  licence_template: PD-self
+  licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: kia-niro-ev-de
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:Kia_e-Niro_(front).jpg
@@ -501,14 +511,17 @@ photos:
   height: 2290
 - generation_id: peugeot-e-308-gen1
   source: commons
-  page_url: https://commons.wikimedia.org/wiki/File:2025_Peugeot_e-308_Auto_Zuerich_2025_DSC_3384.jpg
-  file_url: https://upload.wikimedia.org/wikipedia/commons/1/1c/2025_Peugeot_e-308_Auto_Zuerich_2025_DSC_3384.jpg
-  licence: CC-BY-SA-4.0
-  author: Alexander Migl
-  credit: Alexander Migl, CC BY-SA 4.0, via Wikimedia Commons
+  page_url: https://commons.wikimedia.org/wiki/File:2023_Peugeot_e-308_Hatchback_GT_in_Obsession_Blue_(Front).png
+  file_url: https://upload.wikimedia.org/wikipedia/commons/3/36/2023_Peugeot_e-308_Hatchback_GT_in_Obsession_Blue_%28Front%29.png
+  licence: CC0-1.0
+  author: MoCars
+  credit: MoCars (CC0), via Wikimedia Commons
   retrieved_at: '2026-11-17'
-  width: 4696
-  height: 3070
+  width: 4160
+  height: 2340
+  licence_template: self|cc-zero
+  licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: opel-corsa-e-f
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:2023_Opel_Corsa-e.jpg
