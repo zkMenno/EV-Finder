@@ -4,7 +4,7 @@
 - **Now:** T-130 part 2 (catalogue visual layer: sidebar groups, phone sheet, pills, generation cards)
 - **Next:** T-131 Popular used EVs, T-135 photo cards, T-132 hero redesign; #111 needs main merged in
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-18 08:55 UTC by WS2 (5th chat)
+- **Last updated:** 2026-11-18 09:12 UTC by WS2 (6th chat)
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
@@ -22,6 +22,7 @@
 - 2026-11-17 21:48 UTC · 3rd WS2 chat (https://claude.ai/code/session_01JuyZEUgDrkg5ED4ZkeyEzg). T-137: all countries English only via config (served list), picker/banner hidden for single-language countries, e2e english-only.spec.ts for 7 countries. PR #111.
 
 - 2026-11-18 08:55 UTC · 5th WS2 chat (https://claude.ai/code/session_01JuyZEW7knztpvwmHJjJ3mb). Started T-130 part 2.
+- 2026-11-18 09:12 UTC · 6th WS2 chat (https://claude.ai/code/session_01JuyZEWZuyZEW). No part-2 branch found on origin; starting T-130 part 2 on t-130-catalogue-visual.
 
 ## Retro (first WS2 session, 2026-11-15)
 - **What slowed us down:** decision numbers clashed twice (053, 054 went to Dependabot decisions while in my START range); pushes from this session don't trigger CI (runs started with workflow_dispatch); a rebase of a pushed branch then a blocked force-push cost a messy merge with leftover conflict markers; stacked PRs need re-merging after every main change.

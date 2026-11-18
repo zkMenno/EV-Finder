@@ -37,3 +37,4 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS0 (merge chat, 2026-11-18) | Coordinator: merge every ready PR (#105–#118), Decision 081 schema, D6 gate | https://claude.ai/code/session_01JuyZEY4DmyVTbG9HZHfzBP | 2026-11-18 |
 | WS2 (5th, 2026-11-18) | Web app: T-130 part 2 (catalogue visual layer), then T-131/T-135/T-132 | https://claude.ai/code/session_01JuyZEW7knztpvwmHJjJ3mb | 2026-11-18 |
 | WS1 (7th) | Data pipeline: Menno catalogue target (Decision 048), R-41 task 1 variant split T-073 (Decision 049, Q-039 default) | https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X | 2026-11-18 |
+| WS2 (6th, 2026-11-18) | Web app: T-130 part 2 (catalogue visual layer), then T-131, T-135, T-132 | https://claude.ai/code/session_01JuyZEWZuyZEW | 2026-11-18 |
