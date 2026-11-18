@@ -3,11 +3,12 @@
 - **State:** active (7th session, https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X)
 - **Now:** T-073 in review (PR #127)
 - **Next:** R-41 task 5 long tail (stretch, Decision 048); older HANDOFF items
-- **In review:** [#127](https://github.com/zkMenno/EV-Shortlist/pull/127) T-073 variant split · older: see HANDOFF.md
+- **In review:** none (#105, #108, #109, #110 merged)
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-18 09:40 UTC · #110 merged after real-data run (120/120 photos valid, schema-valid attach, night refresh fetches photos). All 6th-session PRs merged.
 - 2026-11-18 10:05 UTC · PR #127 T-073: 390 groups, 96 candidate variants (271 → 367), 84.3 % of 9.11 M EU BEVs on TGK versions of seed generations.
 - 2026-11-18 09:15 UTC · 7th session opened. Decision 048 (Menno's catalogue target), Decision 049 (Q-039 default). Claimed T-073.
 - 2026-11-17 23:10 UTC · #108 T-136 R-41 report (measured EEA/RDW), #109 Pillow (gate), #110 T-134 pipeline side. Handoff written.
