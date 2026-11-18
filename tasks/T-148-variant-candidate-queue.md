@@ -24,6 +24,8 @@ Matcher changes (WS1: asks go to INBOX). Prices. Photos.
 - Known ties that go to review (nothing misplaced): Mokka 2022+ 100 kW vs 115 kW versions (both packs fit, years overlap); e-up! 2018-2020 versions without a range.
 - Queue after PR 1 (fresh staging 2026-11-18): no-variant EU cars 891,029 -> 573,448; % EU registrations on groups we have 63.8 -> 66.7.
 
+**PR 2 (ID.7):** OpenEV's only ID.7 rows ("PRO", "Tour") carry the Pro S figures (86 net / 91 gross / 210 kW / 700 km; T-118's Italian price list said the same), so the 77 kWh Pro versions fit nothing (no-fit, 46k EU cars) and Pro S versions sat on a row named Pro. Seed rows Pro (77 kWh), Pro S (86 kWh, joins OpenEV "PRO" + "Tour" via source_names) and GTX (86 kWh, AWD), VW Newsroom cited; old ids retired to the Pro S row; the IT list price moved with it (Tourer price parked as a comment). All ID.7 TGK groups now `have`. Pro S cites 200 kW DC so OpenEV's 175 (the Pro's) is withheld.
+
 **Top tie / several groups (not seed-fixable, WS1 ask in INBOX):** the matcher can't tell apart variants that share a pack, because TGK evidence ignores 30-minute power, top speed and the TGK model code. Seen on: Model Y gen1 LR AWD vs Performance (217 vs 250 km/h; the 2021 Y5CD 507 km LR versions are placed on Performance), ID.4 Pro vs GTX (30-min power stated = one motor), e-208 / Corsa / e-2008 / Mokka 100 kW vs 115 kW (30-min 57 vs 62 kW; type codes ZKXZ vs ZKWZ; 2024-26 ZKXZ e-208 versions placed on the 51 kWh row by year).
 
 ## Review
