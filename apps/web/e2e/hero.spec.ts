@@ -33,15 +33,99 @@ for (const [name, qs] of PROFILES) {
   });
 }
 
-test("hero: picking answers builds the profile and the URL", async ({ page }) => {
+// T-132: one question per screen; the step is in the URL and Back goes to the previous question.
+test("hero: one question at a time, from country to the top 10", async ({ page }) => {
   await page.goto("/nl/en");
-  await expect(page.getByTestId("hero-results")).toContainText("Answer the questions");
-  await page.getByText("A second car").click();
-  await expect(page.getByTestId("hero-profile")).toContainText("Runabout");
-  await expect(page).toHaveURL(/role=second/);
-  // Ranked cards with release scores; without them the hero says so (Decision 065).
+  const hero = page.getByTestId("hero");
+  await expect(hero).toHaveAttribute("data-step", "country");
+  await expect(page.getByTestId("hero-road").locator('[aria-current="step"]')).toContainText("Country");
+  await expect(page.getByRole("radio", { name: "Netherlands" })).toBeChecked();
+  await expect(page.getByRole("group", { name: "Where are you buying?" })).toBeVisible();
+  await page.getByText("Netherlands", { exact: true }).click();
+  await expect(hero).toHaveAttribute("data-step", "role");
+  await expect(page).toHaveURL(/q=role/);
+  // The heading of the new question takes focus (screen readers hear it, keyboard starts there).
+  await expect(page.getByRole("heading", { name: "What will this car be?" })).toBeFocused();
+  await expect(page.getByTestId("hero-trail")).toContainText("Netherlands");
+  await page.getByText("Our main car").click();
+  await expect(hero).toHaveAttribute("data-step", "trips");
+  await expect(page).toHaveURL(/role=main/);
+  await expect(page.getByTestId("hero-stepline")).toHaveText("Step 2 of 3 · question 2 of 4");
+  // Browser back = previous question, answer kept.
+  await page.goBack();
+  await expect(hero).toHaveAttribute("data-step", "role");
+  await expect(page.getByRole("radio", { name: "Our main car" })).toBeChecked();
+  await page.goForward();
+  await expect(hero).toHaveAttribute("data-step", "trips");
+  await page.getByText("A few times a year").click();
+  await expect(hero).toHaveAttribute("data-step", "charge");
+  await page.getByText("At home", { exact: true }).click();
+  await expect(hero).toHaveAttribute("data-step", "area");
+  await page.getByText("Town or suburb").click();
+  await expect(hero).toHaveAttribute("data-step", "budget");
+  // After the driving questions the trail shows the profile name, not four pills.
+  await expect(page.getByTestId("hero-trail-profile")).toContainText("Road-tripper");
+  await expect(page.getByTestId("hero-trail").getByRole("button")).toHaveCount(2);
+  await page.getByTestId("hero-budget-30000").click();
+  await expect(page.getByTestId("hero-budget-30000")).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByTestId("hero-monthly")).toContainText(/≈ .+ a month|official typical loan rate/);
+  await page.getByTestId("hero-q-cond").getByText("Used", { exact: true }).click();
+  await expect(page.getByTestId("hero-cond-used")).toBeChecked();
+  await page.getByTestId("hero-show").click();
+  await expect(hero).toHaveAttribute("data-step", "results");
+  await expect(page).not.toHaveURL(/[?&]q=/);
+  await expect(page).toHaveURL(/budget=30000/);
+  await expect(page.getByTestId("hero-summary")).toContainText("Netherlands · used · up to €30,000");
   await expect(page.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible();
+  // Edit goes back to the budget question with every answer kept.
+  await page.getByTestId("hero-edit").click();
+  await expect(hero).toHaveAttribute("data-step", "budget");
+  await page.getByTestId("hero-trail-country").click();
+  await expect(hero).toHaveAttribute("data-step", "country");
 });
+
+test("hero: a second car skips the long-trips question", async ({ page }) => {
+  await page.goto("/nl/en?q=role");
+  await page.getByText("A second car").click();
+  await expect(page.getByTestId("hero")).toHaveAttribute("data-step", "charge");
+  await expect(page.getByTestId("hero-stepline")).toHaveText("Step 2 of 3 · question 2 of 3");
+  await page.getByTestId("hero-back").click();
+  await expect(page.getByTestId("hero")).toHaveAttribute("data-step", "role");
+});
+
+test("hero: arrow keys only move the selection; Enter answers and moves on", async ({ page }) => {
+  await page.goto("/nl/en?q=charge&role=main&trips=never");
+  await page.getByRole("radio", { name: /At home/ }).focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(page.getByRole("radio", { name: /At work/ })).toBeChecked();
+  await page.waitForTimeout(400);
+  await expect(page.getByTestId("hero")).toHaveAttribute("data-step", "charge");
+  await page.keyboard.press("Enter");
+  await expect(page.getByTestId("hero")).toHaveAttribute("data-step", "area");
+  await expect(page).toHaveURL(/charge=work/);
+});
+
+test("hero: picking another country opens that country at the next question", async ({ page }) => {
+  await page.goto("/nl/en?q=country&role=main");
+  await page.getByText("Belgium", { exact: true }).click();
+  await expect(page).toHaveURL(/\/be\/en\?.*q=role/);
+  await expect(page).toHaveURL(/role=main/);
+  await expect(page.getByTestId("hero")).toHaveAttribute("data-step", "role");
+});
+
+for (const q of ["country", "role", "trips", "charge", "area", "budget"]) {
+  test(`hero: the ${q} question fits a 360 px phone`, async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto(`/nl/en?q=${q}&role=only&trips=often&charge=home&area=city&budget=25000`);
+    await expect(page.getByTestId("hero")).toHaveAttribute("data-step", q);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+    // Every answer tile is a big target (AnswerTile: ≥ 56 px, 64 px in one column).
+    for (const box of await page.locator(".evs-opt").evaluateAll((els) => els.map((e) => e.getBoundingClientRect().height))) expect(box).toBeGreaterThanOrEqual(56);
+    // No answer is cut or split mid-word ("Netherla-nds" at 360 px in the first build).
+    for (const [text, over] of await page.locator(".evs-opt b").evaluateAll((els) => els.map((e) => [e.textContent, e.scrollWidth - e.clientWidth] as const))) expect(over, String(text)).toBeLessThanOrEqual(0);
+  });
+}
 
 test("hero: without release scores it says 'ranking not available yet' and ranks nothing (Decision 065)", async ({ page }) => {
   test.skip(HAS_SCORES, "the release under test has shortlist_scores.json");
@@ -62,7 +146,10 @@ test("hero: changing the budget re-ranks without a reload", async ({ page }) => 
   });
   expect(marker).toBe(true);
   const before = await page.getByTestId("hero-count").innerText();
+  // T-132: the budget is its own question; Edit opens it, "Show my top 10" comes back.
+  await page.getByTestId("hero-edit").click();
   await page.getByTestId("hero-budget-40000").click();
+  await page.getByTestId("hero-show").click();
   await expect(page.getByTestId("hero-count")).not.toHaveText(before);
   await expect(page).toHaveURL(/budget=40000/);
   expect(await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload)).toBe(true);
@@ -128,6 +215,8 @@ test("hero: links the launch /learn guides that exist", async ({ page }) => {
 
 test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside it)", async ({ page }) => {
   await page.goto("/nl/en?role=main&trips=never");
+  // T-132: the box moved into Refine (no scores for it yet, so it doesn't take a question slot).
+  await page.getByTestId("hero-refine").locator("summary").click();
   await expect(page.getByRole("checkbox", { name: "I want to keep it 8 years or more", exact: true })).toHaveCount(1);
 });
 

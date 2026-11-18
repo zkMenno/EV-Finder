@@ -26,8 +26,10 @@ features:
     title: "Hero: road-tripper with a budget gets a ranked top 10"
     triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts, src/lib/filters.ts, src/config/shortlist-rules.generated.json, "src/app/[[]country]/[[]lang]/page.tsx", src/lib/finance*.ts, src/i18n/*.json]
     steps:
-      - goto: /nl/en?role=only&trips=monthly&charge=home&area=town
+      # T-132: the budget is its own question (q=budget); "Show my top 10" opens the results.
+      - goto: /nl/en?q=budget&role=only&trips=monthly&charge=home&area=town
       - click: "@hero-budget-30000"
+      - click: "@hero-show"
       - wait: "@hero-card"
     expect:
       - count: "@hero-card"
@@ -48,10 +50,10 @@ features:
         contains: Road-tripper
         what: the profile name
         why: the picker answers don't map to the road-tripper profile
-      - text: "@hero-monthly"
-        match: "≈ .+ a month|official typical loan rate"
-        what: the monthly estimate under the budget
-        why: the loan estimate (or its 'no rate' note) is missing
+      - text: "@hero-summary"
+        contains: "up to €30,000"
+        what: the budget in the profile summary above the results
+        why: the budget picked on the budget question didn't reach the results
       - visible: "@hero-why"
         what: the 'why it ranks here' line
         why: cards don't explain their rank
@@ -63,6 +65,34 @@ features:
       - url: "budget=30000"
         what: the budget in the address bar
         why: state is not in the URL, so the link can't be shared (design principle 3)
+
+  - id: hero-budget-question
+    title: "Hero: the budget question shows quick picks and a monthly estimate"
+    triggers: [src/components/Hero.tsx, src/components/HeroSteps.tsx, src/lib/hero-state.ts, src/lib/finance*.ts, src/i18n/*.json]
+    steps:
+      - goto: /nl/en?q=budget&role=only&trips=monthly&charge=home&area=town
+      - click: "@hero-budget-30000"
+    expect:
+      - attr: "@hero-road [aria-current=step]"
+        name: aria-current
+        match: "^step$"
+        what: the progress road marks the current stop
+        why: the visitor can't see where they are in the questions
+      - text: "@hero-stepline"
+        contains: "Step 3 of 3"
+        what: the step line above the question
+        why: the budget question doesn't say it's the last one
+      - text: "@hero-monthly"
+        match: "≈ .+ a month|official typical loan rate"
+        what: the monthly estimate under the budget
+        why: the loan estimate (or its 'no rate' note) is missing
+      - text: "@hero-trail"
+        contains: Road-tripper
+        what: the answers so far, collapsed into the profile name
+        why: the answer trail lost the driving answers
+      - url: "q=budget"
+        what: the question in the address bar
+        why: the back button and shared links can't return to this question
 
   - id: hero-daily-driver
     title: "Hero: daily driver"
@@ -86,11 +116,16 @@ features:
         why: the hero shows nothing for this profile
 
   - id: hero-runabout-picker
-    title: "Hero: picking 'A second car' by tapping builds the runabout profile"
-    triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts]
+    title: "Hero: tapping through the questions as a second car builds the runabout profile"
+    triggers: [src/components/Hero.tsx, src/components/HeroSteps.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts]
     steps:
+      # T-132: one question per screen; a second car skips the long-trips question.
       - goto: /nl/en
+      - click: "label:has(@hero-country-nl)"
       - click: "label:has(@hero-role-second)"
+      - click: "label:has(@hero-charge-home)"
+      - click: "label:has(@hero-area-town)"
+      - click: "@hero-show"
       - wait: "@hero-card"
     expect:
       - text: "@hero-profile"
