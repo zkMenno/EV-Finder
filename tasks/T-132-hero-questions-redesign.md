@@ -1,6 +1,6 @@
 # T-132 Cleaner hero questions and answer chips
 Role: builder   Lane: UX (design) then WS2 (build): docs/design/ (UX), apps/web/ hero (WS2)   Wave: launch (staging feedback 2026-11-17)
-Status: doing (WS2 6th chat, 2026-11-18, branch t-132-hero-questions)
+Status: done (part 1 #145, part 2 #161, batch web 2026-11-18). Follow-ups in T-146.
 
 ## Goal
 The hero questions, answer chips and results are calm and easy to scan.
@@ -34,6 +34,18 @@ Anything not on docs/spec/launch-scope.md.
 - Part 2 (results PR, next): phone result rows + desktop table and sidebar, Refine as a bottom sheet
   (reuse #126's sheet once merged), "Show all cars" box inside the results, thumbnails after T-135.
   Results today = the old cards under a new profile bar (name, country · new/used · budget, Edit).
+- 2026-11-18 (batch web, T-132 part 2 = results PR): shortlist rows on one grid (`.evs-srow`,
+  globals.css): phone = rank, car, compare / price · ❄ winter · ⚡ +km in 20 min / Why / detail line
+  (full price sentence + monthly, real range + Official (WLTP), winter note, listings); desktop ≥ 1024 px
+  = aligned columns under a head row (#, car, price, winter, in 20 min, why, compare). "Also worth a
+  look" and no-price cars = one-line rows (`LineCard`, `.evs-lrow`). Desktop: answers in a sticky
+  sidebar (`hero-side`, `hero-answers`, a pencil per answer → that question). "Show all cars" box
+  closes the results (`/cars?<answers>&sort=-suggested`). Review nits: N1 arrow-key click = keydown
+  flag cleared on keyup/click (no timing), N3 budget field "30,000". Price column uses a hand-rolled
+  "€21.4k" (Intl compact differs Node vs browser → hydration error #418).
+- Not in part 2 (follow-ups): Refine as a phone bottom sheet (still the `<details>`), photo
+  thumbnails (no `generations[].image` in release 2; T-135), a verify flow for the new layout
+  (feature-map is a rubric change: own PR, WS0).
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
