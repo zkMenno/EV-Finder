@@ -368,6 +368,25 @@ export function Hero(props: HeroProps) {
     // After step 2 the four answers collapse into the profile name.
     trail.push({ key: "profile", text: profileName(rp, t), to: "role" });
   }
+  // Desktop sidebar on the results (T-132 part 2): every answer with its own change button.
+  const sideAnswers: SideAnswer[] = [{ key: "country", label: t("hero.side.country"), value: t(`hero.country.${props.country}` as MsgKey), to: "country" }];
+  for (const st of DRIVING_STEPS) {
+    if (st === "trips" && !asksTrips(a)) continue;
+    const v = a[st];
+    if (v !== null) sideAnswers.push({ key: st, label: t(`hero.side.${st}` as MsgKey), value: t(`hero.a.${st}.${v}` as MsgKey), to: st });
+  }
+  sideAnswers.push({
+    key: "budget",
+    label: t("hero.side.budget"),
+    value: `${hero.budget === null ? t("hero.summary.noLimit") : t("hero.summary.upTo", { amount: money(hero.budget) })} · ${t(`hero.summary.cond.${hero.cond}` as MsgKey)}`,
+    to: "budget",
+  });
+  const allCarsQuery = (() => {
+    const q = heroToSearchParams({ ...hero, step: "results" });
+    q.delete("q");
+    if (rp) q.set("sort", "-suggested");
+    return q.toString();
+  })();
   const dq = drivingQuestion(step, a);
   const stepLine = dq ? t("hero.stepQuestion", { n: 2, q: dq.n, of: dq.of }) : t("hero.stepOf", { n: stop + 1 });
   const titleId = `${qid}-${step}`;
@@ -461,7 +480,7 @@ export function Hero(props: HeroProps) {
             <p id={`${titleId}-help`} className="evs-q__help">
               {t("hero.ask.budget.help")} {tip("budget")}
             </p>
-            <BudgetField value={hero.budget} currency={props.currency} t={t} money={money} labelId={titleId} onChange={(budget) => update({ budget })} />
+            <BudgetField value={hero.budget} currency={props.currency} t={t} money={money} labelId={titleId} locale={locale} onChange={(budget) => update({ budget })} />
             <div className="evs-month" data-testid="hero-monthly">
               {hero.budget === null ? (
                 <p>{t("hero.budget.noLimitNote")}</p>
@@ -553,6 +572,10 @@ export function Hero(props: HeroProps) {
               <div className="max-w-[40rem]">
                 <ProgressRoad now={3} labels={roadLabels} label={t("hero.road.label")} doneText={t("hero.road.done")} />
               </div>
+              {/* T-132 part 2: phone = profile, refine, then the results; desktop = the answers in a sticky
+                  sidebar (each editable) beside the top 10 (frames t132-m4 / t132-d2). */}
+              <div className="lg:mt-6 lg:grid lg:grid-cols-[19rem_minmax(0,1fr)] lg:items-start lg:gap-8">
+              <aside aria-label={t("hero.side.label")} className="lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-y-auto" data-testid="hero-side">
               <ProfileBar
                 rp={rp}
                 t={t}
@@ -566,14 +589,11 @@ export function Hero(props: HeroProps) {
                 onEdit={() => goTo("budget")}
                 onRemovePreset={(f) => update({ presetsOff: [...hero.presetsOff, f] })}
                 onRestorePresets={() => update({ presetsOff: [] })}
+                answers={sideAnswers}
+                onGo={(to) => goTo(to)}
               />
               {refine(t("hero.refine.button", { n: refineCount }))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {asking ? null : (
+              </aside>
         <Results
           result={result}
           rp={rp}
@@ -588,8 +608,13 @@ export function Hero(props: HeroProps) {
           onRemovePreset={(f) => update({ presetsOff: [...hero.presetsOff, f] })}
           share={share}
           copied={copied}
+          allCarsQuery={allCarsQuery}
         />
-      )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -609,6 +634,14 @@ function activeRefine(f: ExploreFilters): number {
   return n;
 }
 
+/** One answer in the desktop results sidebar (T-132 part 2). */
+interface SideAnswer {
+  key: string;
+  label: string;
+  value: string;
+  to: HeroStep;
+}
+
 /** Results screen: who you are, where, how much; Edit goes back to the questions (T-132). */
 function ProfileBar({
   rp,
@@ -623,7 +656,11 @@ function ProfileBar({
   onEdit,
   onRemovePreset,
   onRestorePresets,
+  answers = [],
+  onGo,
 }: {
+  answers?: SideAnswer[];
+  onGo?: (to: HeroStep) => void;
   rp: ResolvedProfile | null;
   t: T;
   tip: (id: string) => ReactNode;
@@ -660,6 +697,22 @@ function ProfileBar({
         {t(`hero.profile.${rp.base.id}.short` as MsgKey)}
         {rp.layer ? ` ${t(`hero.profile.${rp.layer.id}.short` as MsgKey)}` : ""}
       </p>
+      {answers.length ? (
+        // Desktop only: on a phone the summary line and Edit already say the same in less room.
+        <dl className="mt-3 hidden lg:block" data-testid="hero-answers">
+          {answers.map((x) => (
+            <div key={x.key} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 border-t border-[var(--line)] py-2">
+              <dt className="col-start-1 text-[13px] text-[var(--ink-2)]">{x.label}</dt>
+              <dd className="col-start-1 font-semibold">{x.value}</dd>
+              <dd className="col-start-2 row-span-2 row-start-1">
+                <button type="button" className="evs-lnk min-h-11 min-w-11 justify-center" onClick={() => onGo?.(x.to)} aria-label={t("hero.side.change", { what: x.label })} data-testid={`hero-answer-${x.key}`}>
+                  <Pencil />
+                </button>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      ) : null}
       {presets.length ? (
         <div className="mt-2">
           <p className="text-xs font-semibold text-[var(--ink-2)]">{t("hero.presets.title")}</p>
@@ -700,8 +753,10 @@ function BudgetField({
   t,
   money,
   labelId,
+  locale,
   onChange,
 }: {
+  locale: string;
   value: number | null;
   currency: Currency;
   t: T;
@@ -710,12 +765,14 @@ function BudgetField({
   labelId: string;
   onChange: (v: number | null) => void;
 }) {
-  const [text, setText] = useState(value === null ? "" : String(value));
+  // Thousands separators like the frames ("25,000", review N3); typing stays free, digits count.
+  const grouped = (n: number) => formatNumber(n, locale, 0);
+  const [text, setText] = useState(value === null ? "" : grouped(value));
   useEffect(() => {
     // Keep the field in step when a quick pick or the URL changes the budget.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setText((cur) => (Number(cur.replace(/[^\d]/g, "")) === value || (cur === "" && value === null) ? cur : value === null ? "" : String(value)));
-  }, [value]);
+    setText((cur) => (Number(cur.replace(/[^\d]/g, "")) === value || (cur === "" && value === null) ? cur : value === null ? "" : formatNumber(value, locale, 0)));
+  }, [value, locale]);
   const symbol = currency === "GBP" ? "£" : "€";
   return (
     <div>
@@ -731,6 +788,9 @@ function BudgetField({
             setText(e.target.value);
             const n = Number(e.target.value.replace(/[^\d]/g, ""));
             onChange(e.target.value.trim() === "" || !Number.isFinite(n) || n <= 0 ? null : n);
+          }}
+          onBlur={() => {
+            if (value !== null) setText(grouped(value));
           }}
           data-testid="hero-budget"
         />
@@ -879,6 +939,8 @@ interface ResultsProps {
   onRemovePreset: (f: PresetField) => void;
   share: () => void;
   copied: boolean;
+  /** Hero answers as a query for the catalogue link (suggested sort). */
+  allCarsQuery: string;
 }
 
 function Results(r: ResultsProps) {
@@ -901,7 +963,7 @@ function Results(r: ResultsProps) {
   const noPrice = result?.picks.slice(result?.priced ?? 0) ?? [];
   const activePresets = r.presets.filter((p) => !r.hero.presetsOff.includes(p.field));
   return (
-    <section aria-labelledby={id} className="mt-8" data-testid="hero-results">
+    <section aria-labelledby={id} className="mt-8 min-w-0 lg:mt-0" data-testid="hero-results">
       {result?.status === "no-scores" ? (
         // No release scores: no count, no "top 0", just the plain reason (Decision 065).
         <>
@@ -960,11 +1022,12 @@ function Results(r: ResultsProps) {
         </p>
       ) : null}
       {top.length ? (
-        <div className="mt-4 rounded-lg bg-[var(--sunflower-tint)] p-3 sm:p-4" data-testid="hero-shortlist">
-          <h3 className="text-lg font-semibold">
+        <div className="mt-4 rounded-xl bg-[var(--sunflower-tint)] p-3 sm:p-4" data-testid="hero-shortlist">
+          <h3 className="font-[family-name:var(--font-display)] text-xl font-bold">
             {t("hero.results.shortlist")} <TermInfo term={r.props.terms.shortlist} base={r.props.base} text={{ about: t("term.about"), learnMore: t("term.learnMore") }} />
           </h3>
-          <ol className="mt-3 grid gap-3">
+          <RowHead t={t} />
+          <ol className="mt-2 grid gap-2 lg:mt-0">
             {top.map((p) => (
               <Card key={p.row.model_id} pick={p} r={r} />
             ))}
@@ -973,10 +1036,10 @@ function Results(r: ResultsProps) {
       ) : null}
       {more.length ? (
         <div className="mt-6" data-testid="hero-more">
-          <h3 className="text-lg font-semibold">{t("hero.results.more")}</h3>
-          <ol className="mt-3 grid gap-3" start={top.length + 1}>
+          <h3 className="font-[family-name:var(--font-display)] text-xl font-bold">{t("hero.results.more")}</h3>
+          <ol className="mt-2 grid" start={top.length + 1}>
             {more.map((p) => (
-              <Card key={p.row.model_id} pick={p} r={r} />
+              <LineCard key={p.row.model_id} pick={p} r={r} />
             ))}
           </ol>
         </div>
@@ -987,9 +1050,9 @@ function Results(r: ResultsProps) {
           <h3 className="text-lg font-semibold">
             {t((result?.priced ?? 0) < SHORTLIST_N ? "hero.results.noPriceFits" : "hero.results.noPriceList")}
           </h3>
-          <ul className="mt-3 grid gap-3">
+          <ul className="mt-2 grid">
             {noPrice.map((p) => (
-              <Card key={p.row.model_id} pick={p} r={r} />
+              <LineCard key={p.row.model_id} pick={p} r={r} />
             ))}
           </ul>
         </div>
@@ -1008,11 +1071,17 @@ function Results(r: ResultsProps) {
           </ul>
         </nav>
       ) : null}
-      <p className="mt-6">
-        <a href="#explore" className="font-semibold text-blue-800 underline underline-offset-2">
-          {t("hero.explore", { n: r.props.total })}
+      {/* "Show all cars" closes the results (T-132): the catalogue with these answers, so its
+          "Suggested for you" sort matches this list. */}
+      <div className="mt-6 flex flex-wrap items-center gap-4 rounded-xl border-[1.5px] border-[var(--line)] bg-[var(--surface)] p-4" data-testid="hero-all-cars">
+        <div className="min-w-0 flex-1">
+          <p className="font-bold">{t("hero.allCars.title")}</p>
+          <p className="text-sm text-[var(--ink-2)]">{t("hero.allCars.body", { n: r.props.total })}</p>
+        </div>
+        <a href={`${r.props.base}/cars${r.allCarsQuery ? `?${r.allCarsQuery}` : ""}`} className="evs-btn-out" data-testid="hero-all-cars-link">
+          {t("hero.allCars.button")} <span aria-hidden="true">›</span>
         </a>
-      </p>
+      </div>
     </section>
   );
 }
@@ -1050,15 +1119,114 @@ function reasonText(pick: HeroPick, r: ResultsProps): string {
   return cap(bits.join(", "));
 }
 
-function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
-  const { t, locale, level, props } = r;
+/** "€19.5k": compact money for the price column (the full sentence sits under the row). Hand-rolled
+    rather than Intl's compact notation: Node and the browser format that differently ("€21.0K" vs
+    "€21K"), which broke hydration. */
+function moneyShort(n: number, currency: Currency, locale: string): string {
+  const sym = currency === "GBP" ? "£" : "€";
+  if (n < 1000) return `${sym}${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(n)}`;
+  const k = n / 1000;
+  return `${sym}${new Intl.NumberFormat(locale, { minimumFractionDigits: 0, maximumFractionDigits: k >= 100 ? 0 : 1 }).format(k)}k`;
+}
+
+/** Everything a result row needs, shared by the shortlist rows and the one-line rows. */
+function useCardData(pick: HeroPick, r: ResultsProps) {
+  const { t, props } = r;
   const row = pick.row;
   const cmp = useListStore(compareStore);
   const inCmp = cmp.some((c) => c.id === row.variant_id);
   const full = !inCmp && cmp.length >= COMPARE_MAX;
   const name = `${row.make_name} ${row.model_name}`;
-  const heroNumLabels = numLabels(t);
   const years = formatYears(pick.price?.yearFrom ?? row.year_start, pick.price ? pick.price.yearTo : row.year_end, t("years.now"));
+  let price: string;
+  let short: string;
+  if (!pick.price) {
+    price = t("hero.card.priceUnknown");
+    short = "—";
+  } else if (pick.price.kind === "new") {
+    price = t("hero.card.priceNew", { amount: r.money(pick.price.amount) });
+    short = moneyShort(pick.price.amount, props.currency, r.locale);
+  } else if (pick.price.low !== null && pick.price.high !== null) {
+    price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high), country: COUNTRIES[props.country].name });
+    short = `${moneyShort(pick.price.low, props.currency, r.locale)}–${moneyShort(pick.price.high, props.currency, r.locale)}`;
+  } else {
+    price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount), country: COUNTRIES[props.country].name });
+    short = `≈ ${moneyShort(pick.price.amount, props.currency, r.locale)}`;
+  }
+  const winter = pick.result.derived.winter_range_km;
+  const compare = (
+    <button
+      type="button"
+      aria-pressed={inCmp}
+      aria-disabled={full || undefined}
+      onClick={() => {
+        if (inCmp) compareStore.remove(row.variant_id);
+        else if (!full) compareStore.add({ id: row.variant_id, label: `${name} ${row.variant_name}` });
+      }}
+      className="evs-cmp"
+      title={inCmp ? t("hero.card.inCompare") : full ? t("hero.card.compareFull") : t("hero.card.compare")}
+      data-testid="hero-compare"
+    >
+      <span aria-hidden="true">{inCmp ? "✓" : "+"}</span>
+      <span className="sr-only">
+        {inCmp ? t("hero.card.inCompare") : full ? t("hero.card.compareFull") : t("hero.card.compare")}: {`${name} ${row.variant_name}`}
+      </span>
+    </button>
+  );
+  const rank =
+    pick.rank !== null ? (
+      <span className="evs-rank" aria-label={t("hero.card.rank", { n: pick.rank })}>
+        {pick.rank}
+      </span>
+    ) : (
+      <span aria-hidden="true" />
+    );
+  const link = (
+    <a href={generationHref(props.base, row)} className="text-blue-800 underline-offset-2 hover:underline">
+      {name}
+    </a>
+  );
+  return { row, name, price, short, winter, compare, rank, link };
+}
+
+/** "—" on screen, "not known yet" for screen readers (a missing value is never 0). */
+function Unknown({ t }: { t: T }) {
+  return (
+    <>
+      <span aria-hidden="true">—</span>
+      <span className="sr-only">{t("hero.card.notKnown")}</span>
+    </>
+  );
+}
+
+const cardAttrs = (pick: HeroPick) => ({
+  "data-testid": "hero-card",
+  "data-rank": pick.rank ?? undefined,
+  "data-variant": pick.row.variant_id,
+  "data-price": pick.price?.amount,
+  "data-price-basis": pick.price?.basis ?? "none",
+});
+
+/** Column labels above the shortlist rows on desktop (the rows carry their own labels for screen readers). */
+function RowHead({ t }: { t: T }) {
+  return (
+    <div className="evs-srow evs-srow--head" aria-hidden="true">
+      <span>#</span>
+      <span style={{ gridArea: "car" }}>{t("hero.col.car")}</span>
+      <span style={{ gridArea: "price" }}>{t("hero.col.price")}</span>
+      <span style={{ gridArea: "winter" }}>{t("hero.col.winter")}</span>
+      <span style={{ gridArea: "dc" }}>{t("hero.col.dc")}</span>
+      <span style={{ gridArea: "why" }}>{t("hero.col.why")}</span>
+      <span style={{ gridArea: "act" }}>{t("hero.col.compare")}</span>
+    </div>
+  );
+}
+
+/** A shortlist row (T-132 part 2): the same numbers in the same place on every row. */
+function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
+  const { t, locale, level, props } = r;
+  const { row, price, short, winter, compare, rank, link } = useCardData(pick, r);
+  const heroNumLabels = numLabels(t);
   const site = props.listingSites[0];
   const monthly = pick.price ? monthlyFor(pick.price.amount, r.loan) : null;
   const unknownLabels = [
@@ -1067,13 +1235,6 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   ]
     .filter((x, i, a) => a.indexOf(x) === i && !PARKED_FACTORS.has(x))
     .map((id) => t(`hero.factor.${id}` as MsgKey));
-
-  let price: string;
-  if (!pick.price) price = t("hero.card.priceUnknown");
-  else if (pick.price.kind === "new") price = t("hero.card.priceNew", { amount: r.money(pick.price.amount) });
-  else if (pick.price.low !== null && pick.price.high !== null)
-    price = t("hero.card.priceUsed", { years, low: r.money(pick.price.low), high: r.money(pick.price.high), country: COUNTRIES[props.country].name });
-  else price = t("hero.card.priceUsedOne", { years, amount: r.money(pick.price.amount), country: COUNTRIES[props.country].name });
   const priceNote =
     pick.price?.basis === "estimate"
       ? t(pick.price.lowConfidence ? "hero.card.estimateLow" : "hero.card.estimate")
@@ -1081,111 +1242,122 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
         ? t("hero.card.generationBand")
         : null;
   const priceHow = level === "nerd" && pick.price ? priceHowText(pick.price, t, locale, r.money, props.sources) : null;
+  const cond = pick.price ? t(pick.price.kind === "new" ? "hero.card.cond.new" : "hero.card.cond.used") : null;
+  const tt = { about: t("term.about"), learnMore: t("term.learnMore") };
 
   return (
-    <li className="min-w-0 rounded-lg border border-slate-300 bg-white p-3 sm:p-4" data-testid="hero-card" data-rank={pick.rank ?? undefined} data-variant={row.variant_id} data-price={pick.price?.amount} data-price-basis={pick.price?.basis ?? "none"}>
-      <div className="flex items-start gap-3">
-        {/* A car with no price has no place number (Decision 064): it is not a ranked pick. */}
-        {pick.rank !== null ? (
-          <span className="mt-0.5 inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-[var(--ink)] px-2 text-sm font-bold text-[var(--surface)]" aria-label={t("hero.card.rank", { n: pick.rank })}>
-            {pick.rank}
-          </span>
-        ) : null}
-        <div className="min-w-0 flex-1">
-          <h4 className="text-base font-semibold">
-            <a href={generationHref(props.base, row)} className="text-blue-800 underline-offset-2 hover:underline">
-              {name}
-            </a>
-          </h4>
-          <p className="text-sm text-slate-700">
-            {row.variant_name} · {formatYears(row.year_start, row.year_end, t("years.now"))}
-          </p>
-          <p className="mt-2 text-sm" data-testid="hero-why">
-            {reasonText(pick, r)}
-          </p>
-          <dl className="mt-2 grid grid-cols-1 gap-x-4 gap-y-1 text-sm sm:grid-cols-3">
-            <div>
-              <dt className="text-slate-700">
-                {t("hero.card.realRange")} <TermInfo term={props.terms["real-range"]} base={props.base} text={{ about: t("term.about"), learnMore: t("term.learnMore") }} />
-              </dt>
-              <dd className="font-semibold tabular-nums">
-                {row.real_range_km ? `${formatNumber(row.real_range_km, locale, 0)} km` : t("hero.card.notKnown")}
-                {/* T-143 (Decision 085): the official WLTP range right under our real range, secondary style. */}
-                <span className="block">
-                  <OfficialRange
-                    value={row.wltp_range_km}
-                    provenance={row.provenance.wltp_range_km}
-                    sources={props.sources}
-                    locale={locale}
-                    labels={heroNumLabels}
-                    text={{ label: t("range.wltp.label"), notKnown: t("range.wltp.notKnown"), tip: t("range.wltp.tip") }}
-                    info={{ href: `${props.base}/learn/wltp`, termText: { about: t("term.about"), learnMore: t("term.learnMore") } }}
-                    testId="hero-wltp"
-                  />
-                </span>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-slate-700">
-                {t("hero.card.winter")} <TermInfo term={props.terms["real-winter-range"]} base={props.base} text={{ about: t("term.about"), learnMore: t("term.learnMore") }} />
-              </dt>
-              <dd className={pick.result.derived.winter_range_km !== undefined ? "font-semibold tabular-nums" : "text-slate-800"} data-testid="hero-winter">
-                {pick.result.derived.winter_range_km !== undefined ? (
-                  <>
-                    {`${formatNumber(pick.result.derived.winter_range_km, locale, 0)} km`}
-                    <span className="block text-xs font-normal text-slate-700">{t("hero.card.winterEstimate")}</span>
-                  </>
-                ) : (
-                  t("hero.card.notKnown")
-                )}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-slate-700">{t("hero.card.price")}</dt>
-              <dd className="font-semibold" data-testid="hero-price">
-                {price}
-                {priceNote ? <span className="block text-xs font-normal text-slate-700" data-testid="hero-price-note">{priceNote}</span> : null}
-                {priceHow ? <span className="block text-xs font-normal text-slate-700" data-testid="hero-price-how">{priceHow}</span> : null}
-                {monthly ? <span className="block text-sm font-normal text-slate-800">{t("hero.monthly", { amount: r.money(monthly.monthly) })}</span> : null}
-              </dd>
-            </div>
-          </dl>
-          {level !== "simple" && unknownLabels.length ? <p className="mt-2 text-xs text-slate-700">{t("hero.card.unknown", { list: unknownLabels.join(", ") })}</p> : null}
-          {level !== "simple" && pick.alternatives > 0 ? <p className="mt-1 text-xs text-slate-700">{t("hero.card.alternatives", { n: pick.alternatives })}</p> : null}
-          <div className="mt-3 flex flex-wrap gap-2">
-            <button
-              type="button"
-              aria-pressed={inCmp}
-              aria-disabled={full || undefined}
-              onClick={() => {
-                if (inCmp) compareStore.remove(row.variant_id);
-                else if (!full) compareStore.add({ id: row.variant_id, label: `${name} ${row.variant_name}` });
-              }}
-              className={toggleCls}
-              data-testid="hero-compare"
-            >
-              {/* Name = the visible words + the car (WCAG 2.5.3 Label in Name: voice users say what they see). */}
-              {inCmp ? t("hero.card.inCompare") : full ? t("hero.card.compareFull") : t("hero.card.compare")}
-              <span className="sr-only">: {`${name} ${row.variant_name}`}</span>
-            </button>
-            {site ? (
-              <a
-                href={buildListingUrl(site, row.make_name, row.model_name)}
-                rel="nofollow noopener"
-                target="_blank"
-                className="inline-flex min-h-11 items-center gap-1 rounded-md border border-blue-800 px-3 py-2 text-sm font-semibold text-blue-900 hover:bg-blue-50"
-                data-testid="hero-listings"
-              >
-                {t("hero.card.listings", { site: site.label })}
-                <span aria-hidden="true">↗</span>
-                <span className="sr-only"> {t("hero.card.newTab")}</span>
-              </a>
-            ) : null}
-          </div>
-        </div>
+    <li className="evs-srow evs-srow--card" {...cardAttrs(pick)}>
+      <span style={{ gridArea: "rank" }}>{rank}</span>
+      <div style={{ gridArea: "car" }} className="min-w-0">
+        <h4 className="text-[17px] font-bold leading-snug">{link}</h4>
+        <p className="text-sm text-[var(--ink-2)]">
+          {row.variant_name} · {formatYears(row.year_start, row.year_end, t("years.now"))}
+          {cond ? ` · ${cond}` : ""}
+        </p>
       </div>
-      {/* Full card width (not beside the rank badge): the score table needs the room on a phone. */}
-      {level === "nerd" ? <NerdScore pick={pick} r={r} /> : null}
+      <div className="evs-srow__facts">
+        <p style={{ gridArea: "price" }} className="font-bold tabular-nums">
+          <span className="sr-only">{t("hero.col.price")}: </span>
+          {short}
+        </p>
+        <p style={{ gridArea: "winter" }} className="tabular-nums" data-testid="hero-winter">
+          <span className="sr-only">{t("hero.col.winter")}: </span>
+          <span aria-hidden="true">❄ </span>
+          {winter !== undefined ? <strong>{`${formatNumber(winter, locale, 0)} km`}</strong> : <Unknown t={t} />}
+          <span className="lg:hidden" aria-hidden="true"> {t("hero.card.winterShort")}</span>
+        </p>
+        <p style={{ gridArea: "dc" }} className="tabular-nums">
+          <span className="sr-only">{t("hero.col.dc")}: </span>
+          <span aria-hidden="true">⚡ </span>
+          {row.dc_km_per_20min ? <strong>{t("hero.card.dc20", { km: formatNumber(row.dc_km_per_20min, locale, 0) })}</strong> : <Unknown t={t} />}
+          <span className="lg:hidden" aria-hidden="true"> {t("hero.card.dc20Label")}</span>
+        </p>
+      </div>
+      <p style={{ gridArea: "why" }} className="text-sm" data-testid="hero-why">
+        <strong className="lg:sr-only">{t("hero.card.whyLabel")} </strong>
+        {reasonText(pick, r)}
+      </p>
+      <span style={{ gridArea: "act" }} className="justify-self-end">
+        {compare}
+      </span>
+      {/* The detail line: the full price sentence, real range with the official WLTP (T-143), listings. */}
+      <div style={{ gridArea: "more" }} className="grid gap-1 text-[13px] text-[var(--ink-2)]">
+        <p data-testid="hero-price">
+          {price}
+          {monthly ? <> · {t("hero.monthly", { amount: r.money(monthly.monthly) })}</> : null}
+        </p>
+        {priceNote ? <p data-testid="hero-price-note">{priceNote}</p> : null}
+        {priceHow ? <p data-testid="hero-price-how">{priceHow}</p> : null}
+        <p className="flex flex-wrap items-center gap-x-3">
+          <span>
+            {t("hero.card.realRange")} <TermInfo term={props.terms["real-range"]} base={props.base} text={tt} />{" "}
+            <strong className="tabular-nums text-[var(--ink)]">{row.real_range_km ? `${formatNumber(row.real_range_km, locale, 0)} km` : t("hero.card.notKnown")}</strong>
+          </span>
+          <OfficialRange
+            value={row.wltp_range_km}
+            provenance={row.provenance.wltp_range_km}
+            sources={props.sources}
+            locale={locale}
+            labels={heroNumLabels}
+            text={{ label: t("range.wltp.label"), notKnown: t("range.wltp.notKnown"), tip: t("range.wltp.tip") }}
+            info={{ href: `${props.base}/learn/wltp`, termText: tt }}
+            testId="hero-wltp"
+          />
+          <span>
+            {t("hero.card.winterNote")} <TermInfo term={props.terms["real-winter-range"]} base={props.base} text={tt} />
+          </span>
+        </p>
+        {level !== "simple" && unknownLabels.length ? <p>{t("hero.card.unknown", { list: unknownLabels.join(", ") })}</p> : null}
+        {level !== "simple" && pick.alternatives > 0 ? <p>{t("hero.card.alternatives", { n: pick.alternatives })}</p> : null}
+        {site ? (
+          <p>
+            <a href={buildListingUrl(site, row.make_name, row.model_name)} rel="nofollow noopener" target="_blank" className="font-semibold text-blue-800 underline underline-offset-2" data-testid="hero-listings">
+              {t("hero.card.listings", { site: site.label })}
+              <span aria-hidden="true"> ↗</span>
+              <span className="sr-only"> {t("hero.card.newTab")}</span>
+            </a>
+          </p>
+        ) : null}
+      </div>
+      {level === "nerd" ? (
+        <div style={{ gridArea: "nerd" }} className="min-w-0">
+          <NerdScore pick={pick} r={r} />
+        </div>
+      ) : null}
+    </li>
+  );
+}
+
+/** "Also worth a look" and no-price rows: one line each (rank, name, price, winter range, compare). */
+function LineCard({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
+  const { t, locale, level } = r;
+  const { row, price, short, winter, compare, rank, link } = useCardData(pick, r);
+  return (
+    <li className="evs-lrow" {...cardAttrs(pick)}>
+      <span className="evs-lrow__rank">{rank}</span>
+      <span className="min-w-0">
+        <span className="block font-semibold leading-snug">{link}</span>
+        <span className="block text-[13px] text-[var(--ink-2)]">
+          {row.variant_name} · {formatYears(row.year_start, row.year_end, t("years.now"))}
+        </span>
+      </span>
+      <span className="text-right font-bold tabular-nums" title={price}>
+        <span className="sr-only" data-testid="hero-price">
+          {price}
+        </span>
+        <span aria-hidden="true">{short}</span>
+      </span>
+      <span className="whitespace-nowrap text-right tabular-nums" data-testid="hero-winter">
+        <span aria-hidden="true">❄ </span>
+        {winter !== undefined ? `${formatNumber(winter, locale, 0)} km` : <Unknown t={t} />}
+        <span className="sr-only"> {t("hero.card.winterShort")}</span>
+      </span>
+      {compare}
+      {level === "nerd" ? (
+        <div className="col-span-full min-w-0">
+          <NerdScore pick={pick} r={r} />
+        </div>
+      ) : null}
     </li>
   );
 }

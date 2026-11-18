@@ -177,3 +177,27 @@ body {
 .evs-seg label:has(input:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
 .evs-cta { display: flex; width: 100%; align-items: center; justify-content: center; margin-top: 20px; min-height: 56px; border-radius: 10px; background: var(--action); color: var(--on-action); font-weight: 700; font-size: 18px; border: 0; cursor: pointer; box-shadow: var(--shadow-sticker); }
 .evs-cta:hover { background: var(--action-hover); }
+
+/* ── T-132 part 2: hero results rows (frames t132-m4 phone / t132-d2 desktop) ───────────────── */
+/* Shortlist row: phone = rank, car, compare on top; facts; why; details. Desktop = one aligned row
+   per car under a column head (#, car, price, winter range, in 20 min, why, compare). */
+.evs-srow { display: grid; grid-template-columns: 2rem minmax(0, 1fr) 2.75rem; grid-template-areas: "rank car act" "facts facts facts" "why why why" "more more more" "nerd nerd nerd"; gap: 6px 12px; align-items: start; }
+.evs-srow--card { background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius-md, 12px); padding: 12px; }
+.evs-srow--head { display: none; }
+.evs-srow__facts { grid-area: facts; display: flex; flex-wrap: wrap; gap: 2px 16px; font-size: 15px; }
+@media (min-width: 64rem) {
+  .evs-srow { grid-template-columns: 2.25rem minmax(0, 1.5fr) 7.5rem 6.5rem 6.5rem minmax(0, 1.4fr) 2.75rem; grid-template-areas: "rank car price winter dc why act" ". more more more more more ." "nerd nerd nerd nerd nerd nerd nerd"; column-gap: 16px; align-items: center; }
+  .evs-srow--head { display: grid; padding: 12px 14px 4px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .evs-srow__facts { display: contents; }
+  .evs-srow__facts > * { text-align: right; }
+}
+.evs-rank { display: inline-flex; height: 28px; min-width: 28px; align-items: center; justify-content: center; border-radius: 999px; background: var(--ink); color: var(--surface); font-size: 14px; font-weight: 700; padding: 0 6px; }
+.evs-cmp { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; border-radius: 10px; border: 2px solid var(--line-strong); background: var(--surface); color: var(--ink); font-size: 22px; font-weight: 700; line-height: 1; cursor: pointer; }
+.evs-cmp[aria-pressed="true"] { border-color: var(--ink); background: var(--sunflower-tint); }
+.evs-cmp[aria-disabled="true"] { opacity: 0.6; cursor: not-allowed; }
+/* "Also worth a look": one line per car. */
+.evs-lrow { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr) auto auto 2.75rem; gap: 4px 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.evs-lrow__rank { font-weight: 700; color: var(--ink-2); }
+.evs-lrow .evs-rank { background: none; color: var(--ink-2); padding: 0; min-width: 0; height: auto; }
+.evs-btn-out { display: inline-flex; min-height: 44px; align-items: center; gap: 6px; border: 2px solid var(--ink); border-radius: 10px; padding: 8px 16px; font-weight: 700; color: var(--ink); background: var(--surface); text-decoration: none; }
+.evs-btn-out:hover { background: var(--paper-sea); }
