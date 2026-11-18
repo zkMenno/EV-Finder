@@ -381,8 +381,8 @@ def test_real_seed_guards() -> None:
     real = load_seed(FIX.parents[2].parent / "data" / "seed" / "models.yaml")
     rdw = {"source": RDW}
     cases = [
-        ("AUDI", "E-TRON GT", None),
-        ("AUDI", "RS E-TRON GT", None),
+        ("AUDI", "E-TRON GT", "audi-e-tron-gt"),  # T-136: own model now, still not the e-tron
+        ("AUDI", "RS E-TRON GT", "audi-e-tron-gt"),
         ("AUDI", "E-TRON", "audi-e-tron"),
         ("AUDI", "Q4 40 E-TRON", "audi-q4-e-tron"),
         ("AUDI", "Q4 SPORTBACK 45 E-TRON", "audi-q4-e-tron"),
@@ -394,7 +394,7 @@ def test_real_seed_guards() -> None:
         ("PEUGEOT", "2008", "peugeot-e-2008"),
         ("OPEL", "CORSA", "opel-corsa-e"),
         ("KIA", "NIRO", "kia-niro-ev"),
-        ("HONDA", "E:NY1", None),  # Honda e:Ny1 is not the Honda e
+        ("HONDA", "E:NY1", "honda-e-ny1"),  # Honda e:Ny1 is not the Honda e (own model since T-136)
         ("HONDA", "HONDA E", "honda-e"),
     ]
     for make, model, expected in cases:

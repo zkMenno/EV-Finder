@@ -249,14 +249,14 @@ def test_real_seed_migration_is_complete(real) -> None:
     [
         ("SMART", "FORTWO COUPE ED", RDW, "smart-eq-fortwo"),
         ("SMART", "FORTWO CABRIO ED", RDW, "smart-eq-fortwo"),
-        ("SMART", "FORFOUR ED", RDW, None),  # the forfour is not in the seed
+        ("SMART", "FORFOUR ED", RDW, "smart-eq-forfour"),  # T-136: own model
         ("MG", "ROEWE ZS EV", RDW, "mg-zs-ev"),
         ("MERCEDES-BENZ", "CLASSE EQA", EEA, "mercedes-eqa"),
         ("MERCEDES-BENZ", "CLASSE EQA", RDW, None),  # scoped to EEA
         ("HYUNDAI", "KONA", RDW, "hyundai-kona-electric"),
         ("FIAT", "500", EEA, "fiat-500e"),
         ("FIAT", "FIAT 500 1.4 16V", RDW, None),
-        ("AUDI", "E-TRON GT", RDW, None),
+        ("AUDI", "E-TRON GT", RDW, "audi-e-tron-gt"),  # T-136
         ("BMW", "4ER", KBA, "bmw-i4"),
         ("PEUGEOT", "208", OPENEV, None),  # never for spec sources
     ],

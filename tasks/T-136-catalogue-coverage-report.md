@@ -26,5 +26,13 @@ Anything not on docs/spec/launch-scope.md.
 - 🔴 For WS0: 22 KilowattApp rows cite ev-database.org; proposal 3 excludes them and asks the maintainer (WS5 email, Menno's name → needs his ok).
 - Build proposal (5 tasks) waits for WS0 approval; nothing built.
 
+- 2026-11-18 WS3 (task 2, approved by Menno 2026-11-18 + WS0 08:58): 86 missing models added to `data/seed/models.yaml` (20 new makes), plus EEA spelling aliases on 13 existing models. Coverage count (Decision 048): **models 99 → 182, generations 122 → 208, seed variants 129 (unchanged; release variants come from WS1's T-073), EU BEV registrations matched 86.7 % → 97.7 %** (EEA 2010-2025, R-41's coverage.py, 9,079,365 cars).
+  - Every new generation is `uncertain: true` with its EEA registrations by year in `notes` (years follow the seed's 5 % rule on first-registration years; not yet checked against maker documents). Splits per Decision 057: e-up! (32 kWh 2019), Model X (Palladium 2022), e-tron GT (2024 facelift, 105 kWh).
+  - Left out on purpose: van-based people carriers (EQV, ë-Berlingo, e-Rifter, Combo-e Life, eVito Tourer, e-NV200, Proace (City) Verso, Kangoo E-Tech, SpaceTourer, Traveller, Zafira Life, EQT: ~65k cars, 0.7 %) because product scope says "vans Later"; question to WS0. SEAT Mii electric (15k) and Cupra filed as SEAT in EEA (5k): adding a SEAT make would break KBA's 'SEAT BORN' → Cupra mapping (find_by_source_alias runs only for makes the seed lacks); matcher change asked of WS1. Toyota 'PRIUS' / 'AURIS HYBRID' (EEA misfiles), Tesla 'MODEL' (ambiguous), tail makes under ~1k cars.
+  - EEA cannot tell the EQE/EQS saloon from the EQE/EQS SUV: EEA counts go to the saloon models; the SUV models match only names with 'SUV'.
+  - Fix found on the way: ~4.5k 'EQ FORFOUR' cars were counted as the fortwo; they now match the new forfour model.
+  - Pipeline guard tests updated (8 cases, None → the new model id: e-tron GT, e:Ny1, Ioniq 9, forfour); cross-lane, flagged to WS1.
+  - Next release (WS1 nightly) will add the new generations; their release-diff approvals go in a separate gate PR.
+
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
