@@ -26,5 +26,14 @@ Anything not on docs/spec/launch-scope.md.
 - 🔴 For WS0: 22 KilowattApp rows cite ev-database.org; proposal 3 excludes them and asks the maintainer (WS5 email, Menno's name → needs his ok).
 - Build proposal (5 tasks) waits for WS0 approval; nothing built.
 
+- 2026-11-18 WS3 4th chat (task 2, approved WS0 08:58, Decision 048 soft-launch bar), PR on branch `t-136-missing-models`: **35 models / 37 generations** added from R-41's list (makes Jeep and Mazda new), EU BEV registrations matched **86.7 % → 95.6 %** (EEA 2010-2025, R-41 coverage.py + the pipeline matcher). Release (ev verify, fresh staging): +37 generations, +40 rows, 0 blocking, so no gate PR.
+  - Years from EEA (CC BY 4.0) and RDW (CC0) registrations; rule in the comment above `jeep` in models.yaml. Every generation `uncertain: true`, counts by year in its notes. No specs, no seed variants: rows come from OpenEV/KilowattApp.
+  - Splits: Model X (EEA type 002 → 004 in 2022, `-palladium` like the Model S). e-up! stays one generation (battery change without facelift = marker, Decision 057; VW press cited). **e-tron GT stays one generation for now**: Audi's 2024 pack (105/97 kWh, cited) is a Decision 057 split, but OpenEV's 2024-2025 files still carry the old 85/93.4 kWh pack, so a facelift generation would show wrong figures. Next: facelift seed variants with cited packs, then split.
+  - EQE / EQS: saloon and SUV are separate models (OpenEV splits them); EEA and RDW names do not, so register counts land on the saloon (`name_excludes: [SUV]` keeps fueleconomy's '(SUV)' names off it). WS1's type-approval split (E2EQEW/X, E2EQSW/X) can separate them.
+  - Left out: **Leapmotor T03** (OpenEV has China-market files only: markets CN, NEDC/CLTC; six non-EU variants would ship; needs an OpenEV market filter, WS1); **SEAT Mii** (a SEAT make breaks KBA's 'SEAT BORN' → Cupra, find_by_source_alias runs only for makes the seed lacks; WS1).
+  - Vans: EQV, ë-Berlingo, e-Rifter are in (R-41's list, M1 passenger versions); WS3 2nd chat asked WS0 whether "vans Later" excludes them. Each is one block to drop if so.
+  - Guard tests: 3 files expected "e-tron GT not in the seed"; now they expect audi-e-tron-gt, never audi-e-tron (cross-lane, WS1 told).
+  - Stretch (not in this PR): the 2nd chat's branch `t-136-extra-models-2nd-chat` (+51 models, 13 alias fixes on existing models incl. 'EQ FORFOUR' counted as the fortwo). Next: a second PR absorbing it after this one merges.
+
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
