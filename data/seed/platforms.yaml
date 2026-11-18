@@ -199,6 +199,12 @@ platforms:
     nominal_v: not-disclosed
     voltage_class_id: 400v
     notes: "Combustion-car platform adapted for the Audi e-tron (2019-2022) and Q8 e-tron (2023-2025)."
+  - id: vw-up-family
+    name: "Volkswagen up! family (e-up!, Skoda Citigo e iV, SEAT Mii electric)"
+    owner: Volkswagen Group
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-146: combustion-car platform of the up! with an electric drive (front axle, VW Newsroom Nov 2019). Platform name and voltage not read from a VW page."
   - id: smart-451
     name: "smart fortwo 451 electric drive"
     owner: Daimler (then)

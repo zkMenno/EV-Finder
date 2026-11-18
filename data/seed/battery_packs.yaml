@@ -72,6 +72,11 @@ packs:
   # --- Stellantis ---
   - {id: stellantis-ecmp-50, name: "e-CMP 50 kWh", supplier: CATL, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 50, usable_kwh: 46, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: stellantis-ecmp-54, name: "e-CMP 54 kWh (2023+ update, about 51 usable)", chemistry_id: nmc, gross_kwh: 54, usable_kwh: 51, nominal_v: not-disclosed, cooling_id: liquid}
+  # --- T-146 (2026-11-18): packs of new seed variants; only the maker's capacity figures, the rest not disclosed ---
+  - {id: vw-e-up-18-7, name: "Volkswagen e-up! 18.7 kWh (2013-2019)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 18.7, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: vw-e-up-36-8, name: "Volkswagen e-up! 36.8 kWh (32.3 usable, 2019 update)", chemistry_id: not-disclosed, cell_format: pouch, gross_kwh: 36.8, usable_kwh: 32.3, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: renault-twingo-22, name: "Renault Twingo Electric 22 kWh", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: not-disclosed, usable_kwh: 22, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: kia-ev3-58, name: "Kia EV3 58.3 kWh", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 58.3, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: fiat-500e-312-24, name: "Fiat 500e (2013) 24 kWh", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, gross_kwh: 24, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: fiat-500e-332-24, name: "Fiat 500e (2020) 24 kWh", chemistry_id: nmc, gross_kwh: 24, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: fiat-500e-332-42, name: "Fiat 500e (2020) 42 kWh", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, gross_kwh: 42, usable_kwh: 37.3, nominal_v: not-disclosed, cooling_id: liquid}
