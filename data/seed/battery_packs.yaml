@@ -42,6 +42,7 @@ packs:
   - {id: audi-etron-71, name: "Audi e-tron 50 (71 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 71, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: audi-etron-95, name: "Audi e-tron 55 / S (95 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 95, usable_kwh: 86, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: audi-q8-etron-95, name: "Audi Q8 e-tron 50 (95 kWh)", chemistry_id: nmc, gross_kwh: 95, usable_kwh: 89, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: audi-e-tron-gt-105, name: "Audi e-tron GT 2024 update (105 kWh)", chemistry_id: nmc, gross_kwh: 105, usable_kwh: 97, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: audi-q8-etron-114, name: "Audi Q8 e-tron 55 / SQ8 (114 kWh)", chemistry_id: nmc, cell_format: prismatic, gross_kwh: 114, usable_kwh: 106, nominal_v: not-disclosed, cooling_id: liquid}
   # --- Hyundai / Kia ---
   - {id: hk-ioniq-28, name: "Hyundai Ioniq Electric 28 kWh", supplier: LG Chem, cell_format: pouch, cell_to_pack: false, gross_kwh: 28, usable_kwh: not-disclosed, nominal_v: not-disclosed}
@@ -125,6 +126,7 @@ notes:
   audi-etron-71: "Usable about 64-65 kWh reported; left out."
   audi-etron-95: "Usable rose from about 83.6 to about 86 kWh with a 2020 software change (reported); 86 used."
   audi-q8-etron-95: "Cell format and supplier not known to us."
+  audi-e-tron-gt-105: "Cited (T-145): Audi data sheet 'Audi RS e-tron GT 500 kW' (09/06/2024): 'Gross / net battery capacity in kWh 105 / 97', 396 Li-ion cells; Audi press release 17 Sep 2024: new cell chemistry with an adjusted nickel / cobalt / manganese ratio (NMC); 'Audi has also modified the cooling system of the cells' (technology portal, 06/2024). Pack voltage not read."
   audi-q8-etron-114: "Samsung SDI prismatic cells reported; supplier left out."
   hk-ioniq-28: "Cooling type not known to us (reported air or liquid); left out."
   hk-ioniq-38: "Cell supplier not known to us."
