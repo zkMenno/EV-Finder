@@ -3,6 +3,15 @@
 # entry must be hand-checked against a primary source before it is published.
 # Years = model years on sale in Europe (end null = still on sale) unless a note says otherwise.
 # Validate: python3 -I data/seed/validate_seed.py data/seed/models.yaml
+#
+# Van prefix rule (T-136, van-based people carriers): the broad register prefixes on the van
+# entries (EXPERT, JUMPY, SCUDO, VIVARO, PROACE, KANGOO, TRANSIT CUSTOM, EVITO and similar) are
+# safe ONLY because every source they are scoped to is passenger-only: rdw / rdw-tgk filter
+# voertuigsoort = 'Personenauto' (sources/rdw BEV_WHERE), eea is the CO2 monitoring of new
+# passenger cars (M1), kba-fz10 is "Neuzulassungen von Personenkraftwagen", ademe is the FR
+# car labelling list. Before scoping one of these prefixes to any other source (dft-veh,
+# openev, kilowatt-openev, ...), check that it lists no N1 cargo vans; otherwise use the
+# passenger trade names only (e-Traveller, Zafira-e Life, Tourneo Custom, ...).
 schema: seed-models/v1
 makes:
   - id: tesla
@@ -252,7 +261,7 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'FLUENCE') by year: 2011 490, 2012 1325, 2013 325, 2014 91, 2015 4, 2016 2."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: renault-kangoo-e-tech
         name: "Kangoo E-Tech Electric"
         segment: J-medium
@@ -332,7 +341,7 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'MICRA') by year: 2010 1, 2025 729."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: nissan-e-nv200
         name: "e-NV200 / Evalia"
         segment: J-medium
@@ -350,7 +359,7 @@ makes:
             uncertain: true
             notes: "One generation (one EEA type code, ME0M, across the years). Years from EEA registrations, not checked against a maker document; start/end by the rule above jeep. Ends 2022 (last year with >= 1 %). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, M1 only, 2025 provisional) 2015 893, 2016 865, 2017 906, 2018 781, 2019 2453, 2020 1721, 2021 806, 2022 127, 2023 5. Earlier rows below the start rule (pre-series, conversions or stray names): 2014 376. The 24 -> 40 kWh battery change (about 2018) is not checked: a change marker once cited."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: nissan-townstar-ev
         name: "Townstar EV"
         segment: J-medium
@@ -791,7 +800,7 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'EV5') by year: 2025 1381."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: kia-pv5-passenger
         name: "PV5 Passenger"
         segment: J-medium
@@ -1122,7 +1131,7 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern '^(E-)?408') by year: 2024 45, 2025 668."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: peugeot-e-traveller
         name: "e-Traveller"
         segment: J-large
@@ -1139,7 +1148,7 @@ makes:
             uncertain: true
             notes: "One generation (one EEA type code, V, across the years). Years from EEA registrations, not checked against a maker document; start/end by the rule above jeep. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, M1 only, 2025 provisional) 2021 1121, 2022 738, 2023 1327, 2024 919, 2025 1133. Earlier rows below the start rule (pre-series, conversions or stray names): 2010 10, 2019 1, 2020 113."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: peugeot-partner-tepee-electric
         name: "Partner Tepee Electric"
         segment: J-medium
@@ -1266,7 +1275,7 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'GRANDLAND') by year: 2021 7, 2023 10, 2024 330, 2025 6191."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: opel-combo-e-life
         name: "Combo-e Life"
         segment: J-medium
@@ -1284,7 +1293,7 @@ makes:
             uncertain: true
             notes: "One generation (one EEA type code, E, across the years). Years from EEA registrations, not checked against a maker document; start/end by the rule above jeep. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, M1 only, 2025 provisional) 2022 1373, 2023 1911, 2024 908, 2025 951. Earlier rows below the start rule (pre-series, conversions or stray names): 2021 188."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: opel-zafira-e-life
         name: "Zafira-e Life"
         segment: J-large
@@ -1294,7 +1303,7 @@ makes:
         notes: "Body: passenger (M1) Vivaro-e / Zafira-e Life; mpv. Registers name the Vivaro-e Combi and the Zafira-e Life alike ('VIVARO ZAFIRA LIFE'), so both land here (same van, passenger body). Segment J-large like the EQV; judgement call."
         # Register names (BEV-only sources): exact names, or {match: prefix} for leading words.
         aliases_by_source:
-          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "ZAFIRA", match: prefix}, {name: "VIVARO", match: prefix}]
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["ZAFIRA", {name: "ZAFIRA LIFE", match: prefix}, {name: "ZAFIRA-E", match: prefix}, {name: "ZAFIRA E", match: prefix}, {name: "ZAFIRA ELECTRIC", match: prefix}, {name: "VIVARO", match: prefix}]  # no bare ZAFIRA prefix: RDW has a 2012 "ZAFIRA TOURER" conversion; whole-name "ZAFIRA" stays (EEA DE 2023-2025, 30 M1 BEVs: no other electric Zafira then)
         generations:
           - id: opel-zafira-e-life-gen1
             name: "Zafira-e Life"
@@ -1309,7 +1318,7 @@ makes:
         name: 500e
         segment: A
         body: hatchback
-        name_aliases: [500 Electric, New 500, 500 elettrica, Nuova 500, 500 La Prima, Abarth 500e]
+        name_aliases: [500 Electric, New 500, 500 elettrica, Nuova 500, 500 La Prima]  # "Abarth 500e" is its own model (abarth-500e)
         # bev_only_aliases: bare trade names; matched only for BEV-filtered sources (matcher.BEV_FILTERED_SOURCES: rdw, eea, kba-fz10, dft-veh, ademe), whole name only.
         bev_only_aliases: ["500"]
         # Q-021 scoped aliases (used when EV_SCOPED_ALIASES is on): per source, a bare name
@@ -1371,7 +1380,7 @@ makes:
             uncertain: true
             notes: "One generation. 2024 (104 cars) is pre-launch. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2024 104, 2025 7428; RDW m9d7-ebf2 (NL BEV first admissions) 2025 471, 2026 353."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: fiat-e-doblo
         name: "e-Doblò"
         segment: J-medium
@@ -1389,7 +1398,7 @@ makes:
             uncertain: true
             notes: "One generation (one EEA type code, E, across the years). Years from EEA registrations, not checked against a maker document; start/end by the rule above jeep. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, M1 only, 2025 provisional) 2022 155, 2023 452, 2024 83, 2025 81. Earlier rows below the start rule (pre-series, conversions or stray names): 2010 12."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: fiat-e-ulysse
         name: "e-Ulysse"
         segment: J-large
@@ -1959,7 +1968,7 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern '^B 250 E|^B 250 ELECTRIC|^ELECTRIC DRIVE') by year: 2014 79, 2015 958, 2016 1228, 2017 993, 2018 133, 2019 3."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: mercedes-evito-tourer
         name: "eVito Tourer"
         segment: J-large
@@ -1976,7 +1985,7 @@ makes:
             uncertain: true
             notes: "One generation (one EEA type code, 639/2, across the years). Years from EEA registrations, not checked against a maker document; start/end by the rule above jeep. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, M1 only, 2025 provisional) 2020 619, 2021 822, 2022 961, 2023 1549, 2024 758, 2025 1000. Earlier rows below the start rule (pre-series, conversions or stray names): 2019 270."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: mercedes-eqt
         name: "EQT"
         segment: J-medium
@@ -2356,6 +2365,7 @@ makes:
         segment: D
         body: sedan
         name_aliases: ["BYD Seal"]
+        name_excludes: ["DM", "DM-i", "DMI"]  # DM / DM-i Seals (e.g. RDW 'BYD SEAL U DM') are plug-in hybrids
         notes: "Body: OpenEV `sedan` (Seal, 4800 mm). Segment by length (RDW `lengte`, BEV names, or OpenEV length_mm), T-068 bands; judgement call."
         # Register names (BEV-only sources): exact names, or {match: prefix} for leading words.
         aliases_by_source:
@@ -2631,7 +2641,7 @@ makes:
             uncertain: true
             notes: "One generation. RDW m9d7-ebf2 queried 2026-11-15, by year of first admission: 'CAPRI' 2024 134, 2025 990, 2026 409 (44 without a date yet). 2024 is 8.7% of the 1533 cars since 2024, so the start is 2024. OpenEV has model years 2024-2025."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: ford-e-tourneo-custom
         name: "E-Tourneo Custom"
         segment: J-large
@@ -2649,7 +2659,7 @@ makes:
             uncertain: true
             notes: "One generation (one EEA type code, NXN, across the years). Years from EEA registrations, not checked against a maker document; start/end by the rule above jeep. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, M1 only, 2025 provisional) 2024 136, 2025 1719."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: ford-e-tourneo-courier
         name: "E-Tourneo Courier"
         segment: J-small
@@ -2803,7 +2813,7 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'MEHARI') by year: 2016 516, 2017 313, 2018 322, 2019 165, 2020 6."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: citroen-e-spacetourer
         name: "ë-SpaceTourer"
         segment: J-large
@@ -2879,7 +2889,7 @@ makes:
             change_markers:
               - {year: 2026, text: "bZ4X Touring appears in RDW (579 NL cars first admitted 2026)"}
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: toyota-proace-verso
         name: "Proace Verso Electric"
         segment: J-large
@@ -2896,7 +2906,7 @@ makes:
             uncertain: true
             notes: "One generation (one EEA type code, V, across the years). Years from EEA registrations, not checked against a maker document; start/end by the rule above jeep. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, M1 only, 2025 provisional) 2021 712, 2022 957, 2023 711, 2024 1309, 2025 971."
 
-      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out).
+      # T-136 (Menno 2026-11-18, van-based people carriers in scope; M1 passenger versions only, cargo vans out). Van prefix rule: top of file.
       - id: toyota-proace-city-verso
         name: "Proace City Verso Electric"
         segment: J-medium
@@ -3449,6 +3459,8 @@ makes:
         notes: "Combustion Abarths are badged 595/695, so bare '500' under make Abarth is the 500e in BEV-only sources."
         aliases_by_source:
           rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["500"]  # bare names: BEV-only sources
+          eea:  # "Abarth 500e" left fiat-500e's aliases (#129 review nit); EEA files a few under make FIAT
+            - {name: "FIAT ABARTH 500E", note: "EEA files some Abarth 500e under make FIAT"}
         generations:
           - id: abarth-500e-gen1
             name: "500e"

@@ -47,3 +47,4 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | WS2 (7th, 2026-11-18) | batch: T-132 hero redesign, part 1 questions (PR #145), then part 2 results | https://claude.ai/code/session_01JuyZEXjrE | 2026-11-18 |
 | batch: merge 4 | Fresh review + merge #141→#139, #129→#144→#146 (close #140/#142/#143), #132, #136, #145 | https://claude.ai/code/session_01JuyZEY24JJEfAQBWgh5L9e | 2026-11-18 |
 | batch: T-143 | WLTP next to real range (Decision 085), apps/web | https://claude.ai/code/session_01JuyZEWUcQc9VrZx4Ru21x6 | 2026-11-18 |
+| batch: catalogue (2026-11-18) | WS3 catalogue batch: T-136 seed guards, cited facts (Tesla M3 WLTP, e-tron GT facelift), #128 credit lines, coverage script (T-144, T-145) | https://claude.ai/code/session_01JuyZEWZuyZEW | 2026-11-18 |
