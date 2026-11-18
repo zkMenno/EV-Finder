@@ -395,7 +395,7 @@ def test_real_seed_guards() -> None:
         ("PEUGEOT", "2008", "peugeot-e-2008"),
         ("OPEL", "CORSA", "opel-corsa-e"),
         ("KIA", "NIRO", "kia-niro-ev"),
-        ("HONDA", "E:NY1", None),  # Honda e:Ny1 is not the Honda e
+        ("HONDA", "E:NY1", "honda-e-ny1"),  # Honda e:Ny1 is not the Honda e (own model since T-136)
         ("HONDA", "HONDA E", "honda-e"),
     ]
     for make, model, expected in cases:
