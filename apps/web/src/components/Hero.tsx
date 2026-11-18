@@ -538,7 +538,7 @@ export function Hero(props: HeroProps) {
   const asking = step !== "results";
 
   return (
-    <div className="evs-tex evs-tex--map evs-tex--no-sun rounded-lg border border-slate-300 bg-[var(--paper-sea)] p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero" data-step={step}>
+    <div className="evs-hero evs-tex evs-tex--map evs-tex--no-sun rounded-lg border border-slate-300 bg-[var(--paper-sea)] p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero" data-step={step}>
       {/* One scene, placed by the grid: phone = under the title on the first question only; desktop =
           beside the questions (T-132 frames t132-m1 and t132-d1). Results take the whole width. */}
       <div className={`grid items-start gap-x-6 ${asking ? "md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]" : ""}`}>

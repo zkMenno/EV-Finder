@@ -391,12 +391,16 @@ test("hero results (desktop): answers sidebar with change buttons, aligned short
   const xs = await rows.getByTestId("hero-winter").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().right)));
   expect(new Set(xs).size, `winter column right edges ${xs}`).toBe(1);
   // "Show all cars" opens the catalogue with these answers and the suggested sort.
+  // One "Show all cars" box on the results: the hero's (with the answers), not the landing's plain one.
+  await expect(page.getByTestId("show-all-cars")).toBeHidden();
   const all = page.getByTestId("hero-all-cars-link");
   await expect(all).toHaveAttribute("href", /\/nl\/en\/cars\?.*role=main.*sort=-suggested/);
   // A change button goes straight to that question.
   await page.getByTestId("hero-answer-trips").click();
   await expect(page).toHaveURL(/q=trips/);
   await expect(page.getByTestId("hero-q-trips")).toBeVisible();
+  // Back on a question, the landing's box shows again.
+  await expect(page.getByTestId("show-all-cars")).toBeVisible();
 });
 
 test("hero results (phone): compact rows with price, winter range and why; no sidebar list", async ({ page }) => {
