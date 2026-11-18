@@ -10,5 +10,9 @@ ids:
   hyundai-ioniq-5-gen1-base: hyundai-ioniq-5-gen1-77kwh-rwd
   # The Ioniq 5 N launched in 2024 on the 84 kWh pack: it now sits on the facelift generation.
   hyundai-ioniq-5-gen1-n: hyundai-ioniq-5-facelift-n
+  # T-148: OpenEV's ID.7 "PRO" and "Tour" rows carried the Pro S figures (86 kWh, 700 km); their
+  # records now join the seed Pro S row (source_names), so the two OpenEV-made ids leave.
+  volkswagen-id7-gen1-pro: volkswagen-id7-gen1-pro-s
+  volkswagen-id7-gen1-tour: volkswagen-id7-gen1-pro-s
   # T-148: OpenEV's Elroq "Base" row (77 kWh, 581 km) is the Elroq 85; its records join the seed row.
   skoda-elroq-gen1-base: skoda-elroq-gen1-85

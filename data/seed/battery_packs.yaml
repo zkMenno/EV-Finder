@@ -39,6 +39,7 @@ packs:
   - {id: meb-58, name: "MEB 58 kWh (Pro)", chemistry_id: nmc, cell_to_pack: false, gross_kwh: 62, usable_kwh: 58, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: meb-77, name: "MEB 77 kWh", chemistry_id: nmc, cell_to_pack: false, gross_kwh: 82, usable_kwh: 77, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: meb-79, name: "MEB 79 kWh (2024+)", chemistry_id: nmc, gross_kwh: 86, usable_kwh: 79, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: meb-86, name: "MEB 86 kWh (VW ID.7 Pro S / GTX, 2024+)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 91, usable_kwh: 86, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: meb-59, name: "MEB 63 kWh gross / 59 net (2024+)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 63, usable_kwh: 59, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: meb-79-84, name: "MEB 84 kWh gross / 79 net (Škoda Elroq RS)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 84, usable_kwh: 79, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: audi-etron-71, name: "Audi e-tron 50 (71 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 71, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
