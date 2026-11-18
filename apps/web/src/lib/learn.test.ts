@@ -56,8 +56,8 @@ describe("learn articles in the app", () => {
       expect(ids.has(a.slug)).toBe(false);
     }
     const urls = sitemapUrls(getCatalogue(), "https://x.example");
-    expect(urls).toContain(`https://x.example/nl/nl/learn/${articles()[0]!.slug}`);
-    expect(urls).toContain("https://x.example/be/fr/learn");
+    expect(urls).toContain(`https://x.example/nl/en/learn/${articles()[0]!.slug}`);
+    expect(urls).toContain("https://x.example/be/en/learn");
     expect(article("winter-range")?.files.nl?.review).toBe("needed");
   });
 });

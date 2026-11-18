@@ -12,6 +12,7 @@ dependencies = [
   "httpx",
   "jsonschema",
   "openpyxl",  # KBA FZ10 ships as .xlsx only (kba-fz10 adapter)
+  "pillow",  # T-134: resize car photos to WebP once per release (Decision 081)
 ]
 
 [project.optional-dependencies]
