@@ -39,3 +39,5 @@
 - Menno by hand: nothing this session.
 - Check that missed: my first photo filter read "e-2008" as a year and "Toyota" as "toy"; only the contact-sheet look caught wrong picks (rear views, interiors, wrong generation). Proposal: any generated image list gets a contact-sheet look before PR (WS3 lane rule).
 - Rule that would help: T-134 should reject a photo whose file_url 404s and report it back to WS3's INBOX.
+- 2026-11-18 10:15 UTC · 2nd chat: T-136 task 2 collided with the 4th chat (both approved); 4th chat owns it; my wider version (182 models, 97.7 % EEA match) on branch t-136-extra-models-2nd-chat.
+- 2026-11-18 11:20 UTC · 2nd chat: #106 should-fix → PR #128; #113 should-fix (Decision 083 CC0/PD, picks pinned by title, ruff) → PR #132.
