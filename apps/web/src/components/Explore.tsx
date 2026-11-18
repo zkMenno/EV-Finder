@@ -1504,7 +1504,9 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
               data-testid="explore-row"
               data-trip={fit?.verdict}
             >
-              <th scope="row" className="sticky left-0 z-10 bg-white px-3 py-2 text-left font-medium">
+              {/* The sticky cell is a stacking context: while its Nerd "Sources" popover is open, lift it
+                  above the sticky column headers (z-20/30), or an upward popover sits under them. */}
+              <th scope="row" className="sticky left-0 z-10 bg-white px-3 py-2 text-left font-medium has-[[role=tooltip]:not([hidden])]:z-40">
                 <div className="flex items-center gap-2">
                   <RowActions row={r} t={t} />
                   <span className="flex flex-col">
