@@ -65,7 +65,7 @@ links:
   - {variant_id: volkswagen-id4-gen1-pure, platform_id: vw-meb, battery_pack_id: meb-52, voltage: *v400, charger_400v: *native}
   - {variant_id: volkswagen-id4-gen1-pro, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
   - {variant_id: volkswagen-id4-gen1-gtx, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
-  # --- T-146: ID.7 by battery (platform cited on the generation default below) ---
+  # --- T-148: ID.7 by battery (platform cited on the generation default below) ---
   - {variant_id: volkswagen-id7-gen1-pro-77kwh, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native, notes: "VW: 77 kWh net, 82 gross (ID.7 drive page, 2023)."}
   - {variant_id: volkswagen-id7-gen1-pro-s, platform_id: vw-meb, battery_pack_id: meb-86, voltage: *v400, charger_400v: *native, notes: "VW: 86 kWh net, 91 gross (ID.7 Pro S drive page, 2024)."}
   - {variant_id: volkswagen-id7-gen1-gtx, platform_id: vw-meb, battery_pack_id: meb-86, voltage: *v400, charger_400v: *native, notes: "Same 86 kWh battery as the Pro S (VW Newsroom, June 2024)."}

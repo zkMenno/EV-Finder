@@ -96,8 +96,8 @@ facts:
     locator: "PDF page 175, ID.7 motorizzazioni table (Anno Modello 2025, validità 03.02.2025)"
     confidence: low
     claim: true
-    notes: "Our 'PRO' row has 86 kWh, which the list sells as the Pro S (the 77 kWh Pro is 60.800,00). Matched on battery and power. T-146: moved from OpenEV's 'PRO' row (volkswagen-id7-gen1-pro, now retired) to the seed Pro S row."
-  # T-146: parked. OpenEV's "Tour" row (volkswagen-id7-gen1-tour) is retired: its records join the seed
+    notes: "Our 'PRO' row has 86 kWh, which the list sells as the Pro S (the 77 kWh Pro is 60.800,00). Matched on battery and power. T-148: moved from OpenEV's 'PRO' row (volkswagen-id7-gen1-pro, now retired) to the seed Pro S row."
+  # T-148: parked. OpenEV's "Tour" row (volkswagen-id7-gen1-tour) is retired: its records join the seed
   # Pro S row, which covers saloon and Tourer and carries the saloon list price above (the lower one).
   # - variant_id: volkswagen-id7-gen1-tour
   #   field: price_new

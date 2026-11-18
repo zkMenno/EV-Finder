@@ -661,7 +661,7 @@ variants:
       seats: 5
     notes: "Dual motor. WLTP roughly 480 km."
     confidence: low
-  # --- T-146 (variant queue batch, 2026-11-18): ID.7 by battery. OpenEV's only ID.7 rows ("PRO", "Tour",
+  # --- T-148 (variant queue batch, 2026-11-18): ID.7 by battery. OpenEV's only ID.7 rows ("PRO", "Tour",
   # MY2024-25) carry 86 kWh net / 91 gross / 210 kW / 700 km: the Pro S figures, so the 77 kWh Pro versions
   # in RDW TGK fit no row ("no-fit", ~46k EU cars) and the Pro S ones sat on a row named Pro. ---
   - generation_id: volkswagen-id7-gen1
