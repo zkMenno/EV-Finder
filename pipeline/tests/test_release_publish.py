@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 from datetime import UTC, datetime
@@ -480,54 +481,127 @@ def test_gitignore_keeps_exactly_the_in_git_files(tmp_path: Path) -> None:
 # --- the workflow's shell publisher (pipeline/scripts/gh-publish-release.sh) -------------
 
 FAKE_GH = """#!/usr/bin/env bash
-s="$FAKE_GH_STORE"; verb=$2; tag=$3
+# Fake gh for the publisher: one folder per tag; `.draft` marks an unpublished release.
+s="$FAKE_GH_STORE"; verb=$2; tag=$3; shift 3
 case $verb in
  view) [ -d "$s/$tag" ] || exit 1
-       for f in "$s/$tag"/*; do
-         printf '%s\\t%s\\n' "$(basename "$f")" "$(wc -c < "$f" | tr -d ' ')"
-       done;;
- delete) rm -rf "$s/$tag";;
- create) mkdir -p "$s/$tag"
-         for a in "$@"; do
-           if [ -f "$a" ]; then case "$a" in */.notes.md) ;; *) cp "$a" "$s/$tag/";; esac; fi
-         done;;
+       case "$*" in
+         *isDraft*) if [ -f "$s/$tag.draft" ]; then echo true; else echo false; fi;;
+         *) for f in "$s/$tag"/*; do
+              [ -e "$f" ] || continue
+              printf '%s\\t%s\\n' "$(basename "$f")" "$(wc -c < "$f" | tr -d ' ')"
+            done;;
+       esac;;
+ delete) rm -rf "$s/$tag" "$s/$tag.draft";;
+ create) mkdir -p "$s/$tag"; case "$*" in *--draft*) touch "$s/$tag.draft";; esac
+         for a in "$@"; do [ -f "$a" ] && [ "${a##*/}" != .notes.md ] && cp "$a" "$s/$tag/"; done
+         true;;
+ upload) n=$(cat "$s/.fails" 2>/dev/null || echo 0)
+         if [ "$n" -gt 0 ]; then
+           echo $((n - 1)) > "$s/.fails"; echo "HTTP 403: secondary rate limit" >&2; exit 1
+         fi
+         echo x >> "$s/.uploads"
+         for a in "$@"; do [ -f "$a" ] && cp "$a" "$s/$tag/"; done; true;;
+ delete-asset) rm -f "$s/$tag/$1";;
+ edit) case "$*" in *--draft=false*) rm -f "$s/$tag.draft";; esac;;
 esac
 """
 
 
-@pytest.mark.skipif(shutil.which("jq") is None, reason="jq not installed")
-def test_shell_publisher_publishes_unchanged_and_refuses(built: Path, tmp_path: Path) -> None:
-    script = Path(__file__).resolve().parents[1] / "scripts" / "gh-publish-release.sh"
+def _publisher(tmp_path: Path) -> tuple[Path, dict[str, str]]:
     bindir = tmp_path / "bin"
     bindir.mkdir()
     (bindir / "gh").write_text(FAKE_GH)
     (bindir / "gh").chmod(0o755)
     store = tmp_path / "store"
+    store.mkdir()
     env = {
-        **__import__("os").environ,
-        "PATH": f"{bindir}:{__import__('os').environ['PATH']}",
+        **os.environ,
+        "PATH": f"{bindir}:{os.environ['PATH']}",
         "GITHUB_REPOSITORY": "o/r",
         "FAKE_GH_STORE": str(store),
+        "UPLOAD_BATCH": "3",
+        "UPLOAD_PAUSE_S": "0",
+        "UPLOAD_BACKOFF_S": "0",
     }
+    return store, env
+
+
+def _run_publisher(
+    built: Path, env: dict[str, str], *extra: str
+) -> subprocess.CompletedProcess[str]:
+    script = Path(__file__).resolve().parents[1] / "scripts" / "gh-publish-release.sh"
+    return subprocess.run(
+        ["bash", str(script), str(built), *extra], env=env, capture_output=True, text=True
+    )
+
+
+@pytest.mark.skipif(shutil.which("jq") is None, reason="jq not installed")
+def test_shell_publisher_publishes_unchanged_and_refuses(built: Path, tmp_path: Path) -> None:
+    store, env = _publisher(tmp_path)
 
     def run(*extra: str) -> subprocess.CompletedProcess[str]:
-        return subprocess.run(
-            ["bash", str(script), str(built), *extra], env=env, capture_output=True, text=True
-        )
+        return _run_publisher(built, env, *extra)
 
     first = run()
     assert first.returncode == 0 and "published" in first.stdout, first.stderr + first.stdout
     m = read_manifest(built)
     assert m is not None
     assert {p.name for p in (store / "data-v1").iterdir()} == {e["asset"] for e in m["files"]}
+    assert not (store / "data-v1.draft").exists()  # published only once complete
     assert "unchanged" in run().stdout
     (store / "data-v1" / "qa.md").write_text("changed")
     refused = run()
     assert refused.returncode == 1 and "never changes" in refused.stdout
-    shutil.rmtree(store)
+    shutil.rmtree(store / "data-v1")
     (built / "catalogue.json").write_bytes(b"{}")
     bad = run()
     assert bad.returncode == 1 and "differs from manifest" in bad.stdout
+
+
+@pytest.mark.skipif(shutil.which("jq") is None, reason="jq not installed")
+def test_shell_publisher_resumes_a_stopped_draft(built: Path, tmp_path: Path) -> None:
+    """Release 3 (2026-11-18): ~650 assets uploaded at once hit GitHub's secondary rate limit
+    and left a draft with 504. A re-run must resume that draft (fix wrong assets, upload the
+    rest in paced batches, retry on 403) and publish it only once it matches the manifest."""
+    store, env = _publisher(tmp_path)
+    m = read_manifest(built)
+    assert m is not None
+    assets = sorted(e["asset"] for e in m["files"])
+    assert len(assets) >= 4
+    draft = store / "data-v1"
+    draft.mkdir()
+    (store / "data-v1.draft").touch()
+    src = {e["asset"]: built / e["path"] for e in m["files"]}
+    shutil.copy(src[assets[0]], draft / assets[0])  # already up, correct
+    (draft / assets[1]).write_bytes(b"truncated")  # wrong size: replaced
+    (draft / "stale.json").write_text("{}")  # not in the manifest: removed
+    (store / ".fails").write_text("2")  # the first two uploads hit the rate limit
+
+    out = _run_publisher(built, env)  # no --replace-unmerged: a draft was never published
+    assert out.returncode == 0 and "published" in out.stdout, out.stderr + out.stdout
+    assert sorted(p.name for p in draft.iterdir()) == assets
+    for a in assets:
+        assert (draft / a).read_bytes() == src[a].read_bytes()
+    assert not (store / "data-v1.draft").exists()
+    assert f"uploading {len(assets) - 1} of {len(assets)}" in out.stdout
+    batches = -(-(len(assets) - 1) // 3)
+    assert len((store / ".uploads").read_text().split()) == batches  # paced, 3 per batch
+
+
+@pytest.mark.skipif(shutil.which("jq") is None, reason="jq not installed")
+def test_shell_publisher_gives_up_after_retries_and_keeps_the_draft(
+    built: Path, tmp_path: Path
+) -> None:
+    store, env = _publisher(tmp_path)
+    (store / ".fails").write_text("99")
+    out = _run_publisher(built, {**env, "UPLOAD_RETRIES": "3"})
+    assert out.returncode == 1 and "re-run the job to resume" in out.stdout
+    assert (store / "data-v1.draft").exists()  # never published half-done
+    (store / ".fails").write_text("0")
+    again = _run_publisher(built, env)
+    assert again.returncode == 0 and "published" in again.stdout
+    assert not (store / "data-v1.draft").exists()
 
 
 def test_fetch_only_selected_files(built: Path, data_dir: Path, tmp_path: Path) -> None:
