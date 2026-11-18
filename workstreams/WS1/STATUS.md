@@ -1,13 +1,19 @@
 # WS1 status
 
 - **State:** active (7th session, https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X)
-- **Now:** T-073 variant split from RDW TGK + EEA into the review queue (R-41 task 1)
+- **Now:** T-073 in review (PR #127)
 - **Next:** R-41 task 5 long tail (stretch, Decision 048); older HANDOFF items
-- **In review:** [#105](https://github.com/zkMenno/EV-Shortlist/pull/105) image build fix · [#108](https://github.com/zkMenno/EV-Shortlist/pull/108) T-136 · [#109](https://github.com/zkMenno/EV-Shortlist/pull/109) Pillow · [#110](https://github.com/zkMenno/EV-Shortlist/pull/110) T-134
+- **In review:** none (#105, #108, #109, #110 merged)
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-18 10:50 UTC · 8th: PR #136 (manual `years:`). Handoff written.
+- 2026-11-18 10:25 UTC · 8th: PRs #131 (retired-id manual facts), #133 (image sha check), #134 (photo-only nights), #135 ('+' → 'plus'), all green. Same-data rebuild proof for #135 (16 sources fetched).
+- 2026-11-18 10:00 UTC · Menno: coverage 95 %+. Model-level coverage added to #127: main 86.7 %, WS3 t-136 branch 95.7 %. Gap list to WS3.
+- 2026-11-18 09:50 UTC · 8th session opened (https://claude.ai/code/session_01JuyZEUgHKypBRfx6deGhfu) next to the 7th (T-073, #127, left alone). Taking HANDOFF item 5 + WS3 asks: '+' → 'plus' name key first.
+- 2026-11-18 09:40 UTC · #110 merged after real-data run (120/120 photos valid, schema-valid attach, night refresh fetches photos). All 6th-session PRs merged.
+- 2026-11-18 10:05 UTC · PR #127 T-073: 390 groups, 96 candidate variants (271 → 367), 84.3 % of 9.11 M EU BEVs on TGK versions of seed generations.
 - 2026-11-18 09:15 UTC · 7th session opened. Decision 048 (Menno's catalogue target), Decision 049 (Q-039 default). Claimed T-073.
 - 2026-11-17 23:10 UTC · #108 T-136 R-41 report (measured EEA/RDW), #109 Pillow (gate), #110 T-134 pipeline side. Handoff written.
 - 2026-11-17 21:30 UTC · 6th session opened (https://claude.ai/code/session_01JuyZEVR92pcMFzUGsz5wzo). PR #105: images.yml fetches release catalogue by manifest (WS2 URGENT 21:19). Claimed T-136.
@@ -57,3 +63,9 @@
 - Rule that would have prevented it: a task shared by two lanes names one lead lane in its task file.
 - Own miss: edited data/sources.yaml without regenerating apps/web's sources.generated.json; CI `web` caught it. Proposed check: pipeline `pre-push` (or WS1 verify skill) runs `node apps/web/scripts/sources.mjs` + `git diff --exit-code` when data/sources.yaml changed.
 - What a check missed: release 2 shipped with latest=2 but the image build still read catalogue.json from git; no CI job built the web image on the data-publish PR. Check: the data-publish PR (or the release PR) runs `build web (linux/arm64)` before `latest` moves.
+
+## Retro 2026-11-18 (8th WS1 run)
+- Slowed down: a 7th WS1 chat was already live on T-073 with the same handoff; had to pick work around it. Proving a matching change needs fresh staging (~20 min fetch).
+- Menno did by hand: nothing beyond opening the chat.
+- Rule that would have prevented it: a handoff names one successor; a second chat opened on the same handoff reads CHATS.md + open branches and takes only unclaimed items (worked here).
+- What a check missed: CI can't show a matching change's effect on real data (fixtures only). Check: same-data rebuild diff in the PR body for any `match/` change (proposed to WS0).
