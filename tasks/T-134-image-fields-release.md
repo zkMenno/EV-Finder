@@ -7,7 +7,7 @@ The release carries each generation's image with licence and credit, stored by u
 
 ## Acceptance criteria
 - [x] Download each image from T-133 once, resize (e.g. 400/800/1600 px WebP), store in object storage next to the release; never hotlink
-- [ ] Release field per generation: image paths, source URL, licence, credit, retrieval date (schema change requested from WS0)
+- [x] Release field per generation: image paths, source URL, licence, credit, retrieval date (schema change requested from WS0)
 - [x] Images are excluded from the CC BY open data dump; licence check in the release QA
 - [ ] Verify skill for the lane; evidence pack in the PR; `Verified:` on every commit
 - [ ] Fresh review (REVIEW.md from origin/main) passes
@@ -29,3 +29,5 @@ Anything not on docs/spec/launch-scope.md.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
+- 2026-11-18 WS1: after #109/#113/#119. Real photos.yaml: 120 valid (country ports CC-BY-SA-3.0-DE accepted). Attach on release 2 catalogue validates against the real Generation.image schema; release QA passes. Wikimedia throttles this sandbox's IP (429, retry-after 600): fetch stops at the first 429, UA names the repo. Night refresh now fetches photos before build_release. First real download = first night run after merge.
+- Follow-up (not in this PR): a night with only new photos and no data change is skipped ("catalogue identical"), so photos ship with the next data change.
