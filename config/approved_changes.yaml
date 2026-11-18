@@ -289,4 +289,5 @@ approved:
     field: consumption_kwh_100km
     change: changed
   - {<<: *t145, id: tesla-model-3-gen1-performance, field: consumption_motorway_kwh_100km, change: changed}
-  - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside*band", change: changed}
+  - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.band", change: changed}
+  - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.urban.band", change: changed}
