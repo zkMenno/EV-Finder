@@ -1,4 +1,9 @@
-"""candidates.json + choices.json -> data/images/photos.yaml (T-134 contract, WS1 INBOX 11-17)."""
+"""choices.json + candidates -> data/images/photos.yaml (T-134 contract, WS1 INBOX 11-17).
+
+Offline: picked.json (committed) holds the chosen candidate per generation, so photos.yaml rebuilds
+without the network. With candidates.json present (after pick.py) it is used and picked.json
+refreshed.
+"""
 
 import html
 import json
@@ -11,10 +16,14 @@ import yaml
 HERE = Path(__file__).parent
 ROOT = HERE.parents[2]
 
-C = json.loads(Path(str(HERE / "candidates.json")).read_text())
-CH = json.loads(
-    Path(str(HERE / "choices.json")).read_text()
-)  # {generation_id: index | "none"}; default 0
+import sys  # noqa: E402
+
+sys.path.insert(0, str(HERE))
+from check_templates import allowed  # noqa: E402
+
+CAND = HERE / "candidates.json"
+PICKED = HERE / "picked.json"
+CH = json.loads((HERE / "choices.json").read_text())  # {generation_id: file title | "none"}
 OUT = str(ROOT / "data/images/photos.yaml")
 RETRIEVED = "2026-11-17"
 
@@ -46,25 +55,39 @@ def file_url(thumb):
     return f"https://upload.wikimedia.org/wikipedia/commons/{m.group(1)}/{m.group(2)}/{m.group(3)}"
 
 
-photos, missing = [], []
-for gid, entry in C.items():
-    pick = CH.get(gid)  # chosen file title (checked by eye); falls back to the top candidate
-    cands = entry["candidates"]
-    if pick == "none" or not cands:
-        missing.append(gid)
-        continue
-    by_title = {c["title"]: c for c in cands}
-    c = by_title.get(pick) or (cands[0] if pick is None else None)
-    if c is None:
-        raise SystemExit(f"{gid}: chosen file {pick!r} is no longer a candidate")
+if CAND.exists():
+    C = json.loads(CAND.read_text())
+    picked = {}
+    for gid, entry in C.items():
+        pick = CH.get(gid)
+        if pick is None:
+            raise SystemExit(f"{gid}: no pin in choices.json (a file title or 'none')")
+        if pick == "none":
+            continue
+        by_title = {c["title"]: c for c in entry["candidates"]}
+        if pick not in by_title:
+            raise SystemExit(f"{gid}: chosen file {pick!r} is no longer a candidate")
+        picked[gid] = by_title[pick]
+    PICKED.write_text(json.dumps(picked, indent=1, ensure_ascii=False) + "\n")  # seed order
+else:
+    picked = json.loads(PICKED.read_text())
+
+photos, missing = [], sorted(g for g, v in CH.items() if v == "none")
+for gid, c in picked.items():
     author = author_text(c["artist"])
     if not author or author.lower() in {"unknown author", "unknown"}:
         missing.append(gid)
         continue
     lic = spdx(c["lic"])
     tpl = TEMPLATES.get(c["title"])
-    if lic in ("CC0-1.0", "public-domain") and tpl is None:
-        raise SystemExit(f"{gid}: {lic} photo without a checked licence template (Decision 083)")
+    if lic in ("CC0-1.0", "public-domain"):
+        # Decision 083: template read from the file page, worldwide only, no warning templates
+        if tpl is None or not tpl.get("page_template") or not allowed(tpl["page_template"]):
+            raise SystemExit(
+                f"{gid}: {lic} photo needs an allowed file-page template (Decision 083)"
+            )
+        if tpl.get("warning_templates"):
+            raise SystemExit(f"{gid}: file page carries {tpl['warning_templates']}")
     photos.append(
         {
             "generation_id": gid,
@@ -82,7 +105,11 @@ for gid, entry in C.items():
             "width": int(c["w"]),
             "height": int(c["h"]),
             **(
-                {"licence_template": tpl["template"], "licence_checked_at": tpl["checked_at"]}
+                {
+                    "licence_template": tpl["page_template"],
+                    "licence_checked_at": tpl["checked_at"],
+                    "licence_checked_on": "file page",
+                }
                 if tpl
                 else {}
             ),
@@ -93,8 +120,9 @@ doc = {
     "schema": "images-photos/v1",
     "notes": [
         "One photo per generation (Decisions 081, 083). Source order: maker press (only makers "
-        "'allowed' in "
-        "press-terms.yaml; none today), then Wikimedia Commons CC BY / CC BY-SA.",
+        "'allowed' in press-terms.yaml; none today), then Wikimedia Commons CC BY / CC BY-SA, "
+        "or CC0 / worldwide public domain with the template read from the file page "
+        "(licence_template).",
         "Chosen by data/images/tools (search + rules), then checked by eye on contact sheets. "
         "Never hotlink: WS1 downloads file_url once into our storage (T-134).",
         "Photos keep their own licence and stay out of the CC BY open-data download (data rule 3).",

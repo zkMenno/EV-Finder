@@ -1,7 +1,8 @@
 schema: images-photos/v1
 notes:
 - 'One photo per generation (Decisions 081, 083). Source order: maker press (only makers ''allowed'' in press-terms.yaml;
-  none today), then Wikimedia Commons CC BY / CC BY-SA.'
+  none today), then Wikimedia Commons CC BY / CC BY-SA, or CC0 / worldwide public domain with the template read from the file
+  page (licence_template).'
 - 'Chosen by data/images/tools (search + rules), then checked by eye on contact sheets. Never hotlink: WS1 downloads file_url
   once into our storage (T-134).'
 - Photos keep their own licence and stay out of the CC BY open-data download (data rule 3).
@@ -119,8 +120,9 @@ photos:
   retrieved_at: '2026-11-17'
   width: 5855
   height: 3877
-  licence_template: Cc-zero
+  licence_template: cc-zero
   licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: renault-scenic-e-tech-gen1
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:Renault_Scenic_E-Tech,_BAS_24,_Brussels_(P1170249-RR).jpg
@@ -171,8 +173,9 @@ photos:
   retrieved_at: '2026-11-17'
   width: 5075
   height: 2625
-  licence_template: Cc-zero
+  licence_template: self|cc-zero
   licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: nissan-ariya-gen1
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:2023_Nissan_Ariya_Evolve_e-4ORCE_in_Gun_Metallic,_Front_Left,_07-14-2023.jpg
@@ -355,6 +358,7 @@ photos:
   height: 1489
   licence_template: PD-self
   licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: kia-niro-ev-de
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:Kia_e-Niro_(front).jpg
@@ -515,8 +519,9 @@ photos:
   retrieved_at: '2026-11-17'
   width: 4160
   height: 2340
-  licence_template: Cc-zero
+  licence_template: self|cc-zero
   licence_checked_at: '2026-11-18'
+  licence_checked_on: file page
 - generation_id: opel-corsa-e-f
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:2023_Opel_Corsa-e.jpg
