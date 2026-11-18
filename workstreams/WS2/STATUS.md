@@ -28,3 +28,4 @@
 - 2026-11-17 04:14 UTC · Menno OK'd WS2 merging its own PRs (WS0 was idle). Merged #22 T-080, #23 T-067, #29 T-092, #36 T-093, #37 T-094, #28 T-091, each with main merged in, local e2e green and CI green on the PR head. Main f40d475: CI + Images green. START §3 #6 checked on main: hreflang + canonical + html lang right on 99 launch page × language combinations; NL complete except internal staff.review.* strings.
 - 2026-11-17 23:58 UTC · WS2 (https://claude.ai/code/session_01JuyZEUuCTBUyPNJ74C3iRD): T-130 part 1 PR #117 (+ gate PR #118). Next: T-130 part 2 (design's visual layer), then T-131. Asked WS1 for a release popularity field.
 - 2026-11-18 00:45 UTC · #117 ready to merge (re-review PASS, CI green on da6521b); merge blocked in this session, asked WS0/Menno. Then #118.
+- 2026-11-18 08:55 UTC · #117 + #118 merged (T-130 part 1 done). Next: T-130 part 2 in a fresh WS2 chat.
