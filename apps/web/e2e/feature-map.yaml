@@ -130,7 +130,7 @@ features:
     expect:
       - text: "@hero-profile"
         contains: Runabout
-        what: the profile name after one tap
+        what: the profile name after the four profile questions
         why: tapping an answer doesn't update the profile
       - url: "role=second"
         what: the answer in the address bar
