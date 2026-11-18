@@ -1,10 +1,10 @@
 # WS3 status
 
 - **State:** active (4th chat, 2026-11-18, https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9)
-- **Now:** T-136 task 2 (missing-model seed from R-41), branch t-136-missing-models. Waiting for review: #106 (T-131), #113 (T-133)
+- **Now:** T-136 task 2 PR #129 (35 models, EU match 95.6 %) waiting for review; next: absorb 2nd chat's stretch branch, then WS3 pre-push data-qa script
 - **Next:** T-136 task 2 (missing-model seed, ~40 models from R-41): approved by WS0 2026-11-18 08:58, soft-launch bar per Decision 048 (WS1 09:20); WS3 pre-push data-qa script (WS0: yes, own small PR); own config/popularity.yaml once #117 merges; A-36 S4 (NL loan rate) if a sourced NL APR exists; then HANDOFF.md 'Next steps'
 - **Blocked:** T-041 `verified` needs Menno's tap check; price samples for DE/FR/BE/UK
-- **Last updated:** 2026-11-18 09:25 UTC by WS3 (4th)
+- **Last updated:** 2026-11-18 11:20 UTC by WS3 (4th)
 
 ## Log
 - 2026-11-15 12:55 UTC · chat started (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), read START, INBOX, launch scope; claimed T-068.
@@ -26,6 +26,7 @@
 - 2026-11-18 09:11 UTC · #115 and #116 merged by WS0; A-36 S7 WS3 part done (facelift base 507 km stays a WS1 matching item).
 
 - 2026-11-18 09:25 UTC · 4th chat started; read HANDOFF, STATUS, START, INBOX 2026-11-18 lines; claimed T-136 task 2.
+- 2026-11-18 11:20 UTC · T-136 task 2 PR #129: 35 models / 37 generations, EEA match 86.7 → 95.6 %, ev verify 0 blocking; T03 + SEAT Mii left out (WS1 INBOX); T-140 should-fix note done.
 
 ## Retro (2026-11-17, 3rd chat)
 - Slowed down: fresh staging for verify-pipeline takes ~20 min (RDW, defects, TGK, Meteostat); verify itself ~5 min per run, and a baseline run on main is needed to tell my diff from staging drift.
