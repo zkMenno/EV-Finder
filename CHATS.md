@@ -44,3 +44,5 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | WS3 batch (5th, 2026-11-18) | batch: T-136 stretch (absorb 2nd chat models + van people carriers), then e-tron GT facelift | https://claude.ai/code/session_01JuyZEVcqV3ZZHZbnBVTP8x | 2026-11-18 |
 | batch: WS0 merge batch 3 | Fresh review + merge WS1 8th PRs #131, #133, #134, #135, #136 | https://claude.ai/code/session_01JuyZEUqC6gVaKzctwab8Me | 2026-11-18 |
 | batch: merge 3 | Fresh review + merge queue: #126→#137, #133/#134/#136→#135 (if the other merge-3 chat has not), #138 (close #129), #130, #128, #132, #127, WS0 process PRs | https://claude.ai/code/session_01JuyZEVyzbdoL | 2026-11-18 |
+| WS2 (7th, 2026-11-18) | batch: T-132 hero redesign, part 1 questions (PR #145), then part 2 results | https://claude.ai/code/session_01JuyZEXjrE | 2026-11-18 |
+| batch: merge 4 | Fresh review + merge #141→#139, #129→#144→#146 (close #140/#142/#143), #132, #136, #145 | https://claude.ai/code/session_01JuyZEY24JJEfAQBWgh5L9e | 2026-11-18 |

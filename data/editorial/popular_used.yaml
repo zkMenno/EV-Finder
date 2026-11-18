@@ -4,6 +4,9 @@ generated_by: data/editorial/build_popular_used.py (T-131)
 inputs:
   picks: data/editorial/menno-picks.yaml (eras, 2026-11-15)
   registrations: data/seed/top40.yaml (generated 2026-11-15)
+  upstream_licences:
+    rdw: CC0-1.0 (RDW open data, NL)
+    dft-veh: OGL-UK-3.0 (DfT VEH0120, UK; whole licensed fleet, not only used cars)
 licence: 'CC-BY-4.0 (order and ''why'' are ours; owner verdicts are Menno''s opinion: label them)'
 notes:
 - Registration ranks are per MODEL (top40.yaml has no generation split), so two generations of one model share the
@@ -42,7 +45,7 @@ generations:
     - Škoda Enyaq Coupe
     remark: null
   points: 61
-  why: '#5 most registered used EV model (NL + UK); on the owner''s shortlist (a favourite).'
+  why: '#5 most registered EV model (NL + UK fleets); on the owner''s shortlist (a favourite).'
 - order: 2
   generation_id: kia-niro-ev-sg2
   model_id: kia-niro-ev
@@ -58,11 +61,11 @@ generations:
     - Kia Niro EV
     remark: null
   points: 48
-  why: '#3 most registered used EV model (NL + UK); the owner would consider it.'
+  why: '#3 most registered EV model (NL + UK fleets); the owner would consider it.'
 - order: 3
   generation_id: hyundai-kona-electric-sx2
   model_id: hyundai-kona-electric
-  name: Hyundai Gen 2 (SX2)
+  name: Hyundai Kona Electric Gen 2 (SX2)
   registrations:
     top40_rank: 6
     points: 35
@@ -74,7 +77,7 @@ generations:
     - Hyundai Kona
     remark: null
   points: 45
-  why: '#6 most registered used EV model (NL + UK); the owner would consider it.'
+  why: '#6 most registered EV model (NL + UK fleets); the owner would consider it.'
 - order: 4
   generation_id: kia-ev6-gen1
   model_id: kia-ev6
@@ -90,7 +93,7 @@ generations:
     - Kia EV6
     remark: null
   points: 43
-  why: '#23 most registered used EV model (NL + UK); on the owner''s shortlist (a favourite).'
+  why: '#23 most registered EV model (NL + UK fleets); on the owner''s shortlist (a favourite).'
 - order: 5
   generation_id: hyundai-ioniq-5-gen1
   model_id: hyundai-ioniq-5
@@ -106,7 +109,7 @@ generations:
     - Hyundai IONIQ 5
     remark: null
   points: 41
-  why: '#25 most registered used EV model (NL + UK); on the owner''s shortlist (a favourite).'
+  why: '#25 most registered EV model (NL + UK fleets); on the owner''s shortlist (a favourite).'
 - order: 6
   generation_id: tesla-model-3-gen1
   model_id: tesla-model-3
@@ -122,7 +125,7 @@ generations:
     - Tesla Model 3
     remark: null
   points: 40
-  why: '#1 most registered used EV model (NL + UK).'
+  why: '#1 most registered EV model (NL + UK fleets).'
 - order: 7
   generation_id: tesla-model-y-gen1
   model_id: tesla-model-y
@@ -138,7 +141,7 @@ generations:
     - Tesla Model Y
     remark: null
   points: 39
-  why: '#2 most registered used EV model (NL + UK).'
+  why: '#2 most registered EV model (NL + UK fleets).'
 - order: 8
   generation_id: kia-niro-ev-de
   model_id: kia-niro-ev
@@ -154,7 +157,7 @@ generations:
     - Kia Niro
     remark: null
   points: 38
-  why: '#3 most registered used EV model (NL + UK).'
+  why: '#3 most registered EV model (NL + UK fleets).'
 - order: 9
   generation_id: volkswagen-id3-gen1
   model_id: volkswagen-id3
@@ -170,11 +173,11 @@ generations:
     - Volkswagen ID.3
     remark: null
   points: 37
-  why: '#4 most registered used EV model (NL + UK).'
+  why: '#4 most registered EV model (NL + UK fleets).'
 - order: 10
   generation_id: hyundai-kona-electric-os
   model_id: hyundai-kona-electric
-  name: Hyundai Gen 1 (OS)
+  name: Hyundai Kona Electric Gen 1 (OS)
   registrations:
     top40_rank: 6
     points: 35
@@ -186,11 +189,11 @@ generations:
     - Hyundai Kona
     remark: null
   points: 35
-  why: '#6 most registered used EV model (NL + UK).'
+  why: '#6 most registered EV model (NL + UK fleets).'
 - order: 11
   generation_id: mg-mg4-gen1
   model_id: mg-mg4
-  name: MG MG4
+  name: MG4
   registrations:
     top40_rank: 17
     points: 24
@@ -202,7 +205,7 @@ generations:
     - MG MG4
     remark: null
   points: 34
-  why: '#17 most registered used EV model (NL + UK); the owner would consider it.'
+  why: '#17 most registered EV model (NL + UK fleets); the owner would consider it.'
 - order: 12
   generation_id: volvo-xc40-recharge-gen1
   model_id: volvo-xc40-recharge
@@ -218,7 +221,7 @@ generations:
     - Volvo XC40 refresh
     remark: null
   points: 33
-  why: '#8 most registered used EV model (NL + UK).'
+  why: '#8 most registered EV model (NL + UK fleets).'
 - order: 13
   generation_id: volkswagen-id4-gen1
   model_id: volkswagen-id4
@@ -234,11 +237,11 @@ generations:
     - Volkswagen ID.4
     remark: null
   points: 32
-  why: '#9 most registered used EV model (NL + UK).'
+  why: '#9 most registered EV model (NL + UK fleets).'
 - order: 14
   generation_id: polestar-2-gen1
   model_id: polestar-2
-  name: Polestar Polestar 2
+  name: Polestar 2
   registrations:
     top40_rank: 12
     points: 29
@@ -250,7 +253,7 @@ generations:
     - Polestar 2
     remark: null
   points: 29
-  why: '#12 most registered used EV model (NL + UK).'
+  why: '#12 most registered EV model (NL + UK fleets).'
 - order: 15
   generation_id: peugeot-e-208-p21
   model_id: peugeot-e-208
@@ -266,7 +269,7 @@ generations:
     - Peugeot e-208
     remark: null
   points: 28
-  why: '#13 most registered used EV model (NL + UK).'
+  why: '#13 most registered EV model (NL + UK fleets).'
 - order: 16
   generation_id: xpeng-g6-facelift
   model_id: xpeng-g6
@@ -298,11 +301,11 @@ generations:
     - Kia EV6 refresh
     remark: null
   points: 23
-  why: '#23 most registered used EV model (NL + UK); one of the owner''s favourites.'
+  why: '#23 most registered EV model (NL + UK fleets); one of the owner''s favourites.'
 - order: 18
   generation_id: nissan-leaf-ze1
   model_id: nissan-leaf
-  name: Nissan ZE1
+  name: Nissan Leaf ZE1
   registrations:
     top40_rank: 10
     points: 31
@@ -314,7 +317,7 @@ generations:
     - Nissan Leaf
     remark: Terrible DC charging
   points: 21
-  why: '#10 most registered used EV model (NL + UK); the owner ruled it out: terrible DC charging.'
+  why: '#10 most registered EV model (NL + UK fleets); the owner ruled it out: terrible DC charging.'
 - order: 19
   generation_id: cupra-born-gen1
   model_id: cupra-born
@@ -330,7 +333,7 @@ generations:
     - Cupra Born
     remark: null
   points: 21
-  why: '#20 most registered used EV model (NL + UK).'
+  why: '#20 most registered EV model (NL + UK fleets).'
 - order: 20
   generation_id: hyundai-ioniq-5-facelift
   model_id: hyundai-ioniq-5
@@ -346,11 +349,11 @@ generations:
     - Hyundai IONIQ 5 refresh
     remark: null
   points: 21
-  why: '#25 most registered used EV model (NL + UK); one of the owner''s favourites.'
+  why: '#25 most registered EV model (NL + UK fleets); one of the owner''s favourites.'
 - order: 21
   generation_id: opel-corsa-e-f
   model_id: opel-corsa-e
-  name: Opel Corsa F
+  name: Opel Corsa-e F
   registrations:
     top40_rank: 21
     points: 20
@@ -362,7 +365,7 @@ generations:
     - Opel Corsa-e
     remark: null
   points: 20
-  why: '#21 most registered used EV model (NL + UK).'
+  why: '#21 most registered EV model (NL + UK fleets).'
 - order: 22
   generation_id: xpeng-p7-gen1
   model_id: xpeng-p7
@@ -394,7 +397,7 @@ generations:
     - Ford Mustang Mach-E
     remark: null
   points: 19
-  why: '#32 most registered used EV model (NL + UK); the owner would consider it.'
+  why: '#32 most registered EV model (NL + UK fleets); the owner would consider it.'
 - order: 24
   generation_id: mg-zs-ev-gen1
   model_id: mg-zs-ev
@@ -410,7 +413,7 @@ generations:
     - MG ZS EV
     remark: null
   points: 17
-  why: '#24 most registered used EV model (NL + UK).'
+  why: '#24 most registered EV model (NL + UK fleets).'
 - order: 25
   generation_id: renault-megane-e-tech-gen1
   model_id: renault-megane-e-tech
@@ -426,11 +429,11 @@ generations:
     - Renault Megane
     remark: null
   points: 17
-  why: '#34 most registered used EV model (NL + UK); the owner would consider it.'
+  why: '#34 most registered EV model (NL + UK fleets); the owner would consider it.'
 - order: 26
   generation_id: renault-zoe-ph2
   model_id: renault-zoe
-  name: Renault Phase 2 (ZE50)
+  name: Renault Zoe Phase 2 (ZE50)
   registrations:
     top40_rank: 16
     points: 25
@@ -442,7 +445,7 @@ generations:
     - Renault Zoe
     remark: Terrible DC charging
   points: 15
-  why: '#16 most registered used EV model (NL + UK); the owner ruled it out: terrible DC charging.'
+  why: '#16 most registered EV model (NL + UK fleets); the owner ruled it out: terrible DC charging.'
 - order: 27
   generation_id: smart-3-gen1
   model_id: smart-3
@@ -557,4 +560,4 @@ generations:
     - Citroën ë-C4 refresh
     remark: null
   points: 3
-  why: '#38 most registered used EV model (NL + UK).'
+  why: '#38 most registered EV model (NL + UK fleets).'
