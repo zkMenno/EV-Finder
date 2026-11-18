@@ -293,9 +293,12 @@ def test_price_provenance_per_country_resolves_to_price_facts(
 
 
 def test_no_e_tron_gt_counted_as_e_tron(release_dir: Path) -> None:
+    # Since T-136 / T-145 the e-tron GT is its own model (audi-e-tron-gt-*): its records belong
+    # there. The rule is that none lands on the e-tron SUV ids.
     facts_tbl = pq.read_table(release_dir / "facts.parquet").to_pylist()
     for f in facts_tbl:
-        if f["subject_id"].startswith("audi-e-tron"):
+        sid = f["subject_id"]
+        if sid.startswith("audi-e-tron") and not sid.startswith("audi-e-tron-gt"):
             assert " GT" not in (f["source_record"] or "").upper(), f["source_record"]
 
 

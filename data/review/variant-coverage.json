@@ -1,26 +1,26 @@
 {
   "seed_models": 233,
-  "seed_generations": 259,
+  "seed_generations": 260,
   "published_variants": 271,
-  "tgk_versions_in_seed_generations": 8157,
-  "tgk_versions_model_not_in_seed": 301,
+  "tgk_versions_in_seed_generations": 8161,
+  "tgk_versions_model_not_in_seed": 302,
   "tgk_versions_year_outside_generations": 61,
-  "generations_with_tgk_versions": 234,
-  "fingerprint_groups": 657,
-  "groups_have": 214,
-  "groups_several": 41,
-  "groups_tie": 133,
-  "groups_no_fit": 44,
-  "groups_no_variant": 225,
-  "candidate_groups": 269,
-  "variants_if_candidates_added": 540,
+  "generations_with_tgk_versions": 235,
+  "fingerprint_groups": 659,
+  "groups_have": 228,
+  "groups_several": 43,
+  "groups_tie": 134,
+  "groups_no_fit": 41,
+  "groups_no_variant": 213,
+  "candidate_groups": 254,
+  "variants_if_candidates_added": 525,
   "eea": {
     "years": "2010-2025",
     "eu_bev_registrations": 9109550,
     "eu_cars_on_tgk_versions_of_seed_generations": 8595681,
     "pct_eu_registrations_seed_generations_via_tgk": 94.4,
-    "pct_eu_registrations_on_groups_we_have": 63.8,
-    "candidate_groups_sold_in_eu": 234
+    "pct_eu_registrations_on_groups_we_have": 67.7,
+    "candidate_groups_sold_in_eu": 219
   },
   "top_models_not_in_seed": [
     {
@@ -151,7 +151,7 @@
   ],
   "model_level": {
     "base_registrations_with_a_name": 9083321,
-    "matched_to_a_seed_model": 8990790,
+    "matched_to_a_seed_model": 8990771,
     "pct_eu_registrations_model_level": 99.0,
     "seed_models_with_eu_registrations": 223,
     "seed_models_without_eu_registrations": [
@@ -531,8 +531,16 @@
   },
   "inputs": {
     "staging": [
+      "data/staging/ademe.records.jsonl",
+      "data/staging/dft-veh.records.jsonl",
+      "data/staging/eea.records.jsonl",
+      "data/staging/fueleconomy.records.jsonl",
+      "data/staging/kba-fz10.records.jsonl",
+      "data/staging/kilowatt-openev.records.jsonl",
       "data/staging/openev.records.jsonl",
-      "data/staging/rdw-tgk.records.jsonl"
+      "data/staging/rdw-tgk.records.jsonl",
+      "data/staging/rdw.records.jsonl",
+      "data/staging/wikidata.records.jsonl"
     ],
     "eea_versions": {
       "years": [
@@ -553,8 +561,8 @@
         2024,
         2025
       ],
-      "fetched_at": "2026-11-18T09:47:29+00:00"
+      "fetched_at": "2026-11-18T16:59:59+00:00"
     },
-    "rdw_tgk_fetched_at": "2026-11-18T09:14:14+00:00"
+    "rdw_tgk_fetched_at": "2026-11-18T16:51:35+00:00"
   }
 }
