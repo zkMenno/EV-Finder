@@ -35,3 +35,34 @@ WS2, 2026-11-18 (session_01JuyZEUuCTBUyPNJ74C3iRD).
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
+**fresh reviewer (subagent), 2026-11-18, head `03d8220`, REVIEW.md read from origin/main (f34ac1a). Verdict: FAIL (1 must-fix).**
+Part 1 judged; part 2 (design's visual layer) out of scope as agreed.
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| R0 CI on head | PASS | `actions/runs?branch=t-130-catalogue-page`: CI + Images on 03d8220 `success`; check-runs web, e2e, schema, pipeline, data-qa, gate-guard, repo-checks, ci-ok all `success` |
+| R1 conflict markers | PASS | `git grep -nE '^(<{7}\|={7}\|>{7})( \|$)' 03d8220` → no hits |
+| R2 evidence pack | PASS | PR body has commands + numbers; reproduced locally: vitest 51 files / 435 tests pass; lint + typecheck clean; `APP_URL=https://ev.example.com pnpm build` exit 0; budget landing 163.1 KB, /cars 163.2 KB (< 200), client catalogue 202.3 KB (< 300) "Perf budget: OK"; Playwright catalogue + suggested + smoke 14/14. `Verified:` on all 3 commits |
+| R3 own checks | PASS | e2e changes are path moves to `/cars` (+ `view=table` where the test needs the table); `Test-change:` lines in 0192437 and 03d8220; the replaced suggested test is explained (hero and Explore no longer on one page); no added `.skip(`/`.only(`/`test.fixme`; budget.mjs keeps 200/300 KB and now measures both pages |
+| R4 launch/deploy | n/a | no `data/seed/**`, `data/manual/**`, `derive/**` change; not a deploy PR |
+| D3 derived score | **FAIL, must-fix** | See finding 1. Otherwise: one implementation (`src/lib/popularity.ts`, used by catalogue.ts, the data route and budget.mjs); weights only in `config/popularity.yaml`; hand check on release 2: Model 3 = 100×0.8×8.263/8.263 = 80 ✓, Model Y gen1 = 100×(0.8×6.914/8.263 + 0.2×0.6) = 78.9 ✓ |
+| D6 strings | PASS | all 24 new keys present in en/nl/de/fr/es/it (script diff, 0 missing); i18n.test green; `catalogue.`/`landing.` server-only, `sort.`/`card.` in the client dict. Key-count gap en 772 vs nl 760 is pre-existing on main |
+| D7 new number on a page | FAIL, should-fix | "#n popular" tag (Explore.tsx:1238) has no source/date/licence in Nerd mode; "How we rank" names RDW + DfT and the date but no licence (RDW CC0-1.0, DfT OGL-UK-3.0 per data/sources.yaml) |
+| D8 UI | PASS (note) | axe `--grep "catalogue\|explore-cards"`: 10/10 pass, light + dark, 1280 + 360 px (axe includes colour contrast); catalogue.spec 360 px check passes in all six languages. No screenshots attached to the PR (AC 4; layout sign-off is part 2) |
+| D9 flags/routes | PASS | new route `/cars` + header link "All cars"; Rankings link still behind `parkedEnabled("rankings")` (smoke test 9 passes) |
+| D10 bundle | PASS | numbers under R2 |
+| D13 network in tests | PASS | popularity.test reads repo files only; e2e hit the local server |
+
+Other checks asked for:
+- sheet_values: PASS. `grep -c sheet_values` = 0 in `src/config/popularity.generated.json` and in `.next/static`; test "never carries sheet values into the output" present.
+- Opinion label: PASS. `catalogue.how.picks` says "one person's verdict … an opinion, not a measurement" in all six languages; the sort line links to it.
+- Hard-coded UI strings: PASS (only a `"—"` placeholder, cars/page.tsx:107).
+- Lane: PASS as flagged. `config/popularity.yaml` is outside apps/web, named in the PR and in WS0/WS1 INBOX (main ff1c8aa); WS0 to confirm the owner.
+
+**Findings**
+1. **must-fix: generation ranks are built from model-level registrations.** `src/lib/popularity.ts:23` gives every generation of a model the model's full top40 share, then ranks per generation and shows "#n popular" per generation. On release 2: Model 3 gen1 #1 and Model 3 Highland #2 (both 80), Model Y Juniper #4 (66.9), Leaf ZE0 and ZE1 both #18 (22.6), Niro EV DE/SG2, Kona OS/SX2, XC40 gen1/EX40, e-tron GE/Q8 likewise tied; 15 models carry 2–3 generations each. The release already has per-generation NL counts that contradict the ties: Model 3 gen1 44 813 vs Highland 20 573, Leaf ZE0 1 965 vs ZE1 10 183 (`registered_count_nl`). The double counting also pushes other models down (Kia Niro EV, 3rd model by registration share at 3.686, shows #6 and #7 behind four Tesla generations). Fix: either rank models (one rank shared by their generations, and say so) or split the model share over its generations with a sourced key (e.g. each generation's share of the model's `registered_count_nl`), stated in "How we rank"; add a test with a two-generation model.
+2. should-fix: old Explore links that also carry hero answers lose their Explore state. `src/lib/catalogue-redirect.ts:7` keeps `?role=only&trips=monthly&sort=-suggested&view=table` (the old suggested.spec URL) on the landing, where there is no Explore, so `sort`/`view` are dropped. The hero never writes `sort`/`view`, and `/cars` reads hero answers from the URL (suggested.spec test 12 passes), so redirect whenever `view` or `sort` is present.
+3. should-fix: D7 above (licence + Nerd-mode provenance for the "#n popular" tag).
+4. nit: `catalogue.intro` says "Every EV generation we track", but until part 2 the list has one card per variant (271 rows, 93 generations).
+5. nit: 11 picked generations in popularity.generated.json are not in release 2 (e.g. kia-ev4-gen1, xpeng-p7-plus-gen1). Harmless, but they will rank silently once they land.
+6. Known gap noted by the builder (table "unsorted" not in the URL) confirmed as documented; not blocking.
