@@ -46,7 +46,7 @@ How chats, workstreams, ownership, review and retros work: [docs/process/README.
 | Reviewer / tester | Fresh agent (no build context); runs the items in `REVIEW.md` **read from `origin/main`** that the diff triggers, against acceptance criteria, with evidence | Review notes in the task file (`## Review`: SHA + item ids + verdicts) |
 | Auditor | Security, dependency, load and data-quality checks | `audits/A-xx-slug.md` + new tasks for findings |
 
-**Lanes:** each builder owns one folder (e.g. `pipeline/sources/rdw`, `apps/web/explore`). Never edit files outside your lane. If you must, write the request to the owner's INBOX (or flag the one-line cross-lane change in your PR and the owner's INBOX). Only the coordinator changes `packages/schema`.
+**Lanes:** each builder owns one folder (e.g. `pipeline/sources/rdw`, `apps/web/explore`). Never edit files outside your lane. If you must, flag the one-line cross-lane change in your PR and in the coordinator's INBOX (`workstreams/WS0/INBOX.md`). Only the coordinator changes `packages/schema`.
 
 ## Task lifecycle
 
@@ -71,11 +71,11 @@ One task = one branch = one session. Keep tasks to roughly half a day of agent w
 
 ### Pull requests
 - Small. One task per PR. Fill in the PR template.
-- Start of every session: check open PRs and the workstream's HANDOFF.md before new work.
+- Start of every session: check open PRs and your task files' Status / Handoff notes before new work (one coordinator chat; every other chat is a batch chat, docs/process/README.md §3).
 - Never rebase a pushed branch; merge `main` in. Grep for conflict markers before every push (`.githooks/pre-push` does it: `git config core.hooksPath .githooks`).
 - After a push from a Claude session, CI may not start: trigger it with `workflow_dispatch` and trust only the run on the PR head commit.
 - If `gh pr create` fails, use `gh api repos/zkMenno/EV-Shortlist/pulls -f title=… -f head=… -f base=main -f body=…`.
-- STATUS.md, HANDOFF.md and INBOX lines may go straight to `main` (log files, docs only), so task PRs don't collide on them.
+- `workstreams/WS0/HANDOFF.md` and INBOX lines may go straight to `main` (log files, docs only), so task PRs don't collide on them.
 - CI must be green before review. A failing test means the PR doesn't reach a reviewer.
 - Run the gate locally first (lint, types, tests, build for the lanes you touched) and open the PR only when it's green. CI stays the independent check; it isn't your test runner. See docs/process/ci-budget.md.
 - Merges go one at a time, each PR up to date with the latest `main` (merge `main` in, re-run CI).

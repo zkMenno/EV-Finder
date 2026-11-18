@@ -8,6 +8,8 @@
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-18 10:50 UTC · 8th: PR #136 (manual `years:`). Handoff written.
+- 2026-11-18 10:25 UTC · 8th: PRs #131 (retired-id manual facts), #133 (image sha check), #134 (photo-only nights), #135 ('+' → 'plus'), all green. Same-data rebuild proof for #135 (16 sources fetched).
 - 2026-11-18 10:00 UTC · Menno: coverage 95 %+. Model-level coverage added to #127: main 86.7 %, WS3 t-136 branch 95.7 %. Gap list to WS3.
 - 2026-11-18 09:50 UTC · 8th session opened (https://claude.ai/code/session_01JuyZEUgHKypBRfx6deGhfu) next to the 7th (T-073, #127, left alone). Taking HANDOFF item 5 + WS3 asks: '+' → 'plus' name key first.
 - 2026-11-18 09:40 UTC · #110 merged after real-data run (120/120 photos valid, schema-valid attach, night refresh fetches photos). All 6th-session PRs merged.
@@ -61,3 +63,9 @@
 - Rule that would have prevented it: a task shared by two lanes names one lead lane in its task file.
 - Own miss: edited data/sources.yaml without regenerating apps/web's sources.generated.json; CI `web` caught it. Proposed check: pipeline `pre-push` (or WS1 verify skill) runs `node apps/web/scripts/sources.mjs` + `git diff --exit-code` when data/sources.yaml changed.
 - What a check missed: release 2 shipped with latest=2 but the image build still read catalogue.json from git; no CI job built the web image on the data-publish PR. Check: the data-publish PR (or the release PR) runs `build web (linux/arm64)` before `latest` moves.
+
+## Retro 2026-11-18 (8th WS1 run)
+- Slowed down: a 7th WS1 chat was already live on T-073 with the same handoff; had to pick work around it. Proving a matching change needs fresh staging (~20 min fetch).
+- Menno did by hand: nothing beyond opening the chat.
+- Rule that would have prevented it: a handoff names one successor; a second chat opened on the same handoff reads CHATS.md + open branches and takes only unclaimed items (worked here).
+- What a check missed: CI can't show a matching change's effect on real data (fixtures only). Check: same-data rebuild diff in the PR body for any `match/` change (proposed to WS0).
