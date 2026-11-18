@@ -291,6 +291,19 @@ approved:
   - {<<: *t145, id: tesla-model-3-gen1-performance, field: consumption_motorway_kwh_100km, change: changed}
   - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.band", change: changed}
   - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.urban.band", change: changed}
+  # T148: 1 variant, 5 changes (Elroq RS gets the newest-version bonus once Elroq 50 / 60 / 85 have rows)
+  - &t148
+    release: 3
+    file: shortlist_scores.json
+    approved_by: "PR #167 (T-148)"
+    reason: "T-148: PR #167 adds seed rows Elroq 50 / 60 / 85 (2024 on) and joins OpenEV's Elroq 'Base' (2025) into the 85. The RS (OpenEV, 2025) is then the latest start in the generation, so the shortlist rules give it the 'newest version' bonus (Decision 038): every road-tripper score +4.0 (e.g. 49.0 -> 53.0), five bands consider -> shortlist. Intended consequence, no RS figure changed. Measured: ev verify main vs PR #167 on the same staging (2026-11-18), 5 blocking, all this variant; release_diff.csv reasons gain 'bonus:newest-version'."
+    id: skoda-elroq-gen1-rs
+    field: "scores.road-tripper.band"
+    change: changed
+  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper.rural.band", change: changed}
+  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.band", change: changed}
+  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.rural.band", change: changed}
+  - {<<: *t148, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.urban.band", change: changed}
   # Release 3: nissan-leaf-ze1-62-kwh matrix cells move from the WLTP-ratio estimate to measured EPA tests
   # (13 blocking cells; the glob also approves 32 review-level rows of the same variant: 45 in all)
   - &leaf62
