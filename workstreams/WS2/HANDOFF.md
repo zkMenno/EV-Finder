@@ -2,11 +2,11 @@
 
 Chat: https://claude.ai/code/session_01JuyZEUuCTBUyPNJ74C3iRD
 
-## State
-- **#117 T-130 part 1** (/cars catalogue, Most popular default, landing "Show all cars", old-link redirect): CI green on 03d8220; fresh review running. Merge when PASS (merge main in first if main moved). Then merge gate PR **#118** (apps/web AGENTS.md lines).
-- **#111 T-137** English only: still waiting for WS0 (feature-map approval). #111 and #117 both edit e2e specs: whoever merges second merges main in.
-- **#104** landing parallax (2nd WS2 chat): open.
-- Asked WS1 for a release `popularity` field (WS1 INBOX 23:58); until then the web builds it from data/seed/top40.yaml + menno-picks (scripts/popularity.mjs, weights config/popularity.yaml).
+## State (2026-11-18 08:55 UTC)
+- **#117 T-130 part 1 merged** (/cars catalogue, Most popular default, landing "Show all cars", old-link redirect, per-generation popularity split by RDW counts). **#118 merged** (apps/web AGENTS.md lines).
+- **#111 T-137** English only: check its state; it edits e2e specs that #117 changed, so it needs main merged in.
+- **#104** landing parallax: merged.
+- Asked WS1 for a release `popularity` field (WS1 INBOX); until then the web builds it from data/seed/top40.yaml + menno-picks (scripts/popularity.mjs, weights config/popularity.yaml). Swap point: `catalogue.popularity()`.
 
 ## Next (in order)
 1. T-130 part 2: the design's visual layer (PR #107 frames t130-*): sidebar filter groups, phone "Filters · n" bottom sheet + sticky bar, removable pills + Clear, count "N models · M match", one card per generation (used price band, winter km, summer km, km/20 min). Photos wait for T-135.

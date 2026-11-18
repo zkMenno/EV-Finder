@@ -53,7 +53,7 @@ test.describe("known issues", () => {
   });
 
   test("Dutch page is translated", async ({ page }) => {
-    await page.goto("/nl/nl/ev/renault/zoe/ph1");
+    await page.goto("/nl/en/ev/renault/zoe/ph1");
     await expect(page.getByTestId("known-issues").getByRole("heading", { level: 2 })).toContainText("Bekende gebreken bij de APK");
     await expect(page.getByTestId("ki-cohort").first().getByTestId("ki-any")).toContainText("alle EV's uit");
   });
@@ -132,7 +132,7 @@ test.describe("charging statistics page", () => {
   });
 
   test("other countries: no open data yet", async ({ page }) => {
-    await page.goto("/fr/fr/charging");
+    await page.goto("/fr/en/charging");
     await expect(page.getByTestId("charging-none")).toBeVisible();
     await expect(page.getByTestId("charging-chart")).toHaveCount(0);
   });

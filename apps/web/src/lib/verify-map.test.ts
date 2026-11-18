@@ -39,7 +39,7 @@ describe("feature map", () => {
 
   it("covers the launch flows the e2e suite covers", () => {
     const ids = map.features.map((f) => f.id);
-    for (const id of ["hero-road-tripper", "explore-filter-url", "explore-compare", "car-pages", "language-switch"]) expect(ids).toContain(id);
+    for (const id of ["hero-road-tripper", "explore-filter-url", "explore-compare", "car-pages", "english-only"]) expect(ids).toContain(id);
     expect(existsSync(MAP_FILE)).toBe(true);
   });
 

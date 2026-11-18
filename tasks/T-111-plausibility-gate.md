@@ -33,3 +33,5 @@ Anything not on docs/spec/launch-scope.md.
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B4, S2 fixed. -->
 
 WS0 subagent, 2026-11-17, fd06891: R0–R3, D3, D4 pass. Gate holds back Atto 3, Kona SX2 ×2, Enyaq 85 on release 2; derived values cleared (#97). **A-35 B4 fixed.**
+
+Reviewed by QA, 2026-11-17 (A-36, release 2): pass for B4 (qa.md plausibility gate withholds 5, flags 33). S2: sources.yaml entries present; the used_price.py gate was not re-tested and the S2 box is still unticked.

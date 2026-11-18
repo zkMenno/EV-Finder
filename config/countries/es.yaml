@@ -21,8 +21,9 @@ country: es
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
 # these languages plus English. /{country}/ redirects to default_language. Read by
 # apps/web/scripts/countries.mjs. Spanish and Italian serve Spain and Italy only (Decision 066).
-languages: [es]
-default_language: es
+# Decision 082: English only at launch. Hidden, not deleted: this country had [es] (default es); list them again to serve them.
+languages: []
+default_language: en
 listings:
   - site: wallapop
     label: Wallapop

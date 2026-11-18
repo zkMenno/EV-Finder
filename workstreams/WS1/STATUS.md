@@ -1,13 +1,14 @@
 # WS1 status
 
-- **State:** handing off (6th session done)
-- **Now:** nothing running
-- **Next:** see HANDOFF.md
+- **State:** active (7th session, https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X)
+- **Now:** T-073 variant split from RDW TGK + EEA into the review queue (R-41 task 1)
+- **Next:** R-41 task 5 long tail (stretch, Decision 048); older HANDOFF items
 - **In review:** [#105](https://github.com/zkMenno/EV-Shortlist/pull/105) image build fix · [#108](https://github.com/zkMenno/EV-Shortlist/pull/108) T-136 · [#109](https://github.com/zkMenno/EV-Shortlist/pull/109) Pillow · [#110](https://github.com/zkMenno/EV-Shortlist/pull/110) T-134
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-18 09:15 UTC · 7th session opened. Decision 048 (Menno's catalogue target), Decision 049 (Q-039 default). Claimed T-073.
 - 2026-11-17 23:10 UTC · #108 T-136 R-41 report (measured EEA/RDW), #109 Pillow (gate), #110 T-134 pipeline side. Handoff written.
 - 2026-11-17 21:30 UTC · 6th session opened (https://claude.ai/code/session_01JuyZEVR92pcMFzUGsz5wzo). PR #105: images.yml fetches release catalogue by manifest (WS2 URGENT 21:19). Claimed T-136.
 - 2026-11-17 11:00 UTC · PR #67 T-072 winter range row field (196/226 in dry run). Handoff written.
