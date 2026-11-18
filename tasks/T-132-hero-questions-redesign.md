@@ -19,6 +19,21 @@ docs/spec/feedback-2026-11-17-staging.md item 3
 Anything not on docs/spec/launch-scope.md.
 
 ## Handoff notes
+- 2026-11-18 (WS2, T-132 part 1 = questions PR): one question per screen. Step in the URL as `q`
+  (country · role · trips · charge · area · budget; no `q` = results for a full profile, so old shared
+  links still open the top 10). Every step change is a history entry: browser Back = previous question,
+  answer kept. Logic in `src/lib/hero-state.ts` (`heroStep`, `nextStep`, `prevStep`, unit tests in
+  `hero-state.test.ts`); drawing in `src/components/HeroSteps.tsx` (ProgressRoad, AnswerTrail,
+  AnswerTiles); styles `evs-road / evs-opt / evs-trail / evs-qb / evs-seg / evs-cta` in globals.css.
+- Keyboard: tap / click / Enter / Space answers and moves on; arrow keys only move the selection.
+  Focus goes to the new question's heading. Slide-in 250 ms, none with reduced motion.
+- Country tiles: two columns where the name fits next to its tick (≥ ~380 px phones and desktop), one
+  column on 360 px phones (two columns split "Netherlands" mid-word). English country names per
+  language (`hero.country.<slug>`), not the native names from config.
+- "Keep it 8 years" moved into Refine (on the budget step "More filters (optional)", on results "Refine · n").
+- Part 2 (results PR, next): phone result rows + desktop table and sidebar, Refine as a bottom sheet
+  (reuse #126's sheet once merged), "Show all cars" box inside the results, thumbnails after T-135.
+  Results today = the old cards under a new profile bar (name, country · new/used · budget, Edit).
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->

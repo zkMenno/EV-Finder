@@ -1,6 +1,8 @@
 "use client";
 // The landing-page hero (T-080, Decision 051): country → 4-tap profile picker → budget with a rough
 // monthly estimate → optional refine → top 10, the first five marked "Your shortlist".
+// T-132: one question per screen (progress road, answer tiles, answer trail); the step is in the URL
+// (`q`, src/lib/hero-state.ts) and every step change is a history entry, so Back = previous question.
 // The server renders the first result from the URL; the browser re-ranks on every change with the
 // same pure functions (src/lib/shortlist.ts) once the compact catalogue has loaded. Scores come from
 // the release's shortlist_scores.json (Decision 065); without it the hero says so and ranks nothing. All state is in
@@ -19,7 +21,20 @@ import { effectiveLoan, monthlyFor, type FinanceProfileView } from "@/lib/financ
 import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { nerdValue, numberParts } from "@/lib/nerd-value";
 import { priceHowText } from "@/lib/price-how";
-import { heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "@/lib/hero-state";
+import {
+  DRIVING_STEPS,
+  drivingQuestion,
+  heroFromSearchParams,
+  heroStep,
+  heroToSearchParams,
+  mergeHeroIntoUrl,
+  nextStep,
+  prevStep,
+  roadStop,
+  type HeroState,
+  type HeroStep,
+} from "@/lib/hero-state";
+import { AnswerTiles, AnswerTrail, BackChevron, Pencil, ProgressRoad, type TrailItem } from "./HeroSteps";
 import { buildListingUrl, type ListingSite } from "@/lib/listing-url";
 import {
   AREAS,
@@ -81,9 +96,10 @@ export interface HeroProps {
   learnLinks?: { slug: string; title: string; href: string }[];
 }
 
+// Five amounts + "No limit" = the 3×2 grid of the budget step (T-132).
 const QUICK_BUDGETS: Record<Currency, number[]> = {
-  EUR: [15000, 20000, 30000, 40000, 60000],
-  GBP: [12000, 17000, 25000, 35000, 50000],
+  EUR: [15000, 20000, 25000, 30000, 40000],
+  GBP: [12000, 17000, 20000, 25000, 35000],
 };
 
 /** Preset field → the factor label that names it ("not known yet" lists). */
@@ -99,10 +115,6 @@ const PRESET_FACTOR: Partial<Record<PresetField, string>> = {
  *  count in the release score, but the card never names them in its "not known yet" line (A-36). */
 const PARKED_FACTORS: ReadonlySet<string> = new Set(["v2l", "home-power"]);
 
-const chipCls =
-  "inline-flex min-h-11 cursor-pointer items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm " +
-  "has-[:checked]:border-blue-800 has-[:checked]:bg-blue-100 has-[:checked]:font-semibold " +
-  "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--focus)]";
 const toggleCls =
   "inline-flex min-h-11 items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm aria-pressed:border-blue-800 aria-pressed:bg-blue-100 aria-pressed:font-semibold";
 const inputCls = "w-32 rounded-md border border-slate-400 bg-white px-3 py-2 text-base tabular-nums";
@@ -139,63 +151,6 @@ function Scene({ city }: { city: boolean }) {
 }
 
 // ── Small building blocks ───────────────────────────────────────────────────────────────────
-
-function Step({ n, title, children, t }: { n: number; title: string; children: ReactNode; t: T }) {
-  const id = useId();
-  return (
-    <section aria-labelledby={id} className="border-t border-slate-200 pt-4">
-      <h2 id={id} className="text-lg font-semibold">
-        <span className="mr-2 text-sm font-normal text-slate-700">{t("hero.stepN", { n })}</span>
-        {title}
-      </h2>
-      <div className="mt-3">{children}</div>
-    </section>
-  );
-}
-
-function Choice<V extends string>({
-  name,
-  legend,
-  values,
-  value,
-  label,
-  onChange,
-  info,
-}: {
-  name: string;
-  legend: string;
-  /** ⓘ tooltip next to the question (glossary term). */
-  info?: ReactNode;
-  values: readonly V[];
-  value: V | null;
-  label: (v: V) => string;
-  onChange: (v: V) => void;
-}) {
-  return (
-    <fieldset className="mt-3">
-      <legend className="text-sm font-semibold">
-        {legend}
-        {info ? <> {info}</> : null}
-      </legend>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {values.map((v) => (
-          <label key={v} className={chipCls}>
-            <input
-              type="radio"
-              name={name}
-              value={v}
-              checked={value === v}
-              onChange={() => onChange(v)}
-              className="sr-only"
-              data-testid={`hero-${name}-${v}`}
-            />
-            {label(v)}
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
 
 function NumberSelect({
   label,
@@ -250,12 +205,17 @@ export function Hero(props: HeroProps) {
   const [refineOpen, setRefineOpen] = useState(false);
   const [dirty, setDirty] = useState(false);
   const lastUrl = useRef(heroToSearchParams(props.initial).toString());
+  // Focus moves to the new question's heading after a step change (not on first paint).
+  const focusStep = useRef(false);
+  const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [loanSettings, setLoanSettings] = useLoanSettings();
   const loan = useMemo(() => effectiveLoan(props.finance, loanSettings), [props.finance, loanSettings]);
   const money = (n: number) => formatMoney(n, props.currency, locale);
   const termText: TermText = { about: t("term.about"), learnMore: t("term.learnMore") };
   // ⓘ for a glossary id; renders nothing until the release has the term (T-100 ids).
   const tip = (id: string) => <TermInfo term={props.terms[id]} base={props.base} text={termText} />;
+  const qid = useId();
+  const step = heroStep(hero);
 
   useEffect(() => {
     let live = true;
@@ -270,7 +230,8 @@ export function Hero(props: HeroProps) {
   // Explore below changed a filter: take it over (same params, one URL).
   useEffect(() => onFilters("hero", (filters) => setHero((h) => ({ ...h, filters: { ...filters, tripFit: false } }))), []);
 
-  // State → URL (replaceState: no round trip; the link stays shareable).
+  // State → URL (replaceState: no round trip; the link stays shareable). Step changes push their own
+  // history entry in goTo(), so the back button goes to the previous question (T-132).
   useEffect(() => {
     const qs = heroToSearchParams(hero).toString();
     if (qs === lastUrl.current) return;
@@ -278,15 +239,66 @@ export function Hero(props: HeroProps) {
     window.history.replaceState(null, "", mergeHeroIntoUrl(window.location.href, hero));
   }, [hero]);
 
+  // Back / forward between questions: the URL is the state.
+  useEffect(() => {
+    const onPop = () => {
+      const s = heroFromSearchParams(new URLSearchParams(window.location.search));
+      lastUrl.current = heroToSearchParams(s).toString();
+      focusStep.current = true;
+      setDirty(true);
+      setHero(s);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  useEffect(() => () => {
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
+  }, []);
+
+  useEffect(() => {
+    if (!focusStep.current) return;
+    focusStep.current = false;
+    document.getElementById(`${qid}-${step}`)?.focus();
+  }, [step, qid]);
+
+  const writeUrl = (s: HeroState, mode: "push" | "replace") => {
+    lastUrl.current = heroToSearchParams(s).toString();
+    const href = mergeHeroIntoUrl(window.location.href, s);
+    if (mode === "push") window.history.pushState(null, "", href);
+    else window.history.replaceState(null, "", href);
+  };
+
   const update = (patch: Partial<HeroState>) => {
     setDirty(true);
     setCopied(false);
     setHero((h) => ({ ...h, ...patch }));
   };
+  /** Show another question (a new history entry). "results" is the default screen, so no q. */
+  const goTo = (to: HeroStep, from: HeroState = hero) => {
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    const s: HeroState = { ...from, step: to === "results" ? null : to };
+    writeUrl(s, "push");
+    focusStep.current = true;
+    setDirty(true);
+    setCopied(false);
+    setHero(s);
+  };
   const setAnswers = (patch: Partial<Answers>) => {
     const answers = { ...hero.answers, ...patch };
     update({ answers, presetsOff: [] });
     publishAnswers(answers);
+    return answers;
+  };
+  /** Answer the current question, show the tick, then move on (≈250 ms; instant with reduced motion). */
+  const answer = (patch: Partial<Answers>) => {
+    const answers = setAnswers(patch);
+    const here: HeroState = { ...hero, answers, presetsOff: [], step };
+    writeUrl(here, "replace");
+    const go = () => goTo(nextStep(step, answers), here);
+    if (advanceTimer.current) clearTimeout(advanceTimer.current);
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) go();
+    else advanceTimer.current = setTimeout(go, 250);
   };
   const setFilters = (filters: ExploreFilters) => {
     update({ filters });
@@ -321,10 +333,15 @@ export function Hero(props: HeroProps) {
     termText,
   };
 
+  /** Another country is another page: same answers, next question. */
   const countryHref = (slug: CountrySlug) => {
     const lang = isServed(slug, props.lang) ? props.lang : COUNTRIES[slug].defaultLang;
-    const qs = heroToSearchParams(hero).toString();
+    const qs = heroToSearchParams({ ...hero, step: nextStep("country", hero.answers) }).toString();
     return `/${slug}/${lang}${qs ? `?${qs}` : ""}`;
+  };
+  const pickCountry = (slug: CountrySlug) => {
+    if (slug === props.country) goTo(nextStep("country", hero.answers));
+    else window.location.assign(countryHref(slug));
   };
 
   const share = () => {
@@ -334,165 +351,343 @@ export function Hero(props: HeroProps) {
     );
   };
 
-  return (
-    <div className="evs-tex evs-tex--map evs-tex--no-sun rounded-lg border border-slate-300 bg-white p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero">
-      <div className="grid items-center gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
-        <div>
-          <h1 className="font-[family-name:var(--font-display)] text-[2.375rem] font-extrabold leading-tight tracking-tight sm:text-[3.25rem]">{t("hero.title")}</h1>
-          <p className="mt-3 max-w-2xl text-lg text-slate-800">{t("hero.intro")}</p>
-        </div>
-        <Scene city={hero.answers.area === "city"} />
-      </div>
+  // ── What the visitor said so far (trail pills, T-132) ──
+  const a = hero.answers;
+  const stop = roadStop(step);
+  const trail: TrailItem[] = [];
+  if (stop > 0) trail.push({ key: "country", text: t(`hero.country.${props.country}` as MsgKey), to: "country" });
+  if (stop === 1) {
+    for (const st of DRIVING_STEPS) {
+      if (st === step || (st === "trips" && !asksTrips(a))) continue;
+      const v = a[st];
+      if (v !== null) trail.push({ key: st, text: t(`hero.a.${st}.${v}` as MsgKey), to: st });
+    }
+  } else if (stop >= 2 && rp) {
+    // After step 2 the four answers collapse into the profile name.
+    trail.push({ key: "profile", text: profileName(rp, t), to: "role" });
+  }
+  const dq = drivingQuestion(step, a);
+  const stepLine = dq ? t("hero.stepQuestion", { n: 2, q: dq.n, of: dq.of }) : t("hero.stepOf", { n: stop + 1 });
+  const titleId = `${qid}-${step}`;
+  const tiles = <V extends string>(kind: "role" | "trips" | "charge" | "area", values: readonly V[], hints: readonly V[] = []) =>
+    values.map((v) => ({
+      value: v,
+      label: t(`hero.a.${kind}.${v}` as MsgKey),
+      hint: hints.includes(v) ? t(`hero.hint.${kind}.${v}` as MsgKey) : undefined,
+    }));
+  const refineCount = activeRefine(hero.filters) + (a.keep8 ? 1 : 0);
 
-      <div className="mt-6 grid gap-6">
-        <Step n={1} title={t("hero.step1")} t={t}>
-          <ul className="flex flex-wrap gap-2" data-testid="hero-countries">
-            {COUNTRY_SLUGS.map((slug) => (
-              <li key={slug}>
-                <a
-                  href={countryHref(slug)}
-                  aria-current={slug === props.country ? "true" : undefined}
-                  className={`${toggleCls} aria-[current]:border-blue-800 aria-[current]:bg-blue-100 aria-[current]:font-semibold`}
-                >
-                  {COUNTRIES[slug].name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Step>
-
-        <Step n={2} title={t("hero.step2")} t={t}>
-          <Choice name="role" legend={t("hero.q.role")} values={ROLES} value={hero.answers.role} label={(v) => t(`hero.a.role.${v}` as MsgKey)} onChange={(role) => setAnswers({ role })} />
-          {asksTrips(hero.answers) ? (
-            <Choice name="trips" legend={t("hero.q.trips")} values={TRIPS} value={hero.answers.trips} label={(v) => t(`hero.a.trips.${v}` as MsgKey)} onChange={(trips) => setAnswers({ trips })} />
-          ) : null}
-          <Choice name="charge" legend={t("hero.q.charge")} values={CHARGES} value={hero.answers.charge} label={(v) => t(`hero.a.charge.${v}` as MsgKey)} onChange={(charge) => setAnswers({ charge })} />
-          <Choice name="area" legend={t("hero.q.area")} values={AREAS} value={hero.answers.area} label={(v) => t(`hero.a.area.${v}` as MsgKey)} onChange={(area) => setAnswers({ area })} info={tip("home-area")} />
+  const refine = (summary: string) => (
+    <details className="mt-4" data-testid="hero-refine" open={refineOpen} onToggle={(e) => setRefineOpen(e.currentTarget.open)}>
+      <summary className="evs-lnk cursor-pointer">{summary}</summary>
+      {/* "Keep it 8 years" lives here (T-132): its scores don't exist yet, so it doesn't take a question slot. */}
+      <div className="mt-3 flex items-center gap-1">
+        <label className="inline-flex min-h-11 items-center gap-2 text-sm">
           {/* The ⓘ sits next to the label, not inside it (Term.tsx): inside, its text joins the checkbox's name. */}
-          <div className="mt-3 flex items-center gap-1">
-            <label className="inline-flex min-h-11 items-center gap-2 text-sm">
-              <input type="checkbox" checked={hero.answers.keep8} onChange={(e) => setAnswers({ keep8: e.target.checked })} className="h-5 w-5" data-testid="hero-keep8" />
-              {t("hero.keep8")}
-            </label>
-            {tip("keep-8-years")}
-          </div>
-          {/* The release scores have no keep-8-years combination yet (T-069 combos), so the box is
-              remembered but can't change the order: say so rather than pretend (Decision 065). */}
-          {hero.answers.keep8 ? <p className="text-xs text-slate-700" data-testid="hero-keep8-note">{t("hero.keep8.pending")}</p> : null}
+          <input type="checkbox" checked={a.keep8} onChange={(e) => setAnswers({ keep8: e.target.checked })} className="h-5 w-5" data-testid="hero-keep8" />
+          {t("hero.keep8")}
+        </label>
+        {tip("keep-8-years")}
+      </div>
+      {/* The release scores have no keep-8-years combination yet (T-069 combos), so the box is
+          remembered but can't change the order: say so rather than pretend (Decision 065). */}
+      {a.keep8 ? <p className="text-xs text-slate-700" data-testid="hero-keep8-note">{t("hero.keep8.pending")}</p> : null}
+      <Refine filters={hero.filters} onChange={setFilters} makes={props.makes} nowYear={props.nowYear} t={t} open={refineOpen} />
+    </details>
+  );
 
-          <div className="mt-3 rounded-md bg-slate-50 p-3" aria-live="polite" data-testid="hero-profile">
-            {rp ? (
-              <>
-                <p className="text-sm">
-                  <span className="text-slate-700">{t("hero.profile.label")}: </span>
-                  <strong>{profileName(rp, t)}</strong> {tip(rp.base.id)}
-                  {rp.layer ? tip(rp.layer.id) : null}
-                </p>
-                <p className="mt-1 text-sm text-slate-800">
-                  {t(`hero.profile.${rp.base.id}.short` as MsgKey)}
-                  {rp.layer ? ` ${t(`hero.profile.${rp.layer.id}.short` as MsgKey)}` : ""}
-                </p>
-                {presets.length ? (
-                  <div className="mt-2">
-                    <p className="text-xs font-semibold text-slate-700">{t("hero.presets.title")}</p>
-                    <ul className="mt-1 flex flex-wrap gap-2" data-testid="hero-presets">
-                      {presets
-                        .filter((p) => !hero.presetsOff.includes(p.field))
-                        .map((p) => {
-                          const label = presetLabel(p, t, locale);
-                          return (
-                            <li key={p.field}>
-                              <button
-                                type="button"
-                                onClick={() => update({ presetsOff: [...hero.presetsOff, p.field] })}
-                                className="inline-flex min-h-11 items-center gap-2 rounded-md border border-slate-400 bg-white px-3 py-1 text-sm"
-                                aria-label={t("hero.presets.remove", { label })}
-                              >
-                                {label}
-                                <span aria-hidden="true">×</span>
-                              </button>
-                            </li>
-                          );
-                        })}
-                    </ul>
-                    {hero.presetsOff.length ? (
-                      <button type="button" onClick={() => update({ presetsOff: [] })} className="mt-2 text-sm text-blue-800 underline underline-offset-2">
-                        {t("hero.presets.restore")}
-                      </button>
-                    ) : null}
-                  </div>
-                ) : null}
-              </>
-            ) : (
-              <p className="text-sm text-slate-700">{t("hero.profile.pickFirst")}</p>
-            )}
-          </div>
-        </Step>
+  const back = (
+    <button type="button" className="evs-lnk" onClick={() => goTo(prevStep(step, a))} data-testid="hero-back">
+      <BackChevron />
+      {t("hero.back")}
+    </button>
+  );
 
-        <Step n={3} title={t("hero.step3")} t={t}>
-          <BudgetField
-            value={hero.budget}
-            currency={props.currency}
-            info={tip("budget")}
-            t={t}
-            money={money}
-            onChange={(budget) => update({ budget })}
-          />
-          <div className="mt-2 text-sm" data-testid="hero-monthly">
-            {hero.budget === null ? null : monthly ? (
-              <>
-                <p className="text-base font-semibold">
-                  {t("hero.monthly", { amount: money(monthly.monthly) })}{" "}
-                  <TermInfo term={props.terms.loan} base={props.base} text={termText} />
-                </p>
-                <p className="text-slate-700">
-                  {t("hero.monthly.how", {
-                    deposit: formatNumber(loan.depositPct, locale, 1),
-                    term: loan.termMonths,
-                    apr: formatNumber(loan.aprPct, locale, 2),
-                  })}
-                </p>
-              </>
-            ) : (
-              <p className="text-slate-700">{t("hero.monthly.noRate")}</p>
-            )}
-            {hero.budget !== null ? <LoanWarning t={t} /> : null}
-            <details className="mt-2" onToggle={(e) => setLoanOpen(e.currentTarget.open)}>
-              <summary className="min-h-11 cursor-pointer py-2 text-blue-800 underline underline-offset-2">{t("hero.monthly.edit")}</summary>
-              {loanOpen ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={ui} price={hero.budget} /> : null}
-            </details>
-          </div>
-          <Choice<Condition>
-            name="cond"
-            legend={t("hero.cond.label")}
-            values={["any", "used", "new"]}
-            value={hero.cond}
-            label={(v) => t(`hero.cond.${v}` as MsgKey)}
-            onChange={(cond) => update({ cond })}
-          />
-        </Step>
+  const question = (() => {
+    switch (step) {
+      case "country":
+        return (
+          <>
+            <AnswerTiles
+              name="country"
+              title={t("hero.ask.country.title")}
+              titleId={titleId}
+              help={t("hero.ask.country.help")}
+              columns={2}
+              tiles={COUNTRY_SLUGS.map((slug) => ({ value: slug, label: t(`hero.country.${slug}` as MsgKey) }))}
+              value={props.country}
+              onPick={() => undefined}
+              onAnswer={pickCountry}
+            />
+            <p className="mt-4 text-[15px] text-[var(--ink-2)]">{t("hero.ask.country.foot")}</p>
+          </>
+        );
+      case "role":
+      case "trips":
+      case "charge":
+      case "area": {
+        const kind = step;
+        const values = { role: ROLES, trips: TRIPS, charge: CHARGES, area: AREAS }[kind] as readonly string[];
+        const hints = { role: [], trips: ["never", "few_a_year", "often"], charge: CHARGES, area: [] }[kind] as readonly string[];
+        return (
+          <>
+            <AnswerTiles
+              name={kind}
+              title={t(`hero.ask.${kind}.title` as MsgKey)}
+              titleId={titleId}
+              help={kind === "trips" ? undefined : t(`hero.ask.${kind}.help` as MsgKey)}
+              info={kind === "area" ? tip("home-area") : undefined}
+              tiles={tiles(kind, values, hints)}
+              value={a[kind]}
+              onPick={(v) => setAnswers({ [kind]: v } as Partial<Answers>)}
+              onAnswer={(v) => answer({ [kind]: v } as Partial<Answers>)}
+            />
+            <div className="evs-qnav">
+              {back}
+              <span className="text-[15px] text-[var(--ink-2)]">{t("hero.tapToGo")}</span>
+            </div>
+          </>
+        );
+      }
+      case "budget":
+        return (
+          <>
+            <h2 id={titleId} tabIndex={-1} className="evs-q__title outline-none">
+              {t("hero.ask.budget.title")}
+            </h2>
+            {/* The ⓘ sits outside the heading: the heading names the budget field. */}
+            <p id={`${titleId}-help`} className="evs-q__help">
+              {t("hero.ask.budget.help")} {tip("budget")}
+            </p>
+            <BudgetField value={hero.budget} currency={props.currency} t={t} money={money} labelId={titleId} onChange={(budget) => update({ budget })} />
+            <div className="evs-month" data-testid="hero-monthly">
+              {hero.budget === null ? (
+                <p>{t("hero.budget.noLimitNote")}</p>
+              ) : monthly ? (
+                <>
+                  <p className="text-lg font-bold">
+                    {t("hero.monthly", { amount: money(monthly.monthly) })} <TermInfo term={props.terms.loan} base={props.base} text={termText} />
+                  </p>
+                  <p>
+                    {t("hero.monthly.how", {
+                      deposit: formatNumber(loan.depositPct, locale, 1),
+                      term: loan.termMonths,
+                      apr: formatNumber(loan.aprPct, locale, 2),
+                    })}
+                  </p>
+                </>
+              ) : (
+                <p>{t("hero.monthly.noRate")}</p>
+              )}
+              {hero.budget !== null ? <LoanWarning t={t} /> : null}
+              <details className="mt-1" onToggle={(e) => setLoanOpen(e.currentTarget.open)}>
+                <summary className="min-h-11 cursor-pointer py-2 text-[var(--link)] underline underline-offset-2">{t("hero.monthly.edit")}</summary>
+                {loanOpen ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={ui} price={hero.budget} /> : null}
+              </details>
+            </div>
+            <fieldset className="mt-5" data-testid="hero-q-cond">
+              <legend className="text-base font-bold">{t("hero.cond.label")}</legend>
+              <div className="evs-seg">
+                {(["used", "new", "any"] as const).map((c) => (
+                  <label key={c}>
+                    <input type="radio" name="hero-cond" value={c} checked={hero.cond === c} onChange={() => update({ cond: c })} className="sr-only" data-testid={`hero-cond-${c}`} />
+                    {t(`hero.cond.${c}` as MsgKey)}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            <button type="button" className="evs-cta" onClick={() => goTo("results")} data-testid="hero-show">
+              {t("hero.cta")}
+            </button>
+            <div className="evs-qnav mt-2">
+              {back}
+              <button type="button" className="evs-lnk" onClick={() => setRefineOpen((o) => !o)} aria-expanded={refineOpen} data-testid="hero-more-filters">
+                {t("hero.step4")}
+              </button>
+            </div>
+            {refineOpen ? refine(t("hero.step4")) : null}
+          </>
+        );
+      default:
+        return null;
+    }
+  })();
 
-        <details className="border-t border-slate-200 pt-4" data-testid="hero-refine" onToggle={(e) => setRefineOpen(e.currentTarget.open)}>
-          <summary className="min-h-11 cursor-pointer py-2 text-lg font-semibold">{t("hero.step4")}</summary>
-          <Refine filters={hero.filters} onChange={setFilters} makes={props.makes} nowYear={props.nowYear} t={t} open={refineOpen} />
-        </details>
+  const roadLabels: [string, string, string, string] = [t("hero.road.country"), t("hero.road.driving"), t("hero.road.budget"), t("hero.road.shortlist")];
+  const asking = step !== "results";
+
+  return (
+    <div className="evs-tex evs-tex--map evs-tex--no-sun rounded-lg border border-slate-300 bg-[var(--paper-sea)] p-4 shadow-[var(--shadow-sticker)] sm:p-6" data-testid="hero" data-step={step}>
+      {/* One scene, placed by the grid: phone = under the title on the first question only; desktop =
+          beside the questions (T-132 frames t132-m1 and t132-d1). Results take the whole width. */}
+      <div className={`grid items-start gap-x-6 ${asking ? "md:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]" : ""}`}>
+        <div className={`min-w-0 md:col-start-1 md:row-start-1 ${step === "country" ? "" : "sr-only md:not-sr-only"}`}>
+          <h1 className="font-[family-name:var(--font-display)] text-[2.375rem] font-extrabold leading-tight tracking-tight sm:text-[3.25rem]">{t("hero.title")}</h1>
+          <p className="mt-3 max-w-2xl text-lg text-[var(--ink-2)]">{t("hero.intro")}</p>
+        </div>
+        {asking ? (
+          <div className={`mt-4 md:col-start-2 md:row-span-2 md:row-start-1 md:mt-0 md:block ${step === "country" ? "" : "hidden"}`}>
+            <Scene city={a.area === "city"} />
+          </div>
+        ) : null}
+        <div className="min-w-0 md:col-start-1 md:row-start-2">
+          {asking ? (
+            <section aria-labelledby={titleId} className="-mx-1 mt-6 max-w-[40rem] rounded-xl border-[1.5px] border-[var(--line)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sticker)] sm:mx-0 sm:px-8 sm:py-7" data-testid="hero-panel">
+              <ProgressRoad now={stop} labels={roadLabels} label={t("hero.road.label")} doneText={t("hero.road.done")} />
+              {trail.length ? (
+                <div className="mt-4">
+                  <AnswerTrail items={trail} onGo={(to) => goTo(to as HeroStep)} label={t("hero.trail.label")} changeLabel={(answer) => t("hero.trail.change", { answer })} />
+                </div>
+              ) : null}
+              <div key={step} className="evs-q__step mt-4">
+                <p className="evs-q__count" data-testid="hero-stepline">
+                  {stepLine}
+                </p>
+                {question}
+              </div>
+            </section>
+          ) : (
+            <div className="mt-6">
+              <div className="max-w-[40rem]">
+                <ProgressRoad now={3} labels={roadLabels} label={t("hero.road.label")} doneText={t("hero.road.done")} />
+              </div>
+              <ProfileBar
+                rp={rp}
+                t={t}
+                tip={tip}
+                country={t(`hero.country.${props.country}` as MsgKey)}
+                cond={hero.cond}
+                budget={hero.budget === null ? t("hero.summary.noLimit") : t("hero.summary.upTo", { amount: money(hero.budget) })}
+                presets={presets}
+                presetsOff={hero.presetsOff}
+                locale={locale}
+                onEdit={() => goTo("budget")}
+                onRemovePreset={(f) => update({ presetsOff: [...hero.presetsOff, f] })}
+                onRestorePresets={() => update({ presetsOff: [] })}
+              />
+              {refine(t("hero.refine.button", { n: refineCount }))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <Results
-        result={result}
-        rp={rp}
-        hero={hero}
-        props={props}
-        t={t}
-        locale={locale}
-        level={level}
-        money={money}
-        loan={loan}
-        presets={presets}
-        onRemovePreset={(f) => update({ presetsOff: [...hero.presetsOff, f] })}
-        share={share}
-        copied={copied}
-      />
+      {asking ? null : (
+        <Results
+          result={result}
+          rp={rp}
+          hero={hero}
+          props={props}
+          t={t}
+          locale={locale}
+          level={level}
+          money={money}
+          loan={loan}
+          presets={presets}
+          onRemovePreset={(f) => update({ presetsOff: [...hero.presetsOff, f] })}
+          share={share}
+          copied={copied}
+        />
+      )}
+    </div>
+  );
+}
+
+/** Refine filters the visitor set (not the profile's presets): the "Refine · n" count. */
+function activeRefine(f: ExploreFilters): number {
+  const d = defaultFilters();
+  let n = 0;
+  if (f.bodies.length) n++;
+  if (f.seatsMin !== d.seatsMin) n++;
+  if (f.towingMin !== d.towingMin) n++;
+  if (f.acMin !== d.acMin) n++;
+  if (f.rangeMin !== d.rangeMin) n++;
+  if (f.yearMin !== d.yearMin || f.yearMax !== d.yearMax) n++;
+  if (f.makes.length) n++;
+  if (f.excludeMakes.length) n++;
+  return n;
+}
+
+/** Results screen: who you are, where, how much; Edit goes back to the questions (T-132). */
+function ProfileBar({
+  rp,
+  t,
+  tip,
+  country,
+  cond,
+  budget,
+  presets,
+  presetsOff,
+  locale,
+  onEdit,
+  onRemovePreset,
+  onRestorePresets,
+}: {
+  rp: ResolvedProfile | null;
+  t: T;
+  tip: (id: string) => ReactNode;
+  country: string;
+  cond: Condition;
+  budget: string;
+  presets: ActivePreset[];
+  presetsOff: PresetField[];
+  locale: string;
+  onEdit: () => void;
+  onRemovePreset: (f: PresetField) => void;
+  onRestorePresets: () => void;
+}) {
+  if (!rp) return null;
+  return (
+    <div className="mt-4 rounded-xl border-[1.5px] border-[var(--line)] bg-[var(--surface)] p-4" aria-live="polite" data-testid="hero-profile">
+      <div className="flex flex-wrap items-start gap-3">
+        <p className="min-w-0 flex-1">
+          <span className="text-[15px] text-[var(--ink-2)]">{t("hero.profile.label")}</span>
+          <br />
+          <strong className="font-[family-name:var(--font-display)] text-xl">{profileName(rp, t)}</strong> {tip(rp.base.id)}
+          {rp.layer ? tip(rp.layer.id) : null}
+          <br />
+          <span className="text-[15px] text-[var(--ink-2)]" data-testid="hero-summary">
+            {country} · {t(`hero.summary.cond.${cond}` as MsgKey)} · {budget}
+          </span>
+        </p>
+        <button type="button" className="evs-lnk" onClick={onEdit} aria-label={t("hero.summary.editLabel")} data-testid="hero-edit">
+          <Pencil />
+          {t("hero.summary.edit")}
+        </button>
+      </div>
+      <p className="mt-2 text-sm text-[var(--ink)]">
+        {t(`hero.profile.${rp.base.id}.short` as MsgKey)}
+        {rp.layer ? ` ${t(`hero.profile.${rp.layer.id}.short` as MsgKey)}` : ""}
+      </p>
+      {presets.length ? (
+        <div className="mt-2">
+          <p className="text-xs font-semibold text-[var(--ink-2)]">{t("hero.presets.title")}</p>
+          <ul className="mt-1 flex flex-wrap gap-2" data-testid="hero-presets">
+            {presets
+              .filter((p) => !presetsOff.includes(p.field))
+              .map((p) => {
+                const label = presetLabel(p, t, locale);
+                return (
+                  <li key={p.field}>
+                    <button
+                      type="button"
+                      onClick={() => onRemovePreset(p.field)}
+                      className="inline-flex min-h-11 items-center gap-2 rounded-md border border-slate-400 bg-white px-3 py-1 text-sm"
+                      aria-label={t("hero.presets.remove", { label })}
+                    >
+                      {label}
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </li>
+                );
+              })}
+          </ul>
+          {presetsOff.length ? (
+            <button type="button" onClick={onRestorePresets} className="mt-2 text-sm text-blue-800 underline underline-offset-2">
+              {t("hero.presets.restore")}
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -500,57 +695,51 @@ export function Hero(props: HeroProps) {
 function BudgetField({
   value,
   currency,
-  info,
   t,
   money,
+  labelId,
   onChange,
 }: {
   value: number | null;
   currency: Currency;
-  info?: ReactNode;
   t: T;
   money: (n: number) => string;
+  /** The question heading names the field. */
+  labelId: string;
   onChange: (v: number | null) => void;
 }) {
-  const id = useId();
   const [text, setText] = useState(value === null ? "" : String(value));
   useEffect(() => {
     // Keep the field in step when a quick pick or the URL changes the budget.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setText((cur) => (Number(cur.replace(/[^\d]/g, "")) === value || (cur === "" && value === null) ? cur : value === null ? "" : String(value)));
   }, [value]);
+  const symbol = currency === "GBP" ? "£" : "€";
   return (
     <div>
-      <div className="flex items-center gap-1">
-        <label htmlFor={id} className="text-sm font-semibold">
-          {t("hero.budget.label")} ({currency})
-        </label>
-        {info}
+      <div className="evs-money">
+        <span aria-hidden="true">{symbol}</span>
+        <input
+          inputMode="numeric"
+          autoComplete="off"
+          aria-labelledby={labelId}
+          aria-describedby={`${labelId}-help`}
+          value={text}
+          onChange={(e) => {
+            setText(e.target.value);
+            const n = Number(e.target.value.replace(/[^\d]/g, ""));
+            onChange(e.target.value.trim() === "" || !Number.isFinite(n) || n <= 0 ? null : n);
+          }}
+          data-testid="hero-budget"
+        />
       </div>
-      <p id={`${id}-help`} className="text-sm text-slate-700">
-        {t("hero.budget.help", { currency })}
-      </p>
-      <input
-        id={id}
-        inputMode="numeric"
-        autoComplete="off"
-        aria-describedby={`${id}-help`}
-        value={text}
-        onChange={(e) => {
-          setText(e.target.value);
-          const n = Number(e.target.value.replace(/[^\d]/g, ""));
-          onChange(e.target.value.trim() === "" || !Number.isFinite(n) || n <= 0 ? null : n);
-        }}
-        className={`${inputCls} mt-1`}
-        data-testid="hero-budget"
-      />
-      <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label={t("hero.budget.quick")}>
+      <div className="evs-quick" role="group" aria-label={t("hero.budget.quick")}>
         {QUICK_BUDGETS[currency].map((b) => (
-          <button key={b} type="button" aria-pressed={value === b} onClick={() => onChange(b)} className={toggleCls} data-testid={`hero-budget-${b}`}>
+          <button key={b} type="button" aria-pressed={value === b} onClick={() => onChange(b)} className="evs-qb" data-testid={`hero-budget-${b}`}>
             {money(b)}
           </button>
         ))}
-        <button type="button" aria-pressed={value === null} onClick={() => onChange(null)} className={toggleCls}>
+        <button type="button" aria-pressed={value === null} onClick={() => onChange(null)} className="evs-qb" data-testid="hero-budget-none">
           {t("hero.budget.clear")}
         </button>
       </div>

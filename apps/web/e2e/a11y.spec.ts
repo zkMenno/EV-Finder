@@ -36,6 +36,10 @@ const ALL_PAGES: { name: string; path: string; ready: (p: Page) => Promise<void>
   { name: "hero-nl", path: "/nl/en?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   { name: "hero-nl-360", width: 360, path: "/nl/en?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   { name: "hero-en-nerd-360", width: 360, path: "/nl/en?role=only&trips=monthly&level=nerd", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-nerd" : "hero-no-scores").first()).toBeVisible()) },
+  // T-132: one question per screen (answer tiles, progress road, trail, budget step), phone + desktop.
+  { name: "hero-q-country-360", width: 360, path: "/nl/en", ready: async (p) => void (await expect(p.getByTestId("hero-q-country")).toBeVisible()) },
+  { name: "hero-q-charge", path: "/nl/en?q=charge&role=main&trips=few_a_year", ready: async (p) => void (await expect(p.getByTestId("hero-q-charge")).toBeVisible()) },
+  { name: "hero-q-budget-360", width: 360, path: "/nl/en?q=budget&role=only&trips=monthly&charge=home&area=town&budget=25000", ready: async (p) => void (await expect(p.getByTestId("hero-show")).toBeVisible()) },
   // T-119: Spain and Italy in their own language (Decision 066); same no-scores switch as above.
   { name: "hero-es", path: "/es/en?role=second&budget=20000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
   { name: "hero-it-360", width: 360, path: "/it/en?role=only&trips=monthly&budget=30000", ready: async (p) => void (await expect(p.getByTestId(HAS_SCORES ? "hero-card" : "hero-no-scores").first()).toBeVisible()) },
