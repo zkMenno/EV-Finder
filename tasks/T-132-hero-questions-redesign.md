@@ -1,6 +1,6 @@
 # T-132 Cleaner hero questions and answer chips
 Role: builder   Lane: UX (design) then WS2 (build): docs/design/ (UX), apps/web/ hero (WS2)   Wave: launch (staging feedback 2026-11-17)
-Status: todo
+Status: doing (WS2 6th chat, 2026-11-18, branch t-132-hero-questions)
 
 ## Goal
 The hero questions, answer chips and results are calm and easy to scan.
