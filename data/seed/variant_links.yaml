@@ -65,6 +65,11 @@ links:
   - {variant_id: volkswagen-id4-gen1-pure, platform_id: vw-meb, battery_pack_id: meb-52, voltage: *v400, charger_400v: *native}
   - {variant_id: volkswagen-id4-gen1-pro, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
   - {variant_id: volkswagen-id4-gen1-gtx, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  # --- T-148: Elroq by battery ---
+  - {variant_id: skoda-elroq-gen1-50, platform_id: vw-meb, battery_pack_id: meb-52, voltage: *v400, charger_400v: *native, notes: "Capacities from Škoda technical data (5 May 2025); platform cited on the Elroq generation default."}
+  - {variant_id: skoda-elroq-gen1-60, platform_id: vw-meb, battery_pack_id: meb-59, voltage: *v400, charger_400v: *native, notes: "Capacities from Škoda technical data (5 May 2025); platform cited on the Elroq generation default."}
+  - {variant_id: skoda-elroq-gen1-85, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native, notes: "Capacities from Škoda technical data (5 May 2025); platform cited on the Elroq generation default."}
+  - {variant_id: skoda-elroq-gen1-rs, platform_id: vw-meb, battery_pack_id: meb-79-84, voltage: *v400, charger_400v: *native, notes: "Release id (OpenEV RS row). Škoda technical data (5 May 2025): 84 (79) kWh; without this link the pack rule would give it the 77 kWh pack of the Elroq 85."}
   - {variant_id: skoda-enyaq-gen1-60, platform_id: vw-meb, battery_pack_id: meb-58, voltage: *v400, charger_400v: *native}
   - {variant_id: skoda-enyaq-gen1-80, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
   - {variant_id: skoda-enyaq-gen1-80x-rs, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}

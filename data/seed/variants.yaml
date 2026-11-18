@@ -1464,6 +1464,88 @@ variants:
       seats: 5
     notes: "APP550 motor, about 210 kW. WLTP roughly 550 km or more."
     confidence: low
+  # --- T-148 (variant queue batch, 2026-11-18): Elroq by battery. OpenEV had only "Base" (77 kWh) and "RS",
+  # so the 50 / 60 versions in RDW TGK fit nothing and every Elroq 85 tied Base / RS. OpenEV Base joins the Elroq 85 row. The 85x (two motors,
+  # 82 kWh) is not split out yet; the RS stays on OpenEV's row (Škoda gives 84 (79) kWh, OpenEV 77 net). ---
+  - generation_id: skoda-elroq-gen1
+    id: skoda-elroq-gen1-50
+    name: "Elroq 50 (52 kWh)"
+    years: [2024, null]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 52
+        source_url: https://cdn.skoda-storyboard.com/2025/06/Skoda_Elroq_Technical_data_d5686460.pdf
+        source_name: "Škoda Storyboard, 'Škoda Elroq technical data' (PDF, 5 May 2025)"
+        retrieved: 2026-11-18
+        quote: "Battery capacity gross (net) [kWh] 55 (52) 63 (59) 82 (77) 84 (79)"
+        locator: "Page 1, row 'Battery capacity gross (net)', column Elroq 50: 55 (52)"
+        confidence: high
+      power_kw:
+        value: 125
+        source_url: https://cdn.skoda-storyboard.com/2025/06/Skoda_Elroq_Technical_data_d5686460.pdf
+        source_name: "Škoda Storyboard, 'Škoda Elroq technical data' (PDF, 5 May 2025)"
+        retrieved: 2026-11-18
+        quote: "Max. system engine performance [kW] 125* 150* 210* 250*"
+        locator: "Page 1, column Elroq 50: 125 kW"
+        confidence: high
+    notes: "Drivetrain: Škoda Elroq sales brochure (skoda-auto.com, 'Rear-wheel drive (50, 60 and 85 versions) or all-wheel drive (85x and RS versions)'). WLTP up to 377 km in the same data sheet."
+    confidence: high
+  - generation_id: skoda-elroq-gen1
+    id: skoda-elroq-gen1-60
+    name: "Elroq 60 (59 kWh)"
+    years: [2024, null]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 59
+        source_url: https://cdn.skoda-storyboard.com/2025/06/Skoda_Elroq_Technical_data_d5686460.pdf
+        source_name: "Škoda Storyboard, 'Škoda Elroq technical data' (PDF, 5 May 2025)"
+        retrieved: 2026-11-18
+        quote: "Battery capacity gross (net) [kWh] 55 (52) 63 (59) 82 (77) 84 (79)"
+        locator: "Page 1, row 'Battery capacity gross (net)', column Elroq 60: 63 (59)"
+        confidence: high
+      power_kw:
+        value: 150
+        source_url: https://cdn.skoda-storyboard.com/2025/06/Skoda_Elroq_Technical_data_d5686460.pdf
+        source_name: "Škoda Storyboard, 'Škoda Elroq technical data' (PDF, 5 May 2025)"
+        retrieved: 2026-11-18
+        quote: "Max. system engine performance [kW] 125* 150* 210* 250*"
+        locator: "Page 1, column Elroq 60: 150 kW"
+        confidence: high
+    notes: "Drivetrain: Škoda Elroq sales brochure (skoda-auto.com, 'Rear-wheel drive (50, 60 and 85 versions) or all-wheel drive (85x and RS versions)'). WLTP up to 430 km in the same data sheet. Škoda's April 2026 data sheet lists a 61 (58) kWh LFP pack for the Elroq 60; the 2026 TGK version (504 km) is that car, not split out yet."
+    confidence: high
+  - generation_id: skoda-elroq-gen1
+    id: skoda-elroq-gen1-85
+    name: "Elroq 85 (77 kWh)"
+    years: [2024, null]
+    # OpenEV "Base" (MY2025: 77 net, 581 km WLTP, RWD) is this car (Škoda: 82 (77) kWh, up to 574-581 km);
+    # its 150 kW is the Elroq 60's figure. It joins this row; its old id is in retired_ids.yaml.
+    source_names:
+      openev: ["Base"]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 77
+        source_url: https://cdn.skoda-storyboard.com/2025/06/Skoda_Elroq_Technical_data_d5686460.pdf
+        source_name: "Škoda Storyboard, 'Škoda Elroq technical data' (PDF, 5 May 2025)"
+        retrieved: 2026-11-18
+        quote: "Battery capacity gross (net) [kWh] 55 (52) 63 (59) 82 (77) 84 (79)"
+        locator: "Page 1, row 'Battery capacity gross (net)', column Elroq 85: 82 (77)"
+        confidence: high
+      power_kw:
+        value: 210
+        source_url: https://cdn.skoda-storyboard.com/2025/06/Skoda_Elroq_Technical_data_d5686460.pdf
+        source_name: "Škoda Storyboard, 'Škoda Elroq technical data' (PDF, 5 May 2025)"
+        retrieved: 2026-11-18
+        quote: "Max. system engine performance [kW] 125* 150* 210* 250*"
+        locator: "Page 1, column Elroq 85: 210 kW"
+        confidence: high
+    notes: "Drivetrain: Škoda Elroq sales brochure (skoda-auto.com, 'Rear-wheel drive (50, 60 and 85 versions) or all-wheel drive (85x and RS versions)'). WLTP up to 574 km (cars built from June 2025) in the same data sheet."
+    confidence: high
   - generation_id: cupra-born-gen1
     id: cupra-born-gen1-45kwh
     name: "45 kWh"
