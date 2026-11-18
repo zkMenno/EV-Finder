@@ -64,6 +64,8 @@ import { generationHref } from "@/app/[country]/[lang]/ev/_lib/routes";
 import { LoanBox, LoanWarning, useLoanSettings, type FinanceUi } from "./PriceMode";
 import { profileName } from "./SuggestedSort";
 import { TermInfo, type TermText } from "./Term";
+import { OfficialRange } from "./OfficialRange";
+import { numLabels } from "./num-labels";
 import { ParallaxScene } from "@/components/parallax/ParallaxScene";
 import { city as cityScene, village as villageScene } from "@/components/parallax/scenes.generated";
 
@@ -1055,6 +1057,7 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
   const inCmp = cmp.some((c) => c.id === row.variant_id);
   const full = !inCmp && cmp.length >= COMPARE_MAX;
   const name = `${row.make_name} ${row.model_name}`;
+  const heroNumLabels = numLabels(t);
   const years = formatYears(pick.price?.yearFrom ?? row.year_start, pick.price ? pick.price.yearTo : row.year_end, t("years.now"));
   const site = props.listingSites[0];
   const monthly = pick.price ? monthlyFor(pick.price.amount, r.loan) : null;
@@ -1105,7 +1108,22 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
               <dt className="text-slate-700">
                 {t("hero.card.realRange")} <TermInfo term={props.terms["real-range"]} base={props.base} text={{ about: t("term.about"), learnMore: t("term.learnMore") }} />
               </dt>
-              <dd className="font-semibold tabular-nums">{row.real_range_km ? `${formatNumber(row.real_range_km, locale, 0)} km` : t("hero.card.notKnown")}</dd>
+              <dd className="font-semibold tabular-nums">
+                {row.real_range_km ? `${formatNumber(row.real_range_km, locale, 0)} km` : t("hero.card.notKnown")}
+                {/* T-143 (Decision 085): the official WLTP range right under our real range, secondary style. */}
+                <span className="block">
+                  <OfficialRange
+                    value={row.wltp_range_km}
+                    provenance={row.provenance.wltp_range_km}
+                    sources={props.sources}
+                    locale={locale}
+                    labels={heroNumLabels}
+                    text={{ label: t("range.wltp.label"), notKnown: t("range.wltp.notKnown"), tip: t("range.wltp.tip") }}
+                    info={{ href: `${props.base}/learn/wltp`, termText: { about: t("term.about"), learnMore: t("term.learnMore") } }}
+                    testId="hero-wltp"
+                  />
+                </span>
+              </dd>
             </div>
             <div>
               <dt className="text-slate-700">

@@ -24,6 +24,8 @@ export const SORT_KEYS = [
   // T-130 part 2: the cheapest used price where the visitor lives, and the winter range estimate.
   "used",
   "winter",
+  // T-143 (Decision 085): official WLTP range; "range" (real range) stays the default range sort.
+  "wltp",
 ] as const;
 export type SortKey = (typeof SORT_KEYS)[number];
 export type SortDir = "asc" | "desc";
@@ -39,6 +41,8 @@ export interface ExploreFilters {
   usedMax: number | null;
   /** T-130 part 2: real winter range estimate (`real_range_winter_km`), at least this many km. */
   winterMin: number | null;
+  /** T-143 (Decision 085): official WLTP range (`wltp_range_km`), at least this many km; real range stays the default. */
+  wltpMin: number | null;
   eras: Era[];
   segments: Segment[];
   bodies: Body[];
@@ -88,6 +92,7 @@ export const NUMERIC_FILTERS = [
   "usedMin",
   "usedMax",
   "winterMin",
+  "wltpMin",
   "rangeMin",
   "batteryMin",
   "dcMin",
@@ -109,6 +114,7 @@ const NUM_PARAM: Record<NumericFilter, string> = {
   usedMin: "umin",
   usedMax: "umax",
   winterMin: "winter",
+  wltpMin: "wltp",
   rangeMin: "range",
   batteryMin: "kwh",
   dcMin: "dc",
@@ -148,6 +154,7 @@ export function defaultFilters(): ExploreFilters {
     usedMin: null,
     usedMax: null,
     winterMin: null,
+    wltpMin: null,
     eras: [],
     segments: [],
     bodies: [],
@@ -349,6 +356,7 @@ const FIRST_DIR: Record<SortKey, SortDir> = {
   popular: "desc",
   used: "asc",
   winter: "desc",
+  wltp: "desc",
 };
 
 /** Sort menu (T-130): pick a key in its natural first direction (numbers high→low, price low→high). */
@@ -357,7 +365,7 @@ export function sortBy(state: ExploreState, key: SortKey): ExploreState {
 }
 
 /** The keys the catalogue page's sort menu offers, in menu order (T-130 design). */
-export const MENU_SORTS = ["popular", "used", "winter", "battery", "dc", "years"] as const satisfies readonly SortKey[];
+export const MENU_SORTS = ["popular", "used", "winter", "wltp", "battery", "dc", "years"] as const satisfies readonly SortKey[];
 
 /** Header click cycle: first direction → other direction → unsorted. */
 export function nextSort(state: ExploreState, key: SortKey): ExploreState {
