@@ -5,8 +5,9 @@ in menno-picks.yaml, Decision 038), limited to eras already on the used market. 
 scored with two plain signals whose weights live in `METHOD` below and are written into the
 output file, so the order is explainable:
 
-  registrations: the model's rank in data/seed/top40.yaml (used fleet, NL RDW first admission
-                 2018-2024 + UK DfT licensed fleet). Rank 1 = 40 points, rank 40 = 1 point.
+  registrations: the model's rank in data/seed/top40.yaml (NL: RDW cars by year of first
+                 admission 2018-2024; UK: DfT whole licensed BEV fleet, no year split).
+                 Rank 1 = 40 points, rank 40 = 1 point.
   owner:         Menno's verdict for that generation (shortlist / consider / unrated /
                  ruled_out) plus a bonus for his favourites.
 
@@ -58,12 +59,28 @@ def _generations() -> dict[str, dict[str, Any]]:
             for gen in model.get("generations", []):
                 out[gen["id"]] = {
                     "model_id": model["id"],
+                    "model_name": model["name"],
                     "make": make["name"],
                     "model": model["name"],
                     "generation": gen["name"],
                     "years": gen.get("years"),
                 }
     return out
+
+
+def display_name(make: str, model: str, generation: str) -> str:
+    """'Polestar 2', 'Nissan Leaf ZE1', 'Kia e-Niro (Gen 1, DE)': never the make or model twice."""
+    base = model if model.lower().startswith(make.lower()) else f"{make} {model}"
+    if generation.lower().startswith(model.lower()):
+        rest = generation[len(model) :].strip()
+        return f"{base} {rest}".strip()
+    first, *rest = generation.split()
+    for w in model.split():
+        if w.lower() in first.lower() and first.lower() != w.lower():
+            return f"{make} {generation}"  # 'e-Niro (Gen 1, DE)' names the model better
+        if first.lower() in w.lower():
+            return f"{base} {' '.join(rest)}".strip()  # 'Corsa-e' + 'Corsa F' -> 'Corsa-e F'
+    return f"{base} {generation}"
 
 
 def build() -> dict[str, Any]:
@@ -93,7 +110,7 @@ def build() -> dict[str, Any]:
         rows[gid] = {
             "generation_id": gid,
             "model_id": g["model_id"],
-            "name": f"{g['make']} {g['generation']}",
+            "name": display_name(g["make"], g["model_name"], g["generation"]),
             "registrations": {"top40_rank": r, "points": (41 - r) if r else 0},
             "owner": {
                 "verdict": verdict,
@@ -128,7 +145,7 @@ def build() -> dict[str, Any]:
         why = []
         r = row["registrations"]["top40_rank"]
         if r:
-            why.append(f"#{r} most registered used EV model (NL + UK)")
+            why.append(f"#{r} most registered EV model (NL + UK fleets)")
         vt = VERDICT_TEXT[row["owner"]["verdict"]]
         if vt:
             why.append(vt + (" (a favourite)" if row["owner"]["favourite"] else ""))
@@ -148,6 +165,10 @@ def build() -> dict[str, Any]:
         "inputs": {
             "picks": f"data/editorial/menno-picks.yaml (eras, {picks['source']['imported']})",
             "registrations": f"data/seed/top40.yaml (generated {top40['generated_on']})",
+            "upstream_licences": {
+                "rdw": "CC0-1.0 (RDW open data, NL)",
+                "dft-veh": "OGL-UK-3.0 (DfT VEH0120, UK; whole licensed fleet, not only used cars)",
+            },
         },
         "licence": (
             "CC-BY-4.0 (order and 'why' are ours; owner verdicts are Menno's opinion: label them)"

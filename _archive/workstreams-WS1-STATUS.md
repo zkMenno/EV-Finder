@@ -3,11 +3,12 @@
 - **State:** active (7th session, https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X)
 - **Now:** T-073 in review (PR #127)
 - **Next:** R-41 task 5 long tail (stretch, Decision 048); older HANDOFF items
-- **In review:** [#127](https://github.com/zkMenno/EV-Shortlist/pull/127) T-073 · [#138](https://github.com/zkMenno/EV-Shortlist/pull/138) T-136c seed 99.18 %
+- **In review:** [#127](https://github.com/zkMenno/EV-Shortlist/pull/127) T-073 · [#146](https://github.com/zkMenno/EV-Shortlist/pull/146) T-136d gems (after #129)
 - **Blocked:** T-063 (schema ac_kw_optional), T-064 part 2 (Data publish + WS4 Dockerfile fetch), EV3/Inster rows (Q-047), launch gate (Q-059)
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-18 11:50 UTC · #138 closed (superseded by #129 merge). Gems as #146 stacked on #129: 98.98 % EU match.
 - 2026-11-18 11:15 UTC · PR #138 T-136c: consolidated seed (233 models), EU match 99.18 %. Replaces #129 + WS3 2nd-chat branch.
 - 2026-11-18 10:50 UTC · 8th: PR #136 (manual `years:`). Handoff written.
 - 2026-11-18 10:25 UTC · 8th: PRs #131 (retired-id manual facts), #133 (image sha check), #134 (photo-only nights), #135 ('+' → 'plus'), all green. Same-data rebuild proof for #135 (16 sources fetched).

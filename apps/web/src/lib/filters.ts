@@ -53,6 +53,8 @@ export function applyFilters(rows: ExploreRow[], f: ExploreFilters, country: Cou
     checks.push((r) => (r.used_bands?.[country] ?? []).some(([y, , m]) => m >= lo && m <= hi && y >= y0 && y <= y1));
   }
   min((r) => r.real_range_winter_km, f.winterMin);
+  // T-143: a car without an official WLTP figure never matches a WLTP filter (no back-fill from our estimate).
+  min((r) => r.wltp_range_km, f.wltpMin);
   min((r) => r.real_range_km, f.rangeMin);
   min((r) => r.battery_kwh_net, f.batteryMin);
   // Decision 009: the DC filter uses km added in 20 min (motorway consumption).
@@ -130,6 +132,8 @@ function sortValue(r: ExploreRow, key: SortKey, country: Country, score?: Scorer
       return usedFrom(r, country);
     case "winter":
       return r.real_range_winter_km ?? null;
+    case "wltp":
+      return r.wltp_range_km ?? null;
   }
 }
 
@@ -159,6 +163,7 @@ export function sortRows(rows: ExploreRow[], key: SortKey | null, dir: SortDir, 
 export const FILTER_GROUPS = [
   ["usedMin", "usedMax"],
   ["winterMin"],
+  ["wltpMin"],
   ["priceMax"],
   ["eras"],
   ["segments"],

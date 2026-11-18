@@ -2,9 +2,9 @@
 
 - **State:** active
 - **Now:** #126 (T-130 part 2) review PASS + CI green, waiting for a merge by Menno/WS0; #137 gate line
-- **Next:** T-131 Popular used EVs, T-135 photo cards (6th chat owns T-132)
+- **Next:** T-131 Popular used EVs, T-135 photo cards · T-132: part 1 PR #145 (7th chat), part 2 results next
 - **Blocked:** — (waiting, not blocked: WS1 #21, #38, #15; WS3 #35)
-- **Last updated:** 2026-11-18 11:55 UTC by WS2 (5th chat)
+- **Last updated:** 2026-11-18 12:50 UTC by WS2 (7th chat, T-132)
 
 ## Log
 - 2026-11-15 11:35 UTC · WS2 chat opened (https://claude.ai/code/session_01JuyZEUSsvVozgE36R16xAS). Claimed T-080. Release 1 has no used prices and no winter-range field yet: the hero shows "not known yet" for both and never guesses (requests sent to WS1/WS0).
