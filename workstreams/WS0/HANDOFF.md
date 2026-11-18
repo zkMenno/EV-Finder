@@ -9,7 +9,7 @@ Repo: **zkMenno/EV-Shortlist** (use it for add_repo and every `gh api repos/zkMe
 - #108 R-41 tasks: 1 yes, 2 yes, 3 trimmed (no Kilowatt rows), 4 trimmed (field check first), 5 no (ROADMAP). Sent to WS1 + WS3 INBOX.
 
 ## Open
-- **#110 (T-134 pipeline)**: main merged in (3292431); fresh review was running at handoff, see its PR comment. Merge if PASS + CI green. Known follow-up: licence allowlist may still be CC BY / CC BY-SA only (Decision 083 adds CC0 / worldwide PD).
+- #110 merged (a8f19b7, review PASS). Follow-up to WS1: Decision 083 allowlist before any CC0/PD photo.
 - **#122 / #123** (process: one coordinator chat + batch chats; AGENTS gate) and **#124 / #125** (T-141 Ariakit brand picker + gate): opened 09:08–09:10 UTC by other chats, not in this batch, need fresh review. **#124 supersedes the "Ariakit parked" ROADMAP line from #121**: remove that line when #124 merges. Check #124's Decision 056 number (D12: number inside the writer's block, no duplicate).
 - #59 staging runbook: still waits on WS4 (review asked for changes on 17 Nov; staging now deploys from CI, so it may be obsolete: ask WS4).
 
