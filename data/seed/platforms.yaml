@@ -187,6 +187,12 @@ platforms:
     nominal_v: not-disclosed
     voltage_class_id: 400v
     notes: "BYD Atto 3, Dolphin, Seal and more, with Blade LFP batteries. BYD markets some e-Platform 3.0 cars as 800 V capable via a boost function; the Atto 3 is treated as a 400 V car."
+  - id: vw-j1
+    name: "J1 (Audi e-tron GT / Porsche Taycan)"
+    owner: Volkswagen Group
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-145: the platform the e-tron GT shares with the Porsche Taycan, as widely reported; name and voltage class not read from a maker document yet (uncertain). Linked by the e-tron GT 2024-update variants only."
   - id: audi-mlb-evo
     name: "MLB evo (e-tron / Q8 e-tron)"
     owner: Volkswagen Group

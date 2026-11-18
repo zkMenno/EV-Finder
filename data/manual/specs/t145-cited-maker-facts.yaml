@@ -1,0 +1,67 @@
+# T-145 (catalogue batch, 2026-11-18): cited WLTP figures for rows that showed "not known".
+#  - Release 2: Tesla Model 3 gen1 Long Range and Performance had no wltp_range_km
+#    (WS0 INBOX 12:50, T-143 follow-up 2).
+# Source `manual` (Decision 068). Every value below was read on the page named, on the date given.
+#
+# Tesla Model 3 (2019-2023) has one EU whole-vehicle type approval, e4*2007/46*1293
+# (Luxembourg), with ~50 extensions. RDW TGK (CC0) lists every variant / version
+# ("uitvoering") with its WLTP figures. Dual-motor variant E3D (2019-2020 builds, the most
+# registered gen1 Long Range / Performance in NL: RDW m9d7-ebf2, 2026-11-18):
+#   uitvoering BB*  max speed 233 km/h  -> Long Range AWD (560 km / 160 Wh/km)
+#   uitvoering PP*  max speed 261 km/h  -> Performance (530 km / 166 Wh/km)
+#   (PB* = Performance hardware without the 261 km/h top speed; also 530 km)
+# Later extensions carry higher figures for the refreshed cars (variants E3LD / E5LD from
+# extension 14, Dec 2020: Long Range 580 / 614 / 602 km, Performance 567 / 547 km). The seed
+# variants span 2019-2023 in one row, so the cited figure is the first-type-approval one; the
+# later figures are in each fact's notes. Splitting the rows by year is a separate change.
+schema: manual-facts/v1
+entered_by: ws3 (agent, T-145 catalogue batch)
+facts:
+  # --- Tesla Model 3 gen1 Long Range AWD ----------------------------------------------------
+  - variant_id: tesla-model-3-gen1-long-range
+    field: wltp_range_km
+    value: 560
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions BB1N / BB1T1 (Tesla Model 3 Long Range AWD, CC0)"
+    retrieved: 2026-11-18
+    quote: '"codeuitvoeringtgk": "BB1N", "verbruikvolledigelekwltpbgr": "160.00", "actieradiusvolledigelekwltpbgr": "560"'
+    locator: "Versions BB1N and BB1T1 (max speed 233 km/h in RDW TGK byxc-wwua); the same 560 km / 160 Wh/km on extensions 00 to 12 (2019-01 to 2020-08)"
+    confidence: medium
+    claim: true
+    notes: "Refreshed cars on later extensions: 580 km (E3CD/E5CD, from ext. 13, 2020-10), 614 km (E3LD, ext. 17, 2021-04), 602 km (E5LD, ext. 23, 2022-04). Medium: one row covers 2019-2023, the figure is for 2019-2020 builds."
+  - variant_id: tesla-model-3-gen1-long-range
+    field: consumption_kwh_100km
+    value: 16.0
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions BB1N / BB1T1 (Tesla Model 3 Long Range AWD, CC0)"
+    retrieved: 2026-11-18
+    quote: '"verbruikvolledigelekwltpbgr": "160.00"'
+    locator: "WLTP combined, Wh/km (160 Wh/km = 16.0 kWh/100 km), the 560 km versions"
+    confidence: medium
+    claim: true
+  # --- Tesla Model 3 gen1 Performance -------------------------------------------------------
+  - variant_id: tesla-model-3-gen1-performance
+    field: wltp_range_km
+    value: 530
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions PP1N / PP1T2 / PP2N / PP2T2 (Tesla Model 3 Performance, CC0)"
+    retrieved: 2026-11-18
+    quote: '"codeuitvoeringtgk": "PP2N", "verbruikvolledigelekwltpbgr": "166.00", "actieradiusvolledigelekwltpbgr": "530"'
+    locator: "Versions PP* (max speed 261 km/h in RDW TGK byxc-wwua, which the seed's 261 km/h top speed matches); the same 530 km / 166 Wh/km on extensions 00 to 12 (2019-01 to 2020-08)"
+    confidence: medium
+    claim: true
+    notes: "Refreshed cars on later extensions: 567 km (E3LD, ext. 13-25), 547 km (E5LD, ext. 22-35). Medium: one row covers 2019-2023, the figure is for 2019-2020 builds."
+  - variant_id: tesla-model-3-gen1-performance
+    field: consumption_kwh_100km
+    value: 16.6
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions PP1N / PP1T2 / PP2N / PP2T2 (Tesla Model 3 Performance, CC0)"
+    retrieved: 2026-11-18
+    quote: '"verbruikvolledigelekwltpbgr": "166.00"'
+    locator: "WLTP combined, Wh/km (166 Wh/km = 16.6 kWh/100 km), the 530 km versions"
+    confidence: medium
+    claim: true

@@ -1748,12 +1748,17 @@ makes:
           rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "E-TRON GT", match: prefix}, {name: "RS E-TRON GT", match: prefix}, {name: "S E-TRON GT", match: prefix}, {name: "AUDI E-TRON GT", match: prefix}, {name: "AUDI RS E-TRON GT", match: prefix}]
         generations:
           - id: audi-e-tron-gt-gen1
-            name: "e-tron GT"
-            years: [2021, null]
+            name: "e-tron GT (2021-2024)"
+            years: [2021, 2024]
             uncertain: true
-            notes: "One generation for now, although the 2024 update is a Decision 057 split (new pack with a visible update): Audi, 'The HV battery boasts a gross storage capacity of 105 kWh (net: 97 kWh)' (https://www.audi-technology-portal.de/en/antrieb/batterie-und-laden/audi-rs-e-tron-gt-performance-battery-and-charging-technology-en, 06/2024, read 2026-11-18). OpenEV's 2024 and 2025 e-tron GT files still carry the old 85 / 93.4 kWh pack, so a facelift generation would show the old pack's figures. Split once the facelift variants have cited packs (T-136 handoff, next step). EEA shows the change from 2024: WLTP up to 538-571 km, 435 and 620 kW. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2020 23, 2021 3519, 2022 4277, 2023 3424, 2024 1982, 2025 1688; RDW m9d7-ebf2 (NL BEV first admissions) 2021 457, 2022 287, 2023 168, 2024 51, 2025 64, 2026 51."
+            notes: "Pre-update cars: 93.4 kWh gross pack, e-tron GT quattro and RS e-tron GT (OpenEV MY2021-2024). Ends 2024, the year shared with the 2024 update (Decision 057: new pack with a visible update; split in T-145). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2020 23, 2021 3519, 2022 4277, 2023 3424, 2024 1982, 2025 1688; RDW m9d7-ebf2 (NL BEV first admissions) 2021 457, 2022 287, 2023 168, 2024 51, 2025 64, 2026 51."
+          - id: audi-e-tron-gt-facelift
+            name: "e-tron GT (2024 update, 97 kWh)"
+            years: [2024, null]
+            uncertain: true
+            notes: "Split from gen1 (Decision 057, T-145): new 105 kWh gross / 97 kWh net pack, 320 kW DC, new S / RS / RS performance line-up. Audi: 'The HV battery boasts a gross storage capacity of 105 kWh (net: 97 kWh)' (https://www.audi-technology-portal.de/en/antrieb/batterie-und-laden/audi-rs-e-tron-gt-performance-battery-and-charging-technology-en, 06/2024, read 2026-11-18). RDW type approval e1*2018/858*00005 from extension 10 (2024-06-04): variants SBM0CA* (NL name 'S E-TRON GT'), SBD1XA* ('RS E-TRON GT'), SBMD2A* ('RS E-TRON GT PERFORMANCE'); from extension 14 (2025-04-24) also SBMQ3C* ('E-TRON GT', a later entry version not yet seeded). OpenEV's MY2024-2025 e-tron GT files still carry the old pack and are held (variants.yaml source_holds)."
             change_markers:
-              - {year: 2024, text: "Update: 105 kWh gross / 97 kWh net pack (Audi), S / RS / RS performance trims; split pending (see notes)"}
+              - {year: 2024, text: "Update: 105 kWh gross / 97 kWh net pack, 320 kW DC, S / RS / RS performance"}
 
   - id: mercedes
     name: Mercedes-Benz
