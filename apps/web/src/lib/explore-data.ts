@@ -26,6 +26,8 @@ export const EXPLORE_FIELDS = [
   "body",
   "real_range_km",
   "real_range_rung",
+  // T-130 cards: winter estimate (-5 °C and colder, mixed driving), with its own provenance.
+  "real_range_winter_km",
   "battery_kwh_net",
   // Trip fit (T-036): WLTP battery consumption = usable kWh / WLTP km (fallback: published consumption).
   "wltp_range_km",
@@ -69,9 +71,12 @@ export const EXPLORE_FIELDS = [
 /** Numeric fields that carry provenance in the client JSON. */
 const NUMERIC = new Set<string>([
   "real_range_km",
+  "real_range_winter_km",
   "battery_kwh_net",
-  // wltp_range_km / consumption_kwh_100km ship without provenance: Explore never shows them, they
-  // only feed the trip estimate, which carries its own "fixture matrix" provenance (T-036).
+  // T-143 (Decision 085): the official WLTP range shows next to the real range, so it ships with its provenance.
+  "wltp_range_km",
+  // consumption_kwh_100km ships without provenance: Explore never shows it, it only feeds the trip
+  // estimate, which carries its own "fixture matrix" provenance (T-036).
   "dc_km_per_20min",
   "dc_km_per_10min",
   "dc_peak_kw",

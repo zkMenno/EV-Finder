@@ -269,3 +269,13 @@ approved:
   - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-facelift-base, field: "scores.*", change: changed}
   - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-gen1-73kwh-awd, field: "scores.*", change: changed}
   - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-gen1-73kwh-rwd, field: "scores.*", change: changed}
+  # T136: 1 variant, 21 changes (smart fortwo used-price bands after the forfour split)
+  - &t136
+    release: 3
+    file: used_prices.json
+    approved_by: "PR #129 (T-136)"
+    reason: "T-136: 'EQ FORFOUR' / 'FORFOUR ED' registrations (~4.5k EEA, ~700 RDW) used to land on the fortwo; they now match the new smart-eq-forfour model, and EEA fortwo spellings got aliases. The fortwo's registration mix changes (RDW registered_count_nl 1751 -> 1040), so its model-band used prices are re-weighted: 2024 bands clear in BE/DE/ES/FR/IT/NL and FR 2017-18 / IT 2017 move ~15 %. Measured: isolated rebuild main seed vs T-136 seed on the same staging (2026-11-18), 21 blocking, all on this variant."
+    id: smart-eq-fortwo-453-eq
+    field: "bands.*"
+    change: cleared
+  - {<<: *t136, id: smart-eq-fortwo-453-eq, field: "bands.*", change: changed}

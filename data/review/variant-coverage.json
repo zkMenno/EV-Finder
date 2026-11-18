@@ -1,0 +1,560 @@
+{
+  "seed_models": 233,
+  "seed_generations": 259,
+  "published_variants": 271,
+  "tgk_versions_in_seed_generations": 8157,
+  "tgk_versions_model_not_in_seed": 301,
+  "tgk_versions_year_outside_generations": 61,
+  "generations_with_tgk_versions": 234,
+  "fingerprint_groups": 657,
+  "groups_have": 214,
+  "groups_several": 41,
+  "groups_tie": 133,
+  "groups_no_fit": 44,
+  "groups_no_variant": 225,
+  "candidate_groups": 269,
+  "variants_if_candidates_added": 540,
+  "eea": {
+    "years": "2010-2025",
+    "eu_bev_registrations": 9109550,
+    "eu_cars_on_tgk_versions_of_seed_generations": 8595681,
+    "pct_eu_registrations_seed_generations_via_tgk": 94.4,
+    "pct_eu_registrations_on_groups_we_have": 63.8,
+    "candidate_groups_sold_in_eu": 234
+  },
+  "top_models_not_in_seed": [
+    {
+      "make": "LUCID MOTORS",
+      "model": "AIR",
+      "versions": 32
+    },
+    {
+      "make": "LUCID MOTORS",
+      "model": "LUCID GRAVITY",
+      "versions": 17
+    },
+    {
+      "make": "KIA",
+      "model": "EV2",
+      "versions": 15
+    },
+    {
+      "make": "SMART",
+      "model": "ELECTRIC DRIVE",
+      "versions": 12
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "GLC 400 4MATIC WITH EQ TE",
+      "versions": 9
+    },
+    {
+      "make": "DS AUTOMOBILES",
+      "model": "N 8",
+      "versions": 9
+    },
+    {
+      "make": "GENESIS",
+      "model": "GV70",
+      "versions": 9
+    },
+    {
+      "make": "PORSCHE",
+      "model": "CAYENNE",
+      "versions": 8
+    },
+    {
+      "make": "VOLKSWAGEN",
+      "model": "TRANSPORTER",
+      "versions": 8
+    },
+    {
+      "make": "FAW",
+      "model": "E-HS9",
+      "versions": 7
+    },
+    {
+      "make": "PORSCHE",
+      "model": "CAYENNE S",
+      "versions": 7
+    },
+    {
+      "make": "KG MOBILITY",
+      "model": "KG MOBILITY TORRES EVX",
+      "versions": 7
+    },
+    {
+      "make": "NIO",
+      "model": "FIREFLY",
+      "versions": 7
+    },
+    {
+      "make": "MIA",
+      "model": "N/A",
+      "versions": 6
+    },
+    {
+      "make": "TESLA",
+      "model": "ROADSTER",
+      "versions": 6
+    },
+    {
+      "make": "LEAPMOTOR",
+      "model": "T03",
+      "versions": 5
+    },
+    {
+      "make": "DS AUTOMOBILES",
+      "model": "N 4",
+      "versions": 5
+    },
+    {
+      "make": "VOLKSWAGEN",
+      "model": "TRANSPORTER CARAVELLE",
+      "versions": 5
+    },
+    {
+      "make": "KG MOBILITY",
+      "model": "TORRES EVX",
+      "versions": 5
+    },
+    {
+      "make": "VOLVO",
+      "model": "ES90",
+      "versions": 5
+    },
+    {
+      "make": "FORD-CNG-TECHNIK",
+      "model": "FOCUS ELECTRIC",
+      "versions": 4
+    },
+    {
+      "make": "FAW",
+      "model": "EHS9",
+      "versions": 4
+    },
+    {
+      "make": "PORSCHE",
+      "model": "CAYENNE TURBO",
+      "versions": 4
+    },
+    {
+      "make": "DS AUTOMOBILES",
+      "model": "NO 8",
+      "versions": 4
+    },
+    {
+      "make": "ALPINE",
+      "model": "A390",
+      "versions": 4
+    }
+  ],
+  "model_level": {
+    "base_registrations_with_a_name": 9083321,
+    "matched_to_a_seed_model": 8990790,
+    "pct_eu_registrations_model_level": 99.0,
+    "seed_models_with_eu_registrations": 223,
+    "seed_models_without_eu_registrations": [
+      "hyundai-ioniq-3",
+      "leapmotor-b05",
+      "mercedes-eqe-suv",
+      "mercedes-eqs-suv",
+      "volvo-ex50",
+      "volvo-ex60",
+      "xpeng-l03",
+      "xpeng-l05",
+      "xpeng-p7-plus",
+      "zeekr-7gt"
+    ],
+    "biggest_unmatched": [
+      {
+        "make": "LEAPMOTOR",
+        "name": "T03",
+        "reason": "model not in seed",
+        "registrations": 20089
+      },
+      {
+        "make": "TESLA",
+        "name": "MODEL",
+        "reason": "model not in seed",
+        "registrations": 4686
+      },
+      {
+        "make": "TOYOTA",
+        "name": "PRIUS",
+        "reason": "model not in seed",
+        "registrations": 3419
+      },
+      {
+        "make": "TOYOTA",
+        "name": "AURIS HYBRID",
+        "reason": "model not in seed",
+        "registrations": 1882
+      },
+      {
+        "make": "TOYOTA",
+        "name": "LEXUS RX450H",
+        "reason": "model not in seed",
+        "registrations": 1203
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO CITROEN E-C3 ELECTRICO MAX",
+        "reason": "model not in seed",
+        "registrations": 1031
+      },
+      {
+        "make": "",
+        "name": "AUDI E-TRON",
+        "reason": "make not in seed",
+        "registrations": 898
+      },
+      {
+        "make": "TOYOTA",
+        "name": "CT200H",
+        "reason": "model not in seed",
+        "registrations": 873
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO",
+        "reason": "model not in seed",
+        "registrations": 764
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO CITROEN E-C3 ELECTRICO MAX (SOLO STOCK)",
+        "reason": "model not in seed",
+        "registrations": 627
+      },
+      {
+        "make": "FORD",
+        "name": "F-150 LIGHTNING",
+        "reason": "model not in seed",
+        "registrations": 596
+      },
+      {
+        "make": "OPEL",
+        "name": "MOKKA ELECTRIC GS BEV 50KWH 136 CV (100KW)",
+        "reason": "model not in seed",
+        "registrations": 593
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO ?-C4 EL?CTRICO 100KW SHINE",
+        "reason": "model not in seed",
+        "registrations": 563
+      },
+      {
+        "make": "HONDA",
+        "name": "JAZZ HYBRID",
+        "reason": "model not in seed",
+        "registrations": 541
+      },
+      {
+        "make": "FORD",
+        "name": "EXPLORER PREMIUM",
+        "reason": "model not in seed",
+        "registrations": 502
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO CITROEN E-C3 ELECTRICO YOU",
+        "reason": "model not in seed",
+        "registrations": 478
+      },
+      {
+        "make": "NISSAN",
+        "name": "NISSANLEAF",
+        "reason": "model not in seed",
+        "registrations": 471
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO CITROEN E-C3 AIRCROSS ELECTRICO 113CV MAX",
+        "reason": "model not in seed",
+        "registrations": 469
+      },
+      {
+        "make": "HYUNDAI",
+        "name": "GV60. GENESIS GV60",
+        "reason": "model not in seed",
+        "registrations": 468
+      },
+      {
+        "make": "HONDA",
+        "name": "INSIGHT",
+        "reason": "model not in seed",
+        "registrations": 462
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "208 5P ALLURE PACK ELECTRICO 136 (100 KW)",
+        "reason": "model not in seed",
+        "registrations": 461
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO E-C4 ELECTRICO 100KW SHINE (SOLO STOCK)",
+        "reason": "model not in seed",
+        "registrations": 456
+      },
+      {
+        "make": "",
+        "name": "MODEL S",
+        "reason": "make not in seed",
+        "registrations": 437
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO E-C4 ELECTRICO 100KW FEEL PACK",
+        "reason": "model not in seed",
+        "registrations": 422
+      },
+      {
+        "make": "AUDI",
+        "name": "Q4",
+        "reason": "model not in seed",
+        "registrations": 421
+      },
+      {
+        "make": "VOYAH",
+        "name": "COURAGE",
+        "reason": "model not in seed",
+        "registrations": 412
+      },
+      {
+        "make": "DS AUTOMOBILES",
+        "name": "N 4",
+        "reason": "model not in seed",
+        "registrations": 406
+      },
+      {
+        "make": "TOYOTA",
+        "name": "TOYOTA PRIUS",
+        "reason": "model not in seed",
+        "registrations": 404
+      },
+      {
+        "make": "HYUNDAI",
+        "name": "GV60 GENESIS GV60",
+        "reason": "model not in seed",
+        "registrations": 400
+      },
+      {
+        "make": "PORSCHE",
+        "name": "CAYENNE S HYBRID",
+        "reason": "model not in seed",
+        "registrations": 387
+      },
+      {
+        "make": "FORD",
+        "name": "CX740S",
+        "reason": "model not in seed",
+        "registrations": 385
+      },
+      {
+        "make": "MCC SMART",
+        "name": "EQ FORTWO COUPE",
+        "reason": "make not in seed",
+        "registrations": 383
+      },
+      {
+        "make": "HYUNDAI",
+        "name": "GV70 GENESIS GV70",
+        "reason": "model not in seed",
+        "registrations": 381
+      },
+      {
+        "make": "TESLA MOTORS",
+        "name": "MODEL",
+        "reason": "model not in seed",
+        "registrations": 378
+      },
+      {
+        "make": "FORD",
+        "name": "MUSTANG",
+        "reason": "model not in seed",
+        "registrations": 375
+      },
+      {
+        "make": "OPEL",
+        "name": "MOKKA GS ELECTRIC BEV 54KWH 156 CV (115KW)",
+        "reason": "model not in seed",
+        "registrations": 368
+      },
+      {
+        "make": "LYNK&CO",
+        "name": "LYNK AND CO 02",
+        "reason": "model not in seed",
+        "registrations": 367
+      },
+      {
+        "make": "RENAULT",
+        "name": "RENAULT 4",
+        "reason": "model not in seed",
+        "registrations": 360
+      },
+      {
+        "make": "MCC SMART",
+        "name": "EQ FORFOUR",
+        "reason": "make not in seed",
+        "registrations": 356
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "2008 ALLURE PACK ELECTRICO 136 (100 KW)",
+        "reason": "model not in seed",
+        "registrations": 353
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "NUEVO E-3008 GT ELECTRICO 210 (157 KW)",
+        "reason": "model not in seed",
+        "registrations": 344
+      },
+      {
+        "make": "KIA",
+        "name": "NIRO 3 EV",
+        "reason": "model not in seed",
+        "registrations": 342
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "208 5P ACTIVE PACK ELECTRICO 136 (100 KW)",
+        "reason": "model not in seed",
+        "registrations": 342
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO E-C4 ELECTRICO 100KW SHINE",
+        "reason": "model not in seed",
+        "registrations": 327
+      },
+      {
+        "make": "TOYOTA",
+        "name": "TOYOTA AURIS",
+        "reason": "model not in seed",
+        "registrations": 324
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO C4X ELECTRICO 100 KW SHINE",
+        "reason": "model not in seed",
+        "registrations": 322
+      },
+      {
+        "make": "TOYOTA",
+        "name": "TOYOTAPRIUSPLUG-INHYBR",
+        "reason": "model not in seed",
+        "registrations": 321
+      },
+      {
+        "make": "VOLKSWAGEN VW",
+        "name": "MOIA",
+        "reason": "model not in seed",
+        "registrations": 317
+      },
+      {
+        "make": "VOLVO",
+        "name": "ES90",
+        "reason": "model not in seed",
+        "registrations": 313
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO E-C4 ELECTRICO 115 KW - 54KWH MAX",
+        "reason": "model not in seed",
+        "registrations": 310
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "E-CELL",
+        "reason": "model not in seed",
+        "registrations": 307
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO ?-C4 EL?CTRICO 100KW SHINE (SOLO STOCK)",
+        "reason": "model not in seed",
+        "registrations": 307
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO ?-C4 EL?CTRICO 100KW FEEL PACK",
+        "reason": "model not in seed",
+        "registrations": 295
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "2008 ALLURE PACK EL?CTRICO 136 (100 KW)",
+        "reason": "model not in seed",
+        "registrations": 293
+      },
+      {
+        "make": "CITROEN",
+        "name": "NUEVO CITROEN E-C3 ELECTRICO PLUS",
+        "reason": "model not in seed",
+        "registrations": 291
+      },
+      {
+        "make": "PORSCHE",
+        "name": "CAYENNE",
+        "reason": "model not in seed",
+        "registrations": 290
+      },
+      {
+        "make": "LEXUS",
+        "name": "LEXUS",
+        "reason": "model not in seed",
+        "registrations": 287
+      },
+      {
+        "make": "VOLKSWAGEN, VW",
+        "name": "TRANSPORTER CARAVELLE",
+        "reason": "model not in seed",
+        "registrations": 287
+      },
+      {
+        "make": "",
+        "name": "I3",
+        "reason": "make not in seed",
+        "registrations": 280
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "IONIQ",
+        "reason": "model not in seed",
+        "registrations": 269
+      }
+    ]
+  },
+  "inputs": {
+    "staging": [
+      "data/staging/openev.records.jsonl",
+      "data/staging/rdw-tgk.records.jsonl"
+    ],
+    "eea_versions": {
+      "years": [
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "fetched_at": "2026-11-18T09:47:29+00:00"
+    },
+    "rdw_tgk_fetched_at": "2026-11-18T09:14:14+00:00"
+  }
+}

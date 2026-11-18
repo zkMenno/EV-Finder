@@ -21,7 +21,6 @@ from ev_pipeline.match.matcher import (
     RegistrationEntry,
     aggregate_counts,
     count_period,
-    find_model_noted,
     match_records,
     registration_entries,
 )
@@ -108,15 +107,10 @@ def real_seed():
 
 
 def _model_of(seed, rec: SourceRecord) -> tuple[str | None, str, str | None]:
-    from ev_pipeline.match.matcher import find_by_source_alias, match_view
+    from ev_pipeline.match.matcher import find_record_model, match_view
 
-    view = match_view(rec)
-    make_id = seed.make_id_for(rec.make)
-    if make_id is None:
-        m, note = find_by_source_alias(seed, view)
-        return (m.id if m else None), "", note
-    m, why, note = find_model_noted(seed, make_id, view)
-    return (m.id if m else None), why, note
+    m, why, note, _ = find_record_model(seed, match_view(rec))  # the lookup match_records uses
+    return (m.id if m else None), ("" if m else why), note
 
 
 # --- source-scoped aliases (KBA) -----------------------------------------------------------
@@ -129,15 +123,16 @@ def _model_of(seed, rec: SourceRecord) -> tuple[str | None, str, str | None]:
         ("AUDI", "Q4", "audi-q4-e-tron"),
         ("AUDI", "Q8", "audi-e-tron"),
         ("MERCEDES", "GLA", "mercedes-eqa"),
-        ("SEAT", "BORN", "cupra-born"),  # make not in the seed
+        ("SEAT", "BORN", "cupra-born"),  # SEAT is in the seed (Mii); the source alias still wins
+        ("SEAT", "MII", "seat-mii-electric"),  # T-136d
         ("VW", "ID.4, ID.5", "volkswagen-id4"),
         ("MG ROEWE", "4", "mg-mg4"),  # make alias
         ("MG ROEWE", "4 URBAN", None),  # a different car
         ("TESLA", "MODEL Y", "tesla-model-y"),
         ("HYUNDAI", "KONA", "hyundai-kona-electric"),  # bev_only alias
         ("MINI", "MINI", None),  # all MINIs in one row: not mapped (Q-051)
-        ("AUDI", "E-TRON GT", None),
-        ("HONDA", "E:NY1", None),
+        ("AUDI", "E-TRON GT", "audi-e-tron-gt"),  # T-136: own model now, never the e-tron
+        ("HONDA", "E:NY1", "honda-e-ny1"),  # T-136: own model, not the Honda e
         ("BMW", "X1", "bmw-ix1"),  # BEV column of the X1 series (T-051 added the iX1)
         ("BMW", "X2", None),  # iX2 is not in the seed: never invent models
     ],
@@ -169,12 +164,12 @@ def test_source_alias_note_travels_with_the_count(real_seed) -> None:
         ("HYUNDAI IONIQ", "IONIQ PREMIUM EV", "hyundai-ioniq-electric"),
         ("HYUNDAI IONIQ", "IONIQ 5 PREMIUM EV", "hyundai-ioniq-5"),
         ("HYUNDAI IONIQ", "IONIQ 6 ULTIMATE EV", "hyundai-ioniq-6"),
-        ("HYUNDAI IONIQ", "IONIQ 9 CALLIGRAPHY EV 4X4", None),  # not the Ioniq Electric
+        ("HYUNDAI IONIQ", "IONIQ 9 CALLIGRAPHY EV 4X4", "hyundai-ioniq-9"),  # T-136
         ("AUDI E-TRON", "E-TRON TECHNIK 50 QUATTRO", "audi-e-tron"),
-        ("AUDI E-TRON", "E-TRON GT QUATTRO", None),
+        ("AUDI E-TRON", "E-TRON GT QUATTRO", "audi-e-tron-gt"),  # T-136: own model, not the e-tron
         ("AUDI Q8", "Q8 E-TRON SPORT 50 QUATTRO", "audi-e-tron"),
         ("HONDA E", "E ADVANCE", "honda-e"),
-        ("HONDA E", "ENY1 ADVANCE", None),
+        ("HONDA E", "ENY1 ADVANCE", "honda-e-ny1"),  # T-136
         ("MG 4", "4 TROPHY", "mg-mg4"),
         ("MG 4", "4 URBAN PREMIUM EV", None),
         ("MINI COOPER", "COOPER S ELECTRIC LEVEL 2", "mini-cooper-se"),

@@ -20,3 +20,9 @@ Repo: **zkMenno/EV-Shortlist** (use it for add_repo and every `gh api repos/zkMe
 - My CHATS row commit trailer has a typo'd session id (log only, harmless).
 - Lesson: INBOX lines pushed to main conflict with PRs that also append to INBOX/CHATS (#112 twice). Resolve by union; keep PRs off shared logs where possible.
 - Older items from the previous handoff (EV6 GT versions, Ioniq 5 facelift WLTP, Model Y winter basis, cite_paths required, eafo 429, €15k road-tripper list) still stand.
+
+## Open follow-ups (from lane inboxes, triaged 2026-11-18 12:00 UTC)
+Batch candidates for the next build chats (coordinator writes the brief):
+- **Data (WS1):** popularity per generation in the release (T-130 reads it; config/popularity.yaml is WS3's); `licence` on each used-price band `source`; OpenEV `markets` filter (China-only files → review queue; Leapmotor T03, SEAT Mii); **image pipeline accepts CC0 / public-domain licences** (needed before #132's photos ship, Decision 083); T-142 hardening report after the base build.
+- **Web (WS2):** T-143 WLTP next to real range (batch running); AC optional charger "7.4 kW (11 kW optional)"; brand fonts not loaded (Atkinson Hyperlegible text/numbers, Bitter headings); `--line-strong` border contrast 2.83:1 → ≥ 3:1 (with UX); verify flow `tooltip` selector fix.
+- **Infra (WS4):** is #59 (staging runbook) obsolete now that CI deploys staging? Close or finish.

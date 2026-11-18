@@ -932,4 +932,37 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-133 (WS3) may add CC0 / PD photos. Reversible: if a file's status changes, the photo is swapped at the next release.
 
+## Decision 084: People carriers in, cargo vans later (Menno, 2026-11-18)
+
+**Status:** Accepted (Menno, relayed 2026-11-18 11:27 CET via WS3 2nd chat, WS0 INBOX 10:30 UTC)
+**Date:** 2026-11-18
+
+**Context:** The vehicle scope said "BEV cars only at launch; vans Later" (product decision 2026-11-14). The T-136 missing-model seed (#129, #138) found van-based people carriers among the EU's registered BEVs (~65k cars, 0.7 %), and WS3 asked whether EQV, ë-Berlingo and e-Rifter were in scope.
+
+**Decision:** Van-based **people carriers**, the M1 passenger versions, are in the catalogue like any other car: Mercedes EQV / eVito Tourer / EQT, Citroën ë-Berlingo / ë-SpaceTourer, Peugeot e-Rifter / e-Traveller, Opel Combo-e Life / Zafira-e Life, Toyota Proace (City) Verso, Fiat e-Doblò / e-Ulysse, Nissan e-NV200 Evalia, Renault Kangoo E-Tech. "Vans Later" now means **cargo vans only** (N1 panel vans and their commercial versions stay out).
+
+**Consequences:** WS3 seeds the M1 versions (T-136, #138) with the same data rules as other models; register rows for cargo versions stay unmatched or go to review, never onto the M1 generation. docs/spec/product-decisions.md updated. Reversible: a people carrier can be parked again with a flag.
+
+## Decision 056: Ariakit is the UI library for complex widgets (supersedes "no UI libraries" in apps/web rule 4)
+
+**Status:** Accepted (Menno, 2026-11-18: "development is still early stage, let's just make use of this library")
+**Date:** 2026-11-18
+
+**Context:** apps/web rule 4 banned UI libraries to protect the JS budget, so every widget was hand-built. Accessible comboboxes, dialogs and menus are hard to get right by hand. Ariakit (`@ariakit/react`, MIT) is unstyled (our tokens stay in charge), accessible, and supports React 17+ (we run 19).
+
+**Decision:** Use Ariakit for interactive widgets with real keyboard and screen-reader logic: comboboxes, multi-selects, dialogs, menus, tabs. Plain HTML (`<details>`, `<select>`, `<dialog>`) still wins where it is enough. The JS budget stays: a widget that Explore doesn't need on first paint loads with `next/dynamic` / `import()`. First use: the hero's brand include / exclude picker (T-141). Measured on release 2: landing page first load 173.6 → 175.2 KB gzip when built (after main's /cars split, #117: landing 164.9 KB, /cars 163.3 KB); the picker chunk (Ariakit combobox) is ~44 KB gzip and loads only when "More filters" is opened.
+
+**Consequences:** apps/web/AGENTS.md rule 4 changes in its own gate PR. The hand-built popovers (`use-popover.ts`: Num, Term ⓘ, Explore) stay for now: they are on Explore's first paint and an Ariakit popover there would eat most of the remaining ~25 KB budget headroom; revisit if the budget is raised or Ariakit's popover chunk proves small (measure first).
+
+## Decision 085: Official WLTP range shown next to our real range; real range leads
+
+**Status:** Accepted (Menno, 2026-11-18)
+**Date:** 2026-11-18
+
+**Context:** We lead with our own real-world range (and winter range). People also know and compare the official WLTP figure from ads and brochures; hiding it makes our numbers harder to trust and compare.
+
+**Decision:** Wherever range appears (catalogue cards and rows, filters, car/variant pages, compare, hero cards), show the **real range first and most prominent**, with the **official WLTP range right next to it, in the same section** (smaller or secondary style, labelled "Official (WLTP)"). Winter range stays with the real range. Filters: a range filter defaults to real range, with WLTP available in the same filter group (e.g. a toggle or second slider). Sorting by range defaults to real range. If WLTP is missing, say so; never back-fill it from our estimate.
+
+**Consequences:** T-143 (WS2, with UX for the layout). Data already in the release (`wltp_range_km`); no pipeline change. If decision 084 is not taken by the docs PR that logs people carriers, that PR uses 084 as planned.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->

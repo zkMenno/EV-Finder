@@ -1,6 +1,6 @@
 # Chats
 
-Every long-running chat on EV Finder, so chats (and Menno) can find each other. A new chat adds its own row in its first commit.
+One named chat, the **coordinator**; every other chat is a throwaway batch chat (docs/process/README.md §3). A new chat adds its own row in its first commit: batch chats as `batch: <what>`. Rows below the coordinator are history.
 
 | Workstream | Purpose | Link | Since |
 |---|---|---|---|
@@ -39,3 +39,13 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS1 (7th) | Data pipeline: Menno catalogue target (Decision 048), R-41 task 1 variant split T-073 (Decision 049, Q-039 default) | https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X | 2026-11-18 |
 | WS2 (6th, 2026-11-18) | Web app: T-130 part 2 (catalogue visual layer), then T-131, T-135, T-132 | https://claude.ai/code/session_01JuyZEWZuyZEW | 2026-11-18 |
 | WS3 (4th, 2026-11-18) | Catalogue curation: T-136 task 2 missing-model seed (R-41), then pre-push data-qa script | https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9 | 2026-11-18 |
+| WS1 (8th) | Data pipeline: HANDOFF follow-ups ('+' → 'plus' key, retired-id manual facts, #110 nits, photo-only nights); not T-073 (7th chat owns #127) | https://claude.ai/code/session_01JuyZEUgHKypBRfx6deGhfu | 2026-11-18 |
+| batch: WS0 merge batch 2 | Fresh review + merge #122→#123 (process), #124→#125 (T-141 Ariakit); ask WS4 about #59 | https://claude.ai/code/session_01JuyZEVozSsJftczDuEDThn | 2026-11-18 |
+| WS3 batch (5th, 2026-11-18) | batch: T-136 stretch (absorb 2nd chat models + van people carriers), then e-tron GT facelift | https://claude.ai/code/session_01JuyZEVcqV3ZZHZbnBVTP8x | 2026-11-18 |
+| batch: WS0 merge batch 3 | Fresh review + merge WS1 8th PRs #131, #133, #134, #135, #136 | https://claude.ai/code/session_01JuyZEUqC6gVaKzctwab8Me | 2026-11-18 |
+| batch: merge 3 | Fresh review + merge queue: #126→#137, #133/#134/#136→#135 (if the other merge-3 chat has not), #138 (close #129), #130, #128, #132, #127, WS0 process PRs | https://claude.ai/code/session_01JuyZEVyzbdoL | 2026-11-18 |
+| WS2 (7th, 2026-11-18) | batch: T-132 hero redesign, part 1 questions (PR #145), then part 2 results | https://claude.ai/code/session_01JuyZEXjrE | 2026-11-18 |
+| batch: merge 4 | Fresh review + merge #141→#139, #129→#144→#146 (close #140/#142/#143), #132, #136, #145 | https://claude.ai/code/session_01JuyZEY24JJEfAQBWgh5L9e | 2026-11-18 |
+| batch: T-143 | WLTP next to real range (Decision 085), apps/web | https://claude.ai/code/session_01JuyZEWUcQc9VrZx4Ru21x6 | 2026-11-18 |
+| batch: data / release 3 | WS1: merge #148, CC0/PD photo allowlist + #132, Leaf release-3 blocker, #134 photos_pending, small data asks, data release 3 | https://claude.ai/code/session_01JuyZEYBjTWasMqN2MESUcC | 2026-11-18 |
+| batch: web | WS2: T-132 part 2 (hero results), english-only loop, AC optional charger, brand fonts, --line-strong contrast, verify tooltip, Sources popover, T-143 done | https://claude.ai/code/session_01JuyZEXBt7oHBm4SwQBwRz1 | 2026-11-18 |

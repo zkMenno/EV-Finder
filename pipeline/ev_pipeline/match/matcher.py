@@ -512,6 +512,28 @@ def find_by_source_alias(
     return seed.models[mid], note
 
 
+def find_record_model(
+    seed: Seed, view: SourceRecord, scoped: bool = False
+) -> tuple[SeedModel | None, str, str | None, bool]:
+    """(model, why not, source alias note, make known) for one record, as match_records sees it.
+
+    Make in the seed: its models by name and aliases; when none matches ("model not in seed"),
+    a source alias written with its make still applies (T-136c: KBA "SEAT BORN" is the Cupra
+    Born although SEAT itself is in the seed for the Mii electric). Make not in the seed: only
+    such source aliases."""
+    sid = view.source.id.root
+    make_id = seed.make_id_for(view.make, sid, scoped)
+    if make_id is None:
+        model, note = find_by_source_alias(seed, view, scoped)
+        return model, ("" if model else "make not in seed"), note, False
+    model, why, note = find_model_noted(seed, make_id, view, scoped)
+    if model is None and why == "model not in seed":
+        alias, alias_note = find_by_source_alias(seed, view, scoped)
+        if alias is not None:
+            return alias, "", alias_note, True
+    return model, why, note, True
+
+
 def match_view(record: SourceRecord) -> SourceRecord:
     """The record as matching sees it: DfT is matched on its variant column (see 8 above)."""
     if record.source.id.root in MATCH_ON_VARIANT_NAME and record.variant_name:
@@ -869,18 +891,13 @@ def match_records(
             result.count_only_skipped[sid] += 1
             continue
         view = match_view(rec)
-        make_id = seed.make_id_for(rec.make, sid, scoped)
-        note: str | None = None
-        if make_id is None:
-            model, note = find_by_source_alias(seed, view, scoped)
-            if model is None:
-                result.other_makes[(sid, rec.make.strip().upper())] += 1
-                continue
-        else:
-            model, why, note = find_model_noted(seed, make_id, view, scoped)
-            if model is None:
+        model, why, note, make_known = find_record_model(seed, view, scoped)
+        if model is None:
+            if make_known:
                 result.unmatched.append(_unmatched(rec, why))
-                continue
+            else:
+                result.other_makes[(sid, rec.make.strip().upper())] += 1
+            continue
         if rec.kind == "registration_count":
             _add_count(rec, model, result, evidence, note)
             continue
@@ -956,12 +973,7 @@ def _add_corroboration(
     scoped: bool,
 ) -> None:
     """A corroboration record becomes generation facts (Q-019); never a variant fact."""
-    view = match_view(rec)
-    make_id = seed.make_id_for(rec.make, rec.source.id.root, scoped)
-    if make_id is None:
-        model, _ = find_by_source_alias(seed, view, scoped)
-    else:
-        model, _, _ = find_model_noted(seed, make_id, view, scoped)
+    model, _, _, _ = find_record_model(seed, match_view(rec), scoped)
     if model is None:
         result.corroboration_skipped["model not in seed"] += 1
         return

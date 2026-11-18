@@ -26,8 +26,10 @@ features:
     title: "Hero: road-tripper with a budget gets a ranked top 10"
     triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts, src/lib/filters.ts, src/config/shortlist-rules.generated.json, "src/app/[[]country]/[[]lang]/page.tsx", src/lib/finance*.ts, src/i18n/*.json]
     steps:
-      - goto: /nl/en?role=only&trips=monthly&charge=home&area=town
+      # T-132: the budget is its own question (q=budget); "Show my top 10" opens the results.
+      - goto: /nl/en?q=budget&role=only&trips=monthly&charge=home&area=town
       - click: "@hero-budget-30000"
+      - click: "@hero-show"
       - wait: "@hero-card"
     expect:
       - count: "@hero-card"
@@ -48,10 +50,10 @@ features:
         contains: Road-tripper
         what: the profile name
         why: the picker answers don't map to the road-tripper profile
-      - text: "@hero-monthly"
-        match: "≈ .+ a month|official typical loan rate"
-        what: the monthly estimate under the budget
-        why: the loan estimate (or its 'no rate' note) is missing
+      - text: "@hero-summary"
+        contains: "up to €30,000"
+        what: the budget in the profile summary above the results
+        why: the budget picked on the budget question didn't reach the results
       - visible: "@hero-why"
         what: the 'why it ranks here' line
         why: cards don't explain their rank
@@ -63,6 +65,34 @@ features:
       - url: "budget=30000"
         what: the budget in the address bar
         why: state is not in the URL, so the link can't be shared (design principle 3)
+
+  - id: hero-budget-question
+    title: "Hero: the budget question shows quick picks and a monthly estimate"
+    triggers: [src/components/Hero.tsx, src/components/HeroSteps.tsx, src/lib/hero-state.ts, src/lib/finance*.ts, src/i18n/*.json]
+    steps:
+      - goto: /nl/en?q=budget&role=only&trips=monthly&charge=home&area=town
+      - click: "@hero-budget-30000"
+    expect:
+      - attr: "@hero-road [aria-current=step]"
+        name: aria-current
+        match: "^step$"
+        what: the progress road marks the current stop
+        why: the visitor can't see where they are in the questions
+      - text: "@hero-stepline"
+        contains: "Step 3 of 3"
+        what: the step line above the question
+        why: the budget question doesn't say it's the last one
+      - text: "@hero-monthly"
+        match: "≈ .+ a month|official typical loan rate"
+        what: the monthly estimate under the budget
+        why: the loan estimate (or its 'no rate' note) is missing
+      - text: "@hero-trail"
+        contains: Road-tripper
+        what: the answers so far, collapsed into the profile name
+        why: the answer trail lost the driving answers
+      - url: "q=budget"
+        what: the question in the address bar
+        why: the back button and shared links can't return to this question
 
   - id: hero-daily-driver
     title: "Hero: daily driver"
@@ -86,11 +116,16 @@ features:
         why: the hero shows nothing for this profile
 
   - id: hero-runabout-picker
-    title: "Hero: picking 'A second car' by tapping builds the runabout profile"
-    triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts]
+    title: "Hero: tapping through the questions as a second car builds the runabout profile"
+    triggers: [src/components/Hero.tsx, src/components/HeroSteps.tsx, src/lib/shortlist.ts, src/lib/hero-state.ts]
     steps:
+      # T-132: one question per screen; a second car skips the long-trips question.
       - goto: /nl/en
+      - click: "label:has(@hero-country-nl)"
       - click: "label:has(@hero-role-second)"
+      - click: "label:has(@hero-charge-home)"
+      - click: "label:has(@hero-area-town)"
+      - click: "@hero-show"
       - wait: "@hero-card"
     expect:
       - text: "@hero-profile"
@@ -121,6 +156,24 @@ features:
         what: ranked cars
         why: the kerbside presets dropped every car
 
+  - id: hero-brand-picker
+    title: "Hero: pick brands by typing, then remove one"
+    triggers: [src/components/Hero.tsx, src/components/BrandPicker.tsx]
+    steps:
+      - goto: /nl/en?role=only&trips=monthly&charge=home&area=town
+      - click: "@hero-refine summary"
+      - wait: "@hero-brands-input"
+      - fill: ["@hero-brands-input", "tes"]
+      - wait: "@hero-brands-list"
+      - click: "role=option[name=\"Tesla\"]"
+    expect:
+      - visible: "@hero-brands >> role=button[name=\"Remove Tesla\"]"
+        what: a "Tesla ×" chip under "Only these brands"
+        why: picking a brand in the list doesn't select it, or the chip to undo it is missing
+      - url: "make=tesla"
+        what: the brand in the page address
+        why: the brand choice is lost on reload or share (filters live in the URL)
+
   - id: hero-nerd
     title: "Hero: Nerd level shows how the score is built"
     triggers: [src/components/Hero.tsx, src/lib/shortlist.ts, src/lib/use-level.ts]
@@ -140,11 +193,11 @@ features:
     steps:
       - goto: /nl/en/cars?view=table
       - wait: "@explore-row"
-      - fill: ["#f-rangeMin", "350"]
-      - wait: "@result-count"
+      - fill: ["#f-usedMax", "25000"]
+      - wait: "@filter-pill"
     expect:
-      - url: "range=350"
-        what: the range filter in the address bar
+      - url: "umax=25000"
+        what: the used price filter in the address bar
         why: filters are not shareable (design principle 3)
       - visible: "@explore-row"
         what: at least one row in the table
@@ -183,6 +236,60 @@ features:
         contains: one person's verdict
         what: the How we rank section
         why: the owner's picks aren't labelled as one person's opinion
+
+  - id: catalogue-cards
+    title: "Catalogue: one card per generation, filter pills that remove themselves (T-130 part 2)"
+    triggers: [src/components/Explore.tsx, src/lib/generation-cards.ts, src/lib/filters.ts, src/lib/state.ts, src/lib/explore-data.ts, "src/app/[[]country]/[[]lang]/cars/**", src/i18n/*.json]
+    steps:
+      - goto: /nl/en/cars?umax=25000&winter=250
+      - wait: "@filter-pill"
+      - click: "(//*[@data-testid='filter-pill'])[1]"
+      - wait: "@explore-card"
+    expect:
+      - count: "@filter-pill"
+        eq: 1
+        what: one filter pill left after removing the used price
+        why: a pill's × doesn't remove its filter
+      - url: "winter=250"
+        what: the winter range filter still in the address bar
+        why: removing one pill cleared the others
+      - visible: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='card-used']"
+        what: the used price on the first card
+        why: cards don't show what the car costs used where the visitor lives
+      - visible: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='fact-winter']"
+        what: the winter range on the first card
+        why: cards miss the design's three facts (winter km, summer km, km in 20 min)
+      - text: "@result-count"
+        match: "\\d+ of \\d+ models match"
+        what: the count line in models
+        why: the count doesn't say how many models match
+
+  - id: wltp-next-to-real-range
+    title: "Official WLTP range next to our real range; WLTP filter + sort (T-143, Decision 085)"
+    triggers: [src/components/OfficialRange.tsx, src/components/Explore.tsx, src/components/Hero.tsx, src/lib/generation-cards.ts, src/lib/filters.ts, src/lib/state.ts, src/lib/explore-data.ts, "src/app/[[]country]/[[]lang]/ev/_components/SpecValue.tsx", src/i18n/*.json]
+    steps:
+      - goto: /nl/en/cars?wltp=500&sort=-wltp
+      - wait: "@fact-wltp"
+    expect:
+      - url: "wltp=500"
+        what: the WLTP filter in the address bar
+        why: the filter state is lost (shared links stop working)
+      - text: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='fact-wltp']"
+        contains: "Official (WLTP)"
+        what: the 'Official (WLTP)' line on the first card
+        why: cards don't show the official figure next to our real range
+      - attr: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='fact-wltp']"
+        name: data-known
+        match: "^1$"
+        what: a real official figure on a card left by the WLTP filter
+        why: the WLTP filter lets cars without an official figure through
+      - visible: "@filter-wltp"
+        what: the WLTP slider in the range filter group
+        why: there's no way to filter by the official figure
+      - text: "@filter-pills"
+        contains: "official (WLTP)"
+        what: the WLTP filter pill
+        why: the active WLTP filter can't be seen or removed
 
   - id: explore-compare
     title: "Explore → Compare with 'differences only'"

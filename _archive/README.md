@@ -10,6 +10,7 @@ Things are moved here, never deleted, so history stays one click away for Menno.
 | `workstreams/OVERNIGHT/`, `workstreams/OVERNIGHT2/` | Finished overnight runs 1 and 2 (addenda, MORNING reports) | BOARD.md, CHANGELOG.md |
 | `docs/spec-workflow-tab.md` | Spec "Workflow" tab mirror (15 Nov) | docs/process/README.md |
 | `questions-closed.md` | Closed and triaged questions (Q-001…Q-092) | QUESTIONS.md (open), DECISIONS.md |
+| `workstreams-<lane>-{START,STATUS,HANDOFF,INBOX}.md` (WS1–WS5, UX, QA; WS4/WS5/QA had no HANDOFF) | Per-lane start prompts, status logs + retros, handoffs and inboxes of the long-running lane chats, retired 2026-11-18 when every chat but the coordinator became a batch chat (#122) | `workstreams/<lane>/START.md` (lane briefs), open inbox items at the end of `workstreams/WS0/INBOX.md`, task files and PRs |
 
 Archiving: `git mv` the file here, add a row above, fix live links that pointed to it. Owner: WS0.
 | design-assets/tram-*.svg | 2026-11-17 | UX: tram illustration replaced by an electric bus (Menno) |

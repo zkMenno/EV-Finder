@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 from datetime import date
@@ -366,3 +367,97 @@ def test_refresh_fetch_step_fetches_listed_photos(tmp_path: Path, monkeypatch) -
     monkeypatch.setattr(store, "fetch_originals", fake_fetch)
     out = runner.fetch_images(d)
     assert out["outcome"] == "ok" and out["fetched"] == 1 and seen == [gid]
+
+
+def test_photos_pending_lets_a_photo_only_night_publish(tmp_path: Path) -> None:
+    """#110 should-fix 3: a night with new photos but no data change used to be skipped."""
+    from ev_pipeline.refresh.runner import photos_pending
+
+    real = Path(__file__).resolve().parents[2] / "data"
+    d = tmp_path / "data"
+    (d / "seed").mkdir(parents=True)
+    (d / "seed" / "models.yaml").write_text((real / "seed" / "models.yaml").read_text())
+    (d / "images").mkdir()
+    gid = "tesla-model-3-gen1"
+    photo = commons(generation_id=gid)
+    (d / "images" / "photos.yaml").write_text(yaml.safe_dump({"photos": [photo]}))
+    rel = d / "releases" / "1"
+    rel.mkdir(parents=True)
+    (d / "releases" / "latest").write_text("1\n")
+
+    def publish(image: dict[str, Any] | None) -> None:
+        g: dict[str, Any] = {"id": gid}
+        if image:
+            g["image"] = image
+        (rel / "catalogue.json").write_text(json.dumps({"generations": [g]}))
+
+    publish(None)
+    assert photos_pending(d) == []  # listed but not downloaded yet: nothing to ship
+    cache = d / "cache" / "images"
+    cache.mkdir(parents=True)
+    (cache / f"{cache_key(photo['file_url'])}.bin").write_bytes(b"x")
+    assert photos_pending(d) == [gid]  # downloaded, not published: publish tonight
+    publish({"file_url": photo["file_url"]})
+    assert photos_pending(d) == []  # already in the release
+    publish({"file_url": "https://upload.wikimedia.org/old.jpg"})
+    assert photos_pending(d) == [gid]  # photo swapped
+    (d / "images" / "photos.yaml").write_text(yaml.safe_dump({"photos": []}))
+    assert photos_pending(d) == [gid]  # photo removed from photos.yaml
+    (d / "releases" / "latest").unlink()
+    assert photos_pending(d) == []  # no release yet: the first one is built anyway
+
+
+def test_refresh_release_gate_builds_on_pending_photos(tmp_path: Path, monkeypatch) -> None:
+    import time as _time
+    from datetime import UTC, datetime
+
+    from ev_pipeline.refresh import runner
+    from ev_pipeline.release import build
+    from ev_pipeline.release.validate import ReleaseError
+
+    monkeypatch.setattr(runner, "fetch_images", lambda d: {"outcome": "ok", "fetched": 1})
+    monkeypatch.setattr(
+        build, "build_release", lambda d: (_ for _ in ()).throw(ReleaseError("built"))
+    )
+    now, t0 = datetime.now(UTC), _time.monotonic()
+
+    monkeypatch.setattr(runner, "photos_pending", lambda d: [])
+    out = runner._release(tmp_path, {}, [], [], now, t0)
+    assert out["outcome"] == "skipped" and out["reason"] == "no source brought new data"
+
+    monkeypatch.setattr(runner, "photos_pending", lambda d: ["tesla-model-3-gen1"])
+    out = runner._release(tmp_path, {}, [], [], now, t0)
+    assert out == {"outcome": "failed", "reason": "built"}  # got past the gate to the build
+
+
+def test_check_release_verifies_stored_image_files(tmp_path: Path, monkeypatch) -> None:
+    """#110 review nit: each image file must be stored with the field's sha256 + bytes."""
+    monkeypatch.setattr(
+        rb, "_schema", lambda: {"$defs": {"Generation": {"properties": {"image": {}}}}}
+    )
+    cat = _catalogue()
+    files, _ = rb.attach_images(cat, _data_dir(tmp_path, jpeg(1000, 500)), TODAY)
+    rel = tmp_path / "rel"
+    for path, data in files.items():
+        (rel / path).parent.mkdir(parents=True, exist_ok=True)
+        (rel / path).write_bytes(data)
+    assert check_images(cat, rel).status == "pass"  # before packaging: local files
+
+    first = sorted(files)[0]
+    (rel / first).write_bytes(b"tampered")
+    c = check_images(cat, rel)
+    assert c.status == "fail" and any("sha256/bytes differ" in p for p in c.details["problems"])
+    (rel / first).unlink()
+    c = check_images(cat, rel)
+    assert any("missing from the release folder" in p for p in c.details["problems"])
+
+    # Packaged release: the manifest is the record (files may live outside git).
+    entries = [
+        {"path": p, "bytes": len(d), "sha256": hashlib.sha256(d).hexdigest()}
+        for p, d in files.items()
+    ]
+    (rel / "manifest.json").write_text(json.dumps({"files": entries}))
+    assert check_images(cat, rel).status == "pass"
+    (rel / "manifest.json").write_text(json.dumps({"files": entries[1:]}))
+    c = check_images(cat, rel)
+    assert any("not in manifest.json" in p for p in c.details["problems"])

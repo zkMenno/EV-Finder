@@ -17,13 +17,13 @@ import { compareStore, COMPARE_MAX } from "@/lib/compare-store";
 import { hasDcData } from "@/lib/dc";
 import type { ExploreRow } from "@/lib/explore-data";
 import { favouriteStore } from "@/lib/favourites";
-import { applyFilters, displayName, mostRestrictive, priceFor, sortRows, withoutGroup, type FilterGroup } from "@/lib/filters";
-import { formatMoney, formatYears, localeFor } from "@/lib/format";
+import { activeGroups, applyFilters, displayName, mostRestrictive, priceFor, sortRows, withoutGroup, type FilterGroup } from "@/lib/filters";
+import { generationCards, generationCount, type GenCard, type Span } from "@/lib/generation-cards";
+import { formatMoney, formatNumber, formatYears, localeFor } from "@/lib/format";
 import { effectiveLoan, monthlyFor, readPayMode, writePayMode, type EffectiveLoan, type FinanceProfileView, type PayMode } from "@/lib/finance";
 import { LeaseNotice, LoanBox, PayModeToggle, useLoanSettings, type FinanceUi } from "@/components/PriceMode";
 import { siteBase } from "@/lib/site-paths";
 import {
-  activeFilterCount,
   BODIES,
   defaultFilters,
   ERAS,
@@ -48,8 +48,8 @@ import { readStorage, writeStorage } from "@/lib/storage";
 import { voltageBounds, type UiTaxonomy } from "@/lib/taxonomy";
 import { useListStore } from "@/lib/use-list-store";
 import { Missing, Num } from "./Num";
+import { OfficialRange, type OfficialRangeText } from "./OfficialRange";
 import { numLabels, type NumLabels } from "./num-labels";
-import { PriceBand } from "./PriceBand";
 import { QualityBadge } from "./QualityBadge";
 import { InfoTip, TermInfo, TermLabel, type TermText } from "./Term";
 import { usePopover } from "./use-popover";
@@ -97,6 +97,11 @@ export interface ExploreProps {
   popularityAsOf?: string;
   /** Link to the "How we rank" explanation of the Most popular order (T-130). */
   howWeRankHref?: string;
+  /** Generations ("models") in the catalogue and in the server-side matches (T-130 count line). */
+  totalModels: number;
+  initialMatchModels: number;
+  /** Every brand with its number of generations, for the brand filter and the pills (T-130). */
+  brands: { id: string; name: string; count: number }[];
 }
 
 interface Ctx {
@@ -344,51 +349,87 @@ export function Explore(props: ExploreProps) {
     [matches.length, all, dirty, state.filters, runFilters],
   );
 
-  const matchCount = all || dirty ? matches.length : props.initialMatches;
   const rows = matches.slice(0, limit);
+  // One card per generation, in the order of their best-placed variant (T-130 design).
+  const cards = useMemo(() => generationCards(matches, props.code, state.filters), [matches, props.code, state.filters]);
+  const shownCards = cards.slice(0, limit);
+  const modelCount = all || dirty ? cards.length : props.initialMatchModels;
+  const totalModels = all ? generationCount(all) : props.totalModels;
+  const groups = activeGroups(state.filters).length;
+  // Phone: the filters open as a bottom sheet (T-130 design); on lg+ they are a sidebar.
+  const [sheet, setSheet] = useState(false);
+  const moreLeft = state.view === "table" ? matches.length - rows.length : cards.length - shownCards.length;
 
+  const countryName = t(`country.in.${props.code}` as MsgKey);
   return (
-    <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]">
-      <FiltersPanel filters={state.filters} onChange={setFilter} onReset={() => update({ ...state, filters: defaultFilters() })} ctx={ctx} />
+    <div className="grid gap-6 lg:grid-cols-[17rem_minmax(0,1fr)]">
+      <FiltersPanel
+        filters={state.filters}
+        onChange={setFilter}
+        onReset={() => update({ ...state, filters: defaultFilters() })}
+        ctx={ctx}
+        brands={props.brands}
+        open={sheet}
+        onClose={() => setSheet(false)}
+        matches={modelCount}
+      />
       <section aria-labelledby="results-heading" className="min-w-0">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-          <h2 id="results-heading" className="sr-only">
-            {t("explore.results")}
-          </h2>
-          <p aria-live="polite" className="text-sm text-slate-800" data-testid="result-count">
-            {t("explore.count", { shown: matchCount, total: all?.length ?? props.total })}
-            {!all ? <span className="ml-2 text-slate-600">{t("explore.loading")}</span> : null}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <span className="inline-flex items-center">
-              <Toggle
-                label={t("level")}
-                options={LEVELS.map((l) => ({ value: l, label: t(`level.${l}`) }))}
-                value={state.level}
-                onChange={setLevel}
-                testId="level-switch"
-              />
-              <TermInfo term={props.taxonomy.terms["detail-level"]} base={ctx.base} text={ctx.termText} />
-            </span>
+        <h2 id="results-heading" className="sr-only">
+          {t("explore.results")}
+        </h2>
+        <p aria-live="polite" className="mb-3 text-sm text-slate-800" data-testid="result-count">
+          {groups ? t("explore.models.match", { shown: modelCount, total: totalModels }) : t("explore.models.all", { total: totalModels })}
+          {props.code !== "UK" ? ` · ${t("explore.models.prices", { country: countryName })}` : ""}
+          {!all ? <span className="ml-2 text-slate-600">{t("explore.loading")}</span> : null}
+        </p>
+        <div className="mb-3 flex flex-wrap gap-2">
+          <span className="inline-flex items-center">
             <Toggle
-              label={t("explore.view")}
-              options={(["table", "cards"] as const).map((v) => ({ value: v, label: t(`explore.view.${v}`) }))}
-              value={state.view}
-              onChange={setView}
+              label={t("level")}
+              options={LEVELS.map((l) => ({ value: l, label: t(`level.${l}`) }))}
+              value={state.level}
+              onChange={setLevel}
+              testId="level-switch"
             />
-          </div>
+            <TermInfo term={props.taxonomy.terms["detail-level"]} base={ctx.base} text={ctx.termText} />
+          </span>
+          <Toggle
+            label={t("explore.view")}
+            options={(["cards", "table"] as const).map((v) => ({ value: v, label: t(`explore.view.${v}`) }))}
+            value={state.view}
+            onChange={setView}
+          />
         </div>
 
-        <SuggestedSort
-          rp={rp}
-          active={state.sort === "suggested"}
-          onToggle={() => update({ ...state, sort: state.sort === "suggested" ? null : "suggested", dir: "desc" })}
-          t={t}
-          termText={ctx.termText}
-          profileName={rp ? profileName(rp, t) : ""}
-          hasScores={props.hasScores !== false}
-        />
-        <SortMenu state={state} onChange={(k) => update(sortBy(state, k))} t={t} />
+        {/* Phone: sticky bar with "Filters · n" and the sort menu; pills scroll sideways under it.
+            lg+: pills + Clear on the left, sort on the right, in one bar (T-130 design). */}
+        <div
+          className="sticky top-0 z-30 -mx-1 mb-2 flex flex-wrap items-center gap-2 border-y border-slate-300 bg-[var(--paper)] px-1 py-2 lg:static lg:mx-0 lg:px-0"
+          data-testid="explore-bar"
+        >
+          <button
+            type="button"
+            aria-expanded={sheet}
+            aria-controls="filters-panel"
+            onClick={() => setSheet(true)}
+            className="order-1 inline-flex min-h-11 items-center gap-2 rounded-md border border-slate-500 bg-white px-3 text-sm font-semibold lg:hidden"
+            data-testid="filters-open"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-none stroke-current" strokeWidth="2">
+              <path d="M4 7h10M18 7h2M4 17h4M12 17h8" />
+              <circle cx="16" cy="7" r="2" />
+              <circle cx="10" cy="17" r="2" />
+            </svg>
+            {groups ? t("filters.button.n", { n: groups }) : t("filters.title")}
+          </button>
+          <SortMenu state={state} onChange={(k) => update(sortBy(state, k))} t={t} />
+          <ActivePills
+            filters={state.filters}
+            ctx={ctx}
+            brands={props.brands}
+            onChange={(f) => update({ ...state, filters: f })}
+          />
+        </div>
         {state.sort === "popular" ? (
           <p className="mb-3 text-sm text-slate-700" data-testid="popular-why">
             {t("sort.popular.why")}{" "}
@@ -399,6 +440,16 @@ export function Explore(props: ExploreProps) {
             ) : null}
           </p>
         ) : null}
+
+        <SuggestedSort
+          rp={rp}
+          active={state.sort === "suggested"}
+          onToggle={() => update({ ...state, sort: state.sort === "suggested" ? null : "suggested", dir: "desc" })}
+          t={t}
+          termText={ctx.termText}
+          profileName={rp ? profileName(rp, t) : ""}
+          hasScores={props.hasScores !== false}
+        />
         <div className="mb-3 flex flex-col gap-2">
           <PayModeToggle value={state.pay} onChange={setPay} ui={financeUi} />
           {state.pay === "loan" ? <LoanBox profile={props.finance} settings={loanSettings} onChange={setLoanSettings} ui={financeUi} /> : null}
@@ -443,22 +494,21 @@ export function Explore(props: ExploreProps) {
           <ExploreTable rows={rows} state={state} onSort={(k) => update(nextSort(state, k))} ctx={ctx} />
         ) : (
           <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-testid="explore-cards">
-            {firstOfGeneration(rows).map(([r, first]) => (
-              // "#n popular" once per generation: on its first variant in the current order (T-130).
-              <Card key={r.variant_id} row={r} ctx={ctx} popTag={first} />
+            {shownCards.map((g) => (
+              <GenerationCard key={g.generation_id} card={g} ctx={ctx} countryName={countryName} />
             ))}
           </ul>
         )}
 
-        {matches.length > rows.length ? (
+        {moreLeft > 0 ? (
           <div className="mt-4 text-center">
             <button
               type="button"
               onClick={() => setLimit((l) => l + PAGE * 2)}
-              className="rounded-md border border-slate-500 px-4 py-2 text-sm font-medium hover:bg-slate-100"
+              className="min-h-11 rounded-md border border-slate-500 px-4 py-2 text-sm font-medium hover:bg-slate-100"
               data-testid="show-more"
             >
-              {t("explore.showMore", { n: Math.min(PAGE * 2, matches.length - rows.length) })}
+              {t(state.view === "table" ? "explore.showMore" : "explore.showMoreModels", { n: Math.min(PAGE * 2, moreLeft) })}
             </button>
           </div>
         ) : null}
@@ -474,6 +524,9 @@ function groupLabel(g: FilterGroup, f: ExploreFilters, c: Ctx): string {
   const { t } = c;
   const list = (label: string, values: string[]) => (values.length ? `${label}: ${values.join(", ")}` : label);
   switch (g) {
+    case "usedMin": return t("filters.used");
+    case "winterMin": return t("filters.winter");
+    case "wltpMin": return t("filters.wltp");
     case "priceMax": return t("filters.price");
     case "eras": return list(t("filters.era"), f.eras);
     case "segments": return list(t("filters.segment"), f.segments.map((v) => t(`segment.${v}` as MsgKey)));
@@ -626,13 +679,13 @@ function Toggle<V extends string>({
 
 /* ---------- filters ---------- */
 
-function FilterLabel({ htmlFor, termId, fallback, ctx }: { htmlFor?: string; termId: string; fallback: string; ctx: Ctx }) {
+function FilterLabel({ htmlFor, termId, fallback, ctx, plain = false }: { htmlFor?: string; termId: string; fallback: string; ctx: Ctx; plain?: boolean }) {
   const term = ctx.tax.terms[termId];
   const Tag = htmlFor ? "label" : "span";
   return (
     <span className="flex items-start justify-between gap-1">
       <Tag {...(htmlFor ? { htmlFor } : {})} className="text-sm font-medium">
-        <TermLabel term={term ? { ...term, label: fallback } : undefined} fallback={fallback} showTechnical={ctx.level !== "simple"} />
+        <TermLabel term={term ? { ...term, label: fallback } : undefined} fallback={fallback} showTechnical={!plain && ctx.level !== "simple"} />
       </Tag>
       <TermInfo term={term} base={ctx.base} text={ctx.termText} />
     </span>
@@ -647,7 +700,10 @@ function NumberFilter({
   onChange,
   step = 1,
   ctx,
+  plain = false,
 }: {
+  /** Short label without the technical line (T-130 sidebar pairs: min/max, from/to). */
+  plain?: boolean;
   id: NumericFilter;
   termId: string;
   label: string;
@@ -658,7 +714,7 @@ function NumberFilter({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <FilterLabel htmlFor={`f-${id}`} termId={termId} fallback={label} ctx={ctx} />
+      <FilterLabel htmlFor={`f-${id}`} termId={termId} fallback={label} ctx={ctx} plain={plain} />
       <input
         id={`f-${id}`}
         name={id}
@@ -686,8 +742,11 @@ function Chips<V extends string>({
   onChange,
   ctx,
   info,
+  legendHidden = false,
 }: {
   legend: string;
+  /** The group already shows the title (T-130 sidebar): keep the legend for screen readers only. */
+  legendHidden?: boolean;
   termId: string;
   options: readonly { value: V; label: string }[];
   selected: V[];
@@ -698,11 +757,15 @@ function Chips<V extends string>({
   const term = ctx.tax.terms[termId];
   return (
     <fieldset>
-      <legend className="mb-1 flex w-full items-start justify-between gap-1 text-sm font-medium">
-        <span>{legend}</span>
-        <TermInfo term={term} base={ctx.base} text={ctx.termText} />
-      </legend>
-      <div className="flex flex-wrap gap-1.5">
+      {legendHidden ? (
+        <legend className="sr-only">{legend}</legend>
+      ) : (
+        <legend className="mb-1 flex w-full items-start justify-between gap-1 text-sm font-medium">
+          <span>{legend}</span>
+          <TermInfo term={term} base={ctx.base} text={ctx.termText} />
+        </legend>
+      )}
+      <div className="flex flex-wrap gap-2">
         {options.map((o) => (
           <span key={o.value} className="inline-flex items-center">
             <label className="cursor-pointer">
@@ -712,7 +775,7 @@ function Chips<V extends string>({
                 checked={selected.includes(o.value)}
                 onChange={(e) => onChange(e.target.checked ? [...selected, o.value] : selected.filter((x) => x !== o.value))}
               />
-              <span className="inline-flex items-center gap-1 rounded-full border border-slate-500 bg-white px-2.5 py-0.5 text-sm text-slate-900 peer-checked:border-blue-800 peer-checked:bg-blue-800 peer-checked:text-white peer-focus-visible:outline peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blue-700">
+              <span className="inline-flex min-h-10 items-center gap-1 rounded-md border border-slate-500 bg-white px-3 text-sm text-slate-900 hover:bg-slate-100 peer-checked:border-2 peer-checked:border-[var(--ink)] peer-checked:font-semibold peer-focus-visible:outline peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blue-700">
                 {selected.includes(o.value) ? <span aria-hidden="true">✓</span> : null}
                 {o.label}
               </span>
@@ -720,6 +783,11 @@ function Chips<V extends string>({
             {info?.(o.value)}
           </span>
         ))}
+        {legendHidden ? (
+          <span className="inline-flex items-center">
+            <TermInfo term={term} base={ctx.base} text={ctx.termText} />
+          </span>
+        ) : null}
       </div>
     </fieldset>
   );
@@ -796,89 +864,421 @@ function ChemistryInfo({ id, ctx }: { id: string; ctx: Ctx }) {
   );
 }
 
+/** One collapsible filter group (T-130 sidebar): open by default, or when one of its filters is on. */
+function Group({ title, open, children, testId }: { title: string; open: boolean; children: ReactNode; testId: string }) {
+  // `open` only ever opens the group (first render, or when one of its filters turns on): a group
+  // never snaps shut under the cursor when its last value is cleared (review #126).
+  const [initial] = useState(open);
+  const ref = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    if (open && ref.current) ref.current.open = true;
+  }, [open]);
+  return (
+    <details ref={ref} open={initial} className="group border-t border-slate-300 pt-3 first:border-t-0 first:pt-0" data-testid={testId}>
+      <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 font-semibold [&::-webkit-details-marker]:hidden">
+        {title}
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 shrink-0 fill-none stroke-current transition-transform group-open:rotate-180" strokeWidth="2">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </summary>
+      <div className="flex flex-col gap-3 pb-1 pt-1">{children}</div>
+    </details>
+  );
+}
+
+/** "+100 km" tiles for km added in 20 min (sets dcMin; pressing the chosen tile again clears it). */
+const DC_STEPS = [100, 150, 200] as const;
+
+/** Winter range slider bounds (km); 0 = any. */
+const WINTER_MAX = 500;
+const WINTER_STEP = 10;
+/** T-143: the official WLTP slider's top (release 2's longest WLTP figure is 850 km). */
+const WLTP_MAX = 900;
+
+function BrandFilter({ f, onChange, brands, ctx }: { f: ExploreFilters; onChange: (p: Partial<ExploreFilters>) => void; brands: ExploreProps["brands"]; ctx: Ctx }) {
+  const { t } = ctx;
+  const [q, setQ] = useState("");
+  const [all, setAll] = useState(false);
+  const needle = q.trim().toLowerCase();
+  const found = needle ? brands.filter((b) => b.name.toLowerCase().includes(needle)) : brands;
+  // Chosen brands always stay in the list, so they can be unticked.
+  const list = needle || all ? found : found.filter((b, i) => i < BRANDS_SHOWN || f.makes.includes(b.id));
+  return (
+    <div className="flex flex-col gap-2">
+      <label htmlFor="f-brand-search" className="sr-only">
+        {t("filters.brands.search")}
+      </label>
+      <input
+        id="f-brand-search"
+        type="search"
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        placeholder={t("filters.brands.search")}
+        className="min-h-11 w-full rounded-md border border-slate-500 bg-white px-3 text-sm"
+      />
+      <ul className="flex flex-col" data-testid="brand-list">
+        {list.map((b) => (
+          <li key={b.id}>
+            <label className="flex min-h-10 cursor-pointer items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={f.makes.includes(b.id)}
+                onChange={(e) => onChange({ makes: e.target.checked ? [...f.makes, b.id] : f.makes.filter((x) => x !== b.id) })}
+                className="h-5 w-5 accent-blue-800"
+              />
+              <span className="flex-1">{b.name}</span>
+              <span className="tabular-nums text-slate-700">
+                <span aria-hidden="true">{b.count}</span>
+                <span className="sr-only">{t("filters.brands.count", { n: b.count })}</span>
+              </span>
+            </label>
+          </li>
+        ))}
+        {!list.length ? <li className="text-sm text-slate-700">{t("filters.brands.none")}</li> : null}
+      </ul>
+      {!needle && brands.length > BRANDS_SHOWN ? (
+        <button type="button" aria-expanded={all} onClick={() => setAll((v) => !v)} className="min-h-10 w-fit text-sm font-medium text-blue-800 underline underline-offset-2">
+          {all ? t("filters.brands.fewer") : t("filters.brands.all", { n: brands.length })}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+const BRANDS_SHOWN = 6;
+/** Tailwind's lg breakpoint: the sidebar layout. */
+const LG_UP = "(min-width: 64rem)";
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), summary, [tabindex]:not([tabindex="-1"])';
+
 function FiltersPanel({
   filters: f,
   onChange,
   onReset,
   ctx,
+  brands,
+  open,
+  onClose,
+  matches,
 }: {
   filters: ExploreFilters;
   onChange: (p: Partial<ExploreFilters>) => void;
   onReset: () => void;
   ctx: Ctx;
+  brands: ExploreProps["brands"];
+  /** Phone bottom sheet open (lg+: always shown as a sidebar). */
+  open: boolean;
+  onClose: () => void;
+  /** Models matching now, for "Show 87 cars". */
+  matches: number;
 }) {
   const { t, level, tax } = ctx;
-  const n = activeFilterCount(f);
+  const n = activeGroups(f).length;
   const more = level !== "simple";
-  // Narrow screens: filters collapse behind a button so results stay above the fold. Always open on lg+.
-  const [shown, setShown] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  // The parent passes a new function every render; keep the latest in a ref so the effect below
+  // runs only when the sheet opens or closes (review #126: it re-ran on every filter change and
+  // pulled focus out of the field being typed in).
+  const closeFn = useRef(onClose);
+  useEffect(() => {
+    closeFn.current = onClose;
+  }, [onClose]);
+  // Sheet: focus the close button on open, Escape closes, Tab stays inside, the page behind doesn't
+  // scroll; widening to the sidebar layout closes it; focus goes back to the "Filters" button.
+  useEffect(() => {
+    if (!open) return;
+    const opener = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeFn.current();
+      if (e.key !== "Tab" || !sheetRef.current) return;
+      const items = [...sheetRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => el.offsetParent !== null);
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (!first || !last) return;
+      const inside = sheetRef.current.contains(document.activeElement);
+      if (e.shiftKey && (document.activeElement === first || !inside)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !inside)) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    const wide = window.matchMedia?.(LG_UP);
+    const onWide = () => {
+      if (wide?.matches) closeFn.current();
+    };
+    wide?.addEventListener?.("change", onWide);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      wide?.removeEventListener?.("change", onWide);
+      document.body.style.overflow = overflow;
+      opener?.focus?.();
+    };
+  }, [open]);
+  const winter = f.winterMin ?? 0;
+  const wltp = f.wltpMin ?? 0;
+  const anyOf = (...keys: (keyof ExploreFilters)[]) => keys.some((k) => { const v = f[k]; return Array.isArray(v) ? v.length > 0 : typeof v === "boolean" ? v : v !== null; });
+  const moreOpen = anyOf("priceMax", "rangeMin", "eras", "fast400", "charge100", "segments", "voltageClasses", "chemistries", "coolings", "bootMin", "lengthMax", "acMin", "voltageMin", "voltageMax", "excludeMakes") || (f.dcMin !== null && !(DC_STEPS as readonly number[]).includes(f.dcMin));
   return (
-    <aside aria-labelledby="filters-heading" className="lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:self-start lg:overflow-y-auto">
-      <button
-        type="button"
-        aria-expanded={shown}
-        aria-controls="filters-form"
-        onClick={() => setShown((v) => !v)}
-        className="w-full rounded-md border border-slate-500 px-4 py-2 text-left text-sm font-medium lg:hidden"
+    <aside
+      id="filters-panel"
+      aria-labelledby="filters-heading"
+      className={`${open ? "fixed inset-0 z-50 flex flex-col justify-end bg-[color-mix(in_srgb,var(--ink)_45%,transparent)]" : "hidden"} lg:z-auto lg:block lg:bg-transparent lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:self-start lg:overflow-y-auto`}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      data-testid="filters-panel"
+    >
+      <div
+        ref={sheetRef}
+        role={open ? "dialog" : undefined}
+        aria-modal={open || undefined}
+        aria-labelledby={open ? "filters-heading" : undefined}
+        className="flex max-h-[88vh] flex-col rounded-t-2xl bg-white lg:max-h-none lg:rounded-none lg:bg-transparent"
       >
-        {t("filters.title")} {n ? `(${t("filters.active", { n })})` : ""} <span aria-hidden="true">{shown ? "▲" : "▼"}</span>
-      </button>
-      <form
-        id="filters-form"
-        role="search"
-        aria-labelledby="filters-heading"
-        onSubmit={(e) => e.preventDefault()}
-        className={`${shown ? "flex" : "hidden"} mt-2 flex-col gap-4 rounded-lg border border-slate-300 bg-slate-50 p-4 lg:mt-0 lg:flex`}
-      >
-        <div className="flex items-baseline justify-between">
-          <h2 id="filters-heading" className="font-semibold">
-            {t("filters.title")} {n ? <span className="text-sm font-normal text-slate-700">({t("filters.active", { n })})</span> : null}
+        <div className="flex items-center justify-between gap-2 px-4 pb-2 pt-4 lg:px-0 lg:pt-0">
+          <h2 id="filters-heading" ref={headingRef} tabIndex={-1} className="text-lg font-bold">
+            {t("filters.title")}
           </h2>
-          {n ? (
-            <button type="button" onClick={onReset} className="text-sm text-blue-800 underline underline-offset-2">
-              {t("filters.reset")}
+          <span className="flex items-center gap-3">
+            {n ? (
+              <button
+                type="button"
+                // The button disappears once nothing is on: put focus on the heading, not on <body>.
+                onClick={() => {
+                  onReset();
+                  headingRef.current?.focus();
+                }}
+                className="min-h-10 text-sm font-medium text-blue-800 underline underline-offset-2"
+                data-testid="filters-clear-all"
+              >
+                {t("filters.clearAll")}
+              </button>
+            ) : null}
+            <button ref={closeRef} type="button" onClick={onClose} className="grid h-11 w-11 place-items-center rounded-full hover:bg-slate-100 lg:hidden" aria-label={t("filters.close")}>
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-none stroke-current" strokeWidth="2">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
             </button>
-          ) : null}
+          </span>
         </div>
-        <NumberFilter id="priceMax" termId="new-price" label={`${t("filters.price")} (${ctx.currency})`} value={f.priceMax} step={1000} onChange={(v) => onChange({ priceMax: v })} ctx={ctx} />
-        <Chips legend={t("filters.era")} termId="era" options={ERAS.map((e) => ({ value: e, label: e }))} selected={f.eras} onChange={(eras) => onChange({ eras })} ctx={ctx} />
-        <Chips legend={t("filters.body")} termId="body-type" options={BODIES.map((b) => ({ value: b, label: t(`body.${b}` as MsgKey) }))} selected={f.bodies} onChange={(bodies) => onChange({ bodies })} ctx={ctx} />
-        <NumberFilter id="rangeMin" termId="real-range" label={t("filters.range")} value={f.rangeMin} step={10} onChange={(v) => onChange({ rangeMin: v })} ctx={ctx} />
-        <Flag id="f-fast400" termId="400v-charger-behaviour" label={t("filters.fast400")} checked={f.fast400} onChange={(fast400) => onChange({ fast400 })} ctx={ctx} />
-        <Flag id="f-c100" termId="charge-to-100" label={t("filters.charge100")} checked={f.charge100} onChange={(charge100) => onChange({ charge100 })} ctx={ctx} />
-        {more ? (
-          <>
-            <Chips legend={t("filters.segment")} termId="segment" options={SEGMENTS.map((s) => ({ value: s, label: t(`segment.${s}` as MsgKey) }))} selected={f.segments} onChange={(segments) => onChange({ segments })} ctx={ctx} />
-            <Chips legend={t("filters.voltage")} termId="voltage-class" options={tax.voltageClasses.map((v) => ({ value: v.id, label: v.label }))} selected={f.voltageClasses} onChange={(voltageClasses) => onChange({ voltageClasses })} ctx={ctx} />
-            <Chips
-              legend={t("filters.chemistry")}
-              termId="chemistry"
-              options={tax.chemistries.map((c) => ({ value: c.id, label: c.label }))}
-              selected={f.chemistries}
-              onChange={(chemistries) => onChange({ chemistries })}
-              ctx={ctx}
-              info={(id) => <ChemistryInfo id={id} ctx={ctx} />}
-            />
-            <Chips legend={t("filters.cooling")} termId="cooling" options={tax.coolings.map((c) => ({ value: c.id, label: c.label }))} selected={f.coolings} onChange={(coolings) => onChange({ coolings })} ctx={ctx} />
-            <div className="grid grid-cols-2 gap-3 lg:grid-cols-1">
-              <NumberFilter id="batteryMin" termId="usable-vs-gross" label={t("filters.battery")} value={f.batteryMin} onChange={(v) => onChange({ batteryMin: v })} ctx={ctx} />
-              <NumberFilter id="dcMin" termId="dc-km-20min" label={t("filters.dc")} value={f.dcMin} step={5} onChange={(v) => onChange({ dcMin: v })} ctx={ctx} />
-              <NumberFilter id="bootMin" termId="boot-volume" label={t("filters.boot")} value={f.bootMin} step={10} onChange={(v) => onChange({ bootMin: v })} ctx={ctx} />
-              <NumberFilter id="lengthMax" termId="vehicle-length" label={t("filters.length")} value={f.lengthMax} step={50} onChange={(v) => onChange({ lengthMax: v })} ctx={ctx} />
-              <NumberFilter id="towingMin" termId="towing-capacity" label={t("filters.towing")} value={f.towingMin} step={100} onChange={(v) => onChange({ towingMin: v })} ctx={ctx} />
-              <NumberFilter id="seatsMin" termId="seats" label={t("filters.seats")} value={f.seatsMin} onChange={(v) => onChange({ seatsMin: v })} ctx={ctx} />
-              <NumberFilter id="acMin" termId="ac-charging" label={t("filters.ac")} value={f.acMin} onChange={(v) => onChange({ acMin: v })} ctx={ctx} />
-              <NumberFilter id="yearMin" termId="model-years" label={`${t("filters.years")}: ${t("hero.refine.yearFrom")}`} value={f.yearMin} onChange={(v) => onChange({ yearMin: v })} ctx={ctx} />
-              <NumberFilter id="yearMax" termId="model-years" label={`${t("filters.years")}: ${t("hero.refine.yearTo")}`} value={f.yearMax} onChange={(v) => onChange({ yearMax: v })} ctx={ctx} />
+        <form
+          id="filters-form"
+          role="search"
+          aria-labelledby="filters-heading"
+          onSubmit={(e) => e.preventDefault()}
+          className="flex flex-col gap-3 overflow-y-auto border-slate-300 px-4 pb-4 lg:overflow-visible lg:rounded-lg lg:border lg:bg-white lg:p-4"
+        >
+          <Group title={t("filters.used")} open testId="fg-used">
+            <div className="grid grid-cols-2 gap-2">
+              <NumberFilter id="usedMin" termId="used-price" plain label={t("filters.used.min", { currency: ctx.currency })} value={f.usedMin} step={1000} onChange={(v) => onChange({ usedMin: v })} ctx={ctx} />
+              <NumberFilter id="usedMax" termId="" label={t("filters.used.max", { currency: ctx.currency })} value={f.usedMax} step={1000} onChange={(v) => onChange({ usedMax: v })} ctx={ctx} />
             </div>
-            <VoltageSlider f={f} onChange={onChange} ctx={ctx} />
-          </>
-        ) : null}
-        <p className="text-xs text-slate-700">{t("filters.hint")}</p>
-      </form>
+          </Group>
+          <Group title={t("filters.rangeGroup")} open testId="fg-winter">
+            <span className="flex items-start justify-between gap-1">
+              <label htmlFor="f-winterMin" className="text-sm">
+                {winter > 0 ? t("filters.winter.atLeast", { n: winter }) : t("filters.winter.any")}
+              </label>
+              <TermInfo term={tax.terms["real-winter-range"]} base={ctx.base} text={ctx.termText} />
+            </span>
+            <input
+              id="f-winterMin"
+              type="range"
+              min={0}
+              max={WINTER_MAX}
+              step={WINTER_STEP}
+              value={winter}
+              aria-valuetext={winter > 0 ? t("filters.winter.atLeast", { n: winter }) : t("filters.winter.any")}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange({ winterMin: v > 0 ? v : null });
+              }}
+              className="w-full accent-blue-800"
+            />
+            {/* T-143 (Decision 085): real range leads; the official WLTP figure is the second control in the same group. */}
+            <span className="mt-2 flex items-start justify-between gap-1">
+              <label htmlFor="f-wltpMin" className="text-xs text-slate-700">
+                {wltp > 0 ? t("filters.wltp.atLeast", { n: wltp }) : t("filters.wltp.any")}
+              </label>
+              <InfoTip label={t("range.wltp.label")} href={`${ctx.base}/learn/wltp`} text={ctx.termText}>
+                <span className="block">{t("range.wltp.tip")}</span>
+              </InfoTip>
+            </span>
+            <input
+              id="f-wltpMin"
+              type="range"
+              min={0}
+              max={WLTP_MAX}
+              step={WINTER_STEP}
+              value={wltp}
+              aria-valuetext={wltp > 0 ? t("filters.wltp.atLeast", { n: wltp }) : t("filters.wltp.any")}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onChange({ wltpMin: v > 0 ? v : null });
+              }}
+              className="w-full accent-blue-800"
+              data-testid="filter-wltp"
+            />
+          </Group>
+          <Group title={t("filters.body")} open testId="fg-body">
+            <Chips legend={t("filters.body")} legendHidden termId="body-type" options={BODIES.map((b) => ({ value: b, label: t(`body.${b}` as MsgKey) }))} selected={f.bodies} onChange={(bodies) => onChange({ bodies })} ctx={ctx} />
+          </Group>
+          <Group title={t("filters.fast")} open testId="fg-fast">
+            <div role="group" aria-label={t("filters.fast.label")} className="flex flex-wrap gap-2">
+              {DC_STEPS.map((km) => (
+                <button
+                  key={km}
+                  type="button"
+                  aria-pressed={f.dcMin === km}
+                  onClick={() => onChange({ dcMin: f.dcMin === km ? null : km })}
+                  className={TILE}
+                >
+                  {f.dcMin === km ? <span aria-hidden="true">✓</span> : null}
+                  {t("filters.fast.km", { n: km })}
+                </button>
+              ))}
+            </div>
+            <span className="flex items-start justify-between gap-1 text-sm text-slate-700">
+              {t("filters.fast.hint")}
+              <TermInfo term={tax.terms["dc-km-20min"]} base={ctx.base} text={ctx.termText} />
+            </span>
+          </Group>
+          <Group title={t("filters.years")} open testId="fg-years">
+            <div className="grid grid-cols-2 gap-2">
+              <NumberFilter id="yearMin" termId="model-years" plain label={t("hero.refine.yearFrom")} value={f.yearMin} onChange={(v) => onChange({ yearMin: v })} ctx={ctx} />
+              <NumberFilter id="yearMax" termId="" label={t("hero.refine.yearTo")} value={f.yearMax} onChange={(v) => onChange({ yearMax: v })} ctx={ctx} />
+            </div>
+          </Group>
+          <Group title={t("filters.sbt")} open={anyOf("seatsMin", "batteryMin", "towingMin")} testId="fg-sbt">
+            <NumberFilter id="seatsMin" termId="seats" label={t("filters.seats")} value={f.seatsMin} onChange={(v) => onChange({ seatsMin: v })} ctx={ctx} />
+            <NumberFilter id="batteryMin" termId="usable-vs-gross" label={t("filters.battery")} value={f.batteryMin} onChange={(v) => onChange({ batteryMin: v })} ctx={ctx} />
+            <NumberFilter id="towingMin" termId="towing-capacity" label={t("filters.towing")} value={f.towingMin} step={100} onChange={(v) => onChange({ towingMin: v })} ctx={ctx} />
+          </Group>
+          <Group title={t("filters.makes")} open testId="fg-brands">
+            <BrandFilter f={f} onChange={onChange} brands={brands} ctx={ctx} />
+          </Group>
+          <Group title={t("filters.more")} open={moreOpen} testId="fg-more">
+            <NumberFilter id="priceMax" termId="new-price" label={`${t("filters.price")} (${ctx.currency})`} value={f.priceMax} step={1000} onChange={(v) => onChange({ priceMax: v })} ctx={ctx} />
+            <NumberFilter id="rangeMin" termId="real-range" label={t("filters.range")} value={f.rangeMin} step={10} onChange={(v) => onChange({ rangeMin: v })} ctx={ctx} />
+            <Chips legend={t("filters.era")} termId="era" options={ERAS.map((e) => ({ value: e, label: e }))} selected={f.eras} onChange={(eras) => onChange({ eras })} ctx={ctx} />
+            <Flag id="f-fast400" termId="400v-charger-behaviour" label={t("filters.fast400")} checked={f.fast400} onChange={(fast400) => onChange({ fast400 })} ctx={ctx} />
+            <Flag id="f-c100" termId="charge-to-100" label={t("filters.charge100")} checked={f.charge100} onChange={(charge100) => onChange({ charge100 })} ctx={ctx} />
+            {more ? (
+              <>
+                <Chips legend={t("filters.segment")} termId="segment" options={SEGMENTS.map((s) => ({ value: s, label: t(`segment.${s}` as MsgKey) }))} selected={f.segments} onChange={(segments) => onChange({ segments })} ctx={ctx} />
+                <Chips legend={t("filters.voltage")} termId="voltage-class" options={tax.voltageClasses.map((v) => ({ value: v.id, label: v.label }))} selected={f.voltageClasses} onChange={(voltageClasses) => onChange({ voltageClasses })} ctx={ctx} />
+                <Chips
+                  legend={t("filters.chemistry")}
+                  termId="chemistry"
+                  options={tax.chemistries.map((c) => ({ value: c.id, label: c.label }))}
+                  selected={f.chemistries}
+                  onChange={(chemistries) => onChange({ chemistries })}
+                  ctx={ctx}
+                  info={(id) => <ChemistryInfo id={id} ctx={ctx} />}
+                />
+                <Chips legend={t("filters.cooling")} termId="cooling" options={tax.coolings.map((c) => ({ value: c.id, label: c.label }))} selected={f.coolings} onChange={(coolings) => onChange({ coolings })} ctx={ctx} />
+                <div className="grid grid-cols-2 gap-3 lg:grid-cols-1">
+                  <NumberFilter id="dcMin" termId="dc-km-20min" label={t("filters.dc")} value={f.dcMin} step={5} onChange={(v) => onChange({ dcMin: v })} ctx={ctx} />
+                  <NumberFilter id="bootMin" termId="boot-volume" label={t("filters.boot")} value={f.bootMin} step={10} onChange={(v) => onChange({ bootMin: v })} ctx={ctx} />
+                  <NumberFilter id="lengthMax" termId="vehicle-length" label={t("filters.length")} value={f.lengthMax} step={50} onChange={(v) => onChange({ lengthMax: v })} ctx={ctx} />
+                  <NumberFilter id="acMin" termId="ac-charging" label={t("filters.ac")} value={f.acMin} onChange={(v) => onChange({ acMin: v })} ctx={ctx} />
+                </div>
+                <VoltageSlider f={f} onChange={onChange} ctx={ctx} />
+              </>
+            ) : null}
+          </Group>
+          <p className="text-xs text-slate-700">{t("filters.hint")}</p>
+        </form>
+        <div className="border-t border-slate-300 p-4 lg:hidden">
+          <button type="button" onClick={onClose} className="min-h-12 w-full rounded-md bg-blue-800 px-4 text-base font-semibold text-white hover:bg-blue-900" data-testid="filters-show">
+            {t("filters.show", { n: matches })}
+          </button>
+        </div>
+      </div>
     </aside>
   );
 }
+
+/** Active filters as removable pills + Clear (T-130 design). List filters get one pill per value. */
+function ActivePills({ filters: f, ctx, brands, onChange }: { filters: ExploreFilters; ctx: Ctx; brands: ExploreProps["brands"]; onChange: (f: ExploreFilters) => void }) {
+  const { t, locale } = ctx;
+  const money = (v: number) => formatMoney(v, ctx.currency, locale);
+  const n = (v: number) => formatNumber(v, locale, 0);
+  const brand = (id: string) => brands.find((b) => b.id === id)?.name ?? id;
+  const pills: { key: string; label: string; next: ExploreFilters }[] = [];
+  const drop = (g: FilterGroup, label: string) => pills.push({ key: g, label, next: withoutGroup(f, g) });
+  const dropValue = <K extends "eras" | "segments" | "bodies" | "makes" | "excludeMakes" | "voltageClasses" | "chemistries" | "coolings">(k: K, v: string, label: string) =>
+    pills.push({ key: `${k}:${v}`, label, next: { ...f, [k]: (f[k] as string[]).filter((x) => x !== v) } });
+  for (const g of activeGroups(f)) {
+    switch (g) {
+      case "usedMin":
+        drop(g, f.usedMin !== null && f.usedMax !== null ? t("pill.used.range", { min: money(f.usedMin), max: money(f.usedMax) }) : f.usedMax !== null ? t("pill.used.max", { max: money(f.usedMax) }) : t("pill.used.min", { min: money(f.usedMin ?? 0) }));
+        break;
+      case "winterMin": drop(g, t("pill.winter", { n: n(f.winterMin ?? 0) })); break;
+      case "wltpMin": drop(g, t("pill.wltp", { n: n(f.wltpMin ?? 0) })); break;
+      case "priceMax": drop(g, t("pill.price", { max: money(f.priceMax ?? 0) })); break;
+      case "rangeMin": drop(g, t("pill.range", { n: n(f.rangeMin ?? 0) })); break;
+      case "batteryMin": drop(g, t("pill.battery", { n: n(f.batteryMin ?? 0) })); break;
+      case "dcMin": drop(g, t("pill.dc", { n: n(f.dcMin ?? 0) })); break;
+      case "bootMin": drop(g, t("pill.boot", { n: n(f.bootMin ?? 0) })); break;
+      case "lengthMax": drop(g, t("pill.length", { n: n(f.lengthMax ?? 0) })); break;
+      case "towingMin": drop(g, t("pill.towing", { n: n(f.towingMin ?? 0) })); break;
+      case "seatsMin": drop(g, t("pill.seats", { n: n(f.seatsMin ?? 0) })); break;
+      case "acMin": drop(g, t("pill.ac", { n: n(f.acMin ?? 0) })); break;
+      case "yearMin":
+        drop(g, f.yearMin !== null && f.yearMax !== null ? t("pill.years.range", { from: f.yearMin, to: f.yearMax }) : f.yearMin !== null ? t("pill.years.from", { from: f.yearMin }) : t("pill.years.to", { to: f.yearMax ?? 0 }));
+        break;
+      case "eras": for (const v of f.eras) dropValue("eras", v, v); break;
+      case "segments": for (const v of f.segments) dropValue("segments", v, t(`segment.${v}` as MsgKey)); break;
+      case "bodies": for (const v of f.bodies) dropValue("bodies", v, t(`body.${v}` as MsgKey)); break;
+      case "makes": for (const v of f.makes) dropValue("makes", v, brand(v)); break;
+      case "excludeMakes": for (const v of f.excludeMakes) dropValue("excludeMakes", v, t("pill.exclude", { name: brand(v) })); break;
+      case "voltageClasses": for (const v of f.voltageClasses) dropValue("voltageClasses", v, named(ctx.names.voltage, v, ctx)); break;
+      case "chemistries": for (const v of f.chemistries) dropValue("chemistries", v, named(ctx.names.chem, v, ctx)); break;
+      case "coolings": for (const v of f.coolings) dropValue("coolings", v, named(ctx.names.cool, v, ctx)); break;
+      default: drop(g, groupLabel(g, f, ctx));
+    }
+  }
+  if (!pills.length) return null;
+  return (
+    <ul
+      className="order-3 flex w-full items-center gap-2 overflow-x-auto pb-1 lg:order-1 lg:w-auto lg:flex-1 lg:flex-wrap lg:overflow-visible lg:pb-0"
+      aria-label={t("pill.list")}
+      data-testid="filter-pills"
+    >
+      {pills.map((p) => (
+        <li key={p.key} className="shrink-0">
+          <button
+            type="button"
+            onClick={() => onChange(p.next)}
+            className="inline-flex min-h-10 items-center gap-2 whitespace-nowrap rounded-full border border-slate-500 bg-white px-3 text-sm hover:bg-slate-100"
+            data-testid="filter-pill"
+          >
+            {p.label}
+            <span aria-hidden="true">×</span>
+            <span className="sr-only">{t("pill.remove")}</span>
+          </button>
+        </li>
+      ))}
+      <li className="shrink-0">
+        <button type="button" onClick={() => onChange(defaultFilters())} className="min-h-10 px-1 text-sm font-semibold text-blue-800 underline underline-offset-2" data-testid="filter-pills-clear">
+          {t("pill.clear")}
+        </button>
+      </li>
+    </ul>
+  );
+}
+
+const TILE =
+  "inline-flex min-h-10 items-center gap-1 rounded-md border border-slate-500 bg-white px-3 text-sm text-slate-900 hover:bg-slate-100 aria-pressed:border-2 aria-pressed:border-[var(--ink)] aria-pressed:font-semibold";
+
 
 /* ---------- columns ---------- */
 
@@ -920,6 +1320,32 @@ function rangeNote(r: ExploreRow, c: Ctx): string | undefined {
   if (!r.real_range_rung) return undefined;
   const label = c.t(`rung.${r.real_range_rung}` as MsgKey);
   return c.level === "nerd" ? `${label} [${r.real_range_rung}]` : label;
+}
+
+/** T-143 (Decision 085): the strings and ⓘ link of the "Official (WLTP)" line. */
+function wltpText(c: Ctx): OfficialRangeText {
+  return { label: c.t("range.wltp.label"), notKnown: c.t("range.wltp.notKnown"), tip: c.t("range.wltp.tip") };
+}
+
+/** Real range leads; the official WLTP range sits under it in the same cell (no ⓘ in the table: Tab stops, rule 12). */
+function rangeCell(r: ExploreRow, c: Ctx) {
+  return (
+    <span className="inline-flex flex-col items-end gap-0.5">
+      {num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c))}
+      <OfficialRange
+        value={r.wltp_range_km}
+        provenance={r.provenance.wltp_range_km}
+        sources={c.sources}
+        locale={c.locale}
+        labels={c.labels}
+        level={c.level === "nerd" ? "nerd" : "simple"}
+        asOf={c.asOf}
+        focusable={!c.inTable}
+        text={wltpText(c)}
+        info={false}
+      />
+    </span>
+  );
 }
 
 const NO_NAMES = new Map<string, string>();
@@ -984,7 +1410,7 @@ const COLS: Col[] = [
   { id: "variant", key: null, label: "col.variant", term: "variant", levels: DN, cell: (r) => r.variant_name },
   { id: "years", key: "years", label: "col.years", term: "model-years", levels: ALL, cell: (r, c) => formatYears(r.year_start, r.year_end, c.t("years.now")) },
   { id: "era", key: "era", label: "col.era", term: "era", levels: DN, cell: (r) => r.era },
-  { id: "range", key: "range", label: "col.range", term: "real-range", num: true, levels: ALL, cell: (r, c) => num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c)) },
+  { id: "range", key: "range", label: "col.range", term: "real-range", num: true, levels: ALL, cell: rangeCell },
   { id: "battery", key: "battery", label: "col.battery", term: "usable-vs-gross", num: true, levels: DN, cell: (r, c) => num(r, c, r.battery_kwh_net, "battery_kwh_net", "kWh") },
   { id: "dc", key: "dc", label: "col.dc", term: "dc-km-20min", num: true, levels: ALL, cell: (r, c) => num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0) },
   { id: "ac", key: "ac", label: "col.ac", term: "ac-charging", num: true, levels: DN, cell: (r, c) => num(r, c, r.ac_km_per_h, "ac_km_per_h", "km/h", 0) },
@@ -1119,6 +1545,8 @@ function ExploreTable({ rows, state, onSort, ctx: outer }: { rows: ExploreRow[];
 /** Provenance key → column label, in display order. Price uses `price_new.<CC>`. */
 const PROV_LABELS: readonly [string, MsgKey][] = [
   ["real_range_km", "col.range"],
+  // T-143 review: the WLTP line in the range cell is not a Tab stop, so its sources must be reachable here.
+  ["wltp_range_km", "range.wltp.label"],
   ["battery_kwh_net", "col.battery"],
   ["dc_km_per_20min", "col.dc"],
   ["dc_km_per_10min", "col.dc"],
@@ -1178,22 +1606,12 @@ function RowSources({ row, ctx }: { row: ExploreRow; ctx: Ctx }) {
 
 /* ---------- cards ---------- */
 
-/** Each row with whether it is the first of its generation in this order. */
-function firstOfGeneration(rows: ExploreRow[]): [ExploreRow, boolean][] {
-  const seen = new Set<string>();
-  return rows.map((r) => {
-    const first = !seen.has(r.generation_id);
-    seen.add(r.generation_id);
-    return [r, first];
-  });
-}
-
 /** Sort menu (T-130): a native select, so it works with keyboard and screen readers on every phone. */
 function SortMenu({ state, onChange, t }: { state: ExploreState; onChange: (k: SortKey) => void; t: T }) {
   const inMenu = (MENU_SORTS as readonly string[]).includes(state.sort ?? "");
   return (
-    <div className="mb-3 flex min-w-0 items-center gap-2">
-      <label htmlFor="sort-menu" className="text-sm text-slate-800">
+    <div className="order-2 flex min-w-0 flex-1 items-center gap-2 lg:order-3 lg:ml-auto lg:flex-none">
+      <label htmlFor="sort-menu" className="sr-only text-sm text-slate-800 sm:not-sr-only">
         {t("sort.label")}
       </label>
       <select
@@ -1218,53 +1636,121 @@ function SortMenu({ state, onChange, t }: { state: ExploreState; onChange: (k: S
   );
 }
 
-function Card({ row: r, ctx: c, popTag = true }: { row: ExploreRow; ctx: Ctx; popTag?: boolean }) {
+/** "€17K–€32K": compact money for the card's used price band. */
+function moneyShort(v: number, c: Ctx): string {
+  try {
+    return new Intl.NumberFormat(c.locale, { style: "currency", currency: c.currency, notation: "compact", maximumFractionDigits: v >= 10_000 ? 0 : 1 }).format(v);
+  } catch {
+    return formatMoney(v, c.currency, c.locale);
+  }
+}
+
+/** "260–410" (or one number when all variants agree); the unit sits in the label. */
+function spanText(s: Span, c: Ctx, digits = 0): string {
+  const a = formatNumber(s.min, c.locale, digits);
+  const b = formatNumber(s.max, c.locale, digits);
+  return a === b ? b : `${a}–${b}`;
+}
+
+/** A card fact through <Num>: the range text, the provenance of the variant with the highest value. */
+function spanNum(s: Span | null, field: string, c: Ctx, digits = 0, unit?: string) {
+  if (!s) return <Missing label={c.t("num.noData")} />;
+  return (
+    <Num
+      value={s.max}
+      text={spanText(s, c, digits) + (unit ? `\u00a0${unit}` : "")}
+      provenance={s.row.provenance[field]}
+      sources={c.sources}
+      locale={c.locale}
+      labels={c.labels}
+      digits={digits}
+      // Cards stay calm (T-130 design): badges and sources live in the popover until Nerd level.
+      level={c.level === "nerd" ? "nerd" : "simple"}
+      asOf={c.asOf}
+    />
+  );
+}
+
+/** New price span through <Num> with the `price_new.<CC>` provenance of the dearest variant (rule 2). */
+function newPriceNum(s: Span | null, c: Ctx) {
+  if (!s) return <Missing label={c.t("num.noData")} />;
+  const text = s.min === s.max ? formatMoney(s.max, c.currency, c.locale) : `${moneyShort(s.min, c)}–${moneyShort(s.max, c)}`;
+  return (
+    <Num
+      value={s.max}
+      text={text}
+      provenance={s.row.provenance[`price_new.${c.code}`] ?? s.row.provenance.price_new}
+      sources={c.sources}
+      locale={c.locale}
+      labels={c.labels}
+      level={c.level === "nerd" ? "nerd" : "simple"}
+      asOf={c.asOf}
+    />
+  );
+}
+
+/** One card per generation (T-130 design): "#n popular", name + years, used price band, three facts. */
+function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: Ctx; countryName: string }) {
   const { t, level } = c;
-  const item = (label: ReactNode, value: ReactNode) => (
-    <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]">
-      <dt className="text-xs text-slate-700">{label}</dt>
-      <dd>{value}</dd>
+  const r = g.lead;
+  const fit = c.trip?.fits.get(r.variant_id);
+  const fact = (icon: ReactNode, value: ReactNode, label: ReactNode, testId: string) => (
+    <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]" data-testid={testId}>
+      {/* The icon sits beside the number. At Nerd the value carries unbreakable source badges, so the
+          row may wrap there (re-review 3: without it a 360 px card grew 3–9 px with CI's fonts). */}
+      <dd className={`order-2 flex min-w-0 items-center gap-1 text-base font-bold tabular-nums ${level === "nerd" ? "flex-wrap" : ""}`}>
+        {icon}
+        <span className="min-w-0 [overflow-wrap:anywhere]">{value}</span>
+      </dd>
+      <dt className="order-3 text-xs text-slate-700">{label}</dt>
     </div>
   );
-  // Label + glossary ⓘ (glossary sweep item 4); a missing term renders the plain label.
-  const term = (id: string, fallback: MsgKey, suffix = "") => (
-    <span className="inline-flex items-center gap-0.5">
-      {(c.tax.terms[id]?.label ?? t(fallback)) + suffix}
-      <TermInfo term={c.tax.terms[id]} base={c.base} text={c.termText} />
-    </span>
-  );
-  const more = level !== "simple";
+  const used = g.used;
+  const note = used ? (used.estimate ? t(used.lowConfidence ? "card.used.estimateLow" : "card.used.estimate") : null) : null;
+  const how = level === "nerd" && used?.how ? [used.how.src, used.how.date].filter(Boolean).join(", ") : "";
   return (
     <li
-      className={`flex flex-col gap-3 rounded-lg border border-slate-300 bg-white p-4 ${c.trip?.fits.get(r.variant_id)?.verdict === "fail" ? "opacity-70" : ""}`}
+      className={`flex min-w-0 flex-col gap-2 rounded-xl border border-slate-300 bg-white p-4 ${fit?.verdict === "fail" ? "opacity-70" : ""}`}
       data-testid="explore-card"
-      data-trip={c.trip?.fits.get(r.variant_id)?.verdict}
+      data-generation={g.generation_id}
+      data-trip={fit?.verdict}
     >
-      {popTag && r.pop_rank ? (
-        <p className="w-fit rounded-full border border-slate-500 px-2 py-0.5 text-xs font-semibold" data-testid="popular-tag">
+      {r.pop_rank ? (
+        <p className="w-fit rounded-full border border-slate-500 bg-[var(--surface)] px-2 py-0.5 text-xs font-semibold" data-testid="popular-tag">
           {t("card.popular", { n: r.pop_rank })}
         </p>
       ) : null}
-      {popTag && r.pop_rank && level === "nerd" ? (
+      {r.pop_rank && level === "nerd" ? (
         <p className="text-xs text-slate-700" data-testid="popular-nerd">
           {t("card.popular.nerd", { score: r.pop ?? "—", date: c.popAsOf ?? "—" })}
         </p>
       ) : null}
       <div className="flex items-start justify-between gap-2">
-        <div>
-          <h3 className="font-semibold">
-            <Link href={variantHref(c.base, r)} className="text-blue-800 underline underline-offset-2 hover:text-blue-950">
+        <div className="min-w-0">
+          <h3 className="text-lg font-bold leading-snug">
+            <Link href={generationHref(c.base, r)} className="text-[var(--ink)] underline-offset-2 hover:underline">
               {r.make_name} {r.model_name}
             </Link>
           </h3>
           <p className="text-sm text-slate-700">
-            {r.generation_name} · {r.variant_name} · {formatYears(r.year_start, r.year_end, t("years.now"))}
+            {r.generation_name} · <span className="tabular-nums">{formatYears(g.yearStart, g.yearEnd, t("years.now"))}</span>
           </p>
         </div>
-        <span className="inline-flex items-center gap-1">
-          <QualityBadge tier={r.quality_tier} label={t(`tier.${r.quality_tier}`)} help={t(`tier.${r.quality_tier}.help`)} />
-          <TermInfo term={c.tax.terms["quality-tier"]} base={c.base} text={c.termText} />
-        </span>
+        <RowActions row={r} t={t} />
+      </div>
+      <div data-testid="card-used">
+        {used ? (
+          <p className="text-xl font-bold tabular-nums">
+            {moneyShort(used.low, c)}–{moneyShort(used.high, c)}
+          </p>
+        ) : (
+          <p className="text-sm font-semibold text-slate-800">{t("card.used.none")}</p>
+        )}
+        <p className="text-sm text-slate-700">
+          {t("card.used.where", { country: countryName })}
+          {note ? <span className="block text-xs">{note}</span> : null}
+          {how ? <span className="block text-xs" data-testid="card-used-how">{t("card.used.how", { how })}</span> : null}
+        </p>
       </div>
       {c.trip ? (
         <div className="text-sm">
@@ -1272,42 +1758,93 @@ function Card({ row: r, ctx: c, popTag = true }: { row: ExploreRow; ctx: Ctx; po
             {t("trip.col")}
             <TermInfo term={c.tax.terms["trip-fit"]} base={c.base} text={c.termText} />
           </span>
-          <c.trip.mod.TripCell fit={c.trip.fits.get(r.variant_id)} ui={c.trip.ui} inTable={false} />
+          <c.trip.mod.TripCell fit={fit} ui={c.trip.ui} inTable={false} />
         </div>
       ) : null}
-      <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-        {item(term("real-range", "col.range"), num(r, c, r.real_range_km, "real_range_km", "km", 0, rangeNote(r, c)))}
-        {item(term("dc-km-20min", "col.dc", ` (${t("col.dc20.unit")})`), num(r, c, r.dc_km_per_20min, "dc_km_per_20min", "km", 0))}
-        {item(c.pay === "buy" ? term("new-price", "col.price") : term(c.pay, `pay.col.${c.pay}`), priceCell(r, c))}
-        {item(term("used-price", "price.used"), <PriceBand currency={c.currency} locale={c.locale} notEnoughLabel={t("price.notEnough")} samplesLabel={t("price.samples")} />)}
-        {more ? (
-          <>
-            {item(term("usable-vs-gross", "col.battery"), num(r, c, r.battery_kwh_net, "battery_kwh_net", "kWh"))}
-            {item(term("dc-km-10min", "col.dc", ` (${t("col.dc.unit")})`), num(r, c, r.dc_km_per_10min, "dc_km_per_10min", "km", 0))}
-            {item(term("peak-kw", "col.dcPeak"), num(r, c, r.dc_peak_kw, "dc_peak_kw", "kW", 0, undefined, r.dc_peak_kw_is_claim === true))}
-            {item(term("ac-charging", "col.ac"), num(r, c, r.ac_km_per_h, "ac_km_per_h", "km/h", 0))}
-            {item(term("voltage-class", "col.voltage"), named(c.names.voltage, r.voltage_class_id, c))}
-            {item(term("chemistry", "col.chemistry"), named(c.names.chem, r.chemistry_id, c))}
-            {r.registered_count_nl != null ? item(term("registrations-nl", "col.rdw"), num(r, c, r.registered_count_nl, "registered_count_nl", undefined, 0)) : null}
-            {item(term("era", "col.era"), r.era)}
-          </>
-        ) : null}
-        {level === "nerd" ? (
-          <>
-            {item(term("cooling", "col.cooling"), named(c.names.cool, r.cooling_id, c))}
-            {item(term("400v-charger-behaviour", "col.charger400"), charger400(r, c))}
-            {item(term("nominal-voltage", "col.voltage"), num(r, c, r.voltage_nominal_v, "voltage_nominal_v", "V", 0))}
-            {item(term("platform", "col.platform"), r.platform_name ?? "—")}
-            {item(term("battery-pack", "col.pack"), named(NO_NAMES, r.battery_pack_id, c))}
-          </>
-        ) : null}
+      <dl className="mt-auto grid grid-cols-3 gap-2 border-t border-dashed border-slate-300 pt-3">
+        {fact(<IconSnow />, spanNum(g.winter, "real_range_winter_km", c), (
+          <span className="inline-flex items-center gap-0.5">
+            {t("card.fact.winter")}
+            <TermInfo term={c.tax.terms["real-winter-range"]} base={c.base} text={c.termText} />
+          </span>
+        ), "fact-winter")}
+        {fact(<IconSun />, spanNum(g.summer, "real_range_km", c), (
+          <span className="inline-flex items-center gap-0.5">
+            {t("card.fact.summer")}
+            <TermInfo term={c.tax.terms["real-range"]} base={c.base} text={c.termText} />
+          </span>
+        ), "fact-summer")}
+        {fact(<IconPlug />, spanNum(g.dc20, "dc_km_per_20min", c), (
+          <span className="inline-flex items-center gap-0.5">
+            {t("card.fact.dc20")}
+            <TermInfo term={c.tax.terms["dc-km-20min"]} base={c.base} text={c.termText} />
+          </span>
+        ), "fact-dc20")}
+        {/* T-143: the official WLTP range right under the real winter + summer range, secondary style. */}
+        <div className="col-span-3 min-w-0">
+          <dt className="sr-only">{t("range.wltp.label")}</dt>
+          <dd className="min-w-0">
+            <OfficialRange
+              value={g.wltp?.max}
+              valueText={g.wltp ? spanText(g.wltp, c) : undefined}
+              provenance={g.wltp?.row.provenance.wltp_range_km}
+              sources={c.sources}
+              locale={c.locale}
+              labels={c.labels}
+              level={c.level === "nerd" ? "nerd" : "simple"}
+              asOf={c.asOf}
+              text={wltpText(c)}
+              info={{ href: `${c.base}/learn/wltp`, termText: c.termText }}
+              testId="fact-wltp"
+            />
+          </dd>
+        </div>
       </dl>
-      <div className="mt-auto">
-        <RowActions row={r} t={t} withText />
-      </div>
+      {level !== "simple" ? (
+        <dl className="grid grid-cols-2 gap-2 text-sm">
+          <div className="flex min-w-0 flex-col">
+            <dt className="text-xs text-slate-700">{t("col.battery")}</dt>
+            <dd>{spanNum(g.battery, "battery_kwh_net", c, 1, "kWh")}</dd>
+          </div>
+          <div className="flex min-w-0 flex-col">
+            <dt className="text-xs text-slate-700">{t("col.price")}</dt>
+            <dd className="tabular-nums">{newPriceNum(g.newPrice, c)}</dd>
+          </div>
+        </dl>
+      ) : null}
+      <p className="text-sm">
+        <Link href={generationHref(c.base, r)} className="text-blue-800 underline underline-offset-2" data-testid="card-versions">
+          {t(g.rows.length === 1 ? "card.versions.one" : "card.versions", { n: g.rows.length })}
+        </Link>
+      </p>
     </li>
   );
 }
+
+const ICON = "h-4 w-4 shrink-0 fill-none stroke-current";
+function IconSnow() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={ICON} strokeWidth="2">
+      <path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 7l2.5-2.5M9.5 19.5 12 17l2.5 2.5" />
+    </svg>
+  );
+}
+function IconSun() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={ICON} strokeWidth="2">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
+  );
+}
+function IconPlug() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={ICON} strokeWidth="2">
+      <path d="M6 3h8v18H6zM14 8h3a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V7M9 9l-1.5 3h3L9 15" />
+    </svg>
+  );
+}
+
 
 /* ---------- favourite + compare ---------- */
 

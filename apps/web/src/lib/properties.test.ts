@@ -16,7 +16,7 @@ import { compactBands } from "./explore-data";
 import { displayName, sortRows } from "./filters";
 import { loanPayment } from "./finance";
 import { DASH, formatMoney, formatNumber, localeFor } from "./format";
-import { BUDGET_MAX, heroFromSearchParams, heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "./hero-state";
+import { BUDGET_MAX, HERO_STEPS, heroFromSearchParams, heroToSearchParams, mergeHeroIntoUrl, type HeroState } from "./hero-state";
 import {
   AREAS,
   CHARGES,
@@ -111,6 +111,8 @@ const answersArb: fc.Arbitrary<Answers> = fc
   .map((a) => (a.role === "second" ? { ...a, trips: null } : a));
 
 const heroArb: fc.Arbitrary<HeroState> = fc.record({
+  // T-132: "results" is never written (it is the default screen for a full profile).
+  step: fc.option(fc.constantFrom(...HERO_STEPS.filter((st) => st !== "results")), { nil: null }),
   answers: answersArb,
   budget: fc.option(fc.integer({ min: 1, max: BUDGET_MAX }), { nil: null }),
   cond: fc.constantFrom(...CONDITIONS),

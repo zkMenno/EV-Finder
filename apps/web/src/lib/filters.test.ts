@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { ExploreRow } from "./explore-data";
 import { row, rows } from "@/test/helpers";
 import { activeGroups, applyFilters, mostRestrictive, sortRows, withoutGroup } from "./filters";
 import { defaultFilters, type ExploreFilters } from "./state";
@@ -91,5 +92,70 @@ describe("empty state: most restrictive filter (Wave 5 polish)", () => {
     const g = { ...defaultFilters(), rangeMin: 600, voltageClasses: ["900v-plus"] };
     expect(mostRestrictive(g, count)).toBeNull();
     expect(mostRestrictive(defaultFilters(), count)).toBeNull();
+  });
+});
+
+describe("used price and winter range (T-130 part 2)", () => {
+  // Compact bands: [build year, p25, median, p75, flags].
+  const a = { ...row({ variant_id: "a", real_range_winter_km: 280 } as never), used_bands: { NL: [[2020, 14000, 16000, 18000, 1], [2022, 20000, 23000, 26000, 1]] } } as ExploreRow;
+  const b = { ...row({ variant_id: "b", real_range_winter_km: 180 } as never), used_bands: { NL: [[2019, 9000, 10000, 11000, 0]] } } as ExploreRow;
+  const c = row({ variant_id: "c", real_range_winter_km: null });
+
+  it("used price: some build year's typical price inside the range; rows without bands drop out", () => {
+    const ids = (p: Partial<ExploreFilters>) => applyFilters([a, b, c], f(p), "NL").map((r) => r.variant_id);
+    expect(ids({ usedMax: 15000 })).toEqual(["b"]);
+    expect(ids({ usedMin: 15000 })).toEqual(["a"]);
+    expect(ids({ usedMin: 17000, usedMax: 22000 })).toEqual([]);
+    expect(ids({ usedMin: 9000, usedMax: 30000 })).toEqual(["a", "b"]);
+    // Another country has no bands: nothing matches a used price there.
+    expect(applyFilters([a, b], f({ usedMax: 50000 }), "DE")).toEqual([]);
+  });
+
+  it("winter range: at least the chosen km; missing values drop out only while it is on", () => {
+    expect(applyFilters([a, b, c], f({ winterMin: 200 }), "NL").map((r) => r.variant_id)).toEqual(["a"]);
+    expect(applyFilters([a, b, c], f({}), "NL")).toHaveLength(3);
+  });
+
+  it("sorts by the cheapest used price (low first) and by winter range (long first), missing last", () => {
+    expect(sortRows([a, c, b], "used", "asc", "NL").map((r) => r.variant_id)).toEqual(["b", "a", "c"]);
+    expect(sortRows([b, c, a], "winter", "desc", "NL").map((r) => r.variant_id)).toEqual(["a", "b", "c"]);
+  });
+
+  it("the used-price pair is one removable group", () => {
+    const g = f({ usedMin: 1, usedMax: 2, winterMin: 100 });
+    expect(activeGroups(g)).toEqual(["usedMin", "winterMin"]);
+    expect(withoutGroup(g, "usedMin")).toMatchObject({ usedMin: null, usedMax: null, winterMin: 100 });
+  });
+});
+
+describe("used price with build years (review #126)", () => {
+  const a = { ...row({ variant_id: "a", year_start: 2018 } as never), used_bands: { NL: [[2018, 9000, 10000, 11000, 0], [2022, 22000, 24000, 26000, 0]] } } as ExploreRow;
+  it("a cheap band from before the chosen build years doesn't make the car match", () => {
+    expect(applyFilters([a], f({ usedMax: 15000, yearMin: 2021 }), "NL")).toEqual([]);
+    expect(applyFilters([a], f({ usedMax: 25000, yearMin: 2021 }), "NL")).toHaveLength(1);
+  });
+});
+
+describe("official WLTP range (T-143, Decision 085)", () => {
+  const a = row({ variant_id: "a", real_range_km: 380, wltp_range_km: 450 });
+  const b = row({ variant_id: "b", real_range_km: 400, wltp_range_km: null });
+  const c = row({ variant_id: "c", real_range_km: 300, wltp_range_km: 520 });
+
+  it("WLTP filter: at least the chosen km; a car without WLTP never matches (no back-fill from real range)", () => {
+    expect(applyFilters([a, b, c], f({ wltpMin: 400 }), "NL").map((r) => r.variant_id)).toEqual(["a", "c"]);
+    expect(applyFilters([a, b, c], f({ wltpMin: 500 }), "NL").map((r) => r.variant_id)).toEqual(["c"]);
+    expect(applyFilters([a, b, c], f({}), "NL")).toHaveLength(3);
+  });
+
+  it("range sort stays on real range; the WLTP sort orders by WLTP, missing last", () => {
+    expect(sortRows([a, b, c], "range", "desc", "NL").map((r) => r.variant_id)).toEqual(["b", "a", "c"]);
+    expect(sortRows([a, b, c], "wltp", "desc", "NL").map((r) => r.variant_id)).toEqual(["c", "a", "b"]);
+    expect(sortRows([a, b, c], "wltp", "asc", "NL").map((r) => r.variant_id)).toEqual(["a", "c", "b"]);
+  });
+
+  it("the WLTP filter is its own removable group", () => {
+    const fl = f({ wltpMin: 400, winterMin: 200 });
+    expect(activeGroups(fl)).toEqual(expect.arrayContaining(["wltpMin", "winterMin"]));
+    expect(withoutGroup(fl, "wltpMin")).toMatchObject({ wltpMin: null, winterMin: 200 });
   });
 });

@@ -7,8 +7,10 @@ import {
   fromSearchParams,
   hasPayParam,
   hasViewParam,
+  MENU_SORTS,
   nextSort,
   serializeState,
+  sortBy,
   toSearchParams,
   type ExploreState,
 } from "./state";
@@ -17,6 +19,10 @@ const full: ExploreState = {
   v: 1,
   filters: {
     priceMax: 40000,
+    usedMin: 10000,
+    usedMax: 25000,
+    winterMin: 250,
+    wltpMin: 400,
     eras: ["2018-20", "pre-2018"],
     segments: ["C"],
     bodies: ["suv", "hatchback"],
@@ -152,6 +158,33 @@ describe("sort cycle and counters", () => {
   });
   it("counts active filters", () => {
     expect(activeFilterCount(defaultState().filters)).toBe(0);
-    expect(activeFilterCount(full.filters)).toBe(24);
+    expect(activeFilterCount(full.filters)).toBe(28);
+  });
+});
+
+describe("official WLTP range in the URL (T-143, Decision 085)", () => {
+  it("keeps the WLTP filter and the WLTP sort in the URL; real range stays the default", () => {
+    const s = fromSearchParams(new URLSearchParams("wltp=400&sort=-wltp"));
+    expect(s.filters.wltpMin).toBe(400);
+    expect(s.filters.winterMin).toBeNull();
+    expect(s.sort).toBe("wltp");
+    expect(s.dir).toBe("desc");
+    const p = toSearchParams(s);
+    expect(p.get("wltp")).toBe("400");
+    expect(p.get("sort")).toBe("-wltp");
+    // Nothing chosen: no WLTP key, the range filter and sort mean real range.
+    expect(toSearchParams(defaultState()).has("wltp")).toBe(false);
+    expect(fromSearchParams(new URLSearchParams("winter=250")).filters.wltpMin).toBeNull();
+  });
+
+  it("the WLTP sort starts long-first and sits in the sort menu after winter range", () => {
+    expect(sortBy(defaultState(), "wltp")).toMatchObject({ sort: "wltp", dir: "desc" });
+    expect(MENU_SORTS.indexOf("wltp")).toBe(MENU_SORTS.indexOf("winter") + 1);
+  });
+
+  it("survives storage", () => {
+    const s = defaultState();
+    s.filters.wltpMin = 450;
+    expect(deserializeState(serializeState(s)).filters.wltpMin).toBe(450);
   });
 });
