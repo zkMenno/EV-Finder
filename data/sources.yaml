@@ -37,7 +37,7 @@ sources:
      terms: "data/manual/<topic>/*.yaml, one cited fact each (URL, retrieved date, quote or page); validate with `ev manual check`. Decision 068 (Menno, 2026-11-17): single facts from maker documents (list price, WLTP range, battery, consumption) may ship, one figure per car per document, never a whole price list or spec table. Each fact's URL must be on a cited_hosts host or host/path prefix (manual/facts.py); press, dealer and review pages name `source: cited-third-party` (blocked). Not in the CC BY open-data bundle (no licence).",
      cited_hosts: [
        # maker and importer press rooms, price lists and sites
-       www.audi-mediacenter.com, emea-dam.audi.com, www.hyundai.news, media.mercedes-benz.ch, www.mg.co.uk,
+       www.audi-mediacenter.com, audi-mediacenter.com, uploads.audi-mediacenter.com, www.audi.com, www.audi.co.uk, emea-dam.audi.com, www.hyundai.news, media.mercedes-benz.ch, www.mg.co.uk,
        cdn.group.renault.com, renault.co.uk, www.skoda.co.uk, www.volkswagen-newsroom.com, volkswagen.ie, www.volkswagen.it,
        # maker documents on a hosting service: host/path prefixes only, never the whole host (PR #80 review).
        # Cision company 23604 = Volvo Car Belux press releases; one Toyota Belgium price-list asset on Prezly;
