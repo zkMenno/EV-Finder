@@ -21,7 +21,6 @@ from ev_pipeline.match.matcher import (
     RegistrationEntry,
     aggregate_counts,
     count_period,
-    find_model_noted,
     match_records,
     registration_entries,
 )
@@ -108,15 +107,10 @@ def real_seed():
 
 
 def _model_of(seed, rec: SourceRecord) -> tuple[str | None, str, str | None]:
-    from ev_pipeline.match.matcher import find_by_source_alias, match_view
+    from ev_pipeline.match.matcher import find_record_model, match_view
 
-    view = match_view(rec)
-    make_id = seed.make_id_for(rec.make)
-    if make_id is None:
-        m, note = find_by_source_alias(seed, view)
-        return (m.id if m else None), "", note
-    m, why, note = find_model_noted(seed, make_id, view)
-    return (m.id if m else None), why, note
+    m, why, note, _ = find_record_model(seed, match_view(rec))  # the lookup match_records uses
+    return (m.id if m else None), ("" if m else why), note
 
 
 # --- source-scoped aliases (KBA) -----------------------------------------------------------
@@ -129,7 +123,8 @@ def _model_of(seed, rec: SourceRecord) -> tuple[str | None, str, str | None]:
         ("AUDI", "Q4", "audi-q4-e-tron"),
         ("AUDI", "Q8", "audi-e-tron"),
         ("MERCEDES", "GLA", "mercedes-eqa"),
-        ("SEAT", "BORN", "cupra-born"),  # make not in the seed
+        ("SEAT", "BORN", "cupra-born"),  # SEAT is in the seed (Mii); the source alias still wins
+        ("SEAT", "MII", "seat-mii-electric"),  # T-136d
         ("VW", "ID.4, ID.5", "volkswagen-id4"),
         ("MG ROEWE", "4", "mg-mg4"),  # make alias
         ("MG ROEWE", "4 URBAN", None),  # a different car
