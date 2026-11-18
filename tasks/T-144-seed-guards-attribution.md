@@ -1,6 +1,6 @@
 # T-144 Seed guards from the T-136 reviews, list credit lines, coverage script, KBA P7 check
 Role: builder   Lane: data/seed, data/editorial (WS3); one test file in pipeline/tests (cross-lane, flagged)   Wave: launch
-Status: review (batch: catalogue, 2026-11-18)
+Status: done (batch: catalogue, 2026-11-18, PR #155)
 
 ## Goal
 Close the small WS3 follow-ups from the T-136 / #128 / #135 / #146 reviews (WS0 INBOX 2026-11-18 12:10, 12:40, 13:45; merge batch 3 12:00).
@@ -26,3 +26,4 @@ Close the small WS3 follow-ups from the T-136 / #128 / #135 / #146 reviews (WS0 
 - Seen, not fixed: OpenEV files the Abarth 500e as a Fiat 500e variant, so release rows still have `fiat-500e-332-abarth`. Needs a source hold or a source_names move to abarth-500e (WS3 next).
 
 ## Review
+- 2026-11-18 fresh subagent review of 67da3d3: R0-R3, D1, D4, D7 PASS WITH NITS (PR comment); re-review of c1ea9de (nit fixes): PASS WITH NITS. Head = c1ea9de + main merge + this line.
