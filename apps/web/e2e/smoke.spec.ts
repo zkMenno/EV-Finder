@@ -16,7 +16,8 @@ test("Explore (/cars, T-130): filter, add 2 to compare, reload, tray keeps 2", a
   const shown = async () => Number((await page.getByTestId("result-count").innerText()).match(/\d+/)![0]);
   const before = await shown();
 
-  // Apply a filter: min real range 300 km.
+  // Apply a filter: min real range 300 km (under "More filters" since the T-130 sidebar).
+  await page.getByTestId("fg-more").locator("summary").first().click();
   await page.locator("#f-rangeMin").fill("300");
   await expect(page).toHaveURL(/[?&]range=300/);
   await expect.poll(shown).toBeLessThan(before);

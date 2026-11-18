@@ -140,11 +140,11 @@ features:
     steps:
       - goto: /nl/en/cars?view=table
       - wait: "@explore-row"
-      - fill: ["#f-rangeMin", "350"]
-      - wait: "@result-count"
+      - fill: ["#f-usedMax", "25000"]
+      - wait: "@filter-pill"
     expect:
-      - url: "range=350"
-        what: the range filter in the address bar
+      - url: "umax=25000"
+        what: the used price filter in the address bar
         why: filters are not shareable (design principle 3)
       - visible: "@explore-row"
         what: at least one row in the table
@@ -183,6 +183,33 @@ features:
         contains: one person's verdict
         what: the How we rank section
         why: the owner's picks aren't labelled as one person's opinion
+
+  - id: catalogue-cards
+    title: "Catalogue: one card per generation, filter pills that remove themselves (T-130 part 2)"
+    triggers: [src/components/Explore.tsx, src/lib/generation-cards.ts, src/lib/filters.ts, src/lib/state.ts, src/lib/explore-data.ts, "src/app/[[]country]/[[]lang]/cars/**", src/i18n/*.json]
+    steps:
+      - goto: /nl/en/cars?umax=25000&winter=250
+      - wait: "@filter-pill"
+      - click: "(//*[@data-testid='filter-pill'])[1]"
+      - wait: "@explore-card"
+    expect:
+      - count: "@filter-pill"
+        eq: 1
+        what: one filter pill left after removing the used price
+        why: a pill's × doesn't remove its filter
+      - url: "winter=250"
+        what: the winter range filter still in the address bar
+        why: removing one pill cleared the others
+      - visible: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='card-used']"
+        what: the used price on the first card
+        why: cards don't show what the car costs used where the visitor lives
+      - visible: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='fact-winter']"
+        what: the winter range on the first card
+        why: cards miss the design's three facts (winter km, summer km, km in 20 min)
+      - text: "@result-count"
+        match: "\\d+ of \\d+ models match"
+        what: the count line in models
+        why: the count doesn't say how many models match
 
   - id: explore-compare
     title: "Explore → Compare with 'differences only'"

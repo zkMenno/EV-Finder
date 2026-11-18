@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { ExploreRow } from "./explore-data";
 import { row, rows } from "@/test/helpers";
 import { activeGroups, applyFilters, mostRestrictive, sortRows, withoutGroup } from "./filters";
 import { defaultFilters, type ExploreFilters } from "./state";
@@ -91,5 +92,38 @@ describe("empty state: most restrictive filter (Wave 5 polish)", () => {
     const g = { ...defaultFilters(), rangeMin: 600, voltageClasses: ["900v-plus"] };
     expect(mostRestrictive(g, count)).toBeNull();
     expect(mostRestrictive(defaultFilters(), count)).toBeNull();
+  });
+});
+
+describe("used price and winter range (T-130 part 2)", () => {
+  // Compact bands: [build year, p25, median, p75, flags].
+  const a = { ...row({ variant_id: "a", real_range_winter_km: 280 } as never), used_bands: { NL: [[2020, 14000, 16000, 18000, 1], [2022, 20000, 23000, 26000, 1]] } } as ExploreRow;
+  const b = { ...row({ variant_id: "b", real_range_winter_km: 180 } as never), used_bands: { NL: [[2019, 9000, 10000, 11000, 0]] } } as ExploreRow;
+  const c = row({ variant_id: "c", real_range_winter_km: null });
+
+  it("used price: some build year's typical price inside the range; rows without bands drop out", () => {
+    const ids = (p: Partial<ExploreFilters>) => applyFilters([a, b, c], f(p), "NL").map((r) => r.variant_id);
+    expect(ids({ usedMax: 15000 })).toEqual(["b"]);
+    expect(ids({ usedMin: 15000 })).toEqual(["a"]);
+    expect(ids({ usedMin: 17000, usedMax: 22000 })).toEqual([]);
+    expect(ids({ usedMin: 9000, usedMax: 30000 })).toEqual(["a", "b"]);
+    // Another country has no bands: nothing matches a used price there.
+    expect(applyFilters([a, b], f({ usedMax: 50000 }), "DE")).toEqual([]);
+  });
+
+  it("winter range: at least the chosen km; missing values drop out only while it is on", () => {
+    expect(applyFilters([a, b, c], f({ winterMin: 200 }), "NL").map((r) => r.variant_id)).toEqual(["a"]);
+    expect(applyFilters([a, b, c], f({}), "NL")).toHaveLength(3);
+  });
+
+  it("sorts by the cheapest used price (low first) and by winter range (long first), missing last", () => {
+    expect(sortRows([a, c, b], "used", "asc", "NL").map((r) => r.variant_id)).toEqual(["b", "a", "c"]);
+    expect(sortRows([b, c, a], "winter", "desc", "NL").map((r) => r.variant_id)).toEqual(["a", "b", "c"]);
+  });
+
+  it("the used-price pair is one removable group", () => {
+    const g = f({ usedMin: 1, usedMax: 2, winterMin: 100 });
+    expect(activeGroups(g)).toEqual(["usedMin", "winterMin"]);
+    expect(withoutGroup(g, "usedMin")).toMatchObject({ usedMin: null, usedMax: null, winterMin: 100 });
   });
 });

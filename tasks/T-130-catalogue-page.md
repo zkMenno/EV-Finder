@@ -1,6 +1,6 @@
 # T-130 Catalogue page with popularity sort; landing loses the full list
 Role: builder   Lane: WS2 (+ UX layout): apps/web/   Wave: launch (staging feedback 2026-11-17)
-Status: review (WS2, 2026-11-18, part 1: PR on branch t-130-catalogue-page)
+Status: review (WS2, 2026-11-18: part 1 merged #117; part 2 PR on branch t-130-catalogue-visual)
 
 ## Goal
 A "Show all cars" button on the landing leads to a catalogue page like ev-database.org, sorted by popularity by default.
@@ -32,6 +32,15 @@ WS2, 2026-11-18 (session_01JuyZEUuCTBUyPNJ74C3iRD).
 **Not done yet (part 2, needs no new data):** the design's visual layer: filter sidebar groups (used price, winter range slider, body tiles, brands with search + counts), phone "Filters · n" bottom sheet + sticky bar, removable filter pills + Clear, "214 models · 87 match" count line, one card per generation with used price band and the three facts (winter km, summer km, km in 20 min). Photo + credit on cards is T-135 (needs WS1's image fields).
 
 **Known gap:** resetting the sort to "unsorted" via a table header leaves no `sort` in the URL, so a reload shows Most popular again. Small; fix with part 2 if the table keeps the unsorted state.
+
+**Part 2 (branch t-130-catalogue-visual): the design's visual layer.** WS2, 2026-11-18 (session_01JuyZEW7knztpvwmHJjJ3mb).
+- Sidebar (272 px) with collapsible groups in design order: used price (min/max), real winter range (slider, 0 = any), body tiles, fast charging (+100/+150/+200 km in 20 min → `dc`), build years, seats · battery · towing, brands (search, counts = generations per brand, top 6 + "Show all"), and "More filters" (closed unless one is on) with everything the old panel had (new price, real range, era, 400 V, 100 %, and at Detailed+ segment, voltage, chemistry, cooling, DC number, boot, length, AC, voltage slider).
+- Phone: sticky bar with "Filters · n" + the sort menu; the same panel opens as a bottom sheet (role dialog when open, focus to Close, Escape and backdrop close, focus back to the button, page doesn't scroll behind) with a "Show n cars" button. One DOM for both, so every filter id exists once.
+- Pills: one per active filter (one per value for lists), each removes itself; "Clear" resets. Count line "N of M models match · used prices in <country>" (models = generations).
+- Cards: one per generation (`src/lib/generation-cards.ts`), in the order of the generation's best-placed variant, so every sort carries over. Card = "#n popular" tag, make + model (links to the generation page), generation + years, used price band (lower quartile of the cheapest band to upper quartile of the dearest, within the visitor's used-price and build-year filters; "Estimate…" note when any band is our model; Nerd adds the source + date), three facts through `<Num>` (winter km, summer km, km in 20 min; "min–max" when variants differ, provenance of the highest), Detailed adds battery + new price, "n versions" link. Heart + compare act on the generation's first matching variant (named in the button label).
+- New state: `umin`/`umax` (used price where the visitor lives: some build year's typical price inside the range; no bands = no match) and `winter` (`real_range_winter_km`, now in the client rows with provenance). Sort menu: Most popular, used price (cheapest typical price), winter range, battery, charging speed, year (design). `price` and `range` stay valid sort keys for old links and table headers.
+- Client catalogue grew 202 → 222 KB gzip (winter field + provenance); still under 300.
+- Reversible defaults: body tiles are the schema's 8 bodies (the design's "Small" isn't a body; segment stays under More filters). Photos wait for T-135. The level/view and price-mode toggles stay above the list on phones (design has none there); if that's too much scrolling, move them into the sheet.
 
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
