@@ -16,6 +16,7 @@ import { getClientDict, getDict, makeT } from "@/i18n";
 import { getCatalogue } from "@/lib/catalogue";
 import { siteBase, siteUrl } from "@/lib/site-paths";
 import "../../globals.css";
+import { fontVars } from "../../fonts";
 
 export const dynamicParams = false;
 
@@ -45,7 +46,7 @@ export default async function SiteLayout({ children, params }: Props) {
 
   return (
     // suppressHydrationWarning: /theme-init.js may set data-theme on <html> before React hydrates.
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={lang} className={fontVars} suppressHydrationWarning>
       <head>
         {/* Same-origin, blocking on purpose: applies the remembered theme before first paint. */}
         {/* eslint-disable-next-line @next/next/no-sync-scripts */}
