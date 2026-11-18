@@ -5,6 +5,7 @@
 // same pure functions (src/lib/shortlist.ts) once the compact catalogue has loaded. Scores come from
 // the release's shortlist_scores.json (Decision 065); without it the hero says so and ranks nothing. All state is in
 // the URL; the refine filters are Explore's filters, kept in step through src/lib/filter-bus.ts.
+import dynamic from "next/dynamic";
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Body, Country, Currency } from "@ev/schema";
 import { COUNTRIES, COUNTRY_SLUGS, isServed, type CountrySlug, type Lang } from "@/config/countries";
@@ -97,6 +98,9 @@ const chipCls =
   "inline-flex min-h-11 cursor-pointer items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm " +
   "has-[:checked]:border-blue-800 has-[:checked]:bg-blue-100 has-[:checked]:font-semibold " +
   "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--focus)]";
+// Ariakit brand picker (T-141, Decision 056): loads only once the refine step is opened.
+const BrandPicker = dynamic(() => import("./BrandPicker").then((m) => m.BrandPicker), { ssr: false });
+
 const toggleCls =
   "inline-flex min-h-11 items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm aria-pressed:border-blue-800 aria-pressed:bg-blue-100 aria-pressed:font-semibold";
 const inputCls = "w-32 rounded-md border border-slate-400 bg-white px-3 py-2 text-base tabular-nums";
@@ -233,6 +237,7 @@ export function Hero(props: HeroProps) {
   const [copied, setCopied] = useState(false);
   // The loan settings box renders only when opened (one LoanBox per page until then).
   const [loanOpen, setLoanOpen] = useState(false);
+  const [refineOpen, setRefineOpen] = useState(false);
   const [dirty, setDirty] = useState(false);
   const lastUrl = useRef(heroToSearchParams(props.initial).toString());
   const [loanSettings, setLoanSettings] = useLoanSettings();
@@ -457,9 +462,9 @@ export function Hero(props: HeroProps) {
           />
         </Step>
 
-        <details className="border-t border-slate-200 pt-4" data-testid="hero-refine">
+        <details className="border-t border-slate-200 pt-4" data-testid="hero-refine" onToggle={(e) => setRefineOpen(e.currentTarget.open)}>
           <summary className="min-h-11 cursor-pointer py-2 text-lg font-semibold">{t("hero.step4")}</summary>
-          <Refine filters={hero.filters} onChange={setFilters} makes={props.makes} nowYear={props.nowYear} t={t} />
+          <Refine filters={hero.filters} onChange={setFilters} makes={props.makes} nowYear={props.nowYear} t={t} open={refineOpen} />
         </details>
       </div>
 
@@ -549,12 +554,14 @@ function Refine({
   makes,
   nowYear,
   t,
+  open,
 }: {
   filters: ExploreFilters;
   onChange: (f: ExploreFilters) => void;
   makes: { id: string; name: string }[];
   nowYear: number;
   t: T;
+  open: boolean;
 }) {
   const set = (patch: Partial<ExploreFilters>) => onChange({ ...filters, ...patch });
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v].sort());
@@ -607,26 +614,28 @@ function Refine({
           <NumberSelect label={t("hero.refine.yearTo")} value={filters.yearMax} options={years} onChange={(yearMax) => set({ yearMax })} t={t} testid="hero-ymax" />
         </div>
       </fieldset>
-      {(
-        [
-          ["makes", "hero.refine.brands"],
-          ["excludeMakes", "hero.refine.xbrands"],
-        ] as const
-      ).map(([key, label]) => (
-        <details key={key}>
-          <summary className="min-h-11 cursor-pointer py-2 text-sm font-semibold">
-            {t(label)}
-            {filters[key].length ? ` (${filters[key].length})` : ""}
-          </summary>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {makes.map((m) => (
-              <button key={m.id} type="button" aria-pressed={filters[key].includes(m.id)} onClick={() => set({ [key]: toggle(filters[key], m.id) })} className={toggleCls}>
-                {m.name}
-              </button>
-            ))}
-          </div>
-        </details>
-      ))}
+      {open
+        ? (
+            [
+              ["makes", "hero.refine.brands", "hero-brands"],
+              ["excludeMakes", "hero.refine.xbrands", "hero-xbrands"],
+            ] as const
+          ).map(([key, label, testid]) => (
+            <BrandPicker
+              key={key}
+              makes={makes}
+              selected={filters[key]}
+              onChange={(ids) => set({ [key]: ids })}
+              testid={testid}
+              text={{
+                label: t(label),
+                placeholder: t("hero.refine.brandSearch"),
+                remove: t("hero.refine.brandRemove"),
+                none: t("hero.refine.brandNone"),
+              }}
+            />
+          ))
+        : null}
       <div className="flex flex-wrap items-center gap-4 text-sm">
         <button type="button" onClick={() => onChange({ ...defaultFilters(), voltageClasses: filters.voltageClasses, chemistries: filters.chemistries, coolings: filters.coolings })} className="text-blue-800 underline underline-offset-2">
           {t("hero.refine.reset")}

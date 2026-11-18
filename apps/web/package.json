@@ -28,6 +28,7 @@
     "verify": "node scripts/verify.mjs"
   },
   "dependencies": {
+    "@ariakit/react": "^0.4.43",
     "@ev/schema": "workspace:*",
     "next": "16.4.6",
     "react": "19.3.1",
