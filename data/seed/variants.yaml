@@ -2268,6 +2268,33 @@ variants:
 # below instead of making or joining a row (see ev_pipeline/match/matcher.py, 4). For records
 # that fit no real variant of their model years, or whose figures a maker document contradicts
 # across the board. A hold never sets or changes a value.
+  # T-145 (2026-11-18): the 2024 e-tron GT update (Decision 057 split). No seed values: every figure is a
+  # cited Audi fact in data/manual/specs/t145-cited-maker-facts.yaml (source manual, Decision 068).
+  - generation_id: audi-e-tron-gt-facelift
+    id: audi-e-tron-gt-facelift-s
+    name: "S e-tron GT"
+    years: [2024, null]
+    drivetrain: awd
+    specs: {}
+    notes: "WLTP not cited from Audi (Audi UK gives 367-374 miles for UK equipment); the release takes it from RDW registrations (571 km in the 2026-11-18 build)."
+    confidence: high
+  - generation_id: audi-e-tron-gt-facelift
+    id: audi-e-tron-gt-facelift-rs
+    name: "RS e-tron GT"
+    years: [2024, null]
+    drivetrain: awd
+    specs: {}
+    notes: "Audi data sheet 'Program for Germany, Status: 09/06/2024'; 396 Li-ion cells."
+    confidence: high
+  - generation_id: audi-e-tron-gt-facelift
+    id: audi-e-tron-gt-facelift-rs-performance
+    name: "RS e-tron GT performance"
+    years: [2024, null]
+    drivetrain: awd
+    specs: {}
+    notes: "WLTP not in Audi's release; the release takes it from the RDW type approval (608 km in the 2026-11-18 build)."
+    confidence: high
+
 source_holds:
   - generation_id: audi-q4-e-tron-gen1
     source: openev
@@ -2281,3 +2308,13 @@ source_holds:
       quattro). Audi technical data 'Audi Q4 e-tron 35 / 40 / 50 quattro', program for Germany,
       status 04-05/2021 (media.audi.com, Audi Estonia), read 2026-11-15. Joining them to the seed
       35 / 40 / 50 quattro would replace correct seed figures with these; review instead.
+  - generation_id: audi-e-tron-gt-facelift
+    source: openev
+    names: ["quattro", "RS"]
+    reason: >-
+      OpenEV's e-tron GT files for MY2024-2025 repeat the pre-update car (85 / 93.4 kWh,
+      270 kW DC, 390 / 440 kW) under the old trim names. From the 2024 update Audi gives 105 kWh
+      gross / 97 kWh net and 320 kW DC (data sheet 'Audi RS e-tron GT 500 kW', 09/06/2024) and
+      sells S / RS / RS performance. Records that land on the facelift generation would show the
+      old pack on the new car; review instead (T-145). MY2024 records with the old pack go to
+      gen1 by battery evidence (shared year 2024).

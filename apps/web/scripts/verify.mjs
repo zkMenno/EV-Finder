@@ -220,7 +220,9 @@ async function check(page, e, timeout) {
   }
   if ("visible" in e) {
     try {
-      await page.locator(expandSelector(e.visible)).first().waitFor({ state: "visible", timeout });
+      // Match a visible element: pages keep many hidden nodes with the same selector (every ⓘ
+      // renders its own hidden [role=tooltip]), and .first() alone picks a hidden one.
+      await page.locator(expandSelector(e.visible)).filter({ visible: true }).first().waitFor({ state: "visible", timeout });
       return { ok: true, found: "visible" };
     } catch {
       return { ok: false, found: "not on the page" };

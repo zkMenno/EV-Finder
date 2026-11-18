@@ -40,8 +40,14 @@
   --color-red-900: var(--danger);
 }
 
+/* Brand fonts (src/app/fonts.ts): Atkinson Hyperlegible for text and numbers, Bitter for headings.
+   The system stack stays as the fallback (and covers pages before the font arrives). */
 html {
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-text, ui-sans-serif), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:where(h1, h2, h3) {
+  font-family: var(--font-display, Georgia), Georgia, serif;
 }
 
 body {

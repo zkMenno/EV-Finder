@@ -279,3 +279,25 @@ approved:
     field: "bands.*"
     change: cleared
   - {<<: *t136, id: smart-eq-fortwo-453-eq, field: "bands.*", change: changed}
+  # T145: 1 variant, 4 changes (Model 3 gen1 Performance: cited type-approval consumption)
+  - &t145
+    release: 3
+    file: catalogue.json
+    approved_by: "PR #156 (T-145)"
+    reason: "T-145: tesla-model-3-gen1-performance gets its cited WLTP figures from EU type approval e4*2007/46*1293 (RDW TGK, CC0, Decision 068): 530 km and 166 Wh/km for every 2019-2020 Performance version (PP*, 261 km/h). Its consumption moves 15.0 -> 16.6 kWh/100 km (motorway 19.5 -> 21.6 follows), so the road-tripper+kerbside band drops shortlist -> consider. Measured: ev verify main vs PR #156 on the same staging (2026-11-18), 4 blocking, all on this variant."
+    id: tesla-model-3-gen1-performance
+    field: consumption_kwh_100km
+    change: changed
+  - {<<: *t145, id: tesla-model-3-gen1-performance, field: consumption_motorway_kwh_100km, change: changed}
+  - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.band", change: changed}
+  - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.urban.band", change: changed}
+  # Release 3: nissan-leaf-ze1-62-kwh matrix cells move from the WLTP-ratio estimate to measured EPA tests
+  # (13 blocking cells; the glob also approves 32 review-level rows of the same variant: 45 in all)
+  - &leaf62
+    release: 3
+    file: consumption_matrix.json
+    approved_by: "PR #135 (WS1 8th: measured EPA town/rural tests); traced by batch data / release 3"
+    reason: "Intended rung upgrade, not a bug. Release 2 built every cell of this variant from the WLTP ratio (rung wltp-ratio, confidence low). Since #135 the town and rural cells use the 8 fueleconomy.gov tests matched to it (vehicles.csv ids 41276, 41277, 42562, 42563, 43665, 43666, 44447, 44448: 'Leaf (62 kW-hr battery pack)' 2019-2022, cityE / highwayE, public domain), rung measured, confidence medium; motorway stays physics. Town/rural wh_km fall about 5-12 % and the p90 edges narrow (e.g. town t3 234.9 -> 210.4, p90 281.8 -> 231.4). Measured: ev verify on staging recorded 2026-11-18, 13 blocking cells, all this variant."
+    id: nissan-leaf-ze1-62-kwh
+    field: "cells*wh_km"
+    change: changed

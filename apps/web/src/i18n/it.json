@@ -240,6 +240,7 @@
   "field.charger_400v_kw": "Potenza alle colonnine a 400 V",
   "field.fast_on_400v": "Veloce alle vecchie colonnine a 400 V",
   "field.ac_kw": "Potenza di ricarica AC",
+  "field.ac_kw.optional": "opzionale",
   "field.ac_km_per_h": "AC: km recuperati all'ora",
   "field.power_kw": "Potenza",
   "field.accel_0_100_s": "0–100 km/h",
