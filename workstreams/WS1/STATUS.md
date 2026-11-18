@@ -8,6 +8,7 @@
 - **Last updated:** 2026-11-17 11:00 UTC by WS1 (5th)
 
 ## Log
+- 2026-11-18 10:25 UTC · 8th: PRs #131 (retired-id manual facts), #133 (image sha check), #134 (photo-only nights), #135 ('+' → 'plus'), all green. Same-data rebuild proof for #135 (16 sources fetched).
 - 2026-11-18 10:00 UTC · Menno: coverage 95 %+. Model-level coverage added to #127: main 86.7 %, WS3 t-136 branch 95.7 %. Gap list to WS3.
 - 2026-11-18 09:50 UTC · 8th session opened (https://claude.ai/code/session_01JuyZEUgHKypBRfx6deGhfu) next to the 7th (T-073, #127, left alone). Taking HANDOFF item 5 + WS3 asks: '+' → 'plus' name key first.
 - 2026-11-18 09:40 UTC · #110 merged after real-data run (120/120 photos valid, schema-valid attach, night refresh fetches photos). All 6th-session PRs merged.
