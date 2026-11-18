@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("Explore: filter, add 2 to compare, reload, tray keeps 2", async ({ page, baseURL }) => {
+test("Explore (/cars, T-130): filter, add 2 to compare, reload, tray keeps 2", async ({ page, baseURL }) => {
   const origin = new URL(baseURL!).origin;
   const foreign: string[] = [];
   page.on("request", (req) => {
@@ -8,7 +8,7 @@ test("Explore: filter, add 2 to compare, reload, tray keeps 2", async ({ page, b
     if (!u.startsWith(origin) && !u.startsWith("data:")) foreign.push(u);
   });
 
-  await page.goto("/nl/nl");
+  await page.goto("/nl/nl/cars?view=table");
   // Server-rendered rows are there before the client takes over.
   await expect(page.getByTestId("explore-row").first()).toBeVisible();
   // Full list fetched from our own origin.
@@ -42,7 +42,7 @@ test("Explore: filter, add 2 to compare, reload, tray keeps 2", async ({ page, b
 });
 
 test("Language switch keeps filters and the compare tray; country switch keeps the path (Decision 015)", async ({ page }) => {
-  await page.goto("/nl/nl?range=300");
+  await page.goto("/nl/nl/cars?view=table&range=300");
   await expect(page.locator("html")).toHaveAttribute("lang", "nl");
   await expect(page.getByTestId("result-count")).not.toContainText("…");
   const toggles = page.getByTestId("compare-toggle");
@@ -54,7 +54,7 @@ test("Language switch keeps filters and the compare tray; country switch keeps t
   const lang = page.getByRole("combobox", { name: /Taal|Language/ });
   await expect(lang.locator("option")).toHaveCount(2);
   await lang.selectOption("en");
-  await expect(page).toHaveURL(/\/nl\/en\?range=300$/);
+  await expect(page).toHaveURL(/\/nl\/en\/cars\?view=table&range=300$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("#f-rangeMin")).toHaveValue("300");
   await expect(page.getByTestId("compare-tray").getByRole("listitem")).toHaveCount(2);
@@ -62,13 +62,13 @@ test("Language switch keeps filters and the compare tray; country switch keeps t
 
   // Country switch keeps English where served (UK: English only) and the query.
   await page.getByRole("combobox", { name: /Country|Land/ }).selectOption("uk");
-  await expect(page).toHaveURL(/\/uk\/en\?range=300$/);
+  await expect(page).toHaveURL(/\/uk\/en\/cars\?view=table&range=300$/);
   await expect(page.getByLabel(/new price \(GBP\)/i)).toBeVisible();
   await expect(page.getByTestId("compare-tray").getByRole("listitem")).toHaveCount(2);
 
   // Belgium serves NL, FR, DE + EN; switching back keeps English.
   await page.getByRole("combobox", { name: /Country|Land/ }).selectOption("be");
-  await expect(page).toHaveURL(/\/be\/en\?range=300$/);
+  await expect(page).toHaveURL(/\/be\/en\/cars\?view=table&range=300$/);
   await expect(page.getByRole("combobox", { name: /Taal|Language/ }).locator("option")).toHaveCount(4);
 });
 
@@ -121,13 +121,14 @@ test("Language URLs: redirects, <html lang>, hreflang, no header-based redirect"
   expect(sm).not.toContain("/compare");
 });
 
-test("Explore rows link to variant pages; header links to Rankings and Compare", async ({ page }) => {
-  await page.goto("/nl/nl");
+test("Explore rows link to variant pages; header links to All cars, Rankings and Compare", async ({ page }) => {
+  await page.goto("/nl/nl/cars?view=table");
   const nav = page.getByRole("navigation", { name: /Hoofdmenu|Main/ });
   // Rankings are parked (Decision 051): the header links to them only when they are switched on.
   if (process.env.E2E_PARKED === "1") await expect(nav.getByRole("link", { name: "Ranglijsten" })).toHaveAttribute("href", "/nl/nl/top");
   else await expect(nav.getByRole("link", { name: "Ranglijsten" })).toHaveCount(0);
   await expect(nav.getByRole("link", { name: "Vergelijken" })).toHaveAttribute("href", "/nl/nl/compare");
+  await expect(nav.getByRole("link", { name: "Alle auto's" })).toHaveAttribute("href", "/nl/nl/cars");
 
   const first = page.getByTestId("explore-row").first().getByRole("rowheader").getByRole("link");
   const href = await first.getAttribute("href");
