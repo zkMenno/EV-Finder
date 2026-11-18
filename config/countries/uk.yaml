@@ -22,7 +22,8 @@ country: uk
 # UI languages for this country (Decision 015): URLs are /{country}/{lang}/…, and the site serves
 # these languages plus English. /{country}/ redirects to default_language. Read by
 # apps/web/scripts/countries.mjs.
-languages: [en]
+# Decision 082: English only at launch. Hidden, not deleted: English was already this country's language.
+languages: []
 default_language: en
 listings:
   - site: autotrader-uk

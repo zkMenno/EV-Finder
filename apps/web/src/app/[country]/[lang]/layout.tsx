@@ -58,13 +58,16 @@ export default async function SiteLayout({ children, params }: Props) {
         >
           {t("nav.skip")}
         </a>
-        <LanguageBanner
-          country={country}
-          lang={lang}
-          served={cfg.served}
-          dict={dict}
-          offers={Object.fromEntries(cfg.served.map((l) => [l, getDict(l)["banner.lang.offer"]]))}
-        />
+        {/* Decision 082: one served language (English only at launch) = no banner, no picker. */}
+        {cfg.served.length > 1 ? (
+          <LanguageBanner
+            country={country}
+            lang={lang}
+            served={cfg.served}
+            dict={dict}
+            offers={Object.fromEntries(cfg.served.map((l) => [l, getDict(l)["banner.lang.offer"]]))}
+          />
+        ) : null}
         <header className="border-b border-slate-300 bg-white print:hidden">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
             <Link href={base} className="text-lg font-bold tracking-tight">
@@ -95,7 +98,9 @@ export default async function SiteLayout({ children, params }: Props) {
                 label={t("header.country")}
                 countries={COUNTRY_SLUGS.map((c) => ({ slug: c, name: COUNTRIES[c].name }))}
               />
-              <LanguageSwitcher lang={lang} label={t("header.language")} langs={cfg.served} />
+              {cfg.served.length > 1 ? (
+                <LanguageSwitcher lang={lang} label={t("header.language")} langs={cfg.served} />
+              ) : null}
               <ThemeToggle label={t("theme.night")} help={t("theme.help")} />
             </div>
           </div>
