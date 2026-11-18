@@ -10,7 +10,7 @@ import {
   ComboboxPopover,
   ComboboxProvider,
 } from "@ariakit/react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 export interface BrandPickerText {
   label: string;
@@ -50,6 +50,20 @@ export function BrandPicker({
   // Filter synchronously: a deferred list let Enter pick a stale first row (found in T-141 verify).
   const matches = useMemo(() => matchBrands(makes, query), [makes, query]);
   const name = (id: string) => makes.find((m) => m.id === id)?.name ?? id;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const chipsRef = useRef<HTMLUListElement>(null);
+  // Removing a chip unmounts the focused button; move focus to the next chip (or the previous
+  // one, or the input when none is left) so keyboard users don't land on <body>.
+  const remove = (id: string) => {
+    const i = selected.indexOf(id);
+    const rest = selected.filter((x) => x !== id);
+    onChange(rest);
+    requestAnimationFrame(() => {
+      const chips = chipsRef.current?.querySelectorAll("button");
+      const target = chips?.length ? chips[Math.min(i, chips.length - 1)] : inputRef.current;
+      target?.focus();
+    });
+  };
 
   return (
     <div data-testid={testid}>
@@ -62,6 +76,7 @@ export function BrandPicker({
       >
         <ComboboxLabel className="block text-sm font-semibold">{text.label}</ComboboxLabel>
         <Combobox
+          ref={inputRef}
           autoSelect
           placeholder={text.placeholder}
           className="mt-1 min-h-11 w-full max-w-sm rounded-md border border-slate-400 bg-white px-3 text-base text-slate-900"
@@ -80,9 +95,11 @@ export function BrandPicker({
                 key={m.id}
                 value={m.id}
                 focusOnHover
-                className="flex min-h-11 cursor-pointer items-center gap-2 rounded px-2 data-[active-item]:bg-blue-50"
+                // Active row: link-colour fill with surface text, ≥ 6.6:1 against the list in both themes
+                // (the paper-sea tint was 1.01:1 in dark mode; T-141 review).
+                className="flex min-h-11 cursor-pointer items-center gap-2 rounded px-2 data-[active-item]:bg-blue-800 data-[active-item]:text-white"
               >
-                <ComboboxItemCheck className="w-4 text-blue-800" />
+                <ComboboxItemCheck className="w-4" />
                 {m.name}
               </ComboboxItem>
             ))
@@ -92,12 +109,12 @@ export function BrandPicker({
         </ComboboxPopover>
       </ComboboxProvider>
       {selected.length ? (
-        <ul className="mt-2 flex flex-wrap gap-2" aria-label={text.label}>
+        <ul ref={chipsRef} className="mt-2 flex flex-wrap gap-2">
           {selected.map((id) => (
             <li key={id}>
               <button
                 type="button"
-                onClick={() => onChange(selected.filter((x) => x !== id))}
+                onClick={() => remove(id)}
                 aria-label={text.remove.replace("{name}", name(id))}
                 className="inline-flex min-h-11 items-center gap-1 rounded-full border border-blue-800 bg-blue-50 px-3 text-sm text-blue-900"
               >

@@ -102,12 +102,16 @@ const chipCls =
   "inline-flex min-h-11 cursor-pointer items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm " +
   "has-[:checked]:border-blue-800 has-[:checked]:bg-blue-100 has-[:checked]:font-semibold " +
   "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[var(--focus)]";
-// Ariakit brand picker (T-141, Decision 056): loads only once the refine step is opened.
-const BrandPicker = dynamic(() => import("./BrandPicker").then((m) => m.BrandPicker), { ssr: false });
-
 const toggleCls =
   "inline-flex min-h-11 items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm aria-pressed:border-blue-800 aria-pressed:bg-blue-100 aria-pressed:font-semibold";
 const inputCls = "w-32 rounded-md border border-slate-400 bg-white px-3 py-2 text-base tabular-nums";
+
+// Ariakit brand picker (T-141, Decision 056): loads only once the refine step is opened. The
+// placeholder keeps the input's height so nothing jumps while the chunk arrives.
+const BrandPicker = dynamic(() => import("./BrandPicker").then((m) => m.BrandPicker), {
+  ssr: false,
+  loading: () => <div className="h-[4.25rem]" aria-hidden="true" />,
+});
 
 function cap(s: string): string {
   return s ? s[0]!.toUpperCase() + s.slice(1) : s;
