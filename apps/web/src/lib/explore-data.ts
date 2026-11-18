@@ -1,6 +1,7 @@
 // Compact rows shipped to the browser for Explore. Same field names as PublishedVariant,
 // only the columns Explore needs, nulls dropped. Pure: safe on server and client.
 import type { FieldProvenance, PublishedVariant, Source } from "@ev/schema";
+import type { Popularity } from "./popularity";
 import type { CompactScores, ReleaseScores, VariantScores } from "./release-scores";
 import type { CompactBand, CompactBands, PriceHow, VariantBand, VariantUsedPrices } from "./variant-prices";
 
@@ -89,6 +90,10 @@ export type ExploreRow = Pick<PublishedVariant, (typeof EXPLORE_FIELDS)[number]>
   used_bands?: CompactBands;
   /** Shortlist scores from the release (T-114, Decision 065), compact; absent without data. */
   shortlist?: CompactScores;
+  /** "Most popular" score 0–100 of the row's generation (T-130); absent when unknown. */
+  pop?: number;
+  /** Popularity rank of the row's generation (1 = most popular); absent when unknown. */
+  pop_rank?: number;
 };
 
 export interface ClientCatalogue {
@@ -100,7 +105,12 @@ export interface ClientCatalogue {
   rows: ExploreRow[];
 }
 
-export function toExploreRow(row: PublishedVariant, used?: VariantUsedPrices, scores?: ReleaseScores | null): ExploreRow {
+export function toExploreRow(
+  row: PublishedVariant,
+  used?: VariantUsedPrices,
+  scores?: ReleaseScores | null,
+  popularity?: Map<string, Popularity>,
+): ExploreRow {
   const out: Record<string, unknown> = {};
   for (const f of EXPLORE_FIELDS) {
     const v = row[f];
@@ -115,6 +125,11 @@ export function toExploreRow(row: PublishedVariant, used?: VariantUsedPrices, sc
   if (bands) out.used_bands = bands;
   const ss = compactScores(scores?.variants.get(row.variant_id));
   if (ss) out.shortlist = ss;
+  const pop = popularity?.get(row.generation_id);
+  if (pop) {
+    out.pop = pop.score;
+    out.pop_rank = pop.rank;
+  }
   return out as ExploreRow;
 }
 
@@ -122,8 +137,15 @@ export function sourceNames(sources: Source[]): Record<string, string> {
   return Object.fromEntries(sources.map((s) => [s.id, s.name]));
 }
 
-export function toClientCatalogue(release: number, sources: Source[], rows: PublishedVariant[], used?: VariantUsedPrices, scores?: ReleaseScores | null): ClientCatalogue {
-  return { release, scores: !!scores, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used, scores)) };
+export function toClientCatalogue(
+  release: number,
+  sources: Source[],
+  rows: PublishedVariant[],
+  used?: VariantUsedPrices,
+  scores?: ReleaseScores | null,
+  popularity?: Map<string, Popularity>,
+): ClientCatalogue {
+  return { release, scores: !!scores, sources: sourceNames(sources), rows: rows.map((r) => toExploreRow(r, used, scores, popularity)) };
 }
 
 /** How the band was made, from the row's own fields (Decision 064, Nerd mode); undefined when nothing is known. */

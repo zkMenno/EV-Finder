@@ -1,4 +1,27 @@
-# WS2 handoff — 2026-11-17 22:06 UTC
+# WS2 handoff — 2026-11-18 00:20 UTC
+
+Chat: https://claude.ai/code/session_01JuyZEUuCTBUyPNJ74C3iRD
+
+## State (2026-11-18 08:55 UTC)
+- **#117 T-130 part 1 merged** (/cars catalogue, Most popular default, landing "Show all cars", old-link redirect, per-generation popularity split by RDW counts). **#118 merged** (apps/web AGENTS.md lines).
+- **#111 T-137** English only: check its state; it edits e2e specs that #117 changed, so it needs main merged in.
+- **#104** landing parallax: merged.
+- Asked WS1 for a release `popularity` field (WS1 INBOX); until then the web builds it from data/seed/top40.yaml + menno-picks (scripts/popularity.mjs, weights config/popularity.yaml). Swap point: `catalogue.popularity()`.
+
+## Next (in order)
+1. T-130 part 2: the design's visual layer (PR #107 frames t130-*): sidebar filter groups, phone "Filters · n" bottom sheet + sticky bar, removable pills + Clear, count "N models · M match", one card per generation (used price band, winter km, summer km, km/20 min). Photos wait for T-135.
+2. T-131 Popular used EVs (data/editorial/popular_used.yaml, WS3 PR #106).
+3. T-135 photo cards (WS1 T-134 image fields).
+4. T-132 hero redesign (designs in #107).
+
+## Lessons
+- A native `<select>` is as wide as its longest option: FR/ES overflowed 360 px. Test 360 px in all six languages.
+- `**/AGENTS.md` is a gate file: split doc changes into their own PR.
+- Feature-map triggers must resolve inside apps/web (outside paths fail verify-map.test).
+- Next page files may only export page things: helpers go to src/lib.
+- Run `pnpm vitest run` again after editing e2e/feature-map.yaml.
+
+## Previous handoff (2026-11-17 22:06)
 
 Chat: https://claude.ai/code/session_01JuyZEUgDrkg5ED4ZkeyEzg
 

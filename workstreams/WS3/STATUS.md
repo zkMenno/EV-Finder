@@ -1,10 +1,10 @@
 # WS3 status
 
-- **State:** active (https://claude.ai/code/session_01JuyZEVjrfQKWiDUR4dRCvD)
-- **Now:** waiting for review: #106 (T-131), #113 (T-133)
-- **Next:** T-136 task 2 (missing-model seed, ~40 models from R-41) after WS0 approves; then HANDOFF.md 'Next steps'
-- **Blocked:** T-041 `verified` needs Menno's tap check; price samples for DE/FR/BE/UK; T-136 build waits on WS0 approval
-- **Last updated:** 2026-11-17 22:35 UTC by WS3
+- **State:** active (4th chat, 2026-11-18, https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9)
+- **Now:** T-136 task 2 (missing-model seed from R-41), branch t-136-missing-models. Waiting for review: #106 (T-131), #113 (T-133)
+- **Next:** T-136 task 2 (missing-model seed, ~40 models from R-41): approved by WS0 2026-11-18 08:58, soft-launch bar per Decision 048 (WS1 09:20); WS3 pre-push data-qa script (WS0: yes, own small PR); own config/popularity.yaml once #117 merges; A-36 S4 (NL loan rate) if a sourced NL APR exists; then HANDOFF.md 'Next steps'
+- **Blocked:** T-041 `verified` needs Menno's tap check; price samples for DE/FR/BE/UK
+- **Last updated:** 2026-11-18 09:25 UTC by WS3 (4th)
 
 ## Log
 - 2026-11-15 12:55 UTC · chat started (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), read START, INBOX, launch scope; claimed T-068.
@@ -20,6 +20,18 @@
 - 2026-11-17 21:55 UTC · T-131 PR #106: popular_used.yaml (33 generations from Menno's eras list + top40 ranks), builder with --check.
 - 2026-11-17 22:30 UTC · T-133 PR #113: press terms for 35 makes (none allowed), Commons photo for 120/122 generations, every pick checked by eye.
 - 2026-11-17 22:35 UTC · T-136: WS1 wrote R-41 (#108); WS3 part (seed ~40 models) waits for WS0 approval.
+
+- 2026-11-17 23:12 UTC · 3rd chat: A-36 S7 → T-140 PR #115 (cited Ioniq 5 packs/WLTP, XPENG P7/P7+ rows, N facts off a retired id) + gate PR #116; verify-pipeline on fresh staging, 0 blocking with both.
+
+- 2026-11-18 09:11 UTC · #115 and #116 merged by WS0; A-36 S7 WS3 part done (facelift base 507 km stays a WS1 matching item).
+
+- 2026-11-18 09:25 UTC · 4th chat started; read HANDOFF, STATUS, START, INBOX 2026-11-18 lines; claimed T-136 task 2.
+
+## Retro (2026-11-17, 3rd chat)
+- Slowed down: fresh staging for verify-pipeline takes ~20 min (RDW, defects, TGK, Meteostat); verify itself ~5 min per run, and a baseline run on main is needed to tell my diff from staging drift.
+- Menno by hand: nothing.
+- Checks that missed: (1) `ev manual check` only warns on unknown ids, so two facts on a retired id (hyundai-ioniq-5-gen1-n) never applied for a whole release; (2) I ran 2 of the 4 data-qa validators before pushing, CI caught the missing variant_links rows.
+- Rules that would help: manual facts on a retired id = error (WS1 INBOX); a WS3 pre-push script running all four data-qa steps (WS0 INBOX).
 
 ## Retro (2026-11-17, 2nd chat)
 - Slowed down: Commons and Wikipedia APIs rate-limit this session's egress (429), and the Wikidata query service dropped to 1 request/min mid-task. Batching 6 searches per query fixed it.

@@ -44,6 +44,8 @@ sources:
        # Peugeot NL price lists on louwman.nl (dealer group): imprint "Stellantis Nederland B.V." (importer)
        mb.cision.com/Main/23604/, cdn.uc.assets.prezly.com/ac15f85c-a3f6-4c59-b9c1-f2619912973d/,
        www.louwman.nl/uploads/*/Peugeot/prijslijsten/,
+       # XPENG's own static spec sheets (T-140)
+       a-cdn.xpeng.com/www/public/static/pdf/,
        # official register (CC0), cited where a maker figure was checked against it
        opendata.rdw.nl]}
   - {id: cited-third-party, name: "Facts cited from press, dealer and review pages", owner: various, licence: none (individual facts cited by URL and date), access: manual, cadence: ad hoc, status: blocked,

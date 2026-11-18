@@ -211,3 +211,15 @@ platforms:
     nominal_v: not-disclosed
     voltage_class_id: 400v
     notes: "Dedicated rear-drive small EV platform, Honda e only."
+  - id: xpeng-p7-gen1
+    name: "XPENG P7 (first generation) platform"
+    owner: XPENG
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-140. The platform the 2023-2025 European P7 is built on; XPENG's spec sheet names no platform or pack voltage, so both stay not-disclosed (no guessing from press)."
+  - id: xpeng-p7-plus-gen1
+    name: "XPENG P7+ platform"
+    owner: XPENG
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-140. P7+ (Europe from 2026). Press reports conflict on 400 V vs 800 V; no maker document read, so not-disclosed."

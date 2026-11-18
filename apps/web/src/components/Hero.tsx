@@ -93,6 +93,10 @@ const PRESET_FACTOR: Partial<Record<PresetField, string>> = {
   ac_kw: "ac-speed",
 };
 
+/** Score factors for parked features (bidirectional charging is parked, launch-scope.md): they still
+ *  count in the release score, but the card never names them in its "not known yet" line (A-36). */
+const PARKED_FACTORS: ReadonlySet<string> = new Set(["v2l", "home-power"]);
+
 const chipCls =
   "inline-flex min-h-11 cursor-pointer items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm " +
   "has-[:checked]:border-blue-800 has-[:checked]:bg-blue-100 has-[:checked]:font-semibold " +
@@ -840,7 +844,7 @@ function Card({ pick, r }: { pick: HeroPick; r: ResultsProps }) {
     ...pick.result.unknown,
     ...pick.presetUnknown.map((f) => PRESET_FACTOR[f]).filter((x): x is string => !!x),
   ]
-    .filter((x, i, a) => a.indexOf(x) === i)
+    .filter((x, i, a) => a.indexOf(x) === i && !PARKED_FACTORS.has(x))
     .map((id) => t(`hero.factor.${id}` as MsgKey));
 
   let price: string;

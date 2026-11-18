@@ -32,3 +32,5 @@ Anything not on docs/spec/launch-scope.md.
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts; mark A-35 B5 fixed. -->
 
 WS0 subagent, 2026-11-17, d0a762a: R0–R3, D6, D8, D13 pass; 737/737 public keys in DE/FR/ES/IT; no-english e2e passes on release 2. **A-35 B5 (strings) fixed.**
+
+Reviewed by QA, 2026-11-17 (A-36): pass for B5 strings (no-english e2e passes on release 2). Superseded by Decision 082: drafts must be hidden at launch (A-36 B4, T-137).

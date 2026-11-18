@@ -1,7 +1,9 @@
 // Build-time loader for each country's UI languages (Decision 015): reads `languages` and
 // `default_language` from config/countries/<country>.yaml, validates them and writes
 // src/config/countries.generated.json, which src/config/countries.ts imports (client-safe, tiny).
-// Served languages = the country's own languages + English (until translations are reviewed).
+// Served languages = the country's own languages + English. Decision 082 (English only at launch):
+// every country has `languages: []` and `default_language: en`, so only /{country}/en/ is served;
+// the other languages' strings stay in the repo and come back by listing them here again.
 //
 //   node scripts/countries.mjs           write the JSON (runs before `next build` and `next dev`)
 //   node scripts/countries.mjs --check   fail if the committed JSON is out of date
@@ -24,14 +26,15 @@ export function validateLanguages(country, doc) {
   const fail = (m) => errors.push(`${country}: ${m}`);
   if (!isObj(doc)) throw new Error(`${country}: file must be a mapping`);
   const langs = doc.languages;
-  if (!Array.isArray(langs) || langs.length === 0) fail("languages must be a non-empty list");
+  // An empty list is allowed (Decision 082): the country then serves English only.
+  if (!Array.isArray(langs)) fail("languages must be a list (empty = English only)");
   const list = Array.isArray(langs) ? langs : [];
   for (const l of list)
     if (!LANGS.includes(l)) fail(`languages: "${l}" is not one of ${LANGS.join(", ")}`);
   if (new Set(list).size !== list.length) fail("languages has duplicates");
   const def = doc.default_language;
-  if (typeof def !== "string" || !list.includes(def))
-    fail(`default_language must be one of languages (${list.join(", ")})`);
+  if (typeof def !== "string" || !(list.includes(def) || def === "en"))
+    fail(`default_language must be en or one of languages (${list.join(", ")})`);
   if (errors.length) throw new Error(errors.join("\n"));
   const served = [...list, ...(list.includes("en") ? [] : ["en"])];
   return { languages: list, default_language: def, served };
