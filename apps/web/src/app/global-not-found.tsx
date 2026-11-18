@@ -3,12 +3,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import { fontVars } from "./fonts";
 
 export const metadata: Metadata = { title: "Page not found", robots: { index: false } };
 
 export default function GlobalNotFound() {
   return (
-    <html lang="en">
+    <html lang="en" className={fontVars}>
       <body className="min-h-screen">
         <main className="mx-auto max-w-xl p-8">
           <h1 className="text-2xl font-semibold">Page not found</h1>
