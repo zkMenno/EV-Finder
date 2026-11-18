@@ -13,9 +13,8 @@ from pathlib import Path
 import pytest
 
 from ev_pipeline.match.matcher import (
-    find_by_source_alias,
     find_generation,
-    find_model_noted,
+    find_record_model,
     match_view,
 )
 from ev_pipeline.match.seed import load_seed
@@ -81,13 +80,7 @@ def _rec(sid: str, make: str, model: str, year: int | None, variant: str | None 
 
 
 def _place(seed, rec):
-    view = match_view(rec)
-    make_id = seed.make_id_for(rec.make, rec.source.id.root, True)
-    if make_id is None:  # a make the seed lacks ("SEAT TAVASCAN"), as in match_records
-        model, _ = find_by_source_alias(seed, view, True)
-        why = "not in seed" if model is None else ""
-    else:
-        model, why, _ = find_model_noted(seed, make_id, view, True)
+    model, why, _, _ = find_record_model(seed, match_view(rec), True)  # as match_records
     if model is None:
         return None, None, why
     gen, why = find_generation(model, rec.year)

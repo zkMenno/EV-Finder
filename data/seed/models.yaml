@@ -241,6 +241,22 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'FLUENCE') by year: 2011 490, 2012 1325, 2013 325, 2014 91, 2015 4, 2016 2."
 
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 3291.
+      - id: renault-kangoo-e-tech
+        name: "Kangoo E-Tech Electric"
+        segment: J-medium
+        body: mpv
+        name_excludes: ["VAN"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). Third-generation Kangoo; the older Kangoo Z.E. was a van (N1)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "KANGOO E-TECH", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: renault-kangoo-e-tech-gen1
+            name: "Kangoo E-Tech Electric"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'RENAULT', name pattern 'KANGOO E-TECH') by year: 2023 1138, 2024 1357, 2025 796."
+
   - id: nissan
     name: Nissan
     models:
@@ -302,6 +318,38 @@ makes:
             years: [2025, null]
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'MICRA') by year: 2010 1, 2025 729."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 8926.
+      - id: nissan-e-nv200-evalia
+        name: "e-NV200 Evalia"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["e-NV200", "e-NV200 Combi"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). The 24 kWh (2014-2018) and 40 kWh (2018-2022) packs are one generation."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "E-NV200", match: prefix}, {name: "NISSAN E-NV200", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: nissan-e-nv200-evalia-gen1
+            name: "e-NV200 Evalia"
+            years: [2014, 2022]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'NISSAN', name pattern 'NV200|EVALIA') by year: 2014 376, 2015 893, 2016 865, 2017 906, 2018 781, 2019 2449, 2020 1719, 2021 801, 2022 131, 2023 5."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 465.
+      - id: nissan-townstar-ev
+        name: "Townstar EV"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["Townstar Combi"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). Kangoo-based; EEA M1 rows only."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "TOWNSTAR", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: nissan-townstar-ev-gen1
+            name: "Townstar EV"
+            years: [2023, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'NISSAN', name pattern 'TOWNSTAR') by year: 2022 1, 2023 44, 2024 214, 2025 206."
 
   - id: volkswagen
     name: Volkswagen
@@ -722,6 +770,22 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'EV5') by year: 2025 1381."
 
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 741.
+      - id: kia-pv5
+        name: "PV5 Passenger"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["PV5"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). Kia's first purpose-built electric van; only M1 rows count."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "PV5", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: kia-pv5-gen1
+            name: "PV5 Passenger"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^KIA', name pattern '^PV5') by year: 2025 741."
+
   - id: bmw
     name: BMW
     make_aliases_by_source: {eea: ["BMW AG", "BAYER.MOT.WERKE-BMW"]}
@@ -1004,6 +1068,41 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern '^(E-)?408') by year: 2024 45, 2025 668."
 
+      # T-136 (#129, WS3 4th chat): copied unchanged into the consolidated branch.
+      - id: peugeot-e-rifter
+        name: "e-Rifter"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["E-Rifter", "e Rifter"]
+        notes: "Body: MPV like the ë-Berlingo (same platform; RDW 452 cm), passenger version only. Segment J-medium; judgement call."
+        # Register names (BEV-only sources): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["E-RIFTER"]
+        generations:
+          - id: peugeot-e-rifter-gen1
+            name: "e-Rifter"
+            years: [2021, null]
+            uncertain: true
+            notes: "One generation. Start 2021 although EEA 2021 has 418 cars (4.7 %): RDW has 34 of 221 NL cars in 2021 (15 %). EEA WLTP rises from ~275 km to ~335 km during 2024 (update not checked). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2021 405, 2022 1448, 2023 3338, 2024 1849, 2025 1494; RDW m9d7-ebf2 (NL BEV first admissions) 2021 35, 2022 64, 2023 37, 2024 42, 2025 28, 2026 15."
+            change_markers:
+              - {year: 2024, text: "EEA WLTP range ~275 -> ~335 km (update not checked)"}
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 5222.
+      - id: peugeot-e-traveller
+        name: "e-Traveller"
+        segment: J-large
+        body: mpv
+        name_aliases: ["e-Expert Combi"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). EEA M1 'EXPERT' rows are the passenger Expert Combi."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["TRAVELLER", "EXPERT", {name: "EXPERT TRAVELLER", match: prefix}, {name: "E-TRAVELLER", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: peugeot-e-traveller-gen1
+            name: "e-Traveller"
+            years: [2020, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'PEUGEOT', name pattern 'TRAVELLER|^EXPERT$') by year: 2020 113, 2021 1092, 2022 723, 2023 1256, 2024 897, 2025 1141."
+
   - id: opel
     name: Opel
     models:
@@ -1111,6 +1210,37 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'GRANDLAND') by year: 2021 7, 2023 10, 2024 330, 2025 6191."
 
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 5431.
+      - id: opel-combo-e-life
+        name: "Combo-e Life"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["Combo Electric Life"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "COMBO-E LIFE", match: prefix}, {name: "E-COMBO LIFE", match: prefix}, "COMBO-E"]  # bare names: BEV-only sources
+        generations:
+          - id: opel-combo-e-life-gen1
+            name: "Combo-e Life"
+            years: [2021, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'OPEL', name pattern 'COMBO') by year: 2021 189, 2022 1373, 2023 1916, 2024 947, 2025 1006."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 6757.
+      - id: opel-zafira-e-life
+        name: "Zafira-e Life"
+        segment: J-large
+        body: mpv
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). EEA M1 'VIVARO' rows are the passenger Vivaro / Zafira Life."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["VIVARO", {name: "ZAFIRA LIFE", match: prefix}, {name: "ZAFIRA-E LIFE", match: prefix}, {name: "VIVARO ZAFIRA LIFE", match: prefix}, {name: "VIVARO / ZAFIRA LIFE", match: prefix}, {name: "VIVARO - ZAFIRA LIFE", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: opel-zafira-e-life-gen1
+            name: "Zafira-e Life"
+            years: [2020, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'OPEL', name pattern 'ZAFIRA|^VIVARO$') by year: 2020 401, 2021 1197, 2022 1278, 2023 1884, 2024 1014, 2025 983."
+
   - id: fiat
     name: Fiat
     models:
@@ -1178,6 +1308,37 @@ makes:
             years: [2025, null]
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'PANDA') by year: 2010 31, 2011 12, 2024 104, 2025 7428."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 783.
+      - id: fiat-e-doblo
+        name: "e-Doblò"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["e-Doblo"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "E-DOBLO", match: prefix}, {name: "FIAT E-DOBL", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: fiat-e-doblo-gen1
+            name: "e-Doblò"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'FIAT', name pattern 'DOBL') by year: 2010 12, 2022 155, 2023 452, 2024 83, 2025 81."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 1160.
+      - id: fiat-e-ulysse
+        name: "e-Ulysse"
+        segment: J-large
+        body: mpv
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). EEA M1 'SCUDO' rows are the passenger Scudo Combi (same van)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["ULYSSE", "SCUDO", {name: "ULYSSE TRIPOD", match: prefix}, {name: "FIAT ULYSSE", match: prefix}, {name: "E-ULYSSE", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: fiat-e-ulysse-gen1
+            name: "e-Ulysse"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'FIAT', name pattern 'ULYSS|^SCUDO$') by year: 2022 659, 2023 289, 2024 114, 2025 98."
 
   - id: skoda
     name: Skoda
@@ -1701,6 +1862,54 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern '^B 250 E|^B 250 ELECTRIC|^ELECTRIC DRIVE') by year: 2014 79, 2015 958, 2016 1228, 2017 993, 2018 133, 2019 3."
 
+      # T-136 (#129, WS3 4th chat): copied unchanged into the consolidated branch.
+      - id: mercedes-eqv
+        name: "EQV"
+        segment: J-large
+        body: mpv
+        name_aliases: ["EQV 300", "Mercedes EQV"]
+        notes: "Body: OpenEV `van` (EQV, 5140 mm), passenger version: mpv. Segment J-large (largest MPV band); judgement call."
+        # Register names (BEV-only sources): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["EQV", "EQV 300", "EQV-KLASSE", "V-KLASSE EQV", {name: "EQV", match: prefix}]
+        generations:
+          - id: mercedes-eqv-gen1
+            name: "EQV"
+            years: [2020, null]
+            uncertain: true
+            notes: "One generation. EEA WLTP rises from ~345 km to ~355 km in 2024 (update not checked). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2020 2030, 2021 2886, 2022 2608, 2023 2782, 2024 2921, 2025 2513; RDW m9d7-ebf2 (NL BEV first admissions) 2020 177, 2021 306, 2022 316, 2023 297, 2024 362, 2025 144, 2026 38."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 5977.
+      - id: mercedes-evito-tourer
+        name: "eVito Tourer"
+        segment: J-large
+        body: mpv
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). Same van family as the EQV; the plain eVito panel van is N1 and not in the EEA car data."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["EVITO TOURER", {name: "EVITO", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: mercedes-evito-tourer-gen1
+            name: "eVito Tourer"
+            years: [2019, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MERCEDES', name pattern 'EVITO') by year: 2019 270, 2020 619, 2021 822, 2022 960, 2023 1549, 2024 758, 2025 999."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 3289.
+      - id: mercedes-eqt
+        name: "EQT"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["eCitan Tourer", "Mercedes EQT"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). EEA files it as EQT and as eCitan Tourer."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["EQT", "ECITAN TOURER", {name: "EQT", match: prefix}, {name: "ECITAN TOURER", match: prefix}, {name: "E CITAN TOURER", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: mercedes-eqt-gen1
+            name: "EQT"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MERCEDES', name pattern 'EQT|ECITAN|E CITAN') by year: 2022 18, 2023 722, 2024 984, 2025 1565."
+
   - id: jaguar
     name: Jaguar
     models:
@@ -1942,6 +2151,9 @@ makes:
         aliases_by_source:
           kba-fz10:
             - {name: "SEAT BORN", match: prefix, note: "KBA files the Cupra Born under make SEAT"}
+          eea:  # T-136c: EEA files some Borns under make SEAT (2022-2025, ~3,240 cars)
+            - {name: "SEAT BORN", match: prefix, note: "EEA files some Cupra Borns under make SEAT"}
+            - {name: "SEAT CUPRA BORN", match: prefix, note: "EEA files some Cupra Borns under make SEAT"}
         generations:
           - id: cupra-born-gen1
             name: Born
@@ -1965,6 +2177,9 @@ makes:
         aliases_by_source:
           kba-fz10:
             - {name: "SEAT TAVASCAN", match: prefix, note: "KBA files the Cupra Tavascan under make SEAT"}
+          eea:  # T-136c: EEA files some Tavascans under make SEAT (2024-2025, ~1,565 cars)
+            - {name: "SEAT TAVASCAN", match: prefix, note: "EEA files some Cupra Tavascans under make SEAT"}
+            - {name: "SEAT CUPRA TAVASCAN", match: prefix, note: "EEA files some Cupra Tavascans under make SEAT"}
         generations:
           - id: cupra-tavascan-gen1
             name: Tavascan
@@ -2296,6 +2511,36 @@ makes:
             uncertain: true
             notes: "One generation. RDW m9d7-ebf2 queried 2026-11-15, by year of first admission: 'CAPRI' 2024 134, 2025 990, 2026 409 (44 without a date yet). 2024 is 8.7% of the 1533 cars since 2024, so the start is 2024. OpenEV has model years 2024-2025."
 
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 1855.
+      - id: ford-e-tourneo-custom
+        name: "E-Tourneo Custom"
+        segment: J-large
+        body: mpv
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). EEA M1 'TRANSIT CUSTOM' rows are passenger (kombi) versions."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "TOURNEO CUSTOM", match: prefix}, {name: "E-TOURNEO CUSTOM", match: prefix}, {name: "TRANSIT CUSTOM", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: ford-e-tourneo-custom-gen1
+            name: "E-Tourneo Custom"
+            years: [2024, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^FORD$', name pattern 'TOURNEO CUSTOM|^TRANSIT CUSTOM') by year: 2024 136, 2025 1719."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 999.
+      - id: ford-e-tourneo-courier
+        name: "E-Tourneo Courier"
+        segment: J-small
+        body: mpv
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "TOURNEO COURIER", match: prefix}, {name: "E-TOURNEO COURIER", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: ford-e-tourneo-courier-gen1
+            name: "E-Tourneo Courier"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^FORD$', name pattern 'TOURNEO COURIER') by year: 2025 999."
+
   - id: citroen
     name: Citroën
     models:
@@ -2395,6 +2640,42 @@ makes:
             years: [2016, 2019]
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'MEHARI') by year: 2016 516, 2017 313, 2018 322, 2019 165, 2020 6."
+
+      # T-136 (#129, WS3 4th chat): copied unchanged into the consolidated branch.
+      - id: citroen-e-berlingo
+        name: "ë-Berlingo"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["e-Berlingo", "e Berlingo", "E-Berlingo Multispace"]
+        name_excludes: ["VAN"]  # RDW 'E-BERLINGO VAN' is the commercial van
+        notes: "Body: OpenEV `mpv` (ë-Berlingo, 4753 mm), passenger version (M1) only. Segment J-medium like the ID. Buzz; judgement call."
+        # Register names (BEV-only sources): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["E-BERLINGO", "BERLINGO"]
+        generations:
+          - id: citroen-e-berlingo-gen3
+            name: "ë-Berlingo (K9)"
+            years: [2021, null]
+            uncertain: true
+            notes: "Starts with EEA type E (2021). The older electric Berlingo (EEA type 7, 2017-2020, 775 EU cars) is long tail and left out. EEA WLTP rises from ~280 km to ~340 km during 2024 (battery or efficiency update, not checked). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2020 11, 2021 497, 2022 1576, 2023 3955, 2024 1676, 2025 1191; RDW m9d7-ebf2 (NL BEV first admissions) 2021 40, 2022 88, 2023 75, 2024 58, 2025 34, 2026 8."
+            change_markers:
+              - {year: 2024, text: "EEA WLTP range ~280 -> ~340 km (update not checked)"}
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 5764.
+      - id: citroen-e-spacetourer
+        name: "ë-SpaceTourer"
+        segment: J-large
+        body: mpv
+        name_aliases: ["e-SpaceTourer", "e-Jumpy Combi"]
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). EEA M1 'JUMPY' rows are the passenger Jumpy Combi (same van as the SpaceTourer)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["SPACETOURER", "JUMPY", {name: "JUMPY SPACETOURER", match: prefix}, {name: "JUMPY SPACE TOURER", match: prefix}, {name: "E-SPACETOURER", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: citroen-e-spacetourer-gen1
+            name: "ë-SpaceTourer"
+            years: [2020, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'CITRO', name pattern 'SPACETOURER|SPACE TOURER|^JUMPY$') by year: 2020 167, 2021 1135, 2022 1061, 2023 1644, 2024 918, 2025 839."
   - id: porsche
     name: Porsche
     models:
@@ -2454,6 +2735,36 @@ makes:
             notes: "One generation: same name in every year, no gap; a facelift is not visible in these sources. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'TOYOTA BZ4X' / 'BZ4X' / 'TOYOTA BZ4X TOURING': 2022 186, 2023 895, 2024 1105, 2025 910, 2026 1532 (4628 NL cars). 2022 is 4.0% (below the 5% bar) but KilowattApp has a model year 2022 record, so the start is 2022. Wikidata Q106481505 has no year. Still registered: EEA 2025 BE 1108, DE 5010, FR 1228, NL 878; KBA BZ4 2022 654, 2023 3150, 2024 1550, 2025 5005, 2026 Jan-Oct 4014; DfT 'BZ4X ...' 13290 (no year)."
             change_markers:
               - {year: 2026, text: "bZ4X Touring appears in RDW (579 NL cars first admitted 2026)"}
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 4646.
+      - id: toyota-proace-verso-electric
+        name: "Proace Verso Electric"
+        segment: J-large
+        body: mpv
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18). EEA M1 'PROACE' rows are the passenger Proace Verso (taxi/tripod are its conversions)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["PROACE", {name: "PROACE VERSO", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: toyota-proace-verso-electric-gen1
+            name: "Proace Verso Electric"
+            years: [2021, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'TOYOTA', name pattern '^PROACE( VERSO| TAXI| TRIPOD)?$') by year: 2021 712, 2022 957, 2023 711, 2024 1308, 2025 958."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 2879.
+      - id: toyota-proace-city-verso-electric
+        name: "Proace City Verso Electric"
+        segment: J-medium
+        body: mpv
+        notes: "People carrier (M1 passenger version only; cargo vans stay out, Menno 2026-11-18)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "PROACE CITY VERSO", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: toyota-proace-city-verso-electric-gen1
+            name: "Proace City Verso Electric"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'TOYOTA', name pattern 'PROACE CITY') by year: 2022 382, 2023 659, 2024 453, 2025 1385."
 
   - id: xpeng
     name: XPENG
@@ -2755,7 +3066,7 @@ makes:
 
   - id: ds
     name: DS
-    make_aliases_by_source: {openev: ["DS Automobiles"]}
+    make_aliases_by_source: {openev: ["DS Automobiles"], eea: ["DS AUTOMOBILES"]}  # eea: T-136c
     models:
       # T-068: see the rule comment above xpeng. DS 3 also came as combustion; only BEV
       # rows (RDW fuel 'Elektriciteit') belong here.
@@ -2780,6 +3091,21 @@ makes:
             years: [2023, 2024]
             uncertain: true
             notes: "'Crossback' dropped from the name with the 2023 update. RDW BEV 'DS3': 2023 170, 2024 6, none in 2025-2026 (end 2024 unverified: it may still be sold elsewhere). OpenEV has model years 2023-2025."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 834.
+      - id: ds-n8
+        name: "N°8"
+        segment: D
+        body: crossover
+        name_aliases: ["N8", "DS N°8"]
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "N 8", match: prefix}, {name: "N8", match: prefix}, {name: "N°8", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: ds-n8-gen1
+            name: "N°8"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^DS', name pattern '^N ?8|N°8|Nº8') by year: 2025 834."
 
   - id: mazda
     name: "Mazda"
@@ -3100,7 +3426,7 @@ makes:
 
   - id: ssangyong
     name: "SsangYong"
-    make_aliases_by_source: {eea: ["KGM"]}  # EEA make spellings (T-136)
+    make_aliases_by_source: {eea: ["KGM", "KG MOBILITY"]}  # EEA make spellings (T-136; KG Mobility: T-136c)
     models:
       # T-136 (R-41 missing model): EEA registrations 2010-2025: 1745.
       - id: ssangyong-korando-e-motion
@@ -3147,9 +3473,25 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'HS9') by year: 2021 25, 2022 2104, 2023 357, 2024 674, 2025 156."
 
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 593.
+      - id: hongqi-ehs7
+        name: "EHS7"
+        segment: J-large
+        body: suv
+        name_aliases: ["E-HS7"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "HONGQI EHS7", match: prefix}, {name: "EHS7", match: prefix}, {name: "E-HS7", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: hongqi-ehs7-gen1
+            name: "EHS7"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'FAW|HONGQI', name pattern 'E-?HS ?7') by year: 2025 593."
+
   - id: bluecar
     name: "Bluecar"
-    make_aliases_by_source: {eea: ["CECOMP"]}  # EEA make spellings (T-136)
+    make_aliases_by_source: {eea: ["CECOMP", "VEPB"]}  # EEA make spellings (T-136; VEPB: T-136c)
     models:
       # T-136 (R-41 missing model): EEA registrations 2010-2025: 5039.
       - id: bluecar-bluecar
@@ -3164,6 +3506,21 @@ makes:
             years: [2011, 2018]
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'BLUECAR') by year: 2011 399, 2012 1001, 2013 566, 2014 1100, 2015 1044, 2016 767, 2017 56, 2018 105, 2019 1."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 424.
+      - id: bluecar-bluesummer
+        name: "Bluesummer"
+        segment: B
+        body: crossover
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Bolloré's open-top Bluecar sibling."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "BLUESUMMER", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: bluecar-bluesummer-gen1
+            name: "Bluesummer"
+            years: [2014, 2016]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'BLUECAR|CECOMP|VEPB|BOLLO', name pattern 'BLUESUMMER') by year: 2014 70, 2015 148, 2016 202, 2017 4."
 
   - id: lancia
     name: "Lancia"
@@ -3262,3 +3619,519 @@ makes:
             years: [2022, null]
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'FREE') by year: 2022 396, 2023 82, 2024 374, 2025 353."
+
+  - id: seat
+    name: "SEAT"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 15419.
+      - id: seat-mii-electric
+        name: "Mii electric"
+        segment: A
+        body: hatchback
+        name_aliases: ["Mii"]
+        notes: "Sister car of the VW e-up! and Škoda Citigo-e iV (32 kWh). EEA and KBA SEAT rows named (Cupra) Born / Tavascan go to the Cupra models through their source aliases (matcher.find_record_model)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "MII", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: seat-mii-electric-gen1
+            name: "Mii electric"
+            years: [2019, 2021]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^SEAT$', name pattern '^MII') by year: 2019 3, 2020 7194, 2021 8185, 2022 37."
+
+  - id: maxus
+    name: "Maxus"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 2746.
+      - id: maxus-euniq-6
+        name: "Euniq 6"
+        segment: J-medium
+        body: suv
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "MAXUS EUNIQ 6", match: prefix}, {name: "EUNIQ 6", match: prefix}, {name: "EUNIQ6", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: maxus-euniq-6-gen1
+            name: "Euniq 6"
+            years: [2021, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MAXUS', name pattern 'EUNIQ ?6') by year: 2022 1151, 2023 757, 2024 631, 2025 207."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 1168.
+      - id: maxus-euniq-5
+        name: "Euniq 5"
+        segment: J-large
+        body: mpv
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "MAXUS EUNIQ 5", match: prefix}, {name: "EUNIQ 5", match: prefix}, {name: "EUNIQ5", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: maxus-euniq-5-gen1
+            name: "Euniq 5"
+            years: [2020, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MAXUS', name pattern 'EUNIQ ?5') by year: 2020 120, 2021 366, 2022 439, 2023 152, 2024 50, 2025 41."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 310.
+      - id: maxus-mifa-9
+        name: "Mifa 9"
+        segment: J-large
+        body: mpv
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "MAXUS MIFA 9", match: prefix}, {name: "MIFA 9", match: prefix}, {name: "MIFA9", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: maxus-mifa-9-gen1
+            name: "Mifa 9"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MAXUS', name pattern 'MIFA') by year: 2022 4, 2023 80, 2024 80, 2025 146."
+
+  - id: dongfeng
+    name: "Dongfeng"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 2197.
+      - id: dongfeng-box
+        name: "Box"
+        segment: B
+        body: hatchback
+        notes: "Dongfeng's own make; Voyah is a separate make in the seed."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "BOX", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: dongfeng-box-gen1
+            name: "Box"
+            years: [2024, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'DONGFENG', name pattern '^BOX') by year: 2024 220, 2025 1977."
+
+  - id: suzuki
+    name: "Suzuki"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 838.
+      - id: suzuki-e-vitara
+        name: "e Vitara"
+        segment: J-small
+        body: suv
+        name_aliases: ["e-Vitara"]
+        notes: "Not the Vitara hybrid: only BEV rows count."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "E VITARA", match: prefix}, {name: "E-VITARA", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: suzuki-e-vitara-gen1
+            name: "e Vitara"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'SUZUKI', name pattern 'E ?VITARA') by year: 2025 838."
+
+  - id: lucid
+    name: "Lucid"
+    make_aliases_by_source: {eea: ["LUCID MOTORS", "LUCID USA INC"]}
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 848.
+      - id: lucid-air
+        name: "Air"
+        segment: F
+        body: sedan
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "AIR", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: lucid-air-gen1
+            name: "Air"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'LUCID', name pattern 'AIR') by year: 2022 22, 2023 137, 2024 452, 2025 237."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 36.
+      - id: lucid-gravity
+        name: "Gravity"
+        segment: J-large
+        body: suv
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "LUCID GRAVITY", match: prefix}, {name: "GRAVITY", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: lucid-gravity-gen1
+            name: "Gravity"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'LUCID', name pattern 'GRAVITY') by year: 2025 36."
+
+  - id: mia
+    name: "Mia"
+    make_aliases_by_source: {eea: ["MIA ELECTRIC"]}
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 708.
+      - id: mia-mia
+        name: "Mia"
+        segment: A
+        body: hatchback
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). French micro-car (Mia electric, 2011-2014), central driving seat."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "MIA", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: mia-mia-gen1
+            name: "Mia"
+            years: [2011, 2014]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^MIA', name pattern '^MIA') by year: 2011 66, 2012 400, 2013 231, 2014 11."
+
+  - id: ego
+    name: "e.GO"
+    make_aliases_by_source: {eea: ["EGO", "E.GO", "E.GO MOBILE"]}
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 1215.
+      - id: ego-life
+        name: "Life"
+        segment: A
+        body: hatchback
+        name_aliases: ["e.GO Life"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Aachen-built city car (e.GO Mobile)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "EGO LIFE", match: prefix}, {name: "E.GO LIFE", match: prefix}, {name: "LIFE", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: ego-life-gen1
+            name: "Life"
+            years: [2019, 2022]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^E\\.?GO', name pattern 'LIFE') by year: 2019 155, 2020 540, 2021 160, 2022 353, 2023 1, 2024 3, 2025 3."
+
+  - id: cadillac
+    name: "Cadillac"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 698.
+      - id: cadillac-lyriq
+        name: "Lyriq"
+        segment: J-large
+        body: suv
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "LYRIQ", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: cadillac-lyriq-gen1
+            name: "Lyriq"
+            years: [2023, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'CADILLAC', name pattern 'LYRIQ') by year: 2023 23, 2024 312, 2025 363."
+
+  - id: maserati
+    name: "Maserati"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 508.
+      - id: maserati-grecale-folgore
+        name: "Grecale Folgore"
+        segment: J-medium
+        body: suv
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Only the Folgore is a BEV; only BEV rows count."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "GRECALE", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: maserati-grecale-folgore-gen1
+            name: "Grecale Folgore"
+            years: [2024, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MASERATI', name pattern 'GRECALE') by year: 2023 7, 2024 242, 2025 259."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 204.
+      - id: maserati-granturismo-folgore
+        name: "GranTurismo Folgore"
+        segment: E
+        body: coupe
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Coupe and GranCabrio Folgore; only BEV rows count."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "GRANTURISMO", match: prefix}, {name: "GRANCABRIO", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: maserati-granturismo-folgore-gen1
+            name: "GranTurismo Folgore"
+            years: [2024, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MASERATI', name pattern 'GRANTURISMO|GRANCABRIO') by year: 2023 4, 2024 81, 2025 119."
+
+  - id: skywell
+    name: "Skywell"
+    make_aliases_by_source: {eea: ["SKYWORTH"]}
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 985.
+      - id: skywell-be11
+        name: "BE11"
+        segment: J-medium
+        body: suv
+        name_aliases: ["ET5"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Sold as BE11 and ET5 (same car)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "BE11", match: prefix}, {name: "SKYWORTH K", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: skywell-be11-gen1
+            name: "BE11"
+            years: [2023, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'SKYW', name pattern 'BE11|SKYWORTH K') by year: 2023 15, 2024 67, 2025 903."
+
+  - id: yudo
+    name: "Yudo"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 425.
+      - id: yudo-3
+        name: "Yudo 3"
+        segment: J-small
+        body: suv
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "YUDO 3", match: prefix}, {name: "YUDO3", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: yudo-3-gen1
+            name: "Yudo 3"
+            years: [2023, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^YUDO', name pattern 'YUDO ?3|^3$') by year: 2023 101, 2024 254, 2025 70."
+
+  - id: elaris
+    name: "Elaris"
+    make_aliases_by_source: {eea: ["ZHIDOU. ZD. ELARIS"]}
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 536.
+      - id: elaris-pio
+        name: "Pio"
+        segment: A
+        body: hatchback
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). German import brand on Zhidou microcars."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "ELARIS PIO", match: prefix}, {name: "PIO", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: elaris-pio-gen1
+            name: "Pio"
+            years: [2022, 2024]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'ELARIS', name pattern 'PIO') by year: 2021 4, 2022 159, 2023 354, 2024 18, 2025 1."
+
+  - id: deepal
+    name: "Deepal"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 332.
+      - id: deepal-s05
+        name: "S05"
+        segment: J-medium
+        body: suv
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Changan's EV brand; S05 also exists as range-extender: only BEV rows count."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "DEEPAL S05", match: prefix}, {name: "S05", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: deepal-s05-gen1
+            name: "S05"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'DEEPAL', name pattern 'S05') by year: 2025 332."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 118.
+      - id: deepal-s07
+        name: "S07"
+        segment: J-medium
+        body: suv
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Changan's EV brand; S07 also exists as range-extender: only BEV rows count."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "DEEPAL S07", match: prefix}, {name: "S07", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: deepal-s07-gen1
+            name: "S07"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'DEEPAL', name pattern 'S07') by year: 2024 2, 2025 116."
+
+  - id: vinfast
+    name: "VinFast"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 435.
+      - id: vinfast-vf8
+        name: "VF 8"
+        segment: J-medium
+        body: suv
+        name_aliases: ["VF8"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "VF8", match: prefix}, {name: "VF 8", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: vinfast-vf8-gen1
+            name: "VF 8"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'VINFAST', name pattern 'VF ?8') by year: 2022 12, 2023 38, 2024 274, 2025 111."
+
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 234.
+      - id: vinfast-vf6
+        name: "VF 6"
+        segment: J-small
+        body: suv
+        name_aliases: ["VF6"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "VF6", match: prefix}, {name: "VF 6", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: vinfast-vf6-gen1
+            name: "VF 6"
+            years: [2024, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'VINFAST', name pattern 'VF ?6') by year: 2024 26, 2025 208."
+
+  - id: jaecoo
+    name: "Jaecoo"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 347.
+      - id: jaecoo-5-ev
+        name: "5 EV"
+        segment: J-small
+        body: suv
+        name_aliases: ["J5 EV"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Chery group brand; the Jaecoo 5 also comes as a petrol car: only BEV rows count."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "JAECOO5", match: prefix}, {name: "JAECOO 5", match: prefix}, {name: "J5", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: jaecoo-5-ev-gen1
+            name: "5 EV"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'JAECOO', name pattern '5') by year: 2025 347."
+
+  - id: jac
+    name: "JAC"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 498.
+      - id: jac-e-js4
+        name: "e-JS4"
+        segment: J-small
+        body: suv
+        name_aliases: ["e-JS4"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "E-JS4", match: prefix}, {name: "ES4", match: prefix}, {name: "EJS4", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: jac-e-js4-gen1
+            name: "e-JS4"
+            years: [2022, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^JAC', name pattern 'E-?JS4|^ES4') by year: 2022 24, 2023 247, 2024 152, 2025 75."
+
+  - id: rolls-royce
+    name: "Rolls-Royce"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 337.
+      - id: rolls-royce-spectre
+        name: "Spectre"
+        segment: F
+        body: coupe
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "SPECTRE", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: rolls-royce-spectre-gen1
+            name: "Spectre"
+            years: [2023, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'ROLLS', name pattern 'SPECTRE') by year: 2023 38, 2024 175, 2025 124."
+
+  - id: think
+    name: "Think"
+    make_aliases_by_source: {eea: ["TH!NK"]}
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 568.
+      - id: think-city
+        name: "City"
+        segment: A
+        body: hatchback
+        name_aliases: ["TH!NK City"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Norwegian two-seater, the first series EV in many EU fleets."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "TH!NK CITY", match: prefix}, {name: "THINK CITY", match: prefix}, {name: "THINKCITY", match: prefix}, {name: "CITY", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: think-city-gen1
+            name: "City"
+            years: [2010, 2014]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^TH', name pattern 'CITY') by year: 2010 199, 2011 222, 2012 50, 2013 10, 2014 86, 2019 1."
+
+  - id: moke
+    name: "Moke"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 127.
+      - id: moke-electric
+        name: "Moke Electric"
+        segment: A
+        body: crossover
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Beach buggy; the petrol Moke is not in BEV rows."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "MOKE", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: moke-electric-gen1
+            name: "Moke Electric"
+            years: [2024, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make '^MOKE', name pattern 'MOKE') by year: 2023 3, 2024 60, 2025 64."
+
+  - id: togg
+    name: "Togg"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 153.
+      - id: togg-t10x
+        name: "T10X"
+        segment: J-medium
+        body: suv
+        notes: "Gem (EU-sold, low volume; WS1 T-136c)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "T10X", match: prefix}, {name: "T10", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: togg-t10x-gen1
+            name: "T10X"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'TOGG', name pattern 'T10') by year: 2023 2, 2024 3, 2025 148."
+
+  - id: aion
+    name: "Aion"
+    make_aliases_by_source: {eea: ["GAC AION"]}
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 115.
+      - id: aion-v
+        name: "V"
+        segment: J-medium
+        body: suv
+        name_aliases: ["Aion V"]
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). GAC's EV brand."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "AION V", match: prefix}, {name: "V", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: aion-v-gen1
+            name: "V"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'AION', name pattern 'AION V|^V$') by year: 2025 115."
+
+  - id: mobilize
+    name: "Mobilize"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 80.
+      - id: mobilize-limo
+        name: "Limo"
+        segment: D
+        body: sedan
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Renault group's ride-hailing sedan (fleet only)."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "LIMO", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: mobilize-limo-gen1
+            name: "Limo"
+            years: [2022, 2022]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'MOBILIZE', name pattern 'LIMO') by year: 2022 75, 2023 5."
+
+  - id: exlantix
+    name: "Exlantix"
+    models:
+      # T-136c (coverage gems, WS1): EEA registrations 2010-2025: 93.
+      - id: exlantix-et
+        name: "ET"
+        segment: J-large
+        body: suv
+        notes: "Gem (EU-sold, low volume; WS1 T-136c). Chery group EV brand."
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "ET", match: prefix}]  # bare names: BEV-only sources
+        generations:
+          - id: exlantix-et-gen1
+            name: "ET"
+            years: [2025, null]
+            uncertain: true
+            notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, make 'EXLANTIX', name pattern '^ET') by year: 2025 93."
