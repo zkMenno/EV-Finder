@@ -66,3 +66,29 @@ Other checks asked for:
 4. nit: `catalogue.intro` says "Every EV generation we track", but until part 2 the list has one card per variant (271 rows, 93 generations).
 5. nit: 11 picked generations in popularity.generated.json are not in release 2 (e.g. kia-ev4-gen1, xpeng-p7-plus-gen1). Harmless, but they will rank silently once they land.
 6. Known gap noted by the builder (table "unsorted" not in the URL) confirmed as documented; not blocking.
+
+**fresh reviewer (subagent), re-review 2026-11-18, head `f1e7c45`, REVIEW.md from origin/main (4b61283; unchanged since f34ac1a). Verdict: PASS.**
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| R0 CI on head | PASS | CI run 44207490342 on f1e7c45 `completed success` (detect, repo-checks, gate-guard, schema, web, pipeline, e2e, audit, data-qa, ci-ok all success); Images 44207490344 success |
+| R1 conflict markers | PASS | `git grep -nE '^(<{7}\|={7}\|>{7})( \|$)' HEAD` → no hits |
+| R2 evidence pack | PASS | commit message numbers reproduced: vitest 51 files / 438 tests; lint + typecheck clean; `APP_URL=https://ev.example.com pnpm build` exit 0; budget landing 163.1 KB, /cars 163.3 KB (< 200), catalogue 202.4 KB (< 300) "Perf budget: OK"; Playwright catalogue + suggested + smoke + polish 21 passed, 1 skipped (polish.spec:114, Rankings parked, Decision 051) |
+| R3 own checks | PASS | `Test-change:` line in f1e7c45; popularity tests rewritten around `rankGenerations` with more cases (split by count, missing count, even split, pick, null, relative weights, stable ties); the redirect test's two "stays on landing" cases changed because the behaviour changed on purpose (finding 2), and a hero-only link `{role, budget}` still stays; no added `.skip(`/`.only(`/`test.fixme` |
+| D3 derived score | PASS | see finding 1 below |
+| D6 strings | PASS | new keys `catalogue.how.split` and `card.popular.nerd`, plus the reworded `catalogue.how.regs`/`catalogue.intro`, present in en/nl/de/fr/es/it; i18n.test green |
+| D7 new number | PASS | Nerd line `popular-nerd` (Explore.tsx:1248) shows score, RDW (CC0) + DfT (OGL v3) and date; "How we rank" names both licences; catalogue.spec asserts both (pass) |
+| D8 UI | PASS (note) | catalogue 360 px six-language check passes; the change is one text line, the earlier axe run still covers the layout. Still no screenshots in the PR (part 2) |
+| D10 bundle | PASS | numbers under R2 |
+| D13 network | PASS | unit tests use inline rows; e2e use the local server |
+
+**Earlier findings, re-checked**
+1. must-fix (generation ranks from model shares): **fixed.** `generationShares` (src/lib/popularity.ts) splits each model's share by `registered_count_nl`. I recomputed release 2 with my own script (not the PR's function): 82 of 93 generations ranked, **0 score mismatches** against the PR. Model 3 gen1 #1 (80, NL 44 813), Highland #6 (36.7, NL 20 573); Model Y gen1 #2, Juniper #9; Leaf ZE1 #14, ZE0 #67; Niro EV DE #10, SG2 #21. No two generations of one model tie any more. The 8 remaining tied scores are all coincidences between different models (e.g. Polestar 4 and Zeekr 001 at 20 = pick only). On release 2 no generation is zeroed and no model is split evenly; both fallbacks are only covered by tests.
+2. should-fix (old links with hero answers lost their Explore state): **fixed.** catalogue-redirect.ts:5 now redirects whenever `view` or `sort` is present; catalogue.spec checks `?role=only&trips=monthly&sort=-suggested&view=table` → `/cars` with the same query (pass).
+3. should-fix (D7): **fixed** (see D7).
+4. nit (intro): **fixed** ("Every electric car we track").
+5. nit (11 picks not in release 2): left as is, which is fine. They have no effect because `rankGenerations` only iterates rows in the catalogue.
+
+**New nits (not blocking)**
+- The split key is the NL count of each generation over all years, while the share it splits is the NL 2018–2024 + UK fleet average. It's a reasonable proxy and "How we rank" explains it; WS1's release field should replace it.
+- Polestar 4 (NL 2 057) and Zeekr 001 (NL 1 224) get no registration part because they're outside top40.yaml. That's a coverage gap in the top40 inputs, not a code bug.
