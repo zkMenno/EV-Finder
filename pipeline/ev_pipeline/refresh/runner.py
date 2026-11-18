@@ -505,7 +505,7 @@ def fetch_images(data_dir: Path) -> dict[str, Any]:
 
 
 def _published_photo_urls(data_dir: Path) -> dict[str, str] | None:
-    """generation id -> image file_url in the latest release (None: no release yet)."""
+    """generation id -> image key in the latest release (None: no release yet)."""
     from ev_pipeline.health.state import latest_release
     from ev_pipeline.release.publish import local_catalogue
 
@@ -517,9 +517,16 @@ def _published_photo_urls(data_dir: Path) -> dict[str, str] | None:
     return _photo_urls(doc)
 
 
+def _photo_key(image: dict[str, Any]) -> str:
+    """The image field without `files`: file_url plus licence, author and credit, so a
+    corrected credit line for the same file still publishes (#150 review). Files follow the
+    file_url (cache keyed by URL, names carry the original's hash), so they add nothing."""
+    return json.dumps({k: v for k, v in image.items() if k != "files"}, sort_keys=True)
+
+
 def _photo_urls(catalogue: dict[str, Any]) -> dict[str, str]:
     return {
-        str(g.get("id")): str((g.get("image") or {}).get("file_url") or "")
+        str(g.get("id")): _photo_key(g["image"])
         for g in catalogue.get("generations") or []
         if g.get("image")
     }
@@ -547,7 +554,9 @@ def photos_pending(data_dir: Path) -> list[str]:
         seed = load_seed(data_dir / "seed" / "models.yaml")
         photos, _ = load_photos(data_dir, set(seed.generations), datetime.now(UTC).date())
         cache = data_dir / CACHE_DIR
-        wanted = {ph.generation_id: ph.file_url for ph in photos if cached_original(cache, ph)}
+        wanted = {
+            ph.generation_id: _photo_key(ph.field()) for ph in photos if cached_original(cache, ph)
+        }
         return _changed(published, wanted)
     except Exception:  # noqa: BLE001  same rule as fetch_images
         return []
@@ -623,7 +632,7 @@ def _release(
     ):
         reason = "catalogue identical to the previous release"
         if pending:
-            reason += f" ({len(pending)} cached photo(s) not attached by the build)"
+            reason += f" ({len(pending)} photo change(s) expected before the build, none built)"
         return {"outcome": "skipped", "reason": reason}
     summary = {
         "images": {
