@@ -17,9 +17,10 @@ Per source (each step timed, with the process's peak memory so far):
 5. **normalise**: the adapter's `normalise_cmd()`. Staging is backed up first and put back if
    normalise fails or the record count falls below half of the previous count.
 
-Then, if any source brought new data: `build_release` → blocking QA → `write_release`, with
+Then, if any source brought new data or a cached photo differs from the latest release
+(`photos_pending`, T-134): `build_release` → blocking QA → `write_release`, with
 `sources.json` (health per source) and `refresh.json` (this run's summary) in the release
-folder. No release when nothing changed, when the catalogue would be identical, or when a
+folder. No release when nothing changed, when the catalogue and photos would be identical, or when a
 refreshable source has no staging data at all (a fresh machine whose fetch failed): a release
 missing a whole source is never published.
 
@@ -503,6 +504,39 @@ def fetch_images(data_dir: Path) -> dict[str, Any]:
         return {"outcome": "failed", "reason": f"{type(exc).__name__}: {exc}"[:500]}
 
 
+def photos_pending(data_dir: Path) -> list[str]:
+    """Generations whose photo would change against the latest release: a cached photo that
+    is not published (or published from another file), or a published photo that left
+    photos.yaml. A photo-only night must still publish (#110 review should-fix 3).
+    Never raises: on any error it returns [] (photos must never block or force a release)."""
+    from ev_pipeline.health.state import latest_release
+    from ev_pipeline.images.photos import load_photos
+    from ev_pipeline.images.store import CACHE_DIR, cached_original
+    from ev_pipeline.match.seed import load_seed
+    from ev_pipeline.release.publish import local_catalogue
+
+    try:
+        n = latest_release(data_dir)
+        path = local_catalogue(data_dir, n) if n else None
+        if path is None:
+            return []  # first release: it is built anyway
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        published = {
+            str(g.get("id")): str((g.get("image") or {}).get("file_url") or "")
+            for g in doc.get("generations") or []
+            if g.get("image")
+        }
+        seed = load_seed(data_dir / "seed" / "models.yaml")
+        photos, _ = load_photos(data_dir, set(seed.generations), datetime.now(UTC).date())
+        cache = data_dir / CACHE_DIR
+        wanted = {ph.generation_id: ph.file_url for ph in photos if cached_original(cache, ph)}
+        return sorted(
+            g for g in published.keys() | wanted.keys() if published.get(g) != wanted.get(g)
+        )
+    except Exception:  # noqa: BLE001  same rule as fetch_images
+        return []
+
+
 def _published_sources(data_dir: Path) -> set[str] | None:
     """Source ids cited by the latest release (None: no release yet, so every planned source
     must have staging data). A new source that never shipped does not block a release."""
@@ -529,8 +563,10 @@ def _release(
     from ev_pipeline.release.build import build_release, write_release
     from ev_pipeline.release.validate import ReleaseError
 
-    if not any(r.changed for r in runs):
-        return {"outcome": "skipped", "reason": "no source brought new data"}
+    images = fetch_images(data_dir)  # before the gates: a photo-only night still publishes
+    pending = photos_pending(data_dir)
+    if not any(r.changed for r in runs) and not pending:
+        return {"outcome": "skipped", "reason": "no source brought new data", "images": images}
     published = _published_sources(data_dir)
     missing = [
         ps.id
@@ -545,19 +581,20 @@ def _release(
             "reason": "no staging data for " + ", ".join(missing) + " (a release that loses a"
             " whole source is never published)",
         }
-    images = fetch_images(data_dir)
     t = time.monotonic()
     try:
         res = build_release(data_dir)
     except ReleaseError as exc:
         return {"outcome": "failed", "reason": str(exc)[:2000]}
     counts = res.diff["counts"]
-    if res.diff["previous_release"] is not None and not (
-        counts["added"] or counts["removed"] or counts["changed"]
+    if (
+        res.diff["previous_release"] is not None
+        and not (counts["added"] or counts["removed"] or counts["changed"])
+        and not pending
     ):
         return {"outcome": "skipped", "reason": "catalogue identical to the previous release"}
     summary = {
-        "images": images,
+        "images": {**images, "pending_generations": len(pending)},
         "schema": "refresh-summary/v1",
         "release": res.release,
         "started_at": started.isoformat(),

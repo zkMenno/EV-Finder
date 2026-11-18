@@ -21,7 +21,7 @@ For any batch chat whose prompt touches this lane. Owner: WS0 (the coordinator).
 - Owner verdicts are one person's opinion: label them so.
 
 ## Verify before every push
-- `sh data/seed/data_qa.sh` (G-45): the four CI data-qa steps (validate_seed, validate_variants, validate_taxonomy, backtest_rules). Until #130 merges, run those four by hand.
+- `sh data/seed/data_qa.sh` (G-45): the four CI data-qa steps (validate_seed, validate_variants, validate_taxonomy, backtest_rules).
 - Seed, manual or taxonomy change: the `verify-pipeline` skill (`pipeline/.claude/skills/verify/SKILL.md`): `ev verify` on main, then on your branch with `--base main`; the report diff is your change. Approvals in `config/approved_changes.yaml` go in their own gate PR.
 - After any seed change, print the new generations' built rows (battery, WLTP, power) and look at them before the PR: only that caught the e-tron GT facelift pack.
 - Matching regression for seed or alias changes: load main's and the branch's `models.yaml` with `ev_pipeline.match.seed.load_seed`, run `find_model_noted` / `find_by_source_alias` over every staging record, diff the model ids (0 changes for previously matched records).

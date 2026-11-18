@@ -1,0 +1,557 @@
+{
+  "seed_models": 99,
+  "seed_generations": 122,
+  "published_variants": 271,
+  "tgk_versions_in_seed_generations": 5439,
+  "tgk_versions_model_not_in_seed": 3052,
+  "tgk_versions_year_outside_generations": 28,
+  "generations_with_tgk_versions": 115,
+  "fingerprint_groups": 390,
+  "groups_have": 155,
+  "groups_several": 33,
+  "groups_tie": 107,
+  "groups_no_fit": 36,
+  "groups_no_variant": 59,
+  "candidate_groups": 95,
+  "variants_if_candidates_added": 366,
+  "eea": {
+    "years": "2010-2025",
+    "eu_bev_registrations": 9109550,
+    "eu_cars_on_tgk_versions_of_seed_generations": 7678999,
+    "pct_eu_registrations_seed_generations_via_tgk": 84.3,
+    "pct_eu_registrations_on_groups_we_have": 61.2,
+    "candidate_groups_sold_in_eu": 68
+  },
+  "top_models_not_in_seed": [
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQV",
+      "versions": 197
+    },
+    {
+      "make": "TESLA",
+      "model": "MODEL X",
+      "versions": 155
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 300",
+      "versions": 143
+    },
+    {
+      "make": "TESLA MOTORS",
+      "model": "MODEL X",
+      "versions": 132
+    },
+    {
+      "make": "AUDI",
+      "model": "E-TRON GT",
+      "versions": 107
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EVITO TOURER",
+      "versions": 85
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 350+",
+      "versions": 84
+    },
+    {
+      "make": "TOYOTA",
+      "model": "PROACE",
+      "versions": 59
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 350 4MATIC",
+      "versions": 57
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQS 450+",
+      "versions": 52
+    },
+    {
+      "make": "VOLKSWAGEN",
+      "model": "UP!",
+      "versions": 50
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 350",
+      "versions": 47
+    },
+    {
+      "make": "KIA",
+      "model": "EV9",
+      "versions": 46
+    },
+    {
+      "make": "LOTUS",
+      "model": "ELETRE",
+      "versions": 45
+    },
+    {
+      "make": "AUDI",
+      "model": "RS E-TRON GT",
+      "versions": 37
+    },
+    {
+      "make": "CITROEN",
+      "model": "JUMPY",
+      "versions": 36
+    },
+    {
+      "make": "OPEL",
+      "model": "VIVARO",
+      "versions": 36
+    },
+    {
+      "make": "CITROEN",
+      "model": "E-BERLINGO",
+      "versions": 36
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 500 4MATIC",
+      "versions": 35
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQS 450 4MATIC",
+      "versions": 34
+    },
+    {
+      "make": "SMART",
+      "model": "#1",
+      "versions": 34
+    },
+    {
+      "make": "PEUGEOT",
+      "model": "E-RIFTER",
+      "versions": 34
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQS 580 4MATIC",
+      "versions": 33
+    },
+    {
+      "make": "LUCID MOTORS",
+      "model": "AIR",
+      "versions": 32
+    },
+    {
+      "make": "BMW",
+      "model": "I7 XDRIVE60",
+      "versions": 30
+    }
+  ],
+  "model_level": {
+    "base_registrations_with_a_name": 9083321,
+    "matched_to_a_seed_model": 7872628,
+    "pct_eu_registrations_model_level": 86.7,
+    "seed_models_with_eu_registrations": 92,
+    "seed_models_without_eu_registrations": [
+      "hyundai-ioniq-3",
+      "leapmotor-b05",
+      "volvo-ex50",
+      "volvo-ex60",
+      "xpeng-l03",
+      "xpeng-l05",
+      "zeekr-7gt"
+    ],
+    "biggest_unmatched": [
+      {
+        "make": "RENAULT",
+        "name": "TWINGO",
+        "reason": "model not in seed",
+        "registrations": 89038
+      },
+      {
+        "make": "CITROEN",
+        "name": "E-C3",
+        "reason": "model not in seed",
+        "registrations": 46141
+      },
+      {
+        "make": "JEEP",
+        "name": "AVENGER",
+        "reason": "make not in seed",
+        "registrations": 34453
+      },
+      {
+        "make": "VOLKSWAGEN, VW",
+        "name": "UP!",
+        "reason": "model not in seed",
+        "registrations": 33177
+      },
+      {
+        "make": "MAZDA",
+        "name": "MAZDA MX-30",
+        "reason": "make not in seed",
+        "registrations": 29592
+      },
+      {
+        "make": "VOLKSWAGEN",
+        "name": "UP!",
+        "reason": "model not in seed",
+        "registrations": 28313
+      },
+      {
+        "make": "SMART",
+        "name": "#1",
+        "reason": "model not in seed",
+        "registrations": 25315
+      },
+      {
+        "make": "TESLA",
+        "name": "MODEL X",
+        "reason": "model not in seed",
+        "registrations": 24080
+      },
+      {
+        "make": "BMW",
+        "name": "IX2 EDRIVE20",
+        "reason": "model not in seed",
+        "registrations": 20225
+      },
+      {
+        "make": "LEAPMOTOR",
+        "name": "T03",
+        "reason": "model not in seed",
+        "registrations": 20089
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "3008",
+        "reason": "model not in seed",
+        "registrations": 19887
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQE 300",
+        "reason": "model not in seed",
+        "registrations": 17478
+      },
+      {
+        "make": "KIA",
+        "name": "EV9",
+        "reason": "model not in seed",
+        "registrations": 17410
+      },
+      {
+        "make": "SKODA",
+        "name": "CITIGO",
+        "reason": "model not in seed",
+        "registrations": 17283
+      },
+      {
+        "make": "BYD",
+        "name": "BYD DOLPHIN SURF",
+        "reason": "model not in seed",
+        "registrations": 16212
+      },
+      {
+        "make": "BYD",
+        "name": "BYD SEAL",
+        "reason": "model not in seed",
+        "registrations": 15777
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQV",
+        "reason": "model not in seed",
+        "registrations": 15549
+      },
+      {
+        "make": "MINI",
+        "name": "COUNTRYMAN E",
+        "reason": "model not in seed",
+        "registrations": 15398
+      },
+      {
+        "make": "SEAT",
+        "name": "MII",
+        "reason": "make not in seed",
+        "registrations": 15128
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQE 350 4MATIC",
+        "reason": "model not in seed",
+        "registrations": 14561
+      },
+      {
+        "make": "VOLKSWAGEN. VW",
+        "name": "UP!",
+        "reason": "model not in seed",
+        "registrations": 13560
+      },
+      {
+        "make": "MINI",
+        "name": "ACEMAN SE",
+        "reason": "model not in seed",
+        "registrations": 12331
+      },
+      {
+        "make": "VOLKSWAGEN  VW",
+        "name": "UP!",
+        "reason": "model not in seed",
+        "registrations": 11952
+      },
+      {
+        "make": "BYD",
+        "name": "BYD DOLPHIN",
+        "reason": "model not in seed",
+        "registrations": 11822
+      },
+      {
+        "make": "XPENG",
+        "name": "G9",
+        "reason": "model not in seed",
+        "registrations": 11816
+      },
+      {
+        "make": "CITROEN",
+        "name": "C-ZERO",
+        "reason": "model not in seed",
+        "registrations": 11798
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQE 350+",
+        "reason": "model not in seed",
+        "registrations": 11245
+      },
+      {
+        "make": "VOLVO",
+        "name": "EX90",
+        "reason": "model not in seed",
+        "registrations": 10792
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "ION",
+        "reason": "model not in seed",
+        "registrations": 10711
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "5008",
+        "reason": "model not in seed",
+        "registrations": 10018
+      },
+      {
+        "make": "CITROEN",
+        "name": "E-C3 AIRCROSS",
+        "reason": "model not in seed",
+        "registrations": 9897
+      },
+      {
+        "make": "BYD",
+        "name": "BYD SEAL U",
+        "reason": "model not in seed",
+        "registrations": 9329
+      },
+      {
+        "make": "OPEL",
+        "name": "FRONTERA",
+        "reason": "model not in seed",
+        "registrations": 9201
+      },
+      {
+        "make": "CITROEN",
+        "name": "E-BERLINGO",
+        "reason": "model not in seed",
+        "registrations": 8972
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQE 350",
+        "reason": "model not in seed",
+        "registrations": 8476
+      },
+      {
+        "make": "AUDI",
+        "name": "E-TRON GT",
+        "reason": "model not in seed",
+        "registrations": 8280
+      },
+      {
+        "make": "VOLKSWAGEN VW",
+        "name": "UP!",
+        "reason": "model not in seed",
+        "registrations": 8027
+      },
+      {
+        "make": "MINI",
+        "name": "ACEMAN E",
+        "reason": "model not in seed",
+        "registrations": 7639
+      },
+      {
+        "make": "BMW",
+        "name": "IX2 XDRIVE30",
+        "reason": "model not in seed",
+        "registrations": 7158
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQE 500 4MATIC",
+        "reason": "model not in seed",
+        "registrations": 7054
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQS 580 4MATIC",
+        "reason": "model not in seed",
+        "registrations": 7026
+      },
+      {
+        "make": "PEUGEOT",
+        "name": "E-RIFTER",
+        "reason": "model not in seed",
+        "registrations": 6912
+      },
+      {
+        "make": "BYD",
+        "name": "BYD ATTO 2",
+        "reason": "model not in seed",
+        "registrations": 6840
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EQS 450+",
+        "reason": "model not in seed",
+        "registrations": 6771
+      },
+      {
+        "make": "MINI",
+        "name": "COUNTRYMAN SE ALL4",
+        "reason": "model not in seed",
+        "registrations": 6578
+      },
+      {
+        "make": "ALPINE",
+        "name": "A290",
+        "reason": "make not in seed",
+        "registrations": 6361
+      },
+      {
+        "make": "MAZDA",
+        "name": "MAZDA 6E",
+        "reason": "make not in seed",
+        "registrations": 6265
+      },
+      {
+        "make": "FIAT",
+        "name": "PANDA",
+        "reason": "model not in seed",
+        "registrations": 6072
+      },
+      {
+        "make": "SMART",
+        "name": "FORTWO",
+        "reason": "model not in seed",
+        "registrations": 5974
+      },
+      {
+        "make": "MERCEDES-BENZ",
+        "name": "EVITO TOURER",
+        "reason": "model not in seed",
+        "registrations": 5937
+      },
+      {
+        "make": "NISSAN",
+        "name": "NISSAN E-NV200",
+        "reason": "model not in seed",
+        "registrations": 5739
+      },
+      {
+        "make": "OPEL",
+        "name": "GRANDLAND",
+        "reason": "model not in seed",
+        "registrations": 5663
+      },
+      {
+        "make": "HONDA",
+        "name": "E:NY1",
+        "reason": "model not in seed",
+        "registrations": 5615
+      },
+      {
+        "make": "SMART",
+        "name": "ELECTRIC DRIVE",
+        "reason": "model not in seed",
+        "registrations": 5395
+      },
+      {
+        "make": "BYD",
+        "name": "DOLPHIN",
+        "reason": "model not in seed",
+        "registrations": 5338
+      },
+      {
+        "make": "MG",
+        "name": "ZS EXCLUSIVE EV",
+        "reason": "model not in seed",
+        "registrations": 5333
+      },
+      {
+        "make": "ABARTH",
+        "name": "500",
+        "reason": "make not in seed",
+        "registrations": 5239
+      },
+      {
+        "make": "SUBARU",
+        "name": "SOLTERRA",
+        "reason": "model not in seed",
+        "registrations": 5115
+      },
+      {
+        "make": "LEXUS",
+        "name": "LEXUS UX300E",
+        "reason": "make not in seed",
+        "registrations": 5089
+      },
+      {
+        "make": "POLESTAR",
+        "name": "POLESTAR 3",
+        "reason": "model not in seed",
+        "registrations": 4867
+      }
+    ]
+  },
+  "inputs": {
+    "staging": [
+      "data/staging/openev.records.jsonl",
+      "data/staging/rdw-tgk.records.jsonl"
+    ],
+    "eea_versions": {
+      "years": [
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "fetched_at": "2026-11-18T09:47:29+00:00"
+    },
+    "rdw_tgk_fetched_at": "2026-11-18T09:14:14+00:00"
+  }
+}
