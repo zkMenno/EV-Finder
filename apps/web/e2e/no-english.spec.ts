@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { expect, test, type Page } from "@playwright/test";
+import { ENGLISH_ONLY, ENGLISH_ONLY_REASON } from "./langs";
 
 type Dict = Record<string, string>;
 const dict = (lang: string): Dict =>
@@ -76,6 +77,8 @@ async function pageText(page: Page): Promise<string> {
 for (const lang of ["de", "fr"] as const) {
   const search = needles(en, dict(lang));
   test.describe(`${lang} pages`, () => {
+    // Decision 082: German and French aren't served at launch; this switches back on with them.
+    test.skip(ENGLISH_ONLY, ENGLISH_ONLY_REASON);
     // A German or French reader's browser: no "also available in English" banner.
     test.use({ locale: `${lang}-${lang.toUpperCase()}` });
     for (const pg of PAGES) {

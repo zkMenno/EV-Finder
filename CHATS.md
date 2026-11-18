@@ -30,10 +30,12 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS3 (2nd, 2026-11-17) | Catalogue curation: T-133 photo sourcing + press terms, T-131 popular used EVs, T-136 coverage report (with WS1) | https://claude.ai/code/session_01JuyZEVjrfQKWiDUR4dRCvD | 2026-11-17 |
 | UX (3rd, 2026-11-17) | T-132 hero questions redesign, T-130 catalogue layout (staging feedback) | https://claude.ai/code/session_01JuyZEXhFGuqeTx2pch1Dh | 2026-11-17 |
 | WS2 (3rd, 2026-11-17) | Web app: T-137 English only, then T-130/T-131/T-135/T-132 | https://claude.ai/code/session_01JuyZEUgDrkg5ED4ZkeyEzg | 2026-11-17 |
-| Ariakit check | One-off: is Ariakit worth using? Menno chose to park it (WS0 INBOX 2026-11-17 22:29) | https://claude.ai/code/session_01JuyZEVE3XPjPi5qVFQmbjL | 2026-11-17 |
+| Ariakit (T-141) | Ariakit adopted (Decision 056): hero brand picker PR #124, gate PR #125 | https://claude.ai/code/session_01JuyZEVE3XPjPi5qVFQmbjL | 2026-11-17 |
 | QA (review 2) | Launch review 2 on release 2, `qa/launch-review-2`, A-36 (workstreams/QA/INBOX.md "QA launch review 2") | https://claude.ai/code/session_01JuyZEVMaifWkAiJdWaWbcE | 2026-11-17 |
 | WS3 (3rd, 2026-11-17) | Catalogue curation: A-36 S7 (T-140 Ioniq 5 packs, XPENG P7 / P7+ rows), then T-136 seed | (Menno: add link) | 2026-11-17 |
 | WS2 (4th, 2026-11-18) | Web app: T-130 catalogue page (#117), then T-131/T-135/T-132 | https://claude.ai/code/session_01JuyZEUuCTBUyPNJ74C3iRD | 2026-11-18 |
 | WS0 (merge chat, 2026-11-18) | Coordinator: merge every ready PR (#105–#118), Decision 081 schema, D6 gate | https://claude.ai/code/session_01JuyZEY4DmyVTbG9HZHfzBP | 2026-11-18 |
 | WS2 (5th, 2026-11-18) | Web app: T-130 part 2 (catalogue visual layer), then T-131/T-135/T-132 | https://claude.ai/code/session_01JuyZEW7knztpvwmHJjJ3mb | 2026-11-18 |
 | WS1 (7th) | Data pipeline: Menno catalogue target (Decision 048), R-41 task 1 variant split T-073 (Decision 049, Q-039 default) | https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X | 2026-11-18 |
+| WS2 (6th, 2026-11-18) | Web app: T-130 part 2 (catalogue visual layer), then T-131, T-135, T-132 | https://claude.ai/code/session_01JuyZEWZuyZEW | 2026-11-18 |
+| WS3 (4th, 2026-11-18) | Catalogue curation: T-136 task 2 missing-model seed (R-41), then pre-push data-qa script | https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9 | 2026-11-18 |

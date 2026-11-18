@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import * as yaml from "js-yaml";
 import { describe, expect, it } from "vitest";
-import { LANGS } from "@/config/countries";
+import { COUNTRY_SLUGS, LANGS } from "@/config/countries";
 import { routeLang, suggestLang } from "@/lib/lang";
 import { RANKING_IDS } from "@/lib/rankings";
 import { SPEC_FIELDS, SPEC_GROUPS } from "@/lib/spec-diff";
@@ -52,28 +52,33 @@ describe("i18n", () => {
     expect(interpolate("{a} {b}", { a: 1 })).toBe("1 {b}");
   });
 
-  it("URL language routing (Decision 015): language URLs pass, the rest redirects", () => {
-    // Served pairs pass through untouched.
-    expect(routeLang("/nl/nl", "", null)).toBeNull();
-    expect(routeLang("/be/fr/ev/a/b", "?x=1", "nl")).toBeNull();
+  it("URL language routing (Decision 015 + 082): only /{country}/en/ is served, the rest redirects", () => {
+    // Decision 082: English only at launch. /{country}/en/… passes through untouched.
+    expect(routeLang("/nl/en", "", null)).toBeNull();
+    expect(routeLang("/be/en/ev/a/b", "?x=1", "nl")).toBeNull();
     expect(routeLang("/staff/review", "", null)).toBeNull();
     expect(routeLang("/health", "", null)).toBeNull();
-    // /{country}: remembered language if served, else the config default (temporary redirect).
-    expect(routeLang("/de", "", null)).toEqual({ redirect: "/de/de", status: 307 });
-    expect(routeLang("/de", "?range=300", "en")).toEqual({ redirect: "/de/en?range=300", status: 307 });
-    expect(routeLang("/de/", "", "fr")).toEqual({ redirect: "/de/de", status: 307 });
-    expect(routeLang("/be", "", null)).toEqual({ redirect: "/be/nl", status: 307 });
-    expect(routeLang("/uk", "", "nl")).toEqual({ redirect: "/uk/en", status: 307 });
-    expect(routeLang("/", "", null)).toEqual({ redirect: "/nl/nl", status: 307 });
+    // Every hidden language, in every country, 308s to the same page in English (query kept).
+    for (const country of COUNTRY_SLUGS)
+      for (const lang of ["nl", "de", "fr", "es", "it"]) {
+        expect(routeLang(`/${country}/${lang}`, "", null)).toEqual({ redirect: `/${country}/en`, status: 308 });
+        expect(routeLang(`/${country}/${lang}/compare`, "?ids=a,b", null)).toEqual({
+          redirect: `/${country}/en/compare?ids=a,b`,
+          status: 308,
+        });
+      }
+    // /{country}: English, whatever the remembered language cookie says (temporary redirect).
+    expect(routeLang("/de", "", null)).toEqual({ redirect: "/de/en", status: 307 });
+    expect(routeLang("/de", "?range=300", "de")).toEqual({ redirect: "/de/en?range=300", status: 307 });
+    expect(routeLang("/be/", "", "fr")).toEqual({ redirect: "/be/en", status: 307 });
+    expect(routeLang("/es", "", "es")).toEqual({ redirect: "/es/en", status: 307 });
+    expect(routeLang("/", "", "nl")).toEqual({ redirect: "/nl/en", status: 307 });
     expect(routeLang("/nl", "?range=300&lang=en", "nl")).toEqual({ redirect: "/nl/en?range=300", status: 308 });
-    expect(routeLang("/nl", "?lang=de", null)).toEqual({ redirect: "/nl/nl", status: 307 });
-    // Old URLs: 308 to the default language, or to ?lang when the country serves it.
-    expect(routeLang("/nl/ev/renault/zoe", "", null)).toEqual({ redirect: "/nl/nl/ev/renault/zoe", status: 308 });
+    expect(routeLang("/nl", "?lang=nl", null)).toEqual({ redirect: "/nl/en", status: 307 });
+    // Old URLs without a language segment: 308 to English; ?lang is dropped.
+    expect(routeLang("/nl/ev/renault/zoe", "", null)).toEqual({ redirect: "/nl/en/ev/renault/zoe", status: 308 });
     expect(routeLang("/nl/compare", "?ids=a,b&lang=en", "nl")).toEqual({ redirect: "/nl/en/compare?ids=a,b", status: 308 });
-    expect(routeLang("/nl/top", "?lang=de", null)).toEqual({ redirect: "/nl/nl/top", status: 308 });
-    expect(routeLang("/be/learn/real-range", "?lang=fr", null)).toEqual({ redirect: "/be/fr/learn/real-range", status: 308 });
-    // A language the country doesn't serve → its default.
-    expect(routeLang("/uk/nl/top", "", null)).toEqual({ redirect: "/uk/en/top", status: 308 });
+    expect(routeLang("/be/learn/real-range", "?lang=fr", null)).toEqual({ redirect: "/be/en/learn/real-range", status: 308 });
   });
 
   it("Accept-Language only suggests a served language, never the current one", () => {

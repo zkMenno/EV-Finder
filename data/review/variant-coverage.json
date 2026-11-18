@@ -7,20 +7,20 @@
   "tgk_versions_year_outside_generations": 28,
   "generations_with_tgk_versions": 115,
   "fingerprint_groups": 390,
-  "groups_have": 154,
+  "groups_have": 155,
   "groups_several": 33,
   "groups_tie": 107,
-  "groups_no_fit": 35,
-  "groups_no_variant": 61,
-  "candidate_groups": 96,
-  "variants_if_candidates_added": 367,
+  "groups_no_fit": 36,
+  "groups_no_variant": 59,
+  "candidate_groups": 95,
+  "variants_if_candidates_added": 366,
   "eea": {
     "years": "2010-2025",
     "eu_bev_registrations": 9109550,
     "eu_cars_on_tgk_versions_of_seed_generations": 7678999,
     "pct_eu_registrations_seed_generations_via_tgk": 84.3,
-    "pct_eu_registrations_on_groups_we_have": 61.1,
-    "candidate_groups_sold_in_eu": 69
+    "pct_eu_registrations_on_groups_we_have": 61.2,
+    "candidate_groups_sold_in_eu": 68
   },
   "top_models_not_in_seed": [
     {

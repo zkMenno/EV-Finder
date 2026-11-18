@@ -2195,6 +2195,75 @@ variants:
     notes: "32.6 kWh gross (about 28.9 usable). WLTP roughly 225-235 km."
     confidence: low
 
+  # --- T-140 (A-36 S7), 2026-11-17: gaps QA found in release 2. Specs below were read on the
+  # documents named in the notes (not model knowledge), but stay `low` here: the cited figures
+  # that ship are in data/manual/specs/t140-a36-catalogue-gaps.yaml.
+  - generation_id: hyundai-ioniq-5-facelift
+    id: hyundai-ioniq-5-facelift-63kwh-rwd
+    name: "63 kWh RWD"
+    years: [2024, null]
+    drivetrain: rwd
+    specs:
+      battery_kwh_net: 63
+      power_kw: 125
+      ac_kw: 11
+      seats: 5
+    notes: "Facelift base pack (58 -> 63 kWh). Hyundai Motor Deutschland 08.08.2024: 'eine kleinere Batterieversion mit 63 kWh', 125 kW. EU type approval e9*2018/858*11054 variant F5E12 (RDW TGK, from extension 06): WLTP 440 km, 155.8 Wh/km. Release 2 has no row for it (Open EV Data has no 63 kWh record)."
+    confidence: low
+  - generation_id: xpeng-p7-gen1
+    id: xpeng-p7-gen1-rwd-long-range
+    name: "RWD Long Range"
+    years: [2023, 2025]
+    drivetrain: rwd
+    specs:
+      battery_kwh_net: 82.7
+      battery_kwh_gross: 86.2
+      power_kw: 203
+      ac_kw: 11
+      dc_peak_kw: 175
+      boot_l: 440
+      length_mm: 4888
+      seats: 5
+    notes: "XPENG Sweden P7 spec sheet (a-cdn.xpeng.com, read 2026-11-17): 203 kW, 86.2 / 82.7 kWh NCM, 16.8 kWh/100 km, WLTP up to 576 km, DC up to 175 kW, 11 kW AC, 440 L, 4888 mm. EU type approval e5*2018/858*00179 variant E1L. RDW registrations agree (39 of 40 NL cars: 203 kW, 576 km, 168 Wh/km). No Open EV Data record for the European P7."
+    confidence: low
+  - generation_id: xpeng-p7-gen1
+    id: xpeng-p7-gen1-awd-performance
+    name: "AWD Performance"
+    years: [2023, 2025]
+    drivetrain: awd
+    specs:
+      battery_kwh_net: 82.7
+      battery_kwh_gross: 86.2
+      power_kw: 348
+      ac_kw: 11
+      dc_peak_kw: 175
+      boot_l: 440
+      length_mm: 4888
+      seats: 5
+    notes: "Same XPENG Sweden spec sheet: 348 kW (front 145 + rear 203), 19.2 kWh/100 km, WLTP up to 505 km. The Wing Edition is this drivetrain with other doors (same figures), so it is not a separate variant. EU type approval e5*2018/858*00179 variant E2L; RDW registrations: 505 km, 192 Wh/km (40 of 40)."
+    confidence: low
+  - generation_id: xpeng-p7-plus-gen1
+    id: xpeng-p7-plus-gen1-rwd-long-range
+    name: "RWD Long Range"
+    years: [2026, null]
+    drivetrain: rwd
+    specs:
+      power_kw: 230
+      seats: 5
+      length_mm: 5071
+    notes: "EU type approval e5*2018/858*00541 variant A0A0 (RDW TGK): WLTP 530 km, 164 Wh/km; NL registrations 230 kW (40 of 40). Battery left out on purpose: XPENG's preliminary German sheet (09/2025, 'vorbehaltlich der abschliessenden Homologation') says 76.8 kWh net, electrive and km77 say 74.9 kWh (gross), InsideEVs 74.9 net / 76.8 gross. No final maker figure found. The RWD Standard Range (61.7 kWh, 455 km in the press) is not in the Dutch register yet, so it has no row."
+    confidence: low
+  - generation_id: xpeng-p7-plus-gen1
+    id: xpeng-p7-plus-gen1-awd-performance
+    name: "AWD Performance"
+    years: [2026, null]
+    drivetrain: awd
+    specs:
+      seats: 5
+      length_mm: 5071
+    notes: "EU type approval e5*2018/858*00541 variant A0B0 (RDW TGK, two drivetrain rows): WLTP 500 km, 174 Wh/km. Power left out: the register lists one motor (140 kW); the press gives 370 kW total, no maker document found. Battery: see the RWD Long Range note."
+    confidence: low
+
 # Source holds: source records that go to review (data/review/unmatched.csv) with the reason
 # below instead of making or joining a row (see ev_pipeline/match/matcher.py, 4). For records
 # that fit no real variant of their model years, or whose figures a maker document contradicts

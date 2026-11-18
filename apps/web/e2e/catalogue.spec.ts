@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { ENGLISH_ONLY } from "./langs";
 
 // T-130: the landing page links to the catalogue; the catalogue sorts by popularity by default.
 
@@ -64,10 +65,14 @@ test("old Explore links on the landing page move to the catalogue with their sta
   await expect(page).toHaveURL(/\/nl\/en\?role=second&budget=20000$/);
 });
 
-// Every language: long words and native <select> widths differ (FR and ES overflowed at first; T-097 lesson).
-test("catalogue fits a 360 px phone without sideways scrolling, in all six languages", async ({ page }) => {
+// Every served language: long words and native <select> widths differ (FR and ES overflowed at first; T-097 lesson).
+// English only at launch (Decision 082): every launch country in English, so currency and country labels still vary.
+const PHONE_PATHS = ENGLISH_ONLY
+  ? ["/nl/en", "/be/en", "/de/en", "/fr/en", "/es/en", "/it/en", "/uk/en"]
+  : ["/nl/en", "/nl/nl", "/de/de", "/fr/fr", "/es/es", "/it/it"];
+test("catalogue fits a 360 px phone without sideways scrolling, in every served language", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 780 });
-  for (const path of ["/nl/en", "/nl/nl", "/de/de", "/fr/fr", "/es/es", "/it/it"]) {
+  for (const path of PHONE_PATHS) {
     await page.goto(`${path}/cars`);
     await expect(page.getByTestId("result-count")).not.toContainText("…");
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
