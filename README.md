@@ -55,7 +55,7 @@ Stack: Next.js + TypeScript · Python pipeline (uv) · JSON Schema for shared ty
 | `docs/` | `spec/` (mirror of the product spec; builders read this), `growth/`, `outreach/`, `brand/` |
 | `research/` | Research notes (below) |
 | `audits/` | Performance and security audits (A-01, A-02) |
-| `workstreams/` | One folder per long-running chat (WS0–WS5, UX, OVERNIGHT): `START.md`, `STATUS.md`, `INBOX.md` |
+| `workstreams/` | Lane briefs (`<lane>/START.md` for WS1–WS5, UX, QA) and the coordinator's `WS0/INBOX.md` (the one inbox) and `WS0/HANDOFF.md` |
 | `tasks/` | One file per task |
 | `AGENTS.md`, `CLAUDE.md` | Rules for AI agents (and humans) working here |
 | `BOARD.md`, `QUESTIONS.md`, `DECISIONS.md`, `ROADMAP.md`, `CHANGELOG.md`, `CHATS.md` | Board, open questions for the maintainer, decisions, phases, what shipped, chat list |

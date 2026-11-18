@@ -1,51 +1,48 @@
-# WS1 — Data pipeline: start here
+# WS1 lane brief: data pipeline
 
-You are **WS1**, the data-pipeline workstream for EV Finder. You run in Claude Code on this repo for hours at a time. You turn open sources into versioned, traceable catalogue releases and compute our own derived numbers (real range, DC charging, consumption, charging stats).
+For any batch chat whose prompt touches this lane. Owner: WS0 (the coordinator). How chats work: [docs/process/README.md](../../docs/process/README.md) §3; rules: [rules.md](../../docs/process/rules.md). The lane turns open sources into versioned, traceable catalogue releases and computes our own numbers (real range, winter range, DC charging, consumption, used price bands, shortlist scores).
 
-## 0. First five minutes
-1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`) and clone it.
-2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `pipeline/AGENTS.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS1/INBOX.md` · `workstreams/WS1/STATUS.md` · `BOARD.md` · `DECISIONS.md` 009–013 · `QUESTIONS.md` (Open, anything tagged T-004…T-007 or WS1).
-3. Read the spec only where your task points: `docs/spec/master-spec-v2.md` §5–8 and §12, `docs/spec/source-matrix.md`, `docs/spec/data-sources.md`, `docs/spec/charging-buildout.md`, `docs/spec/trip-fit.md` §5 and §7, `docs/spec/bidirectional-and-connectors.md`.
-4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
+## Start
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`); add your row to `CHATS.md`.
+2. Read `AGENTS.md`, `REVIEW.md` (from `origin/main`), `docs/process/README.md`, `pipeline/AGENTS.md`, your task files, this brief.
+3. Before each task and again before its first push: check open PRs and `git ls-remote --heads origin | grep <task-id>`; stop if another chat has it (G-41).
+4. Spec only where the task points: `docs/spec/master-spec-v2.md` §5–8 and §12, `source-matrix.md`, `data-sources.md`, `charging-buildout.md`, `trip-fit.md` §5 and §7, `bidirectional-and-connectors.md`. Scope: `docs/spec/launch-scope.md` (only Launch tasks, Decision 051).
 
-## 1. Lane
-You own: `pipeline/` (except `pipeline/Dockerfile`, WS4), `data/sources.yaml`, `data/field_sources.yaml`, `data/SOURCES.md`, `data/releases/`, `data/review/`, your `STATUS.md`/`HANDOFF.md`.
-You do not edit: `packages/schema` (ask WS0), `data/seed`, `data/taxonomy`, `data/manual`, `config/` (ask WS3), `apps/web` (ask WS2), `infra/` (ask WS4).
-Schema change needed? Append to `workstreams/WS0/INBOX.md` with the exact fields, then work on something else until it lands.
+## What the lane owns
+`pipeline/` (except `pipeline/Dockerfile`, WS4), `data/sources.yaml`, `data/field_sources.yaml`, `data/SOURCES.md`, `data/releases/`, `data/review/`. Not yours: `packages/schema` (WS0), `data/seed`, `data/manual`, `data/taxonomy`, `config/` (WS3), `apps/web` (WS2), `infra/` (WS4). Need a schema field or a change in another lane: one line in `workstreams/WS0/INBOX.md` with the exact fields, then work on something else. Decision numbers: block 040–049.
 
-## 2. Hard rules
-- Every number is a Fact with source, retrieval date, confidence and licence. No untraced values. Estimates carry `estimate: true`.
-- Licence gate (Decision 009): a source without a named licence or written permission never reaches a public release. ODbL and CC BY-SA inputs stay out of CC BY output. Charging infrastructure: aggregates only, never point-level data.
+## Lane rules
+- Every number is a Fact with source, retrieval date, confidence and licence. Estimates carry `estimate: true`. "Not disclosed" is a real value; uncertain → review queue (`data/review/`). Never invent data.
+- Licence gate (Decision 009): no named licence or written permission → never in a public release. ODbL and CC BY-SA stay out of CC BY output. Charging infrastructure: aggregates only, never point-level.
 - No raw data in git; fixtures only (`pipeline/tests/fixtures/<source>/`). Tests never call the network.
-- Jobs run at night (00:30–02:30 UTC) at low priority inside 1 GB / 1 CPU (Decision 006). Big one-off imports run on a temporary machine.
+- Jobs run at night (00:30–02:30 UTC), low priority, inside 1 GB / 1 CPU (Decision 006). Big one-off imports on a temporary machine.
 - Python 3.12, type hints, `ruff`, `pytest`, `uv` (Decision 007). Config and data tables over hard-coded logic: a new country, chemistry or source is a new row.
-- One task = one branch (`t-0NN-slug`) = one PR, CI green before review. Never push to `main`.
-- Don't invent data. "Not disclosed" is a real value. Uncertain → review queue (`data/review/`).
+- Derived scores, bands and models: dry run on the latest release rows before tests, back-test section in qa.json (G-10). A derived field that reuses an official field's name sits on the same basis; back-test it against official values where both exist.
+- A new QA threshold PR quotes its hit list on the latest release (count + names).
+- Matching or merge-logic change: same-data rebuild diff in the PR body (G-43, REVIEW D4) and the 5 tricky cars (EV6, Ioniq 5, MG4, Model Y LR vs Juniper, P7+).
 
-## 3. Task list (updated 2026-11-15 11:00 by WS0 for the strict launch scope, Decision 051; in order, skip blocked ones)
-**Read `docs/spec/launch-scope.md` first.** Only tasks tagged Launch on BOARD.md; anything else needs Menno's yes. Built work for parked features stays behind feature flags, off by default.
+## Verify before every push
+- `cd pipeline && uv run ruff check . && uv run ruff format --check . && uv run pytest` (fetch release assets first: `uv run ev release fetch latest`).
+- Data changes: the `verify-pipeline` skill (`pipeline/.claude/skills/verify/SKILL.md`, `uv run ev verify`): rebuild from staging, release diff vs N-1 (approvals in `config/approved_changes.yaml`, its own gate PR), back-tests, tricky cars. Evidence pack in the PR body; commits end with `Verified: <how>`.
+- Changed `data/sources.yaml`: run `node apps/web/scripts/sources.mjs` and `git diff --exit-code` (the web copy must be regenerated, or CI `web` fails).
 
-1. Open PRs: answer WS0 review notes on #4–#13 if any appear in your INBOX.
-2. **T-069** shortlist scores per variant and profile in the release (reads `data/editorial/shortlist_rules.yaml`; unknown factors neutral and listed). Needs T-066 types from WS0; build on the YAML meanwhile.
-3. **T-081** used price band per variant, build year and country (method in the task: list price × depreciation curve calibrated on free indices + manual samples; labelled estimate; P25–P75 with counts). This is what the hero's budget filter needs.
-4. **T-056** free price indices (terms first) as T-081 calibration input.
-5. **T-063** AC optional charger field (if not done), then T-065 data side once WS0 lands the schema.
-6. Winter range quality: rerun T-035 on the calibrated matrix, report per profile-relevant field (winter range, DC km in 20 min) in qa.json.
-7. Open data bundle: check it only contains licence-gated fields and ships with each release (Decision 016).
+## Gotchas
+- Same-data rebuild recipe (from #135): detached worktree of `origin/main`, copy release assets in, `uv run ev refresh --force --no-release` (all 16 sources, ~20 min, peak ~450 MB), then `build_release(data_dir)` with old and new code; diff rows and facts.
+- `gh pr create` fails in these sessions (GraphQL blocked): use `gh api repos/zkMenno/EV-Shortlist/pulls`.
+- A data-publish PR should also build the web image (`build web (linux/arm64)`) before `latest` moves: release 2 once shipped with an image that still read catalogue.json from git.
+- fueleconomy.gov: BEV range is column `range`; EPA kWh/100 mi never goes into the WLTP consumption field.
 
-**Numbers you may use without asking:** decisions 040–049, tasks T-070–T-079, research R-40–R-44, audits A-30–A-34. Fetch `main` before numbering anything.
+## Done (per task)
+Acceptance criteria ticked · tests for every data rule and bug · local gate green, then CI green on the PR head · PR template filled with evidence · Status + Handoff notes in the task file · coverage report regenerated if the release changed · fresh review before merge.
 
-## 4. Definition of done (per task)
-Acceptance criteria ticked · tests for every data rule and bug · CI green · PR opened with the template filled · handoff notes in the task file · coverage report regenerated if the release changed · STATUS.md updated · anything another lane needs written to its INBOX.
+## Finish the batch
+State lives in task files and PRs, not here. When the batch is done or blocked: one line in `workstreams/WS0/INBOX.md` (`- YYYY-MM-DD HH:MM UTC · from <chat link> · …`, with the four retro answers or a link to them in a PR body), then stop. No STATUS or HANDOFF files.
 
-## 5. Check-in rhythm
-- Every ~30 minutes on long tasks: commit, push your branch, update STATUS.md.
-- After every task: read your INBOX, update STATUS.md, append a one-line summary to `workstreams/WS0/INBOX.md` ("T-0NN PR #x ready for review").
-- Loop guard: the same error 3 times or 30 minutes without progress → stop that path, log what you tried in STATUS.md, try one different approach, otherwise park it (STATUS + WS0 INBOX) and move on.
-- Never wait idle for an answer: take the next unblocked task.
-
-## 6. Context hygiene
-Watch for long sessions: many big tool results, hours of work, any compaction warning. Before that point write `workstreams/WS1/HANDOFF.md` (state, decisions made, open threads, next steps, links), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS1/HANDOFF.md and START.md and go."
-
-## Retro (end of every session)
-Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.
+## Open lane threads (from the retired WS1 HANDOFF/STATUS, 2026-11-18; WS0 turns them into tasks)
+- After the first night run since #110: check refresh.json `images` (fetched / failed / stopped, `pending_generations` once #134 is in).
+- Ioniq 5 facelift: RDW variant codes F5E62 etc. land on facelift-base (WS3 T-140 item 2); overlaps T-073 (#127).
+- Press photos only when WS3 marks a maker `allowed` in `data/images/press-terms.yaml` (none today).
+- #110 nit: COMMONS_LICENCE accepts any 2-letter CC port; needs the real CC 2.0–3.0 port list from creativecommons.org.
+- #58 follow-up test for the `ac_kw_optional` rows guard.
+- 🟡 #135 rebuild: Leaf e+ winter range went up (225 → 239) while EPA went down (364 → 346): not traced.
+- Blocked: T-063 data side, T-064 part 2, EV3/Inster rows (Q-047), launch gate (Q-059).

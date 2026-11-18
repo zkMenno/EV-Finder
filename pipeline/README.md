@@ -138,7 +138,7 @@ Active and imported (details, exact licence text and attribution lines in
 | `openev` | Specs and DE prices (Open EV Data) | CDLA-Permissive-2.0 |
 | `kilowatt-openev` | Fallback specs, DC curves (all `estimated`); attach-only | MIT with attribution (visible credit required) |
 | `rdw` | NL registered BEV fleet | CC0-1.0 |
-| `eea` | New BEV registrations NL/DE/FR/BE (counts only; spec averages are not facts, Q-039) | CC BY 4.0 |
+| `eea` | New BEV registrations NL/DE/FR/BE (counts only; spec averages are not facts, Decision 049); EU-wide counts per type-approval version for `ev variants` | CC BY 4.0 |
 | `kba-fz10` | DE new registrations, year-to-date | dl-de/by-2-0 |
 | `dft-veh` | UK licensed BEV fleet at quarter end | OGL-UK-3.0 |
 | `ademe` | FR list prices, best-case WLTP, mass; attach-only | Licence Ouverte 2.0 |
@@ -228,6 +228,28 @@ licence (or `permission: written`) pass. `none`, `unknown` and "(to confirm)" li
 - `conflicts.csv`: values outside the field tolerance of the winner.
 
 `coverage-gaps.md` there is a hand-written review note, not pipeline output.
+
+### Candidate variants (`ev variants`, T-073, Decision 049)
+
+Not part of `ev release`; never reaches a release. Needs `rdw-tgk` (and ideally `openev`) in
+`data/staging`.
+
+```sh
+uv run ev fetch rdw-tgk && uv run ev normalise rdw-tgk   # ~5 min, CC0
+uv run ev variants fetch-eea                             # ~5 min, EEA counts per TAN|Va|Ve, 2010-2025
+uv run ev variants propose
+```
+
+- `variant-candidates.csv`: every RDW TGK version of a seed generation, grouped by spec
+  fingerprint (cycle, single/multi motor, energy drawn on the test). `verdict`: `have` (one
+  seed variant), `several`, `tie` (seed variants exist, evidence to pick is missing),
+  `no-fit` (a variant we lack, or a seed variant with a wrong battery), `no-variant` (the
+  generation has none yet). `no-fit` + `no-variant` are the candidates for WS3. Each row cites
+  its TGK record keys, NL plates and EU registrations (EEA, counts only).
+- `variant-coverage.json`: models / generations / variants / candidates / % of EU
+  registrations, for the coverage line in catalogue PRs (Decision 048). `model_level` is the
+  soft-launch bar: % of EU BEV registrations (EEA make + name, 2010 onwards) the seed matcher
+  places on a seed model, plus the biggest unplaced names (the gap list).
 
 ### What `ev release` reads
 
@@ -383,11 +405,16 @@ facts:
     confidence: medium            # high | medium | low
     claim: true                   # default true (maker documents are claims)
     notes: "..."                  # optional
+    years: [2021, null]           # generation facts only: model years it holds for
 ```
 
 - `uv run ev manual check` validates every file: the schema `Fact` def plus the rules above,
   plausible ranges and enum values (same checks as the release), and no duplicate
-  (subject, field, country). Unknown variant/generation ids are warnings. Exit 1 on errors.
+  (subject, field, country, years). Unknown variant/generation ids are warnings; an id in
+  `data/seed/retired_ids.yaml` is an error naming the successor. Exit 1 on errors.
+- `years: [from, to]` (`to` may be `null`: still built) scopes a generation fact: it lands only
+  on variants whose model years lie fully inside. A variant straddling the boundary gets
+  neither value (not known beats wrong); a fact that fits no variant goes to `validation.csv`.
 - `ev release` loads them as source `manual`. **Internal only until Q-008 is answered:**
   `manual` is `blocked` in `data/sources.yaml`, so the licence gate drops them (listed under
   `gated_sources` in the run log). Bad entries go to `validation.csv` with stage `manual`.

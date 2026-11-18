@@ -1,46 +1,42 @@
-# WS4 — Infra: start here
+# WS4 lane brief: infra
 
-You are **WS4**, the infrastructure workstream for EV Finder. You write infra files and copy-paste runbooks; **Menno applies them** (infra/AGENTS.md rule 1: agents never ssh, deploy or edit AppInfra; Decision 067). The server is Menno's shared Hetzner CAX31 next to GardenLayer and Dungeon Tracker. You get EV Finder deployed next to GardenLayer and Dungeon Tracker without hurting them, keep it backed up and watched, and set up the separate routing box for Trip fit.
+For any batch chat whose prompt touches this lane. Owner: WS0 (the coordinator). How chats work: [docs/process/README.md](../../docs/process/README.md) §3; rules: [rules.md](../../docs/process/rules.md). The lane writes infra files and copy-paste runbooks; **Menno applies them** (infra/AGENTS.md rule 1: agents never ssh, deploy or edit AppInfra; Decision 067). The server is Menno's shared Hetzner CAX31 next to GardenLayer and Dungeon Tracker.
 
-## 0. First five minutes
-1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`) and clone it. Attach the AppInfra repo the same way if your chat has it.
-2. Read, in this order: `AGENTS.md` · `REVIEW.md` (from `origin/main`; what reviewers check) · open PRs + your HANDOFF.md · `infra/AGENTS.md` · `infra/README.md` · `docs/process/README.md` (how we work: message bus, ownership, verify + learn) · this file · `workstreams/WS4/INBOX.md` · `workstreams/WS4/STATUS.md` · `DECISIONS.md` 003, 005, 006, 013 · `QUESTIONS.md` (Q-001, Q-003, Q-006).
-3. Spec: `docs/spec/master-spec-v2.md` §13 (hosting) and `docs/spec/trip-fit.md` §7 (routing).
-4. Write `STATUS.md` (State: active, Now: <task>) and start the first unblocked task below.
+## Start
+1. Attach the repo with push access (`add_repo zkMenno/EV-Shortlist`, access `push`); add your row to `CHATS.md`. Attach the AppInfra repo too if the prompt says so. Say in your first line which access the chat really has.
+2. Read `AGENTS.md`, `REVIEW.md` (from `origin/main`), `docs/process/README.md`, `infra/AGENTS.md`, `infra/README.md`, your task files, this brief, DECISIONS 003, 005, 006, 013, 067.
+3. Before each task and again before its first push: check open PRs and `git ls-remote --heads origin | grep <task-id>`; stop if another chat has it (G-41).
+4. Spec: `docs/spec/master-spec-v2.md` §13 (hosting), `trip-fit.md` §7 (routing, parked).
 
-## 1. Lane
-You own `infra/`, `pipeline/Dockerfile`, `apps/web/Dockerfile`, `.github/workflows/image*.yml`, your `STATUS.md`/`HANDOFF.md`, and (in the AppInfra repo) the EV Finder entries. App code belongs to WS1/WS2: ask in their INBOX.
+## What the lane owns
+`infra/`, `pipeline/Dockerfile`, `apps/web/Dockerfile`, `.github/workflows/image*.yml`, and (in the AppInfra repo) the EV Finder entries. App code belongs to WS1/WS2; requests go as one line in `workstreams/WS0/INBOX.md`. `infra/AGENTS.md` and workflow files are gate files: their own PR. Decision numbers: ask WS0 for a sub-range of 070–079.
 
-## 2. Hard rules
-- Measure first, then size. Never guess server facts; record measurements with date and time.
-- The shared server comes first: EV containers keep their limits (ev-web 768 MB / 1 CPU, staging 256 MB / 0.5 CPU, ev-jobs 1 GB / 1 CPU low priority, 00:30–02:30 UTC). Don't touch other apps' services, data or limits; propose changes to their owners.
-- Off-site backups (AppInfra #93) must work and be restore-tested before EV Finder holds real user data.
+## Lane rules
+- Measure first, then size. Never guess server facts; record measurements with date and time (G-24).
+- The shared server comes first: ev-web 768 MB / 1 CPU, staging 256 MB / 0.5 CPU, ev-jobs 1 GB / 1 CPU low priority, 00:30–02:30 UTC. Don't touch other apps' services, data or limits; propose changes to their owners.
+- Off-site backups (AppInfra #93) must work and be restore-tested before EV Finder holds real user data. Trigger and handoff: ROADMAP.md Phase 0 "Backups".
 - No secrets in this public repo; server env files and GitHub secrets only.
-- Money: anything over about €50/month or €200 one-off goes to Menno (QUESTIONS via WS0's INBOX). The Valhalla box (~€5–15/month) is within your remit once the sizing test shows its size.
-- Irreversible actions (deleting volumes, dropping databases, DNS for the public brand) need Menno. The brand name and domain are not decided: use a staging hostname.
-- Every change to the server is written down in `infra/README.md` or the AppInfra README the same day.
+- Money over ~€50/month or €200 one-off, irreversible steps (volumes, databases, public DNS) and the brand domain go to Menno via WS0's INBOX. The Valhalla box (~€5–15/month, parked) is within remit once the sizing test shows its size.
+- Every server change is written down in `infra/README.md` or the AppInfra README the same day, with rollback.
 
-## 3. Task list (in order; skip blocked ones, come back later)
-**Update 2026-11-17 (WS0):** the launch build is merged and green, but nothing is online yet. Goal for this session: **a staging site Menno can open on his phone** (T-040 + T-013), basic auth or an unlisted hostname until launch. Then backups for the EV database. Valhalla (T-037) is parked (after launch, Decision 051). Releases: publish `data-v1` as a GitHub Release asset (T-064 part 2) so the web image builds from the manifest.
+## Verify before every push
+- Caddy: `caddy adapt --validate` on `infra/deploy/ev.caddy` (Docker Hub may rate-limit locally; a CI job for it is an accepted proposal, open as a gate-only PR).
+- Compose: `docker compose -f infra/deploy/compose.ev.yml config`. Image changes: the Images workflow on the PR head (smoke-web, arm64 build).
+- Commits end with `Verified: <how>`.
 
-1. **Busy-evening capacity check** (due after 19:00 UTC on 15 Nov 2026): `docker stats`, memory, load, disk; write results to `workstreams/WS0/INBOX.md` so WS0 can close Q-001. Upgrade trigger: >10 GB real use or >70 % CPU for weeks.
-2. **T-040** "Add an app" checklist in the AppInfra README (7 touch points: compose service, Caddy site, DB script, deploy-key scope, watchdog `/health`, `backup.sh` entry, Umami site), then apply it for EV Finder staging: own database + login in the shared Postgres 17, `infra/deploy/compose.ev.yml`, `infra/deploy/ev.caddy`, deploy key, watchdog, Umami site.
-3. Postgres checks: minor version, `pg_trgm` and PostGIS available for the EV database; propose lowering the shared Postgres limit 6 → 5 GB; consider Umami 512 → 768 MB.
-4. Off-site backups: follow AppInfra #93 to green, add the EV database, run one restore test.
-5. Image pipeline: arm64 images built in GitHub Actions and deployed over SSH (Decision 005); preview/staging deploy from `main`.
-6. **T-037** Valhalla: sizing test for NL+BE+LU+DE+FR+UK tiles on a temporary machine (RAM, disk, build time), then the cheapest Hetzner Arm box that fits; monthly tile rebuild; no request logging; staging may use the openrouteservice free plan meanwhile.
-7. Monitoring: `/health` in the watchdog, disk and memory alerts, monthly check of email and GitHub Actions usage.
+## Gotchas
+- Staging (staging.evshortlist.com) deploys from every push to `main`: images.yml push → smoke-web → deploy-staging. Note-only commits must not trigger image builds (G-40, `paths-ignore`).
+- The web image fetches the release catalogue by manifest (#105); release files are not in git.
+- GHCR `ev-finder-web` and `ev-finder-jobs` pull anonymously (public).
 
-## 4. Definition of done (per task)
-Change applied and measured · documented in the README · rollback written down · STATUS.md updated · WS0 told in its INBOX (with numbers).
+## Done (per task)
+Change written, measured where possible · documented in the README with rollback · PR with evidence · Status + Handoff notes in the task file · fresh review before merge · numbers in the WS0 INBOX line.
 
-## 5. Check-in rhythm
-- After every task and every ~30 minutes on long ones: update STATUS.md, push.
-- Read your INBOX after every task.
-- Loop guard: the same error 3 times or 30 minutes without progress → stop, log it, try one different approach, otherwise park it and move on.
+## Finish the batch
+State lives in task files and PRs, not here. When the batch is done or blocked: one line in `workstreams/WS0/INBOX.md` (`- YYYY-MM-DD HH:MM UTC · from <chat link> · …`, with the four retro answers or a link to them), then stop. No STATUS or HANDOFF files.
 
-## 6. Context hygiene
-Before the chat gets long write `workstreams/WS4/HANDOFF.md` (state, server facts measured, open threads, next steps), commit and push it, and tell Menno in one line: "Open a new chat: Read workstreams/WS4/HANDOFF.md and START.md and go."
-
-## Retro (end of every session)
-Answer four questions in STATUS.md: what slowed you down; what Menno had to do by hand; which rule would have prevented it; **what did a check miss, and which check would have caught it?** Proposals go to `workstreams/WS0/INBOX.md`; WS0 records them in `docs/process/rules.md`.
+## Open lane threads (from the retired WS4 STATUS, 2026-11-18; WS0 turns them into tasks)
+- #59 (T-040 staging runbook, basic-auth hook, measure.sh): close or rework now that CI deploys staging (#88/#89/#94/#90)?
+- Live (`ev`) waits for Menno's "launch"; then Q-001 busy-evening numbers (`docker stats`, memory, load, disk; upgrade trigger >10 GB or >70 % CPU for weeks), EV database + Postgres checks (`pg_trgm`, PostGIS), off-site backups with one restore test.
+- Monitoring: `/health` in the watchdog, disk and memory alerts, monthly check of email and Actions usage.
+- Parked after launch: T-037 Valhalla sizing test (NL+BE+LU+DE+FR+UK tiles on a temporary machine).

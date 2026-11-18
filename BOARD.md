@@ -46,7 +46,7 @@ Builders take only tasks in **Launch**. Everything else needs Menno's yes. Built
 
 ## Workstreams and file ownership
 
-Workstreams talk through `workstreams/<ws>/INBOX.md`, never through Menno (Decision 014). Full table and rules: [docs/process/README.md](docs/process/README.md).
+Chats talk through the coordinator's inbox, `workstreams/WS0/INBOX.md`, never through Menno (Decision 014, docs/process §2). Full table and rules: [docs/process/README.md](docs/process/README.md).
 
 | Owner | Paths |
 |---|---|
@@ -58,7 +58,7 @@ Workstreams talk through `workstreams/<ws>/INBOX.md`, never through Menno (Decis
 | WS5 growth | docs/outreach/, docs/growth/, docs/brand/ |
 | UX design | docs/design/ |
 | QA reviewer | audits/, `## Review` sections in tasks/ |
-| each WS | its own workstreams/<ws>/STATUS.md and HANDOFF.md; INBOX.md files are append-only for everyone |
+| everyone | append-only lines in workstreams/WS0/INBOX.md (the one inbox); workstreams/WS0/HANDOFF.md is the coordinator's |
 
 ## Done
 - 2026-11-17: verification layer live: REVIEW.md, gate-guard (observe), rule register G-01–G-33 (#42, #45); T-125 web property tests, T-126 web verify skill, hero a11y + phone fixes, T-096 compare labels (#47–#55); docs tidy + `_archive/` (Decision 063)
