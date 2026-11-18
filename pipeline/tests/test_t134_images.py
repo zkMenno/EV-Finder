@@ -335,3 +335,34 @@ def test_default_client_sends_a_contactable_user_agent() -> None:
         assert "github.com/zkMenno/EV-Shortlist" in c.headers["User-Agent"]
     finally:
         c.close()
+
+
+def test_refresh_fetch_step_never_raises(tmp_path: Path) -> None:
+    from ev_pipeline.refresh.runner import fetch_images
+
+    out = fetch_images(tmp_path)  # no seed, no photos: logged, not raised
+    assert out["outcome"] == "failed" and "reason" in out
+
+
+def test_refresh_fetch_step_fetches_listed_photos(tmp_path: Path, monkeypatch) -> None:
+    from ev_pipeline.images import store
+    from ev_pipeline.refresh import runner
+
+    real = Path(__file__).resolve().parents[2] / "data"
+    d = tmp_path / "data"
+    (d / "seed").mkdir(parents=True)
+    (d / "seed" / "models.yaml").write_text((real / "seed" / "models.yaml").read_text())
+    (d / "images").mkdir()
+    gid = "tesla-model-3-gen1"  # first generation in the seed
+    (d / "images" / "photos.yaml").write_text(
+        yaml.safe_dump({"photos": [commons(generation_id=gid)]})
+    )
+    seen: list[str] = []
+
+    def fake_fetch(photos, cache, *a, **k):
+        seen.extend(p.generation_id for p in photos)
+        return store.FetchReport([p.generation_id for p in photos], [], {})
+
+    monkeypatch.setattr(store, "fetch_originals", fake_fetch)
+    out = runner.fetch_images(d)
+    assert out["outcome"] == "ok" and out["fetched"] == 1 and seen == [gid]
