@@ -240,6 +240,7 @@
   "field.charger_400v_kw": "Potencia en cargadores de 400 V",
   "field.fast_on_400v": "Rápido en cargadores antiguos de 400 V",
   "field.ac_kw": "Potencia de carga AC",
+  "field.ac_kw.optional": "opcional",
   "field.ac_km_per_h": "AC: km recuperados por hora",
   "field.power_kw": "Potencia",
   "field.accel_0_100_s": "0–100 km/h",

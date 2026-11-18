@@ -75,6 +75,9 @@ links:
   - {variant_id: audi-q4-e-tron-gen1-35, platform_id: vw-meb, battery_pack_id: meb-52, voltage: *v400, charger_400v: *native}
   - {variant_id: audi-q4-e-tron-gen1-40, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
   - {variant_id: audi-q4-e-tron-gen1-50-quattro, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
+  - {variant_id: audi-e-tron-gt-facelift-s, platform_id: vw-j1, battery_pack_id: audi-e-tron-gt-105, voltage: *vnd, charger_400v: {mode: not-disclosed}, uncertain: true, notes: "T-145: 800 V class widely reported, but pack voltage and 400 V charger behaviour not read from an Audi document."}
+  - {variant_id: audi-e-tron-gt-facelift-rs, platform_id: vw-j1, battery_pack_id: audi-e-tron-gt-105, voltage: *vnd, charger_400v: {mode: not-disclosed}, uncertain: true, notes: "See audi-e-tron-gt-facelift-s."}
+  - {variant_id: audi-e-tron-gt-facelift-rs-performance, platform_id: vw-j1, battery_pack_id: audi-e-tron-gt-105, voltage: *vnd, charger_400v: {mode: not-disclosed}, uncertain: true, notes: "See audi-e-tron-gt-facelift-s."}
   - {variant_id: audi-e-tron-ge-50, platform_id: audi-mlb-evo, battery_pack_id: audi-etron-71, voltage: *v400, charger_400v: *native}
   - {variant_id: audi-e-tron-ge-55, platform_id: audi-mlb-evo, battery_pack_id: audi-etron-95, voltage: *v400, charger_400v: *native}
   - {variant_id: audi-e-tron-ge-s, platform_id: audi-mlb-evo, battery_pack_id: audi-etron-95, voltage: *v400, charger_400v: *native}

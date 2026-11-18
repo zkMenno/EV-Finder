@@ -239,6 +239,7 @@
   "field.charger_400v_kw": "Vermogen op 400V-laders",
   "field.fast_on_400v": "Snel aan oudere 400 V-laders",
   "field.ac_kw": "AC-laadvermogen",
+  "field.ac_kw.optional": "optioneel",
   "field.ac_km_per_h": "AC: km erbij per uur",
   "field.power_kw": "Vermogen",
   "field.accel_0_100_s": "0–100 km/u",

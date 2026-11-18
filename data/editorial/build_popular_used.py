@@ -170,6 +170,28 @@ def build() -> dict[str, Any]:
                 "dft-veh": "OGL-UK-3.0 (DfT VEH0120, UK; whole licensed fleet, not only used cars)",
             },
         },
+        # Credit lines to show wherever this list is shown (#128 follow-up). RDW: Decision 037
+        # (no RDW logo or house style until RDW answers Q-037). DfT: the OGL v3 statement that
+        # data/sources.yaml (dft-veh `terms`) requires.
+        "attribution": [
+            {
+                "source": "rdw",
+                "text": "Dutch open vehicle register (opendata.rdw.nl), CC0",
+                "url": "https://opendata.rdw.nl",
+                "basis": "Decision 037",
+            },
+            {
+                "source": "dft-veh",
+                "text": (
+                    "Contains public sector information licensed under the Open Government "
+                    "Licence v3.0."
+                ),
+                "url": (
+                    "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                ),
+                "basis": "OGL-UK-3.0 (data/sources.yaml dft-veh terms)",
+            },
+        ],
         "licence": (
             "CC-BY-4.0 (order and 'why' are ours; owner verdicts are Menno's opinion: label them)"
         ),

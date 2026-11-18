@@ -18,16 +18,16 @@ Car photos: one per generation (Decision 081, T-133). Owner: WS3. WS1 downloads 
 | from Wikimedia Commons | 120 | 98 % |
 | Missing | 2 | `volvo-ex50-gen1`, `xpeng-l05-gen1` (not on sale yet; no Commons photo) |
 
-Licences: CC BY-SA 4.0 (82), CC BY 2.0 (13), CC BY 4.0 (11), CC BY 3.0 (6), CC BY-SA 3.0 (5), CC BY-SA 3.0 DE (3).
+Licences (2026-11-18): CC BY-SA 4.0 (80), CC BY 2.0 (12), CC BY 4.0 (11), CC BY 3.0 (6), CC BY-SA 3.0 (5), CC0 (3), CC BY-SA 3.0 DE (2), public domain `PD-self` (1).
 
 ## How the Commons photos were chosen
 
 1. Search Commons file titles per generation (`tools/queries.json`, through the Wikidata Query Service MWAPI bridge, because the Commons API itself rate-limits our egress).
-2. Rules (`tools/pick.py`): licence CC BY or CC BY-SA only (Decision 081; CC0 and public domain are left out until WS0 says otherwise); at least 1,600 px wide, landscape; no interiors, rear views, details, concepts, prototypes, race cars; a leading model year must fall inside the generation's years; photo dates before the generation started are rejected; per-generation hints and exclusions separate pre-facelift and facelift (e.g. EV6, Ioniq 5, Kona) and catch traps (XC40 Recharge T5 is a plug-in hybrid; "Honda e" vs e:Ny1).
-3. A person (agent) looked at every pick on contact sheets (`tools/sheet.py`) and replaced 13 weak picks with a better candidate (`tools/choices.json`).
+2. Rules (`tools/pick.py`): licence CC BY, CC BY-SA, CC0 or public domain (Decisions 081, 083); a CC0 or public-domain pick needs its licence template read from the file page wikitext (`tools/check_templates.py`, `action=raw`; never a category or mirror) and recorded in `tools/licence_templates.json`. `build_photos.py` stops unless the template is in the allowed set (`cc-zero`, `self|cc-zero`, `PD-self`, `PD-author`, `PD-old-100`) and the page has no deletion, copyvio, personality-rights or FoP template; country-only PD (`PD-US*`, `PD-USGov*`), `PD-textlogo` and `PD-ineligible` are refused; at least 1,600 px wide, landscape; no interiors, rear views, details, concepts, prototypes, race cars; a leading model year must fall inside the generation's years; photo dates before the generation started are rejected; per-generation hints and exclusions separate pre-facelift and facelift (e.g. EV6, Ioniq 5, Kona) and catch traps (XC40 Recharge T5 is a plug-in hybrid; "Honda e" vs e:Ny1).
+3. A person (agent) looked at every pick on contact sheets (`tools/sheet.py`) and replaced 13 weak picks with a better candidate. `tools/choices.json` pins every pick by file title (not by rank), so a re-run never swaps a checked photo silently. 2026-11-18 (Decision 083): 4 picks moved to CC0 / PD photos after a look (Leaf gen 3, Renault 5, Peugeot e-308, Kia e-Soul); `xpeng-l05-gen1` stays without a photo (the only candidate, 'XPeng Mona L05 MY2027', may not be the same car).
 4. `tools/build_photos.py` writes `photos.yaml`. Credit format: `<author>, <licence>, via Wikimedia Commons` (Commons' own attribution style).
 
-Re-run: `python3 -I data/images/tools/batch.py data/images/tools/queries.json` (≈1 query batch per minute), then `pick.py`, look at the sheets, edit `choices.json`, `build_photos.py`.
+Rebuild offline: `python3 -I data/images/tools/build_photos.py` uses the committed `tools/picked.json` (the chosen candidate per generation). Full re-run (network): `batch.py tools/queries.json` (≈1 query batch per minute), `pick.py`, look at the sheets, edit `choices.json` (file titles; every generation needs a pin or `none`), `check_templates.py`, `build_photos.py`. Credit for CC0 / PD: the author's name if Commons gives one, else 'Wikimedia Commons'.
 
 ## Rules
 

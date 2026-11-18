@@ -1,0 +1,38 @@
+{
+ "File:2020 Kia e-Soul au SIAM 2020.jpg": {
+  "page_template": "PD-self",
+  "all_licence_templates": [
+   "PD-self"
+  ],
+  "warning_templates": [],
+  "method": "file page wikitext (action=raw)",
+  "checked_at": "2026-11-18"
+ },
+ "File:2026 Nissan Leaf B7 G.jpg": {
+  "page_template": "self|cc-zero",
+  "all_licence_templates": [
+   "self|cc-zero"
+  ],
+  "warning_templates": [],
+  "method": "file page wikitext (action=raw)",
+  "checked_at": "2026-11-18"
+ },
+ "File:2023 Peugeot e-308 Hatchback GT in Obsession Blue (Front).png": {
+  "page_template": "self|cc-zero",
+  "all_licence_templates": [
+   "self|cc-zero"
+  ],
+  "warning_templates": [],
+  "method": "file page wikitext (action=raw)",
+  "checked_at": "2026-11-18"
+ },
+ "File:Renault 5 E-Tech (2025) (54712533273).jpg": {
+  "page_template": "cc-zero",
+  "all_licence_templates": [
+   "cc-zero"
+  ],
+  "warning_templates": [],
+  "method": "file page wikitext (action=raw)",
+  "checked_at": "2026-11-18"
+ }
+}
