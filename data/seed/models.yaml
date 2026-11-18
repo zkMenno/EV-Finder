@@ -212,19 +212,24 @@ makes:
             notes: "One generation. RDW m9d7-ebf2 queried 2026-11-15, by year of first admission: 'RENAULT 4 E-TECH ELECTRIC' 2025 780, 2026 1731 (164 without a date yet). OpenEV starts at model year 2025."
 
       # T-136 (R-41 missing model): EEA registrations 2010-2025: 89056.
-      - id: renault-twingo-electric
+      - id: renault-twingo
         name: "Twingo Electric"
         segment: A
         body: hatchback
         name_aliases: ["Twingo E-Tech Electric", "Twingo Z.E.", "Twingo ZE"]
         aliases_by_source:
-          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["TWINGO"]  # bare names: BEV-only sources
+          rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["TWINGO", "TWINGO E-TECH ELECTRIC", "TWINGO ELECTRIC"]  # bare names: BEV-only sources
         generations:
-          - id: renault-twingo-electric-gen1
-            name: "Twingo Electric (Twingo III)"
+          - id: renault-twingo-gen3
+            name: "Twingo Electric (2020-2024)"
             years: [2020, 2024]
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern '^TWINGO') by year: 2020 5055, 2021 25224, 2022 26710, 2023 17655, 2024 14206, 2025 206."
+          - id: renault-twingo-e-tech
+            name: "Twingo E-Tech Electric (2026-)"
+            years: [2026, null]
+            uncertain: true
+            notes: "A new car under a new name (T-136, 4th chat): RDW lists 'TWINGO E-TECH ELECTRIC' from 2026 (379 cm long vs 360 cm), EEA 2025 has 18 under a new type code (P04, pre-series). Start from RDW 2026 first admissions; EEA 2026 data is not out yet. Registration evidence, read 2026-11-18: EEA CO2 cars 2025 18; RDW m9d7-ebf2 (NL BEV first admissions, CC0) 2026 1031."
 
       # T-136 (R-41 missing model): EEA registrations 2010-2025: 2237.
       - id: renault-fluence-ze
@@ -1181,7 +1186,7 @@ makes:
             notes: "One generation. RDW m9d7-ebf2 queried 2026-11-15, by year of first admission: 'AMPERA-E' 2017 167, 2018 525, 2019 652, 2020 1294 (2638 NL cars). 2017 is 6.3%, so the start is 2017; no car after 2020, so the end is 2020."
 
       # T-136 (R-41 missing model): EEA registrations 2010-2025: 10481.
-      - id: opel-frontera-electric
+      - id: opel-frontera
         name: "Frontera Electric"
         segment: J-small
         body: suv
@@ -1189,7 +1194,7 @@ makes:
         aliases_by_source:
           rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["FRONTERA"]  # bare names: BEV-only sources
         generations:
-          - id: opel-frontera-electric-gen1
+          - id: opel-frontera-gen1
             name: "Frontera Electric"
             years: [2025, null]
             uncertain: true
@@ -3143,7 +3148,7 @@ makes:
     name: "Jeep"
     models:
       # T-136 (R-41 missing model): EEA registrations 2010-2025: 34576.
-      - id: jeep-avenger-electric
+      - id: jeep-avenger
         name: "Avenger Electric"
         segment: J-small
         body: suv
@@ -3152,7 +3157,7 @@ makes:
         aliases_by_source:
           rdw,rdw-tgk,eea,kba-fz10,ademe,kilowatt-openev: ["AVENGER", "JUNIOR / AVENGER"]  # bare names: BEV-only sources
         generations:
-          - id: jeep-avenger-electric-gen1
+          - id: jeep-avenger-gen1
             name: "Avenger Electric"
             years: [2023, null]
             uncertain: true

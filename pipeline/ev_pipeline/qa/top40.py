@@ -141,7 +141,7 @@ PROPOSED_RULES: list[tuple[str, str, str, str, str]] = [
     ("*", "renault", r"(renault)?5.*", "renault-5", "Renault 5 E-Tech"),
     ("*", "renault", r"(renault)?4.*", "renault-4", "Renault 4 E-Tech"),
     ("*", "renault", r"scenic.*", "renault-scenic-e-tech", "Renault Scenic E-Tech"),
-    ("*", "renault", r"twingo.*", "renault-twingo-electric", "Renault Twingo Electric"),
+    ("*", "renault", r"twingo.*", "renault-twingo", "Renault Twingo Electric"),
     ("*", "volvo", r"ex40.*", "volvo-xc40-recharge", "Volvo XC40 / EX40"),
     ("*", "volvo", r"(c40|ec40).*", "volvo-c40", "Volvo C40 / EC40"),
     ("*", "smart", r"(hashtag)?1.*", "smart-1", "smart #1"),
