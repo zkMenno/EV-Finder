@@ -17,7 +17,7 @@ The pipeline (WS1) validates and releases what you write; the web app (WS2) rend
 - Never fill from memory. Unknown = `not-disclosed` or empty. `iso15118_20_support` defaults to not disclosed, never inferred.
 - Taxonomies are rows, not code: a new chemistry, voltage class, caveat or usage profile is a new row with plain-language text.
 - Writing style for users: plain words first, technical term underneath, one or two sentences per tooltip, no jargon, no cheerleading. Every claim on a /learn page links to its rule or statistic. Translations: write EN first, then NL, DE, FR, ES, IT; mark machine-drafted languages `review: needed` in front matter.
-- Validate seed changes with `data/seed/validate_seed.py` and `validate_variants.py` before every PR.
+- Before every push of a data change run `sh data/seed/data_qa.sh` (the four CI data-qa steps: validate_seed, validate_variants, validate_taxonomy, backtest_rules).
 - One task = one branch (`t-0NN-slug`) = one PR. Never push to `main`.
 
 ## 3. Task list (updated 2026-11-15 11:00 by WS0 for the strict launch scope, Decision 051; in order, skip blocked ones)
