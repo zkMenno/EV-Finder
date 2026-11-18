@@ -1,17 +1,34 @@
-"""Contact sheets: the top candidate per generation (or top N for one id) as a labelled grid, for eyeballing."""
-import io, json, sys, textwrap, urllib.request
+"""Contact sheets: candidates per generation as a labelled grid, for checking picks by eye."""
+
+import io
+import json
+import sys
+import textwrap
+import urllib.request
+from pathlib import Path
+
 from PIL import Image, ImageDraw
 
+HERE = Path(__file__).parent
+ROOT = HERE.parents[2]
+
 UA = {"User-Agent": "EVShortlistResearch/0.1 (https://github.com/zkMenno/EV-Shortlist)"}
-C = json.load(open(str(__import__("pathlib").Path(__file__).parent / "candidates.json")))
+C = json.loads(Path(str(HERE / "candidates.json")).read_text())
 CELL_W, CELL_H, COLS = 300, 230, 4
 
 
 def thumb(url):
     import time
+
     for i in range(4):
         try:
-            return Image.open(io.BytesIO(urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30).read())).convert("RGB")
+            return Image.open(
+                io.BytesIO(
+                    urllib.request.urlopen(
+                        urllib.request.Request(url, headers=UA), timeout=30
+                    ).read()
+                )
+            ).convert("RGB")
         except Exception:  # noqa: BLE001
             time.sleep(3 * (i + 1))
     return None
@@ -35,9 +52,14 @@ def sheet(items, out):
 if __name__ == "__main__":
     mode = sys.argv[1]
     if mode == "top":  # top candidate for a slice of generations
-        ids = [g for g in C][int(sys.argv[2]):int(sys.argv[3])]
-        items = [(f"{g} | {(C[g]['candidates'][0]['title'][5:60] if C[g]['candidates'] else 'NONE')}",
-                  C[g]["candidates"][0] if C[g]["candidates"] else None) for g in ids]
+        ids = [g for g in C][int(sys.argv[2]) : int(sys.argv[3])]
+        items = [
+            (
+                f"{g} | {(C[g]['candidates'][0]['title'][5:60] if C[g]['candidates'] else 'NONE')}",
+                C[g]["candidates"][0] if C[g]["candidates"] else None,
+            )
+            for g in ids
+        ]
     elif mode == "multi":  # first 4 candidates for each listed generation, one row each
         items = []
         for g in sys.argv[2].split(","):

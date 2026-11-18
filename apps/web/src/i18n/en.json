@@ -239,6 +239,7 @@
   "field.charger_400v_kw": "Power on 400 V chargers",
   "field.fast_on_400v": "Fast on older 400 V chargers",
   "field.ac_kw": "AC charging power",
+  "field.ac_kw.optional": "optional",
   "field.ac_km_per_h": "AC: km added per hour",
   "field.power_kw": "Power",
   "field.accel_0_100_s": "0–100 km/h",

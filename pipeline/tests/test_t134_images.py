@@ -397,8 +397,14 @@ def test_photos_pending_lets_a_photo_only_night_publish(tmp_path: Path) -> None:
     cache.mkdir(parents=True)
     (cache / f"{cache_key(photo['file_url'])}.bin").write_bytes(b"x")
     assert photos_pending(d) == [gid]  # downloaded, not published: publish tonight
-    publish({"file_url": photo["file_url"]})
-    assert photos_pending(d) == []  # already in the release
+    from ev_pipeline.images.photos import parse_photos as _pp
+
+    field = _pp({"photos": [photo]}, None, {gid}, date.today())[0][0].field()
+    publish({**field, "files": [{"path": "images/x.webp"}]})
+    assert photos_pending(d) == []  # already in the release (files don't count)
+    publish({**field, "credit": "old credit line"})
+    assert photos_pending(d) == [gid]  # same file, corrected credit: publish (#150 review)
+    publish({**field, "files": [{"path": "images/x.webp"}]})
     publish({"file_url": "https://upload.wikimedia.org/old.jpg"})
     assert photos_pending(d) == [gid]  # photo swapped
     (d / "images" / "photos.yaml").write_text(yaml.safe_dump({"photos": []}))
@@ -461,3 +467,71 @@ def test_check_release_verifies_stored_image_files(tmp_path: Path, monkeypatch) 
     (rel / "manifest.json").write_text(json.dumps({"files": entries[1:]}))
     c = check_images(cat, rel)
     assert any("not in manifest.json" in p for p in c.details["problems"])
+
+
+def test_a_dropped_cached_photo_does_not_force_a_release_every_night(
+    tmp_path: Path, monkeypatch
+) -> None:
+    """#134 should-fix: a cached photo that `attach_images` drops (unreadable original, or a
+    generation not in the built catalogue) kept `photos_pending` non-empty forever, so the
+    refresh published a catalogue-identical release every night. Decide on the built catalogue."""
+    import time as _time
+    from datetime import UTC, datetime
+    from types import SimpleNamespace
+
+    from ev_pipeline.refresh import runner
+    from ev_pipeline.release import build
+
+    gid = "tesla-model-3-gen1"
+    rel = tmp_path / "releases" / "1"
+    rel.mkdir(parents=True)
+    (tmp_path / "releases" / "latest").write_text("1\n")
+    (rel / "catalogue.json").write_text(json.dumps({"generations": [{"id": gid}]}))
+
+    built: dict[str, Any] = {"generations": [{"id": gid}]}  # build dropped the photo
+    res = SimpleNamespace(
+        catalogue=built,
+        charging_stats=None,
+        release=2,
+        diff={"previous_release": 1, "counts": {"added": 0, "removed": 0, "changed": 0}},
+    )
+    monkeypatch.setattr(runner, "fetch_images", lambda d: {"outcome": "ok"})
+    monkeypatch.setattr(runner, "photos_pending", lambda d: [gid])  # cached, so "pending"
+    monkeypatch.setattr(build, "build_release", lambda d: res)
+    now, t0 = datetime.now(UTC), _time.monotonic()
+
+    out = runner._release(tmp_path, {}, [], [], now, t0)
+    assert out["outcome"] == "skipped"
+    assert out["reason"].startswith("catalogue identical to the previous release")
+    assert "1 photo change(s) expected before the build, none built" in out["reason"]
+
+    # the same night with the photo attached by the build does publish
+    built["generations"][0]["image"] = {"file_url": "https://upload.wikimedia.org/new.jpg"}
+    assert runner.built_photo_changes(tmp_path, built) == [gid]
+    monkeypatch.setattr(
+        build, "write_release", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("wrote"))
+    )
+    monkeypatch.setattr(runner, "release_sources_doc", lambda *a: {})
+    monkeypatch.setattr(runner, "registry_entries", lambda d: [])
+    with pytest.raises(RuntimeError, match="wrote"):
+        runner._release(tmp_path, {}, [], [], now, t0)
+
+
+def test_built_photo_changes_compares_with_the_latest_release(tmp_path: Path) -> None:
+    from ev_pipeline.refresh.runner import built_photo_changes
+
+    img = {"file_url": "https://x/a.jpg", "credit": "c", "files": [{"path": "images/a.webp"}]}
+    cat = {"generations": [{"id": "a", "image": img}, {"id": "b"}]}
+    assert built_photo_changes(tmp_path, cat) == []  # no release yet
+    rel = tmp_path / "releases" / "1"
+    rel.mkdir(parents=True)
+    (tmp_path / "releases" / "latest").write_text("1\n")
+    (rel / "catalogue.json").write_text(json.dumps(cat))
+    assert built_photo_changes(tmp_path, cat) == []
+    swapped = {"generations": [{"id": "a", "image": {"file_url": "https://x/a2.jpg"}}]}
+    assert built_photo_changes(tmp_path, swapped) == ["a"]
+    assert built_photo_changes(tmp_path, {"generations": [{"id": "a"}]}) == ["a"]  # removed
+    recredited = {"generations": [{"id": "a", "image": {**img, "credit": "fixed"}}, {"id": "b"}]}
+    assert built_photo_changes(tmp_path, recredited) == ["a"]  # same file, new credit
+    refiled = {"generations": [{"id": "a", "image": {**img, "files": []}}, {"id": "b"}]}
+    assert built_photo_changes(tmp_path, refiled) == []  # files alone don't count
