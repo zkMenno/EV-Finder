@@ -229,6 +229,33 @@ features:
         what: the count line in models
         why: the count doesn't say how many models match
 
+  - id: wltp-next-to-real-range
+    title: "Official WLTP range next to our real range; WLTP filter + sort (T-143, Decision 085)"
+    triggers: [src/components/OfficialRange.tsx, src/components/Explore.tsx, src/components/Hero.tsx, src/lib/generation-cards.ts, src/lib/filters.ts, src/lib/state.ts, src/lib/explore-data.ts, "src/app/[[]country]/[[]lang]/ev/_components/SpecValue.tsx", src/i18n/*.json]
+    steps:
+      - goto: /nl/en/cars?wltp=500&sort=-wltp
+      - wait: "@fact-wltp"
+    expect:
+      - url: "wltp=500"
+        what: the WLTP filter in the address bar
+        why: the filter state is lost (shared links stop working)
+      - text: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='fact-wltp']"
+        contains: "Official (WLTP)"
+        what: the 'Official (WLTP)' line on the first card
+        why: cards don't show the official figure next to our real range
+      - attr: "(//*[@data-testid='explore-card'])[1]//*[@data-testid='fact-wltp']"
+        name: data-known
+        match: "^1$"
+        what: a real official figure on a card left by the WLTP filter
+        why: the WLTP filter lets cars without an official figure through
+      - visible: "@filter-wltp"
+        what: the WLTP slider in the range filter group
+        why: there's no way to filter by the official figure
+      - text: "@filter-pills"
+        contains: "official (WLTP)"
+        what: the WLTP filter pill
+        why: the active WLTP filter can't be seen or removed
+
   - id: explore-compare
     title: "Explore → Compare with 'differences only'"
     triggers: [src/components/Explore.tsx, src/components/CompareTray.tsx, src/components/CompareTable.tsx, src/lib/compare-store.ts, "src/app/[[]country]/[[]lang]/compare/**"]

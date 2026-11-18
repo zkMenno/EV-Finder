@@ -46,3 +46,4 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | batch: merge 3 | Fresh review + merge queue: #126→#137, #133/#134/#136→#135 (if the other merge-3 chat has not), #138 (close #129), #130, #128, #132, #127, WS0 process PRs | https://claude.ai/code/session_01JuyZEVyzbdoL | 2026-11-18 |
 | WS2 (7th, 2026-11-18) | batch: T-132 hero redesign, part 1 questions (PR #145), then part 2 results | https://claude.ai/code/session_01JuyZEXjrE | 2026-11-18 |
 | batch: merge 4 | Fresh review + merge #141→#139, #129→#144→#146 (close #140/#142/#143), #132, #136, #145 | https://claude.ai/code/session_01JuyZEY24JJEfAQBWgh5L9e | 2026-11-18 |
+| batch: T-143 | WLTP next to real range (Decision 085), apps/web | https://claude.ai/code/session_01JuyZEWUcQc9VrZx4Ru21x6 | 2026-11-18 |

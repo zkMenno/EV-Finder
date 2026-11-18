@@ -11,3 +11,20 @@ describe("Explore rows keep WLTP, never EPA (T-061)", () => {
     expect(r.wltp_range_km).toBe(400);
   });
 });
+
+describe("WLTP ships with its provenance (T-143, Decision 085)", () => {
+  it("keeps the official WLTP figure's source and confidence for <Num>", () => {
+    const prov = { source_ids: ["openev"] as [string], confidence: "medium" as const };
+    const r = row({ variant_id: "x", wltp_range_km: 452, provenance: { wltp_range_km: prov } });
+    expect(r.provenance.wltp_range_km).toEqual(prov);
+  });
+});
+
+describe("Nerd 'Sources' list reaches the WLTP source (T-143 review)", () => {
+  it("lists the official WLTP figure's sources, so keyboard users can open them in the table", async () => {
+    const { rowSources } = await import("@/components/Explore");
+    const r = row({ variant_id: "x", wltp_range_km: 452, provenance: { wltp_range_km: { source_ids: ["openev"] as [string], confidence: "medium" } } });
+    const hit = rowSources(r, "NL", { openev: "Open EV Data" }).find((x) => x.key === "wltp_range_km");
+    expect(hit).toMatchObject({ label: "range.wltp.label", names: "Open EV Data", confidence: "medium" });
+  });
+});

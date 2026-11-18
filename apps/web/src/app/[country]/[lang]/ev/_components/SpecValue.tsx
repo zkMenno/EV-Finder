@@ -2,6 +2,7 @@
 // taxonomy ids as localised labels. Server component; shared by variant, generation and compare pages.
 import type { PublishedVariant } from "@ev/schema";
 import { Missing, Num } from "@/components/Num";
+import { OfficialRange } from "@/components/OfficialRange";
 import { Term, TermInfo } from "@/components/Term";
 import { hasMsgKey, type MsgKey } from "@/i18n";
 import { hiddenForNoDc } from "@/lib/dc";
@@ -20,7 +21,17 @@ export function fieldLabel(ctx: PageCtx, field: SpecField): string {
 export function FieldLabel({ ctx, field }: { ctx: PageCtx; field: SpecField }) {
   const label = fieldLabel(ctx, field);
   const term = field.term ? ctx.tax.terms[field.term] : undefined;
-  return <Term term={term ? { ...term, label } : undefined} fallback={label} base={ctx.base} text={ctx.termText} showTechnical={false} />;
+  // T-143 (Decision 085): the ⓘ next to "Official (WLTP)" says in one sentence how it differs from our real range.
+  const short = field.key === "wltp_range_km" ? ctx.t("range.wltp.tip") : undefined;
+  return (
+    <Term
+      term={term ? { ...term, label, ...(short ? { short } : {}) } : undefined}
+      fallback={label}
+      base={ctx.base}
+      text={ctx.termText}
+      showTechnical={false}
+    />
+  );
 }
 
 function msg(ctx: PageCtx, key: string, fallback: string): string {
@@ -90,6 +101,22 @@ export function SpecValue({ ctx, row, field }: { ctx: PageCtx; row: PublishedVar
   }
   const v = row[field.key];
   const prov = row.provenance[field.key];
+  // T-143 (Decision 085): the official WLTP range in a secondary style under our real range; missing = "not known".
+  if (field.key === "wltp_range_km")
+    return (
+      <OfficialRange
+        value={typeof v === "number" ? v : null}
+        provenance={prov}
+        sources={sourcesFor(ctx, prov)}
+        locale={ctx.locale}
+        labels={ctx.labels}
+        level="detailed"
+        asOf={ctx.asOf}
+        text={{ label: ctx.t("range.wltp.label"), notKnown: ctx.t("range.wltp.notKnown"), tip: ctx.t("range.wltp.tip") }}
+        showLabel={false}
+        className="text-sm"
+      />
+    );
   const note =
     field.key === "real_range_km" && row.real_range_rung ? msg(ctx, `rung.${row.real_range_rung}`, row.real_range_rung) : undefined;
   return (

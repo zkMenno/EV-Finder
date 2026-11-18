@@ -59,3 +59,20 @@ describe("usedSpan follows the visitor's used-price and build-year filters", () 
     expect(usedSpan([a], "NL", { usedMax: 5000 })).toMatchObject({ low: 9000, high: 30000 });
   });
 });
+
+describe("generationCards: official WLTP span (T-143)", () => {
+  it("spans WLTP over the matching variants; none known = null (the card says 'not known')", () => {
+    const cards = generationCards(
+      [
+        v("a", "kia-ev6", { wltp_range_km: 394 }),
+        v("b", "kia-ev6", { wltp_range_km: 528 }),
+        v("c", "kia-ev6", { wltp_range_km: null }),
+        v("d", "byd-dolphin", { wltp_range_km: null }),
+      ],
+      "NL",
+    );
+    expect(cards[0]!.wltp).toMatchObject({ min: 394, max: 528 });
+    expect(cards[0]!.wltp?.row.variant_id).toBe("b");
+    expect(cards[1]!.wltp).toBeNull();
+  });
+});
