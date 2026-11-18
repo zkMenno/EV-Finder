@@ -138,16 +138,19 @@ export function AnswerTiles<V extends string>({
   /** Answer and move on. */
   onAnswer: (v: V) => void;
 }) {
-  const arrowAt = useRef(0);
+  // An arrow key moves the selection and the browser fires click on the newly checked radio, inside
+  // the keydown. That click only selects: the flag is set on keydown and cleared on keyup (and by the
+  // click it swallows), so real taps and clicks are never mistaken for it (review N1, no timing).
+  const arrowDown = useRef(false);
   const onKeyDown = (e: KeyboardEvent<HTMLFieldSetElement>) => {
-    if (e.key.startsWith("Arrow")) arrowAt.current = Date.now();
+    if (e.key.startsWith("Arrow")) arrowDown.current = true;
     if (e.key === "Enter" && value !== null) {
       e.preventDefault();
       onAnswer(value);
     }
   };
   return (
-    <fieldset onKeyDown={onKeyDown} aria-describedby={help ? `${titleId}-help` : undefined} data-testid={`hero-q-${name}`}>
+    <fieldset onKeyDown={onKeyDown} onKeyUp={() => (arrowDown.current = false)} aria-describedby={help ? `${titleId}-help` : undefined} data-testid={`hero-q-${name}`}>
       <legend className="p-0">
         {/* The heading is the legend's content: one name for the group, one heading for the screen. */}
         <h2 id={titleId} tabIndex={-1} className="evs-q__title outline-none">
@@ -174,7 +177,10 @@ export function AnswerTiles<V extends string>({
               onChange={() => onPick(tile.value)}
               onClick={() => {
                 // Arrow keys also fire click on the newly checked radio: those only select.
-                if (Date.now() - arrowAt.current < 80) return;
+                if (arrowDown.current) {
+                  arrowDown.current = false;
+                  return;
+                }
                 onAnswer(tile.value);
               }}
             />

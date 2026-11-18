@@ -115,7 +115,7 @@ export default async function ExplorePage({ params, searchParams }: Props) {
         learnLinks={learnLinks}
       />
       {/* T-130: the full list moved to the catalogue page; the landing links there. */}
-      <section aria-labelledby="all-cars-title" className="mt-12 rounded-lg border border-slate-300 bg-white p-6" data-testid="show-all-cars">
+      <section aria-labelledby="all-cars-title" className="evs-allcars mt-12 rounded-lg border border-slate-300 bg-white p-6" data-testid="show-all-cars">
         <h2 id="all-cars-title" className="text-xl font-bold tracking-tight">
           {t("landing.allCars.title")}
         </h2>
