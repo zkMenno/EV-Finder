@@ -381,8 +381,9 @@ def test_real_seed_guards() -> None:
     real = load_seed(FIX.parents[2].parent / "data" / "seed" / "models.yaml")
     rdw = {"source": RDW}
     cases = [
-        ("AUDI", "E-TRON GT", None),
-        ("AUDI", "RS E-TRON GT", None),
+        # T-136: the e-tron GT is its own seed model now; guard: never the e-tron.
+        ("AUDI", "E-TRON GT", "audi-e-tron-gt"),
+        ("AUDI", "RS E-TRON GT", "audi-e-tron-gt"),
         ("AUDI", "E-TRON", "audi-e-tron"),
         ("AUDI", "Q4 40 E-TRON", "audi-q4-e-tron"),
         ("AUDI", "Q4 SPORTBACK 45 E-TRON", "audi-q4-e-tron"),

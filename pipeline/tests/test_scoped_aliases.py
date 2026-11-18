@@ -256,7 +256,7 @@ def test_real_seed_migration_is_complete(real) -> None:
         ("HYUNDAI", "KONA", RDW, "hyundai-kona-electric"),
         ("FIAT", "500", EEA, "fiat-500e"),
         ("FIAT", "FIAT 500 1.4 16V", RDW, None),
-        ("AUDI", "E-TRON GT", RDW, None),
+        ("AUDI", "E-TRON GT", RDW, "audi-e-tron-gt"),  # T-136: own model, not the e-tron
         ("BMW", "4ER", KBA, "bmw-i4"),
         ("PEUGEOT", "208", OPENEV, None),  # never for spec sources
     ],
