@@ -1,10 +1,10 @@
 # WS3 status
 
 - **State:** active (4th chat, 2026-11-18, https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9)
-- **Now:** T-136 task 2 PR #129 (35 models, EU match 95.6 %) waiting for review; next: absorb 2nd chat's stretch branch, then WS3 pre-push data-qa script
-- **Next:** T-136 task 2 (missing-model seed, ~40 models from R-41): approved by WS0 2026-11-18 08:58, soft-launch bar per Decision 048 (WS1 09:20); WS3 pre-push data-qa script (WS0: yes, own small PR); own config/popularity.yaml once #117 merges; A-36 S4 (NL loan rate) if a sourced NL APR exists; then HANDOFF.md 'Next steps'
+- **Now:** handoff written; PRs #129 (T-136 task 2, CI green) and #130 (data_qa.sh) wait for review
+- **Next:** T-136 stretch (absorb 2nd chat's branch) after #129; e-tron GT facelift variants; HANDOFF.md 'Next steps'
 - **Blocked:** T-041 `verified` needs Menno's tap check; price samples for DE/FR/BE/UK
-- **Last updated:** 2026-11-18 11:20 UTC by WS3 (4th)
+- **Last updated:** 2026-11-18 11:45 UTC by WS3 (4th)
 
 ## Log
 - 2026-11-15 12:55 UTC · chat started (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), read START, INBOX, launch scope; claimed T-068.
