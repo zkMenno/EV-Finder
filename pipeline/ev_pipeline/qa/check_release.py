@@ -20,6 +20,7 @@ from typing import Any
 
 import pyarrow.parquet as pq
 
+from ev_pipeline.images.qa import check_images
 from ev_pipeline.qa.checks import Check, check_licence_gate, check_provenance, impossible_values
 from ev_pipeline.release.gate import load_registry
 
@@ -96,6 +97,7 @@ def check_release(release_dir: Path, data_dir: Path) -> dict[str, Any]:
     checks: list[Check] = [
         check_provenance(catalogue, facts),
         check_licence_gate(catalogue, facts, registry, charging),
+        check_images(catalogue),
     ]
     # T-123: the committed release against N-1 under today's approved_changes.yaml.
     from ev_pipeline.release.differ import release_diff_check

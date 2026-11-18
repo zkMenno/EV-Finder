@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from ev_pipeline.images.qa import check_images
 from ev_pipeline.merge.policy import Policies
 from ev_pipeline.qa.checks import (
     Check,
@@ -36,6 +37,7 @@ def run_qa(
         check_top40_coverage(catalogue),
         check_sections(catalogue, charging),
         check_plausibility(catalogue.get("rows", []), plausibility_cfg, plausibility_withheld),
+        check_images(catalogue),
     ]
 
 
