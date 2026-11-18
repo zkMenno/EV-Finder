@@ -1,0 +1,180 @@
+{
+  "seed_models": 99,
+  "seed_generations": 122,
+  "published_variants": 271,
+  "tgk_versions_in_seed_generations": 5439,
+  "tgk_versions_model_not_in_seed": 3052,
+  "tgk_versions_year_outside_generations": 28,
+  "generations_with_tgk_versions": 115,
+  "fingerprint_groups": 390,
+  "groups_have": 154,
+  "groups_several": 33,
+  "groups_tie": 107,
+  "groups_no_fit": 35,
+  "groups_no_variant": 61,
+  "candidate_groups": 96,
+  "variants_if_candidates_added": 367,
+  "eea": {
+    "years": "2010-2025",
+    "eu_bev_registrations": 9109550,
+    "eu_cars_on_tgk_versions_of_seed_generations": 7678999,
+    "pct_eu_registrations_seed_generations_via_tgk": 84.3,
+    "pct_eu_registrations_on_groups_we_have": 61.1,
+    "candidate_groups_sold_in_eu": 69
+  },
+  "top_models_not_in_seed": [
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQV",
+      "versions": 197
+    },
+    {
+      "make": "TESLA",
+      "model": "MODEL X",
+      "versions": 155
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 300",
+      "versions": 143
+    },
+    {
+      "make": "TESLA MOTORS",
+      "model": "MODEL X",
+      "versions": 132
+    },
+    {
+      "make": "AUDI",
+      "model": "E-TRON GT",
+      "versions": 107
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EVITO TOURER",
+      "versions": 85
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 350+",
+      "versions": 84
+    },
+    {
+      "make": "TOYOTA",
+      "model": "PROACE",
+      "versions": 59
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 350 4MATIC",
+      "versions": 57
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQS 450+",
+      "versions": 52
+    },
+    {
+      "make": "VOLKSWAGEN",
+      "model": "UP!",
+      "versions": 50
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 350",
+      "versions": 47
+    },
+    {
+      "make": "KIA",
+      "model": "EV9",
+      "versions": 46
+    },
+    {
+      "make": "LOTUS",
+      "model": "ELETRE",
+      "versions": 45
+    },
+    {
+      "make": "AUDI",
+      "model": "RS E-TRON GT",
+      "versions": 37
+    },
+    {
+      "make": "CITROEN",
+      "model": "JUMPY",
+      "versions": 36
+    },
+    {
+      "make": "OPEL",
+      "model": "VIVARO",
+      "versions": 36
+    },
+    {
+      "make": "CITROEN",
+      "model": "E-BERLINGO",
+      "versions": 36
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQE 500 4MATIC",
+      "versions": 35
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQS 450 4MATIC",
+      "versions": 34
+    },
+    {
+      "make": "SMART",
+      "model": "#1",
+      "versions": 34
+    },
+    {
+      "make": "PEUGEOT",
+      "model": "E-RIFTER",
+      "versions": 34
+    },
+    {
+      "make": "MERCEDES-BENZ",
+      "model": "EQS 580 4MATIC",
+      "versions": 33
+    },
+    {
+      "make": "LUCID MOTORS",
+      "model": "AIR",
+      "versions": 32
+    },
+    {
+      "make": "BMW",
+      "model": "I7 XDRIVE60",
+      "versions": 30
+    }
+  ],
+  "inputs": {
+    "staging": [
+      "data/staging/openev.records.jsonl",
+      "data/staging/rdw-tgk.records.jsonl"
+    ],
+    "eea_versions": {
+      "years": [
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "fetched_at": "2026-11-18T09:19:29+00:00"
+    },
+    "rdw_tgk_fetched_at": "2026-11-18T09:14:14+00:00"
+  }
+}
