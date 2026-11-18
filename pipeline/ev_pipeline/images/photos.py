@@ -36,8 +36,9 @@ PRESS_TERMS_FILE = Path("images") / "press-terms.yaml"
 
 SOURCES = ("commons", "press")
 PRESS_LICENCE = "press-terms"
-COMMONS_LICENCE = re.compile(r"^CC-BY(-SA)?-(2\.0|2\.5|3\.0|4\.0)$")
-"""Decision 081: Commons photos are CC BY or CC BY-SA only (no NC, no ND, no GFDL-only)."""
+COMMONS_LICENCE = re.compile(r"^CC-BY(-SA)?-(4\.0|(2\.0|2\.5|3\.0)(-[A-Z]{2})?)$")
+"""Decision 081: Commons photos are CC BY or CC BY-SA only (no NC, no ND, no GFDL-only).
+Versions 2.0-3.0 also exist as country ports (e.g. CC-BY-SA-3.0-DE); 4.0 has none."""
 SOURCE_ID = {"commons": "wikimedia-commons", "press": "maker-press-photos"}
 """data/sources.yaml rows whose `hosts:` allowlist the downloads."""
 

@@ -113,6 +113,20 @@ def test_press_photo_needs_allowed_terms(verdict: str) -> None:
     assert photos == [] and "not 'allowed'" in problems[0].reason
 
 
+@pytest.mark.parametrize("lic", ["CC-BY-4.0", "CC-BY-SA-3.0-DE", "CC-BY-2.0-AT", "CC-BY-SA-2.5"])
+def test_commons_country_ports_are_allowed(lic: str) -> None:
+    photos, problems = parse_photos({"photos": [commons(licence=lic)]}, None, GENS, TODAY)
+    assert problems == [] and photos[0].licence == lic
+
+
+@pytest.mark.parametrize(
+    "lic", ["CC-BY-SA-4.0-DE", "CC-BY-NC-SA-3.0-DE", "CC-BY-SA-3.0-de", "CC-BY-SA"]
+)
+def test_commons_licence_lookalikes_are_refused(lic: str) -> None:
+    photos, problems = parse_photos({"photos": [commons(licence=lic)]}, None, GENS, TODAY)
+    assert photos == [] and "licence" in problems[0].reason
+
+
 def test_one_photo_per_generation() -> None:
     photos, problems = parse_photos({"photos": [commons(), commons()]}, None, GENS, TODAY)
     assert len(photos) == 1 and "second photo" in problems[0].reason
@@ -292,3 +306,32 @@ def test_open_data_bundle_carries_no_images() -> None:
     b = ob.build_bundle(cat, load_registry(QA / "sources.yaml"))
     text = ob.variants_csv(b) + json.dumps(b.rows) + json.dumps(ob.field_docs(b))
     assert "webp" not in text and "CC-BY-SA" not in text and "image" not in text.lower()
+
+
+def test_fetch_stops_at_the_first_429(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(net, "system_resolver", lambda host, port: ["93.184.216.34"])
+    calls: list[str] = []
+
+    def handler(req: httpx.Request) -> httpx.Response:
+        calls.append(str(req.url))
+        return httpx.Response(429, headers={"retry-after": "600"})
+
+    entries = [
+        commons(),
+        commons(generation_id="kia-ev6-gen1", file_url="https://upload.wikimedia.org/b.jpg"),
+    ]
+    photos, _ = parse_photos({"photos": entries}, None, GENS, TODAY)
+    rep = fetch_originals(photos, tmp_path, _client_factory(handler, HOSTS), sleep=lambda s: None)
+    assert len(calls) == 1  # never hammers the rest
+    assert rep.stopped and "retry-after 600" in rep.stopped
+    assert set(rep.failed) == GENS and all("RateLimited" in v for v in rep.failed.values())
+
+
+def test_default_client_sends_a_contactable_user_agent() -> None:
+    from ev_pipeline.images import store
+
+    c = store._default_client("wikimedia-commons")
+    try:
+        assert "github.com/zkMenno/EV-Shortlist" in c.headers["User-Agent"]
+    finally:
+        c.close()

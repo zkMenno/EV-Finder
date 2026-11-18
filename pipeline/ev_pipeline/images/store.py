@@ -43,17 +43,31 @@ class FetchReport:
     fetched: list[str]
     cached: list[str]
     failed: dict[str, str]
+    stopped: str | None = None
 
     def log(self) -> dict[str, Any]:
         return {
+            "stopped": self.stopped,
             "fetched": len(self.fetched),
             "already_cached": len(self.cached),
             "failed": dict(sorted(self.failed.items())),
         }
 
 
+USER_AGENT = (
+    "ev-finder-pipeline/0.1 (https://github.com/zkMenno/EV-Shortlist; car photos, fetched once)"
+)
+"""Wikimedia's User-Agent policy asks bots for a name and a contact URL."""
+
+
+class RateLimited(Exception):
+    """The host answered 429: stop this run instead of hammering the remaining URLs."""
+
+
 def _default_client(source_id: str) -> httpx.Client:
-    return net.safe_client(source_id, max_bytes=MAX_ORIGINAL_BYTES)
+    client = net.safe_client(source_id, max_bytes=MAX_ORIGINAL_BYTES)
+    client.headers["User-Agent"] = USER_AGENT
+    return client
 
 
 def fetch_originals(
@@ -75,11 +89,22 @@ def fetch_originals(
             try:
                 client = clients.get(sid) or clients.setdefault(sid, client_for(sid))
                 r = client.get(ph.file_url)
+                if r.status_code == 429:
+                    raise RateLimited(
+                        f"429 from {r.url.host}, retry-after {r.headers.get('retry-after', '?')} s"
+                    )
                 r.raise_for_status()
                 ctype = r.headers.get("content-type", "").split(";")[0].strip()
                 if not ctype.startswith("image/"):
                     raise ValueError(f"not an image ({ctype or 'no content type'})")
                 body = r.content
+            except RateLimited as e:
+                # stop: everything not yet fetched waits for the next run
+                for rest in photos[photos.index(ph) :]:
+                    if cached_original(cache, rest) is None:
+                        rep.failed[rest.generation_id] = f"RateLimited: {e}"
+                rep.stopped = str(e)
+                break
             except (httpx.HTTPError, ValueError) as e:
                 # net.py errors name only the host or the reason, never the full URL
                 rep.failed[ph.generation_id] = type(e).__name__ + ": " + str(e)[:200]
