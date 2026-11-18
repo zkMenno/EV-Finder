@@ -46,11 +46,9 @@ test("T-137: no language picker, no banner, html lang en; the country picker lis
   await picker.selectOption("es");
   await expect(page).toHaveURL(/\/es\/en$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  // The hero's country step links to English pages only.
-  const heroLinks = page.getByTestId("hero-countries").getByRole("link");
-  await expect(page.getByTestId("hero-countries").getByRole("link", { name: "Italia" })).toHaveAttribute("href", /^\/it\/en/);
-  for (const href of await heroLinks.evaluateAll((els) => els.map((e) => e.getAttribute("href") ?? "")))
-    expect(href).toMatch(/^\/[a-z]{2}\/en(\/|\?|$)/);
+  // The hero's country question (T-132: answer tiles) opens English pages only.
+  await page.getByTestId("hero-q-country").getByText("Italy", { exact: true }).click();
+  await expect(page).toHaveURL(/^[^?]*\/it\/en\?q=role$/);
 });
 
 test("T-137: no internal link points at a hidden language", async ({ page }) => {
@@ -85,7 +83,7 @@ for (const country of ["es", "it"]) {
       await page.goto(`/${country}/en?role=only&trips=monthly&budget=${budget}`);
       await expect(page.locator("html")).toHaveAttribute("lang", "en");
       await expect(page.getByTestId("hero-card").first()).toBeVisible();
-      await expect(page.getByTestId(`hero-budget-${budget}`)).toHaveAttribute("aria-pressed", "true");
+      await expect(page.getByTestId("hero-summary")).toContainText(`up to €${budget.toLocaleString("en")}`);
       const text = await page.getByTestId("hero").innerText();
       expect(text).not.toMatch(/\bhero\.[a-z]/); // no raw dictionary keys
       expect(text).not.toMatch(/£/);
