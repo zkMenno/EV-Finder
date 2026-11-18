@@ -279,3 +279,12 @@ approved:
     field: "bands.*"
     change: cleared
   - {<<: *t136, id: smart-eq-fortwo-453-eq, field: "bands.*", change: changed}
+  # Release 3: nissan-leaf-ze1-62-kwh matrix cells move from the WLTP-ratio estimate to measured EPA tests (13 cells)
+  - &leaf62
+    release: 3
+    file: consumption_matrix.json
+    approved_by: "PR #135 (WS1 8th: measured EPA town/rural tests); traced by batch data / release 3"
+    reason: "Intended rung upgrade, not a bug. Release 2 built every cell of this variant from the WLTP ratio (rung wltp-ratio, confidence low). Since #135 the town and rural cells use the 8 fueleconomy.gov tests matched to it (vehicles.csv ids 41276, 41277, 42562, 42563, 43665, 43666, 44447, 44448: 'Leaf (62 kW-hr battery pack)' 2019-2022, cityE / highwayE, public domain), rung measured, confidence medium; motorway stays physics. Town/rural wh_km fall about 5-12 % and the p90 edges narrow (e.g. town t3 234.9 -> 210.4, p90 281.8 -> 231.4). Measured: ev verify on staging recorded 2026-11-18, 13 blocking cells, all this variant."
+    id: nissan-leaf-ze1-62-kwh
+    field: "cells*wh_km"
+    change: changed
