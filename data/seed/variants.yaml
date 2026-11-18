@@ -2380,6 +2380,154 @@ variants:
     notes: "WLTP not in Audi's release; the release takes it from the RDW type approval (608 km in the 2026-11-18 build)."
     confidence: high
 
+  # --- T-148 (variant queue batch, 2026-11-18): first variants for generations that had none ---
+  # Each car's battery (and power or WLTP where it decides a match) is cited from the maker's
+  # page; everything else is left out. Years: first-admission years of the matching RDW TGK
+  # versions (CC0, staging of 2026-11-18), not model years. Drivetrain: from the page in notes.
+  - generation_id: opel-mokka-gen1
+    id: opel-mokka-gen1-50kwh
+    name: "Mokka-e 50 kWh / 100 kW"
+    years: [2021, 2025]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 50
+        source_url: https://www.media.stellantis.com/em-en/opel/press/opel-mokka-e-stylish-suv-leads-opel-s-fast-charging-line-up
+        source_name: "Stellantis media (Opel), 'Opel Mokka-e: Stylish SUV Leads Opel's Fast-Charging Line-Up', 23 Nov 2022"
+        retrieved: 2026-11-18
+        quote: "on a single charge of the 50 kWh battery"
+        confidence: low
+        notes: "Low: Opel gives '50 kWh' without saying gross or usable; filed as gross like the other Stellantis 50 kWh packs in this file. The RDW TGK energies of the 100 kW versions (52.6-57 kWh drawn on the WLTP test) fit a 50 kWh gross pack."
+      power_kw:
+        value: 100
+        source_url: https://www.media.stellantis.com/em-en/opel/press/opel-mokka-e-stylish-suv-leads-opel-s-fast-charging-line-up
+        source_name: "Stellantis media (Opel), 'Opel Mokka-e: Stylish SUV Leads Opel's Fast-Charging Line-Up', 23 Nov 2022"
+        retrieved: 2026-11-18
+        quote: "The electric motor with 100 kW/136 hp"
+        confidence: medium
+    notes: "Front-wheel drive: not on Opel's page; InsideEVs review ('a 100 kW (136 horsepower) electric motor that drives the front wheels', insideevs.com/features/536400). Years: RDW TGK versions with a 57 kW 30-minute rating (the 100 kW car) were first admitted 2021-2025, after the 54 kWh car arrived (Opel, Dec 2022). WLTP 322-338 km in Opel's releases (2020, 2022); later TGK versions list 363-374 km, so no single WLTP is cited."
+    confidence: low
+  - generation_id: opel-mokka-gen1
+    id: opel-mokka-gen1-54kwh
+    name: "Mokka Electric 54 kWh / 115 kW"
+    years: [2023, null]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 54
+        source_url: https://www.media.stellantis.com/em-en/opel/press/opel-mokka-electric-now-with-even-more-range
+        source_name: "Stellantis media (Opel), 'Opel Mokka Electric Now with Even More Range', 14 Dec 2022"
+        retrieved: 2026-11-18
+        quote: "With the new 54 kWh battery, Mokka Electric drivers can cover up to 406 kilometres"
+        confidence: low
+        notes: "Low: Opel gives '54 kWh' without a basis. Jeep calls the same-size Stellantis battery 54 kWh with 51 kWh usable (Avenger, Jan 2023), so 54 is filed as gross."
+      power_kw:
+        value: 115
+        source_url: https://www.media.stellantis.com/em-en/opel/press/opel-mokka-electric-now-with-even-more-range
+        source_name: "Stellantis media (Opel), 'Opel Mokka Electric Now with Even More Range', 14 Dec 2022"
+        retrieved: 2026-11-18
+        quote: "with an output of 115 kW/156 hp and 260 Newton meters of torque"
+        confidence: medium
+      wltp_range_km:
+        value: 406
+        source_url: https://www.media.stellantis.com/em-en/opel/press/opel-mokka-electric-now-with-even-more-range
+        source_name: "Stellantis media (Opel), 'Opel Mokka Electric Now with Even More Range', 14 Dec 2022"
+        retrieved: 2026-11-18
+        quote: "up to 406 kilometres instead of up to 338 kilometres locally emission-free according to WLTP"
+        confidence: low
+        notes: "Low: launch figure ('up to'); Opel gives up to 403 km for the 2024 update (Oct 2024 release). RDW TGK lists 400-436 km on the 62 kW versions."
+    notes: "Front-wheel drive: Stellantis' Opel pages don't say; newmobility.news (15 Dec 2022): 'a 115 kW (156 hp) electric motor on the front axle'. The 2025 Mokka GSE (207 kW) is not split out yet (TGK: 105 kW 30-minute rating, a handful of cars)."
+    confidence: low
+  - generation_id: renault-twingo-gen3
+    id: renault-twingo-gen3-22kwh
+    name: "Twingo Electric 22 kWh"
+    years: [2020, 2024]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 22
+        source_url: https://cdn.group.renault.com/ren/it/transversal-assets/brochures/X071VEVP2WE/brochure.pdf
+        source_name: "Renault Italia, Twingo E-Tech Electric brochure (PDF)"
+        retrieved: 2026-11-18
+        quote: "batteria agli ioni di litio con una capacità di 22 kWh che può essere sfruttata al 100%"
+        confidence: medium
+        notes: "The brochure says the whole 22 kWh can be used, so it is filed as usable. Renault Group (01.07.2020) gives the same 22 kWh and 190 km WLTP."
+      power_kw:
+        value: 60
+        source_url: https://www.renaultgroup.com/en/news-on-air/news/new-twingo-electric/
+        source_name: "Renault Group, 'New Twingo Electric', 01.07.2020"
+        retrieved: 2026-11-18
+        quote: "Its 60 kW (82 hp) engine delivers a maximum torque of 160 Nm immediately available."
+        confidence: high
+    notes: "Rear-wheel drive: Renault Group, 'Twingo Electric: electric gives it even more spark' ('a rear-mounted motor', https://www.renaultgroup.com/en/news-on-air/news/twingo-electric-electric-gives-it-even-more-spark/). One battery and motor for the whole run."
+    confidence: medium
+  - generation_id: volkswagen-e-up-gen1
+    id: volkswagen-e-up-gen1-18kwh
+    name: "e-up! 18.7 kWh"
+    years: [2013, 2019]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 18.7
+        source_url: https://www.volkswagen-newsroom.com/en/the-e-up-taken-to-a-new-level-5583/the-battery-the-drive-system-and-the-charging-options-5587
+        source_name: "Volkswagen Newsroom, 'The e-up! taken to a new level: the battery, the drive system and the charging options', Nov 2019"
+        retrieved: 2026-11-18
+        quote: "it offers 32.3 kWh of usable energy capacity, which corresponds to 36.8 kWh gross – almost twice as much as its predecessor (18.7 kWh gross)"
+        confidence: medium
+    notes: "Front-wheel drive: same VW page ('A single-speed gearbox transmits forces to the front axle', for the 2019 car; the motor layout did not change). RDW TGK: 60 kW 30-minute rating, NEDC 160 km and WLTP 141 km versions, first admitted 2013-2019."
+    confidence: medium
+  - generation_id: volkswagen-e-up-gen1
+    id: volkswagen-e-up-gen1-32kwh
+    name: "e-up! 32.3 kWh"
+    years: [2019, 2024]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 32.3
+        source_url: https://www.volkswagen-newsroom.com/en/the-e-up-taken-to-a-new-level-5583/the-battery-the-drive-system-and-the-charging-options-5587
+        source_name: "Volkswagen Newsroom, 'The e-up! taken to a new level: the battery, the drive system and the charging options', Nov 2019"
+        retrieved: 2026-11-18
+        quote: "it offers 32.3 kWh of usable energy capacity, which corresponds to 36.8 kWh gross"
+        confidence: high
+      power_kw:
+        value: 61
+        source_url: https://www.volkswagen-newsroom.com/en/the-e-up-taken-to-a-new-level-5583/the-battery-the-drive-system-and-the-charging-options-5587
+        source_name: "Volkswagen Newsroom, 'The e-up! taken to a new level: the battery, the drive system and the charging options', Nov 2019"
+        retrieved: 2026-11-18
+        quote: "It delivers 61 kW of peak power (83 PS)"
+        confidence: high
+    notes: "Front-wheel drive: same page ('A single-speed gearbox transmits forces to the front axle'). Gross 36.8 kWh on the same page. RDW TGK: WLTP 274 km / 37 kWh drawn, first admitted 2021-2023; many 2016-2021 versions list no range, so they need other evidence to choose between the two e-up! rows."
+    confidence: high
+  - generation_id: jeep-avenger-gen1
+    id: jeep-avenger-gen1-54kwh
+    name: "Avenger Electric 54 kWh / 115 kW"
+    years: [2023, null]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_net:
+        value: 51
+        source_url: https://www.media.stellantis.com/at-de/jeep/press/Der-neue-Jeep-Avenger-ist-jetzt-in-allen-Versionen-bestellbar_120123
+        source_name: "Stellantis media (Jeep Austria), 'Der neue Jeep Avenger ist jetzt in allen Versionen bestellbar', 12 Jan 2023"
+        retrieved: 2026-11-18
+        quote: "nutzbarer Energie (51 Kilowattstunden)"
+        confidence: high
+        notes: "Same sentence: 'neue Batterie mit 54 Kilowattstunden Kapazität' (gross)."
+      power_kw:
+        value: 115
+        source_url: https://www.media.stellantis.com/at-de/jeep/press/Der-neue-Jeep-Avenger-ist-jetzt-in-allen-Versionen-bestellbar_120123
+        source_name: "Stellantis media (Jeep Austria), 'Der neue Jeep Avenger ist jetzt in allen Versionen bestellbar', 12 Jan 2023"
+        retrieved: 2026-11-18
+        quote: "Er liefert 115 Kilowatt (156 PS) Leistung"
+        confidence: high
+    notes: "Front-wheel drive: same release ('Der neue Avenger ist der erste Jeep mit Vorderradantrieb'). WLTP 404 km combined in that release; RDW TGK lists 434-436 km on later versions."
+    confidence: high
+
 source_holds:
   - generation_id: audi-q4-e-tron-gen1
     source: openev
