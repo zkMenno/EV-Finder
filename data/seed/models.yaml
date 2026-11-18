@@ -8,8 +8,8 @@
 # entries (EXPERT, JUMPY, SCUDO, VIVARO, PROACE, KANGOO, TRANSIT CUSTOM, EVITO and similar) are
 # safe ONLY because every source they are scoped to is passenger-only: rdw / rdw-tgk filter
 # voertuigsoort = 'Personenauto' (sources/rdw BEV_WHERE), eea is the CO2 monitoring of new
-# passenger cars (M1), kba-fz10 is "Neuzulassungen von Personenkraftwagen", ademe is the FR
-# car labelling list. Before scoping one of these prefixes to any other source (dft-veh,
+# passenger cars (M1), kba-fz10 is "Neuzulassungen von Personenkraftwagen"; ademe is the FR car
+# labelling list (new passenger cars as far as we know; not evidenced in the adapter yet). Before scoping one of these prefixes to any other source (dft-veh,
 # openev, kilowatt-openev, ...), check that it lists no N1 cargo vans; otherwise use the
 # passenger trade names only (e-Traveller, Zafira-e Life, Tourneo Custom, ...).
 schema: seed-models/v1
