@@ -279,7 +279,8 @@ approved:
     field: "bands.*"
     change: cleared
   - {<<: *t136, id: smart-eq-fortwo-453-eq, field: "bands.*", change: changed}
-  # Release 3: nissan-leaf-ze1-62-kwh matrix cells move from the WLTP-ratio estimate to measured EPA tests (13 cells)
+  # Release 3: nissan-leaf-ze1-62-kwh matrix cells move from the WLTP-ratio estimate to measured EPA tests
+  # (13 blocking cells; the glob also approves 32 review-level rows of the same variant: 45 in all)
   - &leaf62
     release: 3
     file: consumption_matrix.json
