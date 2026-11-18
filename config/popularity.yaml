@@ -1,0 +1,17 @@
+# "Most popular" sort on the catalogue page (T-130, Decision 038 blend).
+# Read at build time by apps/web/scripts/popularity.mjs → apps/web/src/config/popularity.generated.json.
+# Change the weights here, never in code. A release field (WS1) replaces the registrations input once it exists.
+#
+# score (0–100) = 100 × (registrations × share + owner_picks × pick)
+#   share = the model's registration score in data/seed/top40.yaml (NL used fleet + UK fleet), divided by the top model's
+#   pick  = the best owner verdict for the generation in data/editorial/menno-picks.yaml (0 when he gave none)
+schema: popularity/v1
+weights:
+  registrations: 0.8
+  owner_picks: 0.2
+pick_values:
+  shortlist: 1.0
+  consider: 0.6
+  fallback: 0.3
+# Added to pick (capped at 1) when Menno marked the car a favourite.
+favourite_bonus: 0.2
