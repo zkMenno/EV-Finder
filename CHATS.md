@@ -42,3 +42,4 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | WS1 (8th) | Data pipeline: HANDOFF follow-ups ('+' → 'plus' key, retired-id manual facts, #110 nits, photo-only nights); not T-073 (7th chat owns #127) | https://claude.ai/code/session_01JuyZEUgHKypBRfx6deGhfu | 2026-11-18 |
 | batch: WS0 merge batch 2 | Fresh review + merge #122→#123 (process), #124→#125 (T-141 Ariakit); ask WS4 about #59 | https://claude.ai/code/session_01JuyZEVozSsJftczDuEDThn | 2026-11-18 |
 | WS3 batch (5th, 2026-11-18) | batch: T-136 stretch (absorb 2nd chat models + van people carriers), then e-tron GT facelift | https://claude.ai/code/session_01JuyZEVcqV3ZZHZbnBVTP8x | 2026-11-18 |
+| batch: WS0 merge batch 3 | Fresh review + merge WS1 8th PRs #131, #133, #134, #135, #136 | https://claude.ai/code/session_01JuyZEUqC6gVaKzctwab8Me | 2026-11-18 |
