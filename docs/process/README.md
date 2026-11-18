@@ -14,18 +14,23 @@ Short version for Project Settings: [project-instructions.md](project-instructio
 ## 2. The repo is the message bus
 - Menno never relays messages. Chats talk through files in this repo.
 - Shared files: `BOARD.md` (status), `QUESTIONS.md` (only what Menno must answer), `DECISIONS.md`, `CHATS.md` (every chat with its link), `REVIEW.md`, `docs/process/`, `docs/spec/`.
-- Per workstream: `workstreams/<ws>/START.md` (start prompt, owned by WS0), `STATUS.md` (top block: State · Now · Next · Blocked · Last updated), `INBOX.md` (append-only: `- YYYY-MM-DD HH:MM UTC · from WSx · message`; the owner marks handled items by appending `→ done`), `HANDOFF.md`.
-- Read your INBOX at the start and after every task. Before starting, check open PRs and their HANDOFF/STATUS: the newest state may not be on main yet.
-- Need another workstream? Append to its INBOX. Need Menno? Ask WS0 via its INBOX (or a popup if you're talking to him).
+- **One inbox:** `workstreams/WS0/INBOX.md`, the coordinator's (append-only: `- YYYY-MM-DD HH:MM UTC · from <chat> · message`; the coordinator marks handled items by appending `→ done`). Batch chats append one line when they finish, get blocked or need a decision; cross-lane requests go there too, and the coordinator puts them in the next brief.
+- **State lives in task files and PRs** (Status, Handoff notes, `## Review`), not in chats. Before starting, check open PRs for your tasks: the newest state may not be on main yet.
+- Lane files `workstreams/<lane>/START.md` are **lane briefs** (lane rules and context, owned by the coordinator). The old per-lane INBOX, STATUS and HANDOFF files are history: the coordinator drains their open items into briefs and then retires them to `_archive/`.
+- Need Menno? Ask the coordinator via its INBOX, or use a popup if you're talking to him.
 - Read a file right before you write it, make small edits, write only files you own (§4).
 - Every chat attaches the repo with push access first (`add_repo zkMenno/EV-Shortlist`, access `push`) and adds its row to CHATS.md in its first commit.
 - **Never read, search or cite `_archive/`** unless Menno asks for a specific file. Retire a file by `git mv` into `_archive/` (row in `_archive/README.md`), never delete it.
-- WS0 processes its INBOX at least once per working session. If WS0 has been idle more than a day, the next chat that notices tells Menno in one line.
+- The coordinator processes its INBOX at least once per working session. If WS0 has been idle more than a day, the next chat that notices tells Menno in one line.
 
-## 3. Workstreams
-Menno opens one by pasting: **"Read workstreams/<ws>/START.md and go."** Aim for a handful of long-running chats. Direct links: [CHATS.md](../../CHATS.md).
+## 3. Chats: one coordinator, the rest are batches (Menno, 18 Nov 2026)
+- **One named chat: the coordinator (WS0).** It plans, decides, keeps BOARD/DECISIONS/QUESTIONS, owns the schema, gate files and process, and writes briefs. When it runs out of room, a successor coordinator takes over from `workstreams/WS0/HANDOFF.md`.
+- **Every other chat is a throwaway batch chat**: one task or a batch of tasks, up to about 6–7 hours, merges and reviews included. The coordinator gives Menno a paste prompt (repo + push access, the task ids, the lanes, done criteria). A batch chat reads the lane brief for each lane it touches, works, opens PRs, gets fresh reviews, merges when its prompt says so, appends one line to the coordinator's INBOX and is done. No HANDOFF, no "2nd chat": if a batch runs out of room, its state is in the task files and the coordinator re-briefs.
+- **Lanes are folder ownership, not chats** (§4). A batch may touch several lanes if its brief says so.
 
-| Id | Workstream | Runs in | Start prompt |
+Direct links to running chats: [CHATS.md](../../CHATS.md).
+
+| Lane | Owns | Runs in | Lane brief |
 |---|---|---|---|
 | WS0 | Coordinator: spec, planning, merges, gate files, process | Claude Code on the repo | (coordinator chat) |
 | WS1 | Data pipeline: sources, matching, releases, models | Claude Code on the repo | [WS1](../../workstreams/WS1/START.md) |
@@ -36,7 +41,7 @@ Menno opens one by pasting: **"Read workstreams/<ws>/START.md and go."** Aim for
 | UX | Brand + design system | its own chat | [UX](../../workstreams/UX/START.md) |
 | QA | Fresh-eyes reviewer: walks the app, runs REVIEW.md, audits | Claude Code on the repo | [QA](../../workstreams/QA/START.md) |
 
-Finished one-off runs (OVERNIGHT, OVERNIGHT2) are in `_archive/`.
+Finished one-off runs (OVERNIGHT, OVERNIGHT2) are in `_archive/`. Lanes that need special rights (WS4 AppInfra, WS5 claude.ai project) still run as batch chats with those rights.
 
 ## 4. File ownership
 One owner per path; others write to the owner's INBOX. Builders also edit Status + Handoff notes of their own task file; reviewers only the `## Review` section.
@@ -53,8 +58,8 @@ One owner per path; others write to the owner's INBOX. Builders also edit Status
 | `docs/outreach/`, `docs/growth/`, `docs/brand/` (anything in Menno's name stays a draft until he approves) | WS5 |
 | `docs/design/` (brand decisions: project doc `claude/brand-design-decisions.md`) | UX |
 | `audits/A-35…`, task `## Review` sections | QA |
-| `workstreams/<ws>/STATUS.md`, `HANDOFF.md` | that workstream |
-| `workstreams/<ws>/INBOX.md` | append-only, everyone |
+| `workstreams/WS0/HANDOFF.md` | coordinator |
+| `workstreams/WS0/INBOX.md` | append-only, everyone |
 
 ## 5. Tasks and flow
 - One task = one file in `tasks/` (template: [tasks/TEMPLATE.md](../../tasks/TEMPLATE.md)) = one branch = one PR. About half a day of agent work.
@@ -63,13 +68,13 @@ One owner per path; others write to the owner's INBOX. Builders also edit Status
 - After roughly every 10 merged tasks or a phase gate: security review, dependency audit, load test, data-quality check (audits/).
 
 ## 6. Long work and loops
-- Plan first, then work in chunks. About every 30 minutes: commit, push, update STATUS.md.
-- Loop guard: the same error 3 times or 30 minutes without progress means stop that path, log it, try one alternative, otherwise park it (STATUS.md) and take the next unblocked task. Never sit idle.
+- Plan first, then work in chunks. About every 30 minutes: commit, push, update your task file's Status / Handoff notes.
+- Loop guard: the same error 3 times or 30 minutes without progress means stop that path, log it, try one alternative, otherwise park it (task file + one INBOX line) and take the next unblocked task. Never sit idle.
 - Time-box research: answer the question, don't explore everything.
 - Git: never rebase a pushed branch (merge main in); grep for conflict markers before pushing; after a push from a Claude session, start CI with workflow_dispatch and trust the run on the PR head; if `gh pr create` fails, use `gh api repos/zkMenno/EV-Shortlist/pulls`.
 
 ## 7. Context hygiene and efficiency
-- Watch for long chats (many big tool results, long documents, hours of work, any compaction warning). Before that: write `workstreams/<ws>/HANDOFF.md`, commit it **straight to main**, and give Menno a one-line prompt for a fresh chat with the link.
+- Watch for long chats (many big tool results, long documents, hours of work, any compaction warning). Before that: the coordinator writes `workstreams/WS0/HANDOFF.md` straight to main and gives Menno a paste prompt for its successor; a batch chat writes its state into its task files, appends one INBOX line and stops (the coordinator re-briefs).
 - Files are the memory; chats are disposable.
 - Read only what you need (search, partial reads). Run independent steps in parallel; use subagents for parallel lanes. Reuse earlier decisions and AppInfra patterns.
 
@@ -86,7 +91,7 @@ Verification is what lets many agents work at once without Menno checking every 
 
 **Every miss becomes a check.** A bug found after merge (QA, back-test, Menno, a revert) gets a row in [rules.md](rules.md) and a test, CI job, hook or REVIEW item that would have caught it. Prefer tools over prose.
 
-**Retro** after each phase, overnight run or long session, four questions at the bottom of your STATUS.md: what slowed us down; what did Menno do by hand; what did a check miss; which rule or check prevents it. Proposals go to WS0's INBOX; WS0 accepts (and enforces) or rejects each within a day in [rules.md](rules.md), and prunes rules that never fire once per phase.
+**Retro** after each phase, overnight run or long session, four questions in your INBOX line or PR body: what slowed us down; what did Menno do by hand; what did a check miss; which rule or check prevents it. Proposals go to WS0's INBOX; WS0 accepts (and enforces) or rejects each within a day in [rules.md](rules.md), and prunes rules that never fire once per phase.
 
 ## 9. Product bar (every lane)
 - Every number traces to a Fact with source, date, confidence and licence; 2+ sources per headline field where possible; estimates labelled.
