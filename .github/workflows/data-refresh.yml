@@ -161,7 +161,8 @@ jobs:
     # always(): a release can exist even when one source failed (the refresh job then fails too).
     if: always() && needs.refresh.outputs.release != ''
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 30: a release with photos uploads ~650 assets in paced batches with back-off (#162).
+    timeout-minutes: 30
     permissions:
       contents: write # push the data-release-N branch, create the data-v<N> release (T-064)
       pull-requests: write # open or update the PR
