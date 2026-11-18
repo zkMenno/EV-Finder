@@ -169,7 +169,7 @@ def test_source_alias_note_travels_with_the_count(real_seed) -> None:
         ("HYUNDAI IONIQ", "IONIQ PREMIUM EV", "hyundai-ioniq-electric"),
         ("HYUNDAI IONIQ", "IONIQ 5 PREMIUM EV", "hyundai-ioniq-5"),
         ("HYUNDAI IONIQ", "IONIQ 6 ULTIMATE EV", "hyundai-ioniq-6"),
-        ("HYUNDAI IONIQ", "IONIQ 9 CALLIGRAPHY EV 4X4", "hyundai-ioniq-9"),  # T-136: own model, not the Ioniq Electric
+        ("HYUNDAI IONIQ", "IONIQ 9 CALLIGRAPHY EV 4X4", "hyundai-ioniq-9"),  # T-136 own model
         ("AUDI E-TRON", "E-TRON TECHNIK 50 QUATTRO", "audi-e-tron"),
         ("AUDI E-TRON", "E-TRON GT QUATTRO", "audi-e-tron-gt"),  # T-136: own model, not the e-tron
         ("AUDI Q8", "Q8 E-TRON SPORT 50 QUATTRO", "audi-e-tron"),

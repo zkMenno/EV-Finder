@@ -253,6 +253,26 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'FLUENCE') by year: 2011 490, 2012 1325, 2013 325, 2014 91, 2015 4, 2016 2."
 
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: renault-kangoo-e-tech
+        name: "Kangoo E-Tech Electric"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["Kangoo E-Tech", "Kangoo Electric"]
+        name_excludes: ["VAN"]
+        notes: "Body: OpenEV `Kangoo E-Tech` (4282 mm), passenger version (M1). Segment J-medium like the ë-Berlingo; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "KANGOO E-TECH", match: prefix}, "KANGOO ELECTRIC"]
+        generations:
+          - id: renault-kangoo-e-tech-gen1
+            name: "Kangoo E-Tech Electric"
+            years: [2023, null]
+            uncertain: true
+            notes: "One generation. The older Kangoo Z.E. (2011-2021) was sold almost only as a van (a handful of M1 rows) and is long tail; 'KANGOO VAN E-TECH ELECTRIC' is the commercial van and is excluded. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2023 1138, 2024 1357, 2025 805; RDW m9d7-ebf2 (NL BEV first admissions) 2024 4, 2025 3, 2026 1."
+
+
 
   - id: nissan
     name: Nissan
@@ -316,6 +336,25 @@ makes:
             years: [2025, null]
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'MICRA') by year: 2010 1, 2025 729."
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: nissan-e-nv200
+        name: "e-NV200 Evalia"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["e-NV200", "e-NV200 Combi", "eNV200", "e-NV200 Evalia 40 kWh"]
+        notes: "Body: OpenEV has no e-NV200; passenger versions (Evalia, Combi, taxi) only, M1 register rows. Segment J-medium like the ë-Berlingo; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "E-NV200", match: prefix}, {name: "NISSAN E-NV200", match: prefix}, "ENV200", "E-NV 200", "DYNAMO TAXI E-NV200"]
+        generations:
+          - id: nissan-e-nv200-gen1
+            name: "e-NV200 Evalia"
+            years: [2015, 2022]
+            uncertain: true
+            notes: "One generation. End 2022 by the rule (no RDW 2026 admissions; may still be on sale). Start 2015 by the rule although sales began in 2014 (2014 is 360 cars, 4.0 %). A larger battery arrived around 2018 without a visible update (a change marker, not a split, Decision 057; not checked against a maker document, so no marker yet). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2014 360, 2015 890, 2016 863, 2017 900, 2018 781, 2019 2449, 2020 1720, 2021 800, 2022 127, 2023 5; RDW m9d7-ebf2 (NL BEV first admissions) 2014 53, 2015 26, 2016 51, 2017 52, 2018 106, 2019 151, 2020 74, 2021 34, 2022 10, 2023 1."
+
 
 
   - id: volkswagen
@@ -1061,6 +1100,25 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern '^(E-)?408') by year: 2024 45, 2025 668."
 
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: peugeot-e-traveller
+        name: "e-Traveller"
+        segment: J-large
+        body: mpv
+        name_aliases: ["E-Traveller", "e Traveller", "e-Expert Combi", "e-Expert Traveller"]
+        notes: "Body: OpenEV has no e-Traveller; passenger version (M1) of the e-Expert, same body as the ë-SpaceTourer. Segment J-large like the EQV; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["TRAVELLER", "E-TRAVELLER", {name: "E-TRAVELLER", match: prefix}, "EXPERT TRAVELLER", "EXPERT", "E-EXPERT", {name: "E-EXPERT COMBI", match: prefix}]
+        generations:
+          - id: peugeot-e-traveller-gen1
+            name: "e-Traveller"
+            years: [2021, null]
+            uncertain: true
+            notes: "One generation. Bare 'EXPERT' (1,917 EEA cars) is counted here: the register sources are passenger (M1) only, so a BEV 'EXPERT' there is the passenger Expert Combi. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2020 113, 2021 1122, 2022 738, 2023 1327, 2024 924, 2025 1154; RDW m9d7-ebf2 (NL BEV first admissions) 2018 1, 2020 14, 2021 105, 2022 77, 2023 160, 2024 94, 2025 149, 2026 66."
+
+
 
   - id: opel
     name: Opel
@@ -1172,6 +1230,43 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'GRANDLAND') by year: 2021 7, 2023 10, 2024 330, 2025 6191."
 
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: opel-combo-e-life
+        name: "Combo-e Life"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["Combo e-Life", "Combo-e Life XL", "Opel Combo-e Life", "Vauxhall Combo-e Life"]
+        notes: "Body: OpenEV has no Combo-e Life; passenger version of the Combo-e, same body as the ë-Berlingo. Segment J-medium like the ë-Berlingo; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "COMBO-E LIFE", match: prefix}, "E-COMBO LIFE", "COMBO-E", "COMBO E LIFE"]
+        generations:
+          - id: opel-combo-e-life-gen1
+            name: "Combo-e Life"
+            years: [2022, null]
+            uncertain: true
+            notes: "One generation. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2021 179, 2022 1363, 2023 1869, 2024 868, 2025 910; RDW m9d7-ebf2 (NL BEV first admissions) 2021 11, 2022 38, 2023 28, 2024 25, 2025 33, 2026 17."
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: opel-zafira-e-life
+        name: "Zafira-e Life"
+        segment: J-large
+        body: mpv
+        name_aliases: ["Zafira e-Life", "Vivaro-e Life", "Vivaro-e Combi", "Vauxhall Vivaro Life Electric"]
+        notes: "Body: OpenEV has no Zafira-e Life; passenger version (M1) of the Vivaro-e, same body as the ë-SpaceTourer. Segment J-large like the EQV; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "ZAFIRA LIFE", match: prefix}, {name: "ZAFIRA-E", match: prefix}, "ZAFIRA E-LIFE", {name: "VIVARO", match: prefix}, "VIVARO-E", "VIVARO-E LIFE"]
+        generations:
+          - id: opel-zafira-e-life-gen1
+            name: "Zafira-e Life / Vivaro-e Life"
+            years: [2020, null]
+            uncertain: true
+            notes: "One generation. Bare 'VIVARO' (2,731 EEA cars) is counted here: the register sources are passenger (M1) only, so a BEV 'VIVARO' there is the passenger Vivaro-e Combi / Life. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2020 401, 2021 1203, 2022 1309, 2023 1967, 2024 1039, 2025 1029; RDW m9d7-ebf2 (NL BEV first admissions) 2020 70, 2021 349, 2022 423, 2023 553, 2024 285, 2025 195, 2026 208."
+
+
 
   - id: fiat
     name: Fiat
@@ -1241,6 +1336,43 @@ makes:
             years: [2025, null]
             uncertain: true
             notes: "One generation. 2024 (104 cars) is pre-launch. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2024 104, 2025 7428; RDW m9d7-ebf2 (NL BEV first admissions) 2025 471, 2026 353."
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: fiat-e-doblo
+        name: "E-Doblò"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["e-Doblo", "Fiat E-Doblò"]
+        notes: "Body: OpenEV has no E-Doblò; passenger version of the Stellantis K9 van, same body as the ë-Berlingo. Segment J-medium like the ë-Berlingo; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["E-DOBLO", "E-DOBLÒ", "FIAT E-DOBLO", "FIAT E-DOBLÒ"]
+        generations:
+          - id: fiat-e-doblo-gen1
+            name: "E-Doblò"
+            years: [2022, 2025]
+            uncertain: true
+            notes: "One generation. End 2025 by the rule (no RDW 2026 admissions; may still be on sale). EEA's 2010 'FIAT DOBLO'' rows (12 cars) are conversions and are not matched. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2022 155, 2023 452, 2024 83, 2025 81; RDW m9d7-ebf2 (NL BEV first admissions) 2023 1."
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: fiat-e-ulysse
+        name: "E-Ulysse"
+        segment: J-large
+        body: mpv
+        name_aliases: ["e-Ulysse", "Fiat E-Ulysse"]
+        notes: "Body: OpenEV has no E-Ulysse; passenger van on the Stellantis K0 (same body as the ë-SpaceTourer). Segment J-large like the EQV; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["ULYSSE", "E-ULYSSE", "FIAT ULYSSE", "FIAT E-ULYSSE", {name: "ULYSSE TRIPOD", match: prefix}, "ULYSSE TRIPIOD"]
+        generations:
+          - id: fiat-e-ulysse-gen1
+            name: "E-Ulysse"
+            years: [2022, 2025]
+            uncertain: true
+            notes: "One generation. End 2025 by the rule (no RDW 2026 admissions; may still be on sale). The old Ulysse (2002-2010) was combustion-only and never appears in BEV-only rows. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2022 659, 2023 287, 2024 72, 2025 65; RDW m9d7-ebf2 (NL BEV first admissions) 2022 254, 2023 163, 2024 24."
+
 
   - id: skoda
     name: Skoda
@@ -1800,6 +1932,43 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern '^B 250 E|^B 250 ELECTRIC|^ELECTRIC DRIVE') by year: 2014 79, 2015 958, 2016 1228, 2017 993, 2018 133, 2019 3."
 
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: mercedes-evito-tourer
+        name: "eVito Tourer"
+        segment: J-large
+        body: mpv
+        name_aliases: ["e-Vito Tourer", "eVito Tourer Pro", "Mercedes eVito Tourer"]
+        notes: "Body: OpenEV has no eVito Tourer; nine-seat passenger van on the Vito (same body as the EQV, ~5.1-5.4 m). Segment J-large like the EQV; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["EVITO TOURER", {name: "EVITO TOURER", match: prefix}, "E-VITO TOURER", "EVITO"]
+        generations:
+          - id: mercedes-evito-tourer-gen1
+            name: "eVito Tourer"
+            years: [2020, null]
+            uncertain: true
+            notes: "One generation. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2019 270, 2020 619, 2021 822, 2022 960, 2023 1549, 2024 758, 2025 998; RDW m9d7-ebf2 (NL BEV first admissions) 2019 104, 2020 133, 2021 152, 2022 143, 2023 482, 2024 102, 2025 183, 2026 192."
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: mercedes-eqt
+        name: "EQT"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["EQT 200", "eCitan Tourer", "e-Citan Tourer", "Mercedes EQT"]
+        notes: "Body: OpenEV has no EQT; small MPV on the Citan (Kangoo platform), sold as EQT and as eCitan Tourer (same body, passenger version). Segment J-medium like the ë-Berlingo; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["EQT", {name: "EQT", match: prefix}, "EQT-KLASSE", {name: "ECITAN TOURER", match: prefix}, "E-CITAN TOURER"]
+        generations:
+          - id: mercedes-eqt-gen1
+            name: "EQT / eCitan Tourer"
+            years: [2023, null]
+            uncertain: true
+            notes: "One generation. EEA files the EQT and the eCitan Tourer under one name ('ECITAN TOURER/EQT') in 2023-2024, so both are one model here. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2022 14, 2023 722, 2024 984, 2025 1519; RDW m9d7-ebf2 (NL BEV first admissions) 2023 12, 2024 35, 2025 22, 2026 1."
+
+
 
   - id: jaguar
     name: Jaguar
@@ -2163,6 +2332,7 @@ makes:
         body: sedan
         name_aliases: ["BYD Seal"]
         notes: "Body: OpenEV `sedan` (Seal, 4800 mm). Segment by length (RDW `lengte`, BEV names, or OpenEV length_mm), T-068 bands; judgement call."
+        name_excludes: ["DM", "DM-i", "DMI"]  # plug-in hybrid Seal U DM-i names (RDW 1 car, 2026) are not the Seal
         # Register names (BEV-only sources): exact names, or {match: prefix} for leading words.
         aliases_by_source:
           rdw,rdw-tgk,eea,kba-fz10,ademe: ["SEAL", "BYD SEAL", "SEAL AWD", "SEAL PERFORMANCE"]
@@ -2440,6 +2610,43 @@ makes:
             uncertain: true
             notes: "One generation. RDW m9d7-ebf2 queried 2026-11-15, by year of first admission: 'CAPRI' 2024 134, 2025 990, 2026 409 (44 without a date yet). 2024 is 8.7% of the 1533 cars since 2024, so the start is 2024. OpenEV has model years 2024-2025."
 
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: ford-e-tourneo-custom
+        name: "E-Tourneo Custom"
+        segment: J-large
+        body: mpv
+        name_aliases: ["Ford E-Tourneo Custom", "E-Transit Custom Kombi", "Tourneo Custom Electric"]
+        notes: "Body: OpenEV has no E-Tourneo Custom; nine-seat passenger van (M1), including the Transit Custom Kombi registered as M1. Segment J-large like the EQV; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "TOURNEO CUSTOM", match: prefix}, {name: "E-TOURNEO CUSTOM", match: prefix}, {name: "TRANSIT CUSTOM", match: prefix}, {name: "E-TRANSIT CUSTOM", match: prefix}]
+        generations:
+          - id: ford-e-tourneo-custom-gen1
+            name: "E-Tourneo Custom"
+            years: [2024, null]
+            uncertain: true
+            notes: "One generation. BEV 'TRANSIT CUSTOM' rows in EEA (979 cars) are M1 registrations, so the passenger Kombi; counted here. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2024 136, 2025 1719; RDW m9d7-ebf2 (NL BEV first admissions) 2024 7, 2025 112, 2026 160."
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: ford-e-tourneo-courier
+        name: "E-Tourneo Courier"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["Ford E-Tourneo Courier", "Tourneo Courier Electric"]
+        notes: "Body: OpenEV `E-Tourneo Courier` (no length). Small MPV, passenger version of the Transit Courier. Segment J-medium like the ë-Berlingo; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "TOURNEO COURIER", match: prefix}, {name: "E-TOURNEO COURIER", match: prefix}]
+        generations:
+          - id: ford-e-tourneo-courier-gen1
+            name: "E-Tourneo Courier"
+            years: [2025, null]
+            uncertain: true
+            notes: "One generation. The combustion Tourneo Courier never appears in BEV-only rows. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2025 999; RDW m9d7-ebf2 (NL BEV first admissions) 2025 15, 2026 7."
+
+
   - id: citroen
     name: Citroën
     models:
@@ -2573,6 +2780,25 @@ makes:
             uncertain: true
             notes: "Years from EEA CO2-monitoring registrations by year (first registration year, not model year); not yet checked against a maker document. EEA (CC BY 4.0, all EU + EEA reporting countries, pulled 2026-11-18, name pattern 'MEHARI') by year: 2016 516, 2017 313, 2018 322, 2019 165, 2020 6."
 
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: citroen-e-spacetourer
+        name: "ë-SpaceTourer"
+        segment: J-large
+        body: mpv
+        name_aliases: ["e-SpaceTourer", "e SpaceTourer", "ë-Jumpy Combi", "e-Jumpy Combi"]
+        notes: "Body: OpenEV `ë-Spacetourer` (4956 mm), passenger version (M1) of the ë-Jumpy. Segment J-large like the EQV; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["SPACETOURER", "E-SPACETOURER", {name: "JUMPY SPACETOURER", match: prefix}, "JUMPY SPACE TOURER", "JUMPY I SPACETOURER", "JUMPY", "E-JUMPY", "E-JUMPY COMBI"]
+        generations:
+          - id: citroen-e-spacetourer-gen1
+            name: "ë-SpaceTourer"
+            years: [2021, null]
+            uncertain: true
+            notes: "One generation. Bare 'JUMPY' (2,520 EEA cars) is counted here: EEA CO2 cars and RDW `Personenauto` are passenger (M1) registrations only, so a BEV 'JUMPY' there is the passenger Jumpy Combi, the same body as the SpaceTourer. Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2020 167, 2021 1135, 2022 1061, 2023 1644, 2024 926, 2025 855; RDW m9d7-ebf2 (NL BEV first admissions) 2020 17, 2021 208, 2022 562, 2023 622, 2024 409, 2025 199, 2026 140."
+
+
   - id: porsche
     name: Porsche
     models:
@@ -2632,6 +2858,43 @@ makes:
             notes: "One generation: same name in every year, no gap; a facelift is not visible in these sources. Registration evidence, checked 2026-11-15 (RDW m9d7-ebf2 fleet fetched 2026-11-14, by year of first admission; EEA 2025 provisional new registrations; KBA FZ10; DfT VEH0120 2026 Q2). First-admission year is not model year. RDW 'TOYOTA BZ4X' / 'BZ4X' / 'TOYOTA BZ4X TOURING': 2022 186, 2023 895, 2024 1105, 2025 910, 2026 1532 (4628 NL cars). 2022 is 4.0% (below the 5% bar) but KilowattApp has a model year 2022 record, so the start is 2022. Wikidata Q106481505 has no year. Still registered: EEA 2025 BE 1108, DE 5010, FR 1228, NL 878; KBA BZ4 2022 654, 2023 3150, 2024 1550, 2025 5005, 2026 Jan-Oct 4014; DfT 'BZ4X ...' 13290 (no year)."
             change_markers:
               - {year: 2026, text: "bZ4X Touring appears in RDW (579 NL cars first admitted 2026)"}
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: toyota-proace-verso
+        name: "Proace Verso Electric"
+        segment: J-large
+        body: mpv
+        name_aliases: ["Proace Verso EV", "Proace Shuttle Electric", "Proace Electric"]
+        notes: "Body: OpenEV has no Proace Verso; passenger version (M1) of the Proace Electric, same body as the ë-SpaceTourer. Segment J-large like the EQV; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: ["PROACE", {name: "PROACE VERSO", match: prefix}, "PROACE TRIPOD", "PROACE TAXI", "PROACE ELECTRIC", {name: "PROACE ELECTRIC", match: prefix}, "PROACE SHUTTLE"]
+        generations:
+          - id: toyota-proace-verso-gen1
+            name: "Proace Verso Electric"
+            years: [2021, null]
+            uncertain: true
+            notes: "One generation. Bare 'PROACE' (4,340 EEA cars) is counted here (passenger-only register sources; the Proace City has its own model, matched on 'PROACE CITY'). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2021 712, 2022 957, 2023 711, 2024 1309, 2025 971; RDW m9d7-ebf2 (NL BEV first admissions) 2020 3, 2021 167, 2022 295, 2023 119, 2024 162, 2025 67, 2026 14."
+
+      # T-136 stretch (2026-11-18, WS3): van-based people carrier, in scope per Menno 2026-11-18 (WS0 INBOX 10:30);
+      # passenger (M1) versions only, cargo vans stay out. Rule: see the comment above jeep (end of file).
+      - id: toyota-proace-city-verso
+        name: "Proace City Verso Electric"
+        segment: J-medium
+        body: mpv
+        name_aliases: ["Proace City Verso EV", "Proace City Verso"]
+        notes: "Body: OpenEV has no Proace City Verso; passenger version of the Proace City Electric, same body as the ë-Berlingo. Segment J-medium like the ë-Berlingo; judgement call."
+        # Register names (BEV-only sources, all passenger-car registers): exact names, or {match: prefix} for leading words.
+        aliases_by_source:
+          rdw,rdw-tgk,eea,kba-fz10,ademe: [{name: "PROACE CITY VERSO", match: prefix}, "PROACE CITY", "PROACE CITY ELECTRIC"]
+        generations:
+          - id: toyota-proace-city-verso-gen1
+            name: "Proace City Verso Electric"
+            years: [2022, 2025]
+            uncertain: true
+            notes: "One generation. End 2025 by the rule (no RDW 2026 admissions; may still be on sale). Registration evidence by year, read 2026-11-18: EEA CO2 cars (EU + EEA BEV new registrations, 2025 provisional) 2022 382, 2023 659, 2024 453, 2025 1385; RDW m9d7-ebf2 (NL BEV first admissions) 2022 22, 2023 33, 2024 7, 2025 16."
+
 
   - id: xpeng
     name: XPENG
