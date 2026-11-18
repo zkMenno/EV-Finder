@@ -2295,7 +2295,7 @@ variants:
     notes: "WLTP not in Audi's release; the release takes it from the RDW type approval (608 km in the 2026-11-18 build)."
     confidence: high
 
-  # --- T-146 (variant queue batch, 2026-11-18): first variants for generations that had none ---
+  # --- T-148 (variant queue batch, 2026-11-18): first variants for generations that had none ---
   # Each car's battery (and power or WLTP where it decides a match) is cited from the maker's
   # page; everything else is left out. Years: first-admission years of the matching RDW TGK
   # versions (CC0, staging of 2026-11-18), not model years. Drivetrain: from the page in notes.

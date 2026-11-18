@@ -1,4 +1,5 @@
-# T-146 Variant candidate review queue, biggest EU registrations first
+# T-148 Variant candidate review queue, biggest EU registrations first
+Renumbered from T-146 on 2026-11-18: the coordinator gave T-146 to the hero results follow-ups at the same time. Branch names keep t-146-*.
 Role: builder   Lane: data/seed, data/manual (WS3)   Wave: launch
 Status: doing (batch: variant queue, https://claude.ai/code/session_01JuyZEXkdc6m6bZgzVV874S, 2026-11-18)
 
