@@ -972,6 +972,7 @@ function FiltersPanel({
   const more = level !== "simple";
   const closeRef = useRef<HTMLButtonElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
   // The parent passes a new function every render; keep the latest in a ref so the effect below
   // runs only when the sheet opens or closes (review #126: it re-ran on every filter change and
   // pulled focus out of the field being typed in).
@@ -1037,12 +1038,21 @@ function FiltersPanel({
         className="flex max-h-[88vh] flex-col rounded-t-2xl bg-white lg:max-h-none lg:rounded-none lg:bg-transparent"
       >
         <div className="flex items-center justify-between gap-2 px-4 pb-2 pt-4 lg:px-0 lg:pt-0">
-          <h2 id="filters-heading" className="text-lg font-bold">
+          <h2 id="filters-heading" ref={headingRef} tabIndex={-1} className="text-lg font-bold focus:outline-none">
             {t("filters.title")}
           </h2>
           <span className="flex items-center gap-3">
             {n ? (
-              <button type="button" onClick={onReset} className="min-h-10 text-sm font-medium text-blue-800 underline underline-offset-2" data-testid="filters-clear-all">
+              <button
+                type="button"
+                // The button disappears once nothing is on: put focus on the heading, not on <body>.
+                onClick={() => {
+                  onReset();
+                  headingRef.current?.focus();
+                }}
+                className="min-h-10 text-sm font-medium text-blue-800 underline underline-offset-2"
+                data-testid="filters-clear-all"
+              >
                 {t("filters.clearAll")}
               </button>
             ) : null}
@@ -1628,9 +1638,10 @@ function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: 
   const fit = c.trip?.fits.get(r.variant_id);
   const fact = (icon: ReactNode, value: ReactNode, label: ReactNode, testId: string) => (
     <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]" data-testid={testId}>
-      <dd className="order-2 flex min-w-0 flex-wrap items-center gap-1 text-base font-bold tabular-nums">
+      <dd className="order-2 flex min-w-0 items-center gap-1 text-base font-bold tabular-nums">
         {icon}
-        {value}
+        {/* The value may break between its digits on a narrow card; the icon stays beside it. */}
+        <span className="min-w-0 [overflow-wrap:anywhere]">{value}</span>
       </dd>
       <dt className="order-3 text-xs text-slate-700">{label}</dt>
     </div>

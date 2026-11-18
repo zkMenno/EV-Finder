@@ -183,6 +183,10 @@ test("phone sheet: typing a value keeps focus in the field; Tab stays inside; wi
   await page.getByTestId("filters-show").focus();
   await page.keyboard.press("Tab");
   expect(await page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]'))).toBe(true);
+  // "Clear all" removes itself: focus lands on the sheet's heading, not on the page body.
+  await page.getByTestId("filters-clear-all").click();
+  await expect(page.getByRole("heading", { name: "Filters" })).toBeFocused();
+  await expect(sheet).toBeVisible();
   // Widening to the sidebar layout closes the sheet and unlocks the page.
   await page.setViewportSize({ width: 1280, height: 800 });
   await expect(sheet).toHaveCount(0);
