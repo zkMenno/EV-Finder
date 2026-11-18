@@ -279,3 +279,15 @@ approved:
     field: "bands.*"
     change: cleared
   - {<<: *t136, id: smart-eq-fortwo-453-eq, field: "bands.*", change: changed}
+  # T145: 1 variant, 4 changes (Model 3 gen1 Performance: cited type-approval consumption)
+  - &t145
+    release: 3
+    file: catalogue.json
+    approved_by: "PR #156 (T-145)"
+    reason: "T-145: tesla-model-3-gen1-performance gets its cited WLTP figures from EU type approval e4*2007/46*1293 (RDW TGK, CC0, Decision 068): 530 km and 166 Wh/km for every 2019-2020 Performance version (PP*, 261 km/h). Its consumption moves 15.0 -> 16.6 kWh/100 km (motorway 19.5 -> 21.6 follows), so the road-tripper+kerbside band drops shortlist -> consider. Measured: ev verify main vs PR #156 on the same staging (2026-11-18), 4 blocking, all on this variant."
+    id: tesla-model-3-gen1-performance
+    field: consumption_kwh_100km
+    change: changed
+  - {<<: *t145, id: tesla-model-3-gen1-performance, field: consumption_motorway_kwh_100km, change: changed}
+  - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.band", change: changed}
+  - {<<: *t145, file: shortlist_scores.json, id: tesla-model-3-gen1-performance, field: "scores.road-tripper+kerbside.urban.band", change: changed}
