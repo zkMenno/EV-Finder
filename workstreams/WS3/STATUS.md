@@ -27,6 +27,13 @@
 
 - 2026-11-18 09:25 UTC · 4th chat started; read HANDOFF, STATUS, START, INBOX 2026-11-18 lines; claimed T-136 task 2.
 - 2026-11-18 11:20 UTC · T-136 task 2 PR #129: 35 models / 37 generations, EEA match 86.7 → 95.6 %, ev verify 0 blocking; T03 + SEAT Mii left out (WS1 INBOX); T-140 should-fix note done.
+- 2026-11-18 11:45 UTC · #130 data_qa.sh opened; HANDOFF.md written.
+
+## Retro (2026-11-18, 4th chat)
+- Slowed down: two WS3 chats were approved for T-136 at once and both built it (2nd chat's branch: 182 models, mine 134); RDW's API rate-limited grouped queries (429), the staged RDW file has the same data offline.
+- Menno by hand: nothing.
+- Checks that missed: OpenEV rows are not checked against market (China-only T03 files would ship as EU variants), and OpenEV's 2024-2025 e-tron GT files repeat the old pack; nothing flags a source file whose figures contradict a cited maker value on a *new* generation. My first draft split the e-tron GT and only the row-level look at the built catalogue caught the 85 kWh facelift.
+- Rules that would help: (1) one owner per task id in BOARD before a second chat gets the same prompt (WS0); (2) OpenEV files without an EU market or WLTP go to review (WS1 INBOX); (3) WS3 lane: after any seed change, print the new generations' built rows (battery, WLTP, power) and look at them before the PR.
 
 ## Retro (2026-11-17, 3rd chat)
 - Slowed down: fresh staging for verify-pipeline takes ~20 min (RDW, defects, TGK, Meteostat); verify itself ~5 min per run, and a baseline run on main is needed to tell my diff from staging drift.
