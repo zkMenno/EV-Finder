@@ -1,5 +1,13 @@
 """T-136: share of EU BEV registrations (EEA 2010-2025) whose make + name the seed matches,
-and the biggest unmatched (make, name) groups. Uses the pipeline's own matcher."""
+and the biggest unmatched (make, name) groups. Uses the pipeline's own matcher.
+
+Model lookup = `find_record_model` (the one make/model lookup match_records uses since T-136c,
+#146): a make-qualified source alias ("SEAT BORN" -> Cupra Born) also applies when that make is
+in the seed. Before 2026-11-18 this script called find_model_noted / find_by_source_alias
+directly and missed that case.
+
+Usage (from pipeline/): uv run python -I ../research/R-41-catalogue-coverage/coverage.py \
+    <dir with eea_*.jsonl from pull_eea.py> ../data/seed/models.yaml <catalogue.json>"""
 
 import json
 import sys
@@ -7,7 +15,7 @@ from collections import defaultdict
 from datetime import date
 from pathlib import Path
 
-from ev_pipeline.match.matcher import find_by_source_alias, find_model_noted, match_view
+from ev_pipeline.match.matcher import find_record_model, match_view
 from ev_pipeline.match.seed import load_seed
 from ev_pipeline.records import SourceRecord
 from ev_pipeline.sources.eea.adapter import SOURCE
@@ -29,18 +37,13 @@ models_hit: set[str] = set()
 for (mk, cn), n in agg.items():
     rec = SourceRecord(record_key="x", kind="registration_count", source=SOURCE, make=mk, model=cn,
                        year=None, country=Country("NL"), retrieved_at=date(2026, 11, 17), specs={}, confidence="high")
-    view = match_view(rec)
-    mid = seed.make_id_for(mk, "eea", True)
-    if mid is None:
-        model, _ = find_by_source_alias(seed, view, True)
-        if model is None:
+    model, _why, _note, make_known = find_record_model(seed, match_view(rec), True)
+    if model is None:
+        if make_known:
+            unmatched_model[(seed.make_id_for(mk, "eea", True), cn.upper())] += n
+        else:
             unmatched_make[mk.upper()] += n
-            continue
-    else:
-        model, why, _ = find_model_noted(seed, mid, view, True)
-        if model is None:
-            unmatched_model[(mid, cn.upper())] += n
-            continue
+        continue
     matched += n
     models_hit.add(model.id)
 
@@ -67,8 +70,7 @@ for (mk, cn) in agg:
     rec = SourceRecord(record_key="x", kind="registration_count", source=SOURCE, make=mk, model=cn,
                        year=None, country=Country("NL"), retrieved_at=date(2026, 11, 17), specs={},
                        confidence="high")
-    mid = seed.make_id_for(mk, "eea", True)
-    model = find_model_noted(seed, mid, match_view(rec), True)[0] if mid else find_by_source_alias(seed, match_view(rec), True)[0]
+    model = find_record_model(seed, match_view(rec), True)[0]
     if model:
         mapped[(mk, cn)] = model.id
 tva: dict[str, dict[tuple, int]] = defaultdict(lambda: defaultdict(int))
