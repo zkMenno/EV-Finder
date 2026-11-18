@@ -504,35 +504,63 @@ def fetch_images(data_dir: Path) -> dict[str, Any]:
         return {"outcome": "failed", "reason": f"{type(exc).__name__}: {exc}"[:500]}
 
 
+def _published_photo_urls(data_dir: Path) -> dict[str, str] | None:
+    """generation id -> image file_url in the latest release (None: no release yet)."""
+    from ev_pipeline.health.state import latest_release
+    from ev_pipeline.release.publish import local_catalogue
+
+    n = latest_release(data_dir)
+    path = local_catalogue(data_dir, n) if n else None
+    if path is None:
+        return None
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    return _photo_urls(doc)
+
+
+def _photo_urls(catalogue: dict[str, Any]) -> dict[str, str]:
+    return {
+        str(g.get("id")): str((g.get("image") or {}).get("file_url") or "")
+        for g in catalogue.get("generations") or []
+        if g.get("image")
+    }
+
+
+def _changed(old: dict[str, str], new: dict[str, str]) -> list[str]:
+    return sorted(g for g in old.keys() | new.keys() if old.get(g) != new.get(g))
+
+
 def photos_pending(data_dir: Path) -> list[str]:
     """Generations whose photo would change against the latest release: a cached photo that
     is not published (or published from another file), or a published photo that left
     photos.yaml. A photo-only night must still publish (#110 review should-fix 3).
+    This is the pre-build guess that lets a photo-only night reach the build; the publish
+    decision uses `built_photo_changes` (a cached photo can still be dropped by the build).
     Never raises: on any error it returns [] (photos must never block or force a release)."""
-    from ev_pipeline.health.state import latest_release
     from ev_pipeline.images.photos import load_photos
     from ev_pipeline.images.store import CACHE_DIR, cached_original
     from ev_pipeline.match.seed import load_seed
-    from ev_pipeline.release.publish import local_catalogue
 
     try:
-        n = latest_release(data_dir)
-        path = local_catalogue(data_dir, n) if n else None
-        if path is None:
+        published = _published_photo_urls(data_dir)
+        if published is None:
             return []  # first release: it is built anyway
-        doc = json.loads(path.read_text(encoding="utf-8"))
-        published = {
-            str(g.get("id")): str((g.get("image") or {}).get("file_url") or "")
-            for g in doc.get("generations") or []
-            if g.get("image")
-        }
         seed = load_seed(data_dir / "seed" / "models.yaml")
         photos, _ = load_photos(data_dir, set(seed.generations), datetime.now(UTC).date())
         cache = data_dir / CACHE_DIR
         wanted = {ph.generation_id: ph.file_url for ph in photos if cached_original(cache, ph)}
-        return sorted(
-            g for g in published.keys() | wanted.keys() if published.get(g) != wanted.get(g)
-        )
+        return _changed(published, wanted)
+    except Exception:  # noqa: BLE001  same rule as fetch_images
+        return []
+
+
+def built_photo_changes(data_dir: Path, catalogue: dict[str, Any]) -> list[str]:
+    """Generations whose photo differs between the built catalogue and the latest release.
+    #134 should-fix: a cached photo that `attach_images` drops (unreadable original, or a
+    generation not in the catalogue) stays in `photos_pending` forever; deciding on the
+    built catalogue stops a catalogue-identical release every night. Never raises ([])."""
+    try:
+        published = _published_photo_urls(data_dir)
+        return [] if published is None else _changed(published, _photo_urls(catalogue))
     except Exception:  # noqa: BLE001  same rule as fetch_images
         return []
 
@@ -587,14 +615,22 @@ def _release(
     except ReleaseError as exc:
         return {"outcome": "failed", "reason": str(exc)[:2000]}
     counts = res.diff["counts"]
+    photo_changes = built_photo_changes(data_dir, res.catalogue)
     if (
         res.diff["previous_release"] is not None
         and not (counts["added"] or counts["removed"] or counts["changed"])
-        and not pending
+        and not photo_changes
     ):
-        return {"outcome": "skipped", "reason": "catalogue identical to the previous release"}
+        reason = "catalogue identical to the previous release"
+        if pending:
+            reason += f" ({len(pending)} cached photo(s) not attached by the build)"
+        return {"outcome": "skipped", "reason": reason}
     summary = {
-        "images": {**images, "pending_generations": len(pending)},
+        "images": {
+            **images,
+            "pending_generations": len(pending),
+            "changed_generations": len(photo_changes),
+        },
         "schema": "refresh-summary/v1",
         "release": res.release,
         "started_at": started.isoformat(),
