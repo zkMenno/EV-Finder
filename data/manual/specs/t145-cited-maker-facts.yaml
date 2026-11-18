@@ -1,0 +1,175 @@
+# T-145 (catalogue batch, 2026-11-18): cited WLTP figures for rows that showed "not known".
+#  - Release 2: Tesla Model 3 gen1 Long Range and Performance had no wltp_range_km
+#    (WS0 INBOX 12:50, T-143 follow-up 2).
+# Source `manual` (Decision 068). Every value below was read on the page named, on the date given.
+#
+# Tesla Model 3 (2019-2023) has one EU whole-vehicle type approval, e4*2007/46*1293
+# (Luxembourg), with ~50 extensions. RDW TGK (CC0) lists every variant / version
+# ("uitvoering") with its WLTP figures. Dual-motor variant E3D (2019-2020 builds, the most
+# registered gen1 Long Range / Performance in NL: RDW m9d7-ebf2, 2026-11-18):
+#   uitvoering BB*  max speed 233 km/h  -> Long Range AWD (560 km / 160 Wh/km)
+#   uitvoering PP*  max speed 261 km/h  -> Performance (530 km / 166 Wh/km)
+#   (PB* = Performance hardware without the 261 km/h top speed; also 530 km)
+# Later extensions carry higher figures for the refreshed cars (variants E3LD / E5LD from
+# extension 14, Dec 2020: Long Range 580 / 614 / 602 km, Performance 567 / 547 km). The seed
+# variants span 2019-2023 in one row, so the cited figure is the first-type-approval one; the
+# later figures are in each fact's notes. Splitting the rows by year is a separate change.
+schema: manual-facts/v1
+entered_by: ws3 (agent, T-145 catalogue batch)
+facts:
+  # --- Tesla Model 3 gen1 Long Range AWD ----------------------------------------------------
+  - variant_id: tesla-model-3-gen1-long-range
+    field: wltp_range_km
+    value: 560
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions BB1N / BB1T1 (Tesla Model 3 Long Range AWD, CC0)"
+    retrieved: 2026-11-18
+    quote: '"codeuitvoeringtgk": "BB1N", "verbruikvolledigelekwltpbgr": "160.00", "actieradiusvolledigelekwltpbgr": "560"'
+    locator: "Versions BB1N and BB1T1 (max speed 233 km/h in RDW TGK byxc-wwua); the same 560 km / 160 Wh/km on extensions 00 to 12 (2019-01 to 2020-08)"
+    confidence: medium
+    claim: true
+    notes: "Refreshed cars on later extensions: 580 km (E3CD/E5CD, from ext. 13, 2020-10), 614 km (E3LD, ext. 17, 2021-04), 602 km (E5LD, ext. 23, 2022-04). Medium: one row covers 2019-2023, the figure is for 2019-2020 builds."
+  - variant_id: tesla-model-3-gen1-long-range
+    field: consumption_kwh_100km
+    value: 16.0
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions BB1N / BB1T1 (Tesla Model 3 Long Range AWD, CC0)"
+    retrieved: 2026-11-18
+    quote: '"verbruikvolledigelekwltpbgr": "160.00"'
+    locator: "WLTP combined, Wh/km (160 Wh/km = 16.0 kWh/100 km), the 560 km versions"
+    confidence: medium
+    claim: true
+  # --- Tesla Model 3 gen1 Performance -------------------------------------------------------
+  - variant_id: tesla-model-3-gen1-performance
+    field: wltp_range_km
+    value: 530
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions PP1N / PP1T2 / PP2N / PP2T2 (Tesla Model 3 Performance, CC0)"
+    retrieved: 2026-11-18
+    quote: '"codeuitvoeringtgk": "PP2N", "verbruikvolledigelekwltpbgr": "166.00", "actieradiusvolledigelekwltpbgr": "530"'
+    locator: "Versions PP* (max speed 261 km/h in RDW TGK byxc-wwua, which the seed's 261 km/h top speed matches); the same 530 km / 166 Wh/km on extensions 00 to 12 (2019-01 to 2020-08)"
+    confidence: medium
+    claim: true
+    notes: "Refreshed cars on later extensions: 567 km (E3LD, ext. 13-25), 547 km (E5LD, ext. 22-35). Medium: one row covers 2019-2023, the figure is for 2019-2020 builds."
+  - variant_id: tesla-model-3-gen1-performance
+    field: consumption_kwh_100km
+    value: 16.6
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*06&codevarianttgk=E3D
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*06, variant E3D, versions PP1N / PP1T2 / PP2N / PP2T2 (Tesla Model 3 Performance, CC0)"
+    retrieved: 2026-11-18
+    quote: '"verbruikvolledigelekwltpbgr": "166.00"'
+    locator: "WLTP combined, Wh/km (166 Wh/km = 16.6 kWh/100 km), the 530 km versions"
+    confidence: medium
+    claim: true
+  # --- Audi e-tron GT 2024 update (generation audi-e-tron-gt-facelift, T-145) ---------------
+  # power_kw = Audi's normal maximum output (launch-control figures only in the locator), as the gen1 rows mostly carry.
+  # Decision 068: kept to the figures the release can't take elsewhere (power, WLTP, consumption, DC);
+  # battery and AC come from KilowattApp and agree with Audi (97 kWh, 11 kW). Scope question to WS0 (INBOX).
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: power_kw
+    value: 435
+    unit: kW
+    source_url: https://www.audi.co.uk/en/models/etrongt/audi-s-e-tron-gt/layer/battery-and-powertrain/
+    source_name: "Audi UK, 'S e-tron GT: battery and powertrain' (audi.co.uk model page)"
+    retrieved: 2026-11-18
+    locator: "Powertrain table: 'Power PS (kW) 592 (435)'; launch control 680 PS (500 kW) not used: we keep the normal maximum"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: consumption_kwh_100km
+    value: 18.0
+    unit: kWh/100km
+    source_url: https://www.audi.com/en/audi-s-e-tron-gt-16049
+    source_name: "Audi model page 'Audi S e-tron GT' (audi.com)"
+    retrieved: 2026-11-18
+    locator: "Technical details S e-tron GT (435 kW): 'Electric power consumption, combined in kWh/100 km (62.1 mi) | 19.7 - 18.0'; 18.0 = the best equipment (the figure kept for the other rows)"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: power_kw
+    value: 500
+    unit: kW
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-18
+    quote: 'Max. electrical output in kW 500'
+    locator: "Drivetrain: 'Max. electrical output in kW 500'; with push-to-pass 570, in launch control mode 630 (not used: we keep the normal maximum)"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: wltp_range_km
+    value: 599
+    unit: km
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-18
+    locator: "Performance / range: 'Electrical range, combined in km (mi) 527 - 599'; 599 = the best equipment (the 'up to' figure kept for the other rows)"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: consumption_kwh_100km
+    value: 18.4
+    unit: kWh/100km
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-18
+    locator: "Consumption: 'Electric power consumption, combined in kWh/100 km 21.1 - 18.4'; 18.4 = the best equipment"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: power_kw
+    value: 550
+    unit: kW
+    source_url: https://www.audi.com/en/audi-rs-e-tron-gt-performance-16050
+    source_name: "Audi model page 'Audi RS e-tron GT performance' (audi.com)"
+    retrieved: 2026-11-18
+    locator: "Technical details heading: 'RS e-tron GT performance (550 kW)'; the headline 'up to 680 kW (925 PS)' is launch control, not used: we keep the normal maximum"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: consumption_kwh_100km
+    value: 18.7
+    unit: kWh/100km
+    source_url: https://audi-mediacenter.com/en/press-releases/audis-most-powerful-production-vehicle-the-new-rs-e-tron-gt-performance-16222/download
+    source_name: "Audi press release 'The new RS e-tron GT performance', Ingolstadt/Neckarsulm, 17 September 2024 (Audi MediaCenter)"
+    retrieved: 2026-11-18
+    locator: "Consumption footnote: 'combined power consumption: 20.8-18.7 kWh / 100 km'; 18.7 = the best equipment"
+    confidence: high
+    claim: true
+  # DC peak: KilowattApp's 320 kW alone does not set dc_peak_kw (data/field_sources.yaml), so Audi's figure is cited.
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: dc_peak_kw
+    value: 320
+    unit: kW
+    source_url: https://www.audi.co.uk/en/models/etrongt/audi-s-e-tron-gt/layer/battery-and-powertrain/
+    source_name: "Audi UK, 'S e-tron GT: battery and powertrain' (audi.co.uk model page)"
+    retrieved: 2026-11-18
+    locator: "Powertrain table: 'Max charging capacity AC/DC': AC 11 kW / DC 320 kW"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: dc_peak_kw
+    value: 320
+    unit: kW
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-18
+    quote: 'Max. charging capacity AC / DC in kW 11 / 320'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: dc_peak_kw
+    value: 320
+    unit: kW
+    source_url: https://audi-mediacenter.com/en/press-releases/audis-most-powerful-production-vehicle-the-new-rs-e-tron-gt-performance-16222/download
+    source_name: "Audi press release 'The new RS e-tron GT performance', Ingolstadt/Neckarsulm, 17 September 2024 (Audi MediaCenter)"
+    retrieved: 2026-11-18
+    quote: 'The maximum charging power has been increased by 50 kW up to 320 kW.'
+    locator: "Charging section"
+    confidence: high
+    claim: true
