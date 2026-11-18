@@ -662,3 +662,92 @@ def test_laundered_fact_never_reaches_release_or_open_data_bundle(data_dir: Path
     assert source_allowed(reg, {**licences, "rdw": "CC0-1.0"}, "rdw")
     rdw_facts = [f for f in res.facts if f["source"]["id"] == "rdw"]
     assert not any(f["value"] == 27777 for f in rdw_facts)
+
+
+def _years_file(d: Path, facts: list[dict]) -> None:
+    base = {
+        "field": "heat_pump",
+        "source_url": "https://example.org/fixture/heat-pump.pdf",
+        "retrieved": "2026-11-01",
+        "quote": "heat pump",
+        "confidence": "medium",
+    }
+    p = d / "manual" / "heat-pump" / "fixture-years.yaml"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(
+        yaml.safe_dump(
+            {
+                "schema": "manual-facts/v1",
+                "entered_by": "test",
+                "facts": [{**base, **f} for f in facts],
+            }
+        )
+    )
+
+
+def test_years_scopes_a_generation_fact_to_variants_fully_inside(data_dir: Path) -> None:
+    """WS3 ask (Decision 059): `years: [from, to]` on a generation fact. Fixture
+    tesla-model-3-gen1: lr 2019-2023 (straddles 2021), performance 2021."""
+    unit = expected_unit("heat_pump")
+    _years_file(
+        data_dir,
+        [
+            {
+                "generation_id": "tesla-model-3-gen1",
+                "value": "standard",
+                "unit": unit,
+                "years": [2021, None],
+            },
+            {
+                "generation_id": "tesla-model-3-gen1",
+                "value": "none",
+                "unit": unit,
+                "years": [2017, 2020],
+            },
+            {
+                "generation_id": "nissan-leaf-ze0",
+                "value": "none",
+                "unit": unit,
+                "years": [2024, None],
+            },
+        ],
+    )
+    _set_manual_registry(data_dir, {**BLOCKED, "status": "active", "licence": "CC-BY-4.0"})
+    res = build_release(data_dir, now=NOW)
+    hp = {f["subject_id"]: f["value"] for f in res.facts if f["source"]["id"] == "manual"}
+    assert hp == {"tesla-model-3-gen1-performance": "standard"}  # lr straddles 2021: neither value
+    problems = " | ".join(p.reason for p in res.problems)
+    assert "no variant of the generation lies fully inside years 2017-2020" in problems
+    assert "fully inside years 2024-" in problems
+
+
+@pytest.mark.parametrize(
+    ("fact", "needle"),
+    [
+        ({"variant_id": "tesla-model-3-gen1-lr", "years": [2021, None]}, "only for generation"),
+        ({"generation_id": "tesla-model-3-gen1", "years": [2021]}, "years must be [from, to]"),
+        ({"generation_id": "tesla-model-3-gen1", "years": [2022, 2021]}, "years must be"),
+        ({"generation_id": "tesla-model-3-gen1", "years": "2021+"}, "years must be"),
+        ({"generation_id": "tesla-model-3-gen1", "years": [1999, None]}, "years must be"),
+    ],
+)
+def test_years_validation(tmp_path: Path, fact: dict, needle: str) -> None:
+    d = tmp_path / "data"
+    _years_file(d, [{"value": "standard", "unit": expected_unit("heat_pump"), **fact}])
+    load = load_manual_dir(d, TODAY, load_registry(d / "sources.yaml"), for_release=False)
+    assert any(needle in i.message for i in load.errors), [i.message for i in load.errors]
+
+
+def test_years_lets_two_scoped_facts_share_a_generation_and_field(tmp_path: Path) -> None:
+    d = tmp_path / "data"
+    u = expected_unit("heat_pump")
+    g = "tesla-model-3-gen1"
+    _years_file(
+        d,
+        [
+            {"generation_id": g, "value": "none", "unit": u, "years": [2019, 2020]},
+            {"generation_id": g, "value": "standard", "unit": u, "years": [2021, None]},
+        ],
+    )
+    load = load_manual_dir(d, TODAY, load_registry(d / "sources.yaml"), for_release=False)
+    assert not load.errors and [mf.years for mf in load.facts] == [(2019, 2020), (2021, None)]

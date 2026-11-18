@@ -383,11 +383,16 @@ facts:
     confidence: medium            # high | medium | low
     claim: true                   # default true (maker documents are claims)
     notes: "..."                  # optional
+    years: [2021, null]           # generation facts only: model years it holds for
 ```
 
 - `uv run ev manual check` validates every file: the schema `Fact` def plus the rules above,
   plausible ranges and enum values (same checks as the release), and no duplicate
-  (subject, field, country). Unknown variant/generation ids are warnings. Exit 1 on errors.
+  (subject, field, country, years). Unknown variant/generation ids are warnings; an id in
+  `data/seed/retired_ids.yaml` is an error naming the successor. Exit 1 on errors.
+- `years: [from, to]` (`to` may be `null`: still built) scopes a generation fact: it lands only
+  on variants whose model years lie fully inside. A variant straddling the boundary gets
+  neither value (not known beats wrong); a fact that fits no variant goes to `validation.csv`.
 - `ev release` loads them as source `manual`. **Internal only until Q-008 is answered:**
   `manual` is `blocked` in `data/sources.yaml`, so the licence gate drops them (listed under
   `gated_sources` in the run log). Bad entries go to `validation.csv` with stage `manual`.
