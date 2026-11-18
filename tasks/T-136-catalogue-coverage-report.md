@@ -42,5 +42,14 @@ Anything not on docs/spec/launch-scope.md.
   - Pipeline guard tests updated (8 cases, None → the new model id: e-tron GT, e:Ny1, Ioniq 9, forfour); cross-lane, flagged to WS1.
   - Next release (WS1 nightly) will add the new generations; their release-diff approvals go in a separate gate PR.
 
+- 2026-11-18 WS3 4th chat (owner, after the collision): the 2nd chat's branch is merged into `t-136-missing-models` (PR #129) and van-based people carriers are added (Menno, WS3 INBOX 10:30).
+  - Merge rule: our ids where both exist (jeep-avenger, opel-frontera, renault-twingo and the 29 models both chats added), their extra name_aliases unioned in; their 50 other models and 13 alias fixes taken; leapmotor-t03 stays out (OpenEV China-only); e-tron GT stays one generation (their 2024 split waits for cited packs).
+  - People carriers (M1 only, cargo vans out): eVito Tourer, EQT / eCitan Tourer, e-NV200 / Evalia, Townstar EV, Kangoo E-Tech, Combo-e Life, Zafira-e Life (+ Vivaro-e Combi), Proace Verso, Proace City Verso, ë-SpaceTourer (+ ë-Jumpy Combi), e-Traveller (+ e-Expert Combi), Partner Tepee Electric, e-Doblò, e-Ulysse (+ e-Scudo Combi), E-Tourneo Custom (+ Transit Custom Kombi), E-Tourneo Courier, PV5 Passenger; plus the B9 Berlingo Electric generation (2017-2020). EQV, ë-Berlingo, e-Rifter, ID. Buzz were already in. Years from EEA by the rule above `jeep`; e-NV200 2014 (4.2 %) falls under the 5 % start rule, so it starts 2015 (judgement: rule kept).
+  - Combi / Life pairs share one model because EEA names them alike ('VIVARO ZAFIRA LIFE', 'JUMPY SPACETOURER', 'EXPERT TRAVELLER'); say if Menno wants them apart.
+  - Coverage (R-41 coverage.py, EEA 2010-2025, 9,079,365 BEVs): main 86.7 %, 4th chat 95.6 %, 2nd chat 97.7 %, merged 97.9 %, **with people carriers 98.5 %** (201 models, 227 generations, 192 models hit).
+  - Release: isolated rebuild (main seed vs this seed, same fresh staging 2026-11-18): +105 generations, +79 rows, 21 blocking = all smart-eq-fortwo used-price bands (forfour split). Approvals in gate PR `t-136-gate-approvals` (release: 3); with them 0 blocking. Spot cars (EV6, Ioniq 5, MG4, Model Y, P7/P7+) unchanged.
+  - For WS1 🟡: ë-SpaceTourer base row reads 46 kWh with 341 km WLTP and 24.5 kWh/100 km (pack and range look mixed from two versions); E-Tourneo Courier 350 km WLTP looks high. Rows come from OpenEV/Kilowatt, not the seed.
+  - Still out: SEAT (Mii, Cupra-as-SEAT; matcher change with WS1), Leapmotor T03, Tesla 'MODEL', Spanish 'NUEVO ...' names (next alias gains), Maxus (not van-based).
+
 ## Review
 <!-- Reviewer: name, date, head SHA, REVIEW.md items + verdicts. -->
