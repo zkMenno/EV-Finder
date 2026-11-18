@@ -773,13 +773,15 @@
   "sort.popular.how": "Notre classement",
   "card.popular": "#{n} populaire",
   "catalogue.title": "Toutes les voitures électriques",
-  "catalogue.intro": "Chaque génération de VE que nous suivons, les plus populaires d’abord. Filtrez, triez et comparez ; vos choix restent dans le lien.",
+  "catalogue.intro": "Chaque voiture électrique que nous suivons, les plus populaires d’abord. Filtrez, triez et comparez ; vos choix restent dans le lien.",
   "catalogue.how.title": "Comment nous classons « Les plus populaires »",
-  "catalogue.how.regs": "{regs} % viennent des immatriculations : la part de chaque modèle parmi les voitures électriques en circulation aux Pays-Bas (RDW, première immatriculation 2018–2024) et au Royaume-Uni (DfT, parc immatriculé), au {date}. Nous faisons la moyenne des deux parts et n’additionnons jamais des chiffres de sources différentes.",
+  "catalogue.how.regs": "{regs} % viennent des immatriculations : la part de chaque modèle parmi les voitures électriques en circulation aux Pays-Bas (registre ouvert des véhicules RDW, CC0 ; première immatriculation 2018–2024) et au Royaume-Uni (DfT, parc immatriculé, Open Government Licence v3), au {date}. Nous faisons la moyenne des deux parts et n’additionnons jamais des chiffres de sources différentes.",
   "catalogue.how.picks": "{picks} % viennent des choix du propriétaire du site : l’avis d’une seule personne sur des voitures pour l’usage quotidien avec recharge rapide. Une opinion, pas une mesure.",
   "catalogue.how.none": "Les voitures sans données d’immatriculation ni avis arrivent en dernier, sans rang.",
   "catalogue.how.config": "Les poids sont dans un fichier de configuration, pour pouvoir les changer en toute transparence.",
   "landing.allCars.title": "Tout voir ?",
   "landing.allCars.body": "Parcourez les {n} voitures, les plus populaires d’abord, avec tous les filtres.",
-  "landing.allCars.button": "Voir toutes les voitures"
+  "landing.allCars.button": "Voir toutes les voitures",
+  "catalogue.how.split": "La part d’un modèle est répartie entre ses générations selon le nombre immatriculé de chacune aux Pays-Bas (RDW). Si le RDW n’a de chiffre pour aucune génération d’un modèle, la part est répartie à égalité.",
+  "card.popular.nerd": "Score {score}/100 · immatriculations RDW (CC0) + DfT (OGL v3), {date}, plus les choix du propriétaire du site"
 }

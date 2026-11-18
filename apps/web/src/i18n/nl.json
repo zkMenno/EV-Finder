@@ -772,13 +772,15 @@
   "sort.popular.how": "Zo rangschikken we",
   "card.popular": "#{n} populair",
   "catalogue.title": "Alle elektrische auto's",
-  "catalogue.intro": "Elke EV-generatie die we volgen, populairste eerst. Filter, sorteer en vergelijk; je keuzes blijven in de link.",
+  "catalogue.intro": "Elke elektrische auto die we volgen, populairste eerst. Filter, sorteer en vergelijk; je keuzes blijven in de link.",
   "catalogue.how.title": "Zo rangschikken we “Meest populair”",
-  "catalogue.how.regs": "{regs} % komt uit registraties: het aandeel van elk model in de elektrische auto's op de weg in Nederland (RDW, eerste toelating 2018–2024) en het VK (DfT, vergunde vloot), stand {date}. We middelen de twee aandelen en tellen nooit aantallen uit verschillende bronnen op.",
+  "catalogue.how.regs": "{regs} % komt uit registraties: het aandeel van elk model in de elektrische auto's op de weg in Nederland (open voertuigregister RDW, CC0; eerste toelating 2018–2024) en het VK (DfT, vergunde vloot, Open Government Licence v3), stand {date}. We middelen de twee aandelen en tellen nooit aantallen uit verschillende bronnen op.",
   "catalogue.how.picks": "{picks} % komt uit de keuzes van de eigenaar: het oordeel van één persoon over auto's voor dagelijks gebruik met snelladen. Een mening, geen meting.",
   "catalogue.how.none": "Auto's zonder registratiegegevens en zonder keuze komen als laatste, zonder plaats.",
   "catalogue.how.config": "De gewichten staan in een configuratiebestand, zodat we ze openlijk kunnen aanpassen.",
   "landing.allCars.title": "Alles bekijken?",
   "landing.allCars.body": "Blader door alle {n} auto's, populairste eerst, met alle filters.",
-  "landing.allCars.button": "Toon alle auto's"
+  "landing.allCars.button": "Toon alle auto's",
+  "catalogue.how.split": "Het aandeel van een model wordt over de generaties verdeeld naar hoeveel er van elke generatie in Nederland geregistreerd zijn (RDW). Heeft RDW voor geen enkele generatie van een model een aantal, dan verdelen we gelijk.",
+  "card.popular.nerd": "Score {score}/100 · registraties RDW (CC0) + DfT (OGL v3), {date}, plus de keuzes van de eigenaar"
 }

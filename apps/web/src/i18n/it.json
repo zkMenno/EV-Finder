@@ -773,13 +773,15 @@
   "sort.popular.how": "Come ordiniamo",
   "card.popular": "#{n} popolare",
   "catalogue.title": "Tutte le auto elettriche",
-  "catalogue.intro": "Ogni generazione di EV che seguiamo, le più popolari prima. Filtra, ordina e confronta; le tue scelte restano nel link.",
+  "catalogue.intro": "Ogni auto elettrica che seguiamo, le più popolari prima. Filtra, ordina e confronta; le tue scelte restano nel link.",
   "catalogue.how.title": "Come ordiniamo «Più popolari»",
-  "catalogue.how.regs": "Il {regs} % viene dalle immatricolazioni: la quota di ogni modello tra le auto elettriche in circolazione nei Paesi Bassi (RDW, prima immatricolazione 2018–2024) e nel Regno Unito (DfT, parco immatricolato), al {date}. Facciamo la media delle due quote e non sommiamo mai numeri di fonti diverse.",
+  "catalogue.how.regs": "Il {regs} % viene dalle immatricolazioni: la quota di ogni modello tra le auto elettriche in circolazione nei Paesi Bassi (registro aperto dei veicoli RDW, CC0; prima immatricolazione 2018–2024) e nel Regno Unito (DfT, parco immatricolato, Open Government Licence v3), al {date}. Facciamo la media delle due quote e non sommiamo mai numeri di fonti diverse.",
   "catalogue.how.picks": "Il {picks} % viene dalle scelte del proprietario del sito: il giudizio di una sola persona su auto per l’uso quotidiano con ricarica rapida. Un’opinione, non una misura.",
   "catalogue.how.none": "Le auto senza dati di immatricolazione né scelta vanno in fondo, senza posizione.",
   "catalogue.how.config": "I pesi stanno in un file di configurazione, così possiamo cambiarli apertamente.",
   "landing.allCars.title": "Vuoi vedere tutto?",
   "landing.allCars.body": "Sfoglia tutte le {n} auto, le più popolari prima, con tutti i filtri.",
-  "landing.allCars.button": "Mostra tutte le auto"
+  "landing.allCars.button": "Mostra tutte le auto",
+  "catalogue.how.split": "La quota di un modello è divisa tra le sue generazioni in base a quante ne sono immatricolate nei Paesi Bassi (RDW). Se l’RDW non ha un numero per nessuna generazione di un modello, la quota è divisa in parti uguali.",
+  "card.popular.nerd": "Punteggio {score}/100 · immatricolazioni RDW (CC0) + DfT (OGL v3), {date}, più le scelte del proprietario del sito"
 }

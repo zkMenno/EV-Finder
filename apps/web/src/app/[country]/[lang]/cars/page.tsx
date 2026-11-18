@@ -97,6 +97,7 @@ export default async function CataloguePage({ params, searchParams }: Props) {
         finance={financeProfile(cfg.code)}
         payFromUrl={hasPayParam(sp)}
         defaultView="cards"
+        popularityAsOf={popularityInputs.inputs.top40_generated_on ?? undefined}
         howWeRankHref={`#${HOW_ID}`}
       />
       <section id={HOW_ID} aria-labelledby={`${HOW_ID}-title`} className="mt-12 max-w-3xl scroll-mt-4" data-testid="how-we-rank">
@@ -105,6 +106,7 @@ export default async function CataloguePage({ params, searchParams }: Props) {
         </h2>
         <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-800">
           <li>{t("catalogue.how.regs", { regs: pct.regs, date: popularityInputs.inputs.top40_generated_on ?? "—" })}</li>
+          <li>{t("catalogue.how.split")}</li>
           <li>{t("catalogue.how.picks", { picks: pct.picks })}</li>
           <li>{t("catalogue.how.none")}</li>
           <li>{t("catalogue.how.config")}</li>

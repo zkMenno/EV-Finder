@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { buildPopularity, loadPopularity, OUT_FILE, parseConfig, pickScores, registrationScores, serialize } from "../../scripts/popularity.mjs";
-import { popularityScore, rankGenerations, type PopularityInputs } from "./popularity";
+import { rankGenerations, type PopularityInputs } from "./popularity";
 import { sortRows } from "./filters";
 import { MENU_SORTS, sortBy, defaultState, fromSearchParams, toSearchParams } from "./state";
 import type { ExploreRow } from "./explore-data";
@@ -12,44 +12,51 @@ const inputs: PopularityInputs = {
   generations: { "b-gen2": 1 },
 };
 
-describe("popularityScore (T-130 blend)", () => {
-  it("scales registrations to the top model and adds the owner pick", () => {
-    expect(popularityScore("a", "a-gen1", inputs)).toBe(80); // 0.8 × 8/8
-    expect(popularityScore("b", "b-gen1", inputs)).toBe(40); // 0.8 × 4/8
-    expect(popularityScore("b", "b-gen2", inputs)).toBe(60); // + 0.2 × 1
+const score = (rows: Parameters<typeof rankGenerations>[0], id: string, inp = inputs) => rankGenerations(rows, inp).get(id)?.score ?? null;
+const one = (model: string, gen: string, n?: number) => ({ model_id: model, generation_id: gen, registered_count_nl: n ?? null });
+
+describe("rankGenerations (T-130 blend)", () => {
+  it("scales registrations to the top generation and adds the owner pick", () => {
+    const rows = [one("a", "a-gen1"), one("b", "b-gen1")];
+    expect(score(rows, "a-gen1")).toBe(80); // 0.8 × 8/8
+    expect(score(rows, "b-gen1")).toBe(40); // 0.8 × 4/8
   });
-  it("is null when neither registrations nor a pick are known (never a guess)", () => {
-    expect(popularityScore("zz", "zz-gen1", inputs)).toBeNull();
+  it("splits a model's share over its generations by the RDW count (review #117: no more ties)", () => {
+    // Model a: 8 % share, RDW 300 vs 100 → 6 % and 2 %. Model b: 4 %, one generation.
+    const rows = [one("a", "a-gen1", 300), one("a", "a-gen1", 300), one("a", "a-gen2", 100), one("b", "b-gen1", 50)];
+    const r = rankGenerations(rows, inputs);
+    expect(r.get("a-gen1")).toEqual({ score: 80, rank: 1 }); // 6/6
+    expect(r.get("b-gen1")).toEqual({ score: 53.3, rank: 2 }); // 4/6
+    expect(r.get("a-gen2")).toEqual({ score: 26.7, rank: 3 }); // 2/6
   });
-  it("a pick alone still counts; zero registrations are a known zero", () => {
-    expect(popularityScore("zz", "b-gen2", inputs)).toBe(20);
-    expect(popularityScore("c", "c-gen1", inputs)).toBe(0);
+  it("a generation with no RDW count while its siblings have one gets no registration share", () => {
+    const rows = [one("a", "a-gen1", 100), one("a", "a-gen2")];
+    expect(score(rows, "a-gen1")).toBe(80);
+    expect(score(rows, "a-gen2")).toBe(0);
+  });
+  it("splits evenly when RDW has no count for any generation of the model", () => {
+    const rows = [one("a", "a-gen1"), one("a", "a-gen2"), one("b", "b-gen1")];
+    expect(score(rows, "a-gen1")).toBe(80); // 4 % each = the top
+    expect(score(rows, "a-gen2")).toBe(80);
+    expect(score(rows, "b-gen1")).toBe(80);
+  });
+  it("adds the pick per generation", () => {
+    expect(score([one("b", "b-gen1"), one("b", "b-gen2"), one("a", "a-gen1")], "b-gen2")).toBe(40); // 0.8 × 2/8 + 0.2
+  });
+  it("no registrations and no pick: no score, no rank (never a guess); a pick alone counts", () => {
+    const rows = [one("zz", "zz-gen1"), one("zz", "b-gen2"), one("a", "a-gen1")];
+    const r = rankGenerations(rows, inputs);
+    expect(r.has("zz-gen1")).toBe(false);
+    expect(r.get("b-gen2")?.score).toBe(20);
   });
   it("weights are relative: doubling both changes nothing", () => {
-    const double = { ...inputs, weights: { registrations: 1.6, owner_picks: 0.4 } };
-    expect(popularityScore("b", "b-gen2", double)).toBe(popularityScore("b", "b-gen2", inputs));
+    const rows = [one("a", "a-gen1"), one("b", "b-gen2")];
+    expect(score(rows, "b-gen2", { ...inputs, weights: { registrations: 1.6, owner_picks: 0.4 } })).toBe(score(rows, "b-gen2"));
   });
-});
-
-describe("rankGenerations", () => {
-  const rows = [
-    { model_id: "b", generation_id: "b-gen1" },
-    { model_id: "a", generation_id: "a-gen1" },
-    { model_id: "a", generation_id: "a-gen1" },
-    { model_id: "b", generation_id: "b-gen2" },
-    { model_id: "zz", generation_id: "zz-gen1" },
-  ];
-  it("ranks each generation once, highest first, unknowns unranked", () => {
-    const r = rankGenerations(rows, inputs);
-    expect([...r.entries()]).toEqual([
-      ["a-gen1", { score: 80, rank: 1 }],
-      ["b-gen2", { score: 60, rank: 2 }],
-      ["b-gen1", { score: 40, rank: 3 }],
-    ]);
-  });
-  it("breaks ties by id, so ranks are stable", () => {
-    const tie = rankGenerations([{ model_id: "x", generation_id: "x-2" }, { model_id: "x", generation_id: "x-1" }], { ...inputs, models: { x: 1 } });
-    expect(tie.get("x-1")?.rank).toBe(1);
+  it("ranks each generation once and breaks ties by id, so ranks are stable", () => {
+    const r = rankGenerations([one("x", "x-2"), one("x", "x-1"), one("x", "x-1")], { ...inputs, models: { x: 1 } });
+    expect([...r.keys()]).toEqual(["x-1", "x-2"]);
+    expect(r.get("x-1")?.rank).toBe(1);
   });
 });
 

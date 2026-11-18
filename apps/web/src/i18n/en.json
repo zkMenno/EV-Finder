@@ -784,13 +784,15 @@
   "sort.popular.how": "How we rank",
   "card.popular": "#{n} popular",
   "catalogue.title": "All electric cars",
-  "catalogue.intro": "Every EV generation we track, most popular first. Filter, sort and compare; your choices stay in the link.",
+  "catalogue.intro": "Every electric car we track, most popular first. Filter, sort and compare; your choices stay in the link.",
   "catalogue.how.title": "How we rank “Most popular”",
-  "catalogue.how.regs": "{regs} % comes from registrations: each model's share of electric cars on the road in the Netherlands (RDW, first registered 2018–2024) and the UK (DfT licensed fleet), as of {date}. We average the two shares and never add counts from different sources.",
+  "catalogue.how.regs": "{regs} % comes from registrations: each model's share of electric cars on the road in the Netherlands (RDW open vehicle register, CC0; first registered 2018–2024) and the UK (DfT licensed fleet, Open Government Licence v3), as of {date}. We average the two shares and never add counts from different sources.",
   "catalogue.how.picks": "{picks} % comes from the owner's picks: one person's verdict on cars for everyday use with fast charging. It's an opinion, not a measurement.",
   "catalogue.how.none": "Cars with no registration data and no pick come last, without a rank.",
   "catalogue.how.config": "The weights live in a config file, so we can change them openly.",
   "landing.allCars.title": "Want to see everything?",
   "landing.allCars.body": "Browse all {n} cars, most popular first, with every filter.",
-  "landing.allCars.button": "Show all cars"
+  "landing.allCars.button": "Show all cars",
+  "catalogue.how.split": "A model's share is split over its generations by how many of each are registered in the Netherlands (RDW). If RDW has no count for any generation of a model, the share is split evenly.",
+  "card.popular.nerd": "Score {score}/100 · registrations RDW (CC0) + DfT (OGL v3), {date}, plus the owner's picks"
 }

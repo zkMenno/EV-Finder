@@ -93,12 +93,16 @@ export interface ExploreProps {
   hasScores?: boolean;
   /** The page's default view, left out of the URL (T-130: cards on /cars). */
   defaultView?: View;
+  /** Date of the registration counts behind "Most popular" (Nerd line under the tag). */
+  popularityAsOf?: string;
   /** Link to the "How we rank" explanation of the Most popular order (T-130). */
   howWeRankHref?: string;
 }
 
 interface Ctx {
   t: T;
+  /** Date of the "Most popular" registration counts (T-130 Nerd line). */
+  popAsOf?: string;
   locale: string;
   labels: NumLabels;
   sources: Record<string, string>;
@@ -171,6 +175,7 @@ export function Explore(props: ExploreProps) {
       termText: { about: t("term.about"), learnMore: t("term.learnMore") },
       level: state.level,
       asOf: props.asOf,
+      popAsOf: props.popularityAsOf,
       pay: state.pay,
       loan,
       trip: tripMod && fits ? { mod: tripMod, fits, ui: {
@@ -182,7 +187,7 @@ export function Explore(props: ExploreProps) {
               gloss: { base: siteBase(props.country, props.lang), terms: props.taxonomy.terms, text: { about: t("term.about"), learnMore: t("term.learnMore") } },
             } } : undefined,
     }),
-    [t, locale, sources, props.code, props.currency, props.country, props.lang, props.taxonomy, state.level, props.asOf, state.pay, loan, tripMod, fits],
+    [t, locale, sources, props.code, props.currency, props.country, props.lang, props.taxonomy, state.level, props.asOf, props.popularityAsOf, state.pay, loan, tripMod, fits],
   );
 
   const openTrip = () => {
@@ -1238,6 +1243,11 @@ function Card({ row: r, ctx: c, popTag = true }: { row: ExploreRow; ctx: Ctx; po
       {popTag && r.pop_rank ? (
         <p className="w-fit rounded-full border border-slate-500 px-2 py-0.5 text-xs font-semibold" data-testid="popular-tag">
           {t("card.popular", { n: r.pop_rank })}
+        </p>
+      ) : null}
+      {popTag && r.pop_rank && level === "nerd" ? (
+        <p className="text-xs text-slate-700" data-testid="popular-nerd">
+          {t("card.popular.nerd", { score: r.pop ?? "—", date: c.popAsOf ?? "—" })}
         </p>
       ) : null}
       <div className="flex items-start justify-between gap-2">

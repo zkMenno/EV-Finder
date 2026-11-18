@@ -773,13 +773,15 @@
   "sort.popular.how": "So ordnen wir",
   "card.popular": "#{n} beliebt",
   "catalogue.title": "Alle Elektroautos",
-  "catalogue.intro": "Jede EV-Generation, die wir erfassen, die beliebtesten zuerst. Filtern, sortieren und vergleichen; deine Auswahl bleibt im Link.",
+  "catalogue.intro": "Jedes Elektroauto, das wir erfassen, die beliebtesten zuerst. Filtern, sortieren und vergleichen; deine Auswahl bleibt im Link.",
   "catalogue.how.title": "So ordnen wir „Am beliebtesten“",
-  "catalogue.how.regs": "{regs} % stammen aus Zulassungen: der Anteil jedes Modells an den Elektroautos auf der Straße in den Niederlanden (RDW, Erstzulassung 2018–2024) und im Vereinigten Königreich (DfT, zugelassener Bestand), Stand {date}. Wir mitteln die beiden Anteile und addieren nie Zahlen aus verschiedenen Quellen.",
+  "catalogue.how.regs": "{regs} % stammen aus Zulassungen: der Anteil jedes Modells an den Elektroautos auf der Straße in den Niederlanden (offenes Fahrzeugregister RDW, CC0; Erstzulassung 2018–2024) und im Vereinigten Königreich (DfT, zugelassener Bestand, Open Government Licence v3), Stand {date}. Wir mitteln die beiden Anteile und addieren nie Zahlen aus verschiedenen Quellen.",
   "catalogue.how.picks": "{picks} % stammen aus den Favoriten des Betreibers: das Urteil einer Person über Autos für den Alltag mit Schnellladen. Eine Meinung, keine Messung.",
   "catalogue.how.none": "Autos ohne Zulassungsdaten und ohne Favoritenurteil kommen zuletzt, ohne Rang.",
   "catalogue.how.config": "Die Gewichte stehen in einer Konfigurationsdatei, damit wir sie offen ändern können.",
   "landing.allCars.title": "Alles ansehen?",
   "landing.allCars.body": "Alle {n} Autos durchsuchen, die beliebtesten zuerst, mit allen Filtern.",
-  "landing.allCars.button": "Alle Autos zeigen"
+  "landing.allCars.button": "Alle Autos zeigen",
+  "catalogue.how.split": "Der Anteil eines Modells wird nach den niederländischen Zulassungen je Generation (RDW) auf seine Generationen verteilt. Hat RDW für keine Generation eines Modells eine Zahl, verteilen wir gleichmäßig.",
+  "card.popular.nerd": "Wert {score}/100 · Zulassungen RDW (CC0) + DfT (OGL v3), {date}, plus die Favoriten des Betreibers"
 }

@@ -773,13 +773,15 @@
   "sort.popular.how": "Cómo ordenamos",
   "card.popular": "#{n} popular",
   "catalogue.title": "Todos los coches eléctricos",
-  "catalogue.intro": "Cada generación de VE que seguimos, los más populares primero. Filtra, ordena y compara; tus elecciones quedan en el enlace.",
+  "catalogue.intro": "Cada coche eléctrico que seguimos, los más populares primero. Filtra, ordena y compara; tus elecciones quedan en el enlace.",
   "catalogue.how.title": "Cómo ordenamos «Más populares»",
-  "catalogue.how.regs": "El {regs} % viene de las matriculaciones: la cuota de cada modelo entre los coches eléctricos en circulación en los Países Bajos (RDW, primera matriculación 2018–2024) y el Reino Unido (DfT, parque matriculado), a {date}. Hacemos la media de las dos cuotas y nunca sumamos cifras de fuentes distintas.",
+  "catalogue.how.regs": "El {regs} % viene de las matriculaciones: la cuota de cada modelo entre los coches eléctricos en circulación en los Países Bajos (registro abierto de vehículos RDW, CC0; primera matriculación 2018–2024) y el Reino Unido (DfT, parque matriculado, Open Government Licence v3), a {date}. Hacemos la media de las dos cuotas y nunca sumamos cifras de fuentes distintas.",
   "catalogue.how.picks": "El {picks} % viene de las elecciones del propietario del sitio: la opinión de una sola persona sobre coches para el día a día con carga rápida. Una opinión, no una medición.",
   "catalogue.how.none": "Los coches sin datos de matriculación ni elección van al final, sin puesto.",
   "catalogue.how.config": "Los pesos están en un archivo de configuración, para poder cambiarlos de forma abierta.",
   "landing.allCars.title": "¿Quieres verlo todo?",
   "landing.allCars.body": "Explora los {n} coches, los más populares primero, con todos los filtros.",
-  "landing.allCars.button": "Ver todos los coches"
+  "landing.allCars.button": "Ver todos los coches",
+  "catalogue.how.split": "La cuota de un modelo se reparte entre sus generaciones según cuántas hay matriculadas de cada una en los Países Bajos (RDW). Si el RDW no tiene cifra para ninguna generación de un modelo, se reparte a partes iguales.",
+  "card.popular.nerd": "Puntuación {score}/100 · matriculaciones RDW (CC0) + DfT (OGL v3), {date}, más las elecciones del propietario del sitio"
 }

@@ -30,6 +30,14 @@ test("catalogue: Most popular first as cards, #n tags in order, How we rank expl
   await expect(page.getByTestId("how-we-rank")).toBeInViewport();
   await expect(page.getByTestId("how-we-rank")).toContainText("80 % comes from registrations");
   await expect(page.getByTestId("how-we-rank")).toContainText("one person's verdict");
+  await expect(page.getByTestId("how-we-rank")).toContainText("CC0");
+  await expect(page.getByTestId("how-we-rank")).toContainText("Open Government Licence v3");
+});
+
+test("catalogue Nerd level: the popularity tag shows its score, sources, licences and date", async ({ page }) => {
+  await page.goto("/nl/en/cars?level=nerd");
+  await expect(page.getByTestId("result-count")).not.toContainText("…");
+  await expect(page.getByTestId("popular-nerd").first()).toContainText(/Score [\d.]+\/100 · registrations RDW \(CC0\) \+ DfT \(OGL v3\), \d{4}-\d{2}-\d{2}/);
 });
 
 test("catalogue: the sort menu writes the URL and survives a reload", async ({ page }) => {
@@ -48,6 +56,9 @@ test("old Explore links on the landing page move to the catalogue with their sta
   await page.goto("/nl/en?view=table&range=300");
   await expect(page).toHaveURL(/\/nl\/en\/cars\?view=table&range=300$/);
   await expect(page.locator("#f-rangeMin")).toHaveValue("300");
+  // Old links with hero answers move too; /cars reads the answers (review #117).
+  await page.goto("/nl/en?role=only&trips=monthly&sort=-suggested&view=table");
+  await expect(page).toHaveURL(/\/nl\/en\/cars\?role=only&trips=monthly&sort=-suggested&view=table/);
   // Hero links stay on the landing page.
   await page.goto("/nl/en?role=second&budget=20000");
   await expect(page).toHaveURL(/\/nl\/en\?role=second&budget=20000$/);
