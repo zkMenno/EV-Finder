@@ -1038,7 +1038,7 @@ function FiltersPanel({
         className="flex max-h-[88vh] flex-col rounded-t-2xl bg-white lg:max-h-none lg:rounded-none lg:bg-transparent"
       >
         <div className="flex items-center justify-between gap-2 px-4 pb-2 pt-4 lg:px-0 lg:pt-0">
-          <h2 id="filters-heading" ref={headingRef} tabIndex={-1} className="text-lg font-bold focus:outline-none">
+          <h2 id="filters-heading" ref={headingRef} tabIndex={-1} className="text-lg font-bold">
             {t("filters.title")}
           </h2>
           <span className="flex items-center gap-3">
@@ -1638,9 +1638,10 @@ function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: 
   const fit = c.trip?.fits.get(r.variant_id);
   const fact = (icon: ReactNode, value: ReactNode, label: ReactNode, testId: string) => (
     <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]" data-testid={testId}>
-      <dd className="order-2 flex min-w-0 items-center gap-1 text-base font-bold tabular-nums">
+      {/* The icon sits beside the number. At Nerd the value carries unbreakable source badges, so the
+          row may wrap there (re-review 3: without it a 360 px card grew 3–9 px with CI's fonts). */}
+      <dd className={`order-2 flex min-w-0 items-center gap-1 text-base font-bold tabular-nums ${level === "nerd" ? "flex-wrap" : ""}`}>
         {icon}
-        {/* The value may break between its digits on a narrow card; the icon stays beside it. */}
         <span className="min-w-0 [overflow-wrap:anywhere]">{value}</span>
       </dd>
       <dt className="order-3 text-xs text-slate-700">{label}</dt>

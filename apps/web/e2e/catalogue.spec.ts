@@ -192,3 +192,17 @@ test("phone sheet: typing a value keeps focus in the field; Tab stays inside; wi
   await expect(sheet).toHaveCount(0);
   expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
 });
+
+// Review #126 round 3: CI's fonts run wider than local ones, so a card that fits locally overflowed
+// there. Widen every letter by 6 % (the T-097 "12 % wider text" lesson, halved for letter-spacing)
+// and check every level still fits a 360 px phone.
+test("catalogue cards fit 360 px at every level even with wider text (CI fonts)", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  for (const level of ["simple", "detailed", "nerd"]) {
+    await page.goto(`/nl/en/cars?level=${level}`);
+    await expect(page.getByTestId("result-count")).not.toContainText("…");
+    await page.addStyleTag({ content: "*{letter-spacing:0.06em !important}" });
+    const over = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(over, `level ${level}: page wider than the phone with wider text`).toBeLessThanOrEqual(0);
+  }
+});
