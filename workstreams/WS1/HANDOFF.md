@@ -1,20 +1,24 @@
-# WS1 handoff — 2026-11-18 ~09:40 UTC
+# WS1 handoff — 2026-11-18 ~10:50 UTC (8th session)
 
-Chat: https://claude.ai/code/session_01JuyZEVR92pcMFzUGsz5wzo (6th WS1 session). Next chat: "Read workstreams/WS1/HANDOFF.md and START.md and go."
+Chat: https://claude.ai/code/session_01JuyZEUgHKypBRfx6deGhfu. A 7th WS1 chat (https://claude.ai/code/session_01JuyZEWZpw9k11fdnaAKr2X) owns T-073 (PR #127): check its STATUS before touching RDW/TGK variant work.
+Next chat: "Read workstreams/WS1/HANDOFF.md and START.md and go."
 
-## State (2026-11-18 09:40 UTC)
-All merged: #105 (image build fix), #108 (T-136 report R-41), #109 (Pillow), #110 (T-134 photos, pipeline side). No open WS1 PRs.
+## Open WS1 PRs (all CI green or running, waiting on WS0 review)
+- #131 `ev manual check`: facts on retired ids are errors (A-36 S7)
+- #133 check-release verifies stored image files by sha256 (#110 nit)
+- #134 photo-only nights publish (#110 should-fix 3; replaces old HANDOFF item 2)
+- #135 '+' → 'plus' in match keys (WS3 ask). Same-data rebuild: 276 ids unchanged; XPENG P7 x2, P7+ x2, Leaf e+ 62 change. 🟡 Leaf e+ winter range went up (225 → 239) while EPA went down (364 → 346): not traced.
+- #136 `years: [from, to]` on generation manual facts (WS3 ask, Decision 059)
+- #127 T-073 (7th chat, not mine)
 
 ## Next for WS1 (in order)
-1. After the first night run since #110: check the refresh summary `images` (fetched / failed / stopped). Wikimedia 429s sandbox IPs, so the night server is the first real download. If it says `stopped`, it resumes next night.
-2. Follow-up task to propose to WS0: a night with only new photos (no data change) is skipped as 'catalogue identical', so photos wait for the next data change.
-3. Press photos: when WS3 marks a maker `allowed` in data/images/press-terms.yaml, copy its `photo_hosts` into `maker-press-photos.hosts` in data/sources.yaml and regenerate apps/web's sources.generated.json (`node apps/web/scripts/sources.mjs`).
-4. T-136 build tasks: only those WS0 approved from R-41 (see BOARD/tasks).
-5. Older open items from the 5th handoff still apply (#58 follow-up test for the ac_kw_optional rows guard; WS3 asks '+' → 'plus', `years:` on manual facts).
+1. Answer review notes on #131 #133 #134 #135 #136.
+2. After the first night run since #110: check refresh.json `images` (fetched / failed / stopped, and `pending_generations` once #134 is in).
+3. Ioniq 5 facelift: RDW variant codes F5E62 etc. land on facelift-base (WS3 T-140 item 2). Overlaps T-073: coordinate with the 7th chat.
+4. Press photos: only when WS3 marks a maker `allowed` in data/images/press-terms.yaml (none today).
+5. #110 nit not done: COMMONS_LICENCE accepts any 2-letter CC port. Needs the real CC 2.0–3.0 port list from creativecommons.org (fetch needed approval; not guessed).
+6. Older: #58 follow-up test for the ac_kw_optional rows guard.
 
 ## Findings worth keeping
-- EEA Discodata POST works from these sessions; 16 grouped queries take ~10 min (scripts in research/R-41-catalogue-coverage/).
-- 9.11 M EU BEVs 2010–2025; seed models match 86.7 %; EEA power field is inconsistent across countries (do not use as a variant key alone).
-- 22 KilowattApp rows cite ev-database.org (🔴 provenance).
-- Local full pytest needs release 2 assets: `cd apps/web && CATALOGUE_FILES=catalogue.json,catalogue.parquet,facts.parquet,charging_stats.json,consumption_matrix.json,run_log.json,shortlist_scores.json,sources.json,used_prices.json,refresh.json node scripts/fetch-release.mjs`.
-- Photo licences: Commons CC BY / CC BY-SA incl. 2.0–3.0 country ports (e.g. CC-BY-SA-3.0-DE); 4.0 has no ports.
+- Full same-data rebuild recipe: detached worktree of origin/main, `uv run ev refresh --force --no-release` (all 16 sources ok, ~20 min, peak 446 MB), then `build_release(data_dir)` with old and new code and diff rows + facts. Copy release 2 assets into the worktree first.
+- Release 2 assets for local pytest: see the 6th handoff command (fetch-release.mjs with CATALOGUE_FILES).

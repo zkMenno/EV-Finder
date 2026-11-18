@@ -1,6 +1,6 @@
 # Chats
 
-Every long-running chat on EV Finder, so chats (and Menno) can find each other. A new chat adds its own row in its first commit.
+One named chat, the **coordinator**; every other chat is a throwaway batch chat (docs/process/README.md §3). A new chat adds its own row in its first commit: batch chats as `batch: <what>`. Rows below the coordinator are history.
 
 | Workstream | Purpose | Link | Since |
 |---|---|---|---|
@@ -40,3 +40,7 @@ Every long-running chat on EV Finder, so chats (and Menno) can find each other. 
 | WS2 (6th, 2026-11-18) | Web app: T-130 part 2 (catalogue visual layer), then T-131, T-135, T-132 | https://claude.ai/code/session_01JuyZEWZuyZEW | 2026-11-18 |
 | WS3 (4th, 2026-11-18) | Catalogue curation: T-136 task 2 missing-model seed (R-41), then pre-push data-qa script | https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9 | 2026-11-18 |
 | WS1 (8th) | Data pipeline: HANDOFF follow-ups ('+' → 'plus' key, retired-id manual facts, #110 nits, photo-only nights); not T-073 (7th chat owns #127) | https://claude.ai/code/session_01JuyZEUgHKypBRfx6deGhfu | 2026-11-18 |
+| batch: WS0 merge batch 2 | Fresh review + merge #122→#123 (process), #124→#125 (T-141 Ariakit); ask WS4 about #59 | https://claude.ai/code/session_01JuyZEVozSsJftczDuEDThn | 2026-11-18 |
+| WS3 batch (5th, 2026-11-18) | batch: T-136 stretch (absorb 2nd chat models + van people carriers), then e-tron GT facelift | https://claude.ai/code/session_01JuyZEVcqV3ZZHZbnBVTP8x | 2026-11-18 |
+| batch: WS0 merge batch 3 | Fresh review + merge WS1 8th PRs #131, #133, #134, #135, #136 | https://claude.ai/code/session_01JuyZEUqC6gVaKzctwab8Me | 2026-11-18 |
+| batch: merge 3 | Fresh review + merge queue: #126→#137, #133/#134/#136→#135 (if the other merge-3 chat has not), #138 (close #129), #130, #128, #132, #127, WS0 process PRs | https://claude.ai/code/session_01JuyZEVyzbdoL | 2026-11-18 |

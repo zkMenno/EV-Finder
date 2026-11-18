@@ -17,6 +17,9 @@ const full: ExploreState = {
   v: 1,
   filters: {
     priceMax: 40000,
+    usedMin: 10000,
+    usedMax: 25000,
+    winterMin: 250,
     eras: ["2018-20", "pre-2018"],
     segments: ["C"],
     bodies: ["suv", "hatchback"],
@@ -152,6 +155,6 @@ describe("sort cycle and counters", () => {
   });
   it("counts active filters", () => {
     expect(activeFilterCount(defaultState().filters)).toBe(0);
-    expect(activeFilterCount(full.filters)).toBe(24);
+    expect(activeFilterCount(full.filters)).toBe(27);
   });
 });
