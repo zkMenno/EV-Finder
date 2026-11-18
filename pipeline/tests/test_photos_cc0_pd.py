@@ -185,3 +185,19 @@ def test_png_originals_render_to_webp(mode: str) -> None:
         if mode == "P":
             r, g, b = im.getpixel((700, 300))  # right half: palette index 0 = transparent
             assert min(r, g, b) > 240
+
+
+@pytest.mark.parametrize("field", ["licence_checked_at", "retrieved_at"])
+def test_yaml_datetimes_are_read_as_dates_not_a_crash(field: str) -> None:
+    """#149 review nit: YAML `2026-11-18 10:00` loads as a datetime; comparing it with a date
+    raised TypeError instead of passing (past) or reporting a problem (future)."""
+    from datetime import datetime
+
+    ok, problems = parse_photos(
+        {"photos": [free(**{field: datetime(2026, 11, 17, 10, 0)})]}, None, GENS, TODAY
+    )
+    assert problems == [] and len(ok) == 1
+    ok, problems = parse_photos(
+        {"photos": [free(**{field: datetime(2027, 1, 1, 10, 0)})]}, None, GENS, TODAY
+    )
+    assert ok == [] and "future" in problems[0].reason

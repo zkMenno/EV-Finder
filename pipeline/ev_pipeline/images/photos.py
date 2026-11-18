@@ -28,7 +28,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -127,6 +127,8 @@ def _https(url: object) -> bool:
 
 
 def _date(v: object) -> date | None:
+    if isinstance(v, datetime):  # YAML `2026-11-18 10:00` loads as a datetime (#149 nit)
+        return v.date()
     if isinstance(v, date):
         return v
     if isinstance(v, str):
