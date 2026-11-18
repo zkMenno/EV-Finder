@@ -6,7 +6,11 @@ photos.yaml:
         source: commons            # commons | press
         page_url: https://commons.wikimedia.org/wiki/File:...
         file_url: https://upload.wikimedia.org/wikipedia/commons/...jpg
-        licence: CC-BY-SA-4.0      # commons: CC-BY-* / CC-BY-SA-*; press: press-terms
+        licence: CC-BY-SA-4.0      # commons: CC-BY-* / CC-BY-SA-* / CC0-1.0 / public-domain;
+                                   # press: press-terms
+        licence_template: cc-zero  # CC0 / public-domain only (Decision 083): the template read
+        licence_checked_at: 2026-11-18  # from the file page, the date, and where it was read
+        licence_checked_on: file page
         author: Jane Doe
         credit: "Photo: Jane Doe, CC BY-SA 4.0, via Wikimedia Commons"
         retrieved_at: 2026-11-18
@@ -39,6 +43,16 @@ PRESS_LICENCE = "press-terms"
 COMMONS_LICENCE = re.compile(r"^CC-BY(-SA)?-(4\.0|(2\.0|2\.5|3\.0)(-[A-Z]{2})?)$")
 """Decision 081: Commons photos are CC BY or CC BY-SA only (no NC, no ND, no GFDL-only).
 Versions 2.0-3.0 also exist as country ports (e.g. CC-BY-SA-3.0-DE); 4.0 has none."""
+COMMONS_FREE_LICENCES = ("CC0-1.0", "public-domain")
+"""Decision 083: CC0 and worldwide public domain, only with an allowed file-page template."""
+ALLOWED_TEMPLATES = frozenset(
+    {"cc-zero", "self|cc-zero", "pd-self", "self|pd-self", "pd-author", "pd-old-100"}
+)
+"""Normalised (lowercase, no spaces) Commons templates; mirrors ALLOWED_TEMPLATES in
+data/images/tools/check_templates.py (a test keeps the two equal)."""
+REFUSED_TEMPLATE = re.compile(r"^(pd-us|pd-usgov|pd-textlogo|pd-ineligible)")
+"""Country-only or not-a-photo public domain (Decision 083): refused even if listed above."""
+LICENCE_CHECKED_ON = "file page"
 SOURCE_ID = {"commons": "wikimedia-commons", "press": "maker-press-photos"}
 """data/sources.yaml rows whose `hosts:` allowlist the downloads."""
 
@@ -77,8 +91,32 @@ class PhotoProblem:
 
 def licence_allowed(source: str, licence: str) -> bool:
     if source == "commons":
-        return bool(COMMONS_LICENCE.match(licence))
+        return bool(COMMONS_LICENCE.match(licence)) or licence in COMMONS_FREE_LICENCES
     return source == "press" and licence == PRESS_LICENCE
+
+
+def normalise_template(template: str) -> str:
+    return re.sub(r"\s+", "", template).lower()
+
+
+def template_allowed(template: str) -> bool:
+    t = normalise_template(template)
+    return t in ALLOWED_TEMPLATES and not REFUSED_TEMPLATE.match(t.removeprefix("self|"))
+
+
+def _free_licence_problem(raw: dict[str, Any], today: date) -> str:
+    """'' when a CC0 / public-domain photo carries the file-page template check (Decision 083)."""
+    template = str(raw.get("licence_template") or "")
+    checked = _date(raw.get("licence_checked_at"))
+    if not template:
+        return "CC0 / public-domain photo without licence_template (Decision 083)"
+    if not template_allowed(template):
+        return f"licence_template {template!r} not allowed (Decision 083: worldwide CC0 / PD only)"
+    if checked is None or checked > today:
+        return "licence_checked_at missing, not a date or in the future"
+    if raw.get("licence_checked_on") != LICENCE_CHECKED_ON:
+        return f"licence_checked_on must be {LICENCE_CHECKED_ON!r} (Decision 083)"
+    return ""
 
 
 def _https(url: object) -> bool:
@@ -141,7 +179,9 @@ def parse_photos(
         if source not in SOURCES:
             bad(f"source must be one of {SOURCES}")
         elif not licence_allowed(source, licence):
-            bad(f"licence {licence!r} not allowed for {source} photos (Decision 081)")
+            bad(f"licence {licence!r} not allowed for {source} photos (Decisions 081, 083)")
+        elif licence in COMMONS_FREE_LICENCES and (why := _free_licence_problem(raw, today)):
+            bad(why)
         elif not credit:
             bad("empty credit line")
         elif not _https(raw.get("page_url")) or not _https(raw.get("file_url")):

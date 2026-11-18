@@ -130,6 +130,21 @@ def fetch_originals(
     return rep
 
 
+def _flatten(img: Any) -> Any:
+    """RGB for WebP. PNG / GIF / WebP with alpha (RGBA, LA, P + transparency) go onto white,
+    so transparent areas don't turn black (Decision 083 brought the first PNG pick)."""
+    from PIL import Image
+
+    if img.mode == "P" and "transparency" in img.info:
+        img = img.convert("RGBA")
+    if img.mode in ("RGBA", "LA", "PA"):
+        rgba = img.convert("RGBA")
+        bg = Image.new("RGB", rgba.size, (255, 255, 255))
+        bg.paste(rgba, mask=rgba.getchannel("A"))
+        return bg
+    return img.convert("RGB")
+
+
 def render_sizes(original: bytes, generation_id: str) -> dict[str, bytes]:
     """Release-relative path -> WebP bytes for each width <= the original's width.
 
@@ -142,8 +157,7 @@ def render_sizes(original: bytes, generation_id: str) -> dict[str, bytes]:
     Image.MAX_IMAGE_PIXELS = MAX_PIXELS
     with Image.open(io.BytesIO(original)) as im:
         im.load()
-        img = ImageOps.exif_transpose(im)
-        img = img.convert("RGB")
+        img = _flatten(ImageOps.exif_transpose(im))
     sha8 = hashlib.sha256(original).hexdigest()[:8]
     widths = [w for w in WIDTHS if w <= img.width] or [img.width]
     out: dict[str, bytes] = {}
