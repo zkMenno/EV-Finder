@@ -269,3 +269,13 @@ approved:
   - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-facelift-base, field: "scores.*", change: changed}
   - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-gen1-73kwh-awd, field: "scores.*", change: changed}
   - {<<: *t140, file: shortlist_scores.json, id: hyundai-ioniq-5-gen1-73kwh-rwd, field: "scores.*", change: changed}
+  # T-136 stretch (PR #142, WS3): smart EQ forfour gets its own seed model.
+  - &t136c
+    release: 3
+    file: used_prices.json
+    approved_by: "PR #142 (T-136 stretch)"
+    reason: "T-136 stretch: smart EQ forfour (EEA and RDW 'EQ FORFOUR') matched the fortwo because the seed had no forfour; it now has its own model (smart-eq-forfour). The fortwo EQ's RDW list prices and registrations lose the forfour cars, so its model-estimate bands move ~15 % (list price 25,500 -> 29,200 EUR) and the 2024 bands clear: their list price came from forfour records and no fortwo price lies within max_year_gap. Matching regression in PR #142: 85 records change model, all forfour."
+    id: smart-eq-fortwo-453-eq
+    field: "bands.*"
+    change: changed
+  - {<<: *t136c, id: smart-eq-fortwo-453-eq, field: "bands.*", change: cleared}
