@@ -484,12 +484,15 @@ FAKE_GH = """#!/usr/bin/env bash
 # Fake gh for the publisher: one folder per tag; `.draft` marks an unpublished release.
 s="$FAKE_GH_STORE"; verb=$2; tag=$3; shift 3
 case $verb in
- view) [ -d "$s/$tag" ] || exit 1
+ view) if [ -n "${FAKE_GH_VIEW_ERROR:-}" ]; then echo "HTTP 403: rate limit" >&2; exit 1; fi
+       [ -d "$s/$tag" ] || { echo "release not found" >&2; exit 1; }
        case "$*" in
          *isDraft*) if [ -f "$s/$tag.draft" ]; then echo true; else echo false; fi;;
          *) for f in "$s/$tag"/*; do
               [ -e "$f" ] || continue
-              printf '%s\\t%s\\n' "$(basename "$f")" "$(wc -c < "$f" | tr -d ' ')"
+              d="sha256:$(sha256sum "$f" | cut -d' ' -f1)"; [ -n "${FAKE_GH_NO_DIGEST:-}" ] && d=-
+              z=$(wc -c < "$f" | tr -d ' ')
+              printf '%s\\t%s\\t%s\\tuploaded\\n' "$(basename "$f")" "$d" "$z"
             done;;
        esac;;
  delete) rm -rf "$s/$tag" "$s/$tag.draft";;
@@ -575,6 +578,9 @@ def test_shell_publisher_resumes_a_stopped_draft(built: Path, tmp_path: Path) ->
     src = {e["asset"]: built / e["path"] for e in m["files"]}
     shutil.copy(src[assets[0]], draft / assets[0])  # already up, correct
     (draft / assets[1]).write_bytes(b"truncated")  # wrong size: replaced
+    same = bytearray(src[assets[2]].read_bytes())
+    same[0] ^= 1
+    (draft / assets[2]).write_bytes(bytes(same))  # same size, other bytes: replaced (#162 review)
     (draft / "stale.json").write_text("{}")  # not in the manifest: removed
     (store / ".fails").write_text("2")  # the first two uploads hit the rate limit
 
@@ -585,8 +591,27 @@ def test_shell_publisher_resumes_a_stopped_draft(built: Path, tmp_path: Path) ->
         assert (draft / a).read_bytes() == src[a].read_bytes()
     assert not (store / "data-v1.draft").exists()
     assert f"uploading {len(assets) - 1} of {len(assets)}" in out.stdout
-    batches = -(-(len(assets) - 1) // 3)
+    batches = -(-(len(assets) - 1) // 3)  # every asset but the one already correct
     assert len((store / ".uploads").read_text().split()) == batches  # paced, 3 per batch
+
+
+@pytest.mark.skipif(shutil.which("jq") is None, reason="jq not installed")
+def test_shell_publisher_never_treats_a_failed_lookup_as_a_new_release(
+    built: Path, tmp_path: Path
+) -> None:
+    """#162 review: a 403 on the first lookup must not create a second draft for the tag."""
+    store, env = _publisher(tmp_path)
+    out = _run_publisher(built, {**env, "FAKE_GH_VIEW_ERROR": "1"})
+    assert out.returncode == 1 and "cannot read release" in out.stdout
+    assert not (store / "data-v1").exists()
+
+
+@pytest.mark.skipif(shutil.which("jq") is None, reason="jq not installed")
+def test_shell_publisher_falls_back_to_size_without_a_digest(built: Path, tmp_path: Path) -> None:
+    """Assets uploaded before GitHub returned digests: same size counts as unchanged."""
+    store, env = _publisher(tmp_path)
+    assert _run_publisher(built, env).returncode == 0
+    assert "unchanged" in _run_publisher(built, {**env, "FAKE_GH_NO_DIGEST": "1"}).stdout
 
 
 @pytest.mark.skipif(shutil.which("jq") is None, reason="jq not installed")
