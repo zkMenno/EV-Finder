@@ -371,3 +371,54 @@ test("landing: reduced motion shows the flat scenes and no moving layers", async
   await expect(page.getByTestId("hero-scene").locator(".evs-scene--day img")).toBeVisible();
   await ctx.close();
 });
+
+// T-132 part 2: results layout (frames t132-d2 desktop, t132-m4 phone).
+test("hero results (desktop): answers sidebar with change buttons, aligned shortlist columns, show-all link keeps the answers", async ({ page }) => {
+  test.skip(!HAS_SCORES, NO_SCORES_REASON);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/nl/en?role=main&trips=monthly&budget=25000");
+  const rows = page.getByTestId("hero-shortlist").getByTestId("hero-card");
+  await expect(rows.first()).toBeVisible();
+  // Sidebar beside the list, not above it.
+  const side = await page.getByTestId("hero-side").boundingBox();
+  const list = await page.getByTestId("hero-shortlist").boundingBox();
+  expect(side!.x + side!.width).toBeLessThanOrEqual(list!.x);
+  const answers = page.getByTestId("hero-answers");
+  await expect(answers).toBeVisible();
+  await expect(answers).toContainText("Our main car");
+  await expect(answers).toContainText("€25,000");
+  // Every row's winter figure starts in the same column.
+  const xs = await rows.getByTestId("hero-winter").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().right)));
+  expect(new Set(xs).size, `winter column right edges ${xs}`).toBe(1);
+  // "Show all cars" opens the catalogue with these answers and the suggested sort.
+  // One "Show all cars" box on the results: the hero's (with the answers), not the landing's plain one.
+  await expect(page.getByTestId("show-all-cars")).toBeHidden();
+  const all = page.getByTestId("hero-all-cars-link");
+  await expect(all).toHaveAttribute("href", /\/nl\/en\/cars\?.*role=main.*sort=-suggested/);
+  // A change button goes straight to that question.
+  await page.getByTestId("hero-answer-trips").click();
+  await expect(page).toHaveURL(/q=trips/);
+  await expect(page.getByTestId("hero-q-trips")).toBeVisible();
+  // Back on a question, the landing's box shows again.
+  await expect(page.getByTestId("show-all-cars")).toBeVisible();
+});
+
+test("hero results (phone): compact rows with price, winter range and why; no sidebar list", async ({ page }) => {
+  test.skip(!HAS_SCORES, NO_SCORES_REASON);
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/nl/en?role=main&trips=monthly&budget=25000");
+  const first = page.getByTestId("hero-shortlist").getByTestId("hero-card").first();
+  await expect(first).toBeVisible();
+  await expect(first.getByTestId("hero-why")).toContainText("Why:");
+  await expect(first.getByTestId("hero-winter")).toContainText(/km|—/);
+  await expect(page.getByTestId("hero-answers")).toBeHidden();
+  await expect(page.getByTestId("hero-all-cars")).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
+});
+
+test("budget field shows thousands separators (T-132 review N3)", async ({ page }) => {
+  await page.goto("/nl/en?role=main&trips=monthly&q=budget");
+  await page.getByTestId("hero-budget-30000").click();
+  await expect(page.getByTestId("hero-budget")).toHaveValue("30,000");
+});
