@@ -24,7 +24,9 @@ export function BrandChips({
     onRemove(ids.filter((x) => x !== id));
     // The focused chip unmounts: move focus to the next chip, else the previous one, else the input.
     requestAnimationFrame(() => {
-      const chips = list?.querySelectorAll("button");
+      // When the last chip goes, this component returns null and `list` is detached (it still
+      // holds the removed button), so only trust it while it's in the page (T-141 re-review 2).
+      const chips = list?.isConnected ? list.querySelectorAll("button") : undefined;
       const target: HTMLElement | null | undefined = chips?.length
         ? chips[Math.min(i, chips.length - 1)]
         : document.querySelector<HTMLElement>(`[data-testid="${inputTestId}"]`);
