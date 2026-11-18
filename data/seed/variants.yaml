@@ -2276,7 +2276,7 @@ variants:
     years: [2024, null]
     drivetrain: awd
     specs: {}
-    notes: "No WLTP range cited yet: Audi UK gives 367-374 miles (UK equipment); the EU figure (up to 609 km in Audi's June 2024 release) is not read here."
+    notes: "WLTP not cited from Audi (Audi UK gives 367-374 miles for UK equipment); the release takes it from RDW registrations (571 km in the 2026-11-18 build)."
     confidence: high
   - generation_id: audi-e-tron-gt-facelift
     id: audi-e-tron-gt-facelift-rs
@@ -2292,7 +2292,7 @@ variants:
     years: [2024, null]
     drivetrain: awd
     specs: {}
-    notes: "No WLTP range cited yet (not in this release). Audi technology portal, 'Audi RS e-tron GT performance - Drive and performance' (09/2024) gives the same 680 kW, 105 / 97 kWh and 320 kW."
+    notes: "WLTP not in Audi's release; the release takes it from the RDW type approval (608 km in the 2026-11-18 build)."
     confidence: high
 
 source_holds:
