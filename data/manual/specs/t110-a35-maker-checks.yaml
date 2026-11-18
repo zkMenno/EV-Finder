@@ -141,7 +141,7 @@ facts:
     notes: "The release gives no AWD range; Open EV Data 480 km and RDW 481 km are left to the sources."
 
   # --- Hyundai Ioniq 5 N (84 kWh from launch) ---------------------------------------------
-  - variant_id: hyundai-ioniq-5-gen1-n
+  - variant_id: hyundai-ioniq-5-facelift-n
     field: battery_kwh_net
     value: 84.0
     unit: kWh

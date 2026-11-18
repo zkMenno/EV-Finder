@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { SERVED_ROUTES } from "./langs";
 import { HAS_SCORES, HAS_USED_PRICES, NO_SCORES_REASON } from "./release";
 
 // T-080: the landing-page hero ranks the published release for each profile.
@@ -47,7 +48,7 @@ test("hero: without release scores it says 'ranking not available yet' and ranks
   await page.goto("/nl/en?role=only&trips=monthly&charge=home&budget=15000");
   await expect(page.getByTestId("hero-no-scores")).toContainText("Ranking not available yet");
   await expect(page.getByTestId("hero-card")).toHaveCount(0);
-  await page.goto("/nl/nl?role=second");
+  await page.goto("/nl/en?role=second");
   await expect(page.getByTestId("hero-no-scores")).toContainText("Ranglijst nog niet beschikbaar");
 });
 
@@ -84,12 +85,12 @@ test("hero: removing a profile filter and adding to compare", async ({ page }) =
   await expect(page.getByTestId("hero-compare").first()).toHaveAttribute("aria-pressed", "true");
 });
 
-test("hero: works at 360 px without sideways scrolling, NL strings", async ({ page }) => {
+test("hero: works at 360 px without sideways scrolling, NL in English (Decision 082)", async ({ page }) => {
   test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.setViewportSize({ width: 360, height: 800 });
-  await page.goto("/nl/nl?role=second&budget=20000");
+  await page.goto("/nl/en?role=second&budget=20000");
   await expect(page.getByTestId("hero-card")).toHaveCount(10);
-  await expect(page.getByTestId("hero-shortlist")).toContainText("Jouw shortlist");
+  await expect(page.getByTestId("hero-shortlist")).toContainText("Your shortlist");
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });
@@ -130,10 +131,11 @@ test("hero: the keep-8 checkbox is named by its label only (the ⓘ sits outside
   await expect(page.getByRole("checkbox", { name: "I want to keep it 8 years or more", exact: true })).toHaveCount(1);
 });
 
-// Every served language, every card: German compounds and units are wider than Dutch (T-097 review
-// found 18 px). Only routes that are served (countries config); /nl/de would 308 to /nl/nl, so the
-// test fails if a route redirects. ES/IT are served since T-119.
-for (const route of ["nl/nl", "nl/en", "de/de", "fr/fr", "be/fr", "be/de", "es/es", "it/it"]) test(`hero: ${route} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
+// Every served route, every card: German compounds and units are wider than Dutch (T-097 review
+// found 18 px). Routes come from the countries config (Decision 082: /{country}/en for all seven
+// now; the other languages join again by themselves when config serves them). The test fails if a
+// route redirects.
+for (const route of SERVED_ROUTES) test(`hero: ${route} Nerd score table fits a 360 px phone (verify-web found 7 px overflow)`, async ({ page }) => {
   test.skip(!HAS_SCORES, NO_SCORES_REASON);
   await page.setViewportSize({ width: 360, height: 800 });
   await page.goto(`/${route}?role=only&trips=monthly&level=nerd`);

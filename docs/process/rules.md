@@ -18,7 +18,7 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-10 | Every derived score/band/model: dry run on latest release rows before tests; back-test section in qa.json | WS1 retros: thresholds on a different data basis; 22 % rung inconsistency and wrong EPA matches found only by back-test | REVIEW D3 + pipeline/AGENTS.md | WS1 | 2026-11-17 | — |
 | G-11 | Matching/attachment rule changes spot-check 5 tricky cars | A-30 EPA range class; T-068 '+' tokenising | REVIEW D4 | WS1 | 2026-11-17 | — |
 | G-12 | Tests never call the network | baseline | REVIEW D13; *prose* otherwise (candidate: socket-blocking fixture) | WS1/WS2 | 2026-11-14 | — |
-| G-13 | Every user-visible string in 6 languages (drafts allowed) + glossary tooltip for new terms | T-093 shipped unreviewed strings | REVIEW D6 | WS2/WS3 | 2026-11-17 | — |
+| G-13 | Every user-visible string in every served language (EN only until languages return, Decision 082; drafts allowed) + glossary tooltip for new terms | T-093 shipped unreviewed strings | REVIEW D6 | WS2/WS3 | 2026-11-17 | — |
 | G-14 | Parked features (Decision 051) behind flags, off | launch scope | REVIEW D9; parked e2e only in `PARKED=1` builds | WS2 | 2026-11-17 | — |
 | G-15 | Start of session: check open PRs + HANDOFF first | WS1 (3rd session) retro | START.md files *prose* | all | 2026-11-17 | — |
 | G-16 | STATUS/HANDOFF/INBOX may go straight to main (docs only) | WS1 retro: two PRs appending to the same logs | AGENTS.md *prose* | all | 2026-11-17 | — |
@@ -43,7 +43,7 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-35 | Each launch-scope sentence has an acceptance test on the published release | A-35 B2: €15k and €35k gave the same top 10 | REVIEW R4; T-115 e2e | WS2 | 2026-11-17 | — |
 | G-36 | One implementation per rule; the back-test runs the ranking visitors see | A-35 B3: web and pipeline scored different bases | REVIEW D3; Decision 065; T-114 | WS0 | 2026-11-17 | — |
 | G-37 | Implausible spec figures go to review, not the release | A-35 B4: Model Y LR 719 km WLTP was the #1 pick | to build: qa.json plausibility gate (T-111); REVIEW D4 | WS1 | 2026-11-17 | — |
-| G-38 | Every public string exists in all six languages; every launch country is served | A-35 B5 | to build: `i18n.test.ts` all six (T-117); REVIEW D6 | WS2 | 2026-11-17 | — |
+| G-38 | Every public string exists in every served language (EN only, Decision 082); every launch country is served at `/{country}/en/` | A-35 B5 | to build: `i18n.test.ts` all six (T-117); REVIEW D6 | WS2 | 2026-11-17 | — |
 | G-39 | A decision de-dupe keeps the union of both texts | A-35 S1: e885fa0 dropped the newer Decision 060 text | REVIEW D12 | WS0 | 2026-11-17 | 2026-11-17 |
 | G-40 | Note-only commits must not trigger image builds (or deploys) | 17 Nov: main's image build broke (release 2 catalogue missing) and every handoff/inbox commit re-ran it, ~20 failure emails to Menno in an evening | `paths-ignore` on the push trigger in `.github/workflows/images.yml` | WS0 | 2026-11-17 | — |
 

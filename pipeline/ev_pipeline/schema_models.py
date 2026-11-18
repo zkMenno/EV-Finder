@@ -7,7 +7,7 @@ from datetime import date
 from enum import Enum
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, RootModel
+from pydantic import AnyUrl, BaseModel, ConfigDict, Field, RootModel
 
 
 class EvSchema(RootModel[Any]):
@@ -147,6 +147,46 @@ class Model(BaseModel):
     segment: Segment | None = None
     body: Body | None = None
     aliases: list[str] | None = None
+
+
+class File(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    width: int = Field(..., ge=1)
+    path: str = Field(
+        ...,
+        description='Release-relative, e.g. images/<generation_id>-<sha8>-800.webp',
+        min_length=1,
+    )
+    bytes: int = Field(..., ge=1)
+    sha256: str = Field(..., pattern='^[0-9a-f]{64}$')
+
+
+class Source1(Enum):
+    press = 'press'
+    commons = 'commons'
+
+
+class GenerationImage(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    files: list[File] = Field(..., min_length=1)
+    source: Source1
+    page_url: AnyUrl
+    file_url: AnyUrl
+    licence: str = Field(
+        ...,
+        description='Licence or Commons template, e.g. CC BY-SA 4.0, CC0, PD-self (Decision 083).',
+        min_length=1,
+    )
+    author: str | None = None
+    credit: str = Field(..., min_length=1)
+    retrieved_at: date
+    make_id: str | None = Field(
+        None, description='Maker whose press terms apply (source = press).'
+    )
 
 
 class DriveSide(Enum):
@@ -2442,7 +2482,7 @@ class EditorialUsedBudgetPick(BaseModel):
     sheet_values: EditorialSheetValues | None = None
 
 
-class Source1(BaseModel):
+class Source2(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
     )
@@ -2465,7 +2505,7 @@ class EditorialPicks(BaseModel):
     )
     schema_: str = Field(..., alias='schema', pattern='^editorial-picks/v[0-9]+$')
     author: str
-    source: Source1 | None = None
+    source: Source2 | None = None
     scope: str | None = None
     licence: str | None = None
     primary_car_picks: list[EditorialPickSheetRow]
@@ -2594,6 +2634,10 @@ class Generation(BaseModel):
     )
     change_markers: list[ChangeMarker] | None = None
     years_corroboration: GenerationYearsCorroboration | None = None
+    image: GenerationImage | None = Field(
+        None,
+        description='One photo per generation (Decision 081, 083). Optional: absent until sourced.',
+    )
 
 
 class Variant(BaseModel):

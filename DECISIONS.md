@@ -581,6 +581,28 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** First recommendation profile ("only or main car, long trips") with 80% band agreement on his 30 rated cars and 85% pairwise agreement on the untuned July 2025 used tab (research/R-32). Risk: one person's taste, 30 rows 🟡; the UI must say so. Follow-ups T-066 (schema), T-067 (web), T-068 (seed), T-069 (scoring in the release).
 
+## Decision 048: Catalogue target: every EU-sold EV model by generation and facelift at soft launch; variants towards ~1,500 as stretch
+
+**Status:** Accepted (Menno, 2026-11-18, scope decision; logged by WS1)
+**Date:** 2026-11-18
+
+**Context:** R-41 (#108) measured 9.1 M EU BEVs 2010–2025; our 92 seed models cover 86.7 %, and ~40 missing models bring that to ~95 %. WS0 had put the long tail (R-41 task 5) post-launch (WS1 INBOX 2026-11-18 08:58).
+
+**Decision:** Soft-launch bar: every EV model sold in the EU, split by generation and facelift (seed 92 + R-41's ~40 missing models, ~95 % of EU registrations). Stretch: as many variants as possible towards EV Database's ~1,500. R-41 task 5 (long tail) is back in scope as stretch, after the bar. This overrides WS0's 08:58 "long tail: post-launch". Every catalogue PR carries a coverage count (models / generations / variants / % EU registrations).
+
+**Consequences:** WS1 does R-41 task 1 now (T-073), then task 5 as stretch. WS3's task 2 (missing models) is the bar. Kilowatt rows stay out (Q-047), no ev-database.org, no scraping.
+
+## Decision 049: Variants come from RDW TGK versions; EEA corroborates with counts only (Q-039 default)
+
+**Status:** Accepted (WS1 engineering default, 2026-11-18; reversible; Menno: Q-039 is an engineering call)
+**Date:** 2026-11-18
+
+**Context:** Q-039 asked whether EEA per-type-approval spec rows (TAN/Va/Ve averages of range, mass, power) may become facts. EEA's power field is reported inconsistently between countries and makers use variant codes very differently (R-41), so its averages are not stated values of one version.
+
+**Decision:** EEA stays counts-only. Candidate variants come from RDW TGK versions (stated type-approval values, CC0). EEA registrations per TAN|variant|version only corroborate a candidate ("sold in the EU, n cars") and weight the % EU registrations coverage figure. No EEA spec average becomes a fact.
+
+**Consequences:** T-073 builds on this. Reversing it means letting EEA rows add versions never registered in NL (R-08 plan B), a later task.
+
 ## Decision 050: Four usage profiles + where-you-live modifier preselect filters
 
 **Status:** Accepted (WS0, 2026-11-15; Menno asked for it, non-road-trip thresholds await calibration)

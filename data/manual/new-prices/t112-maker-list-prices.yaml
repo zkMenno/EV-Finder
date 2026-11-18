@@ -6,7 +6,7 @@
 schema: manual-facts/v1
 entered_by: ws3-builder (agent, T-112)
 facts:
-  - variant_id: hyundai-ioniq-5-gen1-n
+  - variant_id: hyundai-ioniq-5-facelift-n
     field: price_new
     value: 74900
     unit: EUR
