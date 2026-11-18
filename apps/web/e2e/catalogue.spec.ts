@@ -159,3 +159,32 @@ test("catalogue on a phone: Filters · n opens a bottom sheet; Show n cars and E
   await page.keyboard.press("Escape");
   await expect(sheet).toBeHidden();
 });
+
+// Review #126: the sheet re-focused "Close" after every change, so typed values lost all but one digit.
+test("phone sheet: typing a value keeps focus in the field; Tab stays inside; widening closes it", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 780 });
+  await page.goto("/nl/en/cars");
+  await expect(page.getByTestId("result-count")).not.toContainText("…");
+  await page.getByTestId("filters-open").click();
+  const sheet = page.getByRole("dialog", { name: "Filters" });
+  await page.locator("#f-usedMin").click();
+  await page.keyboard.type("10000");
+  await expect(page.locator("#f-usedMin")).toHaveValue("10000");
+  await expect(page.locator("#f-usedMin")).toBeFocused();
+  await expect(page).toHaveURL(/[?&]umin=10000(&|$)/);
+  // A group that opened for its filter stays open when the value is cleared.
+  const sbt = page.getByTestId("fg-sbt");
+  await sbt.locator("summary").click();
+  await page.locator("#f-seatsMin").fill("5");
+  await page.locator("#f-seatsMin").press("Backspace");
+  await expect(sbt).toHaveAttribute("open", "");
+  await expect(page.locator("#f-seatsMin")).toBeFocused();
+  // Tab from the last control wraps to the first one inside the sheet.
+  await page.getByTestId("filters-show").focus();
+  await page.keyboard.press("Tab");
+  expect(await page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]'))).toBe(true);
+  // Widening to the sidebar layout closes the sheet and unlocks the page.
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await expect(sheet).toHaveCount(0);
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+});

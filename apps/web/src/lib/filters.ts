@@ -43,11 +43,14 @@ export function applyFilters(rows: ExploreRow[], f: ExploreFilters, country: Cou
     });
   };
   max((r) => priceFor(r, country), f.priceMax);
-  // Used price: some build year's typical price lies inside the chosen range (no bands = no match).
+  // Used price: some build year's typical price lies inside the chosen range, within the chosen build
+  // years when those are set too (no bands = no match).
   if (f.usedMin !== null || f.usedMax !== null) {
     const lo = f.usedMin ?? 0;
     const hi = f.usedMax ?? Infinity;
-    checks.push((r) => usedMedians(r, country).some((m) => m >= lo && m <= hi));
+    const y0 = f.yearMin ?? -Infinity;
+    const y1 = f.yearMax ?? Infinity;
+    checks.push((r) => (r.used_bands?.[country] ?? []).some(([y, , m]) => m >= lo && m <= hi && y >= y0 && y <= y1));
   }
   min((r) => r.real_range_winter_km, f.winterMin);
   min((r) => r.real_range_km, f.rangeMin);

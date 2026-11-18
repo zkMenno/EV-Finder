@@ -127,3 +127,11 @@ describe("used price and winter range (T-130 part 2)", () => {
     expect(withoutGroup(g, "usedMin")).toMatchObject({ usedMin: null, usedMax: null, winterMin: 100 });
   });
 });
+
+describe("used price with build years (review #126)", () => {
+  const a = { ...row({ variant_id: "a", year_start: 2018 } as never), used_bands: { NL: [[2018, 9000, 10000, 11000, 0], [2022, 22000, 24000, 26000, 0]] } } as ExploreRow;
+  it("a cheap band from before the chosen build years doesn't make the car match", () => {
+    expect(applyFilters([a], f({ usedMax: 15000, yearMin: 2021 }), "NL")).toEqual([]);
+    expect(applyFilters([a], f({ usedMax: 25000, yearMin: 2021 }), "NL")).toHaveLength(1);
+  });
+});

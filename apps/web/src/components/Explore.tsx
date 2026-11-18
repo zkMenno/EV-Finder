@@ -864,8 +864,15 @@ function ChemistryInfo({ id, ctx }: { id: string; ctx: Ctx }) {
 
 /** One collapsible filter group (T-130 sidebar): open by default, or when one of its filters is on. */
 function Group({ title, open, children, testId }: { title: string; open: boolean; children: ReactNode; testId: string }) {
+  // `open` only ever opens the group (first render, or when one of its filters turns on): a group
+  // never snaps shut under the cursor when its last value is cleared (review #126).
+  const [initial] = useState(open);
+  const ref = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    if (open && ref.current) ref.current.open = true;
+  }, [open]);
   return (
-    <details open={open} className="group border-t border-slate-300 pt-3 first:border-t-0 first:pt-0" data-testid={testId}>
+    <details ref={ref} open={initial} className="group border-t border-slate-300 pt-3 first:border-t-0 first:pt-0" data-testid={testId}>
       <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 font-semibold [&::-webkit-details-marker]:hidden">
         {title}
         <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 shrink-0 fill-none stroke-current transition-transform group-open:rotate-180" strokeWidth="2">
@@ -916,8 +923,9 @@ function BrandFilter({ f, onChange, brands, ctx }: { f: ExploreFilters; onChange
                 className="h-5 w-5 accent-blue-800"
               />
               <span className="flex-1">{b.name}</span>
-              <span className="tabular-nums text-slate-700" aria-label={t("filters.brands.count", { n: b.count })}>
-                {b.count}
+              <span className="tabular-nums text-slate-700">
+                <span aria-hidden="true">{b.count}</span>
+                <span className="sr-only">{t("filters.brands.count", { n: b.count })}</span>
               </span>
             </label>
           </li>
@@ -934,6 +942,9 @@ function BrandFilter({ f, onChange, brands, ctx }: { f: ExploreFilters; onChange
 }
 
 const BRANDS_SHOWN = 6;
+/** Tailwind's lg breakpoint: the sidebar layout. */
+const LG_UP = "(min-width: 64rem)";
+const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), summary, [tabindex]:not([tabindex="-1"])';
 
 function FiltersPanel({
   filters: f,
@@ -960,24 +971,51 @@ function FiltersPanel({
   const n = activeGroups(f).length;
   const more = level !== "simple";
   const closeRef = useRef<HTMLButtonElement>(null);
-  // Sheet: focus the close button on open, Escape closes, the page behind doesn't scroll; focus goes
-  // back to the "Filters" button on close.
+  const sheetRef = useRef<HTMLDivElement>(null);
+  // The parent passes a new function every render; keep the latest in a ref so the effect below
+  // runs only when the sheet opens or closes (review #126: it re-ran on every filter change and
+  // pulled focus out of the field being typed in).
+  const closeFn = useRef(onClose);
+  useEffect(() => {
+    closeFn.current = onClose;
+  }, [onClose]);
+  // Sheet: focus the close button on open, Escape closes, Tab stays inside, the page behind doesn't
+  // scroll; widening to the sidebar layout closes it; focus goes back to the "Filters" button.
   useEffect(() => {
     if (!open) return;
     const opener = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") closeFn.current();
+      if (e.key !== "Tab" || !sheetRef.current) return;
+      const items = [...sheetRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => el.offsetParent !== null);
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (!first || !last) return;
+      const inside = sheetRef.current.contains(document.activeElement);
+      if (e.shiftKey && (document.activeElement === first || !inside)) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !inside)) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
+    const wide = window.matchMedia?.(LG_UP);
+    const onWide = () => {
+      if (wide?.matches) closeFn.current();
+    };
+    wide?.addEventListener?.("change", onWide);
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
+      wide?.removeEventListener?.("change", onWide);
       document.body.style.overflow = overflow;
       opener?.focus?.();
     };
-  }, [open, onClose]);
+  }, [open]);
   const winter = f.winterMin ?? 0;
   const anyOf = (...keys: (keyof ExploreFilters)[]) => keys.some((k) => { const v = f[k]; return Array.isArray(v) ? v.length > 0 : typeof v === "boolean" ? v : v !== null; });
   const moreOpen = anyOf("priceMax", "rangeMin", "eras", "fast400", "charge100", "segments", "voltageClasses", "chemistries", "coolings", "bootMin", "lengthMax", "acMin", "voltageMin", "voltageMax", "excludeMakes") || (f.dcMin !== null && !(DC_STEPS as readonly number[]).includes(f.dcMin));
@@ -985,13 +1023,14 @@ function FiltersPanel({
     <aside
       id="filters-panel"
       aria-labelledby="filters-heading"
-      className={`${open ? "fixed inset-0 z-50 flex flex-col justify-end bg-[color-mix(in_srgb,var(--ink)_45%,transparent)]" : "hidden"} lg:static lg:z-auto lg:block lg:bg-transparent lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:self-start lg:overflow-y-auto`}
+      className={`${open ? "fixed inset-0 z-50 flex flex-col justify-end bg-[color-mix(in_srgb,var(--ink)_45%,transparent)]" : "hidden"} lg:z-auto lg:block lg:bg-transparent lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:self-start lg:overflow-y-auto`}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
       data-testid="filters-panel"
     >
       <div
+        ref={sheetRef}
         role={open ? "dialog" : undefined}
         aria-modal={open || undefined}
         aria-labelledby={open ? "filters-heading" : undefined}
@@ -1564,6 +1603,24 @@ function spanNum(s: Span | null, field: string, c: Ctx, digits = 0, unit?: strin
   );
 }
 
+/** New price span through <Num> with the `price_new.<CC>` provenance of the dearest variant (rule 2). */
+function newPriceNum(s: Span | null, c: Ctx) {
+  if (!s) return <Missing label={c.t("num.noData")} />;
+  const text = s.min === s.max ? formatMoney(s.max, c.currency, c.locale) : `${moneyShort(s.min, c)}–${moneyShort(s.max, c)}`;
+  return (
+    <Num
+      value={s.max}
+      text={text}
+      provenance={s.row.provenance[`price_new.${c.code}`] ?? s.row.provenance.price_new}
+      sources={c.sources}
+      locale={c.locale}
+      labels={c.labels}
+      level={c.level === "nerd" ? "nerd" : "simple"}
+      asOf={c.asOf}
+    />
+  );
+}
+
 /** One card per generation (T-130 design): "#n popular", name + years, used price band, three facts. */
 function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: Ctx; countryName: string }) {
   const { t, level } = c;
@@ -1571,7 +1628,7 @@ function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: 
   const fit = c.trip?.fits.get(r.variant_id);
   const fact = (icon: ReactNode, value: ReactNode, label: ReactNode, testId: string) => (
     <div className="flex min-w-0 flex-col [overflow-wrap:anywhere]" data-testid={testId}>
-      <dd className="order-2 flex items-center gap-1 text-base font-bold tabular-nums">
+      <dd className="order-2 flex min-w-0 flex-wrap items-center gap-1 text-base font-bold tabular-nums">
         {icon}
         {value}
       </dd>
@@ -1583,7 +1640,7 @@ function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: 
   const how = level === "nerd" && used?.how ? [used.how.src, used.how.date].filter(Boolean).join(", ") : "";
   return (
     <li
-      className={`flex flex-col gap-2 rounded-xl border border-slate-300 bg-white p-4 ${fit?.verdict === "fail" ? "opacity-70" : ""}`}
+      className={`flex min-w-0 flex-col gap-2 rounded-xl border border-slate-300 bg-white p-4 ${fit?.verdict === "fail" ? "opacity-70" : ""}`}
       data-testid="explore-card"
       data-generation={g.generation_id}
       data-trip={fit?.verdict}
@@ -1662,7 +1719,7 @@ function GenerationCard({ card: g, ctx: c, countryName }: { card: GenCard; ctx: 
           </div>
           <div className="flex min-w-0 flex-col">
             <dt className="text-xs text-slate-700">{t("col.price")}</dt>
-            <dd className="tabular-nums">{g.newPrice ? (g.newPrice.min === g.newPrice.max ? formatMoney(g.newPrice.max, c.currency, c.locale) : `${moneyShort(g.newPrice.min, c)}–${moneyShort(g.newPrice.max, c)}`) : <Missing label={t("num.noData")} />}</dd>
+            <dd className="tabular-nums">{newPriceNum(g.newPrice, c)}</dd>
           </div>
         </dl>
       ) : null}
