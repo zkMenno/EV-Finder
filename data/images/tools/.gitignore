@@ -1,3 +1,4 @@
 search_cache.json
 candidates.json
 *.jpg
+__pycache__/
