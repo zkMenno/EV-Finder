@@ -662,3 +662,28 @@ def test_laundered_fact_never_reaches_release_or_open_data_bundle(data_dir: Path
     assert source_allowed(reg, {**licences, "rdw": "CC0-1.0"}, "rdw")
     rdw_facts = [f for f in res.facts if f["source"]["id"] == "rdw"]
     assert not any(f["value"] == 27777 for f in rdw_facts)
+
+
+def test_check_fails_on_facts_for_retired_ids(tmp_path: Path) -> None:
+    """A-36 S7: a fact on a retired id never applies, so `ev manual check` stops it."""
+    d = tmp_path / "data"
+    shutil.copytree(FIX / "warranty", d / "manual" / "warranty")
+    (d / "seed").mkdir(parents=True)
+    (d / "seed" / "retired_ids.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "schema": "retired-ids/v1",
+                "ids": {
+                    "tesla-model-3-gen1-lr": "tesla-model-3-gen1-lr-2021",
+                    "nissan-leaf-ze0": None,
+                },
+            }
+        )
+    )
+    code, lines = check(d, today=TODAY)
+    assert code == 1
+    text = "\n".join(lines)
+    assert "error: variant tesla-model-3-gen1-lr is retired" in text
+    assert "use tesla-model-3-gen1-lr-2021" in text
+    assert "generation nissan-leaf-ze0 is retired" in text and "no successor" in text
+    assert "2 errors" in text

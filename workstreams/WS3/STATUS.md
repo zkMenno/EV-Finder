@@ -1,10 +1,10 @@
 # WS3 status
 
 - **State:** active (4th chat, 2026-11-18, https://claude.ai/code/session_01JuyZEWdkaBQSsuXefbXiV9)
-- **Now:** T-136 task 2 (missing-model seed from R-41), branch t-136-missing-models. Waiting for review: #106 (T-131), #113 (T-133)
-- **Next:** T-136 task 2 (missing-model seed, ~40 models from R-41): approved by WS0 2026-11-18 08:58, soft-launch bar per Decision 048 (WS1 09:20); WS3 pre-push data-qa script (WS0: yes, own small PR); own config/popularity.yaml once #117 merges; A-36 S4 (NL loan rate) if a sourced NL APR exists; then HANDOFF.md 'Next steps'
+- **Now:** handoff written; PRs #129 (T-136 task 2, CI green) and #130 (data_qa.sh) wait for review
+- **Next:** T-136 stretch (absorb 2nd chat's branch) after #129; e-tron GT facelift variants; HANDOFF.md 'Next steps'
 - **Blocked:** T-041 `verified` needs Menno's tap check; price samples for DE/FR/BE/UK
-- **Last updated:** 2026-11-18 09:25 UTC by WS3 (4th)
+- **Last updated:** 2026-11-18 11:45 UTC by WS3 (4th)
 
 ## Log
 - 2026-11-15 12:55 UTC · chat started (https://claude.ai/code/session_01JuyZEW2aV2H7ifmpaT5Pfr), read START, INBOX, launch scope; claimed T-068.
@@ -26,6 +26,14 @@
 - 2026-11-18 09:11 UTC · #115 and #116 merged by WS0; A-36 S7 WS3 part done (facelift base 507 km stays a WS1 matching item).
 
 - 2026-11-18 09:25 UTC · 4th chat started; read HANDOFF, STATUS, START, INBOX 2026-11-18 lines; claimed T-136 task 2.
+- 2026-11-18 11:20 UTC · T-136 task 2 PR #129: 35 models / 37 generations, EEA match 86.7 → 95.6 %, ev verify 0 blocking; T03 + SEAT Mii left out (WS1 INBOX); T-140 should-fix note done.
+- 2026-11-18 11:45 UTC · #130 data_qa.sh opened; HANDOFF.md written.
+
+## Retro (2026-11-18, 4th chat)
+- Slowed down: two WS3 chats were approved for T-136 at once and both built it (2nd chat's branch: 182 models, mine 134); RDW's API rate-limited grouped queries (429), the staged RDW file has the same data offline.
+- Menno by hand: nothing.
+- Checks that missed: OpenEV rows are not checked against market (China-only T03 files would ship as EU variants), and OpenEV's 2024-2025 e-tron GT files repeat the old pack; nothing flags a source file whose figures contradict a cited maker value on a *new* generation. My first draft split the e-tron GT and only the row-level look at the built catalogue caught the 85 kWh facelift.
+- Rules that would help: (1) one owner per task id in BOARD before a second chat gets the same prompt (WS0); (2) OpenEV files without an EU market or WLTP go to review (WS1 INBOX); (3) WS3 lane: after any seed change, print the new generations' built rows (battery, WLTP, power) and look at them before the PR.
 
 ## Retro (2026-11-17, 3rd chat)
 - Slowed down: fresh staging for verify-pipeline takes ~20 min (RDW, defects, TGK, Meteostat); verify itself ~5 min per run, and a baseline run on main is needed to tell my diff from staging drift.
@@ -38,3 +46,5 @@
 - Menno by hand: nothing this session.
 - Check that missed: my first photo filter read "e-2008" as a year and "Toyota" as "toy"; only the contact-sheet look caught wrong picks (rear views, interiors, wrong generation). Proposal: any generated image list gets a contact-sheet look before PR (WS3 lane rule).
 - Rule that would help: T-134 should reject a photo whose file_url 404s and report it back to WS3's INBOX.
+- 2026-11-18 10:15 UTC · 2nd chat: T-136 task 2 collided with the 4th chat (both approved); 4th chat owns it; my wider version (182 models, 97.7 % EEA match) on branch t-136-extra-models-2nd-chat.
+- 2026-11-18 11:20 UTC · 2nd chat: #106 should-fix → PR #128; #113 should-fix (Decision 083 CC0/PD, picks pinned by title, ruff) → PR #132.
