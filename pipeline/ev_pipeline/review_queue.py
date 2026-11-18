@@ -69,6 +69,7 @@ KEYS: dict[str, tuple[str, Callable[[Row], tuple[str, str, str]]]] = {
     "unmatched": ("um", _key_unmatched),
     "validation": ("va", _key_validation),
     "conflicts": ("cf", _key_conflicts),
+    "variant-candidates": ("vc", _key_generic),  # T-073: record_key = fingerprint group
 }
 
 

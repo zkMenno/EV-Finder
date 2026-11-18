@@ -78,11 +78,6 @@ def test_contains_run_equals_string_search(toks: list[str], run: list[str]) -> N
     assert _contains_run(toks, run) == naive
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="WS3 ask (T-068 handoff): normalise.key drops '+', so 'P7+' == 'P7'. Remove this "
-    "marker when '+' is tokenised as 'plus'.",
-)
 @given(st.text("abcdefghijklmnopqrstuvwxyz0123456789", min_size=1, max_size=8))
 def test_plus_suffix_makes_a_different_key(s: str) -> None:
     assert key(s + "+") != key(s)
