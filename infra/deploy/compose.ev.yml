@@ -1,3 +1,7 @@
+# ⚠️ REFERENCE ONLY (2026-11-17, issue #88). AppInfra (zkMenno/AppInfra) is the source of truth for
+# the server: ev-staging is defined there (AppInfra #103) and deployed by images.yml. Do not edit
+# this copy to change the server; change AppInfra instead. Kept as a record of T-013's design.
+#
 # EV Finder on the shared AppInfra server (T-013, Decision 006).
 # NOT APPLIED. Written for review; Menno applies it by hand (infra/README.md).
 #

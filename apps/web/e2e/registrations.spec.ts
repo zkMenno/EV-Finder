@@ -39,7 +39,7 @@ test.describe("registrations: shared-year model-level counts", () => {
   });
 
   test("Dutch wording", async ({ page }) => {
-    await page.goto("/nl/nl/ev/renault/zoe/ph1");
+    await page.goto("/nl/en/ev/renault/zoe/ph1");
     await expectSharedYearPair(page.getByTestId("registrations"), /generatie onbekend, getoond bij alle generaties Renault Zoe/);
   });
 });

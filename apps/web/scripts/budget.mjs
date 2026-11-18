@@ -2,7 +2,7 @@
 //
 //   node apps/web/scripts/budget.mjs        (from the repo root or apps/web)
 //
-// 1. Explore first-load JS: the JS chunks the browser loads on /[country]/[lang], read from the build
+// 1. First-load JS of the landing page /[country]/[lang] and of Explore on /[country]/[lang]/cars (T-130), read from the build
 //    manifests (build-manifest.json rootMainFiles + the client-reference manifest's entryJSFiles
 //    for app/[country]/[lang]/layout and app/[country]/[lang]/page), each gzipped (level 9) and
 //    summed. Fails above 200 KB. noModule polyfills are reported but not counted (modern browsers
@@ -26,6 +26,12 @@ export const CATALOGUE_BUDGET_KB = 300;
 /** The app entries whose client chunks load on /[country]/[lang] (Explore). */
 // Since Decision 015 the root layout is app/[country]/[lang]/layout (no app/layout).
 export const EXPLORE_ENTRIES = ["[project]/apps/web/src/app/[country]/[lang]/layout", "[project]/apps/web/src/app/[country]/[lang]/page"];
+/** Explore itself lives on the catalogue page since T-130; both pages get the same JS budget. */
+export const CATALOGUE_ENTRIES = ["[project]/apps/web/src/app/[country]/[lang]/layout", "[project]/apps/web/src/app/[country]/[lang]/cars/page"];
+export const PAGES = [
+  { label: "Landing /[country]/[lang]", dir: "[country]/[lang]", entries: EXPLORE_ENTRIES },
+  { label: "Explore /[country]/[lang]/cars", dir: "[country]/[lang]/cars", entries: CATALOGUE_ENTRIES },
+];
 
 export const gzipBytes = (buf) => gzipSync(buf, { level: 9 }).length;
 export const kb = (bytes) => Math.round(bytes / 100) / 10;
@@ -66,11 +72,11 @@ export function latestCatalogue(dir) {
   }
 }
 
-function measureJs(nextDir) {
+function measureJs(nextDir, page) {
   const buildManifest = JSON.parse(readFileSync(path.join(nextDir, "build-manifest.json"), "utf8"));
-  const crm = path.join(nextDir, "server/app/[country]/[lang]/page_client-reference-manifest.js");
+  const crm = path.join(nextDir, `server/app/${page.dir}/page_client-reference-manifest.js`);
   if (!existsSync(crm)) throw new Error(`${crm} not found: run \`pnpm --filter @ev/web build\` first`);
-  const { modern, polyfills } = exploreChunks(buildManifest, parseClientReferenceManifest(readFileSync(crm, "utf8")));
+  const { modern, polyfills } = exploreChunks(buildManifest, parseClientReferenceManifest(readFileSync(crm, "utf8")), page.entries);
   const size = (f) => {
     const buf = readFileSync(path.join(nextDir, f));
     return { file: f, raw: buf.length, gz: gzipBytes(buf) };
@@ -91,25 +97,30 @@ async function measureCatalogue() {
     const p = path.join(path.dirname(file), name);
     return existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : null;
   };
-  const body = Buffer.from(JSON.stringify(toClientCatalogue(cat.release, cat.sources, cat.rows, parseVariantUsedPrices(side("used_prices.json")), parseShortlistScores(side("shortlist_scores.json")))));
+  // Popularity per generation (T-130), as catalogue.ts builds it.
+  const { rankGenerations } = await import(pathToFileURL(path.join(WEB_DIR, "src/lib/popularity.ts")).href);
+  const pop = rankGenerations(cat.rows, JSON.parse(readFileSync(path.join(WEB_DIR, "src/config/popularity.generated.json"), "utf8")));
+  const body = Buffer.from(JSON.stringify(toClientCatalogue(cat.release, cat.sources, cat.rows, parseVariantUsedPrices(side("used_prices.json")), parseShortlistScores(side("shortlist_scores.json")), pop)));
   return { file: path.relative(process.cwd(), file), rows: cat.rows.length, raw: body.length, gz: gzipBytes(body) };
 }
 
 async function main() {
   const nextDir = path.join(WEB_DIR, ".next");
-  const js = measureJs(nextDir);
-  const jsGz = js.modern.reduce((s, f) => s + f.gz, 0);
-  const jsRaw = js.modern.reduce((s, f) => s + f.raw, 0);
-  const polyGz = js.polyfills.reduce((s, f) => s + f.gz, 0);
+  const fails = [];
+  for (const page of PAGES) {
+    const js = measureJs(nextDir, page);
+    const jsGz = js.modern.reduce((s, f) => s + f.gz, 0);
+    const jsRaw = js.modern.reduce((s, f) => s + f.raw, 0);
+    const polyGz = js.polyfills.reduce((s, f) => s + f.gz, 0);
+    console.log(`${page.label} first-load JS: ${js.modern.length} chunks, ${kb(jsGz)} KB gzip (${kb(jsRaw)} KB raw); budget < ${JS_BUDGET_KB} KB`);
+    for (const f of js.modern) console.log(`  ${kb(f.gz).toFixed(1).padStart(6)} KB  ${f.file}`);
+    console.log(`  + noModule polyfills (not counted): ${kb(polyGz)} KB gzip`);
+    if (jsGz > JS_BUDGET_KB * 1000) fails.push(`${page.label} JS ${kb(jsGz)} KB gzip is over ${JS_BUDGET_KB} KB`);
+  }
   const cat = await measureCatalogue();
 
-  console.log(`Explore /[country]/[lang] first-load JS: ${js.modern.length} chunks, ${kb(jsGz)} KB gzip (${kb(jsRaw)} KB raw); budget < ${JS_BUDGET_KB} KB`);
-  for (const f of js.modern) console.log(`  ${kb(f.gz).toFixed(1).padStart(6)} KB  ${f.file}`);
-  console.log(`  + noModule polyfills (not counted): ${kb(polyGz)} KB gzip`);
   console.log(`Client catalogue (${cat.file}, ${cat.rows} rows): ${kb(cat.gz)} KB gzip (${kb(cat.raw)} KB raw); budget < ${CATALOGUE_BUDGET_KB} KB`);
 
-  const fails = [];
-  if (jsGz > JS_BUDGET_KB * 1000) fails.push(`Explore JS ${kb(jsGz)} KB gzip is over ${JS_BUDGET_KB} KB`);
   if (cat.gz >= CATALOGUE_BUDGET_KB * 1000) fails.push(`client catalogue ${kb(cat.gz)} KB gzip is not under ${CATALOGUE_BUDGET_KB} KB`);
   if (fails.length) {
     for (const f of fails) console.error(`::error::Perf budget: ${f}`);

@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 // T-067: Explore's "Suggested" sort follows the profile picked in the hero.
 test("suggested sort appears with a profile, sorts, and explains itself", async ({ page }) => {
-  await page.goto("/nl/en?role=only&trips=monthly&view=table");
+  await page.goto("/nl/en/cars?role=only&trips=monthly&view=table");
   const toggle = page.getByTestId("suggested-toggle");
   await expect(toggle).toContainText("Road-tripper");
   await toggle.click();
@@ -12,10 +12,12 @@ test("suggested sort appears with a profile, sorts, and explains itself", async 
   await expect(page.getByTestId("suggested-why")).toContainText("fast-charging speed");
 });
 
-test("suggested sort follows a new answer in the hero without a reload", async ({ page }) => {
-  await page.goto("/nl/en?role=only&trips=monthly&sort=-suggested");
+// T-130: Explore moved off the landing page, so the hero no longer re-sorts it live; /cars reads the answers from the URL.
+test("the catalogue page takes the hero's answers from the URL for the suggested sort", async ({ page }) => {
+  await page.goto("/nl/en/cars?role=only&trips=monthly&sort=-suggested");
   await expect(page.getByTestId("suggested-toggle")).toContainText("Road-tripper");
-  await page.getByText("A second car").click();
+  await expect(page.getByTestId("suggested-toggle")).toHaveAttribute("aria-pressed", "true");
+  await page.goto("/nl/en/cars?role=second&sort=-suggested");
   await expect(page.getByTestId("suggested-toggle")).toContainText("Runabout");
 });
 

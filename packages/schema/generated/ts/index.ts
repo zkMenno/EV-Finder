@@ -344,6 +344,7 @@ export interface Generation {
   uncertain?: boolean;
   change_markers?: ChangeMarker[];
   years_corroboration?: GenerationYearsCorroboration;
+  image?: GenerationImage;
 }
 /**
  * Outside sources checking a generation's hand-entered years. Corroboration only: the years themselves never change (T-059).
@@ -386,6 +387,93 @@ export interface GenerationYearCheck {
    */
   label?: string;
   retrieved_at: string;
+}
+/**
+ * One photo per generation (Decision 081, 083). Optional: absent until sourced.
+ */
+export interface GenerationImage {
+  /**
+   * @minItems 1
+   */
+  files: [
+    {
+      width: number;
+      /**
+       * Release-relative, e.g. images/<generation_id>-<sha8>-800.webp
+       */
+      path: string;
+      bytes: number;
+      sha256: string;
+    },
+    ...{
+      width: number;
+      /**
+       * Release-relative, e.g. images/<generation_id>-<sha8>-800.webp
+       */
+      path: string;
+      bytes: number;
+      sha256: string;
+    }[]
+  ];
+  source: "press" | "commons";
+  page_url: string;
+  file_url: string;
+  /**
+   * Licence or Commons template, e.g. CC BY-SA 4.0, CC0, PD-self (Decision 083).
+   */
+  licence: string;
+  author?: string | null;
+  credit: string;
+  retrieved_at: string;
+  /**
+   * Maker whose press terms apply (source = press).
+   */
+  make_id?: string | null;
+}
+/**
+ * Generation photo stored with the release (Decision 081, 083): downloaded once, never hotlinked; the credit line shows under the photo.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "GenerationImage".
+ */
+export interface GenerationImage1 {
+  /**
+   * @minItems 1
+   */
+  files: [
+    {
+      width: number;
+      /**
+       * Release-relative, e.g. images/<generation_id>-<sha8>-800.webp
+       */
+      path: string;
+      bytes: number;
+      sha256: string;
+    },
+    ...{
+      width: number;
+      /**
+       * Release-relative, e.g. images/<generation_id>-<sha8>-800.webp
+       */
+      path: string;
+      bytes: number;
+      sha256: string;
+    }[]
+  ];
+  source: "press" | "commons";
+  page_url: string;
+  file_url: string;
+  /**
+   * Licence or Commons template, e.g. CC BY-SA 4.0, CC0, PD-self (Decision 083).
+   */
+  licence: string;
+  author?: string | null;
+  credit: string;
+  retrieved_at: string;
+  /**
+   * Maker whose press terms apply (source = press).
+   */
+  make_id?: string | null;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
