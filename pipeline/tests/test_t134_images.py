@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import io
 import json
 from datetime import date
@@ -366,3 +367,36 @@ def test_refresh_fetch_step_fetches_listed_photos(tmp_path: Path, monkeypatch) -
     monkeypatch.setattr(store, "fetch_originals", fake_fetch)
     out = runner.fetch_images(d)
     assert out["outcome"] == "ok" and out["fetched"] == 1 and seen == [gid]
+
+
+def test_check_release_verifies_stored_image_files(tmp_path: Path, monkeypatch) -> None:
+    """#110 review nit: each image file must be stored with the field's sha256 + bytes."""
+    monkeypatch.setattr(
+        rb, "_schema", lambda: {"$defs": {"Generation": {"properties": {"image": {}}}}}
+    )
+    cat = _catalogue()
+    files, _ = rb.attach_images(cat, _data_dir(tmp_path, jpeg(1000, 500)), TODAY)
+    rel = tmp_path / "rel"
+    for path, data in files.items():
+        (rel / path).parent.mkdir(parents=True, exist_ok=True)
+        (rel / path).write_bytes(data)
+    assert check_images(cat, rel).status == "pass"  # before packaging: local files
+
+    first = sorted(files)[0]
+    (rel / first).write_bytes(b"tampered")
+    c = check_images(cat, rel)
+    assert c.status == "fail" and any("sha256/bytes differ" in p for p in c.details["problems"])
+    (rel / first).unlink()
+    c = check_images(cat, rel)
+    assert any("missing from the release folder" in p for p in c.details["problems"])
+
+    # Packaged release: the manifest is the record (files may live outside git).
+    entries = [
+        {"path": p, "bytes": len(d), "sha256": hashlib.sha256(d).hexdigest()}
+        for p, d in files.items()
+    ]
+    (rel / "manifest.json").write_text(json.dumps({"files": entries}))
+    assert check_images(cat, rel).status == "pass"
+    (rel / "manifest.json").write_text(json.dumps({"files": entries[1:]}))
+    c = check_images(cat, rel)
+    assert any("not in manifest.json" in p for p in c.details["problems"])

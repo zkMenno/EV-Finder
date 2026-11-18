@@ -1,3 +1,34 @@
+# WS2 handoff — 2026-11-18 11:55 UTC (5th chat → next catalogue chat: T-131, T-135)
+
+Chat: https://claude.ai/code/session_01JuyZEW7knztpvwmHJjJ3mb
+
+## State
+- **#126 T-130 part 2: ready to merge.** Fresh re-review 4 PASS on 45ce05c; head f049fea = that + main merged + review records; CI (pull_request + dispatch) and Images green on f049fea. Main moved since only outside apps/web. This session can't merge (auto-mode refuses): **Menno or WS0 merges.**
+- **#137 (gate-only)**: apps/web/AGENTS.md line for #126 + fixes WS0's #118 should-fix (redirect on any view/sort). Merge after #126. Main's #125 also edited apps/web/AGENTS.md (rule 4): merge main into #137 first if it conflicts.
+- Open should-fix on #126: the used-price Nerd line shows source + date but no licence. Asked WS1 (WS1 INBOX 10:05) for `licence` on used_prices.json band sources; show it when it lands.
+- The other WS2 line (6th chat, https://claude.ai/code/session_01JuyZEWZuyZEW) owns **T-132** (Hero.tsx). Ask in WS2 INBOX before touching hero files.
+
+## What #126 built (for T-131/T-135)
+- `src/lib/generation-cards.ts`: `generationCards(rows, cc, filters)` → one `GenCard` per generation (lead variant, spans, used band). T-135 puts the photo + credit on `GenerationCard` in Explore.tsx (16:9 on desktop, 116 px left on phones; credit line under every photo, Decision 081). Image fields: WS1 #110 (merged), `generations[].image`; fetch-release must pull `images/*`.
+- Filters panel = sidebar on lg, bottom sheet below (one DOM). T-132's "Refine · n" sheet can reuse the pattern (`FiltersPanel` effect: focus, trap, Escape, lg closes).
+- New state: `umin`/`umax`, `winter`; sorts `used`, `winter`.
+
+## Next (in order)
+1. Get #126 and #137 merged (Menno/WS0).
+2. **T-131** Popular used EVs on the landing (data/editorial/popular_used.yaml from WS3 #106: check it merged; 12 cards, `why` line, owner verdicts labelled as one person's opinion; skip ids without rows). Landing page.tsx only, not Hero.tsx: tell the 6th chat anyway.
+3. **T-135** photo cards (see above).
+4. WS0 ask: verify flow `tooltip` takes the first of ~336 hidden nodes (scripts/verify.mjs ~223, `.first()`): match `:visible` or scope to the clicked term; small PR, `Test-change:` line.
+5. Follow-ups from the #126 reviews (not blocking): phones show level/view/price-mode toggles above the list (first card at y≈760 at 360×800; design has none there: move them into the sheet?); used band reads p25–p75 even under "Up to €25,000" (label "typical"?); DE compact money doesn't shorten thousands (round to 1 000 first) once German returns.
+
+## Lessons
+- **CI fonts are wider than local ones.** Run the 360 px check with letters widened (catalogue.spec "wider text" test does 6 %); re-run it after every layout tweak, even a "nit" fix (db62961 broke CI that way).
+- A merge of main can bring apps/web changes the reviewer never saw: `git diff --stat HEAD~1 HEAD -- apps/web` **before** writing the merge message.
+- A `useEffect` that depends on a callback prop re-runs every render: keep callbacks in a ref (the sheet stole focus on every keystroke).
+- `<details open={cond}>` snaps shut when `cond` turns false: only ever open from code.
+- Two WS2 chats built the same task: check `git ls-remote --heads origin | grep t-1NN` and open PRs before starting and before the first push.
+
+---
+
 # WS2 handoff — 2026-11-18 10:40 UTC (6th chat → next chat for T-132)
 
 Chat: https://claude.ai/code/session_01JuyZEWZuyZEW
