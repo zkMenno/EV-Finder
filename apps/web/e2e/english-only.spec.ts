@@ -46,9 +46,19 @@ test("T-137: no language picker, no banner, html lang en; the country picker lis
   await picker.selectOption("es");
   await expect(page).toHaveURL(/\/es\/en$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  // The hero's country question (T-132: answer tiles) opens English pages only.
-  await page.getByTestId("hero-q-country").getByText("Italy", { exact: true }).click();
-  await expect(page).toHaveURL(/^[^?]*\/it\/en\?q=role$/);
+});
+
+test("T-137: every hero country tile opens /{country}/en (T-132 answer tiles)", async ({ page }) => {
+  // The tiles are radios, not links: tap each launch country and check where it lands.
+  await page.goto("/nl/en");
+  const tiles = page.getByTestId("hero-q-country").locator("input[type=radio]");
+  await expect(tiles).toHaveCount(COUNTRIES.length);
+  for (const country of COUNTRIES) {
+    await page.goto("/nl/en");
+    await page.locator(`label:has([data-testid="hero-country-${country}"])`).click();
+    await expect(page, country).toHaveURL(new RegExp(`^[^?]*/${country}/en\\?q=role$`));
+    await expect(page.locator("html"), country).toHaveAttribute("lang", "en");
+  }
 });
 
 test("T-137: no internal link points at a hidden language", async ({ page }) => {
