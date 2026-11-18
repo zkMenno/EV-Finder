@@ -1,6 +1,6 @@
 # T-130 Catalogue page with popularity sort; landing loses the full list
 Role: builder   Lane: WS2 (+ UX layout): apps/web/   Wave: launch (staging feedback 2026-11-17)
-Status: review (WS2, 2026-11-18: part 1 merged #117; part 2 PR on branch t-130-catalogue-visual)
+Status: review passed (WS2, 2026-11-18: part 1 merged #117; part 2 #126 fresh re-review 4 PASS on 45ce05c; open should-fix: used-price licence, waiting on WS1)
 
 ## Goal
 A "Show all cars" button on the landing leads to a catalogue page like ev-database.org, sorted by popularity by default.
@@ -138,3 +138,81 @@ Scope: T-130 part 2, the design's visual layer. Note: during the review the PR h
 Items reproduced: typecheck, lint, vitest, build, budget, 6 Playwright specs, axe on the open sheet, contrast.py, and my own probe scripts (`/tmp/r126/probe.cjs`, `nerd.cjs`, `axe.cjs`).
 
 **Builder response (WS2, head after fc68666):** 1 fixed (sheet effect runs on open/close only, close callback via ref; e2e types "10000" in the open sheet and checks value, URL and focus). 2: CI re-run on the new head (the 5 px Nerd overflow at 360 px came from flex items without `min-w-0` in the card; now `min-w-0` on the card and fact values, probe at 360 px with 6 % wider letters: no overflow at any level). 3 fixed (sheet closes when the window reaches the lg breakpoint; duplicate `lg:static` gone; e2e). 4 fixed (Tab and Shift+Tab wrap inside the open sheet; e2e). 5 fixed (groups only ever open from code, never snap shut; e2e). 6 fixed for the new price (`<Num>` with `price_new.<CC>` provenance); licence on the used-price line needs a licence field in used_prices.json sources: asked WS1. 7: the used-price filter now respects the build-year filter (unit test); the shown band stays p25–p75 of the bands whose typical price fits (it is the honest spread). 8, 9: left as documented defaults (follow-up candidates). 10: brand count now sr-only text instead of `aria-label` on a span; the compare "+" is already `aria-hidden`.
+
+**Fresh reviewer (subagent), re-review 2026-11-18, head `11f8a08` (fix commit on top of merge `fc68666`), REVIEW.md read from origin/main (`27ad23b`; REVIEW.md last changed in 075cd4b and unchanged since the first review). Verdict: PASS (0 must-fix; 1 should-fix open, waiting on WS1).**
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| R0 CI on head | PASS | CI 44278897887 (workflow_dispatch) and CI 44278908175 (pull_request) on 11f8a08 are both `completed success`. Every job passed: detect, repo-checks, gate-guard (pull_request run), schema, web, pipeline, e2e, audit, data-qa, ci-ok. Images 44278907931: `success`. The PR head is still 11f8a08 (`pulls/126 .head.sha`). |
+| R1 conflict markers | PASS | `git grep -nE '^(<{7}\|={7}\|>{7})( \|$)' HEAD` finds nothing |
+| R2 evidence pack | PASS | The fix commit carries `Verified:` + `Test-change:`, and the task file has the builder's response. I reproduced the gate on 11f8a08 after a fresh rebuild: typecheck exit 0; lint exit 0; vitest 52 files / 447 tests pass (the new "used price with build years" test runs: `filters.test.ts` 17/17); `APP_URL=https://ev.example.com pnpm build` exit 0; budget landing 163.2 KB, /cars 167.2 KB (< 200), catalogue 221.8 KB (< 300), "Perf budget: OK". |
+| R3 own checks (new commit) | PASS | 11f8a08 touches `e2e/catalogue.spec.ts` (+29, one new test, nothing removed), `filters.test.ts` (+8, new case), `Explore.tsx`, `filters.ts` and the task file. No gate files, no `.skip`/`.only`/`fixme`, no thresholds changed. |
+| Merge fc68666 vs the T-130 diff | PASS | `git diff-tree --cc -p fc68666` is empty, so no hand-resolved hunks. `git diff 2d6267b fc68666` (main parent → merge) touches exactly the PR's 19 files with the same stat as before the merge (1396+/205−). So the merge added nothing to the T-130 change. The adjustments that came in from main (English-only e2e paths in catalogue/smoke/a11y/polish specs, `ENGLISH_ONLY` from `e2e/langs.ts`) are main's own changes. |
+| D6 strings | PASS | No string changes in 11f8a08 (new text reuses `filters.brands.count`). On the English-only head, `/nl/nl/cars?umax=25000` redirects to `/nl/en/cars?umax=25000`, and the header has no language picker (screenshot `cars-1280-dark.png`). |
+| D7 new numbers | PASS (should-fix open) | The card new price now goes through `<Num>` (`newPriceNum`). At Nerd on the ID.3 card it shows "€59,790 · 1 source · raw: 59790 · RDW Open Data · medium · 2026-11-17 · newest rule". Still open: the used price band's Nerd line has source + date but no licence. The builder asked WS1 for a licence field in `used_prices.json` (see finding 6). |
+| D8 UI (merged, English-only head) | PASS | My screenshots are in `/tmp/r126b/`: `cars-{360,1280}-{light,dark}.png`, `sheet-360-{light,dark}.png`, `card-360-nerd-{light,dark}.png`, `resize-open-1280.png`, `cars-1280-nerd.png`. Sideways overflow is 0 at 360 and 1280 in both themes. I also checked 360 px at simple/detailed/nerd for `/nl/en?view=cards`, `/uk/en/cars`, `/de/en/cars` and `/nl/en/cars?umax=25000&winter=250`: overflow none (this is the CI failure from round 1). axe: open sheet at 360 px Nerd and 1280 px Nerd, light + dark, gives 0 violations. Suite run (catalogue, smoke, a11y, review, polish, trip, english-only): **81 passed, 2 skipped, 0 failed (4.2 min)**. |
+| D10 bundle | PASS | /cars 167.2 KB gzip (+0.3 KB from the fixes) |
+| D13 network in tests | PASS | The new unit test uses inline rows. The new e2e test uses the local server. |
+
+**Earlier findings, re-checked (same probes at 360 px, `/nl/en/cars?umax=25000&winter=250`)**
+1. must-fix, sheet steals focus: **fixed.** I typed "10000" in `#f-usedMin` inside the open sheet. The value stays `10000`, the URL has `umin=10000`, and focus stays on `f-usedMin`. Winter slider: two ArrowRight presses take it 250 → 270 with focus kept on `f-winterMin`. Ticking a brand keeps focus on the checkbox, and a fast-charging tile keeps focus on itself (URL `make=tesla`, `dc=100`). The effect now depends on `[open]` only, with the callback in a ref (Explore.tsx `closeFn`).
+2. must-fix, R0: **fixed.** CI is green on 11f8a08 (see R0). The Nerd 360 px overflow is gone (see D8).
+3. should-fix, resize to desktop with the sheet open: **fixed.** I opened the sheet at 360 and widened to 1280. The dialog is removed, `body.style.overflow` is `""`, and a 1500 px wheel scrolls to `scrollY` 1325 (same as a fresh 1280 page). The duplicate `lg:static` is gone.
+4. should-fix, focus trap: **fixed.** From Close, 150 Tab presses and then 150 Shift+Tab presses never leave `[role=dialog]`. Escape closes the sheet, focus returns to `filters-open`, and the scroll lock is released. A backdrop click also closes it.
+5. should-fix, groups snapping shut: **fixed.** I opened "Seats · battery · towing", typed 5, then pressed Backspace. The group stays open and focus stays on `f-seatsMin`.
+6. should-fix, D7: **half fixed.** The new price has provenance now. The used-price licence is still open and depends on WS1's data. Stays should-fix (before public); it doesn't block this merge.
+7. nit, used band vs filters: **partly addressed.** The used-price filter now respects build years (filters.ts, unit test). The shown band is still p25–p75, so with `umax=25000` the MG4 card reads "€21k–€28k". The builder keeps this on purpose ("the honest spread"). Acceptable; a "typical" label would help.
+8. nit, first card below the fold on phones: unchanged, documented default (first card starts at y ≈ 762 at 360 × 800).
+9. nit, cramped facts at 1280: changed but not better (see new finding A).
+10. nit, accessible names: **brand count fixed** (sr-only text). **Compare "+": my round-1 finding was wrong.** I had read `textContent`; the accessibility tree name is "Compare : Tesla Model 3 Long Range AWD", so the "+" is already hidden. Retracted.
+
+**New findings (not blocking)**
+- A. nit: `flex-wrap` on the fact `<dd>` (Explore.tsx, `fact()`) puts the snow/sun/plug icon on its own line above the number on every 1280 px card with a range (`cars-1280-dark.png`). Frame t130-d1 has the icon inline. Wrapping only the number's text, or `flex-nowrap` from `sm` up, would keep the 360 px fix.
+- B. nit: "Clear all" inside the open sheet unmounts itself (it renders only while filters are on), so focus drops to `BODY` while the dialog stays open (probe: `afterClearAllFocus: BODY`, dialog count 1). The trap recovers on the next Tab. Better: move focus to the sheet heading or the Close button after clearing.
+- C. nit: the compare button name has a stray space ("Compare : Tesla …"), from the sr-only text join.
+- D. nit (data, for WS1, unchanged): some generation names repeat the years ("Model 3 (2019-2023) · 2019–2023").
+
+Reproduced on 11f8a08 with a fresh rebuild. Probe scripts are in `/tmp/r126b/` (`probe.cjs`, `extra.cjs`, `resize.cjs`, `s360.cjs`). I didn't change, commit or push anything in the repo.
+
+**Fresh reviewer (subagent), re-review 3, 2026-11-18, head `db62961` (nits fix on top of merge `bbaa60a`), REVIEW.md read from origin/main (`7f1e981`; REVIEW.md last changed in 075cd4b, unchanged). Verdict: FAIL (1 must-fix: R0, CI red on db62961, caused by the nit A fix).**
+Scope: only what changed since 11f8a08.
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| R0 CI on head | **FAIL** | Both CI runs on db62961 finished `failure`: 44281463598 (workflow_dispatch) and 44281481316 (pull_request). Every job is green except `e2e` (and therefore `ci-ok`). The failure is `polish.spec.ts:16` "Explore cards at 360 px", with "page wider than the phone at level nerd". It fails on the first try and on retry1 in both runs. Images 44281481283: `success`. The same test was green on 11f8a08 (CI 44278897887 / 44278908175). See finding 1. |
+| R1 conflict markers | PASS | `git grep -nE '^(<{7}\|={7}\|>{7})( \|$)' HEAD` finds 0 hits |
+| R2 evidence pack | PASS (local) | I rebuilt from db62961 because `.next/BUILD_ID` (10:56) predated the commit (11:01). Then: typecheck exit 0, lint exit 0, vitest 447/447, `APP_URL=https://ev.example.com pnpm build` exit 0, budget /cars 167.2 KB (< 200), catalogue 221.8 KB (< 300), "Perf budget: OK". Playwright catalogue + polish + a11y + smoke + english-only: **70 passed, 1 skipped, 0 failed (3.7 min)**. Locally polish.spec:16 passes; CI does not (fonts render differently there, see finding 1). The commit claims "Verified" from the same local run, which CI doesn't confirm. |
+| R3 own checks (db62961) | PASS | Only `e2e/catalogue.spec.ts` changes on the test side: +4 lines (the "Clear all" focus check), nothing removed. `Test-change:` line present. No gate files touched. |
+| Merge bbaa60a vs the T-130 diff | PASS | `git diff-tree --cc -p bbaa60a` is empty (no hand-resolved hunks). The main parent (b8e8a2c) → merge diff is exactly the PR's 19 files with the same stat as the PR before the merge (1530+/205−). From main's side, the only file the merge brings into `apps/web` is `src/config/sources.generated.json`, which gains the two #110 sources `maker-press-photos` and `wikimedia-commons` (main's generated file; vitest's staleness test passes). The branch is 3 commits behind origin/main (7f1e981, 306d3c0, b5b651e): workstream log/handoff files only. |
+| Nit A: icon inline at 1280 | PASS (but see finding 1) | My probe checked every fact on every card on `/nl/en/cars?umax=25000&winter=250`, light + dark, at 1280 and 360. The icon is vertically centred with the value and left of it in 100 % of facts. Screenshot `/tmp/r126c/cars-1280-light.png`. |
+| Nit B: focus after "Clear all" | PASS | In the open sheet at 360 px, "Clear all" leaves focus on `H2#filters-heading`. The dialog stays open (count 1) and the URL drops to `?sort=-popular`. The next Tab goes to "Close filters" inside the dialog, and Escape returns focus to `filters-open`. Desktop sidebar: focus also goes to the heading. The e2e check passes locally. |
+
+**Findings**
+1. **must-fix: the nit A fix brings back the 360 px Nerd overflow (CI red).** db62961 removed `flex-wrap` from the fact `<dd>` (Explore.tsx `fact()`), and that was 11f8a08's fix for this test. Now the icon and value sit in one non-wrapping row. At Nerd the value `<Num>` renders an `inline-flex flex-col` block with unbreakable badges ("2 sources agree"), so it can't shrink below its content.
+   - I reproduced this on the local build by widening the text, as CI's fonts do. At `/nl/en?view=cards&level=nerd`, 360 px: letter-spacing 0 or 0.03em gives scrollWidth 360. At 0.06em it gives **363** (widest: the `inline-flex flex-col items-start` span in card `bmw-ix3-gen1`, "141 estimate 2 sources agree…"). At 0.1em it gives 369 (`bmw-ix-gen1`).
+   - Fix options: keep the icon inline with the number but let the Nerd details wrap below the row (render the inline sources/badges outside the icon + number flex row); or use `flex-wrap` only where the card is narrow; or use a grid `grid-cols-[auto_minmax(0,1fr)]` with the badges allowed to wrap.
+   - Then confirm with the same wider-letter probe at 0.06em and 0.1em, and with CI green on the new head.
+2. nit: the heading that gets focus after "Clear all" has `focus:outline-none`. That's acceptable for a non-interactive `tabIndex={-1}` target, but a visible focus ring there would help keyboard users see where they landed.
+
+Earlier findings 1–10 were not re-checked beyond the two nits asked for; they were closed or accepted in re-review 2 on 11f8a08. Finding 6 (licence on the used-price Nerd line) stays open as a should-fix with WS1.
+
+Probe scripts are in `/tmp/r126c/` (`ab.cjs`, `wide.cjs`). I didn't change, commit or push anything in the repo.
+
+**Fresh reviewer (subagent), re-review 4, 2026-11-18, head `45ce05c`, REVIEW.md read from origin/main (`7d4d81a`; REVIEW.md last changed in 075cd4b, unchanged). Verdict: PASS.**
+Scope: only what changed since db62961 (re-review 3).
+
+| Item | Verdict | Evidence |
+|---|---|---|
+| R0 CI on head | PASS | CI 44284898385 (workflow_dispatch) on 45ce05c finished `completed success`: detect, repo-checks, schema, web, pipeline, e2e, audit, data-qa, ci-ok all success (gate-guard skipped, as on dispatch). CI 44284908092 (pull_request) finished `completed success`: gate-guard, repo-checks, detect, schema, web, pipeline, e2e, audit, ci-ok success (data-qa skipped). Images 44284908087: `success`. PR head confirmed as 45ce05c (`pulls/126 .head.sha`). |
+| R1 conflict markers | PASS | `git grep -nE '^(<{7}\|={7}\|>{7})( \|$)' HEAD` finds 0 hits |
+| R2 local gate (fresh rebuild from 45ce05c) | PASS | typecheck exit 0; lint exit 0; vitest 447/447; `APP_URL=https://ev.example.com pnpm build` exit 0 (`.next/BUILD_ID` 11:32); budget /cars 167.2 KB (< 200), "Perf budget: OK". Playwright catalogue + polish: **18 passed, 1 skipped**, including the new `catalogue.spec.ts:199` "catalogue cards fit 360 px at every level even with wider text". |
+| R3 own checks (45ce05c) | PASS | Test side: `e2e/catalogue.spec.ts` +14 lines, one new test, nothing removed or loosened (the bar is `over <= 0`). `Test-change:` + `Verified:` present. No gate files. The new test would catch the round-3 bug: my round-3 probe measured 3 px overflow at 0.06em on db62961's layout, and the test uses the same 0.06em at 360 px. |
+| Finding 1 (360 px Nerd overflow) | **fixed** | Wider-letter probe at 360 px over 5 pages per level (`/nl/en?view=cards`, `/nl/en/cars`, `/uk/en/cars`, `/de/en/cars`, `/nl/en/cars?umax=25000&winter=250`), with letter-spacing 0 / 0.06em / 0.1em × simple / detailed / nerd: max overflow **0 px in all 9 combinations**. On db62961 the same probe gave 3 px at 0.06em and 9 px at 0.1em. The fix: `flex-wrap` on the fact `<dd>` at Nerd only (Explore.tsx `fact()`). |
+| Nit A (icon inline at 1280) | PASS for Simple/Detailed | 1280 px, `/nl/en/cars`, every fact on every card, light + dark: icon left of and level with the value in **150/150** facts at Simple and at Detailed. Screenshots `/tmp/r126d/cars-1280-{light,dark}-detailed.png`. At Nerd the icon sits above the value in 148/150 facts (2/150 inline). That's the intended trade-off of this fix (Nerd carries badges and inline sources) and doesn't block. |
+| Heading focus ring (nit 2, round 3) | PASS | `focus:outline-none` removed. In the open sheet at 360 px, keyboard Enter on "Clear all" moves focus to `H2#filters-heading`, which matches `:focus-visible` and has a `solid 3px rgb(43, 95, 145)` outline. After a mouse click there is no ring, which is normal `:focus-visible` behaviour. |
+
+**Notes**
+- The branch is 20 commits behind origin/main (`git diff HEAD...origin/main`: 15 files; outside workstream/task/docs logs only `AGENTS.md`; nothing in `apps/web`). AGENTS.md says to merge each PR up to date with main, so merge main in and let CI re-run before merging. Because none of those files touch `apps/web`, this review's verdicts carry over to that merge commit unless it changes `apps/web`.
+- Still open from earlier rounds, not blocking: finding 6, the licence on the used-price Nerd line (should-fix, waiting on WS1's licence field), plus the documented defaults (first card below the fold on phones, p25–p75 used band).
+
+Probe scripts are in `/tmp/r126d/` (`p.cjs`, `kb.cjs`). I didn't change, commit or push anything in the repo.
