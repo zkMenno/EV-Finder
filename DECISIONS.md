@@ -895,4 +895,19 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-137 (WS2). Supersedes the language parts of Decision 066 and launch scope §3 for launch; REVIEW D6 needs EN only until languages return (gate PR).
 
+## Decision 083: Commons CC0 and public-domain photos are allowed (widens Decision 081)
+
+**Status:** Accepted (WS0 for Menno, 2026-11-18; Menno asked WS0 to answer WS3's question)
+**Date:** 2026-11-18
+
+**Context:** Decision 081 allows Wikimedia Commons photos under CC BY / CC BY-SA only. WS3 found good photos under CC0 and public domain (e.g. Citroën ë-C4). Those licences ask less of us than CC BY: no attribution duty, no share-alike, so they add photos without adding licence risk.
+
+**Decision:** Commons files whose file page carries a **CC0** or a **worldwide public-domain** template (e.g. `PD-self`, `PD-author`, `PD-old`) are allowed, with the same rules as Decision 081 otherwise:
+- Check the licence template on the file page itself (not a category or a mirror) and record the template name, the file page URL and the date in `data/images/press-terms.yaml` / the image facts.
+- Still show a credit line: the author's name if Commons gives one, otherwise "Wikimedia Commons".
+- Not allowed: public domain in one country only (`PD-US-*`, `PD-USGov-*` without a worldwide statement, `PD-textlogo`-style tags used for a photo), files with a personality-rights or no-FoP warning, and files Commons marks for deletion.
+- Images stay out of the CC BY open-data download, as in Decision 081.
+
+**Consequences:** T-133 (WS3) may add CC0 / PD photos. Reversible: if a file's status changes, the photo is swapped at the next release.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
