@@ -1,6 +1,6 @@
 # Chats
 
-Every long-running chat on EV Finder, so chats (and Menno) can find each other. A new chat adds its own row in its first commit.
+One named chat, the **coordinator**; every other chat is a throwaway batch chat (docs/process/README.md §3). A new chat adds its own row in its first commit: batch chats as `batch: <what>`. Rows below the coordinator are history.
 
 | Workstream | Purpose | Link | Since |
 |---|---|---|---|
