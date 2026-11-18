@@ -21,6 +21,9 @@ export const SORT_KEYS = [
   "suggested",
   // T-130: registrations + owner picks blend (src/lib/popularity.ts); the catalogue page's default order.
   "popular",
+  // T-130 part 2: the cheapest used price where the visitor lives, and the winter range estimate.
+  "used",
+  "winter",
 ] as const;
 export type SortKey = (typeof SORT_KEYS)[number];
 export type SortDir = "asc" | "desc";
@@ -31,6 +34,11 @@ export const LEVELS: readonly Level[] = ["simple", "detailed", "nerd"];
 
 export interface ExploreFilters {
   priceMax: number | null;
+  /** T-130 part 2: used price where the visitor lives (any build year's typical price within the range). */
+  usedMin: number | null;
+  usedMax: number | null;
+  /** T-130 part 2: real winter range estimate (`real_range_winter_km`), at least this many km. */
+  winterMin: number | null;
   eras: Era[];
   segments: Segment[];
   bodies: Body[];
@@ -77,6 +85,9 @@ export interface ExploreState {
 
 export const NUMERIC_FILTERS = [
   "priceMax",
+  "usedMin",
+  "usedMax",
+  "winterMin",
   "rangeMin",
   "batteryMin",
   "dcMin",
@@ -95,6 +106,9 @@ export type NumericFilter = (typeof NUMERIC_FILTERS)[number];
 /** URL parameter names (short, stable: links get shared). */
 const NUM_PARAM: Record<NumericFilter, string> = {
   priceMax: "price",
+  usedMin: "umin",
+  usedMax: "umax",
+  winterMin: "winter",
   rangeMin: "range",
   batteryMin: "kwh",
   dcMin: "dc",
@@ -131,6 +145,9 @@ function ids(v: unknown): string[] {
 export function defaultFilters(): ExploreFilters {
   return {
     priceMax: null,
+    usedMin: null,
+    usedMax: null,
+    winterMin: null,
     eras: [],
     segments: [],
     bodies: [],
@@ -330,6 +347,8 @@ const FIRST_DIR: Record<SortKey, SortDir> = {
   quality: "desc",
   suggested: "desc",
   popular: "desc",
+  used: "asc",
+  winter: "desc",
 };
 
 /** Sort menu (T-130): pick a key in its natural first direction (numbers high→low, price low→high). */
@@ -338,7 +357,7 @@ export function sortBy(state: ExploreState, key: SortKey): ExploreState {
 }
 
 /** The keys the catalogue page's sort menu offers, in menu order (T-130 design). */
-export const MENU_SORTS = ["popular", "price", "range", "battery", "dc", "years"] as const satisfies readonly SortKey[];
+export const MENU_SORTS = ["popular", "used", "winter", "battery", "dc", "years"] as const satisfies readonly SortKey[];
 
 /** Header click cycle: first direction → other direction → unsorted. */
 export function nextSort(state: ExploreState, key: SortKey): ExploreState {
