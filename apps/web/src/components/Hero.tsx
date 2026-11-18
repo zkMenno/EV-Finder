@@ -7,6 +7,7 @@
 // the URL; the refine filters are Explore's filters, kept in step through src/lib/filter-bus.ts.
 import dynamic from "next/dynamic";
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from "react";
+import { BrandChips } from "./BrandChips";
 import type { Body, Country, Currency } from "@ev/schema";
 import { COUNTRIES, COUNTRY_SLUGS, isServed, type CountrySlug, type Lang } from "@/config/countries";
 import { makeT, type Dict, type MsgKey, type T } from "@/i18n/t";
@@ -106,11 +107,12 @@ const toggleCls =
   "inline-flex min-h-11 items-center rounded-md border border-slate-400 bg-white px-3 py-2 text-sm aria-pressed:border-blue-800 aria-pressed:bg-blue-100 aria-pressed:font-semibold";
 const inputCls = "w-32 rounded-md border border-slate-400 bg-white px-3 py-2 text-base tabular-nums";
 
-// Ariakit brand picker (T-141, Decision 056): loads only once the refine step is opened. The
-// placeholder keeps the input's height so nothing jumps while the chunk arrives.
+// Ariakit brand picker (T-141, Decision 056): loads only once the refine step is opened. Only the
+// 48 px input is in the chunk (the placeholder has its exact height); label, hint and the picked
+// brands (BrandChips) render straight away, so nothing jumps while it arrives.
 const BrandPicker = dynamic(() => import("./BrandPicker").then((m) => m.BrandPicker), {
   ssr: false,
-  loading: () => <div className="h-[4.25rem]" aria-hidden="true" />,
+  loading: () => <div className="h-12" aria-hidden="true" />,
 });
 
 function cap(s: string): string {
@@ -576,6 +578,7 @@ function Refine({
   const years: number[] = [];
   for (let y = nowYear; y >= 2011; y--) years.push(y);
   const rangeId = useId();
+  const refineId = useId();
   return (
     <div className="mt-3 grid gap-4">
       <fieldset>
@@ -629,19 +632,32 @@ function Refine({
               ["excludeMakes", "hero.refine.xbrands", "hero-xbrands"],
             ] as const
           ).map(([key, label, testid]) => (
-            <BrandPicker
-              key={key}
-              makes={makes}
-              selected={filters[key]}
-              onChange={(ids) => set({ [key]: ids })}
-              testid={testid}
-              text={{
-                label: t(label),
-                placeholder: t("hero.refine.brandSearch"),
-                remove: t("hero.refine.brandRemove"),
-                none: t("hero.refine.brandNone"),
-              }}
-            />
+            <div key={key} data-testid={testid}>
+              <label htmlFor={`${refineId}-${key}`} className="block text-sm font-semibold">
+                {t(label)}
+              </label>
+              <div className="mt-1 max-w-sm">
+                <BrandPicker
+                  makes={makes}
+                  selected={filters[key]}
+                  onChange={(ids) => set({ [key]: ids })}
+                  testid={testid}
+                  inputId={`${refineId}-${key}`}
+                  hintId={`${refineId}-${key}-hint`}
+                  text={{ placeholder: t("hero.refine.brandSearch"), none: t("hero.refine.brandNone") }}
+                />
+              </div>
+              <p id={`${refineId}-${key}-hint`} className="mt-1 text-[15px] leading-[22px] text-slate-500">
+                {t("hero.refine.brandHint")}
+              </p>
+              <BrandChips
+                ids={filters[key]}
+                name={(id) => makes.find((m) => m.id === id)?.name ?? id}
+                onRemove={(ids) => set({ [key]: ids })}
+                removeLabel={t("hero.refine.brandRemove")}
+                inputTestId={`${testid}-input`}
+              />
+            </div>
           ))
         : null}
       <div className="flex flex-wrap items-center gap-4 text-sm">

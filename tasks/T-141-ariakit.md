@@ -23,6 +23,8 @@ Migrating `use-popover.ts` (Num, Term ⓘ, Explore): see Decision 056 consequenc
 - `src/components/BrandPicker.tsx` (+ test), wired in `Hero.tsx` via `next/dynamic` and the refine `<details>` `onToggle`.
 - Bug found while verifying: `useDeferredValue` let Enter pick a stale first row (typed "tes", got BMW). Now filters synchronously with `autoSelect`.
 - Pre-existing, not from this task: the `tooltip` verify flow fails on main too (a0f5a8b): no ⓘ button inside hero cards. Told WS2.
-- New strings `hero.refine.brandSearch|brandRemove|brandNone` in all six dictionaries.
+- New strings `hero.refine.brandSearch|brandHint|brandRemove|brandNone` in all six dictionaries.
+- Brand styling (Menno, 2026-11-18): input = `evs-input` (48 px, 17 px text, 1.5 px line-strong, radius-sm) with an `evs-hint` line and an example placeholder ("e.g. Kia"); the list = the one floating layer (`evs-legend`: 1.5 px ink border, radius-md, shadow-lift); ticked rows and picked chips = the "picked" state (ink border, sunflower tint, bold, ✕ icon). Only the input is lazy; label, hint and chips (`BrandChips.tsx`) render straight away, so 0 px layout shift with brands in the URL.
+- Not in this task (told WS2/UX): the rest of the refine form (labels 14 px, inputs 40 px) is not on the `evs-field` spec yet, and the app doesn't load the brand fonts (Atkinson Hyperlegible, Bitter): body uses system-ui.
 
 ## Review
