@@ -300,7 +300,7 @@ approved:
     id: skoda-elroq-gen1-base
     field: "price_new.NL.amount"
     change: cleared
-  - {<<: *t148, file: used_prices.json, id: skoda-elroq-gen1-base, change: removed}
+  - {<<: *t148, file: used_prices.json, id: skoda-elroq-gen1-base, field: "*", change: removed}
   # Release 3: nissan-leaf-ze1-62-kwh matrix cells move from the WLTP-ratio estimate to measured EPA tests
   # (13 blocking cells; the glob also approves 32 review-level rows of the same variant: 45 in all)
   - &leaf62
