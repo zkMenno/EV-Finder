@@ -713,6 +713,14 @@ variants:
         retrieved: 2026-11-18
         quote: "APP550 with 210 kW."
         confidence: high
+      dc_peak_kw:
+        value: 200
+        source_url: https://volkswagen-newsroom.com/en/the-new-id7-pro-s-and-id7-tourer-pro-s-international-media-drive-18617/drive-18620
+        source_name: "Volkswagen Newsroom, 'The new ID.7 Pro S and ID.7 Tourer Pro S: drive' (2024)"
+        retrieved: 2026-11-18
+        quote: "The new battery can be charged with up to 200 kW at DC quick-charging stations; in contrast, the Pro models with the 77 kWh battery charge with a maximum of 175 kW."
+        confidence: high
+        notes: "OpenEV's 'PRO' record gives 175 kW, the 77 kWh Pro's figure."
     notes: "Rear-wheel drive: VW international media drive ('a 210 kW (286 PS) electric drive motor, which is compactly integrated into the rear axle'). WLTP up to 709 km saloon, 690 km Tourer (VW Newsroom, June 2024)."
     confidence: high
   - generation_id: volkswagen-id7-gen1
