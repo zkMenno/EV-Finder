@@ -135,6 +135,23 @@ jobs:
             echo '```'
             echo
             cat "data/releases/$RELEASE/qa.md"
+            # T-150 (retro 2026-11-18): the verify report against main's rules, so blocking
+            # cells an open gate PR (approved_changes.yaml) must clear are visible here too.
+            # This run is on main, so `--base HEAD` = main. verify diffs against `latest`, so
+            # latest points at the previous release while it runs (restored right after; the
+            # handover copy above already holds the new pointer). Capped to stay inside
+            # GitHub's 65,536-character PR body limit.
+            echo
+            echo "<details><summary>ev verify --base main (rebuild vs release $BEFORE)</summary>"
+            echo
+            if [ "$BEFORE" != none ]; then
+              echo "$BEFORE" > data/releases/latest
+              (cd pipeline && uv run ev verify --base HEAD --skip-tests --out "$RUNNER_TEMP/verify-report.md" >/dev/null 2>&1) || true
+              echo "$RELEASE" > data/releases/latest
+            fi
+            if [ -f "$RUNNER_TEMP/verify-report.md" ]; then head -c 30000 "$RUNNER_TEMP/verify-report.md"; else echo "(no verify report: first release or ev verify failed)"; fi
+            echo
+            echo "</details>"
           } > "$out/pr-body.md"
 
       - name: Upload the release
@@ -189,6 +206,22 @@ jobs:
           cp -R "$in/release" "data/releases/$RELEASE"
           cp "$in/latest" data/releases/latest
           cp "$in/pr-body.md" "$RUNNER_TEMP/pr-body.md"
+
+      # Decision 086 / T-150: GitHub caps content creation at ~500 requests per hour, so a release
+      # with more assets than this would stop part-way. Fail before the first upload. The guard
+      # stays after the photo bundle ships (a growing catalogue/ folder would hit it next).
+      - name: Asset count guard (Decision 086)
+        env:
+          RELEASE: ${{ needs.refresh.outputs.release }}
+          MAX_ASSETS: "450"
+        run: |
+          n=$(jq '.files | length' "data/releases/$RELEASE/manifest.json")
+          case "$n" in ''|*[!0-9]*) echo "::error::cannot count assets in manifest.json"; exit 1;; esac
+          if [ "$n" -gt "$MAX_ASSETS" ]; then
+            echo "::error::release $RELEASE has $n assets, over the $MAX_ASSETS guard (GitHub ~500/hour; Decision 086). Bundle more files (images.tar) before publishing."
+            exit 1
+          fi
+          echo "release $RELEASE: $n assets (guard $MAX_ASSETS)"
 
       # T-064 (Decision 035): the big release files go to the GitHub Release data-v<N> (checked
       # against manifest.json); git gets only manifest.json + the small files that .gitignore
