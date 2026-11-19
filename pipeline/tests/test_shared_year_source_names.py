@@ -118,5 +118,7 @@ def test_retired_ioniq5_release1_ids_have_live_successors() -> None:
     live = {f"{G1}-77kwh-awd", f"{G1}-77kwh-rwd", f"{FL}-n"}
     prev = {"rows": [{"variant_id": v} for v in old]}
     res = compute_retired(prev, None, live, hand)
-    assert res.ids == {f"{G1}-awd": f"{G1}-77kwh-awd", f"{G1}-base": f"{G1}-77kwh-rwd",
-                       f"{G1}-n": f"{FL}-n"}  # fmt: skip
+    # Only the Ioniq 5 ids: retired_ids.yaml also holds other makes' successors (T-148).
+    got = {k: v for k, v in res.ids.items() if k in old}
+    assert got == {f"{G1}-awd": f"{G1}-77kwh-awd", f"{G1}-base": f"{G1}-77kwh-rwd",
+                   f"{G1}-n": f"{FL}-n"}  # fmt: skip
