@@ -277,7 +277,7 @@ facts:
     locator: "Second paragraph; 'up to' = the best equipment"
     confidence: high
     claim: true
-    notes: "RDW TGK (gr7t-qfnb, variants SBMQ3CQ1 / SBMQ3CQ2, read 2026-11-19) lists 494 km in its lower-bound column and 644 km in its upper-bound column for every version; neither is used here."
+    notes: "RDW TGK (gr7t-qfnb, variants SBMQ3CQ1 / SBMQ3CQ2, read 2026-11-19) gives 494-644 km for every version; neither end is used here."
   - variant_id: audi-e-tron-gt-facelift-quattro
     field: consumption_kwh_100km
     value: 17.8

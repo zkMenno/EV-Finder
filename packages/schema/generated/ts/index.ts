@@ -452,7 +452,7 @@ export interface GenerationPopularity {
    */
   rank: number;
   /**
-   * Registrations counted across the sources (EU countries we read).
+   * Registrations counted across the sources we read (EU countries plus UK DfT).
    */
   registrations: number;
   /**
@@ -3607,7 +3607,7 @@ export interface GenerationPopularity1 {
    */
   rank: number;
   /**
-   * Registrations counted across the sources (EU countries we read).
+   * Registrations counted across the sources we read (EU countries plus UK DfT).
    */
   registrations: number;
   /**
