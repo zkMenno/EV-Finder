@@ -1,6 +1,6 @@
 # T-159 Matching follow-ups: motor-count ties, other trims' TGK versions, year-only splits
 Role: builder   Lane: pipeline/ (WS1)   Wave: launch
-Status: todo
+Status: doing (batch: data T-159, https://claude.ai/code/session_01JuyZEXeG7iyPafXic4NHT3, 2026-11-19)
 
 ## Goal
 TGK versions land on the right trim: ties split by motor count, other trims' versions stop landing on a row, and rows that differ only by year get their per-year RDW records.
