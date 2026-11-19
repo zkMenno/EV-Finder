@@ -3066,6 +3066,104 @@ variants:
     notes: "Front-wheel drive: same release ('Der neue Avenger ist der erste Jeep mit Vorderradantrieb'). WLTP 404 km combined in that release; RDW TGK lists 434-436 km on later versions."
     confidence: high
 
+
+  # --- T-160 (catalogue batch, 2026-11-19): no-variant groups left after T-154, maker documents
+  # only, single facts cited per car (Decision 087).
+  - generation_id: kia-ev6-facelift
+    id: kia-ev6-facelift-63kwh-rwd
+    name: "63 kWh RWD"
+    years: [2024, null]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 63
+        source_url: https://press.kia.com/content/dam/kiapress/DE/Germany/pressemappen/ev6/24_11/Kia_EV6_MJ25_Pressemappe_11-24.pdf
+        source_name: "Kia Deutschland, 'Kia EV6 (Modelljahr 2025) Pressemappe' (PDF, Nov 2024)"
+        retrieved: 2026-11-19
+        quote: "(von 58 auf 63 kWh bzw. 77,4 auf 84 kWh)"
+        locator: "Battery section"
+        confidence: medium
+        notes: "Kia gives the pack size without gross / net; Kia's own EU release of the same update says 62 kWh, so medium."
+      power_kw:
+        value: 125
+        source_url: https://www.widmann-winterholler.de/fileadmin/user_upload/Fahrzeuge/Neuwagen/Landingpages/Kia/Modell/EV6/Kia-Germany-EV6_Pricelist-Juni2026.pdf
+        source_name: "Kia Deutschland, EV6 price list June 2026 (PDF, copy on a Kia dealer site)"
+        retrieved: 2026-11-19
+        quote: "63-kWh-Batterie, 125 kW (170 PS), Heckantrieb"
+        locator: "Price table, first engine row"
+        confidence: medium
+      wltp_range_km:
+        value: 428
+        source_url: https://www.widmann-winterholler.de/fileadmin/user_upload/Fahrzeuge/Neuwagen/Landingpages/Kia/Modell/EV6/Kia-Germany-EV6_Pricelist-Juni2026.pdf
+        source_name: "Kia Deutschland, EV6 price list June 2026 (PDF, copy on a Kia dealer site)"
+        retrieved: 2026-11-19
+        quote: "63-kWh-Batterie, 125 kW (170 PS), Heckantrieb 16,4 0 A 428"
+        locator: "Price table, first engine row, column 'Reichweite (komb. in km)'"
+        confidence: medium
+    notes: "Rear-wheel drive: price-list row 'Heckantrieb'. Years: facelift start (Kia DE press kit, Nov 2024). A dealer-hosted copy of Kia's own list, so medium."
+    confidence: medium
+  - generation_id: mazda-mx-30-gen1
+    id: mazda-mx-30-gen1-ev
+    name: "e-Skyactiv EV (35.5 kWh)"
+    years: [2020, 2025]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 35.5
+        source_url: https://de.mazda-press.com/api/assets/download/9ca9abe0-951a-41b3-a2b4-413d624bac30_Default
+        source_name: "Mazda Deutschland press kit 'Mazda MX-30' (PDF, de.mazda-press.com)"
+        retrieved: 2026-11-19
+        quote: "35,5 kWh starke und somit relativ leichte Hochvoltbatterie"
+        locator: "Body text, battery paragraph"
+        confidence: medium
+        notes: "Mazda gives one figure without gross / net; recorded as the pack size, so medium."
+      power_kw:
+        value: 107
+        source_url: https://de.mazda-press.com/api/assets/download/9ca9abe0-951a-41b3-a2b4-413d624bac30_Default
+        source_name: "Mazda Deutschland press kit 'Mazda MX-30' (PDF, de.mazda-press.com)"
+        retrieved: 2026-11-19
+        quote: "Der e-Skyactiv Motor entwickelt eine Leistung von 107 kW/145 PS"
+        locator: "Body text, drive paragraph"
+        confidence: high
+      wltp_range_km:
+        value: 200
+        source_url: https://de.mazda-press.com/api/assets/download/9ca9abe0-951a-41b3-a2b4-413d624bac30_Default
+        source_name: "Mazda Deutschland press kit 'Mazda MX-30' (PDF, de.mazda-press.com)"
+        retrieved: 2026-11-19
+        quote: "Reichweite gemäß WLTP-Testzyklus von 200-262 km (kombiniert/inner"
+        locator: "Footnote 3: 200 km combined, 262 km city"
+        confidence: high
+    notes: "Front-wheel drive: Mazda USA '2022 MX-30 EV Press Kit' (news.mazdausa.com) names a 'Front-wheel drive 80.9 kW electric motor'. One BEV version in the EU; the MX-30 R-EV (range extender) is not a BEV. Years: generation."
+    confidence: medium
+  - generation_id: smart-eq-forfour-453
+    id: smart-eq-forfour-453-eq
+    name: "forfour electric drive / EQ forfour"
+    years: [2017, 2022]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 17.6
+        source_url: https://media.mercedes-benz.pl/download/326413/20170224-smart-ed-2.pdf
+        source_name: "Mercedes-Benz Polska media, smart electric drive press release (PDF, 24 Feb 2017)"
+        retrieved: 2026-11-19
+        quote: "Pojemność akumulatora (kWh) 17,6"
+        locator: "Technical data table, column forfour"
+        confidence: medium
+        notes: "smart gives one figure without gross / net; recorded as the pack size, so medium."
+      power_kw:
+        value: 60
+        source_url: https://media.mercedes-benz.pl/download/326413/20170224-smart-ed-2.pdf
+        source_name: "Mercedes-Benz Polska media, smart electric drive press release (PDF, 24 Feb 2017)"
+        retrieved: 2026-11-19
+        quote: "Moc silnika elektrycznego (kW/KM) 60/81"
+        locator: "Technical data table, column forfour"
+        confidence: high
+    notes: "Rear-wheel drive: same release ('napędza tylne koła'). The 2020 EQ facelift kept the pack and motor (not re-read from a smart document). NEDC-era car: no WLTP cited. Years: generation."
+    confidence: medium
+
 source_holds:
   - generation_id: audi-q4-e-tron-gen1
     source: openev

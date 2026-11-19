@@ -247,6 +247,12 @@ platforms:
     nominal_v: not-disclosed
     voltage_class_id: not-disclosed
     notes: "T-151. The electric ë-SpaceTourer / ë-Jumpy Combi (registers name them alike). Platform name and voltage class not read from a maker document, so left not-disclosed."
+  - id: mazda-mx-30
+    name: "Mazda MX-30 (e-Skyactiv EV)"
+    owner: Mazda
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-160: the MX-30 BEV only. Platform name and voltage class not read from a Mazda document, so left not-disclosed."
   - id: honda-e
     name: "Honda e platform"
     owner: Honda
