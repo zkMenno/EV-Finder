@@ -1,0 +1,170 @@
+# T-151 (WS3 batch, 2026-11-19): four data errors found while building release 3
+# (WS0 INBOX 2026-11-18 19:14 UTC, "batch: data / release 3").
+#  - Citroën ë-SpaceTourer: one row mixed the 50 kWh battery with the 75 kWh car's WLTP.
+#    Split into 50 / 75 kWh seed rows (data/seed/variants.yaml); battery and WLTP per row below.
+#  - Ford E-Tourneo Courier: Open EV Data gives 51 kWh / 350 km; Ford gives 43 kWh usable and
+#    up to 288 km.
+#  - Nissan Leaf ZE1 62 kWh: Open EV Data's "62 kWh" (110 kW) row is the 160 kW e+; merged
+#    into nissan-leaf-ze1-e-plus-62kwh, power from Nissan.
+#  - Hyundai Ioniq 5 facelift 84 kWh: power from Hyundai now that Open EV Data's MY2025 files
+#    (the pre-facelift car) are held; battery and WLTP stay in t140-a36-catalogue-gaps.yaml.
+# Source `manual` (Decision 068). Every value below was read on the page named, on the date given.
+# Maker documents only; single facts, no tables copied.
+schema: manual-facts/v1
+entered_by: ws3 (agent, T-151 batch)
+facts:
+  # --- Citroën ë-SpaceTourer 50 kWh ------------------------------------------------------------
+  - variant_id: citroen-e-spacetourer-gen1-50kwh
+    field: battery_kwh_net
+    value: 46.3
+    unit: kWh
+    source_url: https://www.media.stellantis.com/uk-en/citroen/press/citroen-opens-orders-for-new-e-berlingo-and-new-e-spacetourer
+    source_name: "Citroën UK press release 'Citroën opens orders for new ë-Berlingo and new ë-SpaceTourer' (18.03.2024)"
+    retrieved: 2026-11-19
+    quote: "The 50kWh(46.3kWh useable) battery offers a range of 139 miles (WLTP)"
+    locator: "Body text, powertrain paragraph"
+    confidence: medium
+    claim: true
+    notes: "The 2024 update keeps the 50 kWh battery. Open EV Data's 46 kWh agrees."
+  - variant_id: citroen-e-spacetourer-gen1-50kwh
+    field: wltp_range_km
+    value: 230
+    unit: km
+    source_url: https://www.media.stellantis.com/fr-fr/citroen/press/nouveau-citroen-e-spacetourer-n-van-compact-9-places-100-electrique
+    source_name: "Citroën France press release 'Nouveau Citroën ë-SpaceTourer : van compact 9 places 100% ëlectrique' (12.06.2020)"
+    retrieved: 2026-11-19
+    quote: "Jusqu’à 230 km sur cycle WLTP équipé d’une batterie de 50 kWh, constituée de 18 modules."
+    locator: "Section on range: 50 kWh battery, XS / M / XL bodies"
+    confidence: medium
+    claim: true
+    notes: "Launch figure ('up to', best body). Citroën UK 18.03.2024 gives 139 miles (224 km) for the updated car; one row covers 2021 onward."
+  # --- Citroën ë-SpaceTourer 75 kWh ------------------------------------------------------------
+  - variant_id: citroen-e-spacetourer-gen1-75kwh
+    field: battery_kwh_net
+    value: 68
+    unit: kWh
+    source_url: https://www.media.stellantis.com/uk-en/citroen/press/citroen-opens-orders-for-new-e-berlingo-and-new-e-spacetourer
+    source_name: "Citroën UK press release 'Citroën opens orders for new ë-Berlingo and new ë-SpaceTourer' (18.03.2024)"
+    retrieved: 2026-11-19
+    quote: "the 75kWh(68kWh useable) battery, now offered for the first time in the UK market"
+    locator: "Body text, powertrain paragraph"
+    confidence: medium
+    claim: true
+  - variant_id: citroen-e-spacetourer-gen1-75kwh
+    field: wltp_range_km
+    value: 330
+    unit: km
+    source_url: https://www.media.stellantis.com/fr-fr/citroen/press/nouveau-citroen-e-spacetourer-n-van-compact-9-places-100-electrique
+    source_name: "Citroën France press release 'Nouveau Citroën ë-SpaceTourer : van compact 9 places 100% ëlectrique' (12.06.2020)"
+    retrieved: 2026-11-19
+    quote: "Jusqu’à 330 km sur cycle WLTP équipé d’une batterie de 75 kWh, constituée de 27 modules."
+    locator: "Section on range: 75 kWh battery, M and XL bodies only"
+    confidence: medium
+    claim: true
+    notes: "Launch figure. For the 2024 update Citroën Germany gives up to 350 km, 20 km more than before (media.stellantis.com/de-de, 'Der neue Citroën ë-Spacetourer'); RDW registers 341 km for 2024 cars. One row covers 2021 onward."
+
+  # --- Ford E-Tourneo Courier (2024 launch) ----------------------------------------------------
+  - variant_id: ford-e-tourneo-courier-gen1-base
+    field: battery_kwh_net
+    value: 43
+    unit: kWh
+    source_url: https://media.ford.com/content/fordmedia/feu/en/news/2024/10/15/all-new-electric-E-Tourneo-Courier.html
+    source_name: "Ford of Europe press release 'Stylish, Spacious E-Tourneo Courier Expands Ford’s Electric Vehicle Roll Out' (15.10.2024)"
+    retrieved: 2026-11-19
+    quote: "E-Tourneo Courier features a 43 kWh (useable) battery for up to 288 km of driving range."
+    locator: "Section 'Electric power with complete support'"
+    confidence: medium
+    claim: true
+    notes: "Open EV Data's 2025 file gives 51 kWh. Ford announced a 46 kWh battery for 2026 (ford.com news, February 2026); that update needs its own row with its own Ford data sheet before it is entered."
+  - variant_id: ford-e-tourneo-courier-gen1-base
+    field: wltp_range_km
+    value: 288
+    unit: km
+    source_url: https://media.ford.com/content/fordmedia/feu/en/news/2024/10/15/all-new-electric-E-Tourneo-Courier.html
+    source_name: "Ford of Europe press release 'Stylish, Spacious E-Tourneo Courier Expands Ford’s Electric Vehicle Roll Out' (15.10.2024)"
+    retrieved: 2026-11-19
+    quote: "E-Tourneo Courier features a 43 kWh (useable) battery for up to 288 km of driving range."
+    locator: "Section 'Electric power with complete support'; footnote 1: estimated range using WLTP"
+    confidence: medium
+    claim: true
+    notes: "Open EV Data's 2025 file gives 350 km."
+
+  # --- Nissan Leaf ZE1 e+ 62 kWh ---------------------------------------------------------------
+  - variant_id: nissan-leaf-ze1-e-plus-62kwh
+    field: power_kw
+    value: 160
+    unit: kW
+    source_url: https://europe.nissannews.com/en-GB/releases/release-90b1ce83155c6b12ec5c018c9a0239df-nissan-announces-leaf-3zero-and-leaf-3zero-e-limited-edition-with-higher-output-and-longer-range-2
+    source_name: "Nissan Europe press release 'Nissan announces new LEAF 3.ZERO and new LEAF e+ 3.ZERO with higher output and longer range' (09.01.2019)"
+    retrieved: 2026-11-19
+    quote: "will feature a higher output capable of delivering 160 kW (217 PS)"
+    locator: "Paragraph on the LEAF e+ 3.ZERO Limited Edition"
+    confidence: medium
+    claim: true
+    notes: "Open EV Data's MY2023-24 '62 kWh' files give 110 kW, the 40 kWh car's motor. Nissan USA 2025 LEAF press kit (usa.nissannews.com): 160 kW motor with the 60 kWh (62 kWh) battery, 110 kW with the 40 kWh battery only."
+  - variant_id: nissan-leaf-ze1-e-plus-62kwh
+    field: wltp_range_km
+    value: 385
+    unit: km
+    source_url: https://europe.nissannews.com/en-GB/releases/release-90b1ce83155c6b12ec5c018c9a0239df-nissan-announces-leaf-3zero-and-leaf-3zero-e-limited-edition-with-higher-output-and-longer-range-2
+    source_name: "Nissan Europe press release 'Nissan announces new LEAF 3.ZERO and new LEAF e+ 3.ZERO with higher output and longer range' (09.01.2019)"
+    retrieved: 2026-11-19
+    quote: "expected driving range of up to 385 km* from a single charge"
+    locator: "Paragraph on the LEAF e+ 3.ZERO Limited Edition; the footnote marks the WLTP figure"
+    confidence: medium
+    claim: true
+    notes: "Nissan Europe 18.06.2019 ('More choice than ever for Nissan LEAF customers'): 'up to 385 km (WLTP) on a combined cycle'."
+
+  # --- Hyundai Ioniq 5 facelift 84 kWh: power ------------------------------------------------
+  - variant_id: hyundai-ioniq-5-facelift-base
+    field: power_kw
+    value: 168
+    unit: kW
+    source_url: https://www.hyundai.news/de/articles/press-releases/hyundai-ioniq-5-facelift-ab-sofort-bestellbar.html
+    source_name: "Hyundai Motor Deutschland press release 'Hyundai IONIQ 5 Facelift ab sofort bestellbar' (08.08.2024)"
+    retrieved: 2026-11-19
+    quote: "Energieverbrauch in kWh/100 km für den Hyundai IONIQ 5 (168 kW): kombiniert 16,0-17,2"
+    locator: "Consumption footnote for the 168 kW version (84 kWh, rear-wheel drive)"
+    confidence: medium
+    claim: true
+    notes: "Hyundai Motor Czech 15.08.2024 gives 229 PS for the 84 kWh RWD (168 kW). The held Open EV Data file also says 168 kW."
+  - variant_id: hyundai-ioniq-5-facelift-awd
+    field: power_kw
+    value: 239
+    unit: kW
+    source_url: https://www.hyundai.news/de/articles/press-releases/hyundai-ioniq-5-facelift-ab-sofort-bestellbar.html
+    source_name: "Hyundai Motor Deutschland press release 'Hyundai IONIQ 5 Facelift ab sofort bestellbar' (08.08.2024)"
+    retrieved: 2026-11-19
+    quote: "ein Leistungsspektrum von 125 kW/170 PS bis 239 kW/325 PS"
+    locator: "Body text; the top of the range is the 84 kWh all-wheel drive"
+    confidence: medium
+    claim: true
+    notes: "Hyundai Motor Czech 15.08.2024: AWD 'výkonem 325 koní, točivým momentem 605 Nm a dojezdem 546 km'."
+
+  # --- Hyundai Ioniq 5 facelift 84 kWh: DC charging time ----------------------------------------
+  # Open EV Data's 220 kW peak and default curve were the pre-facelift car's (held, see
+  # source_holds in data/seed/variants.yaml). Hyundai gives no peak kW for the facelift, only the time.
+  - variant_id: hyundai-ioniq-5-facelift-base
+    field: dc_minutes_10_80
+    value: 18
+    unit: min
+    source_url: https://www.hyundai.news/uk/articles/press-releases/hyundai-motor-uk-reveals-new-ioniq-5-pricing-and-specification.html
+    source_name: "Hyundai Motor UK press release 'Hyundai Motor UK reveals new IONIQ 5 pricing and specification' (18.07.2024)"
+    retrieved: 2026-11-19
+    quote: "10-80% charge can be achieved in as little as 18 minutes"
+    locator: "Charging paragraph (350 kW charger); the release covers the new Long Range 84 kWh and Standard Range 63 kWh packs"
+    confidence: medium
+    claim: true
+    notes: "'As little as': Hyundai's best case on a 350 kW charger, for the whole range."
+  - variant_id: hyundai-ioniq-5-facelift-awd
+    field: dc_minutes_10_80
+    value: 18
+    unit: min
+    source_url: https://www.hyundai.news/uk/articles/press-releases/hyundai-motor-uk-reveals-new-ioniq-5-pricing-and-specification.html
+    source_name: "Hyundai Motor UK press release 'Hyundai Motor UK reveals new IONIQ 5 pricing and specification' (18.07.2024)"
+    retrieved: 2026-11-19
+    quote: "10-80% charge can be achieved in as little as 18 minutes"
+    locator: "Charging paragraph (350 kW charger); the release covers the new Long Range 84 kWh and Standard Range 63 kWh packs"
+    confidence: medium
+    claim: true
+    notes: "'As little as': Hyundai's best case on a 350 kW charger, for the whole range."
