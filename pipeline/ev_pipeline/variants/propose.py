@@ -140,6 +140,7 @@ class Group:
         bool  # "single" (30-min power stated) | "multi" (not stated: multi-motor or unknown)
     )
     members: list[Version] = field(default_factory=list)
+    split_by: str = ""  # T-159: the seed variant a split-evidence subgroup is placed on
 
     @property
     def placed(self) -> Counter[str]:
@@ -171,7 +172,8 @@ class Group:
     @property
     def key(self) -> str:
         e = self._span(v.energy for v in self.members) or "unknown"
-        return f"{self.generation_id}|{self.cycle}|{self.motors}|e={e}"
+        key = f"{self.generation_id}|{self.cycle}|{self.motors}|e={e}"
+        return f"{key}|v={self.split_by}" if self.split_by else key
 
     def row(self) -> dict[str, str]:
         years = sorted(v.rec.year for v in self.members if v.rec.year is not None)
@@ -337,8 +339,33 @@ def place_versions(
     groups = []
     for (gid, cycle, motors), members in sorted(by_fp.items()):
         for part in split_by_energy(members):
-            groups.append(Group(gid, cycle, motors, gid in gens_with_variants, part))
+            for sub, by in split_by_evidence(part, result):
+                groups.append(Group(gid, cycle, motors, gid in gens_with_variants, sub, by))
     return Proposal(groups, versions, no_model, no_gen, eea)
+
+
+def split_by_evidence(part: list[Version], result: MatchResult) -> list[tuple[list[Version], str]]:
+    """T-159 (T-153 follow-up 6): a fingerprint group whose placed versions sit on 2+ seed
+    variants, each of which has split evidence (match/tgk_split.yaml: type code, 30-min power,
+    top speed, motors), is the same pack in trims the fingerprint can't see: one subgroup per
+    variant (`have`), the unplaced members in one more subgroup (their own verdict). Any
+    placed variant without split evidence: the group stays whole (`several`, for review)."""
+    placed = sorted({v.placed for v in part if v.placed})
+    if len(placed) < 2 or not all(result.tgk_split.get(_root(vid, result)) for vid in placed):
+        return [(part, "")]
+    out = [([v for v in part if v.placed == vid], vid) for vid in placed]
+    rest = [v for v in part if not v.placed]
+    if rest:
+        out.append((rest, "unplaced"))
+    return out
+
+
+def _root(vid: str, result: MatchResult) -> str:
+    """The candidate root of a year band (split evidence is keyed on the root variant)."""
+    for b in result.year_bands:
+        if vid in b["new_ids"]:  # type: ignore[operator]
+            return str(b["variant_id"])
+    return vid
 
 
 def coverage(p: Proposal, seed: Seed, published_variants: int | None) -> dict[str, Any]:
