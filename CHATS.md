@@ -51,3 +51,4 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | batch: web | WS2: T-132 part 2 (hero results), english-only loop, AC optional charger, brand fonts, --line-strong contrast, verify tooltip, Sources popover, T-143 done | https://claude.ai/code/session_01JuyZEXBt7oHBm4SwQBwRz1 | 2026-11-18 |
 | batch: catalogue (2026-11-18) | WS3 catalogue batch: T-136 seed guards, cited facts (Tesla M3 WLTP, e-tron GT facelift), #128 credit lines, coverage script (T-144, T-145) | https://claude.ai/code/session_01JuyZEWGsTtmLd5JyqNkefK | 2026-11-18 |
 | batch: variant queue (2026-11-18) | WS3: variant candidate review queue (data/review/variant-candidates.csv), biggest EU registrations first (T-148) | https://claude.ai/code/session_01JuyZEXkdc6m6bZgzVV874S | 2026-11-18 |
+| batch: T-152 | WS2: no far-too-expensive unpriced fill-ins at a small budget (T-152) | https://claude.ai/code/session_01JuyZETaUYebGPuMx1hecJs | 2026-11-19 |
