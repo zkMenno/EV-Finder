@@ -30,3 +30,5 @@ New photos. Image sizes or formats.
 - `gh-publish-release.sh` needed no change: it uploads `manifest.files[]`, which now holds the tar instead of the photos.
 
 ## Review
+- 2026-11-19, fresh subagent (no build context), REVIEW.md from origin/main. Round 1 on e2a8de3: pass; should-fix: re-packaging an old (unbundled) release rewrote its manifest (order + layout); nits: non-dict bundle entry → AttributeError, tar re-downloaded when only the tar is lost, dot-files skipped by `write_bundle`. Round 2 on 6d5f15f: **pass**: R0 green, R1 none, R3 only additions; release 3 copy re-packages to a byte-identical manifest (646 assets, no tar); fresh build: 290 assets, 1 bundle, `verify()` = [], idempotent. Remaining nits: a release first packaged without photos stays unbundled on a hand re-package; `bundled_cfg` duplicate.
+- Gate PR #172 reviewed in the same rounds: pass on ddf1633, merged as ac623d1.
