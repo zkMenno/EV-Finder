@@ -10,8 +10,7 @@ One named chat: the coordinator (WS0). Everything else is a throwaway batch chat
 - Decisions up to **086** (photo bundle). Next free in the WS0 block: **087**. Tasks up to **T-152**; next free **T-153**.
 
 ## Open PRs
-- **#171** WS0: schema fields (`Generation.popularity`, `UsedPriceSourceRef.licence`, `GenerationImage.licence_template` / `licence_checked_at`), Decision 086, tasks T-149–T-152. Fresh review PASS on 8e2e84f, CI green. To be merged by the data batch chat (merge main in first: main moved only by log lines).
-- **#165** gate: rules G-46 (stale reused server) + G-47 (review survives log-only main moves). CI green, needs fresh review + merge (data batch chat).
+- #171 (schema fields, Decision 086, T-149–T-152) and #165 (rules G-46 / G-47): **merged** 2026-11-19 by the data batch chat.
 - **#59** WS4 staging runbook: probably obsolete (staging deploys from CI). Ask WS4 or close with a note.
 
 ## Batch chats briefed 2026-11-19 (prompts given to Menno)
