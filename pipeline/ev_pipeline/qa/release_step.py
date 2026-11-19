@@ -106,6 +106,14 @@ def finish_release(
         registry.releasable,
         _previous_qa_section(data_dir, int(catalogue["release"]), "backtest_epa"),
     )
+    # T-155: popularity field vs the web build's ranking; report only, never blocks.
+    from ev_pipeline.backtest.popularity import popularity_backtest
+
+    doc["backtest_popularity"] = popularity_backtest(
+        catalogue,
+        data_dir,
+        _previous_qa_section(data_dir, int(catalogue["release"]), "backtest_popularity"),
+    )
     # START §3 item 6: quality of the fields the usage profiles read; report only.
     from ev_pipeline.qa.profile_fields import profile_fields_section
 
@@ -144,10 +152,17 @@ def finish_release(
 
 
 def _qa_md(doc: dict[str, Any]) -> str:
+    from ev_pipeline.backtest.popularity import popularity_md
     from ev_pipeline.qa.profile_fields import profile_fields_md
     from ev_pipeline.release.differ import summary_md
 
-    extra = profile_fields_md(doc.get("profile_fields")) + summary_md(
-        (doc.get("release_diff") or {}) if (doc.get("release_diff") or {}).get("counts") else None
+    extra = (
+        profile_fields_md(doc.get("profile_fields"))
+        + popularity_md(doc.get("backtest_popularity"))
+        + summary_md(
+            (doc.get("release_diff") or {})
+            if (doc.get("release_diff") or {}).get("counts")
+            else None
+        )
     )
     return qa_md(doc).rstrip("\n") + "\n" + "\n".join(extra) + "\n" if extra else qa_md(doc)

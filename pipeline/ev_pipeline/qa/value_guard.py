@@ -4,7 +4,7 @@ go to data/review/conflicts.csv instead ("AI proposes, rules decide"; values are
 Every guard works on a *pool*: the facts still allowed for a variant. A guard that takes facts
 out removes them from the pool and merges the field again from what is left (which may give
 another value, or none), so no later guard or re-merge can bring a removed value back
-(A-06 F1, F2). `run_guards` runs all four until nothing changes (A-06 L1: a value one guard
+(A-06 F1, F2). `run_guards` runs all five until nothing changes (A-06 L1: a value one guard
 sets is checked by the others too).
 
 1. **Contradicted by a citation that can't ship (A-06 F3).** Citations from a blocked source
@@ -44,6 +44,10 @@ sets is checked by the others too).
    pairs of two merged values are guarded: when one half is inherited from the linked battery
    pack (variant_links.yaml), the link is the likely error (as in qa/pack_guard.py), so nothing
    is taken out and the release QA `impossible_values` check flags it.
+5. **Versions that don't belong with the best case (T-155).** `guard_versions`: a TGK
+   version's consumption or worst-case WLTP from another battery or approval family
+   (its own best case > 15 % from the shipped one), and any worst case above the shipped
+   best case, go to review.
 """
 
 from __future__ import annotations
@@ -337,6 +341,68 @@ def guard_mixups(
     return rows
 
 
+# --- T-155: version-level values from another version than the shipped best case --------
+WORST = "wltp_range_km_worst"
+# Per-version values of a SPREAD_SOURCES record (TGK: one record per type-approved version)
+# that only mean something next to that same record's own best-case WLTP.
+VERSION_FIELDS = ("consumption_kwh_100km", WORST)
+# A record whose own best-case WLTP is this far (share of the shipped value) from the row's
+# shipped WLTP is another battery or another approval family (ë-SpaceTourer 50 vs 75 kWh:
+# 238 vs 339 km, +42 %; Leaf e+ 2022 extension 449 vs 385 km, +17 %). Same-battery versions
+# (wheels, model years) stay well inside it (Leaf 40 kWh 270-300 km, +11 %; ë-SpaceTourer
+# 75 kWh 339-370 km vs cited 330 km, +12 %).
+OTHER_FAMILY_REL = 0.15
+WORST_ABOVE_BEST = "impossible: worst-case WLTP above the shipped best case"
+OTHER_FAMILY = "version of another battery or approval family"
+
+
+def guard_versions(
+    merged: dict[str, dict[str, Merged]],
+    facts_by_variant: Pool,
+    policies: Policies,
+) -> list[dict[str, Any]]:
+    """T-155: keep a version's consumption and worst-case WLTP only next to a best case they
+    belong with (in place; review rows):
+    - a SPREAD_SOURCES fact whose own record's best-case WLTP is more than OTHER_FAMILY_REL
+      from the row's shipped `wltp_range_km` comes from another battery or approval family:
+      it goes to review (TGK records don't name the battery, so they are never split by it);
+    - a worst-case WLTP above the shipped best case cannot be true (Leaf 40 kWh: 287 km from
+      the 2022 extension next to the 270 km of the first versions): it goes to review.
+    """
+    from ev_pipeline.merge.merge import SPREAD_SOURCES
+
+    rows: list[dict[str, Any]] = []
+    for vid in sorted(merged):
+        mv = merged[vid]
+        best_mg = mv.get(WLTP)
+        best = _num(best_mg.value) if best_mg is not None else None
+        if best is None or best <= 0:
+            continue
+        pool = facts_by_variant.get(vid, [])
+        for fname in VERSION_FIELDS:
+            if fname not in mv:
+                continue
+            far: dict[str, float] = {}
+            for mf in pool:
+                if mf.fact.field.value != fname or mf.source_id not in SPREAD_SOURCES:
+                    continue
+                own = [v for v in _record_values(pool, mf, (WLTP,)) if v is not None]
+                if own and abs(own[0] - best) > OTHER_FAMILY_REL * best + EPS:
+                    far[mf.fact.id] = own[0]
+            for fid, own_best in sorted(far.items()):
+                why = f"{OTHER_FAMILY}: its best case {own_best:g} km vs shipped {best:g} km"
+                rows += _take_out(merged, facts_by_variant, vid, fname, {fid}, why, policies)
+                pool = facts_by_variant.get(vid, [])
+        for _ in range(MAX_ROUNDS * 4):
+            w = mv.get(WORST)
+            wv = _num(w.value) if w is not None else None
+            if w is None or wv is None or wv <= best + EPS:
+                break
+            why = f"{WORST_ABOVE_BEST}: {wv:g} > {best:g} km"
+            rows += _take_out(merged, facts_by_variant, vid, WORST, set(w.fact_ids), why, policies)
+    return rows
+
+
 def run_guards(
     merged: dict[str, dict[str, Merged]],
     facts_by_variant: Pool,
@@ -353,6 +419,7 @@ def run_guards(
         rows += guard_mixups(merged, pool, policies)
         rows += guard_needs_backing(merged, pool, policies)
         rows += guard_impossible(merged, pool, policies)
+        rows += guard_versions(merged, pool, policies)
         if sum(len(fs) for fs in pool.values()) == before:
             break
     seen: set[tuple[str, str, str, str]] = set()

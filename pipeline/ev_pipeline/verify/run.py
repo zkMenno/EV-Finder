@@ -47,7 +47,7 @@ RULE_GLOBS = (
     "*_params.yaml", "*_rules.yaml", "data/editorial/*", "data/taxonomy/*", "data/seed/*",
     "config/approved_changes.yaml",
 )  # fmt: skip
-BACKTEST_KEYS = ("backtest", "backtest_epa", "backtest_used_prices")
+BACKTEST_KEYS = ("backtest", "backtest_epa", "backtest_used_prices", "backtest_popularity")
 SKIP_COPY = {"releases", "raw", "runs", "review", "local", "staging"}
 CLAIM = re.compile(r"^[\s>*-]*`?([a-z][a-z0-9_]*)`?\s*[:=]\s*(-?\d+(?:\.\d+)?)\b", re.M)
 
