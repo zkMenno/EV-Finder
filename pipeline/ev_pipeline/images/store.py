@@ -16,7 +16,13 @@ from typing import Any
 import httpx
 
 from ev_pipeline import net
-from ev_pipeline.images.photos import SOURCE_ID, Photo, template_licences, template_matches
+from ev_pipeline.images.photos import (
+    SOURCE_ID,
+    TEMPLATE_ALIASES,
+    Photo,
+    template_licences,
+    template_matches,
+)
 
 CACHE_DIR = Path("cache") / "images"
 WIDTHS = (400, 800, 1600)
@@ -42,6 +48,7 @@ def cached_original(cache: Path, photo: Photo) -> Path | None:
 # --- licence templates (T-149, Decision 083) -------------------------------------------------
 COMMONS_PAGE_HOST = "commons.wikimedia.org"
 TEMPLATE_METHOD = "file page wikitext (action=raw)"
+MAX_WIKITEXT = 200_000
 _TEMPLATE = re.compile(r"\{\{\s*([^{}]+?)\s*\}\}")
 _WARNING = re.compile(
     r"^(delete|speedydelete|copyvio|no permission|no source|no license|personality rights"
@@ -57,12 +64,13 @@ def _template_name(body: str) -> str:
 def licence_templates(wikitext: str) -> list[str]:
     """Licence templates on a Commons file page, in page order, whitespace removed:
     `{{self|cc-by-sa-4.0}}` → `self|cc-by-sa-4.0`. Only templates named self, cc-*, pd-*
-    or GFDL* count; {{Information}} and review templates are ignored."""
+    or GFDL* (and TEMPLATE_ALIASES such as {{YouTube CC-BY}}) count; {{Information}}, review
+    and user-page templates are ignored (a photo with only those goes to review)."""
     out: list[str] = []
     for m in _TEMPLATE.finditer(wikitext):
         body = m.group(1)
         name = _template_name(body)
-        if name == "self" or name.startswith(("cc-", "pd-", "gfdl")):
+        if name == "self" or name in TEMPLATE_ALIASES or name.startswith(("cc-", "pd-", "gfdl")):
             t = re.sub(r"\s+", "", body)
             if template_licences(t) and t not in out:
                 out.append(t)
@@ -137,10 +145,11 @@ def read_templates(
                 rep.failed[ph.generation_id] = type(e).__name__ + ": " + str(e)[:200]
                 sleep(FETCH_SLEEP_S)
                 continue
+            # The page text itself is kept (cache only, never in git or a release), so a
+            # better template parser applies without reading the page again.
             doc = {
                 "page_url": ph.page_url,
-                "licence_templates": licence_templates(text),
-                "warning_templates": warning_templates(text),
+                "wikitext": text[:MAX_WIKITEXT],
                 "method": TEMPLATE_METHOD,
                 "checked_at": today(),
             }
@@ -173,8 +182,8 @@ def licence_check(photo: Photo, cache: Path) -> tuple[dict[str, str], str]:
         return {}, "licence template not read yet (ev images fetch)"
     try:
         doc = json.loads(p.read_text(encoding="utf-8"))
-        found = [str(t) for t in doc.get("licence_templates") or []]
-        warnings = [str(t) for t in doc.get("warning_templates") or []]
+        text = str(doc["wikitext"])
+        found, warnings = licence_templates(text), warning_templates(text)
         checked = str(doc["checked_at"])
     except (ValueError, KeyError, TypeError):
         return {}, "licence template cache unreadable"

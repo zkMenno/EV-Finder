@@ -227,5 +227,13 @@ def attach_popularity(
         g.pop("popularity", None)
         if g["id"] in fields:
             g["popularity"] = fields[g["id"]]
-    inputs = [{"path": str(cfg_path)}] + ([{"path": str(picks_path)}] if picks else [])
+    # The config is logged in the section (repo path + sha256), not as a data/ input: a scratch
+    # data dir reads the repo's config, and run-log inputs never carry host paths.
+    import hashlib
+
+    log["config"] = {
+        "path": f"config/{CONFIG_FILE}",
+        "sha256": hashlib.sha256(cfg_path.read_bytes()).hexdigest(),
+    }
+    inputs = [{"path": str(picks_path)}] if picks else []
     return {"status": "attached", **log}, inputs

@@ -168,7 +168,8 @@ def test_attach_popularity_validates_against_schema(tmp_path: Path) -> None:
     pop = cat["generations"][0]["popularity"]
     GenerationPopularity.model_validate(pop)
     assert "popularity" not in cat["generations"][1]
-    assert inputs == [{"path": str(tmp_path / "config" / "popularity.yaml")}]
+    assert inputs == [] and log["config"]["path"] == "config/popularity.yaml"
+    assert len(log["config"]["sha256"]) == 64
     # no config: no field, logged
     log2, _ = attach_popularity(cat, tmp_path / "nope", data)
     assert log2["status"].startswith("skipped")
@@ -224,6 +225,9 @@ def test_licence_templates_from_wikitext() -> None:
                                        "Cc-by-sa-3.0,2.5,2.0,1.0"]  # fmt: skip
     assert warning_templates(PAGE) == []
     assert warning_templates("{{copyvio|reason}}{{cc-by-4.0}}") == ["copyvio"]
+    yt = "{{From YouTube|1=x}}\n{{YouTube CC-BY |1= [https://www.youtube.com/watch?v=x Y]}}"
+    assert licence_templates(yt) == ["YouTubeCC-BY|1=[https://www.youtube.com/watch?v=xY]"]
+    assert licence_templates("{{User:Someone/CC-BY-photos}}") == []  # user wrapper: review
 
 
 @pytest.mark.parametrize(
@@ -241,6 +245,10 @@ def test_licence_templates_from_wikitext() -> None:
         ("public-domain", "PD-old-70", True),
         ("public-domain", "PD-US", False),
         ("public-domain", "PD-old-70-1923", False),  # US-only variant
+        ("CC-BY-SA-4.0", "self|Cc-by-sa-2.0+|GFDL|migration=redundant", True),  # "or later"
+        ("CC-BY-SA-1.0", "Cc-by-sa-2.0+", False),
+        ("CC-BY-3.0", "YouTubeCC-BY|1=[https://youtube.com/x]", True),
+        ("CC-BY-4.0", "YouTubeCC-BY", False),
     ],
 )
 def test_template_matches(licence: str, template: str, ok: bool) -> None:
@@ -351,9 +359,9 @@ def test_build_drops_untemplated_commons_photo_and_qa_blocks(tmp_path: Path) -> 
     (tmp_path / f"{cache_key(ph.file_url)}.bin").write_bytes(_jpeg())
     res = build_release_images([ph], tmp_path)
     assert res.fields == {} and "not read yet" in res.missing["g1"]
-    template_path(tmp_path, ph).write_text(json.dumps({
-        "licence_templates": ["self|cc-by-sa-4.0"], "warning_templates": [],
-        "checked_at": "2026-11-19"}))  # fmt: skip
+    template_path(tmp_path, ph).write_text(
+        json.dumps({"wikitext": "{{self|cc-by-sa-4.0}}", "checked_at": "2026-11-19"})
+    )
     res = build_release_images([ph], tmp_path)
     img = res.fields["g1"]
     assert img["licence_template"] == "self|cc-by-sa-4.0"
@@ -367,3 +375,12 @@ def test_build_drops_untemplated_commons_photo_and_qa_blocks(tmp_path: Path) -> 
     ):
         probs = image_problems({"generations": [{"id": "g1", "image": broken}]})
         assert any(why in p for p in probs), probs
+
+
+def test_scratch_data_dir_uses_the_repo_config(tmp_path: Path) -> None:
+    """ev verify builds in a scratch data dir: popularity must still find config/."""
+    from ev_pipeline.release.build import config_dir
+
+    assert (config_dir(tmp_path / "data") / "popularity.yaml").exists()
+    (tmp_path / "config").mkdir()
+    assert config_dir(tmp_path / "data") == tmp_path / "config"

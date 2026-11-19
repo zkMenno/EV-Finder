@@ -124,7 +124,13 @@ def template_allowed(template: str) -> bool:
     return t in ALLOWED_TEMPLATES and not REFUSED_TEMPLATE.match(t.removeprefix("self|"))
 
 
-_CC_TEMPLATE = re.compile(r"^(cc-by(?:-sa)?)-([0-9.,]+?)(-[a-z]{2})?(?:-migrated)?$")
+_CC_TEMPLATE = re.compile(r"^(cc-by(?:-sa)?)-([0-9.,]+?)(\+)?(-[a-z]{2})?(?:-migrated)?$")
+CC_VERSIONS = ("1.0", "2.0", "2.5", "3.0", "4.0")
+TEMPLATE_ALIASES: dict[str, frozenset[str]] = {
+    # Commons {{YouTube CC-BY}}: YouTube's only Creative Commons option is CC BY 3.0.
+    "youtubecc-by": frozenset({"cc-by-3.0"}),
+}
+"""Commons licence templates whose name is not the licence itself (normalised name -> tokens)."""
 
 
 def template_licences(template: str) -> set[str]:
@@ -136,9 +142,14 @@ def template_licences(template: str) -> set[str]:
         if not part or part == "self" or "=" in part:
             continue
         m = _CC_TEMPLATE.match(part)
-        if m:
-            base, versions, port = m.group(1), m.group(2), m.group(3) or ""
-            out |= {f"{base}-{v}{port}" for v in versions.split(",") if v}
+        if part in TEMPLATE_ALIASES:
+            out |= TEMPLATE_ALIASES[part]
+        elif m:
+            base, versions, port = m.group(1), m.group(2), m.group(4) or ""
+            vs = [v for v in versions.split(",") if v]
+            if m.group(3) and len(vs) == 1 and vs[0] in CC_VERSIONS:  # "2.0+" = or later
+                vs = [v for v in CC_VERSIONS if float(v) >= float(vs[0])]
+            out |= {f"{base}-{v}{port}" for v in vs}
         else:
             out.add(part)
     return out
