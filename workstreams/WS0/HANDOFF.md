@@ -1,4 +1,4 @@
-# WS0 handoff (2026-11-19 11:40 UTC, coordinator https://claude.ai/code/session_01JuyZEWR468Ux4ydBhjKYsp)
+# WS0 handoff (2026-11-19 17:10 UTC, coordinator https://claude.ai/code/session_01JuyZEWR468Ux4ydBhjKYsp)
 
 Resumed 11:15 UTC after a short pause (09:30–10:58). Pause procedure: G-58 (HANDOFF + an INBOX line + every open task Status).
 
@@ -8,16 +8,16 @@ Repo: **zkMenno/EV-Shortlist** (use it for add_repo and every `gh api repos/zkMe
 One named chat: the coordinator (WS0). Everything else is a throwaway batch chat (one task or a small batch, merges included, fresh subagent review before every merge, G-52 behind_by check in its own step). Every prompt: "Attach the repo with push access (add_repo zkMenno/EV-Shortlist, access push)". Menno: one mobile screen, plain language, 🟢/🟡/🔴, paste prompts in code blocks. The coordinator may merge its own docs / gate PRs after a fresh PASS.
 
 ## State
-- Data release 3 is live (`data-v3`); **release 4 not built yet**. Its approvals: #177, #184, #189, and #190 once merged.
-- Decisions up to **088** (trim-line version rule). Next free WS0 decision: **089**.
-- Tasks up to **T-161**; next free **T-162**. Rules up to **G-60**; next free **G-61**.
-- Done: T-149 to T-155. Open PRs: **#190 (gate) + #191 (T-156)**, not reviewed yet.
+- Data release 3 is live (`data-v3`); **release 4 not built yet**. Its approvals: #177, #184, #189, #190, #194, #196, #198 (+ any from open work).
+- Decisions up to **088**; next free **089**. Tasks up to **T-165**; next free **T-166**. Rules up to **G-63**; next free **G-64**.
+- Done: T-149–T-156, T-158, T-160, T-161 (claim item → T-163). Schema has `PublishedVariant.dc_speed_is_claim` (#205).
+- **Not processed yet:** INBOX 17:40 UTC (batch: data T-159; part 2 was still in review at 17:00).
 
-## Next batch chats (prompts given to Menno 2026-11-19 11:40 UTC)
-1. Catalogue: review + merge #190 then #191 (T-156), then **T-160** (Elroq alias + hold removal in ONE change first).
-2. Data matching: **T-159** (ties, other trims' versions, year-only splits, Model Y Performance WLTP, optional fingerprint).
-3. Data rules + tools: **T-161** (Decision 088, DC claim mark, nits, wording), then **T-158** (verify / merge tools, G-52–G-57, lock nits).
-- After those: build and publish **release 4**, then **T-157** (WS2: popularity from release, unpack images.tar).
+## Next batch chats (prompts given to Menno 2026-11-19 ~17:10 UTC)
+1. Catalogue: **T-162** (re-cite MX-30 + EV6 63, Elroq 85 DC check, Model X gen1, Citigo e / Mii, EV9, Marvel R, Sealion 7).
+2. Data: **T-163** (TGK variant codes, cited power / gross reach the release, `dc_speed_is_claim` + open data), after T-159 part 2 merges (same `match/` files); then **T-164** (WS3, cite power) can start.
+3. Data tools: **T-165** (G-61 seed tests + pyproject marker, G-62, G-63, CI approvals; gate files in their own PR).
+- After those: build and publish **release 4**, then **T-157** (WS2: popularity from release, images.tar, DC claim badge).
 
 ## Parked / later
 - OpenEV `markets` filter: parked (zero-diff allowlist design in INBOX 2026-11-18 19:14).
