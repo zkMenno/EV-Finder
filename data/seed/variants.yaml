@@ -1505,7 +1505,11 @@ variants:
   - generation_id: peugeot-e-208-p21
     id: peugeot-e-208-p21-50kwh
     name: "50 kWh / 100 kW"
-    years: [2019, 2023]
+    # T-160 (2026-11-19): still sold after the 2023 facelift, so the row runs on (RDW TGK ZKXZ
+    # versions 2025-26 land here, split from the 115 kW car by tgk_split.yaml). Stellantis media
+    # (Peugeot, em-en), 'PEUGEOT EXTENDS THE ELECTRIC RANGE OF THE PEUGEOT E-208 ...', 03 Apr 2025:
+    # "Electric 136 hp/100 kW and 156 hp/115 kW"; retrieved 2026-11-19.
+    years: [2019, null]
     # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
     # OpenEV "Base" up to MY2023 (46 net / 50 gross, 100 kW); from MY2024 it is the 51 kWh car.
     source_names:
@@ -1561,7 +1565,12 @@ variants:
   - generation_id: peugeot-e-2008-p24
     id: peugeot-e-2008-p24-50kwh
     name: "50 kWh / 100 kW"
-    years: [2020, 2023]
+    # T-160 (2026-11-19): the facelift E-2008 got the 100 kW / 50 kWh version back for MY2024, so
+    # the row runs on (RDW TGK ZKXZ versions 2025-26). Stellantis media (Peugeot UK), 'PEUGEOT OPENS
+    # ORDERS FOR NEW 2008 HYBRID AND ADDS NEW POWERTRAIN OPTION TO THE E-2008 FOR THE 2024 MODEL
+    # YEAR': "the new E-2008 will now also be available with a 100kW (136hp) electric motor and
+    # 50kWh battery"; retrieved 2026-11-19.
+    years: [2020, null]
     # Dedup 2026-11-15 (OpenEV row duplicated this seed variant: same generation, battery, power, years):
     # OpenEV "Base" up to MY2023 (46 net / 50 gross, 100 kW); from MY2024 it is the 54 kWh car.
     source_names:
@@ -1600,7 +1609,12 @@ variants:
   - generation_id: opel-corsa-e-f
     id: opel-corsa-e-f-50kwh
     name: "Corsa-e 50 kWh / 100 kW"
-    years: [2020, 2023]
+    # T-160 (2026-11-19): sold next to the 115 kW car after the 2023 facelift, so the row runs on
+    # (RDW TGK ZKXZ versions 2025-26). Stellantis media (Opel DE), 'Opel Corsa Electric mit
+    # "Best in Class"-Award 2025 ausgezeichnet', 28 Oct 2024: "mit 100 kW (136 PS) und 50 kWh-Akku
+    # sind bis zu 357 Kilometer (WLTP2) drin"; Opel DE price list PreislisteCorsaJ2-260206 (opel.de,
+    # 6 Feb 2026) still lists "50-kWh-Batterie 100 kW (136 PS)"; both retrieved 2026-11-19.
+    years: [2020, null]
     drivetrain: fwd
     specs:
       battery_kwh_gross: 50
