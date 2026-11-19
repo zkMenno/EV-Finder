@@ -1344,6 +1344,13 @@ def attach_records(
             chosen, why = exact[0], ""
         elif is_year_aggregate(rec) and len(pool) > 1:
             chosen, why = year_aggregate_pick(rec, pool, drop, result)
+            if (
+                chosen is not None
+                and ruled_out
+                and not _beats_ruled_out(rec, chosen, ruled_out, drop)
+            ):  # the same battery-gate check as the general path below (review #204)
+                why = f"{NO_BATTERY_MATCH}: name points at a ruled-out variant, not {chosen.root}"
+                chosen = None
         elif sid in TGK_EVIDENCE_SOURCES:
             chosen, why = tgk_pick(rec, pool, drop, result)
         elif len(pool) == 1 and not need_evidence:

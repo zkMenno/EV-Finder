@@ -138,3 +138,16 @@ def test_year_only_needs_rows_that_do_not_overlap():
     key = AGG + "FORD|TOURNEO COURIER|2026#price_new:NL"
     rec = _rec("FORD", "TOURNEO COURIER", 2026, key, price_new=(42048, "EUR"))
     assert NO_EVIDENCE in _where(rec, rows)
+
+
+def test_battery_gate_check_still_applies_to_aggregates():
+    # The record's 60 kWh rules out the 79 kWh "Performance"; the only word left pointing at
+    # "Performance Launch" is one the ruled-out row shares: review, as on the general path.
+    rows = [
+        _v("tesla-model-y-gen1", "y-perf", "Performance", [2021, 2024], battery_kwh_net=79),
+        _v("tesla-model-y-gen1", "y-launch", "Performance Launch", [2021, 2024]),
+        _v("tesla-model-y-gen1", "y-lr", "Long Range", [2021, 2024]),
+    ]
+    key = AGG + "TESLA|MODEL Y PERFORMANCE|2021#price_new:NL"
+    rec = _rec("TESLA", "MODEL Y PERFORMANCE", 2021, key, battery_kwh_net=(60, "kWh"))
+    assert "ruled-out variant" in _where(rec, rows)
