@@ -194,6 +194,9 @@ links:
   - {variant_id: byd-atto-3-gen1-60kwh, platform_id: byd-e-platform-3, battery_pack_id: byd-blade-60, voltage: *v400, charger_400v: *native}
   - {variant_id: smart-eq-fortwo-451-ed, platform_id: smart-451, battery_pack_id: smart-451-17-6, voltage: *vnd, charger_400v: *native, notes: "No DC charging. Pack voltage not known to us."}
   - {variant_id: smart-eq-fortwo-453-eq, platform_id: smart-453, battery_pack_id: smart-453-17-6, voltage: *vnd, charger_400v: *native, notes: "No DC charging. Pack voltage not known to us."}
+  - {variant_id: kia-ev6-facelift-63kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-63, voltage: {nominal_v: not-disclosed, max_v: not-disclosed, marketing_label: "800V", class_id: not-disclosed, switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "T-160: same pack row as the Ioniq 5 facelift 63 kWh; pack voltage not read from a Kia document; 400 V charger figure as for the other E-GMP rows."}
+  - {variant_id: mazda-mx-30-gen1-ev, platform_id: mazda-mx-30, battery_pack_id: mazda-mx-30-35-5, voltage: *vnd, charger_400v: *native, notes: "T-160. Pack voltage not read from a Mazda document."}
+  - {variant_id: smart-eq-forfour-453-eq, platform_id: smart-453, battery_pack_id: smart-453-17-6, voltage: *vnd, charger_400v: *native, notes: "T-160: as smart-eq-fortwo-453-eq. No DC charging. Pack voltage not known to us."}
   - {variant_id: honda-e-gen1-e, platform_id: honda-e, battery_pack_id: honda-e-35-5, voltage: *v400, charger_400v: *native}
   - {variant_id: honda-e-gen1-advance, platform_id: honda-e, battery_pack_id: honda-e-35-5, voltage: *v400, charger_400v: *native}
   # --- T-140: Ioniq 5 facelift 63 kWh, XPENG P7 / P7+ ---

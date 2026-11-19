@@ -109,6 +109,7 @@ packs:
   - {id: byd-blade-60, name: "BYD Blade 60.5 kWh (Atto 3)", supplier: BYD (FinDreams), chemistry_id: lfp, cell_format: blade, cell_to_pack: true, gross_kwh: 60.5, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: refrigerant}
   - {id: smart-451-17-6, name: "smart fortwo electric drive (451) 17.6 kWh", chemistry_id: not-disclosed, gross_kwh: 17.6, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: smart-453-17-6, name: "smart EQ fortwo / forfour (453) 17.6 kWh", supplier: LG Chem, chemistry_id: not-disclosed, gross_kwh: 17.6, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: mazda-mx-30-35-5, name: "Mazda MX-30 35.5 kWh", chemistry_id: not-disclosed, gross_kwh: 35.5, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: honda-e-35-5, name: "Honda e 35.5 kWh", chemistry_id: not-disclosed, gross_kwh: 35.5, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
   # --- XPENG (T-140) ---
   - {id: xpeng-p7-86, name: "XPENG P7 86.2 kWh (NCM)", chemistry_id: nmc, cell_format: not-disclosed, gross_kwh: 86.2, usable_kwh: 82.7, nominal_v: not-disclosed, cooling_id: not-disclosed}
@@ -196,3 +197,4 @@ notes:
   mini-aceman-42-5: "T-154: BMW Group PressClub UK, 'The all-new electric MINI Aceman': 'a high-voltage battery with a capacity of 42.5 kWh'."
   mini-countryman-u25-66: "T-154: BMW Group technical data 'MINI Countryman SE ALL4' (03/2024, https://www.press.bmwgroup.com/global/article/attachment/T0448240EN/629246): voltage 286,3 V, gross 66,5 kWh, net 64,6 kWh; the Countryman E release gives the same pack as 66.45 kWh."
   mini-aceman-54-2: "T-154: BMW Group PressClub UK, 'The all-new electric MINI Aceman': 'a 54.2 kWh battery' for the Aceman SE. Kept apart from the Cooper SE (J01) pack row: no BMW page read says the two packs are the same."
+  mazda-mx-30-35-5: "T-160: Mazda Deutschland press kit 'Mazda MX-30' (de.mazda-press.com): '35,5 kWh starke ... Hochvoltbatterie'; Mazda gives no gross / net split, recorded as gross."
