@@ -66,7 +66,7 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-58 | A pause goes into HANDOFF **and** an INBOX line **and** the Status of every open task; batch chats re-read the newest INBOX lines and their task Status before opening a PR | T-156 retro (19 Nov): the pause landed mid-batch and nothing told the running chat | *prose* (WS0 + batch chats) | WS0 | 2026-11-19 | — |
 | G-59 | G-52 also passes when every commit main is ahead by touches only `workstreams/WS0/INBOX.md`, `workstreams/WS0/HANDOFF.md` or `CHATS.md` and GitHub says `mergeable_state: clean` (same idea as G-47) | T-153 retro (19 Nov): main moved 6× by log lines → 5 extra merge + CI rounds | `sh scripts/merge_ready.sh <pr>` (T-158, #195) | WS0 | 2026-11-19 | — |
 | G-60 | A task that adds a `source_holds` entry "remove once T-xxx merges" writes the exact follow-up change into T-xxx's file, or (if T-xxx isn't its own task) into an INBOX line for WS0 | T-153 retro (19 Nov): the Elroq hold removal alone would have shipped a wrong 150 kW | *prose* (builders, WS0 briefs) | WS0 | 2026-11-19 | — |
-| G-61 | `data_qa.sh` runs the tests that pin seed state (`pytest -m seed`) | T-160 retro (19 Nov): a seed change broke `test_t153_split` / `test_t159_split`, found only in CI | `data_qa.sh` (T-165) | WS1 + WS3 | 2026-11-19 | — |
+| G-61 | `data_qa.sh` runs the tests that pin seed state (`pytest -m seed`, marker registered in `pipeline/pyproject.toml`) | T-160 retro (19 Nov): a seed change broke `test_t153_split` / `test_t159_split`, found only in CI | `data_qa.sh` (T-165) | WS1 + WS3 | 2026-11-19 | — |
 | G-62 | `ev verify` lists rows whose derived flags change only because an input is missing, naming the input | T-161 retro (19 Nov): 22 rows lost a version flag only for missing `power_kw`; the reviewer found it | `ev verify` (T-165) | WS1 | 2026-11-19 | — |
 | G-63 | `merge_ready.sh` treats a check run with a `conclusion` and `completed_at` as completed, and says so | T-158 retro (19 Nov): a check run stuck at `in_progress` with `conclusion: success` blocked #195 | `merge_ready.sh` (T-165) | WS1 | 2026-11-19 | — |
 
@@ -130,14 +130,14 @@ Added later on 18 Nov: web batch → G-46 accepted; merge batch 4 → G-47 accep
 | Batch: data T-155 | `ev verify` lists value_guard.py as a changed rule | Accepted → T-158 item (no new rule) |
 | Batch: data T-155 | PR-body checker recounts "main has N" claims | Parked (cost > benefit now; reviewers recount) |
 
-## Retro proposals processed (19 Nov 2026, lines 15:05–16:05 UTC)
+## Retro proposals processed (19 Nov 2026, lines 14:25–16:05 UTC)
 
 | From | Proposal | Verdict |
 |---|---|---|
 | Batch: data T-161 | `ev verify` lists flag changes caused by a missing input | Accepted → G-62 (T-165) |
 | Batch: data T-158 | merge_ready treats conclusion + completed_at as completed | Accepted → G-63 (T-165) |
 | Batch: catalogue T-160 | data_qa.sh runs the seed-pinned split tests | Accepted → G-61 (T-165) |
-| Batch: catalogue T-160 | Approvals measured with `ev verify` against the latest release, not only a same-staging main build | Exists → G-56 (`--base-release-from`) |
+| Batch: catalogue T-160 | Approvals measured with `ev verify` against the latest release, not only a same-staging main build | Covered: plain `ev verify` diffs against the latest published release; T-162–T-164 ask for it next to `--base-release-from` (G-56 is the code diff) |
 
 ## Retro questions (every session end)
 1. What slowed us down? 2. What did Menno have to do by hand? 3. Which rule would have prevented it? **4. What did a check miss, and which check would have caught it?** (answer 4 adds or sharpens a row here or a REVIEW.md item).
