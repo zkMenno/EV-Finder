@@ -187,16 +187,19 @@ variants:
     confidence: low
   - generation_id: tesla-model-s-facelift
     id: tesla-model-s-facelift-75d
-    name: "75 / 75D"
+    name: "75D"
     years: [2016, 2019]
-    drivetrain: rwd
+    # T-160 (2026-11-19, G-48): AWD, not RWD. Tesla's EU type approval e4*2007/46*0667 (RDW TGK,
+    # opendata.rdw.nl gr7t-qfnb, CC0, read 2026-11-19) files variant '75D' (dual motor) apart from
+    # '75R' (rear motor), and the build already joins this row's TGK versions as AWD.
+    drivetrain: awd
     specs:
       battery_kwh_gross: 75
       epa_range_km: 417
       dc_peak_kw: 120
       length_mm: 4979
       seats: 5
-    notes: "Drivetrain set to RWD for the 75; the 75D is dual-motor AWD. Some cars are software-limited larger packs."
+    notes: "Dual-motor 75D. The rear-motor 75 (TGK variant '75R', 2016-2018) is not split out: it shares the pack, so the matcher needs TGK variant-code evidence to tell them apart (WS1 ask, T-160). Some cars are software-limited larger packs."
     confidence: low
   - generation_id: tesla-model-s-facelift
     id: tesla-model-s-facelift-100d
