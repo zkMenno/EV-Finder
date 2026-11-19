@@ -40,6 +40,7 @@ packs:
   - {id: meb-77, name: "MEB 77 kWh", chemistry_id: nmc, cell_to_pack: false, gross_kwh: 82, usable_kwh: 77, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: meb-79, name: "MEB 79 kWh (2024+)", chemistry_id: nmc, gross_kwh: 86, usable_kwh: 79, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: meb-86, name: "MEB 86 kWh (VW ID.7 Pro S / GTX, 2024+)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 91, usable_kwh: 86, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: skoda-elroq-84, name: "Škoda Elroq RS 84 kWh (79 kWh net)", chemistry_id: not-disclosed, gross_kwh: 84, usable_kwh: 79, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: meb-59, name: "MEB 63 kWh gross / 59 net (2024+)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 63, usable_kwh: 59, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: audi-etron-71, name: "Audi e-tron 50 (71 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 71, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: audi-etron-95, name: "Audi e-tron 55 / S (95 kWh)", supplier: LG Chem, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 95, usable_kwh: 86, nominal_v: not-disclosed, cooling_id: liquid}
@@ -54,6 +55,8 @@ packs:
   - {id: kia-soul-27, name: "Kia Soul EV 27 kWh", supplier: SK Innovation, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 27, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: air}
   - {id: kia-soul-30, name: "Kia Soul EV 30 kWh", cell_format: pouch, cell_to_pack: false, gross_kwh: 30, usable_kwh: not-disclosed, nominal_v: not-disclosed}
   - {id: kia-niro-sg2-65, name: "Kia Niro EV (SG2) 64.8 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 64.8, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: kia-ev3-58, name: "Kia EV3 Standard Range 58.3 kWh", chemistry_id: not-disclosed, gross_kwh: 58.3, usable_kwh: not-disclosed, nominal_v: 369, cooling_id: not-disclosed}
+  - {id: kia-ev3-81, name: "Kia EV3 Long Range 81.4 kWh", chemistry_id: not-disclosed, gross_kwh: 81.4, usable_kwh: not-disclosed, nominal_v: 343, cooling_id: not-disclosed}
   - {id: hk-kona-sx2-48, name: "Hyundai Kona Electric (SX2) 48.4 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 48.4, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: hk-kona-sx2-65, name: "Hyundai Kona Electric (SX2) 65.4 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 65.4, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: egmp-53, name: "E-GMP 53 kWh (Ioniq 6 Standard)", chemistry_id: nmc, gross_kwh: 53, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
@@ -135,7 +138,7 @@ notes:
   audi-etron-71: "Usable about 64-65 kWh reported; left out."
   audi-etron-95: "Usable rose from about 83.6 to about 86 kWh with a 2020 software change (reported); 86 used."
   audi-q8-etron-95: "Cell format and supplier not known to us."
-  audi-e-tron-gt-105: "Cited (T-145): Audi data sheet 'Audi RS e-tron GT 500 kW' (09/06/2024): 'Gross / net battery capacity in kWh 105 / 97', 396 Li-ion cells; Audi press release 17 Sep 2024: new cell chemistry with an adjusted nickel / cobalt / manganese ratio (NMC); 'Audi has also modified the cooling system of the cells' (technology portal, 06/2024). Pack voltage not read."
+  audi-e-tron-gt-105: "Cited (T-145): Audi data sheet 'Audi RS e-tron GT 500 kW' (09/06/2024): 'Gross / net battery capacity in kWh 105 / 97', 396 Li-ion cells; Audi press release 17 Sep 2024: new cell chemistry with an adjusted nickel / cobalt / manganese ratio (NMC); 'Audi has also modified the cooling system of the cells' (technology portal, 06/2024). T-154: 'Voltage level of the HV battery in volts 800' (Audi data sheets S / RS / RS performance, read 2026-11-19); nominal pack voltage not stated."
   audi-q8-etron-114: "Samsung SDI prismatic cells reported; supplier left out."
   hk-ioniq-28: "Cooling type not known to us (reported air or liquid); left out."
   hk-ioniq-38: "Cell supplier not known to us."
@@ -180,3 +183,6 @@ notes:
   xpeng-p7-plus-lr: "P7+ RWD Long Range and AWD Performance share one larger pack (press). Capacity and chemistry left not-disclosed: XPENG's preliminary DE sheet (09/2025) says 76.8 kWh net, the press says 74.9 kWh and LFP; no final maker document read."
   stellantis-van-50: "Citroën France 12.06.2020: 50 kWh, 18 modules; Citroën UK 18.03.2024: 46.3 kWh usable. Chemistry, cells, voltage and cooling not read from a maker document."
   stellantis-van-75: "Citroën France 12.06.2020: 75 kWh, 27 modules (M and XL bodies only); Citroën UK 18.03.2024: 68 kWh usable. Chemistry, cells, voltage and cooling not read from a maker document."
+  skoda-elroq-84: "T-154: Škoda Elroq technical data (5 May 2025, cdn.skoda-storyboard.com): 'Battery capacity gross (net) [kWh] ... 84 (79)' for the Elroq RS; chemistry and cooling not stated there."
+  kia-ev3-58: "T-154: Kia UK EV3 specification page (read 2026-11-19): '58.3 kWh Li-on battery', 200 cells, nominal 369 V, 158.2 Ah; Kia does not say gross or usable (369 V x 158.2 Ah = 58.4 kWh, so filed as gross)."
+  kia-ev3-81: "T-154: Kia UK EV3 specification page (read 2026-11-19): '81.4 kWh Li-on battery', 279 cells, nominal 343 V, 237.3 Ah (also the AWD / GT); KilowattApp gives 78 kWh usable."

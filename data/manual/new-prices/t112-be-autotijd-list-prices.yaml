@@ -712,7 +712,7 @@ facts:
     confidence: medium
     claim: true
     notes: "Launch BE list; the release 'Base' row (160 kW / 84 kWh net) is the 87 kWh long range. Cheapest trim."
-  - variant_id: tesla-model-3-gen1-long-range
+  - variant_id: tesla-model-3-gen1-long-range-2021
     field: price_new
     value: 57990
     unit: EUR
@@ -725,8 +725,8 @@ facts:
     locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
     confidence: low
     claim: true
-    notes: "Earliest BE list on the site (January 2022); the row spans 2019-2023."
-  - variant_id: tesla-model-3-gen1-performance
+    notes: "Earliest BE list on the site (January 2022); T-154 moved it to the 2021 refresh row (the 2022 list prices the refreshed car)."
+  - variant_id: tesla-model-3-gen1-performance-2021
     field: price_new
     value: 63990
     unit: EUR
@@ -739,7 +739,7 @@ facts:
     locator: "Price table, row as quoted (type Elektrisch); list dated January 2022"
     confidence: low
     claim: true
-    notes: "Earliest BE list on the site (January 2022); the row spans 2019-2023."
+    notes: "Earliest BE list on the site (January 2022); T-154 moved it to the 2021 refresh row (the 2022 list prices the refreshed car)."
   - variant_id: tesla-model-3-gen1-sr-plus-lfp
     field: price_new
     value: 50990
