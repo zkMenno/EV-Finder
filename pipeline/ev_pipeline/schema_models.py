@@ -2647,7 +2647,7 @@ class GenerationPopularity(BaseModel):
     )
     registrations: int = Field(
         ...,
-        description='Registrations counted across the sources (EU countries we read).',
+        description='Registrations counted across the sources we read (EU countries plus UK DfT).',
         ge=0,
     )
     as_of: date = Field(..., description='Date of the newest registration data used.')

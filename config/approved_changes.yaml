@@ -360,3 +360,48 @@ approved:
   # reason, carried to release 4.
   - {<<: *t148, release: 4, id: skoda-elroq-gen1-base, field: "price_new.NL.amount", change: cleared}
   - {<<: *t148, release: 4, file: used_prices.json, id: skoda-elroq-gen1-base, field: "*", change: removed}
+  # T154: catalogue batch (T-154): 6 ids. #182: e-tron GT S / RS / RS performance; #183: Model 3 gen1 LR / Performance, Elroq RS
+  # (EV3 rows are new and Abarth / Elroq Base are retired ids: no entries needed)
+  - &t154gt
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #182 (T-154, Decision 087)"
+    reason: "T-154: audi-e-tron-gt-facelift-s takes Audi's own WLTP (data sheet 'Audi S e-tron GT 435 kW', status 10/01/26: 563-609 km, best equipment 609, cited in data/manual/specs/t154-e-tron-gt.yaml, Decision 087) over RDW plates' 571 km, as the RS row already does with Audi's 599. Measured: ev verify main vs PR #182 on the same staging (2026-11-19)."
+    id: audi-e-tron-gt-facelift-s
+    field: wltp_range_km
+    change: changed
+  - &t154gtscores
+    release: 4
+    file: shortlist_scores.json
+    approved_by: "PR #182 (T-154, Decision 087)"
+    reason: "T-154: the e-tron GT 2024 trims gain Audi's length (4997 mm), launch-control 0-100 and WLTP, and the new 2025 entry version (e-tron GT quattro, 370 kW, more efficient on the same pack) makes the 2024 S / RS / RS performance 'older versions' under Decision 038's newest-version rule, which compares versions model-wide (bonus -> penalty, about 10 points). The rule working as written; flagged to WS0 (a later-added entry trim is not a newer version of the S). Measured: ev verify main vs the branch on the same staging (2026-11-19), 30 blocking, all on these three ids."
+    id: audi-e-tron-gt-facelift-s
+    field: "scores.*"
+    change: changed
+  - {<<: *t154gtscores, id: audi-e-tron-gt-facelift-rs}
+  - {<<: *t154gtscores, id: audi-e-tron-gt-facelift-rs-performance}
+  - &t154m3
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #183 (T-154)"
+    reason: "T-154: Tesla Model 3 gen1 split by year: the Long Range and Performance rows now cover 2019-2020 builds (RDW TGK first-type variants E3D / E5D) and new rows tesla-model-3-gen1-long-range-2021 / -performance-2021 cover the 2021 refresh (E3LD / E5LD, cited WLTP 602 / 567 km). Their 2021-2023 BE used-price bands move to the new rows with the records. Measured: ev verify of PR #182 vs PR #183 on the same staging (2026-11-19)."
+    id: tesla-model-3-gen1-long-range
+    field: year_end
+    change: changed
+  - {<<: *t154m3, id: tesla-model-3-gen1-performance}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-long-range, field: "bands.BE[2021*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-long-range, field: "bands.BE[2022*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-long-range, field: "bands.BE[2023*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-performance, field: "bands.BE[2021*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-performance, field: "bands.BE[2022*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-performance, field: "bands.BE[2023*", change: cleared}
+  - &t154elroq
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #183 (T-154)"
+    reason: "T-154: skoda-elroq-gen1-rs becomes a seed row (Skoda technical data, 5 May 2025: 84 (79) kWh, 250 kW, four-wheel drive, 549 km) with years [2025, open], so its end year clears (OpenEV only had MY2025) and its battery moves 77 -> 79 kWh (OpenEV's 77 is the Elroq 85 pack); more winter range lifts two road-tripper+kerbside bands consider -> shortlist. Measured: ev verify of PR #182 vs PR #183 on the same staging (2026-11-19)."
+    id: skoda-elroq-gen1-rs
+    field: year_end
+    change: cleared
+  - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.band", change: changed}
+  - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.rural.band", change: changed}
