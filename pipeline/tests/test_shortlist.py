@@ -255,18 +255,87 @@ def test_kerbside_extra_factor(tmp_path: Path) -> None:
     }
 
 
+def vrow(vid: str, **kw: Any) -> dict[str, Any]:
+    return row(vid, **{"drivetrain": "rwd", "power_kw": 200.0, **kw})
+
+
 def test_version_flags_need_better_charging() -> None:
     rows = [
-        row("m-old", year_start=2021, dc_km_per_20min=300.0),
-        row("m-old-fast", year_start=2021, dc_km_per_20min=500.0),
-        row("m-new", year_start=2024, dc_km_per_20min=400.0),
-        row("x-only", model_id="x", year_start=2020),
+        vrow("m-old", year_start=2021, dc_km_per_20min=300.0),
+        vrow("m-old-fast", year_start=2021, dc_km_per_20min=500.0),
+        vrow("m-new", year_start=2024, dc_km_per_20min=400.0),
+        vrow("x-only", model_id="x", year_start=2020),
     ]
     f = sl.version_flags(rows)
     assert f["m-new"] == {"newest-version"}
     assert f["m-old"] == {"older-version"}
     assert "m-old-fast" not in f  # the newer one charges slower: not an "older version"
     assert "x-only" not in f
+
+
+def test_version_flags_new_entry_trim_is_its_own_line() -> None:
+    """Decision 088: e-tron GT 2025 entry trim (a cheaper, weaker line) doesn't make the 2024
+    S / RS / RS performance older; the 2024 trims are one line (435 → 500 = +15 %, not more)."""
+    rows = [
+        vrow(
+            "gt-entry-2025",
+            year_start=2025,
+            drivetrain="awd",
+            power_kw=350.0,
+            dc_km_per_20min=600.0,
+        ),
+        vrow("gt-s-2024", year_start=2024, drivetrain="awd", power_kw=435.0, dc_km_per_20min=500.0),
+        vrow(
+            "gt-rs-2024", year_start=2024, drivetrain="awd", power_kw=500.0, dc_km_per_20min=500.0
+        ),
+        vrow(
+            "gt-rsp-2024", year_start=2024, drivetrain="awd", power_kw=550.0, dc_km_per_20min=500.0
+        ),
+    ]
+    lines = sl.trim_lines(rows)
+    assert [[r["variant_id"] for r in ln] for ln in lines] == [
+        ["gt-entry-2025"],
+        ["gt-s-2024", "gt-rs-2024"],  # 500 ≤ 435 × 1.15 = 500.25
+        ["gt-rsp-2024"],
+    ]
+    assert sl.version_flags(rows) == {}
+
+
+def test_version_flags_same_line_across_years_and_split_by_drivetrain() -> None:
+    rows = [
+        vrow("ev6-2021-rwd", year_start=2021, power_kw=168.0, dc_km_per_20min=300.0),
+        vrow("ev6-2024-rwd", year_start=2024, power_kw=168.0, dc_km_per_20min=380.0),
+        vrow(
+            "ev6-2021-awd", year_start=2021, drivetrain="awd", power_kw=239.0, dc_km_per_20min=290.0
+        ),
+    ]
+    f = sl.version_flags(rows)
+    assert f["ev6-2024-rwd"] == {"newest-version"}
+    assert f["ev6-2021-rwd"] == {"older-version"}
+    assert "ev6-2021-awd" not in f  # only AWD of its line: no newer AWD to compare with
+
+
+def test_version_flags_unknown_drivetrain_or_power_never_compared() -> None:
+    rows = [
+        vrow("a-2021", year_start=2021, dc_km_per_20min=300.0),
+        vrow("a-2024", year_start=2024, dc_km_per_20min=400.0),
+        vrow("a-nodt", year_start=2020, drivetrain=None, dc_km_per_20min=100.0),
+        vrow("a-nd", year_start=2020, drivetrain="not-disclosed", dc_km_per_20min=100.0),
+        vrow("a-nopw", year_start=2020, power_kw=None, dc_km_per_20min=100.0),
+        vrow("a-strpw", year_start=2020, power_kw="not-disclosed", dc_km_per_20min=100.0),
+    ]
+    f = sl.version_flags(rows)
+    assert f == {"a-2024": {"newest-version"}, "a-2021": {"older-version"}}
+
+
+def test_version_flags_gap_from_params() -> None:
+    rows = [
+        vrow("p-2021", year_start=2021, power_kw=150.0, dc_km_per_20min=300.0),
+        vrow("p-2024", year_start=2024, power_kw=180.0, dc_km_per_20min=400.0),  # +20 %
+    ]
+    assert sl.version_flags(rows) == {}
+    assert sl.version_flags(rows, gap=0.25)["p-2021"] == {"older-version"}
+    assert sl.load_params()["trim_line_power_gap"] == pytest.approx(0.15)
 
 
 def test_bonus_and_rural_penalty(tmp_path: Path) -> None:
