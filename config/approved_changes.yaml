@@ -442,3 +442,18 @@ approved:
     id: porsche-taycan-gen1-turbo-s
     field: "consumption_*"
     change: changed
+  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 7 blocking lines on the same staging
+  - &t159taycan
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #NNN (T-159)"
+    reason: "T-159: Taycan gen1 rows now take only their own RDW TGK variant codes (2020-23: base JA12 / SA12, Turbo JC22 / CC22 / SC22). Before, the base car's JA12 versions (451 km) sat on the Turbo row and the base row had no TGK versions; now the base shows its own 2022 type-approval WLTP 541 km (431 was OpenEV's) and the Turbo its own 523 km, real range follows. The Turbo's mass becomes its own 2380 kg (was the base's 2125), which adds the existing too-big-for-b-roads penalty on rural scores. Measured: same-staging build of main vs PR T-159 part 1 (2026-11-19), 14 rows changed, these the only blocking lines."
+    id: porsche-taycan-gen1-base
+    field: wltp_range_km
+    change: changed
+  - {<<: *t159taycan, id: porsche-taycan-gen1-base, field: real_range_km}
+  - {<<: *t159taycan, id: porsche-taycan-gen1-turbo, field: wltp_range_km}
+  - {<<: *t159taycan, id: porsche-taycan-gen1-turbo, field: real_range_km}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.daily-driver.rural.band"}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.road-tripper.rural.score"}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.road-tripper+kerbside.rural.score"}
