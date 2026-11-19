@@ -9,6 +9,10 @@ The merge and verify tools stop the misses the 19 Nov batches hit by hand.
 - [ ] **G-53:** `ev verify --keep <dir>` keeps its scratch build so a builder can trace where a value came from.
 - [ ] **G-54:** approved_changes validation warns when an entry's `release` is ≤ the latest published release when its PR merges.
 - [ ] **G-52:** `scripts/merge_ready.sh <pr>` exits non-zero when the PR branch is behind main (`compare main...head`, behind_by > 0) or CI on the head isn't green, with a plain message. Merge batches run it as its own step, before the merge command. Cross-lane (WS0 file), flagged in the PR.
+- [ ] **G-56:** `ev verify --base-release-from <ref>` builds the base ref on the same staging and diffs against it (T-154 retro: diffing a fresh staging against committed release 3 gave ~10k blocking lines).
+- [ ] **G-57:** `data_qa.sh` runs `load_config` on `data/review/approved_changes.yaml`, so a bad `approved_by` fails there, not in the loader.
+- [ ] `ev verify` lists `pipeline/ev_pipeline/qa/value_guard.py` (and the other rule globs in T-155 Handoff notes) as changed rules.
+- [ ] **Refresh-lock nits** (T-153 follow-up 5, #185 review): a refused `ev refresh` prints its own wording (not verify's); a short refresh inside a verify rebuild is detected.
 - [ ] Tests with fixtures (no network: the script's GitHub calls are mocked or it takes JSON on stdin in tests); docs/process/README.md merge steps mention the script (one line, flagged).
 
 ## Inputs

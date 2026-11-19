@@ -148,6 +148,11 @@ def minutes_from_avg(battery_kwh_net: float, dc_avg_kw: float) -> float:
     return battery_kwh_net * WINDOW_SHARE / dc_avg_kw * 60
 
 
+def avg_from_minutes(battery_kwh_net: float, dc_minutes_10_80: float) -> float:
+    """Average 10-80 % DC power from the 10-80 % time (inverse of minutes_from_avg, T-155)."""
+    return battery_kwh_net * WINDOW_SHARE / dc_minutes_10_80 * 60
+
+
 def motorway_consumption(consumption_kwh_100km: float) -> float:
     return consumption_kwh_100km * MOTORWAY_PER_WLTP
 

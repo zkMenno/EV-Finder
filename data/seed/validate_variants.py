@@ -336,6 +336,28 @@ def validate_holds(doc: dict[str, Any], gens: dict[str, tuple[int, int | None]])
     return errors
 
 
+def blocked_cited(doc: Any, sources_path: Path = HERE.parent / "sources.yaml") -> list[str]:
+    """G-50 (T-153): `cited:` values whose source (default maker-docs) is `blocked` in
+    data/sources.yaml never ship; they only act as matching evidence. Warning, not error."""
+    if not sources_path.exists():
+        return []
+    reg = yaml.safe_load(sources_path.read_text(encoding="utf-8"))["sources"]
+    status = {s["id"]: s.get("status") for s in reg}
+    out = []
+    for v in (doc or {}).get("variants") or []:
+        by: dict[str, list[str]] = {}
+        for k, c in (v.get("cited") or {}).items():
+            sid = (c or {}).get("source_id") or "maker-docs"
+            if status.get(sid) == "blocked":
+                by.setdefault(sid, []).append(k)
+        out += [
+            f"{v.get('id')}: cited {', '.join(f)} use blocked source {sid}: never shipped "
+            "(matching evidence only); to publish, cite it in data/manual"
+            for sid, f in by.items()
+        ]
+    return out
+
+
 def main(argv: list[str]) -> int:
     variants_path = Path(argv[1]) if len(argv) > 1 else HERE / "variants.yaml"
     models_path = Path(argv[2]) if len(argv) > 2 else HERE / "models.yaml"
@@ -350,6 +372,8 @@ def main(argv: list[str]) -> int:
     covered = {v["generation_id"] for v in doc["variants"]}
     uncovered = sorted(g for g in gens if g not in covered)
     print(f"OK: {len(doc['variants'])} variants across {len(covered)} of {len(gens)} generations")
+    for w in blocked_cited(doc):
+        print(f"WARNING: {w}")
     if uncovered:
         print("Generations without variants: " + ", ".join(uncovered))
     return 0
