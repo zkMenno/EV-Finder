@@ -49,6 +49,7 @@ EPS = 1e-9
 DC_AVG_ABOVE_PEAK = "DC average above the published DC peak"
 AC_OPTIONAL_NOT_ABOVE = "optional on-board charger not above the standard one"
 ESTIMATE_CONTRADICTED = "estimate from battery_kwh_gross contradicted by a citation"
+MINUTES_NOTE = "battery_kwh_net x 0.7 / dc_minutes_10_80 x 60 (sourced 10-80% time, no curve)"
 
 DIRECT_FIELDS = (
     "battery_kwh_net",
@@ -214,6 +215,25 @@ def _charging(vid, values, pv, mv, drop) -> dict[str, Any]:
         drop(vid, "dc_curve", "", "kW", "unusable charge curve (zero or negative kW)")
     from_curve = stats is not None
 
+    # T-155: no curve and no sourced average, but a sourced 10-80 % time: the average comes
+    # from that time (the inverse of minutes_from_avg). A real time beats the generic default
+    # curve shape, so this runs before the default curve.
+    mins = values.get("dc_minutes_10_80")
+    if not from_curve and "dc_avg_10_80_kw" not in values and mins and mins > 0 and net:
+        avg = m.avg_from_minutes(net, mins)
+        if in_range("dc_avg_10_80_kw", avg):
+            values["dc_avg_10_80_kw"] = avg
+            pv["dc_avg_10_80_kw"] = derived_prov([pv["dc_minutes_10_80"], *net_p], MINUTES_NOTE)
+            extra["_dc_from_minutes"] = True
+        else:
+            drop(
+                vid,
+                "dc_avg_10_80_kw",
+                round(avg, 1),
+                "kW",
+                range_reason("dc_avg_10_80_kw", avg) + " (from dc_minutes_10_80)",
+            )
+
     if not from_curve and "dc_avg_10_80_kw" not in values and "dc_peak_kw" in values:
         # No curve and no sourced average: generic default curve shape.
         curve = m.default_curve(values["dc_peak_kw"])
@@ -270,7 +290,10 @@ def _charging(vid, values, pv, mv, drop) -> dict[str, Any]:
     return extra
 
 
-def _curve_note(status: str | None, avg_p: dict[str, Any]) -> str:
+def _curve_note(status: str | None, avg_p: dict[str, Any], from_minutes: bool = False) -> str:
+    if from_minutes:
+        srcs = "+".join(s for s in avg_p["source_ids"] if s != ESTIMATE_SOURCE)
+        return f"; dc_avg_10_80_kw from the 10-80% time ({srcs}), no charge curve"
     if not avg_p.get("derived") or status is None:
         return "; dc_avg_10_80_kw is a sourced figure"
     if status == "measured":
@@ -459,7 +482,11 @@ def build_rows(
                     inputs,
                     f"dc_avg_10_80_kw x {minutes}/60 / motorway consumption x 100"
                     + (", capped at the 10-80% window" if net else ", no battery size: uncapped")
-                    + _curve_note(extra.get("dc_curve_status"), pv["dc_avg_10_80_kw"])
+                    + _curve_note(
+                        extra.get("dc_curve_status"),
+                        pv["dc_avg_10_80_kw"],
+                        bool(extra.get("_dc_from_minutes")),
+                    )
                     + _mway_note(pv["consumption_motorway_kwh_100km"]),
                 )
 
