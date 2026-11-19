@@ -57,3 +57,4 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | batch: T-151 (2026-11-19) | WS3: ë-SpaceTourer 50/75 split, e-Tourneo Courier Ford facts, Leaf 62 kWh merge, Ioniq 5 facelift battery/WLTP (T-151) | https://claude.ai/code/session_01JuyZEWYDTfurC8UVp9w9ew | 2026-11-19 |
 | batch: T-149 / T-150 (2026-11-19) | WS1 + merges: #171, gate #165, gate #172, T-150 #173 (photo bundle), T-149 #179 (popularity, licences, templates) | https://claude.ai/code/session_01JuyZETPZUUpdfhHpfB9Pef | 2026-11-19 |
 | batch: data T-153 (2026-11-19) | WS1 + merges: #175, gate #176, T-153 variant split evidence, G-48–G-50 checks | https://claude.ai/code/session_01JuyZEX99QgTw4AD6jgjZaL | 2026-11-19 |
+| batch: catalogue T-154 (2026-11-19) | WS3: e-tron GT figures back (Decision 087) + 2025 entry version, EV3, Elroq 85 / RS, Model 3 gen1 year split, Abarth 500e, no-variant list (T-154) | https://claude.ai/code/session_01JuyZEVwSvmSNwNcATFfUzh | 2026-11-19 |

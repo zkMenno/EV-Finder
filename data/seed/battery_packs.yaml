@@ -135,7 +135,7 @@ notes:
   audi-etron-71: "Usable about 64-65 kWh reported; left out."
   audi-etron-95: "Usable rose from about 83.6 to about 86 kWh with a 2020 software change (reported); 86 used."
   audi-q8-etron-95: "Cell format and supplier not known to us."
-  audi-e-tron-gt-105: "Cited (T-145): Audi data sheet 'Audi RS e-tron GT 500 kW' (09/06/2024): 'Gross / net battery capacity in kWh 105 / 97', 396 Li-ion cells; Audi press release 17 Sep 2024: new cell chemistry with an adjusted nickel / cobalt / manganese ratio (NMC); 'Audi has also modified the cooling system of the cells' (technology portal, 06/2024). Pack voltage not read."
+  audi-e-tron-gt-105: "Cited (T-145): Audi data sheet 'Audi RS e-tron GT 500 kW' (09/06/2024): 'Gross / net battery capacity in kWh 105 / 97', 396 Li-ion cells; Audi press release 17 Sep 2024: new cell chemistry with an adjusted nickel / cobalt / manganese ratio (NMC); 'Audi has also modified the cooling system of the cells' (technology portal, 06/2024). T-154: 'Voltage level of the HV battery in volts 800' (Audi data sheets S / RS / RS performance, read 2026-11-19); nominal pack voltage not stated."
   audi-q8-etron-114: "Samsung SDI prismatic cells reported; supplier left out."
   hk-ioniq-28: "Cooling type not known to us (reported air or liquid); left out."
   hk-ioniq-38: "Cell supplier not known to us."
