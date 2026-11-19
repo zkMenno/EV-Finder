@@ -103,6 +103,24 @@ platforms:
     nominal_v: not-disclosed
     voltage_class_id: 400v
     notes: "China-built dedicated EV platform for the 2024+ Mini Cooper E / SE. Platform name and voltage not verified."
+  - id: mini-countryman-u25
+    name: "MINI Countryman U25 (platform name not disclosed)"
+    owner: BMW Group
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-154: platform name not read from a BMW page. Pack 286.3 V nominal (BMW data sheet, 03/2024), below the 400 V class range."
+  - id: mini-aceman
+    name: "MINI Aceman (platform name not disclosed)"
+    owner: BMW Group
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-154: platform name and voltage not read from a MINI page."
+  - id: hyundai-inster
+    name: "Hyundai Inster (platform name not disclosed)"
+    owner: Hyundai Motor Group
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-154: platform name not read from a Hyundai page. Packs 266 / 310 V nominal (Hyundai, June 2024): the 42 kWh pack sits below the 400 V class range."
   - id: stellantis-e-cmp
     name: "e-CMP"
     owner: Stellantis
