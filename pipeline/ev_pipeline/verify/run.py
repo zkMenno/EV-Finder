@@ -229,11 +229,20 @@ SEED_WLTP_REL = 0.10  # G-48: built WLTP more than 10 % off the variant's own ci
 
 
 def seed_mismatches(new: dict[str, Any] | None, seed_doc: dict[str, Any] | None) -> list[str]:
+    """Messages of `seed_mismatch_items` (see there)."""
+    return [m for _, m in seed_mismatch_items(new, seed_doc)]
+
+
+def seed_mismatch_items(
+    new: dict[str, Any] | None, seed_doc: dict[str, Any] | None
+) -> list[tuple[tuple[str, str], str]]:
     """G-48 (T-153): seed variants whose built row (or year band `<id>-<yyyy>`) disagrees
     with the seed: another drivetrain than the seed's, or a WLTP more than SEED_WLTP_REL off
-    the seed's own cited WLTP (a reviewer caught Kia EV3 built as AWD / 583 km twice)."""
+    the seed's own cited WLTP (a reviewer caught Kia EV3 built as AWD / 583 km twice).
+    Each item is ((row id, "drivetrain" | "wltp"), message): the key stays the same when a
+    built value drifts with fresh data."""
     rows = (new or {}).get("rows") or []
-    out: list[str] = []
+    out: list[tuple[tuple[str, str], str]] = []
     for v in (seed_doc or {}).get("variants") or []:
         vid = str(v.get("id") or "")
         band = re.compile(rf"^{re.escape(vid)}(-\d{{4}})?$")
@@ -244,14 +253,15 @@ def seed_mismatches(new: dict[str, Any] | None, seed_doc: dict[str, Any] | None)
                 continue
             dt, sdt = r.get("drivetrain"), v.get("drivetrain")
             if dt and sdt and dt != sdt:
-                out.append(f"{rid}: drivetrain {dt}, seed says {sdt}")
+                out.append(((rid, "drivetrain"), f"{rid}: drivetrain {dt}, seed says {sdt}"))
             w = r.get("wltp_range_km")
             if (
                 isinstance(cited, int | float)
                 and isinstance(w, int | float)
                 and abs(w - cited) > SEED_WLTP_REL * cited
             ):
-                out.append(f"{rid}: WLTP {w:g} km, its cited WLTP is {cited:g} km (> 10 % off)")
+                msg = f"{rid}: WLTP {w:g} km, its cited WLTP is {cited:g} km (> 10 % off)"
+                out.append(((rid, "wltp"), msg))
     return out
 
 
@@ -305,6 +315,9 @@ def verify(
         csv_path = scratch / "review" / "release_diff.csv"
         if csv_path.exists():
             rep.release_diff_csv = csv_path.read_text(encoding="utf-8")
+    late = refusal(data_dir)
+    if late is not None:  # G-49: a refresh started while we rebuilt; the rebuild may be mixed
+        rep.fail(f"a refresh started during the rebuild: {late}")
     qa = built.get("qa")
     rep.sections["rebuild"] = {
         k: v for k, v in built.items() if k in ("status", "error", "release")
@@ -342,14 +355,16 @@ def verify(
     seed_file = data_dir / "seed" / "variants.yaml"
     if cat is not None and seed_file.exists():
         seed_doc = yaml.safe_load(seed_file.read_text(encoding="utf-8"))
-        bad = seed_mismatches(cat, seed_doc)
-        # Already in the previous release: flagged, not a failure of this change (the owner
-        # lane fixes the seed); a mismatch this change brings in fails the run.
-        before = set(seed_mismatches(old_cat, seed_doc)) if old_cat is not None else set()
-        new = [b for b in bad if b not in before]
+        items = seed_mismatch_items(cat, seed_doc)
+        bad = [m for _, m in items]
+        # Already in the previous release (same row and kind, whatever the value now): listed,
+        # not a failure of this change (the owner lane fixes the seed); a mismatch the
+        # previous release did not have fails the run. Baseline = release N-1, not main.
+        before = {k for k, _ in seed_mismatch_items(old_cat, seed_doc)} if old_cat else set()
+        new = [m for k, m in items if k not in before]
         rep.sections["seed_check"] = {
             "status": "fail" if new else "pass", "mismatches": new,
-            "pre_existing": [b for b in bad if b in before],
+            "pre_existing": [m for k, m in items if k in before], "baseline": latest,
         }  # fmt: skip
         rep.numbers["seed_mismatches"] = len(bad)
         rep.numbers["seed_mismatches_new"] = len(new)
@@ -426,7 +441,9 @@ def report_md(rep: Report) -> str:
         out += ["", "## Seed vs built (G-48: drivetrain, WLTP vs cited)", ""]
         sc = s["seed_check"]
         out += [f"- **new:** {m}" for m in sc["mismatches"]]
-        out += [f"- already in the previous release: {m}" for m in sc.get("pre_existing") or []]
+        out += [
+            f"- already in release {sc.get('baseline')}: {m}" for m in sc.get("pre_existing") or []
+        ]
         if not sc["mismatches"] and not sc.get("pre_existing"):
             out.append("all match")
     if "claims" in s:

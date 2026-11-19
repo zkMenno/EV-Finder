@@ -3,7 +3,9 @@ rebuild from a half-written staging.
 
 The lock is a small JSON file `data/staging/.refresh.lock` ({"pid", "started"}). It is held
 for the whole refresh (not for --dry-run). A lock whose process no longer runs (a crash,
-a killed job) is stale: it does not count as held, and the next refresh replaces it.
+a killed job) is stale: it does not count as held, and the next refresh replaces it. A
+second refresh while a live one holds the lock refuses to start (`StagingBusy`): the lock is
+created exclusively, so two refreshes never share or delete each other's lock.
 """
 
 from __future__ import annotations
@@ -17,6 +19,10 @@ from pathlib import Path
 from typing import Any
 
 LOCK_NAME = ".refresh.lock"
+
+
+class StagingBusy(RuntimeError):
+    """Another live `ev refresh` holds data/staging."""
 
 
 def lock_path(data_dir: Path) -> Path:
@@ -52,11 +58,25 @@ def holder(data_dir: Path) -> dict[str, Any] | None:
 
 @contextmanager
 def hold(data_dir: Path, now: datetime | None = None) -> Iterator[Path]:
-    """Hold the staging lock for the duration of the block (removed on any exit)."""
+    """Hold the staging lock for the duration of the block (removed on any exit). Raises
+    StagingBusy when a live process already holds it; a stale lock is taken over."""
     p = lock_path(data_dir)
     p.parent.mkdir(parents=True, exist_ok=True)
     started = (now or datetime.now(UTC)).isoformat(timespec="seconds")
-    p.write_text(json.dumps({"pid": os.getpid(), "started": started}) + "\n", encoding="utf-8")
+    body = json.dumps({"pid": os.getpid(), "started": started}) + "\n"
+    for _ in range(2):
+        try:
+            fd = os.open(p, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+        except FileExistsError:
+            if holder(data_dir) is not None:
+                raise StagingBusy(refusal(data_dir) or "data/staging is locked") from None
+            p.unlink(missing_ok=True)  # stale: its process is gone
+            continue
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(body)
+        break
+    else:
+        raise StagingBusy(f"could not take {p}")
     try:
         yield p
     finally:
@@ -77,5 +97,6 @@ def refusal(data_dir: Path) -> str | None:
     since = f" since {h['started']}" if h.get("started") else ""
     return (
         f"ev refresh is still writing data/staging ({who}{since}). Wait for it to finish, "
-        "then run ev verify again (a half-written staging gives a wrong rebuild, G-49)."
+        "then run ev verify again (a half-written staging gives a wrong rebuild, G-49). "
+        f"If no ev refresh is running, delete {lock_path(data_dir)}."
     )

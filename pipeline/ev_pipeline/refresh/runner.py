@@ -404,10 +404,14 @@ def refresh(opts: RefreshOptions, deps: Deps | None = None) -> tuple[int, dict[s
     `ev verify` never rebuilds from a half-written staging."""
     if opts.dry_run:
         return _refresh(opts, deps)
-    from ev_pipeline.refresh.lock import hold
+    from ev_pipeline.refresh.lock import StagingBusy, hold
 
-    with hold(c.data_dir()):
-        return _refresh(opts, deps)
+    try:
+        with hold(c.data_dir()):
+            return _refresh(opts, deps)
+    except StagingBusy as e:
+        print(f"refresh: refused: {e}", flush=True)
+        return EXIT_SOURCE_PROBLEMS, {"refused": str(e)}
 
 
 def _refresh(opts: RefreshOptions, deps: Deps | None = None) -> tuple[int, dict[str, Any]]:
