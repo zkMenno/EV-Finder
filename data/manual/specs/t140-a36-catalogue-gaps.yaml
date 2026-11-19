@@ -73,9 +73,9 @@ facts:
     retrieved: 2026-11-17
     quote: "U verze s dlouhým dojezdem rovněž došlo k navýšení využitelné kapacity akumulátoru, a to na 84 kWh."
     locator: "Body text: the long-range version's usable capacity rises to 84 kWh; RWD 229 PS, 570 km WLTP"
-    confidence: medium
+    confidence: low
     claim: true
-    notes: "Hyundai calls 84 kWh the usable capacity here. Open EV Data's 2025 'Base' gives 72.6 kWh, the 2021-2022 pack (A-36 S7). Hyundai Motor Deutschland 08.08.2024 agrees: 'Der größere Akku bietet 84 statt wie bisher 77,4 kWh'."
+    notes: "Hyundai calls 84 kWh the usable capacity here. Open EV Data's 2025 'Base' gives 72.6 kWh, the 2021-2022 pack (A-36 S7). Hyundai Motor Deutschland 08.08.2024 agrees: 'Der größere Akku bietet 84 statt wie bisher 77,4 kWh'. T-156: confidence medium -> low. Hyundai Austria's technical data (05/2025) labels the same 84 kWh 'Nennkapazität' (nominal), so 'usable' rests on this one release's wording (see egmp-84 in data/seed/battery_packs.yaml)."
   - variant_id: hyundai-ioniq-5-facelift-base
     field: wltp_range_km
     value: 570

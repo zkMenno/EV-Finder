@@ -199,6 +199,12 @@ platforms:
     nominal_v: not-disclosed
     voltage_class_id: 400v
     notes: "Reported to be a heavily modified version of Ford's C2 combustion platform."
+  - id: ford-courier-bev
+    name: "Ford Courier electric (E-Tourneo Courier)"
+    owner: Ford Motor Company
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-156. Ford's electric Courier (E-Tourneo / E-Transit Courier, built in Craiova). Platform name and voltage class not read from a maker document, so left not-disclosed."
   - id: byd-e-platform-3
     name: "e-Platform 3.0"
     owner: BYD

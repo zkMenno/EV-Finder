@@ -66,7 +66,7 @@ packs:
   - {id: egmp-72-6, name: "E-GMP 72.6 kWh", supplier: SK On, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 72.6, usable_kwh: not-disclosed, nominal_v: 653.4, cooling_id: liquid}
   - {id: egmp-77-4, name: "E-GMP 77.4 kWh", supplier: SK On, chemistry_id: nmc, cell_format: pouch, cell_to_pack: false, gross_kwh: 77.4, usable_kwh: not-disclosed, nominal_v: 697, cooling_id: liquid}
   - {id: egmp-63, name: "E-GMP 63 kWh (2024+ facelift)", chemistry_id: nmc, cell_format: pouch, gross_kwh: 63, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
-  - {id: egmp-84, name: "E-GMP 84 kWh (2024+ facelift)", chemistry_id: nmc, cell_format: pouch, gross_kwh: 84, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
+  - {id: egmp-84, name: "E-GMP 84 kWh (2024+ facelift)", chemistry_id: nmc, cell_format: pouch, gross_kwh: 84, usable_kwh: not-disclosed, nominal_v: 697, cooling_id: liquid}
   # --- BMW / Mini ---
   - {id: bmw-i3-60ah, name: "BMW i3 60 Ah (22 kWh)", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 22.6, usable_kwh: 18.8, nominal_v: not-disclosed, cooling_id: refrigerant}
   - {id: bmw-i3-94ah, name: "BMW i3 94 Ah (33 kWh)", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 33, usable_kwh: 27.2, nominal_v: not-disclosed, cooling_id: refrigerant}
@@ -116,6 +116,8 @@ packs:
   # --- Stellantis mid-size van (T-151) ---
   - {id: stellantis-van-50, name: "Stellantis mid-size van 50 kWh (ë-SpaceTourer)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 50, usable_kwh: 46.3, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: stellantis-van-75, name: "Stellantis mid-size van 75 kWh (ë-SpaceTourer)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 75, usable_kwh: 68, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  # --- Ford E-Tourneo Courier (T-156) ---
+  - {id: ford-courier-46, name: "Ford E-Tourneo Courier 46 kWh usable (2026 update)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: not-disclosed, usable_kwh: 46, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: xpeng-p7-plus-lr, name: "XPENG P7+ Long Range pack", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: not-disclosed, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
 
 notes:
@@ -160,7 +162,7 @@ notes:
   egmp-72-6: "Early Ioniq 5 / EV6 Long Range."
   egmp-77-4: "Ioniq 5 / 6 and EV6 Long Range from about 2022."
   egmp-63: "Facelift replacement for egmp-58; supplier and voltage not verified."
-  egmp-84: "Facelift replacement for egmp-77-4; supplier and voltage not verified."
+  egmp-84: "Facelift replacement for egmp-77-4. T-156: gross 84 kWh from Hyundai Austria's IONIQ 5 FL technical data (05/2025, PDF on hyundai.at): 'Nennkapazität [kWh] 63 84 84' (nominal capacity, i.e. the pack figure) and 'Nennspannung [V] 523 697 697'; Hyundai Australia's 2026 IONIQ 5 specification sheet (hyundai.com) also gives 'Capacity 84 kWh', 'Voltage 697 V'. Hyundai Motor Czech (15.08.2024) instead calls the 84 kWh usable ('využitelné kapacity akumulátoru, a to na 84 kWh'). No Hyundai document read gives a separate usable figure, so usable stays not disclosed. Supplier not verified."
   bmw-i3-60ah: "Direct refrigerant cooling from the AC circuit."
   bmw-gen5-67: "Gen5 cells from CATL and Samsung SDI reported; supplier left out."
   bmw-gen5-81: "See bmw-gen5-67."
@@ -187,6 +189,7 @@ notes:
   honda-e-35-5: "Liquid-cooled (reported)."
   xpeng-p7-86: "XPENG Sweden P7 spec sheet (read 2026-11-17): 'Batterityp NCM', gross 86.2 kWh, net 82.7 kWh, same pack on RWD Long Range, AWD Performance and Wing Edition. Supplier and cell format not stated."
   xpeng-p7-plus-lr: "P7+ RWD Long Range and AWD Performance share one larger pack (press). Capacity and chemistry left not-disclosed: XPENG's preliminary DE sheet (09/2025) says 76.8 kWh net, the press says 74.9 kWh and LFP; no final maker document read."
+  ford-courier-46: "Ford of Europe 16.02.2026 ('What's New: E-Tourneo Courier 2026', fromtheroad.ford.com): 'Useable battery capacity increased from 43 kWh to 46 kWh'. Gross, chemistry, cells, voltage and cooling not read from a maker document."
   stellantis-van-50: "Citroën France 12.06.2020: 50 kWh, 18 modules; Citroën UK 18.03.2024: 46.3 kWh usable. Chemistry, cells, voltage and cooling not read from a maker document."
   stellantis-van-75: "Citroën France 12.06.2020: 75 kWh, 27 modules (M and XL bodies only); Citroën UK 18.03.2024: 68 kWh usable. Chemistry, cells, voltage and cooling not read from a maker document."
   skoda-elroq-84: "T-154: Škoda Elroq technical data (5 May 2025, cdn.skoda-storyboard.com): 'Battery capacity gross (net) [kWh] ... 84 (79)' for the Elroq RS; chemistry and cooling not stated there."
