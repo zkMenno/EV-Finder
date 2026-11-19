@@ -1,6 +1,6 @@
 # T-154 Next catalogue variants: EV3, Elroq 85 / RS, Model 3 year split, e-tron GT 2025, no-variant list
 Role: builder   Lane: data/seed, data/manual (WS3)   Wave: launch
-Status: todo
+Status: doing (batch: catalogue T-154, https://claude.ai/code/session_01JuyZEVwSvmSNwNcATFfUzh, 2026-11-19)
 
 ## Goal
 The next biggest gaps in the variant queue get cited seed variants, and figures trimmed under the old Decision 068 reading come back (Decision 087).
