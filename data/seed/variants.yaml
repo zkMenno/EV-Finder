@@ -530,6 +530,13 @@ variants:
     id: nissan-leaf-ze1-e-plus-62kwh
     name: "e+ 62 kWh"
     years: [2019, 2025]
+    # T-151: OpenEV's "62 kWh" (MY2023-24, 110 kW) is this car. Nissan sells the 62 kWh battery
+    # only with the 160 kW e+ motor (Nissan Europe 09.01.2019; Nissan USA 2025 LEAF press kit:
+    # 110 kW only with the 40 kWh battery). Its records join this row; the OpenEV-made id
+    # nissan-leaf-ze1-62-kwh is retired here (retired_ids.yaml). Power from Nissan:
+    # data/manual/specs/t151-van-leaf-ioniq5.yaml.
+    source_names:
+      openev: ["62 kWh"]
     drivetrain: fwd
     specs:
       battery_kwh_net: 59
@@ -1411,6 +1418,32 @@ variants:
       length_mm: 4360
       seats: 5
     notes: "Updated motor and battery. WLTP roughly 400-420 km."
+    confidence: low
+  # T-151: release 3 had one OpenEV-made row (citroen-e-spacetourer-gen1-base) that mixed the
+  # 50 kWh battery (OpenEV 46 kWh net) with the 75 kWh car's registered WLTP (341 km, RDW 2024 /
+  # ADEME 'e-SPACE TOURER XL'). One row per battery; the old id is retired to the 50 kWh row,
+  # which its OpenEV "Base" records describe. Figures that ship: data/manual/specs/t151-van-leaf-ioniq5.yaml.
+  - generation_id: citroen-e-spacetourer-gen1
+    id: citroen-e-spacetourer-gen1-50kwh
+    name: "50 kWh"
+    years: [2021, null]
+    source_names:
+      openev: ["Base"]
+    drivetrain: fwd
+    specs:
+      battery_kwh_gross: 50
+      power_kw: 100
+    notes: "Stellantis (Citroën France) 12.06.2020: 50 kWh, 18 modules, up to 230 km WLTP, XS / M / XL bodies, 100 kW. Citroën UK 18.03.2024 (new ë-SpaceTourer): 50 kWh (46.3 kWh usable), 139 miles WLTP."
+    confidence: low
+  - generation_id: citroen-e-spacetourer-gen1
+    id: citroen-e-spacetourer-gen1-75kwh
+    name: "75 kWh"
+    years: [2021, null]
+    drivetrain: fwd
+    specs:
+      battery_kwh_gross: 75
+      power_kw: 100
+    notes: "Stellantis (Citroën France) 12.06.2020: 75 kWh, 27 modules, up to 330 km WLTP, M and XL bodies only, 100 kW. Citroën UK 18.03.2024: 75 kWh (68 kWh usable), up to 217 miles WLTP; Citroën Germany (2024): up to 350 km, 20 km more than before."
     confidence: low
   - generation_id: fiat-500e-312
     id: fiat-500e-312-24kwh
@@ -2349,6 +2382,35 @@ variants:
       seats: 5
     notes: "Facelift base pack (58 -> 63 kWh). Hyundai Motor Deutschland 08.08.2024: 'eine kleinere Batterieversion mit 63 kWh', 125 kW. EU type approval e9*2018/858*11054 variant F5E12 (RDW TGK, from extension 06): WLTP 440 km, 155.8 Wh/km. Release 2 has no row for it (Open EV Data has no 63 kWh record)."
     confidence: low
+  # T-151: the two 84 kWh facelift rows were made from Open EV Data's MY2025 "Base" / "AWD"
+  # files, which repeat the pre-facelift car (72.6 / 77.4 kWh, 507 km, 220 kW DC). Those files
+  # are held (source_holds, bottom of file) and the rows become seed rows under the same ids, so
+  # no URL changes. Figures that ship are in data/manual/specs/t140-a36-catalogue-gaps.yaml and
+  # t151-van-leaf-ioniq5.yaml.
+  - generation_id: hyundai-ioniq-5-facelift
+    id: hyundai-ioniq-5-facelift-base
+    name: "84 kWh RWD"
+    years: [2024, null]
+    drivetrain: rwd
+    specs:
+      battery_kwh_net: 84
+      power_kw: 168
+      ac_kw: 11
+      seats: 5
+    notes: "Hyundai Motor Deutschland 08.08.2024: 'Der größere Akku bietet 84 statt wie bisher 77,4 kWh', 168 kW, up to 570 km WLTP. Hyundai gives one capacity figure; Hyundai Motor Czech 15.08.2024 calls 84 kWh the usable capacity, so no separate gross figure is entered. EU type approval e9*2018/858*11054 variant F5E22 (RDW TGK): 570 / 530 km."
+    confidence: low
+  - generation_id: hyundai-ioniq-5-facelift
+    id: hyundai-ioniq-5-facelift-awd
+    name: "84 kWh AWD"
+    years: [2024, null]
+    drivetrain: awd
+    specs:
+      battery_kwh_net: 84
+      power_kw: 239
+      ac_kw: 11
+      seats: 5
+    notes: "Hyundai Motor Czech 15.08.2024: AWD, 325 PS (239 kW), 605 Nm, 546 km WLTP, 84 kWh usable. EU type approval e9*2018/858*11054 variant F5E34 (RDW TGK): 546 / 500 km."
+    confidence: low
   - generation_id: xpeng-p7-gen1
     id: xpeng-p7-gen1-rwd-long-range
     name: "RWD Long Range"
@@ -2605,3 +2667,12 @@ source_holds:
       sells S / RS / RS performance. Records that land on the facelift generation would show the
       old pack on the new car; review instead (T-145). MY2024 records with the old pack go to
       gen1 by battery evidence (shared year 2024).
+  - generation_id: hyundai-ioniq-5-facelift
+    source: openev
+    names: ["Base", "AWD"]
+    reason: >-
+      T-151: OpenEV's Ioniq 5 MY2025 "Base" / "AWD" files repeat the pre-facelift car (72.6 kWh
+      net / 77.4 kWh gross, 507 km WLTP, 220 kW DC). From the 2024 facelift Hyundai sells 84 kWh
+      (RWD 168 kW 570 km, AWD 239 kW 546 km; Hyundai Motor Deutschland 08.08.2024, Hyundai Motor
+      Czech 15.08.2024). Joined to the facelift rows they outvoted the cited WLTP and made QA flag
+      usable 84 > gross 77.4; review instead. The two rows are seed rows now (same ids).

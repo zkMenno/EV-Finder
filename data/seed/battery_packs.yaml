@@ -104,6 +104,9 @@ packs:
   - {id: honda-e-35-5, name: "Honda e 35.5 kWh", chemistry_id: not-disclosed, gross_kwh: 35.5, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
   # --- XPENG (T-140) ---
   - {id: xpeng-p7-86, name: "XPENG P7 86.2 kWh (NCM)", chemistry_id: nmc, cell_format: not-disclosed, gross_kwh: 86.2, usable_kwh: 82.7, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  # --- Stellantis mid-size van (T-151) ---
+  - {id: stellantis-van-50, name: "Stellantis mid-size van 50 kWh (ë-SpaceTourer)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 50, usable_kwh: 46.3, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: stellantis-van-75, name: "Stellantis mid-size van 75 kWh (ë-SpaceTourer)", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: 75, usable_kwh: 68, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: xpeng-p7-plus-lr, name: "XPENG P7+ Long Range pack", chemistry_id: not-disclosed, cell_format: not-disclosed, gross_kwh: not-disclosed, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
 
 notes:
@@ -175,3 +178,5 @@ notes:
   honda-e-35-5: "Liquid-cooled (reported)."
   xpeng-p7-86: "XPENG Sweden P7 spec sheet (read 2026-11-17): 'Batterityp NCM', gross 86.2 kWh, net 82.7 kWh, same pack on RWD Long Range, AWD Performance and Wing Edition. Supplier and cell format not stated."
   xpeng-p7-plus-lr: "P7+ RWD Long Range and AWD Performance share one larger pack (press). Capacity and chemistry left not-disclosed: XPENG's preliminary DE sheet (09/2025) says 76.8 kWh net, the press says 74.9 kWh and LFP; no final maker document read."
+  stellantis-van-50: "Citroën France 12.06.2020: 50 kWh, 18 modules; Citroën UK 18.03.2024: 46.3 kWh usable. Chemistry, cells, voltage and cooling not read from a maker document."
+  stellantis-van-75: "Citroën France 12.06.2020: 75 kWh, 27 modules (M and XL bodies only); Citroën UK 18.03.2024: 68 kWh usable. Chemistry, cells, voltage and cooling not read from a maker document."

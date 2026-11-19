@@ -217,6 +217,12 @@ platforms:
     nominal_v: not-disclosed
     voltage_class_id: not-disclosed
     notes: "Rear-engine platform shared with the Renault Twingo III (whose Electric version uses a similar drivetrain)."
+  - id: stellantis-midsize-van
+    name: "Stellantis mid-size van (Citroën Jumpy / SpaceTourer family)"
+    owner: Stellantis
+    nominal_v: not-disclosed
+    voltage_class_id: not-disclosed
+    notes: "T-151. The electric ë-SpaceTourer / ë-Jumpy Combi (registers name them alike). Platform name and voltage class not read from a maker document, so left not-disclosed."
   - id: honda-e
     name: "Honda e platform"
     owner: Honda
