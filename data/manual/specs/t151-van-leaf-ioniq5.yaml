@@ -106,14 +106,14 @@ facts:
     field: wltp_range_km
     value: 385
     unit: km
-    source_url: https://europe.nissannews.com/en-GB/releases/release-90b1ce83155c6b12ec5c018c9a0239df-nissan-announces-leaf-3zero-and-leaf-3zero-e-limited-edition-with-higher-output-and-longer-range-2
-    source_name: "Nissan Europe press release 'Nissan announces new LEAF 3.ZERO and new LEAF e+ 3.ZERO with higher output and longer range' (09.01.2019)"
+    source_url: https://europe.nissannews.com/en-GB/releases/more-choice-than-ever-for-nissan-leaf-customers-with-new-versions-now-available-across-europe
+    source_name: "Nissan Europe press release 'More choice than ever for Nissan LEAF customers with new versions now available across Europe' (18.06.2019)"
     retrieved: 2026-11-19
-    quote: "expected driving range of up to 385 km* from a single charge"
-    locator: "Paragraph on the LEAF e+ 3.ZERO Limited Edition; the footnote marks the WLTP figure"
+    quote: "up to 385 km (WLTP) on a combined cycle"
+    locator: "Paragraph on the LEAF e+ (62 kWh battery, 217 PS), at the European sales start"
     confidence: medium
     claim: true
-    notes: "Nissan Europe 18.06.2019 ('More choice than ever for Nissan LEAF customers'): 'up to 385 km (WLTP) on a combined cycle'."
+    notes: "The 09.01.2019 launch release gave the same 385 km as a forecast ('expected driving range'); this release is the sales-start figure. Review of PR #178."
 
   # --- Hyundai Ioniq 5 facelift 84 kWh: power ------------------------------------------------
   - variant_id: hyundai-ioniq-5-facelift-base
