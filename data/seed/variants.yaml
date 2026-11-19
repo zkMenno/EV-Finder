@@ -735,7 +735,7 @@ variants:
       battery_kwh_gross:
         value: 42
         source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
-        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        source_name: "Hyundai Newsroom EU, 'Hyundai introduces INSTER Lounge, bringing distinctive comfort to the small EV segment'"
         retrieved: 2026-11-19
         quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
         locator: "Summary bullets; 42 kWh without gross / usable: filed as gross ('Voltage 266 V' for this pack in Hyundai's June 2024 premiere release)"
@@ -743,12 +743,12 @@ variants:
       power_kw:
         value: 71
         source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
-        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        source_name: "Hyundai Newsroom EU, 'Hyundai introduces INSTER Lounge, bringing distinctive comfort to the small EV segment'"
         retrieved: 2026-11-19
         quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
         locator: "Summary bullets: 71 kW with the 42 kWh battery"
         confidence: high
-    notes: "Front-wheel drive: Hyundai Motor Deutschland ('Hyundai INSTER Select 71 kW (97 PS) Frontantrieb', https://www.hyundai.news/de/articles/press-releases/inster-ist-preis-reichweite-champion-bei-den-elektrischen-kleinwagen.html, read 2026-11-19); one motor in both versions (same page). Years: generation start."
+    notes: "Front-wheel drive: Hyundai Motor Deutschland ('Hyundai INSTER Select 71 kW (97 PS) Frontantrieb', https://www.hyundai.news/de/articles/press-releases/inster-ist-preis-reichweite-champion-bei-den-elektrischen-kleinwagen.html, read 2026-11-19) for the 71 kW car; the 49 kWh car has the same single motor layout ('ein Elektromotor', same page), so front-wheel drive is inferred for it. Years: generation start."
     confidence: medium
   - generation_id: hyundai-inster-gen1
     id: hyundai-inster-gen1-49kwh
@@ -760,7 +760,7 @@ variants:
       battery_kwh_gross:
         value: 49
         source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
-        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        source_name: "Hyundai Newsroom EU, 'Hyundai introduces INSTER Lounge, bringing distinctive comfort to the small EV segment'"
         retrieved: 2026-11-19
         quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
         locator: "Summary bullets; 49 kWh without gross / usable: filed as gross"
@@ -768,12 +768,12 @@ variants:
       power_kw:
         value: 84
         source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
-        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        source_name: "Hyundai Newsroom EU, 'Hyundai introduces INSTER Lounge, bringing distinctive comfort to the small EV segment'"
         retrieved: 2026-11-19
         quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
         locator: "Summary bullets: 84 kW with the 49 kWh battery (Hyundai Germany rounds the same motor to 85 kW)"
         confidence: high
-    notes: "Front-wheel drive: Hyundai Motor Deutschland ('Hyundai INSTER Select 71 kW (97 PS) Frontantrieb', https://www.hyundai.news/de/articles/press-releases/inster-ist-preis-reichweite-champion-bei-den-elektrischen-kleinwagen.html, read 2026-11-19); one motor in both versions (same page). Years: generation start."
+    notes: "Front-wheel drive: Hyundai Motor Deutschland ('Hyundai INSTER Select 71 kW (97 PS) Frontantrieb', https://www.hyundai.news/de/articles/press-releases/inster-ist-preis-reichweite-champion-bei-den-elektrischen-kleinwagen.html, read 2026-11-19) for the 71 kW car; the 49 kWh car has the same single motor layout ('ein Elektromotor', same page), so front-wheel drive is inferred for it. Years: generation start."
     confidence: medium
   - generation_id: mini-countryman-e-gen1
     id: mini-countryman-e-gen1-e
