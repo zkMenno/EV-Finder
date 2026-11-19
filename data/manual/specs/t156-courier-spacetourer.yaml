@@ -1,0 +1,62 @@
+# T-156 (WS3 batch, 2026-11-19): two small gaps left by T-151 (WS0 INBOX 2026-11-19 03:32 UTC).
+#  - Ford E-Tourneo Courier 2026: Ford raised the usable battery from 43 to 46 kWh (16.02.2026).
+#    New seed row ford-e-tourneo-courier-gen1-46kwh (data/seed/variants.yaml), years 2026 onward;
+#    the 2024 launch car stays ford-e-tourneo-courier-gen1-base (43 kWh, t151-van-leaf-ioniq5.yaml).
+#    Ford gives 46 kWh. The 46.8 kWh some sites print is not on a Ford page we could read, so it is not used.
+#  - Citroën ë-SpaceTourer 75 kWh: DC peak from Citroën's order-opening press kit (Stellantis media).
+# Source `manual` (Decision 068 / 087). Every value below was read on the page named, on the date given.
+# Maker documents only; single facts, no tables copied.
+schema: manual-facts/v1
+entered_by: ws3 (agent, T-156 batch)
+facts:
+  # --- Ford E-Tourneo Courier, 2026 update (46 kWh) ---------------------------------------------
+  - variant_id: ford-e-tourneo-courier-gen1-46kwh
+    field: battery_kwh_net
+    value: 46
+    unit: kWh
+    source_url: https://www.fromtheroad.ford.com/eur/en/articles/2026/whats-new-e-tourneo-courier-2026
+    source_name: "Ford of Europe (From the Road, Ford HQ) 'What's New: E-Tourneo Courier 2026' (16.02.2026)"
+    retrieved: 2026-11-19
+    quote: "Useable battery capacity increased from 43 kWh to 46 kWh"
+    locator: "List 'Battery updates', first item"
+    confidence: medium
+    claim: true
+    notes: "Ford US corporate newsroom (at.ford.com, 16.02.2026, 'E-Transit Courier and E-Tourneo Courier Get Range-Enhancing Battery Boost') says the same 43 -> 46 kWh."
+  - variant_id: ford-e-tourneo-courier-gen1-46kwh
+    field: wltp_range_km
+    value: 320
+    unit: km
+    source_url: https://www.fromtheroad.ford.com/eur/en/articles/2026/whats-new-e-tourneo-courier-2026
+    source_name: "Ford of Europe (From the Road, Ford HQ) 'What's New: E-Tourneo Courier 2026' (16.02.2026)"
+    retrieved: 2026-11-19
+    quote: "Maximum driving range is now up to 320 km"
+    locator: "List 'Battery updates', second item; footnote 1: 'Estimated range using Worldwide Harmonised Light Vehicle Test Procedure (WLTP)'"
+    confidence: medium
+    claim: true
+    notes: "Best-case ('up to') WLTP figure."
+  - variant_id: ford-e-tourneo-courier-gen1-46kwh
+    field: dc_minutes_10_80
+    value: 26
+    unit: min
+    source_url: https://www.fromtheroad.ford.com/eur/en/articles/2026/whats-new-e-tourneo-courier-2026
+    source_name: "Ford of Europe (From the Road, Ford HQ) 'What's New: E-Tourneo Courier 2026' (16.02.2026)"
+    retrieved: 2026-11-19
+    quote: "Charge from 10-80 per cent in 26 minutes using a 100 kW DC rapid charger"
+    locator: "List 'Charging updates'; footnote 2: 'Estimated figures given are based on E-Tourneo Courier.'"
+    confidence: medium
+    claim: true
+    notes: "Ford gives the time on a 100 kW charger, not the car's peak kW, so no dc_peak_kw is entered."
+
+  # --- Citroën ë-SpaceTourer 75 kWh: DC peak ------------------------------------------------------
+  - variant_id: citroen-e-spacetourer-gen1-75kwh
+    field: dc_peak_kw
+    value: 100
+    unit: kW
+    source_url: https://www.media.stellantis.com/em-en/citroen/press/citroen-e-spacetourer-opening-of-orders-up-to-9-people-in-e-comfort-mode
+    source_name: "Citroën press kit 'Citroën ë-SpaceTourer: opening of orders, up to 9 people in ë-comfort mode' (Stellantis media, 02.09.2020)"
+    retrieved: 2026-11-19
+    quote: "Up to 100 kW - Charges a 50 kWh battery to 80% in 30 minutes and a 75 kWh battery in 45 minutes."
+    locator: "Section 01 'The ë-SpaceTourer range', 'All-electric energy for greater comfort and peace of mind', item 'Super-fast charging on public charging station'"
+    confidence: medium
+    claim: true
+    notes: "Names the 75 kWh battery. Citroën France brochure (February 2022, citroen.fr) agrees: 75 kWh to 80 % in 45 min 'sur borne super rapide 100 kW'. The 2024 update is not stated separately; one row covers 2021 onward."

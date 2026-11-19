@@ -221,7 +221,21 @@ def _charging(vid, values, pv, mv, drop) -> dict[str, Any]:
     mins = values.get("dc_minutes_10_80")
     if not from_curve and "dc_avg_10_80_kw" not in values and mins and mins > 0 and net:
         avg = m.avg_from_minutes(net, mins)
-        if in_range("dc_avg_10_80_kw", avg):
+        peak = values.get("dc_peak_kw")
+        if peak and avg > peak + EPS:
+            # T-161 (T-155 nit 4): the time implies more than the stated peak, so one of them is
+            # wrong. The time goes to review; the row falls back to the default curve below.
+            drop(
+                vid,
+                "dc_minutes_10_80",
+                mins,
+                "min",
+                f"{DC_AVG_ABOVE_PEAK} ({peak:g} kW): the 10-80% time implies {avg:.1f} kW;"
+                " default curve used",
+            )
+            del values["dc_minutes_10_80"]
+            pv.pop("dc_minutes_10_80", None)
+        elif in_range("dc_avg_10_80_kw", avg):
             values["dc_avg_10_80_kw"] = avg
             pv["dc_avg_10_80_kw"] = derived_prov([pv["dc_minutes_10_80"], *net_p], MINUTES_NOTE)
             extra["_dc_from_minutes"] = True

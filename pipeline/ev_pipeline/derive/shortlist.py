@@ -97,14 +97,55 @@ def derived_values(
     return out
 
 
-def version_flags(rows: list[dict[str, Any]]) -> dict[str, set[str]]:
-    """newest-version / older-version per variant id, within one model (rule text, Decision 038)."""
-    by_model: dict[str, list[dict[str, Any]]] = defaultdict(list)
+DRIVETRAINS = ("rwd", "fwd", "awd")
+TRIM_LINE_POWER_GAP = 0.15  # Decision 088; shortlist_params.yaml `trim_line_power_gap` overrides
+
+
+def _power(row: dict[str, Any]) -> float | None:
+    v = row.get("power_kw")
+    if isinstance(v, bool) or not isinstance(v, int | float) or v <= 0:
+        return None
+    return float(v)
+
+
+def trim_lines(
+    rows: list[dict[str, Any]], gap: float = TRIM_LINE_POWER_GAP
+) -> list[list[dict[str, Any]]]:
+    """Trim lines (Decision 088): per model and drivetrain, sorted by power; a variant whose power
+    is more than `gap` above the lowest power of the current line starts a new line. Rows with no
+    year, an unknown drivetrain or an unknown power are in no line (never compared)."""
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for r in rows:
-        if r.get("year_start") is not None:
-            by_model[str(r["model_id"])].append(r)
+        dt = r.get("drivetrain")
+        if r.get("year_start") is None or dt not in DRIVETRAINS or _power(r) is None:
+            continue
+        groups[(str(r["model_id"]), str(dt))].append(r)
+    lines: list[list[dict[str, Any]]] = []
+    for key in sorted(groups):
+        group = sorted(groups[key], key=lambda r: (_power(r), str(r["variant_id"])))
+        line: list[dict[str, Any]] = []
+        low = 0.0
+        for r in group:
+            pw = _power(r) or 0.0
+            if line and pw > low * (1 + gap):
+                lines.append(line)
+                line = []
+            if not line:
+                low = pw
+            line.append(r)
+        if line:
+            lines.append(line)
+    return lines
+
+
+def version_flags(
+    rows: list[dict[str, Any]], gap: float = TRIM_LINE_POWER_GAP
+) -> dict[str, set[str]]:
+    """newest-version / older-version per variant id, within one trim line (Decision 088,
+    refines Decision 038's model-wide comparison). A line with one year gets neither flag;
+    `older-version` needs a newer variant in the same line that charges faster."""
     flags: dict[str, set[str]] = defaultdict(set)
-    for group in by_model.values():
+    for group in trim_lines(rows, gap):
         years = {int(r["year_start"]) for r in group}
         if len(years) < 2:
             continue
@@ -416,7 +457,7 @@ def build_shortlist(
         }
     )
     models = {m["variant_id"]: m for m in (matrix or {}).get("variants", [])}
-    flags = version_flags(rows)
+    flags = version_flags(rows, float(params.get("trim_line_power_gap", TRIM_LINE_POWER_GAP)))
     step = float(rules.get("weight_step_factor", 1.5))
     cmb = combos(rules, params)
     all_rules: dict[tuple[str, str], dict[str, Any]] = {}
