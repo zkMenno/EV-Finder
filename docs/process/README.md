@@ -72,6 +72,7 @@ One owner per path; others write to the coordinator's INBOX (`workstreams/WS0/IN
 - Loop guard: the same error 3 times or 30 minutes without progress means stop that path, log it, try one alternative, otherwise park it (task file + one INBOX line) and take the next unblocked task. Never sit idle.
 - Time-box research: answer the question, don't explore everything.
 - Git: never rebase a pushed branch (merge main in); grep for conflict markers before pushing; after a push from a Claude session, start CI with workflow_dispatch and trust the run on the PR head; if `gh pr create` fails, use `gh api repos/zkMenno/EV-Shortlist/pulls`.
+- Merge: run `sh scripts/merge_ready.sh <pr>` as its own step right before the merge command (G-52, G-59, G-54); merge only when it says READY.
 
 ## 7. Context hygiene and efficiency
 - Watch for long chats (many big tool results, long documents, hours of work, any compaction warning). Before that: the coordinator writes `workstreams/WS0/HANDOFF.md` straight to main and gives Menno a paste prompt for its successor; a batch chat writes its state into its task files, appends one INBOX line and stops (the coordinator re-briefs).
