@@ -62,7 +62,16 @@ def _where(seed, rec: SourceRecord, table: dict | None = None) -> str:
     return why
 
 
-BUILT_ONLY = {"tesla-model-y-gen1-long-range-rwd"}
+BUILT_ONLY = {
+    "tesla-model-y-gen1-long-range-rwd",
+    # T-159: OpenEV-built rows (no seed row) whose TGK versions needed split evidence.
+    "hyundai-ioniq-5-facelift-n",
+    "porsche-taycan-gen1-base",
+    "porsche-taycan-gen1-4s",
+    "porsche-taycan-gen1-turbo",
+    "porsche-taycan-gen1-turbo-s",
+    "porsche-taycan-gen1-turbo-gt",
+}
 E208, MY, ID4 = "peugeot-e-208-p21", "tesla-model-y-gen1", "volkswagen-id4-gen1"
 
 
