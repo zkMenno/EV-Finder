@@ -138,7 +138,8 @@ def test_validator_warns_on_cited_from_blocked_source(tmp_path: Path) -> None:
 def test_second_refresh_refuses_and_keeps_the_first_lock(tmp_path: Path) -> None:
     with lock.hold(tmp_path) as p:
         before = p.read_text()
-        with pytest.raises(lock.StagingBusy, match="still writing"), lock.hold(tmp_path):
+        # T-158: a refused refresh speaks for itself, not in verify's words
+        with pytest.raises(lock.StagingBusy, match="already writing"), lock.hold(tmp_path):
             pass
         assert p.read_text() == before  # the live lock is untouched
         assert lock.refusal(tmp_path) is not None
@@ -170,7 +171,8 @@ def test_refresh_refused_while_another_holds(
     monkeypatch.setattr(runner, "_refresh", lambda opts, deps=None: pytest.fail("ran"))
     with lock.hold(tmp_path):
         code, log = runner.refresh(runner.RefreshOptions())
-    assert code == runner.EXIT_SOURCE_PROBLEMS and "still writing" in log["refused"]
+    assert code == runner.EXIT_SOURCE_PROBLEMS and "already writing" in log["refused"]
+    assert "ev verify" not in log["refused"]  # T-158: refresh's own wording
 
 
 def test_seed_baseline_is_row_and_kind_not_the_message() -> None:
