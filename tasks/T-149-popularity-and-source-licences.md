@@ -1,6 +1,6 @@
 # T-149 Publish popularity, used-price source licences and photo licence templates
 Role: builder   Lane: pipeline (WS1)   Wave: launch
-Status: review (batch chat https://claude.ai/code/session_01JuyZETPZUUpdfhHpfB9Pef, 2026-11-19)
+Status: done (merged #179, 07d135c; WS0 2026-11-19)
 
 ## Goal
 Fill the three fields WS0 added to the schema (PR "WS0: release 3 schema fields"): `Generation.popularity`, `UsedPriceSourceRef.licence`, `GenerationImage.licence_template` + `licence_checked_at`.
