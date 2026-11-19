@@ -456,7 +456,7 @@ approved:
   # T-159 part 2: RDW model-year aggregates (matcher.year_aggregate_pick); 1 blocking line
   - release: 4
     file: shortlist_scores.json
-    approved_by: "PR #NNN (T-159)"
+    approved_by: "PR #203 (T-159)"
     reason: "T-159 part 2: an RDW model-year aggregate (one WLTP for every car of a trade name and year) whose only evidence is its own WLTP no longer attaches when 2+ variants hold its year. The Peugeot e-5008 2024 / 2025 aggregates leave the base row, its WLTP comes from its own sources (491 -> 496 km) and its daily-driver band moves consider -> shortlist. Measured: ev verify of PR T-159 part 2 merged with main + part 1 approvals (2026-11-19), the only blocking line."
     id: peugeot-e-5008-gen1-base
     field: "scores.daily-driver.band"
