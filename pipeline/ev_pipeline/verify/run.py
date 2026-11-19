@@ -14,6 +14,10 @@ Steps (each one a section in verify-report.md):
 7. claims: every `key: number` line in the PR body (--pr-body) whose key is one of the
    report's numbers must equal the report (A-20 B1: MORNING.md quoted a number the release
    didn't have).
+8. seed check (G-48, T-153): a seed variant built with another drivetrain than its seed, or
+   with a WLTP more than 10 % off its own cited WLTP: listed; a mismatch the previous
+   release did not have fails the run.
+G-49 (T-153): while `ev refresh` holds data/staging (refresh/lock.py) verify refuses to run.
 Plus the memory peak. Exit 0 = pass, 1 = fail. Back-test flags are reported, not failures
 (they don't block a release either).
 """
@@ -47,7 +51,7 @@ RULE_GLOBS = (
     "*_params.yaml", "*_rules.yaml", "data/editorial/*", "data/taxonomy/*", "data/seed/*",
     "config/approved_changes.yaml",
 )  # fmt: skip
-BACKTEST_KEYS = ("backtest", "backtest_epa", "backtest_used_prices")
+BACKTEST_KEYS = ("backtest", "backtest_epa", "backtest_used_prices", "backtest_popularity")
 SKIP_COPY = {"releases", "raw", "runs", "review", "local", "staging"}
 CLAIM = re.compile(r"^[\s>*-]*`?([a-z][a-z0-9_]*)`?\s*[:=]\s*(-?\d+(?:\.\d+)?)\b", re.M)
 
@@ -221,6 +225,46 @@ def spot_checks(
     return out
 
 
+SEED_WLTP_REL = 0.10  # G-48: built WLTP more than 10 % off the variant's own cited WLTP
+
+
+def seed_mismatches(new: dict[str, Any] | None, seed_doc: dict[str, Any] | None) -> list[str]:
+    """Messages of `seed_mismatch_items` (see there)."""
+    return [m for _, m in seed_mismatch_items(new, seed_doc)]
+
+
+def seed_mismatch_items(
+    new: dict[str, Any] | None, seed_doc: dict[str, Any] | None
+) -> list[tuple[tuple[str, str], str]]:
+    """G-48 (T-153): seed variants whose built row (or year band `<id>-<yyyy>`) disagrees
+    with the seed: another drivetrain than the seed's, or a WLTP more than SEED_WLTP_REL off
+    the seed's own cited WLTP (a reviewer caught Kia EV3 built as AWD / 583 km twice).
+    Each item is ((row id, "drivetrain" | "wltp"), message): the key stays the same when a
+    built value drifts with fresh data."""
+    rows = (new or {}).get("rows") or []
+    out: list[tuple[tuple[str, str], str]] = []
+    for v in (seed_doc or {}).get("variants") or []:
+        vid = str(v.get("id") or "")
+        band = re.compile(rf"^{re.escape(vid)}(-\d{{4}})?$")
+        cited = ((v.get("cited") or {}).get("wltp_range_km") or {}).get("value")
+        for r in rows:
+            rid = str(r.get("variant_id") or "")
+            if not band.match(rid):
+                continue
+            dt, sdt = r.get("drivetrain"), v.get("drivetrain")
+            if dt and sdt and dt != sdt:
+                out.append(((rid, "drivetrain"), f"{rid}: drivetrain {dt}, seed says {sdt}"))
+            w = r.get("wltp_range_km")
+            if (
+                isinstance(cited, int | float)
+                and isinstance(w, int | float)
+                and abs(w - cited) > SEED_WLTP_REL * cited
+            ):
+                msg = f"{rid}: WLTP {w:g} km, its cited WLTP is {cited:g} km (> 10 % off)"
+                out.append(((rid, "wltp"), msg))
+    return out
+
+
 def check_claims(body: str, numbers: dict[str, float | int]) -> list[str]:
     """`key: number` lines in a PR body whose key is a report number must match it."""
     bad = []
@@ -251,6 +295,13 @@ def verify(
 ) -> Report:
     rep = Report()
     now = now or datetime.now(UTC)
+    from ev_pipeline.refresh.lock import refusal
+
+    busy = refusal(data_dir)
+    if busy is not None:  # G-49: never rebuild from a staging that refresh is still writing
+        rep.sections["rebuild"] = {"status": "refused", "error": busy}
+        rep.fail(busy)
+        return rep
     latest = latest_number(data_dir)
     old_cat = None
     if latest is not None:
@@ -264,6 +315,9 @@ def verify(
         csv_path = scratch / "review" / "release_diff.csv"
         if csv_path.exists():
             rep.release_diff_csv = csv_path.read_text(encoding="utf-8")
+    late = refusal(data_dir)
+    if late is not None:  # G-49: a refresh started while we rebuilt; the rebuild may be mixed
+        rep.fail(f"a refresh started during the rebuild: {late}")
     qa = built.get("qa")
     rep.sections["rebuild"] = {
         k: v for k, v in built.items() if k in ("status", "error", "release")
@@ -298,6 +352,24 @@ def verify(
     rules = changed_rules(repo, base)
     rep.sections["changed_rules"] = {"files": rules, "base": base}
     rep.sections["spot_checks"] = {"rows": spot_checks(cat, old_cat, tricky or load_tricky())}
+    seed_file = data_dir / "seed" / "variants.yaml"
+    if cat is not None and seed_file.exists():
+        seed_doc = yaml.safe_load(seed_file.read_text(encoding="utf-8"))
+        items = seed_mismatch_items(cat, seed_doc)
+        bad = [m for _, m in items]
+        # Already in the previous release (same row and kind, whatever the value now): listed,
+        # not a failure of this change (the owner lane fixes the seed); a mismatch the
+        # previous release did not have fails the run. Baseline = release N-1, not main.
+        before = {k for k, _ in seed_mismatch_items(old_cat, seed_doc)} if old_cat else set()
+        new = [m for k, m in items if k not in before]
+        rep.sections["seed_check"] = {
+            "status": "fail" if new else "pass", "mismatches": new,
+            "pre_existing": [m for k, m in items if k in before], "baseline": latest,
+        }  # fmt: skip
+        rep.numbers["seed_mismatches"] = len(bad)
+        rep.numbers["seed_mismatches_new"] = len(new)
+        for b in new:
+            rep.fail(f"seed check (G-48): {b}")
     if pr_body is not None:
         bad = check_claims(pr_body, rep.numbers)
         rep.sections["claims"] = {"status": "fail" if bad else "pass", "mismatches": bad}
@@ -365,6 +437,15 @@ def report_md(rep: Report) -> str:
             a, b = r["values"][f]
             cells.append(_fmt(b) if a == b else f"**{_fmt(a)} -> {_fmt(b)}**")
         out.append(f"| {r['variant_id']} | " + " | ".join(cells) + f" | {', '.join(r['notes'])} |")
+    if "seed_check" in s:
+        out += ["", "## Seed vs built (G-48: drivetrain, WLTP vs cited)", ""]
+        sc = s["seed_check"]
+        out += [f"- **new:** {m}" for m in sc["mismatches"]]
+        out += [
+            f"- already in release {sc.get('baseline')}: {m}" for m in sc.get("pre_existing") or []
+        ]
+        if not sc["mismatches"] and not sc.get("pre_existing"):
+            out.append("all match")
     if "claims" in s:
         out += ["", "## PR body claims", ""]
         out += [f"- {m}" for m in s["claims"]["mismatches"]] or ["all match"]

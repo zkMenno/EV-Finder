@@ -405,6 +405,15 @@ approved:
     change: cleared
   - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.band", change: changed}
   - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.rural.band", change: changed}
+  # T-155: version guard (qa/value_guard.guard_versions); 1 blocking change on the same staging
+  - &t155
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #189 (T-155)"
+    reason: "T-155: TGK versions whose own best-case WLTP is more than 15 % from the row's shipped WLTP are another battery or approval family; their consumption and worst-case WLTP go to review (data/review/conflicts.csv) instead of the row. The Taycan Turbo S (shipped WLTP 405 km, RDW) lost the 20.6 kWh/100km of versions with a 493 km best case; ADEME and the remaining TGK versions agree on 22.3. Measured: same-staging build of main vs the T-155 branch (2026-11-19), 13 rows changed, this the only blocking line."
+    id: porsche-taycan-gen1-turbo-s
+    field: "consumption_*"
+    change: changed
   # T-156: the E-Tourneo Courier 2026 update (46 kWh, Ford 16.02.2026) gets its own seed row,
   # years 2026 onward. Measured: ev verify on staging recorded 2026-11-19, 2 blocking lines, both below.
   - &t156

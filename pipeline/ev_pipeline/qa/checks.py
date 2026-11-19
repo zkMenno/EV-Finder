@@ -412,6 +412,15 @@ def impossible_values(
                 wltp,
                 f"{wltp / net:.1f} km/kWh > {MAX_WLTP_KM_PER_KWH:g}",
             )
+        worst = r.get("wltp_range_km_worst")
+        if _num(worst) and _num(wltp) and worst > wltp + EPS:  # T-155 (Leaf e+ 410 > 385)
+            add(
+                r,
+                "wltp_worst_gt_best",
+                "wltp_range_km_worst",
+                worst,
+                f"worst case {worst} > best case {wltp} km",
+            )
         avg, peak = r.get("dc_avg_10_80_kw"), r.get("dc_peak_kw")
         if _num(avg) and _num(peak) and avg > peak + EPS:
             add(r, "dc_avg_gt_peak", "dc_avg_10_80_kw", avg, f"average {avg} > peak {peak} kW")
