@@ -311,3 +311,52 @@ approved:
     id: nissan-leaf-ze1-62-kwh
     field: "cells*wh_km"
     change: changed
+  # T-151: release 4 vs release 3, four cars fixed with maker documents (WS0 INBOX 2026-11-18 19:14).
+  # Measured: isolated rebuild main vs t-151-van-leaf-ioniq5-data on the same staging (recorded
+  # 2026-11-19), 71 blocking lines from T-151, all on the ids below.
+  - &t151
+    release: 4
+    file: catalogue.json
+    approved_by: "T-151 (gate PR for the T-151 data PR)"
+    reason: "T-151: Ford of Europe (15.10.2024) gives the E-Tourneo Courier 43 kWh usable and up to 288 km WLTP; Open EV Data's 51 kWh / 350 km is replaced (data/manual/specs/t151-van-leaf-ioniq5.yaml, Decision 068). Real range 280 -> 230 km, DC minutes and held-peak time follow the smaller battery; its rural daily-driver score drops to ruled-out (range too short)."
+    id: ford-e-tourneo-courier-gen1-base
+    field: battery_kwh_net
+    change: changed
+  - {<<: *t151, id: ford-e-tourneo-courier-gen1-base, field: wltp_range_km, change: changed}
+  - {<<: *t151, id: ford-e-tourneo-courier-gen1-base, field: real_range_km, change: changed}
+  - {<<: *t151, id: ford-e-tourneo-courier-gen1-base, field: "dc_*", change: changed}
+  - {<<: *t151, file: shortlist_scores.json, id: ford-e-tourneo-courier-gen1-base, field: "scores.*", change: changed}
+  - &t151i
+    release: 4
+    file: catalogue.json
+    approved_by: "T-151 (gate PR for the T-151 data PR)"
+    reason: "T-151: Open EV Data's Ioniq 5 MY2025 'Base' / 'AWD' files are the pre-facelift car (72.6 / 77.4 kWh, 507 km, 220 kW DC, weight, EPA). They are held (source_holds) and the two 84 kWh facelift rows become seed rows under the same ids, years 2024 onward. Base WLTP 507 -> 570 km (Hyundai / EU type approval F5E22, already cited in T-140), real range follows. DC peak, curve, held-peak time, weight and EPA range of the old car clear; Hyundai UK (18.07.2024) gives 10-80 % in 18 min, which replaces 23.8 min. Without a facelift DC curve the road-tripper band reads not-enough-data (score base 66.2 -> 61.1, AWD 52.3 -> 49.0) until WS1 derives charging speed from a cited 10-80 time."
+    id: hyundai-ioniq-5-facelift-base
+    field: "dc_*"
+    change: cleared
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-base, field: "dc_*", change: changed}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-base, field: wltp_range_km, change: changed}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-base, field: real_range_km, change: changed}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-base, field: epa_range_km, change: cleared}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-base, field: weight_kg, change: cleared}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-base, field: year_start, change: changed}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-base, field: year_end, change: cleared}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-awd, field: "dc_*", change: cleared}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-awd, field: "dc_*", change: changed}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-awd, field: weight_kg, change: cleared}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-awd, field: year_start, change: changed}
+  - {<<: *t151i, id: hyundai-ioniq-5-facelift-awd, field: year_end, change: cleared}
+  - {<<: *t151i, file: shortlist_scores.json, id: hyundai-ioniq-5-facelift-base, field: "scores.*", change: changed}
+  - {<<: *t151i, file: shortlist_scores.json, id: hyundai-ioniq-5-facelift-awd, field: "scores.*", change: changed}
+  - release: 4
+    file: consumption_matrix.json
+    approved_by: "T-151 (gate PR for the T-151 data PR)"
+    reason: "T-151: Open EV Data's Leaf 'nissan-leaf-ze1-62-kwh' row (110 kW) is the 160 kW e+ (Nissan Europe 09.01.2019; Nissan USA 2025 LEAF press kit: 110 kW only with the 40 kWh battery) and is retired to nissan-leaf-ze1-e-plus-62kwh. The 8 measured fueleconomy.gov tests that release 3 approved for the old id (&leaf62) now build this row's town / rural cells: wh_km and p90 edges move to the measured values (e.g. town t5 180.7 -> 159.8)."
+    id: nissan-leaf-ze1-e-plus-62kwh
+    field: "cells*wh_km"
+    change: changed
+  # T-148's Elroq approval (&t148) was scoped to release 3, but release 3 was built before PR #167,
+  # so the move first lands in release 4 and blocks every release-4 build (also on main). Same
+  # reason, carried to release 4.
+  - {<<: *t148, release: 4, id: skoda-elroq-gen1-base, field: "price_new.NL.amount", change: cleared}
+  - {<<: *t148, release: 4, file: used_prices.json, id: skoda-elroq-gen1-base, field: "*", change: removed}
