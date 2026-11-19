@@ -190,7 +190,7 @@
           "id": "older-version",
           "points": -6,
           "applies_with": null,
-          "rule": "An older version of a model that has a newer, better-charging version on the list."
+          "rule": "An older version in the same trim line (same model and drivetrain, similar power) as a newer, better-charging version on the list (Decision 088)."
         }
       ],
       "filter_presets": [
