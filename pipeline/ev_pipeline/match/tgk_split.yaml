@@ -76,3 +76,99 @@ variants:
   volkswagen-id4-gen1-gtx:
     motors: 2
     basis: "rdw-tgk 2026-11-19: GTX versions, no 30-min power (two drivetrain rows), 180 km/h"
+  # --- T-159 (batch: data T-159, 2026-11-19): ties by motor count, other trims' versions ---
+  # RDW TGK (CC0), staging recorded 2026-11-19 12:53 UTC. Type code = the TGK variant code.
+  # Kia EV3: F5E12 = 58.3 kWh, F5E22 = 81.4 kWh one motor (30-min 50 kW, WLTP 605 km), F5E34 /
+  # F5E44 = two motors (no 30-min power, WLTP 572 km). Before: every F5E22 / F5E34 / F5E44
+  # version tied Long Range vs Long Range AWD.
+  kia-ev3-gen1-standard-range:
+    type_codes: [F5E12]
+    basis: "rdw-tgk 2026-11-19: F5E12 versions, 30-min 50 kW, WLTP 436 km (65 kWh drawn)"
+  kia-ev3-gen1-long-range:
+    type_codes: [F5E22]
+    basis: "rdw-tgk 2026-11-19: F5E22 versions, 30-min 50 kW, WLTP 605 km (90 kWh drawn)"
+  kia-ev3-gen1-awd:
+    type_codes: [F5E34, F5E44]
+    motors: 2
+    basis: "rdw-tgk 2026-11-19: F5E34 / F5E44 versions, no 30-min power (two motors), WLTP 572 km"
+  # Kia EV6 facelift (2024-): F5E12 = 63 kWh (not seeded, stays unplaced), F5E22 = 84 kWh one
+  # motor (30-min 56 kW, WLTP 560-582 km), F5E44 = two motors (no 30-min power, 188 km/h,
+  # WLTP 522 km), F5E64 = GT (260 km/h, not seeded: ruled out of both, review).
+  kia-ev6-facelift-84kwh-rwd:
+    type_codes: [F5E22]
+    basis: "rdw-tgk 2026-11-19: F5E22 versions, 30-min 56 kW, 185 km/h, WLTP 560-582 km"
+  kia-ev6-facelift-84kwh-awd:
+    type_codes: [F5E44]
+    motors: 2
+    basis: "rdw-tgk 2026-11-19: F5E44 versions, no 30-min power (two motors), 188 km/h, WLTP 522 km"
+  # MINI Countryman (U25): E = one motor, 30-min 68 kW, 170 km/h (uitvoering 41GA / 81GA, WLTP
+  # 462-501 km); SE ALL4 = two motors, no 30-min power, 180 km/h (51GA / 11HP, WLTP 432-467 km).
+  # Split on top speed (holds across both type codes), not on the uitvoering codes.
+  mini-countryman-e-gen1-e:
+    top_speed_kmh: [170]
+    basis: "rdw-tgk 2026-11-19: COUNTRYMAN E versions, 30-min 68 kW, 170 km/h, WLTP 462-501 km"
+  mini-countryman-e-gen1-se-all4:
+    top_speed_kmh: [180]
+    motors: 2
+    basis: "rdw-tgk 2026-11-19: COUNTRYMAN SE ALL4 versions, no 30-min power, 180 km/h, WLTP 432-467 km"
+  # Hyundai Inster: the 42 kWh (71 kW) versions state 30-min 23.7 kW and 140 km/h (F4E12 /
+  # F5E12, WLTP 303-327 km); the 49 kWh (84 kW) versions 30-min 28.2 kW and 150 km/h (F4E22,
+  # WLTP 293-370 km). Energy drawn (47 vs 55 kWh) fits both packs' wide bands, so it tied.
+  hyundai-inster-gen1-42kwh:
+    power_30min_kw: [23.7]
+    top_speed_kmh: [140]
+    basis: "rdw-tgk 2026-11-19: F4E12 / F5E12 versions, 30-min 23.7 kW, 140 km/h, WLTP 303-327 km"
+  hyundai-inster-gen1-49kwh:
+    power_30min_kw: [28.2]
+    top_speed_kmh: [150]
+    basis: "rdw-tgk 2026-11-19: F4E22 versions, 30-min 28.2 kW, 150 km/h, WLTP 293-370 km"
+  # Hyundai Ioniq 5 facelift (2024-): every version's TGK trade-name list reads "IONIQ5 / IONIQ5 N",
+  # so the name word "N" put the 84 kWh versions on the N row (T-155 guard: 530-570 km held there).
+  # The N is F5E74 (260 km/h, WLTP 448 km); F5E22 / A5E22 = 84 kWh one motor (30-min 56 kW, WLTP
+  # 515-570 km); F5E34 / A5E34 = 84 kWh two motors (WLTP 495-546 km); F5E12 = 63 kWh (440 km).
+  hyundai-ioniq-5-facelift-n:
+    type_codes: [F5E74]
+    top_speed_kmh: [260]
+    basis: "rdw-tgk 2026-11-19: F5E74 versions (trade name IONIQ5 N), 260 km/h, WLTP 448 km"
+  hyundai-ioniq-5-facelift-base:
+    type_codes: [F5E22, A5E22]
+    basis: "rdw-tgk 2026-11-19: F5E22 / A5E22 versions, 30-min 56 kW, 185 km/h, WLTP 515-570 km"
+  hyundai-ioniq-5-facelift-awd:
+    type_codes: [F5E34, A5E34]
+    basis: "rdw-tgk 2026-11-19: F5E34 / A5E34 versions, 185 km/h, WLTP 495-546 km (one A5E34 states a 30-min power, so no motors: 2)"
+  hyundai-ioniq-5-facelift-63kwh-rwd:
+    type_codes: [F5E12]
+    basis: "rdw-tgk 2026-11-19: F5E12 versions, 30-min 42 kW, WLTP 440 km (68.6 kWh drawn)"
+  # Audi e-tron 55 (GE, 2019-): variant codes XBM1JQ1 / SBM1JQ1 (Sportback). The 2022 "Q8 55
+  # E-TRON" versions (XBM1JAQ1 / SBM1JAQ1, WLTP 629 km, first admitted 2022) fall in this
+  # generation's years and landed here (T-155 guard: held); they are not the e-tron 55: review.
+  # The other GE rows get their own codes too, or the Q8 versions move to whichever row has none.
+  audi-e-tron-ge-55:
+    type_codes: [XBM1JQ1, SBM1JQ1]
+    basis: "rdw-tgk 2026-11-19: E-TRON 55 / E-TRON SPORTBACK 55 versions, 200 km/h, WLTP 374-484 km"
+  audi-e-tron-ge-50:
+    type_codes: [XBM2RQ1, SBM2RQ1]
+    basis: "rdw-tgk 2026-11-19: E-TRON 50 / E-TRON SPORTBACK 50 versions, 190 km/h, WLTP 283-379 km"
+  audi-e-tron-ge-s:
+    type_codes: [XBMQ3Q1, SBMQ3Q1]
+    basis: "rdw-tgk 2026-11-19: E-TRON S / E-TRON S SPORTBACK versions, 210 km/h, WLTP 393 km"
+  # Porsche Taycan: the seed has one generation; its rows (OpenEV MY2023-25, 4S 463 km) are the
+  # pre-2024 car. TGK variant codes with second letter A-E are the 2020-23 versions, M-S the 2024
+  # update (4S JN22 / CN22 / SN22 676 km, Turbo S JP22 / CP22 / SP22 665 km; T-155 guard held
+  # them on the 4S / Turbo S rows). The 2024 versions now fit no row: review. Turbo GT is 2024-
+  # only (JR22 / JS22). Taycan 4 (CA22 / CM22 / JM22) and GTS (JE22 / SE22 / JQ22) have no row.
+  porsche-taycan-gen1-base:
+    type_codes: [JA12, SA12]
+    basis: "rdw-tgk 2026-11-19: TAYCAN (RWD) JA12 / SA12 versions, 230 km/h, 2021-22"
+  porsche-taycan-gen1-4s:
+    type_codes: [JB22, CB22, SB22]
+    basis: "rdw-tgk 2026-11-19: TAYCAN 4S JB22 / CB22 (Cross Turismo) / SB22 (Sport Turismo) versions, 2020-23"
+  porsche-taycan-gen1-turbo:
+    type_codes: [JC22, CC22, SC22]
+    basis: "rdw-tgk 2026-11-19: TAYCAN TURBO JC22 / CC22 / SC22 versions, 2020-23"
+  porsche-taycan-gen1-turbo-s:
+    type_codes: [JD22, CD22, SD22]
+    basis: "rdw-tgk 2026-11-19: TAYCAN TURBO S JD22 / CD22 / SD22 versions, 2020-24"
+  porsche-taycan-gen1-turbo-gt:
+    type_codes: [JR22, JS22]
+    basis: "rdw-tgk 2026-11-19: TAYCAN TURBO GT JR22 / JS22 versions (290 / 305 km/h), 2024-"
