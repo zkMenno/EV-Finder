@@ -7,7 +7,7 @@ The web ranking uses the release's own popularity figures instead of its own scr
 
 ## Acceptance criteria
 - [ ] `apps/web/scripts/popularity.mjs` reads `generations[].popularity` from the release (T-149) instead of computing its own; same ranking within the back-test tolerance (Spearman ≥ 0.95 vs today, number in the PR body). Old releases without the field still build (D5 N-1).
-- [ ] `apps/web/scripts/fetch-release.mjs` unpacks `images.tar` when the release has one (Decision 086) and checks each file's sha256 from the manifest; releases 1–3 without a bundle still work.
+- [ ] `apps/web/scripts/fetch-release.mjs` unpacks (done now, ahead of T-146, so the photo path is ready when rows need it) `images.tar` when the release has one (Decision 086) and checks each file's sha256 from the manifest; releases 1–3 without a bundle still work.
 - [ ] Unit tests with fixtures; web lint, types, tests, build green locally first.
 
 ## Inputs
