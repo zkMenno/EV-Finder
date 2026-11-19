@@ -609,6 +609,7 @@ export function Hero(props: HeroProps) {
           share={share}
           copied={copied}
           allCarsQuery={allCarsQuery}
+          onEditBudget={() => goTo("budget")}
         />
               </div>
             </div>
@@ -941,6 +942,8 @@ interface ResultsProps {
   copied: boolean;
   /** Hero answers as a query for the catalogue link (suggested sort). */
   allCarsQuery: string;
+  /** Back to the budget question (T-152: "Raise your budget"). */
+  onEditBudget: () => void;
 }
 
 function Results(r: ResultsProps) {
@@ -1055,6 +1058,23 @@ function Results(r: ResultsProps) {
               <LineCard key={p.row.model_id} pick={p} r={r} />
             ))}
           </ul>
+        </div>
+      ) : null}
+      {result?.status === "ranked" && r.hero.budget !== null && (result.unpricedFar > 0 || result.unpricedCapped > 0) ? (
+        // T-152: fewer fill-ins than before, so say which were left out and why, and offer a way on.
+        <div className="mt-4 rounded-md border border-[var(--line)] p-3 text-sm" role="note" data-testid="hero-left-out">
+          {result.unpricedFar > 0 ? <p data-testid="hero-left-out-far">{t("hero.results.leftOutFar", { n: result.unpricedFar })}</p> : null}
+          {result.unpricedCapped > 0 ? (
+            <p className={result.unpricedFar > 0 ? "mt-1" : undefined} data-testid="hero-left-out-capped">
+              {t("hero.results.leftOutCapped", { n: result.unpricedCapped })}
+            </p>
+          ) : null}
+          {/* Only a car left out for its price comes back with a higher budget; the cap does not lift. */}
+          {result.unpricedFar > 0 ? (
+            <button type="button" onClick={r.onEditBudget} className="evs-btn-out mt-2" data-testid="hero-raise-budget">
+              {t("hero.results.raiseBudget")}
+            </button>
+          ) : null}
         </div>
       ) : null}
       {r.props.learnLinks?.length ? (

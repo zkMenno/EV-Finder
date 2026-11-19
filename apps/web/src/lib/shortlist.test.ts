@@ -455,7 +455,7 @@ describe("budget rule (Decision 064)", async () => {
       expect(res.shortlistN).toBe(2);
       expect(res.picks.slice(0, 2).every((p) => p.price !== null)).toBe(true);
     });
-    it("release-2 shape (NL road-tripper €15k): 1 priced car + 8 higher-scoring unpriced → 1 ranked pick, the rest unranked (A-35 B2)", () => {
+    it("release-2 shape (NL road-tripper €15k): 1 priced car + 8 higher-scoring unpriced → 1 ranked pick, then at most 3 unranked (A-35 B2, T-152)", () => {
       // Release 2 had Dacia Spring (€13,600 estimate, score 54) and 8 unpriced premium models
       // (Zeekr 001 78.9 … GV60 39.2). The unpriced cars may not take places 2-5.
       const spring = scored(withBands("spring", [model(2024, 13600)], { model_id: "spring" }), "road-tripper", 54);
@@ -463,7 +463,9 @@ describe("budget rule (Decision 064)", async () => {
       const res = rankHero([...premium, spring], roadTripper, q(15000), on);
       expect(res.priced).toBe(1);
       expect(res.shortlistN).toBe(1);
-      expect(res.picks.map((p) => p.rank)).toEqual([1, null, null, null, null, null, null, null, null]);
+      // T-152: with a budget, at most UNPRICED_MAX unpriced fill-ins (was 8); the cut ones are counted.
+      expect(res.picks.map((p) => p.rank)).toEqual([1, null, null, null]);
+      expect(res.unpricedCapped).toBe(5);
       expect(res.picks[0]!.row.variant_id).toBe("spring");
       // No unpriced car carries a place number in 1-5, or anywhere.
       for (const p of res.picks) expect(p.rank === null).toBe(p.price === null);
@@ -504,6 +506,72 @@ describe("budget rule (Decision 064)", async () => {
       // A model with no price anywhere stays (unpriced, last), as Decision 064 says.
       const lone = scored(row("y-free", { model_id: "y", generation_id: "y-g1" }), "road-tripper", 99);
       expect(rankHero([dear, lone], roadTripper, q(15000), on).picks.map((p) => [p.row.variant_id, p.price])).toEqual([["y-free", null]]);
+    });
+    describe("unpriced fill-ins at a small budget (T-152)", () => {
+      const spring = scored(withBands("spring", [model(2024, 13600)], { model_id: "spring", segment: "A" }), "road-tripper", 54);
+      const unp = (id: string, score: number, o: Partial<ExploreRow> = {}) => scored(row(id, { model_id: id, generation_id: `${id}-g`, ...o }), "road-tripper", score);
+      it("a car priced only in another country at more than 2× the budget is no fill-in; at 2× or less it stays", () => {
+        const dear = unp("dear-de", 90, { price_new: { DE: { amount: 77250, currency: "EUR" } } });
+        const near = unp("near-de", 80, { price_new: { DE: { amount: 30000, currency: "EUR" } } });
+        const res = rankHero([dear, near, spring], roadTripper, q(15000), on);
+        expect(res.picks.map((p) => p.row.variant_id)).toEqual(["spring", "near-de"]);
+        expect(res.unpricedFar).toBe(1);
+        expect(res.overBudget).toBe(1);
+        // No price is made up: the fill-in still has none.
+        expect(res.picks[1]!.price).toBeNull();
+      });
+      it("a used band in another country counts; the cheapest price we hold decides", () => {
+        const usedFr = unp("used-fr", 90, { used_bands: { FR: [[2022, null, 40000, null, 0]] } as never });
+        const mixed = unp("mixed", 85, { price_new: { DE: { amount: 60000, currency: "EUR" } }, used_bands: { BE: [[2020, null, 25000, null, 0]] } as never });
+        const res = rankHero([usedFr, mixed, spring], roadTripper, q(15000), on);
+        expect(res.picks.map((p) => p.row.variant_id)).toEqual(["spring", "mixed"]);
+      });
+      it("other currencies are never compared or converted", () => {
+        const gbp = unp("gbp", 90, { price_new: { UK: { amount: 90000, currency: "GBP" } } });
+        expect(rankHero([gbp, spring], roadTripper, q(15000), on).picks.map((p) => p.row.variant_id)).toEqual(["spring", "gbp"]);
+      });
+      it("no price for the car: its generation's prices elsewhere, else its segment's cheapest car", () => {
+        const sib = scored(row("sib", { model_id: "g", generation_id: "g-g", price_new: { DE: { amount: 50000, currency: "EUR" } } }), "road-tripper", 10);
+        const noPriceSameGen = scored(row("same-gen", { model_id: "g2", generation_id: "g-g" }), "road-tripper", 90);
+        const lux = scored(row("lux-priced", { model_id: "lux", generation_id: "lux-g", segment: "F", price_new: { DE: { amount: 132000, currency: "EUR" } } }), "road-tripper", 10);
+        const luxFree = unp("lux-free", 95, { segment: "F" });
+        const smallFree = unp("small-free", 70, { segment: "A" });
+        const noSeg = unp("no-seg", 60);
+        const res = rankHero([sib, noPriceSameGen, lux, luxFree, smallFree, noSeg, spring], roadTripper, q(15000), on);
+        // Spring (€13.6k, segment A) keeps the A car in; nothing is known for no-seg, so it stays.
+        expect(res.picks.map((p) => p.row.variant_id)).toEqual(["spring", "small-free", "no-seg"]);
+        // sib and lux-priced (only priced abroad, far over), same-gen (via sib), lux-free (via segment F).
+        expect(res.unpricedFar).toBe(4);
+      });
+      it("at most 3 unpriced fill-ins with a budget, after every priced car; none dropped without a budget", () => {
+        const many = Array.from({ length: 8 }, (_, i) => unp(`free-${i}`, 90 - i));
+        const low = rankHero([...many, spring], roadTripper, q(15000), on);
+        expect(low.picks.map((p) => p.row.variant_id)).toEqual(["spring", "free-0", "free-1", "free-2"]);
+        expect([low.unpriced, low.unpricedCapped, low.qualifying]).toEqual([3, 5, 9]);
+        const none = rankHero([...many, spring], roadTripper, q(null), on);
+        expect(none.picks).toHaveLength(9);
+        expect(none.unpricedCapped).toBe(0);
+      });
+      it("ten priced cars leave no room: nothing counts as left out", () => {
+        const ten = Array.from({ length: 10 }, (_, i) => scored(withBands(`p${i}`, [model(2021, 10000 + i * 100)]), "road-tripper", 50 + i));
+        const res = rankHero([...ten, unp("far", 99, { price_new: { DE: { amount: 90000, currency: "EUR" } } }), unp("free", 98)], roadTripper, q(15000), on);
+        expect(res.priced).toBe(10);
+        expect([res.unpriced, res.unpricedFar, res.unpricedCapped]).toEqual([0, 0, 0]);
+      });
+      it("only unpriced, far-over cars: an empty list that can say why", () => {
+        const res = rankHero([unp("only-far", 90, { price_new: { DE: { amount: 99000, currency: "EUR" } } })], roadTripper, q(15000), on);
+        expect(res.picks).toEqual([]);
+        expect(res.unpricedFar).toBe(1);
+      });
+      it("'left out' counts only cars that would have been shown: an unscored or ruled-out far car isn't counted", () => {
+        const farPrice = { price_new: { DE: { amount: 99000, currency: "EUR" as const } } };
+        const ruled = scored(row("ruled", { model_id: "ruled", generation_id: "ruled-g", ...farPrice }), "road-tripper", 10, "ruled-out");
+        const unscoredFar = row("unscored", { model_id: "unscored", generation_id: "unscored-g", ...farPrice });
+        const shown = unp("shown-far", 90, farPrice);
+        const res = rankHero([ruled, unscoredFar, shown, spring], roadTripper, q(15000), on);
+        expect(res.picks.map((p) => p.row.variant_id)).toEqual(["spring"]);
+        expect(res.unpricedFar).toBe(1);
+      });
     });
     it("the visitor's refine filters can't hide the over-budget sibling", () => {
       const dear = scored(withBands("z-dear", [model(2023, 40000)], { model_id: "z", generation_id: "z-g1", real_range_km: 200 }), "road-tripper", 60);

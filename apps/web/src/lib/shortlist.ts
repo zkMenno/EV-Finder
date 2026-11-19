@@ -12,6 +12,7 @@ import { BAND_ESTIMATE, BAND_GENERATION, BAND_LOW, type ExploreRow } from "./exp
 import type { PriceHow } from "./variant-prices";
 import { comboFrom } from "./release-scores";
 import { applyFilters, priceFor } from "./filters";
+import { COUNTRIES } from "@/config/countries";
 import type { ExploreFilters } from "./state";
 
 // ── Rules (src/config/shortlist-rules.generated.json, from data/editorial/shortlist_rules.yaml) ──
@@ -515,8 +516,12 @@ export interface HeroResult {
   priced: number;
   /** Models that qualified (before cutting to TOP_N). */
   qualifying: number;
-  /** How many of the qualifying picks have no price yet. */
+  /** How many of the picks have no price yet. */
   unpriced: number;
+  /** T-152: models left out as fill-ins because what we know of their price is far over budget (only when there was room). */
+  unpricedFar: number;
+  /** T-152: unpriced models that fit but were cut by the UNPRICED_MAX cap. */
+  unpricedCapped: number;
   ruledOutByGate: number;
   overBudget: number;
   /** Variants that passed the filters but have no release score for this profile. */
@@ -549,6 +554,58 @@ export function siblingsOverBudget(
   return (row) => (groups.get(`g:${row.generation_id}`) ?? groups.get(`m:${row.model_id}`)) === "over";
 }
 
+/** An unpriced fill-in is left out when the cheapest price we hold is above this × the budget (T-152). */
+export const FAR_OVER_FACTOR = 2;
+/** At most this many unpriced fill-ins, after every priced car, when a budget is set (T-152). */
+export const UNPRICED_MAX = 3;
+
+const CURRENCY_OF: Partial<Record<string, string>> = Object.fromEntries(Object.values(COUNTRIES).map((c) => [c.code, c.currency]));
+
+/**
+ * Every price the release holds for a row in `currency`, any country (T-152): new list prices
+ * (on sale or not) and used band medians. Other currencies are skipped, never converted.
+ */
+export function heldPrices(row: ExploreRow, currency: string): number[] {
+  const out: number[] = [];
+  for (const m of Object.values(row.price_new ?? {})) if (m && m.currency === currency) out.push(m.amount);
+  for (const [cc, bands] of Object.entries(row.used_bands ?? {})) {
+    if (CURRENCY_OF[cc] !== currency) continue;
+    for (const b of bands ?? []) out.push(b[2]);
+  }
+  return out;
+}
+
+/**
+ * T-152: an unpriced car (no price where the visitor lives) is not used as a fill-in when the
+ * cheapest price we hold for it elsewhere is more than FAR_OVER_FACTOR × the budget. Evidence, in
+ * order: the car's own prices in other countries; else its generation's; else, for a car with no
+ * price anywhere, the cheapest car of its segment (an E or F segment car isn't shown at €15k
+ * because no E/F car we know of costs under €30k). Same currency only. It only ever removes a car;
+ * no price is made up or shown for it. No budget: never.
+ */
+export function farOverBudget(rows: readonly ExploreRow[], q: Pick<HeroQuery, "budget" | "country">): (row: ExploreRow) => boolean {
+  if (q.budget === null) return () => false;
+  const currency = CURRENCY_OF[q.country];
+  if (!currency) return () => false;
+  const limit = q.budget * FAR_OVER_FACTOR;
+  const own = new Map<ExploreRow, number>();
+  const gen = new Map<string, number>();
+  const seg = new Map<string, number>();
+  const lower = (m: Map<string, number>, k: string, v: number) => m.set(k, Math.min(m.get(k) ?? Infinity, v));
+  for (const r of rows) {
+    const held = heldPrices(r, currency);
+    if (!held.length) continue;
+    const min = Math.min(...held);
+    own.set(r, min);
+    lower(gen, r.generation_id, min);
+    if (r.segment) lower(seg, r.segment, min);
+  }
+  return (row) => {
+    const cheapest = own.get(row) ?? gen.get(row.generation_id) ?? (row.segment ? seg.get(row.segment) : undefined);
+    return cheapest !== undefined && cheapest > limit;
+  };
+}
+
 export function rankHero(
   rows: readonly ExploreRow[],
   rp: ResolvedProfile,
@@ -556,7 +613,7 @@ export function rankHero(
   opts: { hasScores: boolean },
   rules: ShortlistRules = RULES,
 ): HeroResult {
-  const empty: HeroResult = { status: "no-scores", picks: [], shortlistN: 0, priced: 0, qualifying: 0, unpriced: 0, ruledOutByGate: 0, overBudget: 0, unscored: 0 };
+  const empty: HeroResult = { status: "no-scores", picks: [], shortlistN: 0, priced: 0, qualifying: 0, unpriced: 0, unpricedFar: 0, unpricedCapped: 0, ruledOutByGate: 0, overBudget: 0, unscored: 0 };
   if (!opts.hasScores) return empty;
   const presets = presetsFor(rp).filter((p) => !q.presetsOff.includes(p.field));
   let ruledOutByGate = 0;
@@ -571,6 +628,8 @@ export function rankHero(
     return v;
   };
   const over = siblingsOverBudget(rows, q, pf);
+  const far = farOverBudget(rows, q);
+  const farModels = new Set<string>();
   for (const row of applyFilters([...rows], q.filters, q.country)) {
     if (q.cond === "new" && row.on_sale_new !== true) continue;
     const checks = presets.map((p) => [p.field, presetCheck(row, p)] as const);
@@ -589,6 +648,13 @@ export function rankHero(
     }
     if (result.band === "ruled-out") {
       ruledOutByGate++;
+      continue;
+    }
+    // T-152: nor does an unpriced car whose prices elsewhere (else its segment's) are far over budget.
+    // Checked after the score and gate, so "left out" counts only cars that would have been shown.
+    if (status === "unpriced" && far(row)) {
+      overBudget++;
+      farModels.add(row.model_id);
       continue;
     }
     const pick = {
@@ -624,15 +690,24 @@ export function rankHero(
   );
   // Only priced cars get a place number: an unpriced car is never a ranked pick, so it can't sit in
   // places 1-5 when fewer than 5 priced cars fit (A-35 B2 on release 2: 1 priced + 8 unpriced at €15k).
-  const picks = sorted.slice(0, TOP_N).map(({ count, ...p }, i) => ({ ...p, rank: p.price !== null ? i + 1 : null, alternatives: count - 1 }));
-  const priced = picks.filter((p) => p.price !== null).length;
+  // With a budget, at most UNPRICED_MAX unpriced fill-ins follow the priced cars (T-152).
+  const pricedAll = sorted.filter((p) => p.price !== null);
+  const unpricedAll = sorted.filter((p) => p.price === null);
+  const pricedTop = pricedAll.slice(0, TOP_N);
+  const room = TOP_N - pricedTop.length;
+  const fill = unpricedAll.slice(0, q.budget === null ? room : Math.min(room, UNPRICED_MAX));
+  const picks = [...pricedTop, ...fill].map(({ count, ...p }, i) => ({ ...p, rank: p.price !== null ? i + 1 : null, alternatives: count - 1 }));
+  const priced = pricedTop.length;
+  for (const m of best.keys()) farModels.delete(m);
   return {
     status: "ranked",
     picks,
     shortlistN: Math.min(SHORTLIST_N, priced),
     priced,
     qualifying: sorted.length,
-    unpriced: picks.filter((p) => p.price === null).length,
+    unpriced: fill.length,
+    unpricedFar: room > 0 ? farModels.size : 0,
+    unpricedCapped: Math.min(unpricedAll.length, room) - fill.length,
     ruledOutByGate,
     overBudget,
     unscored,
