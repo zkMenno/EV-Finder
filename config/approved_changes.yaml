@@ -442,7 +442,7 @@ approved:
     id: porsche-taycan-gen1-turbo-s
     field: "consumption_*"
     change: changed
-  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 6 blocking lines on the same staging
+  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 8 blocking lines on the same staging
   - &t159taycan
     release: 4
     file: catalogue.json
