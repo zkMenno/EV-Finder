@@ -119,6 +119,14 @@
    misfits go to review ("tgk: several variants fit" / "tgk: no variant fits"). A TGK year
    shared by two generations (e-Golf 2017) is decided the same way across both generations'
    variants.
+   Split evidence (T-153, match/tgk_split.yaml): variants that share a pack (e-208 50 vs
+   51 kWh, Model Y LR vs Performance, ID.4 Pro vs GTX) are told apart by the values their
+   TGK versions carry per seed variant: type code, 30-minute power, top speed, and
+   `motors: 2` (versions that state a 30-minute power are not that variant). A candidate is
+   only ruled out by its own listed value; all ruled out -> review. See `tgk_split_pool`.
+   Cited power wins (T-153, Decision 068 / 087): an aliased record whose power contradicts
+   the seed's cited maker power, but whose battery agrees, joins the seed variant and its
+   power_kw is withheld (validation.csv, "power contradicts the cited maker power").
 
 Nothing here decides values: that is merge's job.
 """
@@ -131,6 +139,7 @@ import re
 from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from ev_pipeline.match.normalise import key, prefix_keys, slug, tokens
 from ev_pipeline.match.seed import (
@@ -262,6 +271,10 @@ NO_BATTERY_MATCH = "battery contradicts the seed variant"
 # `source_names` alias whose power differs from the seed's by more than 5 % is another car.
 SEED_POWER_GATE_REL = 0.05
 NO_SEED_POWER_MATCH = "power contradicts the seed variant"
+# T-153 (Decision 068 / 087): a power figure the seed cites from a maker document beats a
+# record's contradicting power. An aliased record whose battery agrees with the seed then
+# joins, and its own power_kw is withheld (validation.csv), never published.
+CITED_POWER_WINS = "power contradicts the cited maker power: withheld"
 # `source_holds` in variants.yaml (see 4 above): records sent to review by name and year.
 SOURCE_HOLD = "source hold"
 # Year-band split thresholds (relative difference to the band's first year).
@@ -396,6 +409,10 @@ class MatchResult:
     # not let those seed facts anchor a year band on such a variant.
     aliased: set[str] = field(default_factory=set)
     seed_record_keys: set[str] = field(default_factory=set)
+    # T-153: seed-manual variant id -> power_kw it cites from a maker document (`cited:`).
+    seed_cited_power: dict[str, set[float]] = field(default_factory=dict)
+    # T-153: TGK split evidence per variant id (match/tgk_split.yaml, `load_tgk_split`).
+    tgk_split: dict[str, dict[str, set[str]]] = field(default_factory=dict)
 
 
 def priority_of(source_id: str) -> int:
@@ -806,13 +823,16 @@ def match_records(
     scoped_aliases: bool | None = None,
     eea_corroboration: bool | None = None,
     holds: list[SourceHold] | None = None,
+    tgk_split: dict[str, dict[str, set[str]]] | None = None,
 ) -> MatchResult:
     """`generation_kwh`: optional battery sizes per generation (e.g. from battery_packs.yaml
     via variant_links.yaml), used as evidence for shared-year records. `scoped_aliases`:
     None = env EV_SCOPED_ALIASES / default (see `scoped_aliases_enabled`); `eea_corroboration`
     likewise (EV_EEA_CORROBORATION, `eea_corroboration_enabled`). `holds`: `source_holds`
-    from variants.yaml (records that go to review by name and model year)."""
+    from variants.yaml (records that go to review by name and model year). `tgk_split`: TGK
+    split evidence per variant (None = match/tgk_split.yaml, see `load_tgk_split`)."""
     result = MatchResult()
+    result.tgk_split = load_tgk_split() if tgk_split is None else tgk_split
     scoped = scoped_aliases_enabled(scoped_aliases)
     result.scoped_aliases = scoped
     corroborate = eea_corroboration_enabled(eea_corroboration)
@@ -864,6 +884,9 @@ def match_records(
         power = set().union(*(_spec_num(r, "power_kw") for r in mv.records))
         if power:
             result.seed_power[mv.id] = power
+        cited_power = set().union(*(_spec_num(r, "power_kw") for r in mv.cited_records))
+        if cited_power:
+            result.seed_cited_power[mv.id] = cited_power
         result.matched_records += 1
 
     ordered = sorted(
@@ -941,6 +964,15 @@ def match_records(
             )
             continue
         rp, sp = record_power(rec), result.seed_power.get(vid, set())
+        if (
+            aliased
+            and rp
+            and sp
+            and not _close_rel(rp, sp, SEED_POWER_GATE_REL)
+            and _cited_power_wins(rec, vid, rp, rk, result)
+        ):
+            rec = _without_power(rec, vid, result)
+            rp = set()
         if aliased and rp and sp and not _close_rel(rp, sp, SEED_POWER_GATE_REL):
             # Seed power gate (see 4 above): same name or alias, different motor.
             result.unmatched.append(
@@ -963,6 +995,35 @@ def match_records(
     attach_records(deferred, result, multi_gen)
     result.corroboration_facts = _best_corroboration(result.corroboration_facts)
     return result
+
+
+def _cited_power_wins(
+    rec: SourceRecord, vid: str, rp: set[float], rk: set[tuple[float, str]], result: MatchResult
+) -> bool:
+    """T-153: the seed's cited maker power overrules the record's power when the record's
+    battery positively agrees with the seed (a different motor on the same name stays out:
+    without battery evidence the seed power gate still applies). The record's power only
+    lifts the gate when it differs from the cited figure itself, not just from a spec one."""
+    cited = result.seed_cited_power.get(vid)
+    seed_kwh = result.seed_kwh.get(vid)
+    if not cited or not rk or not seed_kwh or battery_contradicts(rk, seed_kwh):
+        return False
+    return not _close_rel(rp, cited, SEED_POWER_GATE_REL)
+
+
+def _without_power(rec: SourceRecord, vid: str, result: MatchResult) -> SourceRecord:
+    """The record with its power_kw spec left out (it never becomes a Fact), logged."""
+    sv = rec.specs.get(FactField.power_kw)
+    cited = _num_text(result.seed_cited_power[vid])
+    shown = _num_text(record_power(rec))
+    result.problems.append(
+        Problem(
+            "match", rec.source.id.root, rec.record_key, vid, FactField.power_kw.value,
+            shown, sv.unit if sv else "kW", f"{CITED_POWER_WINS} ({shown} vs {cited} kW cited)",
+        )
+    )  # fmt: skip
+    specs = {k: v for k, v in rec.specs.items() if k != FactField.power_kw}
+    return rec.model_copy(update={"specs": specs})
 
 
 def _add_corroboration(
@@ -1336,9 +1397,85 @@ TGK_YEAR_SLACK = 1
 # A-05 F12: "no 30-minute power -> prefer AWD" infers from a missing field, so it is off;
 # such ties go to review. Kept as a switch so its effect can be measured.
 TGK_AWD_TIE_BREAK = False
+TGK_SPLIT_FILE = Path(__file__).with_name("tgk_split.yaml")
+TGK_SPLIT_FIELDS = ("type_codes", "power_30min_kw", "top_speed_kmh")  # order applied (T-153)
 TGK_TIE = "tgk: several variants fit"
 TGK_MISFIT = "tgk: no variant fits"
 _RANGE_NUM_RE = re.compile(r"(?<!\d)(\d{3})(?!\d)(?!\s*(?:kw|ah|v\b|nm|ps|hp|km/h))", re.I)
+
+
+def load_tgk_split(path: Path = TGK_SPLIT_FILE) -> dict[str, dict[str, set[str]]]:
+    """match/tgk_split.yaml -> {variant id: {field: values as text}} (see the file)."""
+    import yaml
+
+    doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if doc.get("schema") != "tgk-split/v1":
+        raise ValueError(f"{path}: schema must be tgk-split/v1")
+    out: dict[str, dict[str, set[str]]] = {}
+    for vid, entry in (doc.get("variants") or {}).items():
+        unknown = set(entry) - set(TGK_SPLIT_FIELDS) - {"basis", "motors"}
+        if unknown or not entry.get("basis"):
+            raise ValueError(f"{path}: {vid}: needs a basis; unknown keys {sorted(unknown)}")
+        if entry.get("motors") not in (None, 1, 2):
+            raise ValueError(f"{path}: {vid}: motors must be 1 or 2")
+        out[str(vid)] = {
+            f: {_split_text(v) for v in entry[f]} for f in TGK_SPLIT_FIELDS if entry.get(f)
+        }
+        if entry.get("motors"):
+            out[str(vid)]["motors"] = {_split_text(entry["motors"])}
+    return out
+
+
+def _split_text(v: object) -> str:
+    """One form per value: numbers as "%g" (57, 57.0 -> "57"), codes upper-case."""
+    if isinstance(v, int | float) and not isinstance(v, bool):
+        return f"{float(v):g}"
+    return str(v).strip().upper()
+
+
+def tgk_type_codes(rec: SourceRecord) -> set[str]:
+    """The version's TGK variant code and its uitvoering prefix (before "-"), e.g. Model Y
+    "Y5LD" / Stellantis "ZKXZ" of "ZKXZ-J0A000", from the record key (sources/rdw_tgk)."""
+    parts = rec.record_key.rsplit(":", 1)[-1].split("|")
+    if len(parts) < 3:
+        return set()
+    return {_split_text(parts[1]), _split_text(parts[2].split("-")[0])} - {""}
+
+
+def tgk_split_pool(
+    rec: SourceRecord, pool: list[_Candidate], result: MatchResult
+) -> tuple[list[_Candidate], str]:
+    """T-153 split evidence for variants that share a pack, applied in TGK_SPLIT_FIELDS
+    order, then `motors`. Each step only rules out candidates whose known value contradicts
+    the version's; unknowns stay. (pool, "") or ([], misfit reason)."""
+    evidence = {
+        "type_codes": tgk_type_codes(rec),
+        "power_30min_kw": {_split_text(v) for v in _spec_num(rec, "power_30min_kw")},
+        "top_speed_kmh": {_split_text(v) for v in _spec_num(rec, "top_speed_kmh")},
+    }
+    for f in TGK_SPLIT_FIELDS:
+        have = evidence[f]
+        if not have:
+            continue
+        out = [
+            c for c in pool
+            if f in (known := result.tgk_split.get(c.root, {})) and not known[f] & have
+        ]  # fmt: skip
+        if out:
+            pool = [c for c in pool if c not in out]
+            if not pool:
+                return [], f"{TGK_MISFIT} the {f} ({'/'.join(sorted(have))})"
+    if evidence["power_30min_kw"]:
+        # `motors: 2` in the table: that variant's TGK versions never state a 30-minute power
+        # (one drivetrain row per motor), so a version that states one is not it (ID.4 GTX).
+        # Not a general rule: a missing figure says nothing, and some dual-motor versions
+        # carry a single row (I-Pace, A-05 F12), so only listed variants are ruled out.
+        out = [c for c in pool if result.tgk_split.get(c.root, {}).get("motors") == {"2"}]
+        if out:
+            pool = [c for c in pool if c not in out]
+            if not pool:
+                return [], f"{TGK_MISFIT} the motors (30-min power stated, only dual-motor left)"
+    return pool, ""
 
 
 def tgk_energies(rec: SourceRecord) -> list[float]:
@@ -1431,6 +1568,9 @@ def tgk_pick(
         pool = [c for c in pool if _year_fits(c, rec.year, result)]
         if not pool:
             return None, f"{TGK_MISFIT} year {rec.year} (+-{TGK_YEAR_SLACK})"
+    pool, why = tgk_split_pool(rec, pool, result)
+    if not pool:
+        return None, why
     words = _tgk_words(rec, drop)
     rec_kwh = kwh_in_text(rec.model, rec.variant_name)  # "NISSAN LEAF 24KWH"
     named = {}

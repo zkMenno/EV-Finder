@@ -16,7 +16,8 @@ Any change under `pipeline/ev_pipeline/{match,merge,derive,release,qa}/`, `*_par
 1. **Staging.** `ev verify` rebuilds from `data/staging/` and never fetches. With no staging,
    record it once (network, ~10 min, < 300 MB): `cd pipeline && uv run ev refresh --no-release`.
    Use a scratch `EV_DATA_DIR` when you don't want to touch your checkout's data/.
-2. **Run** `cd pipeline && uv run ev verify` (add `--data-dir` for a scratch data dir).
+2. **Run** `cd pipeline && uv run ev verify` (it refuses while `ev refresh` is writing
+   staging, G-49: wait for the refresh) (add `--data-dir` for a scratch data dir).
    It writes `pipeline/verify-report.md` (git-ignored) and exits 1 on any failure:
    rebuild failed, tests failed, release diff blocking, or a PR body claim that doesn't match.
 3. **Read the report**, in this order:
@@ -28,6 +29,9 @@ Any change under `pipeline/ev_pipeline/{match,merge,derive,release,qa}/`, `*_par
      doesn't block, but say it in the PR.
    - Changed rules: the dry run is the release diff. Check that the moves are the ones the
      rule change was meant to make, and nothing else.
+   - Seed vs built (G-48): a seed variant built with another drivetrain, or a WLTP > 10 %
+     off its own cited WLTP. New ones fail the run; ones the previous release already had
+     are listed for the seed's owner (WS3).
    - Spot checks: EV6, Ioniq 5, MG4, Model Y LR vs Juniper, P7+. Bold cells moved. Look
      at every bold cell and every note ("real range > WLTP x 1.1", "no battery", "gone").
 4. **PR body.** Paste the report's Numbers block, then run
