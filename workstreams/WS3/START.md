@@ -12,7 +12,7 @@ For any batch chat whose prompt touches this lane. Owner: WS0 (the coordinator).
 `data/seed/`, `data/manual/`, `data/taxonomy/`, `content/`, `config/` (countries, popularity, price-index; no secrets, Decision 004), plus the lists the lane maintains in `data/images/` (photos, press terms) and `data/editorial/` (popular used). The pipeline (WS1) validates and releases what you write; the web app (WS2) renders it. Changes in `pipeline/` (guard tests, matcher asks) or the schema: one line in `workstreams/WS0/INBOX.md`, and flag any one-line cross-lane change in the PR. Decision numbers: block 057–061.
 
 ## Lane rules
-- Every hand-entered fact has a source URL, retrieval date and confidence. Maker documents: cite single facts by URL and date (single cited maker facts ship, Decision 068); never copy tables wholesale. Nothing from EV Database, marketplaces or Kilowatt rows that cite ev-database.org.
+- Every hand-entered fact has a source URL, retrieval date and confidence. Maker documents: cite single facts by URL and date (single cited maker facts ship, Decision 068; any number of facts per car, never a whole table, range table or price list, Decision 087); never copy tables wholesale. Nothing from EV Database, marketplaces or Kilowatt rows that cite ev-database.org.
 - Never fill from memory. Unknown = `not-disclosed` or empty. `iso15118_20_support` defaults to not disclosed, never inferred.
 - Seed rows are our own structure; one generation per real platform or facelift split (Decision 057). A new model without enough facts for a card stays out of the hero.
 - Taxonomies are rows, not code: a new chemistry, voltage class, caveat or profile is a new row with plain-language text.

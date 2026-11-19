@@ -981,4 +981,15 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-150 (WS1). `apps/web/scripts/fetch-release.mjs` (the web build's own fetcher) does not download `images/` today; once the web needs photos (T-146 row thumbnails) it unpacks the bundle the same way, flagged as a cross-lane change. Everything after the fetch reads the unpacked `images/` folder as today. Reversible: go back to one asset per file by dropping the bundle line from the manifest.
 
+## Decision 087: Any number of single facts per car from one maker document (widens Decision 068)
+
+**Status:** Accepted (Menno, 2026-11-19, question popup)
+**Date:** 2026-11-19
+
+**Context:** Decision 068 allowed "one figure per car per document". Two batch chats (catalogue, variant queue; WS0 INBOX 2026-11-18 16:14 and 18:53 UTC) cited 2 to 4 headline figures per car from one maker page (power, consumption, DC charging, WLTP) and a reviewer flagged a 10-field sheet as too many, so figures were trimmed. Facts themselves aren't copyrighted; the risk is extracting a substantial part of a maker's table or price list (EU database right). 🟡 reasoned, not legal advice.
+
+**Decision:** From a maker document, any number of single facts per car may reach a release, each with its URL, retrieval date and confidence. Never copy a whole spec table, range table or price list from one document. Everything else in Decision 068 stands, including citing one document for several cars' single facts (e.g. one maker price list feeding a few cars' list prices), and KBA, SDES and EU Safety Gate stay blocked until their reuse terms are checked.
+
+**Consequences:** WS3 may restore figures trimmed under the old reading (T-154). Reviewers check "no whole table, range table or price list" instead of counting figures; the WS3 lane brief says so. Reversible: a stricter reading only drops facts from the next release.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
