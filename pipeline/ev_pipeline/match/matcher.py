@@ -1459,7 +1459,7 @@ def tgk_split_pool(
             continue
         out = [
             c for c in pool
-            if f in (known := result.tgk_split.get(c.root, {})) and not known[f] & have
+            if f in (known := result.tgk_split.get(c.root, {})) and not _split_fits(known[f], have)
         ]  # fmt: skip
         if out:
             pool = [c for c in pool if c not in out]
@@ -1476,6 +1476,12 @@ def tgk_split_pool(
             if not pool:
                 return [], f"{TGK_MISFIT} the motors (30-min power stated, only dual-motor left)"
     return pool, ""
+
+
+def _split_fits(known: set[str], have: set[str]) -> bool:
+    """A listed value fits the version's: equal, or for a type code "A+B" (T-159) both the
+    variant code and the uitvoering code (Taycan JA12 + 1040000: base car, smaller pack)."""
+    return any(set(k.split("+")) <= have for k in known)
 
 
 def tgk_energies(rec: SourceRecord) -> list[float]:
