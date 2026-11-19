@@ -20,6 +20,8 @@ def cmd_verify(args: argparse.Namespace) -> int:
         base=args.base,
         skip_tests=args.skip_tests,
         pr_body=body,
+        keep=Path(args.keep).resolve() if args.keep else None,
+        base_release_from=args.base_release_from,
     )
     out = Path(args.out) if args.out else DEFAULT_OUT
     out.write_text(report_md(rep), encoding="utf-8")
@@ -42,6 +44,14 @@ def register(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--base", default="origin/main", help="git ref for changed rule files")
     p.add_argument("--skip-tests", action="store_true", help="don't run pytest")
     p.add_argument("--pr-body", help="file with the PR body; its `key: number` lines are checked")
+    p.add_argument(
+        "--keep", metavar="DIR", help="keep the scratch build in DIR (new or empty folder, G-53)"
+    )
+    p.add_argument(
+        "--base-release-from",
+        metavar="REF",
+        help="build REF's code and inputs on the same staging and diff against that (G-56)",
+    )
     p.add_argument("--out", help=f"report path (default {DEFAULT_OUT.name} in pipeline/)")
     p.add_argument("--json", action="store_true")
     p.set_defaults(func=cmd_verify)

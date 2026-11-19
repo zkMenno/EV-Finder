@@ -6,6 +6,11 @@ for the whole refresh (not for --dry-run). A lock whose process no longer runs (
 a killed job) is stale: it does not count as held, and the next refresh replaces it. A
 second refresh while a live one holds the lock refuses to start (`StagingBusy`): the lock is
 created exclusively, so two refreshes never share or delete each other's lock.
+
+T-158: every refresh that takes the lock also writes `data/staging/.refresh.last`
+({"pid", "started"}) and leaves it in place, so `ev verify` can tell that a refresh ran during
+its rebuild even when that refresh was short and has already finished. A refused refresh says
+so in its own words (`busy_message(.., "refresh")`), not verify's.
 """
 
 from __future__ import annotations
@@ -19,6 +24,7 @@ from pathlib import Path
 from typing import Any
 
 LOCK_NAME = ".refresh.lock"
+LAST_NAME = ".refresh.last"
 
 
 class StagingBusy(RuntimeError):
@@ -27,6 +33,18 @@ class StagingBusy(RuntimeError):
 
 def lock_path(data_dir: Path) -> Path:
     return data_dir / "staging" / LOCK_NAME
+
+
+def last_path(data_dir: Path) -> Path:
+    return data_dir / "staging" / LAST_NAME
+
+
+def last_run(data_dir: Path) -> str | None:
+    """The stamp of the last refresh that took the lock (raw text), or None if none ever did."""
+    try:
+        return last_path(data_dir).read_text(encoding="utf-8")
+    except OSError:
+        return None
 
 
 def _alive(pid: int) -> bool:
@@ -69,11 +87,17 @@ def hold(data_dir: Path, now: datetime | None = None) -> Iterator[Path]:
             fd = os.open(p, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
         except FileExistsError:
             if holder(data_dir) is not None:
-                raise StagingBusy(refusal(data_dir) or "data/staging is locked") from None
+                raise StagingBusy(
+                    busy_message(data_dir, "refresh") or "data/staging is locked"
+                ) from None
             p.unlink(missing_ok=True)  # stale: its process is gone
             continue
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             fh.write(body)
+        last = last_path(data_dir)
+        tmp = last.with_name(f"{LAST_NAME}.tmp-{os.getpid()}")
+        tmp.write_text(body, encoding="utf-8")
+        os.replace(tmp, last)  # T-158: stays after the run; verify compares it before / after
         break
     else:
         raise StagingBusy(f"could not take {p}")
@@ -88,15 +112,27 @@ def hold(data_dir: Path, now: datetime | None = None) -> Iterator[Path]:
             p.unlink(missing_ok=True)
 
 
-def refusal(data_dir: Path) -> str | None:
-    """Plain message for `ev verify` when a refresh holds staging, else None."""
+def busy_message(data_dir: Path, command: str) -> str | None:
+    """Plain message when a live refresh holds staging, worded for `command` ("verify" or
+    "refresh"), else None."""
     h = holder(data_dir)
     if h is None:
         return None
     who = f"process {h['pid']}" if h.get("pid") else "an unknown process"
     since = f" since {h['started']}" if h.get("started") else ""
+    if command == "refresh":
+        return (
+            f"another ev refresh is already writing data/staging ({who}{since}). Wait for it to "
+            "finish; two refreshes must not write staging at once (G-49). "
+            f"If no ev refresh is running, delete {lock_path(data_dir)}."
+        )
     return (
         f"ev refresh is still writing data/staging ({who}{since}). Wait for it to finish, "
         "then run ev verify again (a half-written staging gives a wrong rebuild, G-49). "
         f"If no ev refresh is running, delete {lock_path(data_dir)}."
     )
+
+
+def refusal(data_dir: Path) -> str | None:
+    """Plain message for `ev verify` when a refresh holds staging, else None."""
+    return busy_message(data_dir, "verify")

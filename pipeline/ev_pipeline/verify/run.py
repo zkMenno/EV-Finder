@@ -17,7 +17,14 @@ Steps (each one a section in verify-report.md):
 8. seed check (G-48, T-153): a seed variant built with another drivetrain than its seed, or
    with a WLTP more than 10 % off its own cited WLTP: listed; a mismatch the previous
    release did not have fails the run.
-G-49 (T-153): while `ev refresh` holds data/staging (refresh/lock.py) verify refuses to run.
+G-49 (T-153): while `ev refresh` holds data/staging (refresh/lock.py) verify refuses to run;
+a refresh that ran during the rebuild, even a short one that already finished, fails the run
+(T-158: the `.refresh.last` stamp changed).
+T-158: `--keep <dir>` keeps the scratch build (G-53) so a value can be traced afterwards;
+`--base-release-from <ref>` (G-56) builds <ref>'s code and inputs on the same staging and diffs
+against that build instead of the committed release N-1, so a fresh staging shows only what the
+branch changes (that base build has no N-1 of its own: retired ids and review-only carry-overs
+are not part of the comparison).
 Plus the memory peak. Exit 0 = pass, 1 = fail. Back-test flags are reported, not failures
 (they don't block a release either).
 """
@@ -48,8 +55,10 @@ SPOT_FIELDS = (
 )  # fmt: skip
 RULE_GLOBS = (
     "pipeline/ev_pipeline/derive/*", "pipeline/ev_pipeline/match/*", "pipeline/ev_pipeline/merge/*",
+    "pipeline/ev_pipeline/qa/value_guard.py", "pipeline/ev_pipeline/backtest/*",
     "*_params.yaml", "*_rules.yaml", "data/editorial/*", "data/taxonomy/*", "data/seed/*",
-    "config/approved_changes.yaml",
+    "data/manual/*", "data/sources.yaml", "data/field_sources.yaml",
+    "config/approved_changes.yaml", "config/popularity.yaml",
 )  # fmt: skip
 BACKTEST_KEYS = ("backtest", "backtest_epa", "backtest_used_prices", "backtest_popularity")
 SKIP_COPY = {"releases", "raw", "runs", "review", "local", "staging"}
@@ -80,9 +89,12 @@ def latest_number(data_dir: Path) -> int | None:
     return int(t) if t.isdigit() else None
 
 
-def scratch_copy(data_dir: Path, dest: Path, latest: int | None) -> Path:
+def scratch_copy(
+    data_dir: Path, dest: Path, latest: int | None, base_release: Path | None = None
+) -> Path:
     """A copy of data/ that a build may write into: inputs copied, staging linked (read
-    only by the build), and only the latest release (the N-1)."""
+    only by the build), and only the latest release (the N-1). With `base_release` (G-56) that
+    folder stands in for release N-1 instead of the committed one."""
     d = dest / "data"
     d.mkdir(parents=True)
     for p in data_dir.iterdir():
@@ -99,13 +111,104 @@ def scratch_copy(data_dir: Path, dest: Path, latest: int | None) -> Path:
     pub = data_dir / "releases" / "publish.yaml"
     if pub.exists():
         shutil.copy2(pub, rel / "publish.yaml")
-    if latest is not None:
+    if base_release is not None and latest is not None:
+        shutil.copytree(base_release, rel / str(latest))
+        (rel / "latest").write_text(f"{latest}\n", encoding="utf-8")
+    elif latest is not None:
         from ev_pipeline.release.publish import ensure_local
 
         ensure_local(data_dir, latest)  # T-064: asset files fetched by sha256 if missing
         shutil.copytree(data_dir / "releases" / str(latest), rel / str(latest))
         (rel / "latest").write_text(f"{latest}\n", encoding="utf-8")
     return d
+
+
+# G-56: the base ref's own code builds the base release. It runs in a child process with the
+# ref's pipeline/ first on sys.path (the venv's editable install is a plain .pth path entry,
+# so the ref's ev_pipeline wins). It has no N-1, so no release diff can block it; any other
+# QA block in it fails verify with that message.
+BASE_BUILD = r"""
+import json, shutil, sys
+from datetime import datetime
+from pathlib import Path
+src, data, now, n = Path(sys.argv[1]), Path(sys.argv[2]), sys.argv[3], int(sys.argv[4])
+sys.path.insert(0, str(src / "pipeline"))
+import ev_pipeline
+assert Path(ev_pipeline.__file__).resolve().is_relative_to(src.resolve()), ev_pipeline.__file__
+from ev_pipeline.release.build import build_release, write_release
+res = build_release(data, now=datetime.fromisoformat(now), release=n)
+out = write_release(res, data, None)
+print(json.dumps({"dir": str(out), "release": res.release}))
+"""
+
+
+def base_source(repo: Path, ref: str, dest: Path) -> str:
+    """Export `ref`'s tree (minus release folders) into dest; returns its commit sha."""
+    sha = subprocess.run(
+        ["git", "-C", str(repo), "rev-parse", "--verify", f"{ref}^{{commit}}"],
+        capture_output=True, text=True, check=True,
+    ).stdout.strip()  # fmt: skip
+    dest.mkdir(parents=True)
+    arch = subprocess.run(
+        ["git", "-C", str(repo), "archive", "--format=tar", sha, "--", ".",
+         ":(exclude)data/releases/[0-9]*", ":(exclude)apps", ":(exclude)_archive"],
+        capture_output=True, check=True,
+    )  # fmt: skip
+    subprocess.run(["tar", "-x", "-C", str(dest)], input=arch.stdout, check=True)
+    return sha
+
+
+def build_base(
+    repo: Path, ref: str, data_dir: Path, tmp: Path, now: datetime, latest: int | None
+) -> dict[str, Any]:
+    """G-56: build `ref` on this checkout's staging. Returns {status, sha, dir|error}."""
+    try:
+        sha = base_source(repo, ref, tmp / "base-src")
+    except (subprocess.CalledProcessError, OSError) as e:
+        err = getattr(e, "stderr", None)
+        msg = (err.decode() if isinstance(err, bytes) else str(err or e)).strip().splitlines()
+        return {
+            "status": "fail",
+            "ref": ref,
+            "error": f"cannot export {ref}: {msg[0] if msg else e}",
+        }
+    src_data = tmp / "base-src" / "data"
+    d = tmp / "base" / "data"
+    d.mkdir(parents=True)
+    for p in src_data.iterdir():
+        if p.name in SKIP_COPY:
+            continue
+        (shutil.copytree if p.is_dir() else shutil.copy2)(p, d / p.name)
+    (d / "staging").symlink_to((data_dir / "staging").resolve(), target_is_directory=True)
+    (d / "releases").mkdir()
+    pub = src_data / "releases" / "publish.yaml"
+    if pub.exists():
+        shutil.copy2(pub, d / "releases" / "publish.yaml")
+    n = (latest or 0) + 1
+    cp = subprocess.run(
+        [sys.executable, "-c", BASE_BUILD, str(tmp / "base-src"), str(d), now.isoformat(), str(n)],
+        capture_output=True, text=True, cwd=str(tmp),
+    )  # fmt: skip
+    if cp.returncode != 0:
+        tail = (cp.stderr or cp.stdout).strip().splitlines()
+        why = tail[-1] if tail else f"exit {cp.returncode}"
+        return {"status": "fail", "ref": ref, "sha": sha, "error": f"base build of {ref}: {why}"}
+    out = json.loads(cp.stdout.strip().splitlines()[-1])
+    return {"status": "pass", "ref": ref, "sha": sha, "dir": out["dir"], "release": out["release"]}
+
+
+def keep_build(src: Path, dest: Path) -> str | None:
+    """G-53: copy the scratch tree to dest (links kept as links). Refuses a non-empty dest."""
+    if dest.exists() and any(dest.iterdir()):
+        return f"--keep: {dest} exists and is not empty; pick a new folder"
+    dest.mkdir(parents=True, exist_ok=True)
+    for p in src.iterdir():
+        target = dest / p.name
+        if p.is_dir() and not p.is_symlink():
+            shutil.copytree(p, target, symlinks=True)
+        else:
+            shutil.copy2(p, target, follow_symlinks=False)
+    return None
 
 
 def rebuild(data_dir: Path, scratch: Path, now: datetime) -> dict[str, Any]:
@@ -292,32 +395,62 @@ def verify(
     pr_body: str | None = None,
     tricky: list[dict[str, str]] | None = None,
     now: datetime | None = None,
+    keep: Path | None = None,
+    base_release_from: str | None = None,
 ) -> Report:
     rep = Report()
     now = now or datetime.now(UTC)
-    from ev_pipeline.refresh.lock import refusal
+    from ev_pipeline.refresh.lock import last_run, refusal
 
     busy = refusal(data_dir)
     if busy is not None:  # G-49: never rebuild from a staging that refresh is still writing
         rep.sections["rebuild"] = {"status": "refused", "error": busy}
         rep.fail(busy)
         return rep
+    if keep is not None and keep.exists() and any(keep.iterdir()):
+        rep.sections["rebuild"] = {"status": "refused", "error": f"--keep: {keep} is not empty"}
+        rep.fail(f"--keep: {keep} exists and is not empty; pick a new folder")
+        return rep
+    stamp = last_run(data_dir)
     latest = latest_number(data_dir)
     old_cat = None
-    if latest is not None:
+    if latest is not None and base_release_from is None:
         from ev_pipeline.release.publish import local_catalogue
 
         p = local_catalogue(data_dir, latest)
         old_cat = json.loads(p.read_text(encoding="utf-8")) if p else None
     with tempfile.TemporaryDirectory(prefix="ev-verify-") as tmp:
-        scratch = scratch_copy(data_dir, Path(tmp), latest)
-        built = rebuild(data_dir, scratch, now)
-        csv_path = scratch / "review" / "release_diff.csv"
+        base_dir = None
+        if base_release_from is not None:
+            b = build_base(repo, base_release_from, data_dir, Path(tmp), now, latest)
+            rep.sections["base_build"] = {k: v for k, v in b.items() if k != "dir"}
+            if b["status"] != "pass":
+                rep.fail(str(b["error"]))
+            else:
+                base_dir = Path(b["dir"])
+                old_cat = json.loads((base_dir / "catalogue.json").read_text(encoding="utf-8"))
+        if base_release_from is None or base_dir is not None:
+            scratch = scratch_copy(data_dir, Path(tmp), latest, base_dir)
+            built = rebuild(data_dir, scratch, now)
+        else:
+            built = {"status": "fail", "error": "no base build to compare with"}
+        csv_path = Path(tmp) / "data" / "review" / "release_diff.csv"
         if csv_path.exists():
             rep.release_diff_csv = csv_path.read_text(encoding="utf-8")
+        if keep is not None:
+            err = keep_build(Path(tmp), keep)
+            if err:
+                rep.fail(err)
+            else:
+                rep.sections["kept"] = {"dir": str(keep)}
     late = refusal(data_dir)
     if late is not None:  # G-49: a refresh started while we rebuilt; the rebuild may be mixed
         rep.fail(f"a refresh started during the rebuild: {late}")
+    elif last_run(data_dir) != stamp:  # T-158: a short refresh ran and finished meanwhile
+        rep.fail(
+            "a refresh ran during the rebuild (data/staging/.refresh.last changed): the rebuild"
+            " may mix old and new staging; run ev verify again"
+        )
     qa = built.get("qa")
     rep.sections["rebuild"] = {
         k: v for k, v in built.items() if k in ("status", "error", "release")
@@ -395,6 +528,18 @@ def report_md(rep: Report) -> str:
         "## Rebuild from recorded staging",
         f"{rb.get('status')}: release {rb.get('release', '-')} against {rb.get('previous_release')}"
         + (f" ({rb['error']})" if rb.get("error") else ""),
+    ]
+    bb = s.get("base_build")
+    if bb:
+        out.append(
+            f"Base (G-56): {bb.get('ref')} @ {str(bb.get('sha') or '?')[:10]} built on the same"
+            f" staging, {bb.get('status')}"
+            + (f" ({bb['error']})" if bb.get("error") else "")
+            + "; release N-1 in the diff below is that build, not the committed release."
+        )
+    if s.get("kept"):
+        out.append(f"Scratch build kept in `{s['kept']['dir']}` (G-53).")
+    out += [
         "",
         "## Tests",
         f"{s.get('tests', {}).get('status')}: {s.get('tests', {}).get('summary')}",

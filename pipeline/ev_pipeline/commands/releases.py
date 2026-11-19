@@ -366,6 +366,40 @@ def cmd_verify(args: argparse.Namespace) -> int:
     return 0 if not problems else 1
 
 
+def cmd_approvals(args: argparse.Namespace) -> int:
+    """G-57: approved_changes.yaml loads like the build reads it; G-54: new approvals scoped
+    to a release that is already published are warned (T-158)."""
+    from ev_pipeline.release.approvals import (
+        base_doc_from_git,
+        check,
+        latest_published,
+    )
+    from ev_pipeline.release.build import REPO_ROOT, default_data_dir
+    from ev_pipeline.release.differ import CONFIG_FILE
+
+    path = Path(args.file) if args.file else CONFIG_FILE
+    data_dir = Path(args.data_dir) if args.data_dir else default_data_dir()
+    latest = args.latest if args.latest is not None else latest_published(data_dir)
+    if args.base_file:
+        import yaml
+
+        base = yaml.safe_load(Path(args.base_file).read_text(encoding="utf-8"))
+    else:
+        base = base_doc_from_git(REPO_ROOT, args.base) if args.base else None
+    errors, warnings = check(path, base, latest)
+    for e in errors:
+        print(f"approvals: ERROR {e}")
+    for w in warnings:
+        print(f"approvals: WARNING {w}")
+    if args.base and not args.base_file and base is None and not errors:
+        print(f"approvals: note: {args.base} has no {path.name}; every entry counts as new")
+    if not errors and not warnings:
+        print(f"approvals: ok ({path.name} loads; latest published release {latest})")
+    if errors:
+        return 1
+    return 1 if warnings and args.strict else 0
+
+
 def register(sub: argparse._SubParsersAction) -> None:
     rel = sub.choices.get("release")
     if rel is None:
@@ -373,7 +407,7 @@ def register(sub: argparse._SubParsersAction) -> None:
     actions = rel.add_subparsers(
         dest="release_action",
         required=False,
-        metavar="{rollback,diff,list,package,publish,fetch,verify}",
+        metavar="{rollback,diff,list,package,publish,fetch,verify,approvals}",
     )
     p = actions.add_parser("rollback", help="point data/releases/latest at an older release")
     p.add_argument("--to", type=int, required=True, help="release number")
@@ -407,3 +441,13 @@ def register(sub: argparse._SubParsersAction) -> None:
     p.add_argument("n", help="release number or 'latest'")
     p.add_argument("--present-only", action="store_true", help="skip files not on disk")
     p.set_defaults(func=cmd_verify)
+    p = actions.add_parser(
+        "approvals", help="check config/approved_changes.yaml (loads; new entries not stale)"
+    )
+    p.add_argument("--file", help="default: config/approved_changes.yaml")
+    p.add_argument("--base", default="origin/main", help="ref whose entries are not new")
+    p.add_argument("--base-file", help="the base version of the file (instead of --base)")
+    p.add_argument("--latest", type=int, help="latest published release (default: data/)")
+    p.add_argument("--data-dir", help="default: EV_DATA_DIR or data/")
+    p.add_argument("--strict", action="store_true", help="exit 1 on a warning too")
+    p.set_defaults(func=cmd_approvals)
