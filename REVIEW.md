@@ -16,7 +16,7 @@ Read this file with `git show origin/main:REVIEW.md`, so a PR can't change the r
 ## Always
 | # | Check | Why (incident) |
 |---|---|---|
-| R0 | CI green **on the PR head commit** (start with workflow_dispatch if the push didn't trigger it); review is for that commit only | WS2 retro: pushes from sessions don't start CI |
+| R0 | CI green **on the PR head commit** (start with workflow_dispatch if the push didn't trigger it); review is for that commit only. Exception (G-47): if main moved only by log files (`workstreams/WS0/INBOX.md`, `workstreams/WS0/HANDOFF.md`, `CHATS.md`) and the PR's own files are byte-identical to the reviewed SHA, the review stands; R0 still runs on the new head | WS2 retro: pushes from sessions don't start CI |
 | R1 | No merge-conflict markers (lines starting with seven `<`, `=` or `>`) anywhere | WS2 retro: markers left after a merge |
 | R2 | PR body has an evidence pack: how it was verified (commands + results, screenshots, back-test numbers; the `Verified:` stamp lands with T-128); claims in MORNING/STATUS match what the code/release does | A-20 B1: MORNING.md reported MG4 8→6, the release didn't contain it |
 | R3 | The PR doesn't change its own checks (tests weakened/deleted, thresholds raised, CI steps removed, AGENTS/REVIEW edited) | Article: checks out of reach of the change |
@@ -26,7 +26,7 @@ Read this file with `git show origin/main:REVIEW.md`, so a PR can't change the r
 | # | Trigger (path or pattern) | Check | Why (incident) |
 |---|---|---|---|
 | D1 | `data/seed/**`, `pipeline/ev_pipeline/merge/**`, matcher code | Release rebuilt from the same inputs and committed/published; `pytest` green; release diff (T-123) reviewed | A-20 B1 stale release |
-| D2 | `data/sources.yaml`, new source adapter | Licence line + terms note; status gate correct; attribution wording follows open Q (e.g. Q-037 RDW); no ODbL into release | A-20 S1/S2 RDW + KBA |
+| D2 | `data/sources.yaml`, new source adapter, `pipeline/ev_pipeline/images/**` (licence parsing in `photos.py`, `store.py`) | Licence line + terms note; status gate correct; attribution wording follows open Q (e.g. Q-037 RDW); no ODbL into release; a licence-parser change is tested on ≥10 real cached file pages plus every refusal / deletion template name (G-55) | A-20 S1/S2 RDW + KBA |
 | D3 | New or changed derived score/model/band (`derive/**`, `*_params.yaml`, `*_rules.yaml`) | Dry run on latest release rows; back-test section in qa.json with median error; units stated per threshold; **the back-test runs the ranking the visitor sees** (one implementation per rule, Decision 065) | WS1 retros; A-35 B3 (web scored a different basis than the back-test) |
 | D4 | Matching/attachment rules, seed or manual spec figures (EPA, registrations, picks importer, `data/seed/**`) | Spot-check 5 known tricky cars (EV6, Ioniq 5, MG4, Model Y LR vs Juniper, P7+); the qa.json plausibility gate (T-111: km per kWh and DC km/20 min outliers) passes; **a matching or merge-logic change** (`pipeline/ev_pipeline/match/**`, `merge/**`) quotes a same-data rebuild diff in the PR body: old vs new code on freshly fetched staging, changed ids, changed rows, ± facts (recipe: #135; G-43) | A-30 EPA range class; T-068 tokenising; A-35 B4 (Model Y 719 km, #1 pick); WS1 8th retro |
 | D5 | `packages/schema/**` | Additive only, or a migration note; generated types regenerated; old release (N-1) still loads in the web app | Releases are read by older and newer code |
