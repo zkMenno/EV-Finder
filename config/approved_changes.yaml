@@ -360,7 +360,8 @@ approved:
   # reason, carried to release 4.
   - {<<: *t148, release: 4, id: skoda-elroq-gen1-base, field: "price_new.NL.amount", change: cleared}
   - {<<: *t148, release: 4, file: used_prices.json, id: skoda-elroq-gen1-base, field: "*", change: removed}
-  # T154: catalogue batch (T-154): 7 variants, approvals for PR A (e-tron GT) and PR B (EV3, Elroq, Model 3 split, Abarth)
+  # T154: catalogue batch (T-154): 6 ids. #182: e-tron GT S / RS / RS performance; #183: Model 3 gen1 LR / Performance, Elroq RS
+  # (EV3 rows are new and Abarth / Elroq Base are retired ids: no entries needed)
   - &t154gt
     release: 4
     file: catalogue.json
@@ -388,8 +389,12 @@ approved:
     field: year_end
     change: changed
   - {<<: *t154m3, id: tesla-model-3-gen1-performance}
-  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-long-range, field: "bands.BE*", change: cleared}
-  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-performance, field: "bands.BE*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-long-range, field: "bands.BE[2021*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-long-range, field: "bands.BE[2022*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-long-range, field: "bands.BE[2023*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-performance, field: "bands.BE[2021*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-performance, field: "bands.BE[2022*", change: cleared}
+  - {<<: *t154m3, file: used_prices.json, id: tesla-model-3-gen1-performance, field: "bands.BE[2023*", change: cleared}
   - &t154elroq
     release: 4
     file: catalogue.json
@@ -398,4 +403,5 @@ approved:
     id: skoda-elroq-gen1-rs
     field: year_end
     change: cleared
-  - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.*", change: changed}
+  - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.band", change: changed}
+  - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.rural.band", change: changed}
