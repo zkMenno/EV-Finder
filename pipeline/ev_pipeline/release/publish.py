@@ -97,6 +97,8 @@ def load_config(data_dir: Path) -> PublishConfig:
 def _bundles(raw: list[Any]) -> tuple[tuple[str, str], ...]:
     out = []
     for b in raw:
+        if not isinstance(b, dict):
+            raise PublishError(f"bundle entry {b!r} must be a mapping with folder and path")
         folder, path = str(b.get("folder") or ""), str(b.get("path") or "")
         if not folder.endswith("/") or "/" in folder[:-1] or ".." in folder:
             raise PublishError(f"bundle folder {folder!r} must be one top-level folder ending in /")
@@ -219,6 +221,10 @@ def _release_files(release_dir: Path, skip: tuple[str, ...] = ()) -> list[str]:
 # --- bundles (Decision 086) --------------------------------------------------------------
 
 
+def bundled_cfg(cfg: PublishConfig, old_layout: bool) -> tuple[tuple[str, str], ...]:
+    return () if old_layout else cfg.bundles
+
+
 def write_bundle(release_dir: Path, folder: str, path: str) -> list[dict[str, Any]] | None:
     """Pack every file under `folder` into the uncompressed tar `path` (deterministic: sorted
     names, mtime 0, owner 0, mode 0644, so the same files give the same sha256). Returns the
@@ -339,11 +345,17 @@ def package(
     entries = []
     names: set[str] = set()
     bundled: list[dict[str, Any]] = []
-    for folder, bpath in cfg.bundles:
+    previous = read_manifest(release_dir)
+    # A release packaged before bundles existed (1-3) keeps its layout when re-packaged, so
+    # its committed manifest never changes (#173 review).
+    old_layout = previous is not None and not any(e.get("bundle") for e in previous["files"])
+    for folder, bpath in () if old_layout else cfg.bundles:
         members = write_bundle(release_dir, folder, bpath)
         if members is not None:
             bundled.append({"path": bpath, "folder": folder, "files": members})
-    skip = tuple(f for f, _ in cfg.bundles) + tuple(p for _, p in cfg.bundles)
+    skip = tuple(f for f, _ in bundled_cfg(cfg, old_layout)) + tuple(
+        p for _, p in bundled_cfg(cfg, old_layout)
+    )
     for rel in [*_release_files(release_dir, skip), *(b["path"] for b in bundled)]:
         p = release_dir / rel
         name = asset_name(rel)
@@ -362,8 +374,7 @@ def package(
         b = next((b for b in bundled if b["path"] == rel), None)
         if b is not None:
             entries[-1]["bundle"] = {"folder": b["folder"], "files": b["files"]}
-    entries.sort(key=lambda e: e["path"])
-    previous = read_manifest(release_dir)
+
     packaged_at = (now or datetime.now(UTC)).replace(microsecond=0).isoformat()
     if previous and previous.get("files") == entries:
         packaged_at = previous.get("packaged_at", packaged_at)  # idempotent: same bytes, same file

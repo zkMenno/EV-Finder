@@ -225,3 +225,21 @@ def test_image_qa_finds_photos_inside_the_bundle(tmp_path: Path) -> None:
     assert image_problems(cat, rel) == []
     img["files"][0]["sha256"] = "0" * 64
     assert any("differ" in p for p in image_problems(cat, rel))
+
+
+def test_repackaging_an_old_release_keeps_its_manifest(tmp_path: Path) -> None:
+    """#173 review: releases 1-3 (no bundle) keep their layout and order when re-packaged."""
+    rel = _release(tmp_path)
+    cfg = load_config(tmp_path)
+    old = package(rel, replace(cfg, bundles=()), now=NOW)
+    again = package(rel, cfg, now=datetime(2027, 1, 1, tzinfo=UTC))
+    assert again == old and not (rel / "images.tar").exists()
+
+
+def test_bad_bundle_config_is_a_publish_error() -> None:
+    from ev_pipeline.release.publish import _bundles
+
+    for raw in (["images/"], [{"folder": "a/b/", "path": "x.tar"}], [{"folder": "images/",
+                "path": "x.zip"}]):  # fmt: skip
+        with pytest.raises(PublishError):
+            _bundles(raw)
