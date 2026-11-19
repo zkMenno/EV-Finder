@@ -9,24 +9,21 @@ One named chat: the coordinator (WS0). Everything else is a throwaway batch chat
 
 ## State at pause
 - Data release 3 is live; release 4 is approved but not yet built / published (approvals #177, #184; first night re-publishes every photo, Decision 086 bundle).
-- Decisions up to **087** (any number of single facts per car from a maker document, never a whole table / price list). Next free WS0 decision: **088**.
-- Tasks up to **T-158**; next free **T-159**. Rules up to **G-55**; next free **G-56**.
-- Done 19 Nov: T-149, T-150, T-151, T-152 (status set), T-154 (merged #182–#184, #187; **Status still `review` → set `done`**).
+- Decisions up to **087** (any number of single facts per car from a maker document, never a whole table / price list). Decision **088** is in #188; next free WS0 decision: **089**.
+- Tasks up to **T-160** (T-159, T-160 in #188); next free **T-161**. Rules up to **G-55**; next free **G-56**.
+- Done 19 Nov: T-149, T-150, T-151, T-152, T-154 (T-154 status set in #188).
 
 ## First thing on resume
-1. Check T-153: are #185 / #186 merged? Read the T-153 batch's INBOX line and process it. If T-153 merged: remove the **Elroq source hold** on OpenEV "Base" (T-154 put it there; "cited power wins" replaces it) and start T-158.
+1. Check T-153: are #185 / #186 merged? Read the T-153 batch's INBOX line and process it. If T-153 merged: start T-158 and T-159 (T-159 removes the Elroq "Base" hold).
 2. Check whether data release 4 is published (`latest` on GitHub Releases). If yes, T-157 can start.
-3. Process the INBOX line of **2026-11-19 09:15 UTC (batch: catalogue T-154)**; its asks are not done yet:
-   - WS1: ties left without motor count / drivetrain evidence (EV3 LR vs AWD, EV6 facelift RWD vs AWD, Countryman E vs SE ALL4, Inster 42 vs 49) → add to T-153 follow-up or a new task.
-   - **WS0 decision needed:** Decision 038's newest-version rule compares versions model-wide, so the 2025 e-tron GT entry trim made the 2024 S / RS / RS performance "older" (~−10 points). Narrow it to generation or pack before going public (new decision, reversible engineering call).
-   - WS1: `manual` terms in `data/sources.yaml` still say "one figure per car per document"; update to Decision 087.
-   - Retro proposals: `ev verify --base-release-from <ref>`; data_qa runs `load_config` on approved_changes.yaml → accept / reject in rules.md (gate PR).
-   - Catalogue left (T-154 Handoff notes): MX-30, smart forfour 453, Model X gen1, EV6 63 kWh, Citigo / Mii, EV9, Marvel R, Sealion 7.
+3. **PR #188** (WS0 docs: Decision 088 trim-line version rule, T-159, T-160, T-154 → done) is open and **not reviewed yet** (paused to save tokens): run a fresh subagent review, fix, merge. It processes the T-154 line (09:15); two retro proposals from that line are still open: `ev verify --base-release-from <ref>` and data_qa running `load_config` on approved_changes.yaml → accept / reject in rules.md (gate PR, next free G-56).
 
 ## Ready to start (prompts: write fresh from the task file, same shape as 19 Nov)
 - **T-155** (WS1): DC speed from cited 10–80 % minutes, ë-SpaceTourer / Leaf data checks, popularity back-test.
 - **T-156** (WS3): Courier 2026, SpaceTourer 75 DC, egmp-84 pack, BYD Atto 3 photo, optional list prices.
 - **T-158** (WS1): `ev verify --keep`, approved_changes warning, `scripts/merge_ready.sh`. After T-153 (same verify code).
+- **T-159** (WS1, after T-153): Elroq hold off, motor-count evidence for EV3 / EV6 / Countryman / Inster ties, Decision 088, manual terms wording.
+- **T-160** (WS3): MX-30, smart forfour 453, Model X gen1, EV6 63 kWh, then Citigo / Mii, EV9, Marvel R, Sealion 7.
 - **T-157** (WS2): web popularity from release + unpack images.tar. After release 4.
 
 ## Parked / later
