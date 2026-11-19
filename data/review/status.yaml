@@ -1,0 +1,1411 @@
+# Review queue decisions, keyed by review_id (data/review/*.csv). Durable: rebuilds
+# never drop entries. status: open | done | wont-fix (optional `note`). Edit `items`
+# here, or a CSV's `status` column; the next `ev release` copies CSV edits in here.
+# `written` is kept by the pipeline (what the last build wrote): don't edit it.
+schema: review-status/v1
+items:
+  vc-00ab5bddb7:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: lexus-ux-300e-gen1|wltp|single|e=53 | rdw-tgk | have | lexus-ux-300e-gen1
+    updated: 2026-11-19
+  vc-00e7644e24:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-q4-e-tron-gen1|none|multi|e=unknown | rdw-tgk | have | audi-q4-e-tron-gen1
+    updated: 2026-11-19
+  vc-02ec1bd505:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-niro-ev-sg2|wltp|single|e=74.5 | rdw-tgk | have | kia-niro-ev-sg2
+    updated: 2026-11-19
+  vc-079b102973:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: porsche-taycan-gen1|wltp|multi|e=unknown | rdw-tgk | have | porsche-taycan-gen1
+    updated: 2026-11-19
+  vc-08e7fa37e9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: smart-eq-fortwo-453|wltp|single|e=20.7-22.6 | rdw-tgk | have | smart-eq-fortwo-453
+    updated: 2026-11-19
+  vc-0bd6d1da44:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-ix2-gen1|wltp|single|e=73-74.4 | rdw-tgk | have | bmw-ix2-gen1
+    updated: 2026-11-19
+  vc-0d098f58c9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-i5-gen1|wltp|single|e=92.3-94 | rdw-tgk | have | bmw-i5-gen1
+    updated: 2026-11-19
+  vc-0d751dc60f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-5-facelift|wltp|single|e=68.6 | rdw-tgk | have | hyundai-ioniq-5-facelift
+    updated: 2026-11-19
+  vc-0e26bcb9b1:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-3008-gen1|wltp|single|e=119.8 | rdw-tgk | have | peugeot-e-3008-gen1
+    updated: 2026-11-19
+  vc-0e5cdb98fd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-i4-g26|none|multi|e=unknown | rdw-tgk | have | bmw-i4-g26
+    updated: 2026-11-19
+  vc-0e6d33694c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: smart-1-gen1|wltp|single|e=71.7-73.6 | rdw-tgk | have | smart-1-gen1
+    updated: 2026-11-19
+  vc-0e8d5da037:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id4-gen1|wltp|multi|e=85.1-86.4 | rdw-tgk | have | volkswagen-id4-gen1
+    updated: 2026-11-19
+  vc-0f84dcaa72:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-micra-ev-gen6|wltp|single|e=45.3 | rdw-tgk | have | nissan-micra-ev-gen6
+    updated: 2026-11-19
+  vc-107fdc9dd3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: opel-corsa-e-f|wltp|single|e=60.6 | rdw-tgk | have | opel-corsa-e-f
+    updated: 2026-11-19
+  vc-11849600bc:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volvo-ex30-gen1|wltp|single|e=57.6 | rdw-tgk | have | volvo-ex30-gen1
+    updated: 2026-11-19
+  vc-14c1da593d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-e-tron-ge|wltp|multi|e=118.9 | rdw-tgk | have | audi-e-tron-ge
+    updated: 2026-11-19
+  vc-155285a8f8:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: skoda-elroq-gen1|wltp|single|e=58.2 | rdw-tgk | have | skoda-elroq-gen1
+    updated: 2026-11-19
+  vc-17296c1318:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze0|nedc|single|e=37.5 | rdw-tgk | have | nissan-leaf-ze0
+    updated: 2026-11-19
+  vc-18194cdf3d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-zs-ev-gen1|wltp|single|e=54.6-55.4 | rdw-tgk | have | mg-zs-ev-gen1
+    updated: 2026-11-19
+  vc-18d4a7ae6a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-scenic-e-tech-gen1|wltp|single|e=69.7 | rdw-tgk | have | renault-scenic-e-tech-gen1
+    updated: 2026-11-19
+  vc-1a2e0418d6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-niro-ev-de|wltp|single|e=44.2 | rdw-tgk | have | kia-niro-ev-de
+    updated: 2026-11-19
+  vc-1a3d93e301:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-y-juniper|wltp|multi|e=unknown | rdw-tgk | have | tesla-model-y-juniper
+    updated: 2026-11-19
+  vc-1a77febb3e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: lotus-emeya-gen1|wltp|single|e=108-110.2 | rdw-tgk | have | lotus-emeya-gen1
+    updated: 2026-11-19
+  vc-1acd14c644:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mini-cooper-se-f56|wltp|single|e=34.6-35.6 | rdw-tgk | have | mini-cooper-se-f56
+    updated: 2026-11-19
+  vc-1b18cc0f32:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-y-juniper|wltp|single|e=88.3-93.9 | rdw-tgk | have | tesla-model-y-juniper
+    updated: 2026-11-19
+  vc-1b283ce4bc:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-up-gen1|wltp|single|e=19 | rdw-tgk | have | volkswagen-e-up-gen1
+    updated: 2026-11-19
+  vc-1b4b820db4:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: smart-1-gen1|wltp|multi|e=72.5-73.4 | rdw-tgk | have | smart-1-gen1
+    updated: 2026-11-19
+  vc-1c0f44bfb2:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: maserati-grecale-folgore-gen1|wltp|single|e=120-121 | rdw-tgk | have | maserati-grecale-folgore-gen1
+    updated: 2026-11-19
+  vc-1f6d69cab0:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: porsche-macan-electric-gen1|wltp|multi|e=112.5 | rdw-tgk | have | porsche-macan-electric-gen1
+    updated: 2026-11-19
+  vc-1fda38aa2d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: opel-mokka-gen1|wltp|single|e=56.3 | rdw-tgk | have | opel-mokka-gen1
+    updated: 2026-11-19
+  vc-208dad5a58:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-s-facelift|nedc|single|e=84.2-91.1 | rdw-tgk | have | tesla-model-s-facelift
+    updated: 2026-11-19
+  vc-20e31b6591:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-soul-ev-ps|nedc|single|e=unknown | rdw-tgk | have | kia-soul-ev-ps
+    updated: 2026-11-19
+  vc-20f68a4e4e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-soul-ev-ps|nedc|single|e=35.8 | rdw-tgk | have | kia-soul-ev-ps
+    updated: 2026-11-19
+  vc-2130b77ce9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-niro-ev-de|wltp|single|e=72.3 | rdw-tgk | have | kia-niro-ev-de
+    updated: 2026-11-19
+  vc-21e562b9d6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-208-p21|wltp|single|e=60.6 | rdw-tgk | have | peugeot-e-208-p21
+    updated: 2026-11-19
+  vc-22bbb300b3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: opel-corsa-e-f|wltp|single|e=unknown | rdw-tgk | have | opel-corsa-e-f
+    updated: 2026-11-19
+  vc-263679e890:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-cyberster-gen1|wltp|single|e=82.2 | rdw-tgk | have | mg-cyberster-gen1
+    updated: 2026-11-19
+  vc-2954bfdfc6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: opel-mokka-gen1|wltp|single|e=unknown | rdw-tgk | have | opel-mokka-gen1
+    updated: 2026-11-19
+  vc-2ab525e453:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: ford-capri-gen1|wltp|single|e=82.6-90.1 | rdw-tgk | have | ford-capri-gen1
+    updated: 2026-11-19
+  vc-2c1ca467e7:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-zs-ev-gen1|wltp|single|e=71.2 | rdw-tgk | have | mg-zs-ev-gen1
+    updated: 2026-11-19
+  vc-2c3690ad94:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-4-e-tech-gen1|wltp|single|e=45.3 | rdw-tgk | have | renault-4-e-tech-gen1
+    updated: 2026-11-19
+  vc-2c3d7ae995:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze0|nedc|single|e=29.9-30.3 | rdw-tgk | have | nissan-leaf-ze0
+    updated: 2026-11-19
+  vc-2c5a558c0f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-golf-mk75|none|single|e=unknown | rdw-tgk | have | volkswagen-e-golf-mk75
+    updated: 2026-11-19
+  vc-2dde257f88:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nio-et7-gen1|wltp|multi|e=85.9 | rdw-tgk | have | nio-et7-gen1
+    updated: 2026-11-19
+  vc-2e75b8a298:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-2008-p24|wltp|single|e=unknown | rdw-tgk | have | peugeot-e-2008-p24
+    updated: 2026-11-19
+  vc-2eef63a2dc:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqc-n293|wltp|multi|e=91.4-92.9 | rdw-tgk | have | mercedes-eqc-n293
+    updated: 2026-11-19
+  vc-2f47109171:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id3-gen1|wltp|single|e=58.9 | rdw-tgk | have | volkswagen-id3-gen1
+    updated: 2026-11-19
+  vc-2fad525b68:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id7-gen1|wltp|single|e=85.3-85.6 | rdw-tgk | have | volkswagen-id7-gen1
+    updated: 2026-11-19
+  vc-2fc71f2d87:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqa-h243|wltp|multi|e=75.7-76.3 | rdw-tgk | have | mercedes-eqa-h243
+    updated: 2026-11-19
+  vc-3157c5b227:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: leapmotor-c10-gen1|wltp|single|e=78.6 | rdw-tgk | have | leapmotor-c10-gen1
+    updated: 2026-11-19
+  vc-3753ed8035:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-q6-e-tron-gen1|wltp|multi|e=102.5-103.5 | rdw-tgk | have | audi-q6-e-tron-gen1
+    updated: 2026-11-19
+  vc-38a542413c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: ford-explorer-gen1|wltp|single|e=82.6-90.1 | rdw-tgk | have | ford-explorer-gen1
+    updated: 2026-11-19
+  vc-394a96f476:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-ix1-gen1|wltp|multi|e=73.2-75.5 | rdw-tgk | have | bmw-ix1-gen1
+    updated: 2026-11-19
+  vc-3abed54200:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-q4-e-tron-gen1|wltp|single|e=57-57.2 | rdw-tgk | have | audi-q4-e-tron-gen1
+    updated: 2026-11-19
+  vc-3b12ba28e7:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-twingo-gen3|wltp|single|e=28.7 | rdw-tgk | have | renault-twingo-gen3
+    updated: 2026-11-19
+  vc-3c3ead1972:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: skoda-enyaq-gen1|wltp|single|e=56.4-58.2 | rdw-tgk | have | skoda-enyaq-gen1
+    updated: 2026-11-19
+  vc-3cf9ca0202:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-kona-electric-os|wltp|single|e=43.4-43.6 | rdw-tgk | have | hyundai-kona-electric-os
+    updated: 2026-11-19
+  vc-3d0ff7b8a9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id4-gen1|wltp|single|e=56.9-58.2 | rdw-tgk | have | volkswagen-id4-gen1
+    updated: 2026-11-19
+  vc-3e747c9de8:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: xpeng-g6-gen1|wltp|single|e=74.4 | rdw-tgk | have | xpeng-g6-gen1
+    updated: 2026-11-19
+  vc-3ea9d0099a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: maserati-grecale-folgore-gen1|none|single|e=unknown | rdw-tgk | have | maserati-grecale-folgore-gen1
+    updated: 2026-11-19
+  vc-418e6a6294:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-2008-p24|wltp|single|e=52.6-53.6 | rdw-tgk | have | peugeot-e-2008-p24
+    updated: 2026-11-19
+  vc-4386434c53:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-e-tron-q8|none|multi|e=unknown | rdw-tgk | have | audi-e-tron-q8
+    updated: 2026-11-19
+  vc-4401c56861:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-9-gen1|wltp|single|e=123.4 | rdw-tgk | have | hyundai-ioniq-9-gen1
+    updated: 2026-11-19
+  vc-466296e2cd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: lexus-ux-300e-gen1|wltp|single|e=75 | rdw-tgk | have | lexus-ux-300e-gen1
+    updated: 2026-11-19
+  vc-475d96a6d3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-ix-gen1|wltp|multi|e=82.3-86 | rdw-tgk | have | bmw-ix-gen1
+    updated: 2026-11-19
+  vc-493f073810:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-ix1-gen1|wltp|single|e=73-74.4 | rdw-tgk | have | bmw-ix1-gen1
+    updated: 2026-11-19
+  vc-4b8afd25a5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-c4-c41|wltp|single|e=55.8-56.1 | rdw-tgk | have | citroen-e-c4-c41
+    updated: 2026-11-19
+  vc-4ba6de93e7:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-mg4-gen1|wltp|multi|e=70.6 | rdw-tgk | have | mg-mg4-gen1
+    updated: 2026-11-19
+  vc-4cdcfb8c09:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqa-h243|wltp|single|e=80.2-80.5 | rdw-tgk | have | mercedes-eqa-h243
+    updated: 2026-11-19
+  vc-4cfcb65d5e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze1|wltp|single|e=55.3-55.6 | rdw-tgk | have | nissan-leaf-ze1
+    updated: 2026-11-19
+  vc-4e0a147a58:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-spacetourer-gen1|wltp|single|e=54.8 | rdw-tgk | have | citroen-e-spacetourer-gen1
+    updated: 2026-11-19
+  vc-541d027766:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-3-gen1|wltp|single|e=60.9-63.6 | rdw-tgk | have | tesla-model-3-gen1
+    updated: 2026-11-19
+  vc-551648dc26:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nio-et5-gen1|wltp|multi|e=110.2 | rdw-tgk | have | nio-et5-gen1
+    updated: 2026-11-19
+  vc-56657f6ee9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-208-p21|wltp|single|e=unknown | rdw-tgk | have | peugeot-e-208-p21
+    updated: 2026-11-19
+  vc-56b5897bc3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id5-gen1|wltp|multi|e=85.2-86.4 | rdw-tgk | have | volkswagen-id5-gen1
+    updated: 2026-11-19
+  vc-58c1f4b4db:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-5-gen1|wltp|multi|e=65.5 | rdw-tgk | have | hyundai-ioniq-5-gen1
+    updated: 2026-11-19
+  vc-5a4ecc8773:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-5-gen1|wltp|single|e=80.4-80.5 | rdw-tgk | have | hyundai-ioniq-5-gen1
+    updated: 2026-11-19
+  vc-5b31cd4d9e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-twingo-gen3|wltp|single|e=30.4 | rdw-tgk | have | renault-twingo-gen3
+    updated: 2026-11-19
+  vc-5d7316c5bf:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-5-gen1|wltp|multi|e=86.1-86.7 | rdw-tgk | have | hyundai-ioniq-5-gen1
+    updated: 2026-11-19
+  vc-5dd4bf89b2:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id5-gen1|none|multi|e=unknown | rdw-tgk | have | volkswagen-id5-gen1
+    updated: 2026-11-19
+  vc-5e6dd00dbf:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id4-gen1|none|multi|e=unknown | rdw-tgk | have | volkswagen-id4-gen1
+    updated: 2026-11-19
+  vc-600ae62fd9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqv-gen1|wltp|single|e=64-66 | rdw-tgk | have | mercedes-eqv-gen1
+    updated: 2026-11-19
+  vc-605bed127a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-2008-p24|none|single|e=unknown | rdw-tgk | have | peugeot-e-2008-p24
+    updated: 2026-11-19
+  vc-619c74fde4:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-golf-mk75|wltp|single|e=35.6-36.2 | rdw-tgk | have | volkswagen-e-golf-mk75
+    updated: 2026-11-19
+  vc-61bed9a9c4:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze1|wltp|single|e=46.2-47.3 | rdw-tgk | have | nissan-leaf-ze1
+    updated: 2026-11-19
+  vc-61f910501c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-s-facelift|nedc|single|e=77 | rdw-tgk | have | tesla-model-s-facelift
+    updated: 2026-11-19
+  vc-645aa789cf:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: smart-3-gen1|wltp|single|e=71.4-72.8 | rdw-tgk | have | smart-3-gen1
+    updated: 2026-11-19
+  vc-64a864052b:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id-buzz-gen1|wltp|single|e=86.4-87.2 | rdw-tgk | have | volkswagen-id-buzz-gen1
+    updated: 2026-11-19
+  vc-64af538bae:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-s-facelift|wltp|multi|e=88.3 | rdw-tgk | have | tesla-model-s-facelift
+    updated: 2026-11-19
+  vc-65c2fb9d11:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-zs-ev-gen1|wltp|single|e=47.8 | rdw-tgk | have | mg-zs-ev-gen1
+    updated: 2026-11-19
+  vc-662f1dd9f1:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: byd-atto-3-gen1|wltp|single|e=83.6 | rdw-tgk | have | byd-atto-3-gen1
+    updated: 2026-11-19
+  vc-67041085eb:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: jaguar-i-pace-x590|none|single|e=unknown | rdw-tgk | have | jaguar-i-pace-x590
+    updated: 2026-11-19
+  vc-678fcb1a74:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-kona-electric-sx2|wltp|single|e=74.6-75.6 | rdw-tgk | have | hyundai-kona-electric-sx2
+    updated: 2026-11-19
+  vc-67aba66428:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: jaguar-i-pace-x590|wltp|single|e=101.3-103.4 | rdw-tgk | have | jaguar-i-pace-x590
+    updated: 2026-11-19
+  vc-67adc609ea:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: leapmotor-c10-gen1|wltp|single|e=84 | rdw-tgk | have | leapmotor-c10-gen1
+    updated: 2026-11-19
+  vc-6839fb7a25:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-3-highland|wltp|single|e=67.7-71.8 | rdw-tgk | have | tesla-model-3-highland
+    updated: 2026-11-19
+  vc-68cfcdb1c4:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-megane-e-tech-gen1|wltp|single|e=70.4-72.4 | rdw-tgk | have | renault-megane-e-tech-gen1
+    updated: 2026-11-19
+  vc-6ae4e1aaf6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-soul-ev-sk3|wltp|single|e=71 | rdw-tgk | have | kia-soul-ev-sk3
+    updated: 2026-11-19
+  vc-6d0a18ebb9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id4-gen1|wltp|single|e=66.7 | rdw-tgk | have | volkswagen-id4-gen1
+    updated: 2026-11-19
+  vc-6eefe926b1:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze1|wltp|single|e=71.2 | rdw-tgk | have | nissan-leaf-ze1
+    updated: 2026-11-19
+  vc-6f32ec5c6b:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-y-gen1|wltp|single|e=67.3-68.2 | rdw-tgk | have | tesla-model-y-gen1
+    updated: 2026-11-19
+  vc-73657ba012:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: leapmotor-c10-gen1|wltp|multi|e=90.7 | rdw-tgk | have | leapmotor-c10-gen1
+    updated: 2026-11-19
+  vc-73ad9e373d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-golf-mk7|nedc|single|e=24.1-24.3 | rdw-tgk | have | volkswagen-e-golf-mk7
+    updated: 2026-11-19
+  vc-7431a99f24:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-cla-gen1|wltp|single|e=82.9 | rdw-tgk | have | mercedes-cla-gen1
+    updated: 2026-11-19
+  vc-74e680155b:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-y-gen1|wltp|multi|e=71.4 | rdw-tgk | have | tesla-model-y-gen1
+    updated: 2026-11-19
+  vc-75a10c5380:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-i7-g70|wltp|multi|e=123.8-127.5 | rdw-tgk | have | bmw-i7-g70
+    updated: 2026-11-19
+  vc-75df3bcae8:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: byd-atto-3-gen1|wltp|multi|e=83.7 | rdw-tgk | have | byd-atto-3-gen1
+    updated: 2026-11-19
+  vc-76eeeab115:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: vinfast-vf6-gen1|wltp|single|e=77.3-80 | rdw-tgk | have | vinfast-vf6-gen1
+    updated: 2026-11-19
+  vc-7721eb6b2f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-e-tron-ge|wltp|multi|e=72.7-73.6 | rdw-tgk | have | audi-e-tron-ge
+    updated: 2026-11-19
+  vc-79966f14a3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-y-gen1|wltp|single|e=89.4 | rdw-tgk | have | tesla-model-y-gen1
+    updated: 2026-11-19
+  vc-7a8d872058:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-soul-ev-sk3|wltp|single|e=43.1 | rdw-tgk | have | kia-soul-ev-sk3
+    updated: 2026-11-19
+  vc-7aec43000b:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volvo-ex90-gen1|wltp|single|e=112.5 | rdw-tgk | have | volvo-ex90-gen1
+    updated: 2026-11-19
+  vc-7c4f8bd644:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nio-et5-gen1|wltp|multi|e=86 | rdw-tgk | have | nio-et5-gen1
+    updated: 2026-11-19
+  vc-7da3f8b77c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-5-e-tech-gen1|wltp|single|e=45.3 | rdw-tgk | have | renault-5-e-tech-gen1
+    updated: 2026-11-19
+  vc-7dc5cfdd5f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: opel-corsa-e-f|none|single|e=unknown | rdw-tgk | have | opel-corsa-e-f
+    updated: 2026-11-19
+  vc-7f77872028:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volvo-ex90-gen1|wltp|multi|e=128.4 | rdw-tgk | have | volvo-ex90-gen1
+    updated: 2026-11-19
+  vc-8013f6392b:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-kangoo-e-tech-gen1|wltp|single|e=52.4-52.5 | rdw-tgk | have | renault-kangoo-e-tech-gen1
+    updated: 2026-11-19
+  vc-803b33f388:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-megane-e-tech-gen1|wltp|single|e=45.7-45.9 | rdw-tgk | have | renault-megane-e-tech-gen1
+    updated: 2026-11-19
+  vc-80c5234e1f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-c3-gen1|wltp|single|e=53.3-53.5 | rdw-tgk | have | citroen-e-c3-gen1
+    updated: 2026-11-19
+  vc-82a55ffa10:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-5-facelift|wltp|single|e=88.6-91.4 | rdw-tgk | have | hyundai-ioniq-5-facelift
+    updated: 2026-11-19
+  vc-8320479008:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-electric-gen1|nedc|single|e=32.2 | rdw-tgk | have | hyundai-ioniq-electric-gen1
+    updated: 2026-11-19
+  vc-834ad051ea:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-9-gen1|none|multi|e=unknown | rdw-tgk | have | hyundai-ioniq-9-gen1
+    updated: 2026-11-19
+  vc-84e34aca21:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: lotus-emeya-gen1|wltp|multi|e=108-111.8 | rdw-tgk | have | lotus-emeya-gen1
+    updated: 2026-11-19
+  vc-8501cad3fc:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: ford-puma-gen-e-gen1|wltp|single|e=53.8 | rdw-tgk | have | ford-puma-gen-e-gen1
+    updated: 2026-11-19
+  vc-8579fc7c8c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-3-gen1|wltp|single|e=67.7 | rdw-tgk | have | tesla-model-3-gen1
+    updated: 2026-11-19
+  vc-8599f399fd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-q4-e-tron-gen1|wltp|multi|e=85-85.5 | rdw-tgk | have | audi-q4-e-tron-gen1
+    updated: 2026-11-19
+  vc-89a20fb8a6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-ix3-gen1|wltp|single|e=83.1-85.5 | rdw-tgk | have | bmw-ix3-gen1
+    updated: 2026-11-19
+  vc-89b54acee5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: byd-han-gen1|wltp|multi|e=96.4 | rdw-tgk | have | byd-han-gen1
+    updated: 2026-11-19
+  vc-8b4f04599f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-c3-gen1|wltp|single|e=55.7 | rdw-tgk | have | citroen-e-c3-gen1
+    updated: 2026-11-19
+  vc-8bc0f94540:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: byd-seal-gen1|wltp|single|e=71.8 | rdw-tgk | have | byd-seal-gen1
+    updated: 2026-11-19
+  vc-8c2c9ab072:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: smart-3-gen1|wltp|multi|e=72.7 | rdw-tgk | have | smart-3-gen1
+    updated: 2026-11-19
+  vc-8d328adae1:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-up-gen1|wltp|multi|e=37 | rdw-tgk | have | volkswagen-e-up-gen1
+    updated: 2026-11-19
+  vc-8e4178cfc2:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-scenic-e-tech-gen1|wltp|single|e=104.4 | rdw-tgk | have | renault-scenic-e-tech-gen1
+    updated: 2026-11-19
+  vc-9031ff7e86:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-ix2-gen1|wltp|multi|e=73.2-74.3 | rdw-tgk | have | bmw-ix2-gen1
+    updated: 2026-11-19
+  vc-90a04a1ddd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-s5-gen1|wltp|single|e=73.9 | rdw-tgk | have | mg-s5-gen1
+    updated: 2026-11-19
+  vc-9112639b41:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-5-gen1|wltp|single|e=65.2 | rdw-tgk | have | hyundai-ioniq-5-gen1
+    updated: 2026-11-19
+  vc-93cc341158:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: porsche-taycan-gen1|none|multi|e=unknown | rdw-tgk | have | porsche-taycan-gen1
+    updated: 2026-11-19
+  vc-948dcc841d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-up-gen1|wltp|single|e=37 | rdw-tgk | have | volkswagen-e-up-gen1
+    updated: 2026-11-19
+  vc-94fee489ab:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqs-gen1|wltp|single|e=111.9 | rdw-tgk | have | mercedes-eqs-gen1
+    updated: 2026-11-19
+  vc-9514384572:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-i3-i01|wltp|single|e=38.5 | rdw-tgk | have | bmw-i3-i01
+    updated: 2026-11-19
+  vc-9596cd40f4:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze0|none|single|e=unknown | rdw-tgk | have | nissan-leaf-ze0
+    updated: 2026-11-19
+  vc-97ec9407ff:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-6-gen1|wltp|multi|e=87.2-90.9 | rdw-tgk | have | hyundai-ioniq-6-gen1
+    updated: 2026-11-19
+  vc-9810782080:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volvo-ex30-gen1|wltp|single|e=60.5 | rdw-tgk | have | volvo-ex30-gen1
+    updated: 2026-11-19
+  vc-99bf86bffa:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id3-gen1|wltp|single|e=56.6 | rdw-tgk | have | volkswagen-id3-gen1
+    updated: 2026-11-19
+  vc-9a2371305e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nio-et7-gen1|wltp|multi|e=110.2 | rdw-tgk | have | nio-et7-gen1
+    updated: 2026-11-19
+  vc-9bc39a8cd1:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-spacetourer-gen1|wltp|single|e=52.3 | rdw-tgk | have | citroen-e-spacetourer-gen1
+    updated: 2026-11-19
+  vc-9c17b14366:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: smart-eq-fortwo-451|nedc|single|e=21.9 | rdw-tgk | have | smart-eq-fortwo-451
+    updated: 2026-11-19
+  vc-9d4624ec06:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-4-e-tech-gen1|wltp|single|e=61.5 | rdw-tgk | have | renault-4-e-tech-gen1
+    updated: 2026-11-19
+  vc-9ed28d9133:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-e-tron-q8|wltp|multi|e=97.9-98 | rdw-tgk | have | audi-e-tron-q8
+    updated: 2026-11-19
+  vc-9f7ac53473:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mini-cooper-se-j01|wltp|single|e=56.4-56.6 | rdw-tgk | have | mini-cooper-se-j01
+    updated: 2026-11-19
+  vc-9fd66fb9e3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-zoe-ph2|wltp|single|e=63.9 | rdw-tgk | have | renault-zoe-ph2
+    updated: 2026-11-19
+  vc-a09f3032f6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-electric-gen1|wltp|single|e=42.9 | rdw-tgk | have | hyundai-ioniq-electric-gen1
+    updated: 2026-11-19
+  vc-a0e654f30c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-ix-gen1|wltp|multi|e=unknown | rdw-tgk | have | bmw-ix-gen1
+    updated: 2026-11-19
+  vc-a25ba4219d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-c3-gen1|wltp|single|e=35.4 | rdw-tgk | have | citroen-e-c3-gen1
+    updated: 2026-11-19
+  vc-a33a28fa73:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-cla-gen1|wltp|single|e=96.2-96.6 | rdw-tgk | have | mercedes-cla-gen1
+    updated: 2026-11-19
+  vc-a594c7d031:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-mg4-gen1|wltp|single|e=58.6-60.3 | rdw-tgk | have | mg-mg4-gen1
+    updated: 2026-11-19
+  vc-a6fae605b3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: jeep-avenger-gen1|wltp|single|e=61.5-61.7 | rdw-tgk | have | jeep-avenger-gen1
+    updated: 2026-11-19
+  vc-a73579da8a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id3-gen1|wltp|single|e=50.6-51 | rdw-tgk | have | volkswagen-id3-gen1
+    updated: 2026-11-19
+  vc-aa7bea847b:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze1|wltp|single|e=66 | rdw-tgk | have | nissan-leaf-ze1
+    updated: 2026-11-19
+  vc-aabf6e6b59:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-6-gen1|wltp|single|e=86.7 | rdw-tgk | have | hyundai-ioniq-6-gen1
+    updated: 2026-11-19
+  vc-ac9260a259:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: skoda-elroq-gen1|wltp|multi|e=86.7-87.5 | rdw-tgk | have | skoda-elroq-gen1
+    updated: 2026-11-19
+  vc-aca3c9b0e7:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-g-580-gen1|wltp|single|e=130.1-133.4 | rdw-tgk | have | mercedes-g-580-gen1
+    updated: 2026-11-19
+  vc-ae5bbfb620:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-i4-g26|wltp|single|e=91.5-95 | rdw-tgk | have | bmw-i4-g26
+    updated: 2026-11-19
+  vc-b07fedeec2:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id7-gen1|wltp|multi|e=95.1-95.5 | rdw-tgk | have | volkswagen-id7-gen1
+    updated: 2026-11-19
+  vc-b1265b4ced:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volvo-xc40-recharge-gen1|wltp|single|e=99.5 | rdw-tgk | have | volvo-xc40-recharge-gen1
+    updated: 2026-11-19
+  vc-b12c237ea2:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: skoda-elroq-gen1|none|multi|e=unknown | rdw-tgk | have | skoda-elroq-gen1
+    updated: 2026-11-19
+  vc-b2bc7e0e57:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-i3-i01|nedc|single|e=24.5 | rdw-tgk | have | bmw-i3-i01
+    updated: 2026-11-19
+  vc-b316421e79:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: bmw-i4-g26|wltp|single|e=75.2-76.2 | rdw-tgk | have | bmw-i4-g26
+    updated: 2026-11-19
+  vc-b3883bb8dd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: ford-mustang-mach-e-gen1|wltp|single|e=75.6-78 | rdw-tgk | have | ford-mustang-mach-e-gen1
+    updated: 2026-11-19
+  vc-b43e0510f5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-s-gen1|nedc|single|e=70.6 | rdw-tgk | have | tesla-model-s-gen1
+    updated: 2026-11-19
+  vc-b59b6d2af1:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: smart-eq-fortwo-453|nedc|single|e=20.1-20.8 | rdw-tgk | have | smart-eq-fortwo-453
+    updated: 2026-11-19
+  vc-b61cdce5f1:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id-buzz-gen1|wltp|single|e=93.9-95.3 | rdw-tgk | have | volkswagen-id-buzz-gen1
+    updated: 2026-11-19
+  vc-b639d4ce0c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: rolls-royce-spectre-gen1|wltp|multi|e=117.5 | rdw-tgk | have | rolls-royce-spectre-gen1
+    updated: 2026-11-19
+  vc-b6fd49727a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-s5-gen1|wltp|single|e=70.4 | rdw-tgk | have | mg-s5-gen1
+    updated: 2026-11-19
+  vc-b89eaf8aef:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-berlingo-gen3|wltp|single|e=54.7-56.3 | rdw-tgk | have | citroen-e-berlingo-gen3
+    updated: 2026-11-19
+  vc-b95cfd972d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-5-facelift|wltp|multi|e=89.6-95 | rdw-tgk | have | hyundai-ioniq-5-facelift
+    updated: 2026-11-19
+  vc-bb4138b45a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id5-gen1|wltp|single|e=84.5-85.3 | rdw-tgk | have | volkswagen-id5-gen1
+    updated: 2026-11-19
+  vc-bb5343a109:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: renault-zoe-ph2|wltp|single|e=67.9 | rdw-tgk | have | renault-zoe-ph2
+    updated: 2026-11-19
+  vc-bc207e13e7:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqs-gen1|none|single|e=unknown | rdw-tgk | have | mercedes-eqs-gen1
+    updated: 2026-11-19
+  vc-bc9d41e271:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-berlingo-gen3|wltp|single|e=61.2-61.5 | rdw-tgk | have | citroen-e-berlingo-gen3
+    updated: 2026-11-19
+  vc-bcace38621:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-cyberster-gen1|wltp|multi|e=84.3 | rdw-tgk | have | mg-cyberster-gen1
+    updated: 2026-11-19
+  vc-bcc929d14f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: ds-3-e-tense-facelift|wltp|single|e=61.5-61.7 | rdw-tgk | have | ds-3-e-tense-facelift
+    updated: 2026-11-19
+  vc-bd8508321d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-c4-c41|wltp|multi|e=56.1 | rdw-tgk | have | citroen-e-c4-c41
+    updated: 2026-11-19
+  vc-bdbd70bcc5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-3-gen1|wltp|single|e=70.7 | rdw-tgk | have | tesla-model-3-gen1
+    updated: 2026-11-19
+  vc-bfd2f2172d:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-2008-p24|wltp|single|e=61.5-61.7 | rdw-tgk | have | peugeot-e-2008-p24
+    updated: 2026-11-19
+  vc-c0f9142d89:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nio-es8-gen1|wltp|multi|e=112.8 | rdw-tgk | have | nio-es8-gen1
+    updated: 2026-11-19
+  vc-c14c704326:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id7-gen1|wltp|single|e=94.5-95 | rdw-tgk | have | volkswagen-id7-gen1
+    updated: 2026-11-19
+  vc-c1dc935bd5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-9-gen1|wltp|multi|e=123.6 | rdw-tgk | have | hyundai-ioniq-9-gen1
+    updated: 2026-11-19
+  vc-c1f02e406a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-kona-electric-os|wltp|single|e=69.1-71.1 | rdw-tgk | have | hyundai-kona-electric-os
+    updated: 2026-11-19
+  vc-c2ede4a0a5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: porsche-taycan-gen1|wltp|multi|e=84.5 | rdw-tgk | have | porsche-taycan-gen1
+    updated: 2026-11-19
+  vc-c34dca398a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: porsche-taycan-gen1|wltp|multi|e=88.7 | rdw-tgk | have | porsche-taycan-gen1
+    updated: 2026-11-19
+  vc-c40d862168:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mg-zs-ev-gen1|wltp|single|e=76.5-78.3 | rdw-tgk | have | mg-zs-ev-gen1
+    updated: 2026-11-19
+  vc-c55b7ba956:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-q4-e-tron-gen1|wltp|single|e=84.7-87.6 | rdw-tgk | have | audi-q4-e-tron-gen1
+    updated: 2026-11-19
+  vc-c92844cc70:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mini-cooper-se-j01|none|single|e=unknown | rdw-tgk | have | mini-cooper-se-j01
+    updated: 2026-11-19
+  vc-c97ae420cf:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-y-juniper|wltp|single|e=83.4-84.4 | rdw-tgk | have | tesla-model-y-juniper
+    updated: 2026-11-19
+  vc-caae169ccd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-spacetourer-gen1|wltp|single|e=82.9-83.7 | rdw-tgk | have | citroen-e-spacetourer-gen1
+    updated: 2026-11-19
+  vc-cab3829afd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-ioniq-6-gen1|wltp|single|e=90.7 | rdw-tgk | have | hyundai-ioniq-6-gen1
+    updated: 2026-11-19
+  vc-cab5e93c05:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: voyah-free-gen1|wltp|multi|e=115.5 | rdw-tgk | have | voyah-free-gen1
+    updated: 2026-11-19
+  vc-cca7914caf:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-2008-p24|wltp|single|e=56.3 | rdw-tgk | have | peugeot-e-2008-p24
+    updated: 2026-11-19
+  vc-ce9e6633e0:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqe-gen1|wltp|single|e=110-111.1 | rdw-tgk | have | mercedes-eqe-gen1
+    updated: 2026-11-19
+  vc-d08772756a:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqv-gen1|nedc|single|e=105.2 | rdw-tgk | have | mercedes-eqv-gen1
+    updated: 2026-11-19
+  vc-d0f80c4973:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqs-gen1|none|multi|e=unknown | rdw-tgk | have | mercedes-eqs-gen1
+    updated: 2026-11-19
+  vc-d2565961d9:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: fiat-500e-332|wltp|single|e=44.9 | rdw-tgk | have | fiat-500e-332
+    updated: 2026-11-19
+  vc-d47496ab32:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-leaf-ze1|wltp|single|e=43.8 | rdw-tgk | have | nissan-leaf-ze1
+    updated: 2026-11-19
+  vc-d53e16b83b:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-s-gen1|nedc|single|e=84.2 | rdw-tgk | have | tesla-model-s-gen1
+    updated: 2026-11-19
+  vc-d744dbc9a6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-golf-mk75|nedc|single|e=37.4-38.1 | rdw-tgk | have | volkswagen-e-golf-mk75
+    updated: 2026-11-19
+  vc-d7fbe49f64:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: citroen-e-c4-c41|wltp|single|e=52.6-53.6 | rdw-tgk | have | citroen-e-c4-c41
+    updated: 2026-11-19
+  vc-db4b42e2c6:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volvo-ex30-gen1|wltp|single|e=79-80.6 | rdw-tgk | have | volvo-ex30-gen1
+    updated: 2026-11-19
+  vc-dbecbbb279:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: fiat-500e-332|wltp|single|e=24.7 | rdw-tgk | have | fiat-500e-332
+    updated: 2026-11-19
+  vc-dd6693c3e0:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: skoda-enyaq-gen1|wltp|single|e=101.5 | rdw-tgk | have | skoda-enyaq-gen1
+    updated: 2026-11-19
+  vc-ddc8ffb9df:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: cupra-born-gen1|wltp|single|e=63.5-66.6 | rdw-tgk | have | cupra-born-gen1
+    updated: 2026-11-19
+  vc-df205ceeef:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: skoda-elroq-gen1|wltp|single|e=65.5-66.5 | rdw-tgk | have | skoda-elroq-gen1
+    updated: 2026-11-19
+  vc-e439db3609:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: nissan-micra-ev-gen6|wltp|single|e=62.8 | rdw-tgk | have | nissan-micra-ev-gen6
+    updated: 2026-11-19
+  vc-e4562d9d61:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: byd-tang-gen1|wltp|multi|e=127.2 | rdw-tgk | have | byd-tang-gen1
+    updated: 2026-11-19
+  vc-e55f05c25e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: byd-dolphin-gen1|wltp|single|e=67.9 | rdw-tgk | have | byd-dolphin-gen1
+    updated: 2026-11-19
+  vc-e5a3850f59:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-e-tron-gt-gen1|wltp|multi|e=96.4-97.8 | rdw-tgk | have | audi-e-tron-gt-gen1
+    updated: 2026-11-19
+  vc-e76a47c388:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-id4-gen1|wltp|single|e=83.1-87.4 | rdw-tgk | have | volkswagen-id4-gen1
+    updated: 2026-11-19
+  vc-e8f5f8196e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: peugeot-e-5008-gen1|wltp|single|e=119.8 | rdw-tgk | have | peugeot-e-5008-gen1
+    updated: 2026-11-19
+  vc-ebec7dda71:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: opel-mokka-gen1|wltp|single|e=52.6-53.6 | rdw-tgk | have | opel-mokka-gen1
+    updated: 2026-11-19
+  vc-ec1ee2edca:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-y-gen1|wltp|single|e=71.4 | rdw-tgk | have | tesla-model-y-gen1
+    updated: 2026-11-19
+  vc-eeec199bd3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: leapmotor-c10-gen1|wltp|single|e=91.3 | rdw-tgk | have | leapmotor-c10-gen1
+    updated: 2026-11-19
+  vc-ef7a6f6c24:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-e-tron-gt-gen1|none|multi|e=unknown | rdw-tgk | have | audi-e-tron-gt-gen1
+    updated: 2026-11-19
+  vc-f2fa4769bd:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: audi-e-tron-gt-facelift|wltp|multi|e=109.4-110 | rdw-tgk | have | audi-e-tron-gt-facelift
+    updated: 2026-11-19
+  vc-f49c2200c3:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-soul-ev-ps|nedc|single|e=31.2 | rdw-tgk | have | kia-soul-ev-ps
+    updated: 2026-11-19
+  vc-f4f05936e8:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: tesla-model-3-highland|wltp|multi|e=88.1-88.2 | rdw-tgk | have | tesla-model-3-highland
+    updated: 2026-11-19
+  vc-f4f7385048:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: opel-mokka-gen1|wltp|single|e=60.2-61.7 | rdw-tgk | have | opel-mokka-gen1
+    updated: 2026-11-19
+  vc-f5c3b94b4e:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqv-gen1|wltp|single|e=98-100.2 | rdw-tgk | have | mercedes-eqv-gen1
+    updated: 2026-11-19
+  vc-f73785e294:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqc-n293|wltp|single|e=92.6 | rdw-tgk | have | mercedes-eqc-n293
+    updated: 2026-11-19
+  vc-f7c2d9dc92:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-cla-gen1|wltp|multi|e=95.9-97.1 | rdw-tgk | have | mercedes-cla-gen1
+    updated: 2026-11-19
+  vc-f8989e8fd7:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volvo-ex90-gen1|wltp|multi|e=119.2 | rdw-tgk | have | volvo-ex90-gen1
+    updated: 2026-11-19
+  vc-faec817bae:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: volkswagen-e-up-gen1|nedc|single|e=18.7 | rdw-tgk | have | volkswagen-e-up-gen1
+    updated: 2026-11-19
+  vc-fb3e820fa4:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-ev6-gen1|wltp|single|e=65.4 | rdw-tgk | have | kia-ev6-gen1
+    updated: 2026-11-19
+  vc-fc7b666d1c:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: fiat-500e-312|none|single|e=unknown | rdw-tgk | have | fiat-500e-312
+    updated: 2026-11-19
+  vc-ff78ce87ac:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mercedes-eqs-gen1|wltp|multi|e=134.6 | rdw-tgk | have | mercedes-eqs-gen1
+    updated: 2026-11-19
+written: {}
