@@ -422,3 +422,21 @@ test("budget field shows thousands separators (T-132 review N3)", async ({ page 
   await page.getByTestId("hero-budget-30000").click();
   await expect(page.getByTestId("hero-budget")).toHaveValue("30,000");
 });
+
+// T-152: at a small budget, unpriced cars whose known prices (else their segment's) are more than
+// twice the budget are no fill-ins; at most 3 unpriced cars follow the priced ones, and the list
+// says what it left out and offers to raise the budget.
+test("hero: €15k road-tripper and kerbside show at most 3 unpriced fill-ins, none of them E/F luxury cars, and say what was left out", async ({ page }) => {
+  test.skip(!HAS_SCORES || !HAS_USED_PRICES, "needs a release with shortlist_scores.json and used_prices.json (Decisions 064/065)");
+  for (const qs of ["role=only&trips=monthly&charge=home&budget=15000", "role=only&trips=often&charge=public_only&area=city&budget=15000"]) {
+    await page.goto(`/nl/en?${qs}`);
+    await expect(page.getByTestId("hero-results")).toBeVisible();
+    const unpriced = await page.locator('[data-testid="hero-card"][data-price-basis="none"]').evaluateAll((els) => els.map((e) => e.getAttribute("data-variant")));
+    expect(unpriced.length, qs).toBeLessThanOrEqual(3);
+    for (const id of unpriced) expect(id, `${qs}: ${id}`).not.toMatch(/^(lucid-air|zeekr-001|audi-e-tron-gt|audi-a6-e-tron|tesla-model-s|lotus-emeya)-/);
+    const leftOut = page.getByTestId("hero-left-out");
+    await expect(leftOut).toBeVisible();
+    await leftOut.getByTestId("hero-raise-budget").click();
+    await expect(page.getByTestId("hero")).toHaveAttribute("data-step", "budget");
+  }
+});
