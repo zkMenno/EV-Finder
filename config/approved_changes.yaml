@@ -442,7 +442,7 @@ approved:
     id: porsche-taycan-gen1-turbo-s
     field: "consumption_*"
     change: changed
-  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 6 blocking lines on the same staging
+  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 8 blocking lines on the same staging
   - &t159taycan
     release: 4
     file: catalogue.json
@@ -471,6 +471,14 @@ approved:
     field: "price_new.NL.amount"
     change: cleared
   - {<<: *t156, file: used_prices.json, id: ford-e-tourneo-courier-gen1-base, field: "*", change: removed}
+  # T-159 part 2: RDW model-year aggregates (matcher.year_aggregate_pick); 1 blocking line
+  - release: 4
+    file: shortlist_scores.json
+    approved_by: "PR #203 (T-159)"
+    reason: "T-159 part 2: an RDW model-year aggregate (one WLTP for every car of a trade name and year) whose only evidence is its own WLTP no longer attaches when 2+ variants hold its year. The Peugeot e-5008 2024 / 2025 aggregates leave the base row, its WLTP comes from its own sources (491 -> 496 km) and its daily-driver band moves consider -> shortlist. Measured: ev verify of PR T-159 part 2 merged with main + part 1 approvals (2026-11-19), the only blocking line."
+    id: peugeot-e-5008-gen1-base
+    field: "scores.daily-driver.band"
+    change: changed
   # T-160: the 100 kW / 50 kWh e-208, e-2008 and Corsa rows run on past 2023 (Stellantis documents:
   # the version stayed on sale after the 2023 facelift), so RDW TGK ZKXZ versions 2025-26 land on them.
   - &t160zkxz
