@@ -442,16 +442,15 @@ approved:
     id: porsche-taycan-gen1-turbo-s
     field: "consumption_*"
     change: changed
-  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 7 blocking lines on the same staging
+  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 6 blocking lines on the same staging
   - &t159taycan
     release: 4
     file: catalogue.json
     approved_by: "PR #198 (T-159)"
-    reason: "T-159: Taycan gen1 rows now take only their own RDW TGK variant codes (2020-23: base JA12 / SA12, Turbo JC22 / CC22 / SC22). Before, the base car's JA12 versions (451 km) sat on the Turbo row and the base row had no TGK versions; now the base shows its own 2022 type-approval WLTP 541 km (431 was OpenEV's) and the Turbo its own 523 km, real range follows. The Turbo's mass becomes its own 2380 kg (was the base's 2125), which adds the existing too-big-for-b-roads penalty on rural scores. Measured: same-staging build of main vs PR T-159 part 1 (2026-11-19), 14 rows changed, these the only blocking lines."
+    reason: "T-159: Taycan gen1 rows now take only their own RDW TGK versions (2020-23 variant codes; base and 4S also by pack, the uitvoering code's 4th digit). Base (Performance Battery, 71 kWh net): before it had no TGK versions; now its own 2022 PB versions, WLTP 431 (OpenEV) -> 464 km. Turbo (all Performance Battery Plus): before it held the base car's JA12 versions (451 km); now its own JC22 / CC22 / SC22 versions, WLTP 523 km, real range follows; its own mass 2380 kg (was the base's 2125) adds the existing too-big-for-b-roads penalty on rural scores. Measured: same-staging build of main vs PR #199 (2026-11-19), 14 rows changed, these the only blocking lines."
     id: porsche-taycan-gen1-base
     field: wltp_range_km
     change: changed
-  - {<<: *t159taycan, id: porsche-taycan-gen1-base, field: real_range_km}
   - {<<: *t159taycan, id: porsche-taycan-gen1-turbo, field: wltp_range_km}
   - {<<: *t159taycan, id: porsche-taycan-gen1-turbo, field: real_range_km}
   - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.daily-driver.rural.band"}
