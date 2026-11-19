@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from datetime import date
 
-from ev_pipeline.match.matcher import VariantInfo, match_records
+from ev_pipeline.match.matcher import YEAR_AGG_OWN_WLTP, VariantInfo, match_records
 from ev_pipeline.match.seed import parse_manual_variants, parse_seed
 from ev_pipeline.records import SourceRecord, SpecValue
 
@@ -180,9 +180,15 @@ def test_f1_nameless_record_attaches_to_the_only_variant() -> None:
 
 
 def test_f1_nameless_record_with_unique_evidence_attaches_there() -> None:
-    """RDW year group at 475 km: only the 69 kWh variant (476 km) fits; never 'base'."""
+    """RDW year group at 475 km: only the 69 kWh variant (476 km) fits; never 'base'.
+    T-159: the group's WLTP is a median over all trims of that year, so with 2+ variants
+    whose years hold 2024 it is no evidence for one of them: review. With only the 69 kWh
+    variant holding the year, it attaches there as before."""
     res = _match([_coarse_rdw(475)])
-    assert _placed(res) == {f"{GEN}-69-kwh"}
+    assert _placed(res) == set()
+    assert any(YEAR_AGG_OWN_WLTP in u.reason and "69-kwh" in u.reason for u in res.unmatched)
+    later = [r if r["id"].endswith("69-kwh") else {**r, "years": [2025, None]} for r in ROWS]
+    assert _placed(_match([_coarse_rdw(475)], later)) == {f"{GEN}-69-kwh"}
 
 
 def test_f1_no_word_variant_does_not_win_a_tie_on_nothing() -> None:
