@@ -57,15 +57,18 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-49 | `ev verify` refuses to run while `ev refresh` holds the staging directory | Catalogue retro (18 Nov): verified on a half-written staging while a refresh ran | `ev verify` lock check (T-153) | WS1 | 2026-11-19 | — |
 | G-50 | `validate_variants.py` warns when a seed `cited:` block uses a `blocked` source (those values never ship; use data/manual) | Catalogue retro (18 Nov): maker-docs `cited:` values never shipped and nothing said so | `data/seed/validate_variants.py` (T-153, cross-lane) | WS1 + WS3 | 2026-11-19 | — |
 | G-51 | A task brief that names a data-dependent rule includes a one-line repro on the current release (expected before / after) | T-152 retro (19 Nov): the WS0 rule as briefed passed its own tests and left the bug on release 3 | *prose* (WS0 briefs) | WS0 | 2026-11-19 | — |
-| G-52 | Merge only from a step that fails on its own when `compare main...branch` shows behind_by > 0, run separately before the merge command (exception: G-59) | T-151 retro (19 Nov): #178 merged while main was 5 commits ahead; the check sat in the same command as the merge | *prose* (merge batches) until T-158 adds `scripts/merge_ready.sh` | WS0 | 2026-11-19 | — |
-| G-53 | `ev verify --keep <dir>` keeps its scratch build so a builder can trace where a value came from | T-151 retro (19 Nov): needed a separate scratch build because verify deletes it | `ev verify` (T-158) | WS1 | 2026-11-19 | — |
-| G-54 | `approved_changes` validation warns when an entry's `release` is ≤ the latest published release when its PR merges | T-151 retro (19 Nov): an approval scoped to an already-built release blocked main's next build | approved_changes validator (T-158) | WS1 | 2026-11-19 | — |
+| G-52 | Merge only from a step that fails on its own when `compare main...branch` shows behind_by > 0, run separately before the merge command (exception: G-59) | T-151 retro (19 Nov): #178 merged while main was 5 commits ahead; the check sat in the same command as the merge | `sh scripts/merge_ready.sh <pr>` (T-158, #195) | WS0 | 2026-11-19 | — |
+| G-53 | `ev verify --keep <dir>` keeps its scratch build so a builder can trace where a value came from | T-151 retro (19 Nov): needed a separate scratch build because verify deletes it | `ev verify --keep <dir>` (T-158, #195) | WS1 | 2026-11-19 | — |
+| G-54 | `approved_changes` validation warns when an entry's `release` is ≤ the latest published release when its PR merges | T-151 retro (19 Nov): an approval scoped to an already-built release blocked main's next build | `ev release approvals` (in data_qa.sh) + `merge_ready.sh` at merge (T-158, #195) | WS1 | 2026-11-19 | — |
 | G-55 | A licence-parser change is tested on ≥10 real cached file pages plus every refusal / deletion template name | Batch #171/T-149/T-150 retro (19 Nov): a deletion-template bug passed tests that only had `{{delete}}`; the reviewer caught it | REVIEW D2 (trigger: `pipeline/ev_pipeline/images/**`) | WS1 | 2026-11-19 | — |
-| G-56 | `ev verify --base-release-from <ref>` builds the base ref on the same staging and diffs against it | T-154 retro (19 Nov): a fresh staging diffed against committed release 3 gave ~10k blocking lines | `ev verify` (T-158) | WS1 | 2026-11-19 | — |
-| G-57 | `data_qa.sh` loads `data/review/approved_changes.yaml` with `load_config`, so a bad `approved_by` fails there | T-154 retro (19 Nov): found only when the loader failed | `data_qa.sh` (T-158) | WS1 | 2026-11-19 | — |
+| G-56 | `ev verify --base-release-from <ref>` builds the base ref on the same staging and diffs against it | T-154 retro (19 Nov): a fresh staging diffed against committed release 3 gave ~10k blocking lines | `ev verify --base-release-from <ref>` (T-158, #195) | WS1 | 2026-11-19 | — |
+| G-57 | `data_qa.sh` loads `config/approved_changes.yaml` with `load_config`, so a bad `approved_by` fails there | T-154 retro (19 Nov): found only when the loader failed | `ev release approvals` in `data_qa.sh` (T-158, #195) | WS1 | 2026-11-19 | — |
 | G-58 | A pause goes into HANDOFF **and** an INBOX line **and** the Status of every open task; batch chats re-read the newest INBOX lines and their task Status before opening a PR | T-156 retro (19 Nov): the pause landed mid-batch and nothing told the running chat | *prose* (WS0 + batch chats) | WS0 | 2026-11-19 | — |
-| G-59 | G-52 also passes when every commit main is ahead by touches only `workstreams/WS0/INBOX.md`, `workstreams/WS0/HANDOFF.md` or `CHATS.md` and GitHub says `mergeable_state: clean` (same idea as G-47) | T-153 retro (19 Nov): main moved 6× by log lines → 5 extra merge + CI rounds | *prose* until T-158 `merge_ready.sh` | WS0 | 2026-11-19 | — |
+| G-59 | G-52 also passes when every commit main is ahead by touches only `workstreams/WS0/INBOX.md`, `workstreams/WS0/HANDOFF.md` or `CHATS.md` and GitHub says `mergeable_state: clean` (same idea as G-47) | T-153 retro (19 Nov): main moved 6× by log lines → 5 extra merge + CI rounds | `sh scripts/merge_ready.sh <pr>` (T-158, #195) | WS0 | 2026-11-19 | — |
 | G-60 | A task that adds a `source_holds` entry "remove once T-xxx merges" writes the exact follow-up change into T-xxx's file, or (if T-xxx isn't its own task) into an INBOX line for WS0 | T-153 retro (19 Nov): the Elroq hold removal alone would have shipped a wrong 150 kW | *prose* (builders, WS0 briefs) | WS0 | 2026-11-19 | — |
+| G-61 | `data_qa.sh` runs the tests that pin seed state (`pytest -m seed`, marker registered in `pipeline/pyproject.toml`) | T-160 retro (19 Nov): a seed change broke `test_t153_split` / `test_t159_split`, found only in CI | `data_qa.sh` (T-165) | WS1 + WS3 | 2026-11-19 | — |
+| G-62 | `ev verify` lists rows whose derived flags change only because an input is missing, naming the input | T-161 retro (19 Nov): 22 rows lost a version flag only for missing `power_kw`; the reviewer found it | `ev verify` (T-165) | WS1 | 2026-11-19 | — |
+| G-63 | `merge_ready.sh` treats a check run with a `conclusion` and `completed_at` as completed, and says so | T-158 retro (19 Nov): a check run stuck at `in_progress` with `conclusion: success` blocked #195 | `merge_ready.sh` (T-165) | WS1 | 2026-11-19 | — |
 
 **Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17 · P-21 (CI budget)→G-33; the rest became G-21–G-31.
 
@@ -126,6 +129,15 @@ Added later on 18 Nov: web batch → G-46 accepted; merge batch 4 → G-47 accep
 | Batch: data T-155 | `ev verify --keep` scratch builds for reviewers | Exists → G-53 (T-158) |
 | Batch: data T-155 | `ev verify` lists value_guard.py as a changed rule | Accepted → T-158 item (no new rule) |
 | Batch: data T-155 | PR-body checker recounts "main has N" claims | Parked (cost > benefit now; reviewers recount) |
+
+## Retro proposals processed (19 Nov 2026, lines 14:25–16:05 UTC)
+
+| From | Proposal | Verdict |
+|---|---|---|
+| Batch: data T-161 | `ev verify` lists flag changes caused by a missing input | Accepted → G-62 (T-165) |
+| Batch: data T-158 | merge_ready treats conclusion + completed_at as completed | Accepted → G-63 (T-165) |
+| Batch: catalogue T-160 | data_qa.sh runs the seed-pinned split tests | Accepted → G-61 (T-165) |
+| Batch: catalogue T-160 | Approvals measured with `ev verify` against the latest release, not only a same-staging main build | Covered: plain `ev verify` diffs against the latest published release; T-162–T-164 ask for it next to `--base-release-from` (G-56 is the code diff) |
 
 ## Retro questions (every session end)
 1. What slowed us down? 2. What did Menno have to do by hand? 3. Which rule would have prevented it? **4. What did a check miss, and which check would have caught it?** (answer 4 adds or sharpens a row here or a REVIEW.md item).
