@@ -1,6 +1,6 @@
 # T-160 Elroq alias + hold off, ZKXZ years, Model S 75D, catalogue leftovers: MX-30, smart forfour 453, Model X gen1, EV6 63 kWh, then the rest
 Role: builder   Lane: data/seed, data/manual (WS3)   Wave: launch
-Status: review (batch: catalogue T-160, https://claude.ai/code/session_01JuyZEVd9J7FfZJTPaQQmnc, 2026-11-19): gate #196, data PRs Elroq, ZKXZ + 75D, leftovers
+Status: done (batch: catalogue T-160, https://claude.ai/code/session_01JuyZEVd9J7FfZJTPaQQmnc, 2026-11-19): gate #196, #200, #201 and this PR #202 merged; Model X gen1 and the rest of the list left (Handoff notes)
 
 ## Goal
 The biggest no-variant groups left after T-154 get cited seed variants, so their EU registrations land on real rows.
