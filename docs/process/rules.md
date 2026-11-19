@@ -53,6 +53,9 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-45 | WS3 lane: run `sh data/seed/data_qa.sh` (runs CI's data-qa seed steps; merged with #130) before every push | WS3 retro: data-qa failures found only in CI | *prose* (WS3 lane brief); CI data-qa job stays the independent check | WS3 | 2026-11-18 | — |
 | G-46 | Local e2e / verify refuse to reuse a running server whose build differs from `.next/BUILD_ID` (kill it or start a fresh one) | Web batch retro (18 Nov): a stale `next start` on port 3100 made one e2e run test an old build | the web verify and e2e scripts (WS2 adds the check in its next batch) | WS2 | 2026-11-18 | — |
 | G-47 | An open PR keeps its passing fresh review when main moved only by log files (`workstreams/WS0/INBOX.md`, `workstreams/WS0/HANDOFF.md`, `CHATS.md`) and the PR's own files are byte-identical to the reviewed head (`git diff <reviewed-sha> HEAD -- <PR files>` is empty); CI on the new head (R0) still has to pass | Merge batch 4 retro (18 Nov): main moved 3× under #129 by inbox lines, each move cost a re-review | REVIEW R0 note; merge chats check with that `git diff` | all | 2026-11-18 | — |
+| G-48 | `ev verify` flags a seed variant whose built drivetrain differs from its seed, or whose built WLTP is >10 % off its own cited WLTP | Variant queue retro (18 Nov): a reviewer caught Kia EV3 built as AWD / 583 km twice by hand | `ev verify` (T-153) | WS1 | 2026-11-19 | — |
+| G-49 | `ev verify` refuses to run while `ev refresh` holds the staging directory | Catalogue retro (18 Nov): verified on a half-written staging while a refresh ran | `ev verify` lock check (T-153) | WS1 | 2026-11-19 | — |
+| G-50 | `validate_variants.py` warns when a seed `cited:` block uses a `blocked` source (those values never ship; use data/manual) | Catalogue retro (18 Nov): maker-docs `cited:` values never shipped and nothing said so | `data/seed/validate_variants.py` (T-153, cross-lane) | WS1 + WS3 | 2026-11-19 | — |
 
 **Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17 · P-21 (CI budget)→G-33; the rest became G-21–G-31.
 
@@ -87,6 +90,14 @@ _None yet._
 | WS3 (retro 1b) | `data/seed/data_qa.sh` before every push | Accepted 2026-11-18 → G-45 |
 
 Added later on 18 Nov: web batch → G-46 accepted; merge batch 4 → G-47 accepted (coordinator).
+
+## Retro proposals processed (19 Nov 2026)
+
+| From | Proposal | Verdict |
+|---|---|---|
+| Batch: variant queue | `ev verify` flags seed variants whose built drivetrain or WLTP disagree with the seed / cited values | Accepted 2026-11-19 → G-48 (T-153) |
+| Batch: catalogue | `ev verify` refuses to run while `ev refresh` holds staging | Accepted 2026-11-19 → G-49 (T-153) |
+| Batch: catalogue | `validate_variants` warns when a `cited:` block uses a blocked source | Accepted 2026-11-19 → G-50 (T-153) |
 
 ## Retro questions (every session end)
 1. What slowed us down? 2. What did Menno have to do by hand? 3. Which rule would have prevented it? **4. What did a check miss, and which check would have caught it?** (answer 4 adds or sharpens a row here or a REVIEW.md item).

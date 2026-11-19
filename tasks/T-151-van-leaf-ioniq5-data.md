@@ -1,6 +1,6 @@
 # T-151 Fix ë-SpaceTourer, e-Tourneo Courier, Leaf 62 kWh and Ioniq 5 facelift data
 Role: builder   Lane: data/seed, data/manual (WS3)   Wave: launch
-Status: review (batch: T-151, claimed 2026-11-19; gate PR #177 + data PR)
+Status: done (merged #177 + #178; WS0 2026-11-19)
 
 ## Goal
 Four data errors found while building release 3 are fixed with cited maker figures, so no car shows another version's range or battery.

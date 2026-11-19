@@ -1,6 +1,6 @@
 # T-152 Don't fill a small budget with far-too-expensive unpriced cars
 Role: builder   Lane: apps/web (WS2)   Wave: launch
-Status: review (batch T-152, https://claude.ai/code/session_01JuyZETaUYebGPuMx1hecJs, 2026-11-19) · PR #174
+Status: done (merged #174, 43535e6; WS0 2026-11-19)
 
 ## Goal
 At a low budget (e.g. €15k) the hero results show the cars that fit, not €100k+ cars that only appear because we have no used price for them yet.
@@ -27,3 +27,5 @@ Pipeline price coverage. Changing the scoring.
 - Nit left: "{n} more cars" with n = 1 (same plural pattern as other strings).
 
 ## Review
+
+WS0 (2026-11-19): segment rung (own price → generation → cheapest car in its segment) and "cheapest held price > 2× budget" reading **accepted**. Nits ("{n} more cars" at n = 1, no button when only the cap applies) left as they are.
