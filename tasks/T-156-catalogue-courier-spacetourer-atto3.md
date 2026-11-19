@@ -1,6 +1,6 @@
 # T-156 Small catalogue fixes: e-Tourneo Courier 2026, ë-SpaceTourer 75 DC, e-GMP 84 pack, BYD Atto 3 photo
 Role: builder   Lane: data/seed, data/manual, data/images (WS3)   Wave: launch
-Status: review (batch: catalogue T-156, https://claude.ai/code/session_01JuyZEWYDTfurC8UVp9w9ew, 2026-11-19). Draft PRs open, not reviewed or merged: building paused 09:30 UTC (WS0 HANDOFF).
+Status: done (gate #190 merged 8abbbdf, data #191; batch: catalogue T-160, https://claude.ai/code/session_01JuyZEVd9J7FfZJTPaQQmnc, 2026-11-19)
 
 ## Goal
 Four small gaps left by T-151 and T-149 are closed with cited maker or file-page facts.
@@ -29,4 +29,8 @@ T-154's list (another chat). Matcher changes (T-153 / T-155).
 - **List prices:** Lucid Gravity, Lucid's press release 08.09.2025 (ir.lucidmotors.com): Grand Touring €116,900 DE (medium), Touring €99,900 DE (low: announced before it could be ordered). Not done: Lotus Eletre (Lotus's 2022 price page now redirects to a news index) and Porsche Macan Electric (no euro price on the German Porsche releases read; Swiss release gives CHF only).
 - **Evidence:** `sh data/seed/data_qa.sh` all four pass. `ev verify --base origin/main --skip-tests` on staging recorded 2026-11-19: without #190 2 blocking (the two Courier Base lines); with #190's file applied **0 blocking, 387 approved, 21 retired, 11594 review**, variants 399. Built rows: Courier 46 kWh 46 / 320 km / 26 min / real 256 km; Base 43 / 288; SpaceTourer 75 kWh DC peak 100 (was none); Gravity Touring / GT price DE 99,900 / 116,900. Pytest not run (no pipeline code changed).
 
+- **Side effect, said here per review should-fix (batch catalogue T-160, 2026-11-19):** with `egmp-84` at 697 V the Ioniq 5 facelift rows are class 800v, so the 800v band thresholds apply (`data/editorial/shortlist_rules.yaml:33`, consider >= 63 vs default 50): against main the AWD's 6 road-tripper bands go consider -> fallback. Same as release 3; the rule working as written. Pre-existing follow-up: the Ioniq 5 facelift still ships `battery_kwh_net` 84 although Hyundai AT calls 84 nominal (now low confidence).
+- **Numbers after merging main (8abbbdf, #190 in):** `ev verify --base origin/main --skip-tests`, staging 2026-11-19: 0 blocking, 372 approved, 21 retired, 11610 review, variants 399 (prev 375).
+
 ## Review
+- 2026-11-19, fresh subagent review (batch catalogue T-160): R0–R3, D1, D2, D4. #190 PASS WITH NITS (3749b3e; merged as d6ead5b after a main merge, CI green, behind_by 0). #191 FAIL R2 on PR-body numbers only (868d7f2); fixed by pasting the refreshed Numbers block (verify --pr-body pass on the new head). Comments: PR #190 issuecomment-7010499468, PR #191 issuecomment-7010500003.
