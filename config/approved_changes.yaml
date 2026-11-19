@@ -370,16 +370,44 @@ approved:
     id: audi-e-tron-gt-facelift-s
     field: wltp_range_km
     change: changed
+  # T-161 (Decision 088) replaces #184's three e-tron GT score approvals: under the trim-line
+  # rule the 2025 entry trim no longer makes the 2024 S / RS / RS performance "older versions".
   - &t154gtscores
     release: 4
     file: shortlist_scores.json
-    approved_by: "PR #182 (T-154, Decision 087)"
-    reason: "T-154: the e-tron GT 2024 trims gain Audi's length (4997 mm), launch-control 0-100 and WLTP, and the new 2025 entry version (e-tron GT quattro, 370 kW, more efficient on the same pack) makes the 2024 S / RS / RS performance 'older versions' under Decision 038's newest-version rule, which compares versions model-wide (bonus -> penalty, about 10 points). The rule working as written; flagged to WS0 (a later-added entry trim is not a newer version of the S). Measured: ev verify main vs the branch on the same staging (2026-11-19), 30 blocking, all on these three ids."
+    approved_by: "PR #194 (T-161 gate, Decision 088)"
+    reason: "T-154 + T-161: the e-tron GT 2024 trims gain Audi's length (4997 mm), launch-control 0-100 and WLTP (PR #182, Decision 087). Decision 088 compares newest / older versions within one trim line (model + drivetrain, new line at > 15 % above the line's lowest power), so the 2025 entry trim (370 kW) is no longer a newer version of the S (435 kW) / RS (500 kW): S and RS get newest-version over the 2023 gen1 RS (440 kW, same line), RS performance (550 kW) is a line of its own. Measured: main vs T-161 built with their own code on one staging (2026-11-19): S 59.0 -> 69.0, RS 62.2 -> 72.2, RS performance 54.1 -> 60.1 road-tripper."
     id: audi-e-tron-gt-facelift-s
     field: "scores.*"
     change: changed
   - {<<: *t154gtscores, id: audi-e-tron-gt-facelift-rs}
   - {<<: *t154gtscores, id: audi-e-tron-gt-facelift-rs-performance}
+  # T-161 (Decision 088): newest-version (+4) / older-version (-6) now compare one trim line, so
+  # these 17 rows gain or lose a flag and cross a band line. Scores only; no catalogue row moves.
+  - &t161
+    release: 4
+    file: shortlist_scores.json
+    approved_by: "PR #194 (T-161 gate, Decision 088)"
+    reason: "T-161: Decision 088 trim-line rule. The row's newest-version / older-version flag changes because versions are now compared within the same model + drivetrain + power line (> 15 % power starts a new line; unknown drivetrain or power = never compared), not model-wide. Measured: main vs T-161 built with their own code on one staging (2026-11-19): 48 blocking band lines on these 17 ids, 0 catalogue changes."
+    id: audi-q6-e-tron-gen1-quattro
+    field: "scores.*"
+    change: changed
+  - {<<: *t161, id: audi-q6-e-tron-gen1-sq6}
+  - {<<: *t161, id: bmw-i4-g26-edrive35}
+  - {<<: *t161, id: bmw-i4-g26-xdrive40}
+  - {<<: *t161, id: ford-mustang-mach-e-gen1-extended-range}
+  - {<<: *t161, id: ford-mustang-mach-e-gen1-premium}
+  - {<<: *t161, id: peugeot-e-3008-gen1-long-range}
+  - {<<: *t161, id: polestar-2-gen1-performance-pack}
+  - {<<: *t161, id: tesla-model-3-gen1-performance}
+  - {<<: *t161, id: tesla-model-3-gen1-performance-2021}
+  - {<<: *t161, id: tesla-model-3-gen1-sr-plus}
+  - {<<: *t161, id: tesla-model-3-gen1-sr-plus-lfp}
+  - {<<: *t161, id: tesla-model-s-facelift-100d}
+  - {<<: *t161, id: tesla-model-s-facelift-p100d}
+  - {<<: *t161, id: tesla-model-y-gen1-long-range-rwd}
+  - {<<: *t161, id: tesla-model-y-gen1-rwd}
+  - {<<: *t161, id: volkswagen-id3-gen1-pro-2023}
   - &t154m3
     release: 4
     file: catalogue.json
@@ -414,3 +442,14 @@ approved:
     id: porsche-taycan-gen1-turbo-s
     field: "consumption_*"
     change: changed
+  # T-156: the E-Tourneo Courier 2026 update (46 kWh, Ford 16.02.2026) gets its own seed row,
+  # years 2026 onward. Measured: ev verify on staging recorded 2026-11-19, 2 blocking lines, both below.
+  - &t156
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #190 (T-156 gate)"
+    reason: "T-156: with a second Courier row (ford-e-tourneo-courier-gen1-46kwh, 2026 onward) RDW's per-year record 'FORD TOURNEO COURIER 2026' (7 cars, NL catalogue price 42048) has no battery, power, name or WLTP evidence to choose between the two rows, so the matcher leaves it unplaced instead of putting it on the 2025 Base row. That price belonged to 2026 cars (the 46 kWh update), so clearing it from the 43 kWh row is a correction; Base's used-price model (built from the same RDW records) goes with it. Placing RDW records by year when only years separate two rows is a matcher change (WS1, asked in the T-156 INBOX line)."
+    id: ford-e-tourneo-courier-gen1-base
+    field: "price_new.NL.amount"
+    change: cleared
+  - {<<: *t156, file: used_prices.json, id: ford-e-tourneo-courier-gen1-base, field: "*", change: removed}
