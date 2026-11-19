@@ -400,6 +400,17 @@ def _restore_raw(
 
 
 def refresh(opts: RefreshOptions, deps: Deps | None = None) -> tuple[int, dict[str, Any]]:
+    """G-49: a real run holds data/staging/.refresh.lock throughout (refresh/lock.py), so
+    `ev verify` never rebuilds from a half-written staging."""
+    if opts.dry_run:
+        return _refresh(opts, deps)
+    from ev_pipeline.refresh.lock import hold
+
+    with hold(c.data_dir()):
+        return _refresh(opts, deps)
+
+
+def _refresh(opts: RefreshOptions, deps: Deps | None = None) -> tuple[int, dict[str, Any]]:
     deps = deps or Deps()
     data_dir = c.data_dir()
     started = deps.now()
