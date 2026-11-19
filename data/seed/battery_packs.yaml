@@ -57,6 +57,8 @@ packs:
   - {id: kia-niro-sg2-65, name: "Kia Niro EV (SG2) 64.8 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 64.8, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: kia-ev3-58, name: "Kia EV3 Standard Range 58.3 kWh", chemistry_id: not-disclosed, gross_kwh: 58.3, usable_kwh: not-disclosed, nominal_v: 369, cooling_id: not-disclosed}
   - {id: kia-ev3-81, name: "Kia EV3 Long Range 81.4 kWh", chemistry_id: not-disclosed, gross_kwh: 81.4, usable_kwh: not-disclosed, nominal_v: 343, cooling_id: not-disclosed}
+  - {id: hyundai-inster-42, name: "Hyundai Inster 42 kWh", chemistry_id: not-disclosed, gross_kwh: 42, usable_kwh: not-disclosed, nominal_v: 266, cooling_id: not-disclosed}
+  - {id: hyundai-inster-49, name: "Hyundai Inster 49 kWh", chemistry_id: nmc, gross_kwh: 49, usable_kwh: not-disclosed, nominal_v: 310, cooling_id: not-disclosed}
   - {id: hk-kona-sx2-48, name: "Hyundai Kona Electric (SX2) 48.4 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 48.4, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: hk-kona-sx2-65, name: "Hyundai Kona Electric (SX2) 65.4 kWh", chemistry_id: nmc, gross_kwh: not-disclosed, usable_kwh: 65.4, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: egmp-53, name: "E-GMP 53 kWh (Ioniq 6 Standard)", chemistry_id: nmc, gross_kwh: 53, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: liquid}
@@ -74,6 +76,8 @@ packs:
   - {id: mini-se-32-6, name: "Mini Cooper SE (F56) 32.6 kWh", supplier: Samsung SDI, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 32.6, usable_kwh: 28.9, nominal_v: not-disclosed}
   - {id: mini-j01-40-7, name: "Mini Cooper E (J01) 40.7 kWh", chemistry_id: not-disclosed, gross_kwh: 40.7, usable_kwh: 36.6, nominal_v: not-disclosed, cooling_id: not-disclosed}
   - {id: mini-j01-54-2, name: "Mini Cooper SE (J01) 54.2 kWh", chemistry_id: not-disclosed, gross_kwh: 54.2, usable_kwh: 49.2, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: mini-aceman-42-5, name: "MINI Aceman E 42.5 kWh", chemistry_id: not-disclosed, gross_kwh: 42.5, usable_kwh: not-disclosed, nominal_v: not-disclosed, cooling_id: not-disclosed}
+  - {id: mini-countryman-u25-66, name: "MINI Countryman E / SE ALL4 (U25) 66.5 kWh", chemistry_id: not-disclosed, gross_kwh: 66.5, usable_kwh: 64.6, nominal_v: 286.3, cooling_id: not-disclosed}
   # --- Stellantis ---
   - {id: stellantis-ecmp-50, name: "e-CMP 50 kWh", supplier: CATL, chemistry_id: nmc, cell_format: prismatic, cell_to_pack: false, gross_kwh: 50, usable_kwh: 46, nominal_v: not-disclosed, cooling_id: liquid}
   - {id: stellantis-ecmp-54, name: "e-CMP 54 kWh (2023+ update, about 51 usable)", chemistry_id: nmc, gross_kwh: 54, usable_kwh: 51, nominal_v: not-disclosed, cooling_id: liquid}
@@ -186,3 +190,7 @@ notes:
   skoda-elroq-84: "T-154: Škoda Elroq technical data (5 May 2025, cdn.skoda-storyboard.com): 'Battery capacity gross (net) [kWh] ... 84 (79)' for the Elroq RS; chemistry and cooling not stated there."
   kia-ev3-58: "T-154: Kia UK EV3 specification page (read 2026-11-19): '58.3 kWh Li-on battery', 200 cells, nominal 369 V, 158.2 Ah; Kia does not say gross or usable (369 V x 158.2 Ah = 58.4 kWh, so filed as gross)."
   kia-ev3-81: "T-154: Kia UK EV3 specification page (read 2026-11-19): '81.4 kWh Li-on battery', 279 cells, nominal 343 V, 237.3 Ah (also the AWD / GT); KilowattApp gives 78 kWh usable."
+  hyundai-inster-42: "T-154: Hyundai: 42 kWh, 'Voltage Standard: 266 V' (Hyundai Inster premiere release, June 2024, hyundai.news); Hyundai does not say gross or usable; chemistry not disclosed for this pack."
+  hyundai-inster-49: "T-154: Hyundai: 49 kWh, Long-Range 310 V (premiere release, June 2024); NCM cells for the 49 kWh pack per the same launch coverage (electrive 27 Jun 2024, not a maker page: chemistry low confidence)."
+  mini-aceman-42-5: "T-154: BMW Group PressClub UK, 'The all-new electric MINI Aceman': 'a high-voltage battery with a capacity of 42.5 kWh'."
+  mini-countryman-u25-66: "T-154: BMW Group data sheet 'MINI Countryman SE ALL4' (03/2024, press.bmwgroup.com): voltage 286.3 V, gross 66.5 kWh, net 64.6 kWh; the Countryman E release gives the same pack as 66.45 kWh."

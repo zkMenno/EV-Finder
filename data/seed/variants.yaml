@@ -720,6 +720,197 @@ variants:
         confidence: medium
     notes: "Two motors, all-wheel drive, 81.4 kWh: covers both EU two-motor versions until power evidence can split them (T-153): the 195 kW AWD (150 + 45 kW, MY2027, from Apr 2026) and the 215 kW GT (Kia UK's 'AWD' column: 215 kW, 468 Nm; Kia Germany: 'Kia EV3 GT-Allradantrieb, 81,4-kWh-Batterie ... 215 kW'). No power cited because the row holds both. Years: RDW TGK two-motor variants F5E34 / F5E44 from 2026."
     confidence: medium
+  # --- T-154 (catalogue batch, 2026-11-19): no-variant list, biggest EU groups first ---
+  # Battery and power cited from maker pages (matching evidence; maker-docs values stay internal).
+  # Queue groups (data/review/variant-candidates.csv, 2026-11-18): Inster 49 kWh 18,918 + 42 kWh 9,434
+  # EU cars; Countryman E 15,479 + SE ALL4 6,912; Aceman SE 13,741 + E 7,838; EV6 facelift 84 kWh
+  # single motor 18,292 + two motors 4,846.
+  - generation_id: hyundai-inster-gen1
+    id: hyundai-inster-gen1-42kwh
+    name: "42 kWh (71 kW)"
+    years: [2024, null]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 42
+        source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
+        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        retrieved: 2026-11-19
+        quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
+        locator: "Summary bullets; 42 kWh without gross / usable: filed as gross ('Voltage 266 V' for this pack in Hyundai's June 2024 premiere release)"
+        confidence: medium
+      power_kw:
+        value: 71
+        source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
+        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        retrieved: 2026-11-19
+        quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
+        locator: "Summary bullets: 71 kW with the 42 kWh battery"
+        confidence: high
+    notes: "Front-wheel drive: Hyundai Motor Deutschland ('Hyundai INSTER Select 71 kW (97 PS) Frontantrieb', https://www.hyundai.news/de/articles/press-releases/inster-ist-preis-reichweite-champion-bei-den-elektrischen-kleinwagen.html, read 2026-11-19); one motor in both versions (same page). Years: generation start."
+    confidence: medium
+  - generation_id: hyundai-inster-gen1
+    id: hyundai-inster-gen1-49kwh
+    name: "49 kWh (84 kW)"
+    years: [2024, null]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 49
+        source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
+        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        retrieved: 2026-11-19
+        quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
+        locator: "Summary bullets; 49 kWh without gross / usable: filed as gross"
+        confidence: medium
+      power_kw:
+        value: 84
+        source_url: https://www.hyundai.news/eu/articles/press-releases/inster-lounge-introduction.html
+        source_name: "Hyundai Newsroom EU, 'Hyundai INSTER Lounge is the most distinctive variant of the small SUV'"
+        retrieved: 2026-11-19
+        quote: "Available with two battery and motor configurations: 71 kW (97 PS) with the 42 kWh battery and 84 kW (115 PS) with the 49 kWh battery"
+        locator: "Summary bullets: 84 kW with the 49 kWh battery (Hyundai Germany rounds the same motor to 85 kW)"
+        confidence: high
+    notes: "Front-wheel drive: Hyundai Motor Deutschland ('Hyundai INSTER Select 71 kW (97 PS) Frontantrieb', https://www.hyundai.news/de/articles/press-releases/inster-ist-preis-reichweite-champion-bei-den-elektrischen-kleinwagen.html, read 2026-11-19); one motor in both versions (same page). Years: generation start."
+    confidence: medium
+  - generation_id: mini-countryman-e-gen1
+    id: mini-countryman-e-gen1-e
+    name: "Countryman E"
+    years: [2024, null]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 66.45
+        source_url: https://www.press.bmwgroup.com/global/article/detail/T0442879EN/the-mini-countryman-e-in-favoured-trim:-fully-electric-and-versatile
+        source_name: "BMW Group PressClub, 'The MINI Countryman E in Favoured Trim: fully electric and versatile'"
+        retrieved: 2026-11-19
+        quote: "The powerful battery has an energy content of 66.45 kWh."
+        locator: "Body text"
+        confidence: medium
+        notes: "BMW gives energy content without gross / usable; its SE ALL4 data sheet (03/2024) lists the same pack as gross 66.5 / net 64.6 kWh, so filed as gross."
+      power_kw:
+        value: 150
+        source_url: https://www.press.bmwgroup.com/global/article/detail/T0442879EN/the-mini-countryman-e-in-favoured-trim:-fully-electric-and-versatile
+        source_name: "BMW Group PressClub, 'The MINI Countryman E in Favoured Trim: fully electric and versatile'"
+        retrieved: 2026-11-19
+        quote: "The 150 kW/204 hp electric motor of the MINI Countryman E achieves a torque of 250 Nm."
+        locator: "Body text"
+        confidence: high
+    notes: "One motor. Front-wheel drive: not stated on BMW's page; the non-ALL4 Countryman E drives one axle and the queue group is single-motor (RDW TGK). Years: generation start."
+    confidence: medium
+  - generation_id: mini-countryman-e-gen1
+    id: mini-countryman-e-gen1-se-all4
+    name: "Countryman SE ALL4"
+    years: [2024, null]
+    drivetrain: awd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 66.45
+        source_url: https://www.press.bmwgroup.com/global/article/detail/T0437841EN/suitable-for-any-terrain-and-fully-electric-the-mini-countryman-se-all4
+        source_name: "BMW Group PressClub, 'Suitable for any terrain and fully electric: The MINI Countryman SE ALL4' (23 Oct 2023)"
+        retrieved: 2026-11-19
+        quote: "The powerful battery has an energy content of 66.45 kWh."
+        locator: "Body text"
+        confidence: medium
+      power_kw:
+        value: 230
+        source_url: https://www.press.bmwgroup.com/global/article/detail/T0437841EN/suitable-for-any-terrain-and-fully-electric-the-mini-countryman-se-all4
+        source_name: "BMW Group PressClub, 'Suitable for any terrain and fully electric: The MINI Countryman SE ALL4' (23 Oct 2023)"
+        retrieved: 2026-11-19
+        quote: "Two powerful electric motors with a total output of 230 kW/313 hp and a torque of 494 Nm"
+        locator: "Body text, all-wheel drive section"
+        confidence: high
+    notes: "All-wheel drive: 'Fully electric all-wheel drive' and two motors (same page). Years: generation start."
+    confidence: medium
+  - generation_id: mini-aceman-gen1
+    id: mini-aceman-gen1-e
+    name: "Aceman E"
+    years: [2024, null]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 42.5
+        source_url: https://www.press.bmwgroup.com/united-kingdom/article/detail/T0441205EN_GB/the-all-new-electric-mini-aceman
+        source_name: "BMW Group PressClub UK, 'The all-new electric MINI Aceman'"
+        retrieved: 2026-11-19
+        quote: "The MINI Aceman E hosts a high-voltage battery with a capacity of 42.5 kWh"
+        locator: "Body text"
+        confidence: medium
+      power_kw:
+        value: 135
+        source_url: https://www.press.bmwgroup.com/united-kingdom/article/detail/T0441205EN_GB/the-all-new-electric-mini-aceman
+        source_name: "BMW Group PressClub UK, 'The all-new electric MINI Aceman'"
+        retrieved: 2026-11-19
+        quote: "A 135 kW/184 hp electric motor generates a torque of 290 Nm"
+        locator: "Body text"
+        confidence: high
+    notes: "One motor. Front-wheel drive: not stated on BMW's page (single-motor queue group in RDW TGK). Years: generation start."
+    confidence: medium
+  - generation_id: mini-aceman-gen1
+    id: mini-aceman-gen1-se
+    name: "Aceman SE"
+    years: [2024, null]
+    drivetrain: fwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 54.2
+        source_url: https://www.press.bmwgroup.com/united-kingdom/article/detail/T0441205EN_GB/the-all-new-electric-mini-aceman
+        source_name: "BMW Group PressClub UK, 'The all-new electric MINI Aceman'"
+        retrieved: 2026-11-19
+        quote: "the MINI Aceman SE offers an increased range of 252 miles thanks to a 54.2 kWh battery"
+        locator: "Body text"
+        confidence: medium
+      power_kw:
+        value: 160
+        source_url: https://www.press.bmwgroup.com/united-kingdom/article/detail/T0441205EN_GB/the-all-new-electric-mini-aceman
+        source_name: "BMW Group PressClub UK, 'The all-new electric MINI Aceman'"
+        retrieved: 2026-11-19
+        quote: "With an increased output of 160 kW/218 hp, the MINI Aceman SE"
+        locator: "Body text"
+        confidence: high
+    notes: "One motor. Front-wheel drive: not stated on BMW's page (single-motor queue group). JCW Aceman (2025) not split out. Years: generation start."
+    confidence: medium
+  - generation_id: kia-ev6-facelift
+    id: kia-ev6-facelift-84kwh-rwd
+    name: "84 kWh RWD"
+    years: [2024, null]
+    drivetrain: rwd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 84.0
+        source_url: https://www.kia.com/uk/new-cars/ev6/specification/
+        source_name: "Kia UK, EV6 specification page (Drive train and Battery pack tables)"
+        retrieved: 2026-11-19
+        quote: "84.0kWh Li-ion polymer battery"
+        locator: "Battery pack table, columns RWD and AWD Dual Motor; 384 cells, nominal 697 V, 120.6 Ah"
+        confidence: medium
+    notes: "Rear-wheel drive: Kia UK column 'RWD 225 BHP' (no kW figure on that page, so no power cited). 63 kWh facelift version not seeded (no Kia page read). Years: generation start."
+    confidence: medium
+  - generation_id: kia-ev6-facelift
+    id: kia-ev6-facelift-84kwh-awd
+    name: "84 kWh AWD"
+    years: [2025, null]
+    drivetrain: awd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 84.0
+        source_url: https://www.kia.com/uk/new-cars/ev6/specification/
+        source_name: "Kia UK, EV6 specification page (Drive train and Battery pack tables)"
+        retrieved: 2026-11-19
+        quote: "84.0kWh Li-ion polymer battery"
+        locator: "Battery pack table, columns RWD and AWD Dual Motor"
+        confidence: medium
+    notes: "All-wheel drive: Kia UK column 'AWD Dual Motor 320 BHP'. Years: the two-motor RDW TGK group starts 2025. EV6 GT (facelift) not split out."
+    confidence: medium
+
   # --- T-148 (variant queue batch, 2026-11-18): ID.7 by battery. OpenEV's only ID.7 rows ("PRO", "Tour",
   # MY2024-25) carry 86 kWh net / 91 gross / 210 kW / 700 km: the Pro S figures, so the 77 kWh Pro versions
   # in RDW TGK fit no row ("no-fit", ~46k EU cars) and the Pro S ones sat on a row named Pro. ---
