@@ -405,3 +405,14 @@ approved:
     change: cleared
   - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.band", change: changed}
   - {<<: *t154elroq, file: shortlist_scores.json, id: skoda-elroq-gen1-rs, field: "scores.road-tripper+kerbside.rural.band", change: changed}
+  # T-156: the E-Tourneo Courier 2026 update (46 kWh, Ford 16.02.2026) gets its own seed row,
+  # years 2026 onward. Measured: ev verify on staging recorded 2026-11-19, 2 blocking lines, both below.
+  - &t156
+    release: 4
+    file: catalogue.json
+    approved_by: "PR (T-156 gate)"
+    reason: "T-156: with a second Courier row (ford-e-tourneo-courier-gen1-46kwh, 2026 onward) RDW's per-year record 'FORD TOURNEO COURIER 2026' (7 cars, NL catalogue price 42048) has no battery, power, name or WLTP evidence to choose between the two rows, so the matcher leaves it unplaced instead of putting it on the 2025 Base row. That price belonged to 2026 cars (the 46 kWh update), so clearing it from the 43 kWh row is a correction; Base's used-price model (built from the same RDW records) goes with it. Placing RDW records by year when only years separate two rows is a matcher change (WS1, asked in the T-156 INBOX line)."
+    id: ford-e-tourneo-courier-gen1-base
+    field: "price_new.NL.amount"
+    change: cleared
+  - {<<: *t156, file: used_prices.json, id: ford-e-tourneo-courier-gen1-base, field: "*", change: removed}
