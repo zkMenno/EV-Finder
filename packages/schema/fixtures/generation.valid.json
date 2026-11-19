@@ -6,5 +6,17 @@
   "year_start": 2018,
   "year_end": 2024,
   "uncertain": false,
-  "change_markers": [{ "year": 2019, "text": "62 kWh e+ added" }]
+  "change_markers": [
+    {
+      "year": 2019,
+      "text": "62 kWh e+ added"
+    }
+  ],
+  "popularity": {
+    "score": 87.5,
+    "rank": 3,
+    "registrations": 41250,
+    "as_of": "2026-10-31",
+    "source_ids": ["rdw"]
+  }
 }
