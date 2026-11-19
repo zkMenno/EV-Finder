@@ -5962,7 +5962,7 @@
         "registrations": {
           "type": "integer",
           "minimum": 0,
-          "description": "Registrations counted across the sources (EU countries we read)."
+          "description": "Registrations counted across the sources we read (EU countries plus UK DfT)."
         },
         "as_of": {
           "type": "string",
