@@ -456,6 +456,10 @@ approved:
   - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.daily-driver.rural.band"}
   - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.road-tripper.rural.score"}
   - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.road-tripper+kerbside.rural.score"}
+  # With T-161 (#197) merged, the base's own PB versions (WLTP 464, mass 2155 kg) also lift two
+  # road-tripper+kerbside scores past the 10-point threshold (measured on main fee060f + #199).
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-base, field: "scores.road-tripper+kerbside.rural.score"}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-base, field: "scores.road-tripper+kerbside.urban.score"}
   # T-156: the E-Tourneo Courier 2026 update (46 kWh, Ford 16.02.2026) gets its own seed row,
   # years 2026 onward. Measured: ev verify on staging recorded 2026-11-19, 2 blocking lines, both below.
   - &t156
