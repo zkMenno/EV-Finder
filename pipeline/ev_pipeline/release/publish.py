@@ -56,6 +56,8 @@ class PublishConfig:
     generation_path: str
     detail_only_keys: tuple[str, ...]
     max_file_bytes: int
+    # Decision 086 (T-150): folder -> one uncompressed tar asset, e.g. {"images/": "images.tar"}.
+    bundles: tuple[tuple[str, str], ...] = ()
 
     def tag(self, n: int) -> str:
         return self.tag_pattern.format(n=n)
@@ -86,9 +88,22 @@ def load_config(data_dir: Path) -> PublishConfig:
             generation_path=str(split["generation"]),
             detail_only_keys=tuple(str(k) for k in split.get("row_keys_detail_only") or ()),
             max_file_bytes=int(doc.get("max_file_bytes") or 200_000_000),
+            bundles=_bundles(doc.get("bundles") or []),
         )
     except KeyError as e:
         raise PublishError(f"{path}: missing key {e}") from e
+
+
+def _bundles(raw: list[Any]) -> tuple[tuple[str, str], ...]:
+    out = []
+    for b in raw:
+        folder, path = str(b.get("folder") or ""), str(b.get("path") or "")
+        if not folder.endswith("/") or "/" in folder[:-1] or ".." in folder:
+            raise PublishError(f"bundle folder {folder!r} must be one top-level folder ending in /")
+        if "/" in path or not path.endswith(".tar"):
+            raise PublishError(f"bundle path {path!r} must be a top-level .tar file")
+        out.append((folder, path))
+    return tuple(out)
 
 
 # --- split -------------------------------------------------------------------------------
@@ -183,7 +198,9 @@ def asset_name(rel_path: str) -> str:
     return rel_path.replace("/", ".")
 
 
-def _release_files(release_dir: Path) -> list[str]:
+def _release_files(release_dir: Path, skip: tuple[str, ...] = ()) -> list[str]:
+    """Release-relative files that become assets; files under a `skip` folder (bundled) and
+    the bundles' own tar files are left out (the caller adds the bundles)."""
     out = []
     for p in sorted(release_dir.rglob("*")):
         if p.is_symlink():
@@ -193,7 +210,94 @@ def _release_files(release_dir: Path) -> list[str]:
         rel = p.relative_to(release_dir).as_posix()
         if rel == MANIFEST or any(part.startswith(".") for part in rel.split("/")):
             continue
+        if rel.startswith(skip):
+            continue
         out.append(rel)
+    return out
+
+
+# --- bundles (Decision 086) --------------------------------------------------------------
+
+
+def write_bundle(release_dir: Path, folder: str, path: str) -> list[dict[str, Any]] | None:
+    """Pack every file under `folder` into the uncompressed tar `path` (deterministic: sorted
+    names, mtime 0, owner 0, mode 0644, so the same files give the same sha256). Returns the
+    member list (path, bytes, sha256) or None when the folder holds no files."""
+    import tarfile
+
+    members = _release_files(release_dir / folder)
+    target = release_dir / path
+    if not members:
+        target.unlink(missing_ok=True)
+        return None
+    out = []
+    tmp = target.with_name(f".{target.name}.tmp-{os.getpid()}")
+    with tarfile.open(tmp, "w", format=tarfile.USTAR_FORMAT) as tar:
+        for rel in members:
+            full = release_dir / folder / rel
+            name = f"{folder}{rel}"
+            info = tarfile.TarInfo(name)
+            info.size = full.stat().st_size
+            info.mtime, info.mode, info.uid, info.gid = 0, 0o644, 0, 0
+            info.uname = info.gname = ""
+            with full.open("rb") as fh:
+                tar.addfile(info, fh)
+            out.append({"path": name, "bytes": info.size, "sha256": sha256_file(full)})
+    os.replace(tmp, target)
+    return out
+
+
+def unpack_bundle(release_dir: Path, entry: dict[str, Any]) -> None:
+    """Unpack a verified bundle into the release folder. Only the members the manifest lists,
+    as regular files, at their listed paths; each is checked against its sha256."""
+    import tarfile
+
+    want = {m["path"]: m for m in entry["bundle"]["files"]}
+    folder = entry["bundle"]["folder"]
+    seen: set[str] = set()
+    with tarfile.open(release_dir / entry["path"], "r:") as tar:
+        for info in tar:
+            name = info.name
+            if name not in want or not info.isfile() or not name.startswith(folder):
+                raise PublishError(f"{entry['path']}: unexpected member {name!r}")
+            src = tar.extractfile(info)
+            assert src is not None  # isfile() above
+            dest = release_dir / name
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            tmp = dest.with_name(f".{dest.name}.part-{os.getpid()}")
+            try:
+                with tmp.open("wb") as fh:
+                    shutil.copyfileobj(src, fh)
+                m = want[name]
+                if tmp.stat().st_size != m["bytes"] or sha256_file(tmp) != m["sha256"]:
+                    raise PublishError(f"{name}: bundled file does not match the manifest")
+                os.replace(tmp, dest)
+            finally:
+                tmp.unlink(missing_ok=True)
+            seen.add(name)
+    if missing := sorted(set(want) - seen):
+        raise PublishError(f"{entry['path']}: members missing: {', '.join(missing[:5])}")
+
+
+def _member_problems(release_dir: Path, entry: dict[str, Any], only_present: bool) -> list[str]:
+    out = []
+    for m in (entry.get("bundle") or {}).get("files") or []:
+        p = release_dir / m["path"]
+        if not p.exists():
+            if not only_present:
+                out.append(f"{m['path']}: missing (in {entry['path']})")
+        elif p.stat().st_size != m["bytes"] or sha256_file(p) != m["sha256"]:
+            out.append(f"{m['path']}: does not match the manifest (in {entry['path']})")
+    return out
+
+
+def manifest_paths(manifest: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Every file a release holds (path -> {path, bytes, sha256}): assets plus bundle members."""
+    out: dict[str, dict[str, Any]] = {}
+    for e in manifest.get("files") or []:
+        out[str(e.get("path"))] = e
+        for m in (e.get("bundle") or {}).get("files") or []:
+            out[str(m.get("path"))] = m
     return out
 
 
@@ -234,7 +338,13 @@ def package(
         p.write_bytes(data)
     entries = []
     names: set[str] = set()
-    for rel in _release_files(release_dir):
+    bundled: list[dict[str, Any]] = []
+    for folder, bpath in cfg.bundles:
+        members = write_bundle(release_dir, folder, bpath)
+        if members is not None:
+            bundled.append({"path": bpath, "folder": folder, "files": members})
+    skip = tuple(f for f, _ in cfg.bundles) + tuple(p for _, p in cfg.bundles)
+    for rel in [*_release_files(release_dir, skip), *(b["path"] for b in bundled)]:
         p = release_dir / rel
         name = asset_name(rel)
         if name in names:
@@ -249,6 +359,10 @@ def package(
                 "in_git": rel in cfg.in_git,
             }
         )
+        b = next((b for b in bundled if b["path"] == rel), None)
+        if b is not None:
+            entries[-1]["bundle"] = {"folder": b["folder"], "files": b["files"]}
+    entries.sort(key=lambda e: e["path"])
     previous = read_manifest(release_dir)
     packaged_at = (now or datetime.now(UTC)).replace(microsecond=0).isoformat()
     if previous and previous.get("files") == entries:
@@ -300,6 +414,14 @@ def read_manifest(release_dir: Path) -> dict[str, Any] | None:
         rel = str(e.get("path", ""))
         if not rel or rel.startswith("/") or ".." in rel.split("/") or "\\" in rel:
             raise PublishError(f"{path}: unsafe file path {rel!r}")
+        b = e.get("bundle")
+        if b is not None:
+            folder = str(b.get("folder") or "")
+            for mem in b.get("files") or []:
+                mp = str(mem.get("path", ""))
+                if (not mp.startswith(folder) or not folder or ".." in mp.split("/")
+                        or "\\" in mp or mp.startswith("/")):  # fmt: skip
+                    raise PublishError(f"{path}: unsafe bundle member {mp!r}")
     return m
 
 
@@ -316,6 +438,8 @@ def verify(release_dir: Path, manifest: dict[str, Any], *, only_present: bool = 
             problems.append(f"{e['path']}: {p.stat().st_size} bytes, manifest says {e['bytes']}")
         elif sha256_file(p) != e["sha256"]:
             problems.append(f"{e['path']}: sha256 mismatch")
+        else:
+            problems += _member_problems(release_dir, e, only_present)
     return problems
 
 
@@ -490,6 +614,9 @@ def fetch(
         dest = release_dir / e["path"]
         if dest.exists() and dest.stat().st_size == e["bytes"] and sha256_file(dest) == e["sha256"]:
             stats["kept"] += 1
+            if e.get("bundle") and _member_problems(release_dir, e, only_present=False):
+                unpack_bundle(release_dir, e)
+                stats["unpacked"] = stats.get("unpacked", 0) + 1
             continue
         if e["bytes"] > cfg.max_file_bytes:
             raise PublishError(f"{e['path']}: {e['bytes']} bytes is over max_file_bytes")
@@ -505,6 +632,9 @@ def fetch(
         finally:
             tmp.unlink(missing_ok=True)
         stats["downloaded"] += 1
+        if e.get("bundle"):
+            unpack_bundle(release_dir, e)
+            stats["unpacked"] = stats.get("unpacked", 0) + 1
     return stats
 
 
@@ -513,11 +643,17 @@ def _select(
 ) -> list[dict[str, Any]]:
     if only is None:
         return files
-    picked = [
-        e for e in files
-        if e["path"] in only or any(o.endswith("/") and e["path"].startswith(o) for o in only)
-    ]  # fmt: skip
-    missing = {o for o in only if not o.endswith("/")} - {e["path"] for e in files}
+
+    def hit(path: str) -> bool:
+        return path in only or any(o.endswith("/") and path.startswith(o) for o in only)
+
+    def members(e: dict[str, Any]) -> list[str]:
+        return [m["path"] for m in (e.get("bundle") or {}).get("files") or []]
+
+    # A bundle is picked when it or any file inside it is asked for (Decision 086).
+    picked = [e for e in files if hit(e["path"]) or any(hit(p) for p in members(e))]
+    known = {e["path"] for e in files} | {p for e in files for p in members(e)}
+    missing = {o for o in only if not o.endswith("/")} - known
     if missing and strict:
         raise PublishError(f"not in the manifest: {', '.join(sorted(missing))}")
     return picked
