@@ -1124,6 +1124,26 @@ POWER_GATE_REL = 0.02
 POWER_GATE_ABS_KW = 3.0
 NO_POWER_MATCH = "no variant with matching power"
 AMBIGUOUS_EVIDENCE = "ambiguous evidence"
+NO_EVIDENCE = "no variant evidence (name, kWh, kW, WLTP)"
+
+
+# T-159: RDW model-year aggregates (record key `...[merk|handelsbenaming|jaar]...`: one value
+# for every car of a trade name and first-admission year) say nothing about a variant except
+# its year and the trade-name words. Two rules (year_aggregate_pick):
+# - Own WLTP: a pick whose only evidence is the aggregate's own WLTP, while 2+ candidates' years
+#   hold its year, goes to review. The aggregate mixes every variant of that year (the 2021
+#   Model Y aggregate, 507 km = the 2021 Long Range, sat on the Performance row because 507 was
+#   within 2 % of the Performance's WLTP).
+# - Year only: no evidence at all, and the candidates' years don't overlap (rows split only by
+#   year, e.g. E-Tourneo Courier 2025 vs the 2026 update): the one whose years hold it gets it.
+YEAR_AGGREGATE_SOURCES = frozenset({"rdw"})
+YEAR_AGGREGATE_KEY = "[merk|handelsbenaming|jaar]"
+YEAR_AGG_OWN_WLTP = "model-year aggregate: only its own WLTP fits; several variants hold its year"
+YEAR_ONLY_NONE = "no variant's years hold"
+
+
+def is_year_aggregate(rec: SourceRecord) -> bool:
+    return rec.source.id.root in YEAR_AGGREGATE_SOURCES and YEAR_AGGREGATE_KEY in rec.record_key
 
 
 # A-30 follow-up: a record whose own text says "Long Range" / "Standard Range" may only attach
@@ -1322,6 +1342,8 @@ def attach_records(
         exact = [c for c in pool if result.variants[c.root].named(sid, rec_name, rec.year)]
         if len(exact) == 1:
             chosen, why = exact[0], ""
+        elif is_year_aggregate(rec) and len(pool) > 1:
+            chosen, why = year_aggregate_pick(rec, pool, drop, result)
         elif sid in TGK_EVIDENCE_SOURCES:
             chosen, why = tgk_pick(rec, pool, drop, result)
         elif len(pool) == 1 and not need_evidence:
@@ -1632,6 +1654,58 @@ def tgk_pick(
     return None, f"{TGK_TIE} ({ids(pool)})"
 
 
+def year_aggregate_pick(
+    rec: SourceRecord, pool: list[_Candidate], drop: set[str], result: MatchResult
+) -> tuple[_Candidate | None, str]:
+    """T-159 (see YEAR_AGGREGATE_SOURCES): the usual evidence pick, except that (1) a pick
+    resting only on the aggregate's own WLTP, with 2+ candidates whose years hold the record's
+    year, goes to review; (2) with no evidence at all, the year decides when the candidates'
+    years don't overlap (rows split only by year) and exactly one holds it."""
+    chosen, why = _best_candidate(rec, pool, drop, strict=True)
+    year = rec.year
+    holds = [c for c in pool if year is not None and _year_holds(c, year, result)]
+    if chosen is not None:
+        if _wltp_only(rec, chosen, drop) and len(holds) > 1:
+            ids = ", ".join(c.root for c in holds)
+            return None, f"{YEAR_AGG_OWN_WLTP} ({chosen.root}; {year}: {ids})"
+        return chosen, why
+    if not why.startswith(NO_EVIDENCE) or year is None or not _years_disjoint(pool, result):
+        return None, why
+    if len(holds) == 1:
+        return holds[0], ""
+    return None, f"{why}; {YEAR_ONLY_NONE} {year}"
+
+
+def _wltp_only(rec: SourceRecord, c: _Candidate, drop: set[str]) -> bool:
+    """The record's only evidence for `c` is its own WLTP (no name word, kWh or power)."""
+    words = _distinct_tokens(rec.variant_name, drop) | _distinct_tokens(rec.model, drop)
+    if name_score(words, c.name_tokens) > 0:
+        return False
+    if any(abs(a - b) <= KWH_TOLERANCE for a in record_kwh(rec) for b in c.kwh):
+        return False
+    if any(power_close(p, q) for p in record_power(rec) for q in c.power):
+        return False
+    return _close_rel(_spec_num(rec, "wltp_range_km"), c.wltp, WLTP_TOLERANCE)
+
+
+def _year_holds(c: _Candidate, year: int, result: MatchResult) -> bool:
+    """The candidate's own years hold `year` (no TGK slack); unknown years never do."""
+    lo, hi, _ = _span(c, result)
+    return lo is not None and lo <= year and (hi is None or year <= hi)
+
+
+def _years_disjoint(pool: list[_Candidate], result: MatchResult) -> bool:
+    """Every candidate has known years and no two overlap: the rows are split only by year."""
+    spans = [_span(c, result)[:2] for c in pool]
+    if any(lo is None for lo, _ in spans):
+        return False
+    spans.sort(key=lambda s: s[0] or 0)
+    for (_, hi), (lo2, _) in zip(spans, spans[1:], strict=False):
+        if hi is None or (lo2 or 0) <= hi:
+            return False
+    return True
+
+
 def _trade_word_missing(cand: set[str], trade: set[str], model_toks: set[str]) -> bool:
     """True when the candidate name has a model-name extension ("i3s" for model "i3": the
     model token plus at most 2 characters) that the record's trade name does not carry."""
@@ -1703,7 +1777,7 @@ def _best_candidate(
         scored.append((name_score(words, c.name_tokens, numeric) + numeric, numeric, c))
     top = max(s for s, _, _ in scored)
     if top == 0:
-        return None, "no variant evidence (name, kWh, kW, WLTP)"
+        return None, NO_EVIDENCE
     best = [c for s, _, c in scored if s == top]
     if strict and len(best) > 1 and all(s == n == 1 for s, n, c in scored if c in best):
         # Only WLTP within tolerance, for 2+ candidates: the name-length tie-break below
