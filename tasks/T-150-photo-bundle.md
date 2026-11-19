@@ -1,6 +1,6 @@
 # T-150 Ship release photos as one bundle (Decision 086)
 Role: builder   Lane: pipeline (WS1) + one cross-lane file in apps/web   Wave: launch
-Status: review (batch chat https://claude.ai/code/session_01JuyZETPZUUpdfhHpfB9Pef, 2026-11-19)
+Status: done (merged #173, dfad69d; WS0 2026-11-19)
 
 ## Goal
 A fresh release uploads in one run: photos go into one `images.tar` asset per release (Decision 086).
