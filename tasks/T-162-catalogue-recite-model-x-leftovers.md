@@ -10,7 +10,7 @@ T-160's two weak citations move to maker-hosted documents, the Elroq 85 DC peak 
 - [ ] **Elroq 85 DC peak:** check the shipped 185 kW against a Škoda document; fix or confirm with the citation.
 - [ ] **Tesla Model X gen1:** rows per Tesla type-approval variant (60X / 75X / 90X / 100X …) as Tesla documents allow, cited WLTP per row. Records land on them once T-163 adds TGK variant codes as split evidence; if T-163 isn't merged, seed the rows and note the expected `tie` in Handoff notes.
 - [ ] **Then, biggest EU cars first:** Škoda Citigo e iV / SEAT Mii electric, Kia EV9, MG Marvel R, BYD Sealion 7. List what's left in Handoff notes.
-- [ ] Maker documents only, cited per car, never a whole table (Decision 087); built drivetrain and WLTP match the seed (G-48); `sh data/seed/data_qa.sh` (incl. the seed-pinned split tests once T-165 adds them, else run `pytest tests/test_t153_split.py tests/test_t159_split.py` by hand) and `ev verify --base-release-from origin/main` pass.
+- [ ] Maker documents only, cited per car, never a whole table (Decision 087); built drivetrain and WLTP match the seed (G-48); `sh data/seed/data_qa.sh` (incl. the seed-pinned split tests once T-165 adds them, else run `pytest tests/test_t153_split.py tests/test_t159_split.py` by hand) and `ev verify --base-release-from origin/main` (code diff) plus plain `ev verify` (against the latest published release, which is what measures approvals) pass.
 - [ ] Queue numbers before / after (no-variant EU cars: 406,363 in 195 groups after T-160).
 
 ## Inputs

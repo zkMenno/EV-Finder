@@ -23,7 +23,7 @@ Builders take only tasks in **Launch**. Everything else needs Menno's yes. Built
 **After launch (parked):** T-011 rankings pages · T-019 / T-020 / T-021 / T-022 bidirectional · T-024 / T-025 / T-026 / T-028 charging pages + link-outs (built parts stay flagged off) · T-029 ABRP deep links · T-036 quick range check (absorbed into T-080) · T-037 / T-038 Trip fit routes · T-042 bidi verification · T-044 / T-046–T-049 variant clues + finder · T-053 / T-058 registration history display · T-061 known issues · lease figures (rest of T-043)
 
 ## Launch, catalogue + data (WS0, 2026-11-19)
-Done: T-149–T-156, T-158, T-160, T-161 (claim item → T-163). Open: T-157 web popularity + photo bundle + DC claim badge (WS2, after release 4) · T-159 matching follow-ups (WS1, merged; INBOX 17:40 not processed yet) · T-162 re-cite + Model X + leftovers (WS3) · T-163 TGK variant codes + cited values publish + DC claim flag (WS1) · T-164 cite power, flag-less rows (WS3, after T-163) · T-165 tools round 2 (WS1)
+Done: T-149–T-156, T-158, T-160, T-161 (claim item → T-163). Open: T-157 web popularity + photo bundle + DC claim badge (WS2, after release 4) · T-159 matching follow-ups (WS1, part 1 merged, part 2 in review; INBOX 17:40 not processed yet) · T-162 re-cite + Model X + leftovers (WS3) · T-163 TGK variant codes + cited values publish + DC claim flag (WS1) · T-164 cite power, flag-less rows (WS3, after T-163) · T-165 tools round 2 (WS1)
 
 ## Now
 **Open PRs, WS0 reviews and merges in this order:**
