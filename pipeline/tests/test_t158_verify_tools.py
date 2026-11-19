@@ -60,10 +60,11 @@ def base_repo(data_dir: Path, tmp_path: Path) -> Path:  # noqa: F811
     shutil.copytree(REPO / "config", r / "config")
     shutil.copytree(REPO / "packages" / "schema", r / "packages" / "schema",
                     ignore=shutil.ignore_patterns("node_modules"))  # fmt: skip
-    for p in data_dir.iterdir():
+    (r / "data").mkdir()  # iterdir order varies: a file may come before any folder
+    for p in sorted(data_dir.iterdir(), key=lambda x: (x.is_dir(), x.name)):  # files first
         if p.name not in ("staging", "releases", "review", "runs"):
             (shutil.copytree if p.is_dir() else shutil.copy2)(p, r / "data" / p.name)
-    (r / "data" / "releases").mkdir()
+    (r / "data" / "releases").mkdir(exist_ok=True)
     shutil.copy2(REPO / "data" / "releases" / "publish.yaml", r / "data" / "releases")
     _git(r, "init", "-q")
     _git(r, "add", "-A")
