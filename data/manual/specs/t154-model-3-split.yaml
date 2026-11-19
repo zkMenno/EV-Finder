@@ -32,24 +32,24 @@ facts:
     claim: true
   - variant_id: tesla-model-3-gen1-performance-2021
     field: wltp_range_km
-    value: 567
+    value: 547
     unit: km
-    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*25&codevarianttgk=E3LD
-    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*25, variant E3LD, versions BGP1S5N / BGP2S5N (Tesla Model 3 Performance, CC0)"
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*30&codevarianttgk=E5LD
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*30, variant E5LD, versions PZP2S5N / PZP2S5T2 (Tesla Model 3 Performance, Shanghai, CC0)"
     retrieved: 2026-11-19
-    quote: '"codevarianttgk": "E3LD", "verbruikvolledigelekwltpbgr": "165.00", "actieradiusvolledigelekwltpbgr": "567"'
-    locator: "Variant E3LD at 261 km/h max speed (Performance); 567 km on extensions 14 to 25"
+    quote: '"codeuitvoeringtgk": "PZP2S5N", "verbruikvolledigelekwltpbgr": "165.00", "actieradiusvolledigelekwltpbgr": "547"'
+    locator: "Variant E5LD at 261 km/h max speed (Performance); 547 km on extensions 22 to 36"
     confidence: medium
     claim: true
-    notes: "Other refresh Performance versions: 547 km (E5LD Shanghai, ext. 22-36), 559 km (E3LD, ext. 21-25). NL registrations don't split LR from Performance by variant code, so the first refresh figure is cited."
+    notes: "Same rule as the Long Range row: E5LD (Shanghai) is the most-registered 2021+ variant in NL (2022 823, 2023 563 cars, LR and Performance together). Other refresh Performance versions: 567 km (E3LD Fremont, ext. 14-25), 559 km (E3LD, ext. 21-25)."
   - variant_id: tesla-model-3-gen1-performance-2021
     field: consumption_kwh_100km
     value: 16.5
     unit: kWh/100km
-    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*25&codevarianttgk=E3LD
-    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*25, variant E3LD, versions BGP1S5N / BGP2S5N (Tesla Model 3 Performance, CC0)"
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*30&codevarianttgk=E5LD
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*30, variant E5LD, versions PZP2S5N / PZP2S5T2 (Tesla Model 3 Performance, Shanghai, CC0)"
     retrieved: 2026-11-19
     quote: '"verbruikvolledigelekwltpbgr": "165.00"'
-    locator: "WLTP combined, Wh/km (165 Wh/km = 16.5 kWh/100 km), the 567 km versions"
+    locator: "WLTP combined, Wh/km (165 Wh/km = 16.5 kWh/100 km), the 547 km versions"
     confidence: medium
     claim: true

@@ -54,7 +54,8 @@ variants:
   # T-154 (2026-11-19): year split. RDW (CC0, m9d7-ebf2, read 2026-11-19) by first admission: the
   # first-type variants E3D / E5D are 2019-2020 cars (E3D 2019 16,465 / 2020 2,580; E5D 2020 871),
   # the refresh variants E3LD / E5LD are 2021+ (E3LD 2021 747; E5LD 2021 625 / 2022 823 / 2023 563).
-  # Late-2020 refresh cars (TGK extension 13, Oct 2020) stay on the 2019-2020 rows. Specs copied from
+  # Late-2020 refresh cars (TGK extension 13, Oct 2020) stay on the 2019-2020 rows. A year split of variants, not a
+  # new generation (Decision 057): same body, no visible facelift; the change is pack and range per type-approval extension. Specs copied from
   # the old rows (unchecked seed values); cited WLTP per row in data/manual/specs/t154-model-3-split.yaml.
   - generation_id: tesla-model-3-gen1
     id: tesla-model-3-gen1-long-range-2021
@@ -98,7 +99,7 @@ variants:
       top_speed_kmh: 261
       length_mm: 4694
       seats: 5
-    notes: "2021 refresh. WLTP per RDW TGK: 567 km (E3LD, extensions 14-25), 547 km (E5LD, Shanghai, from extension 22), 559 km on later E3LD extensions. Not homologated for towing on some model years."
+    notes: "2021 refresh. WLTP per RDW TGK: 547 km (E5LD, Shanghai, the most registered, from extension 22), 567 km (E3LD Fremont, extensions 14-25), 559 km on later E3LD extensions. Not homologated for towing on some model years."
     confidence: low
   - generation_id: tesla-model-y-gen1
     id: tesla-model-y-gen1-rwd
