@@ -902,13 +902,20 @@ photos:
   retrieved_at: '2026-11-17'
   width: 3380
   height: 2278
+# T-156: the file page's only licence tag is the user template {{User:VulcanSphere/CC-BY-photos}};
+# that template's wikitext (read 2026-11-19, action=raw) is {{self|attribution=© {{U|VulcanSphere}}
+# / Wikimedia Commons / CC BY 4.0|cc-by-4.0}}, so the file is CC BY 4.0 and the credit follows the
+# author's own attribution line. The pipeline skips its own template read when this entry carries one.
 - generation_id: byd-atto-3-gen1
   source: commons
   page_url: https://commons.wikimedia.org/wiki/File:2024_BYD_Atto_3_(SC2E)_in_South_Tangerang_looking_from_front.jpg
   file_url: https://upload.wikimedia.org/wikipedia/commons/d/d5/2024_BYD_Atto_3_%28SC2E%29_in_South_Tangerang_looking_from_front.jpg
   licence: CC-BY-4.0
   author: VulcanSphere
-  credit: VulcanSphere, CC BY 4.0, via Wikimedia Commons
+  credit: © VulcanSphere / Wikimedia Commons / CC BY 4.0
+  licence_template: self|cc-by-4.0
+  licence_checked_at: '2026-11-19'
+  licence_checked_on: file page
   retrieved_at: '2026-11-17'
   width: 4080
   height: 2296
