@@ -51,6 +51,7 @@ def test_model_scores_filter_ids_like_the_web() -> None:
             {"model_id": "Bad Id", "score_pct": 5.0},
             {"model_id": "m-1", "score_pct": 2.0},
             {"model_id": "m-", "score_pct": 1.0},
+            {"model_id": "m-2\n", "score_pct": 1.0},  # JS's $ doesn't match before a newline
             {"model_id": "nan", "score_pct": float("nan")},
             {"model_id": "inf", "score_pct": float("inf")},
             {"model_id": "neg", "score_pct": -1.0},

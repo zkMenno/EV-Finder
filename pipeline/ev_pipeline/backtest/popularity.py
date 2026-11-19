@@ -52,7 +52,7 @@ def model_scores(top40: dict[str, Any] | None) -> dict[str, float]:
     doc = top40 or {}
     for m in [*(doc.get("models") or []), *(doc.get("seed_models_outside_top") or [])]:
         mid, s = (m or {}).get("model_id"), (m or {}).get("score_pct")
-        if not isinstance(mid, str) or not ID_RE.match(mid):
+        if not isinstance(mid, str) or not ID_RE.fullmatch(mid):
             continue
         if isinstance(s, bool) or not isinstance(s, int | float) or not math.isfinite(s):
             continue
