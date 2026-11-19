@@ -1,0 +1,78 @@
+# T-153: split evidence for TGK versions of variants that share a battery pack.
+#
+# Read by match/matcher.py (`tgk_split_pool`). Per seed variant id (the candidate root; its
+# year bands share the entry), the values that variant's RDW TGK versions carry:
+#   type_codes      the TGK variant code, or the uitvoering prefix before "-" (e.g. ZKXZ)
+#   power_30min_kw  TGK 30-minute power (one motor; never peak power, Decision 023)
+#   top_speed_kmh   TGK top speed
+#   motors          2 = dual motor: its TGK versions never state a 30-minute power (one
+#                   drivetrain row per motor), so a version stating one is not this variant.
+#                   Only listed variants: some dual-motor versions carry one row (I-Pace).
+# A candidate whose entry lists a field and lacks the version's value is ruled out; a
+# candidate without that field stays. Every candidate ruled out -> review ("tgk: no variant
+# fits"). Matching evidence only: nothing here becomes a Fact or reaches a release.
+# `basis` names where the values were read. A new car = a new row, no code change.
+schema: tgk-split/v1
+variants:
+  # Stellantis e-CMP 50 kWh (100 kW) vs 51 / 54 kWh (115 kW): the drawn energy overlaps, so
+  # the battery check ties them. RDW TGK (CC0), staging 2026-11-19: every ZKXZ version
+  # states 57 kW 30-min (WLTP 332-374 km), every ZKWZ version 62 kW (WLTP 413-439 km),
+  # across e-208, Corsa, e-2008 and Mokka (244 versions); T-148 Handoff notes.
+  peugeot-e-208-p21-50kwh:
+    type_codes: [ZKXZ]
+    power_30min_kw: [57]
+    basis: "rdw-tgk 2026-11-19: ZKXZ versions, 30-min 57 kW, WLTP 349-373 km"
+  peugeot-e-208-p21-51kwh:
+    type_codes: [ZKWZ]
+    power_30min_kw: [62]
+    basis: "rdw-tgk 2026-11-19: ZKWZ versions, 30-min 62 kW, WLTP 416-439 km"
+  opel-corsa-e-f-50kwh:
+    type_codes: [ZKXZ]
+    power_30min_kw: [57]
+    basis: "rdw-tgk 2026-11-19: ZKXZ versions, 30-min 57 kW, WLTP 349-373 km"
+  opel-corsa-e-f-51kwh:
+    type_codes: [ZKWZ]
+    power_30min_kw: [62]
+    basis: "rdw-tgk 2026-11-19: ZKWZ versions, 30-min 62 kW, WLTP 413-439 km"
+  peugeot-e-2008-p24-50kwh:
+    type_codes: [ZKXZ]
+    power_30min_kw: [57]
+    basis: "rdw-tgk 2026-11-19: ZKXZ versions, 30-min 57 kW, WLTP 332-374 km"
+  peugeot-e-2008-p24-54kwh:
+    type_codes: [ZKWZ]
+    power_30min_kw: [62]
+    basis: "rdw-tgk 2026-11-19: ZKWZ versions, 30-min 62 kW, WLTP 434-436 km"
+  opel-mokka-gen1-50kwh:
+    type_codes: [ZKXZ]
+    power_30min_kw: [57]
+    basis: "rdw-tgk 2026-11-19: ZKXZ versions, 30-min 57 kW, WLTP 332-374 km"
+  opel-mokka-gen1-54kwh:
+    type_codes: [ZKWZ]
+    power_30min_kw: [62]
+    basis: "rdw-tgk 2026-11-19: ZKWZ versions, 30-min 62 kW, WLTP 434-436 km"
+  # Tesla Model Y gen1 Long Range AWD vs Performance share type code Y5LD and the 75-79 kWh
+  # pack; TGK top speed tells them apart: 217 km/h (incl. the 2021 Y5CD 507 km LR versions)
+  # vs 250 km/h. The RWD (LFP) versions carry their own codes Y6LR / Y7CR: without them the
+  # wide battery band let the 57.5 kWh RWD fit the Y5CD energy too (83 kWh drawn).
+  # RDW TGK staging 2026-11-19, 96 versions.
+  tesla-model-y-gen1-long-range:
+    type_codes: [Y5LD, Y5CD]
+    top_speed_kmh: [217]
+    basis: "rdw-tgk 2026-11-19: Y5LD / Y5CD versions at 217 km/h, WLTP 507-542 km"
+  tesla-model-y-gen1-performance:
+    type_codes: [Y5LD]
+    top_speed_kmh: [250]
+    basis: "rdw-tgk 2026-11-19: Y5LD versions at 250 km/h, WLTP 514-528 km"
+  # OpenEV's Long Range RWD row (2024, no seed row): its versions are the Y5LR code.
+  tesla-model-y-gen1-long-range-rwd:
+    type_codes: [Y5LR]
+    basis: "rdw-tgk 2026-11-19: Y5LR versions, 30-min 120-127 kW, WLTP 600 km"
+  tesla-model-y-gen1-rwd:
+    type_codes: [Y6LR, Y7CR]
+    basis: "rdw-tgk 2026-11-19: Y6LR / Y7CR versions, 30-min 88-127 kW, WLTP 430-455 km"
+  # VW ID.4 gen1 Pro (one motor) vs GTX (two) share the 77 kWh pack. RDW TGK staging
+  # 2026-11-19: all GTX versions (4ACX1..., 4ACEFRAE...) state no 30-minute power; the Pro
+  # versions state 70 or 89 kW (WLTP 561-650 km), 53 of them tied between Pro and GTX.
+  volkswagen-id4-gen1-gtx:
+    motors: 2
+    basis: "rdw-tgk 2026-11-19: GTX versions, no 30-min power (two drivetrain rows), 180 km/h"
