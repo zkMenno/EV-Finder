@@ -403,6 +403,7 @@ def build_used_prices(
     # With a fitted curve the plain comparison above is in-sample; `holdout` is the honest one.
     bt["model_curve"] = "fitted" if (p.get("fitted") or {}).get("default") else "published"
     gen_bands = generation_bands(shown, p, as_of)
+    licences = attach_source_licences(variants, gen_bands, registry)
     out.document = {
         "release": release,
         "generated_at": generated_at,
@@ -427,6 +428,7 @@ def build_used_prices(
     out.log = {
         "status": "shipped",
         "variants_with_a_band": len(variants),
+        "source_licences": licences,
         "variants": len(rows),
         "bands": dict(sorted(counts.items())),
         "sample_rows": len(samples),
@@ -436,6 +438,52 @@ def build_used_prices(
         "backtest": {k: v for k, v in bt.items() if k != "rows"},
     }
     return out
+
+
+ESTIMATE_SOURCE_ID = "model-estimate"
+"""data/sources.yaml row for our own estimate models: the licence of a model band's source."""
+
+
+def source_licence(registry: Registry, source_id: str | None) -> str | None:
+    """Licence of a used-price source, from data/sources.yaml (never typed per row, T-149):
+    the SPDX id (text before any '(' note) when the entry names a licence, else the entry's
+    own words (e.g. 'none (site terms of service)' for an aggregates-only site)."""
+    entry = registry.sources.get(registry.canonical(source_id or ESTIMATE_SOURCE_ID))
+    if entry is None or not entry.licence.strip():
+        return None
+    text = entry.licence.strip()
+    from ev_pipeline.release.gate import licence_problem
+
+    return text.split("(")[0].strip() if licence_problem(text) is None else text
+
+
+def attach_source_licences(
+    variants: list[dict[str, Any]], gen_bands: list[dict[str, Any]], registry: Registry
+) -> dict[str, Any]:
+    """Set `source.licence` on every band (T-149). A sample band takes its `source_id`'s
+    licence; a model band (no source_id) is our own estimate (`model-estimate`). Returns
+    counts per licence and the bands left without one (blocking in QA)."""
+    counts: Counter[str] = Counter()
+    missing: list[str] = []
+
+    def put(band: dict[str, Any], where: str) -> None:
+        src = band.get("source")
+        if not isinstance(src, dict):
+            return
+        lic = source_licence(registry, band.get("source_id"))
+        if lic is None:
+            missing.append(where)
+            return
+        src["licence"] = lic
+        counts[lic] += 1
+
+    for v in variants:
+        for cc, bands in (v.get("bands") or {}).items():
+            for b in bands:
+                put(b, f"{v['variant_id']}/{cc}/{b.get('build_year')}")
+    for b in gen_bands:
+        put(b, f"{b.get('generation_id')}/{b.get('country')}/{b.get('build_year')}")
+    return {"by_licence": dict(sorted(counts.items())), "missing": missing[:50]}
 
 
 def choose_curve(p: dict[str, Any], cc: str, segment: str) -> tuple[dict[str, Any], dict[str, Any]]:

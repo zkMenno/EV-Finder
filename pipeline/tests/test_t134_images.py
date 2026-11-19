@@ -44,6 +44,10 @@ def commons(**kw: Any) -> dict[str, Any]:
         "retrieved_at": "2026-11-18",
     }
     e.update(kw)
+    # T-149: every Commons photo carries its file-page template (here as if read by WS3)
+    if e["source"] == "commons" and "licence_template" not in kw:
+        e["licence_template"] = f"self|{str(e['licence']).lower()}"
+        e.setdefault("licence_checked_at", "2026-11-18")
     return e
 
 

@@ -25,6 +25,8 @@ ALLOWED_TEMPLATES = {
     "pd-self",
     "self|pd-self",
     "pd-author",
+    "pd-old",
+    "pd-old-70",
     "pd-old-100",
 }
 REFUSED = re.compile(r"^(pd-us|pd-usgov|pd-textlogo|pd-ineligible)", re.I)

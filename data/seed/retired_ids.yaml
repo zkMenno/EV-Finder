@@ -14,3 +14,9 @@ ids:
   # records now join the seed Pro S row (source_names), so the two OpenEV-made ids leave.
   volkswagen-id7-gen1-pro: volkswagen-id7-gen1-pro-s
   volkswagen-id7-gen1-tour: volkswagen-id7-gen1-pro-s
+  # T-151: OpenEV's Leaf "62 kWh" (110 kW) is the 160 kW e+ (Nissan sells the 62 kWh battery only
+  # with the e+ motor); its records join the seed e+ row.
+  nissan-leaf-ze1-62-kwh: nissan-leaf-ze1-e-plus-62kwh
+  # T-151: the ë-SpaceTourer is split per battery; the OpenEV "Base" records (46 kWh net) are the
+  # 50 kWh car.
+  citroen-e-spacetourer-gen1-base: citroen-e-spacetourer-gen1-50kwh
