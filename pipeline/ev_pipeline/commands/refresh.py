@@ -46,6 +46,8 @@ def cmd_refresh(args: argparse.Namespace) -> int:
         accept=set(split_sources(args.accept) or []),
     )
     code, log = refresh(opts)
+    if "refused" in log:  # G-49: another live refresh holds data/staging (already printed)
+        return code
     if args.json:
         print(json.dumps(log, indent=1, ensure_ascii=False))
     else:

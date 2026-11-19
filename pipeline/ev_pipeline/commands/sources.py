@@ -96,6 +96,8 @@ def cmd_accept(args: argparse.Namespace) -> int:
     code, log = refresh(
         RefreshOptions(sources=[args.source], accept={args.source}, release=not args.no_release)
     )
+    if "refused" in log:  # G-49: another live refresh holds data/staging (already printed)
+        return code
     for s in log["sources"]:
         print(f"{s['id']}: {s['status']} {s['message']}")
     print(f"release: {log['release'].get('outcome')} {log['release'].get('release') or ''}")
