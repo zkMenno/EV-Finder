@@ -1,6 +1,6 @@
 # T-156 Small catalogue fixes: e-Tourneo Courier 2026, ë-SpaceTourer 75 DC, e-GMP 84 pack, BYD Atto 3 photo
 Role: builder   Lane: data/seed, data/manual, data/images (WS3)   Wave: launch
-Status: todo
+Status: doing (batch: catalogue T-156, https://claude.ai/code/session_01JuyZEWYDTfurC8UVp9w9ew, 2026-11-19)
 
 ## Goal
 Four small gaps left by T-151 and T-149 are closed with cited maker or file-page facts.
