@@ -163,6 +163,9 @@ variants:
   # (85-89 kWh drawn: base 451 / 464 km, 4S 429 / 472 km), x1x1000 = Performance Battery Plus
   # (99-103 kWh drawn). Base and 4S rows are listed as variant + uitvoering pairs (fresh review
   # #199: JA12 alone put the base's PB+ 520 / 541 km versions on the 71 kWh row).
+  # One exception in staging: e13*2007/46*0919*03|JA12|1050000|1 (2021) shows PB+ figures (520 km,
+  # 102.4 kWh drawn); it goes to review today on year (rows start 2023, 1 year slack) - recheck if the
+  # base row's years ever start earlier (review #199 round 2).
   porsche-taycan-gen1-base:
     type_codes: [JA12+1040000, JA12+1050000, JA12+1140000, JA12+1150000, SA12+1140000, SA12+1150000]
     basis: "rdw-tgk 2026-11-19: TAYCAN (RWD) JA12 / SA12 versions with the Performance Battery (uitvoering x0x0000), WLTP 451-464 km, 85.8-87 kWh drawn, 2021-22"
