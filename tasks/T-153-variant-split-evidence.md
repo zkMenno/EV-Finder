@@ -1,6 +1,6 @@
 # T-153 Split variants that share a battery, let a cited power win, three retro checks
 Role: builder   Lane: pipeline/ (WS1); data/seed/validate_variants.py one-line cross-lane (WS3 file, flag it)   Wave: launch
-Status: todo
+Status: doing (batch: data T-153, https://claude.ai/code/session_01JuyZEX99QgTw4AD6jgjZaL, 2026-11-19)
 
 ## Goal
 Source records for versions that share a battery land on the right variant, a power figure cited from the maker beats a wrong one from OpenEV, and three checks catch what the 18 Nov batches found by hand.
