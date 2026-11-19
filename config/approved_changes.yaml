@@ -442,6 +442,24 @@ approved:
     id: porsche-taycan-gen1-turbo-s
     field: "consumption_*"
     change: changed
+  # T-159 part 1: TGK split evidence (match/tgk_split.yaml); 6 blocking lines on the same staging
+  - &t159taycan
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #198 (T-159)"
+    reason: "T-159: Taycan gen1 rows now take only their own RDW TGK versions (2020-23 variant codes; base and 4S also by pack, the uitvoering code's 4th digit). Base (Performance Battery, 71 kWh net): before it had no TGK versions; now its own 2022 PB versions, WLTP 431 (OpenEV) -> 464 km. Turbo (all Performance Battery Plus): before it held the base car's JA12 versions (451 km); now its own JC22 / CC22 / SC22 versions, WLTP 523 km, real range follows; its own mass 2380 kg (was the base's 2125) adds the existing too-big-for-b-roads penalty on rural scores. Measured: same-staging build of main vs PR #199 (2026-11-19), 14 rows changed, these the only blocking lines."
+    id: porsche-taycan-gen1-base
+    field: wltp_range_km
+    change: changed
+  - {<<: *t159taycan, id: porsche-taycan-gen1-turbo, field: wltp_range_km}
+  - {<<: *t159taycan, id: porsche-taycan-gen1-turbo, field: real_range_km}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.daily-driver.rural.band"}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.road-tripper.rural.score"}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-turbo, field: "scores.road-tripper+kerbside.rural.score"}
+  # With T-161 (#197) merged, the base's own PB versions (WLTP 464, mass 2155 kg) also lift two
+  # road-tripper+kerbside scores past the 10-point threshold (measured on main fee060f + #199).
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-base, field: "scores.road-tripper+kerbside.rural.score"}
+  - {<<: *t159taycan, file: shortlist_scores.json, id: porsche-taycan-gen1-base, field: "scores.road-tripper+kerbside.urban.score"}
   # T-156: the E-Tourneo Courier 2026 update (46 kWh, Ford 16.02.2026) gets its own seed row,
   # years 2026 onward. Measured: ev verify on staging recorded 2026-11-19, 2 blocking lines, both below.
   - &t156
@@ -453,3 +471,15 @@ approved:
     field: "price_new.NL.amount"
     change: cleared
   - {<<: *t156, file: used_prices.json, id: ford-e-tourneo-courier-gen1-base, field: "*", change: removed}
+  # T-160: the 100 kW / 50 kWh e-208, e-2008 and Corsa rows run on past 2023 (Stellantis documents:
+  # the version stayed on sale after the 2023 facelift), so RDW TGK ZKXZ versions 2025-26 land on them.
+  - &t160zkxz
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #196 (T-160 gate)"
+    reason: "T-160: Stellantis media (Peugeot em-en 03 Apr 2025; Peugeot UK MY2024 E-2008 release; Opel DE 28 Oct 2024 + Opel DE price list Feb 2026) show the 100 kW / 50 kWh version still on sale after the 2023 facelift, so the rows' end year opens. Measured: ev verify --base origin/main on staging recorded 2026-11-19 (gate + Elroq + ZKXZ branches): these 3 approved, 0 blocking. The Elroq 85 alias (T-160) blocks nothing against release 3, so it needs no approval."
+    id: peugeot-e-208-p21-50kwh
+    field: year_end
+    change: cleared
+  - {<<: *t160zkxz, id: peugeot-e-2008-p24-50kwh}
+  - {<<: *t160zkxz, id: opel-corsa-e-f-50kwh}
