@@ -187,6 +187,15 @@ class GenerationImage(BaseModel):
     make_id: str | None = Field(
         None, description='Maker whose press terms apply (source = press).'
     )
+    licence_template: str | None = Field(
+        None,
+        description='Commons licence template seen on the file page itself, e.g. Cc-by-sa-4.0, Cc-zero, PD-self (Decision 083). Absent for press photos.',
+        min_length=1,
+    )
+    licence_checked_at: date | None = Field(
+        None,
+        description='Date the licence template was checked on the file page (Decision 083).',
+    )
 
 
 class DriveSide(Enum):
@@ -2539,6 +2548,11 @@ class UsedPriceSourceRef(BaseModel):
     url: str | None = None
     ref: str | None = None
     date: str | None = None
+    licence: str | None = Field(
+        None,
+        description="Licence of the source, SPDX id where one exists (e.g. CC-BY-4.0, ODbL-1.0) or a short name (e.g. 'maker terms'). Data rule 3: kept per source.",
+        min_length=1,
+    )
 
 
 class Method(Enum):
@@ -2617,6 +2631,33 @@ class UsedPricesRelease(BaseModel):
     )
 
 
+class SourceId(RootModel[str]):
+    root: str = Field(..., min_length=1)
+
+
+class GenerationPopularity(BaseModel):
+    model_config = ConfigDict(
+        extra='forbid',
+    )
+    score: float = Field(
+        ..., description='0-100, higher is more popular.', ge=0.0, le=100.0
+    )
+    rank: int = Field(
+        ..., description='1 = most popular generation in the release.', ge=1
+    )
+    registrations: int = Field(
+        ...,
+        description='Registrations counted across the sources (EU countries we read).',
+        ge=0,
+    )
+    as_of: date = Field(..., description='Date of the newest registration data used.')
+    source_ids: list[SourceId] = Field(
+        ...,
+        description="Source ids (as in the release's sources) the score is computed from.",
+        min_length=1,
+    )
+
+
 class Generation(BaseModel):
     model_config = ConfigDict(
         extra='forbid',
@@ -2637,6 +2678,10 @@ class Generation(BaseModel):
     image: GenerationImage | None = Field(
         None,
         description='One photo per generation (Decision 081, 083). Optional: absent until sourced.',
+    )
+    popularity: GenerationPopularity | None = Field(
+        None,
+        description='Optional: absent when no registration data matched this generation.',
     )
 
 
