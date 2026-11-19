@@ -486,7 +486,7 @@ def fetch_images(data_dir: Path) -> dict[str, Any]:
     release step can resize them. Never fails the refresh: problems are logged, the release
     goes out without the missing photos."""
     from ev_pipeline.images.photos import load_photos
-    from ev_pipeline.images.store import CACHE_DIR, fetch_originals
+    from ev_pipeline.images.store import CACHE_DIR, fetch_originals, read_templates
     from ev_pipeline.match.seed import load_seed
 
     try:
@@ -495,10 +495,12 @@ def fetch_images(data_dir: Path) -> dict[str, Any]:
         if not photos:
             return {"outcome": "skipped", "reason": "no photos", "problems": len(problems)}
         rep = fetch_originals(photos, data_dir / CACHE_DIR)
+        tpl = read_templates(photos, data_dir / CACHE_DIR)  # T-149: licence template per file
         return {
-            "outcome": "partial" if rep.failed else "ok",
+            "outcome": "partial" if (rep.failed or tpl.failed) else "ok",
             "problems": len(problems),
             **rep.log(),
+            "licence_templates": tpl.log(),
         }
     except Exception as exc:  # noqa: BLE001  photos must never block a data release
         return {"outcome": "failed", "reason": f"{type(exc).__name__}: {exc}"[:500]}
@@ -544,7 +546,7 @@ def photos_pending(data_dir: Path) -> list[str]:
     decision uses `built_photo_changes` (a cached photo can still be dropped by the build).
     Never raises: on any error it returns [] (photos must never block or force a release)."""
     from ev_pipeline.images.photos import load_photos
-    from ev_pipeline.images.store import CACHE_DIR, cached_original
+    from ev_pipeline.images.store import CACHE_DIR, cached_original, licence_check
     from ev_pipeline.match.seed import load_seed
 
     try:
@@ -554,9 +556,11 @@ def photos_pending(data_dir: Path) -> list[str]:
         seed = load_seed(data_dir / "seed" / "models.yaml")
         photos, _ = load_photos(data_dir, set(seed.generations), datetime.now(UTC).date())
         cache = data_dir / CACHE_DIR
-        wanted = {
-            ph.generation_id: _photo_key(ph.field()) for ph in photos if cached_original(cache, ph)
-        }
+        wanted: dict[str, str] = {}
+        for ph in photos:
+            lic, why = licence_check(ph, cache)  # same field the build attaches (T-149)
+            if cached_original(cache, ph) and not why:
+                wanted[ph.generation_id] = _photo_key({**ph.field(), **lic})
         return _changed(published, wanted)
     except Exception:  # noqa: BLE001  same rule as fetch_images
         return []

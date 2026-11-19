@@ -97,6 +97,13 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 DIFF_IGNORE = {"release", "provenance"}
 
 
+def config_dir(data_dir: Path) -> Path:
+    """The repo's config/ next to data_dir; a scratch data dir (ev verify, a temp machine) falls
+    back to the repo's own config/, like publish.load_config does for publish.yaml."""
+    here = data_dir.parent / "config"
+    return here if here.is_dir() else Path(__file__).resolve().parents[3] / "config"
+
+
 def default_data_dir() -> Path:
     return Path(os.environ.get("EV_DATA_DIR", REPO_ROOT / "data"))
 
@@ -588,6 +595,11 @@ def build_release(
     )
     inputs += used.inputs
     images, images_log = attach_images(catalogue, data_dir, today)
+    # T-149: popularity per generation from this release's own registration facts.
+    from ev_pipeline.derive.popularity import attach_popularity
+
+    popularity_log, pop_inputs = attach_popularity(catalogue, config_dir(data_dir), data_dir)
+    inputs += pop_inputs
     if images_log.get("photos_file"):
         inputs.append(
             {"path": str(data_dir / "images" / "photos.yaml"), **images_log["photos_file"]}
@@ -690,6 +702,7 @@ def build_release(
             "shortlist_scores": shortlist.log,
             "used_prices": used.log,
             "images": images_log,
+            "popularity": popularity_log,
             "real_range_winter_km": winter_log,
             "plausibility": plaus.log(),
             "pack_links": link_coverage(link_report),

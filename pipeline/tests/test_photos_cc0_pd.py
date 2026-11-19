@@ -54,6 +54,8 @@ def free(**kw: Any) -> dict[str, Any]:
         ("public-domain", "self|PD-self"),
         ("public-domain", "PD-author"),
         ("public-domain", "PD-old-100"),
+        ("public-domain", "PD-old"),  # T-149: PD-old family added (Decision 083)
+        ("public-domain", "PD-old-70"),
     ],
 )
 def test_cc0_and_worldwide_pd_with_template_pass(licence: str, template: str) -> None:
@@ -73,7 +75,7 @@ def test_cc0_and_worldwide_pd_with_template_pass(licence: str, template: str) ->
         "PD-textlogo",
         "PD-ineligible",
         "self|PD-US",
-        "PD-old",
+        "PD-old-70-1923",
         "CC-BY-4.0",
         "cc-zero-ish",
     ],
@@ -124,9 +126,13 @@ def test_release_qa_accepts_cc0_pd_images() -> None:
                 "page_url": "https://c",
                 "retrieved_at": "2026-11-17",
                 "files": files,
+                "licence_template": tpl,  # T-149: required on every Commons photo
+                "licence_checked_at": "2026-11-18",
             },
         }
-        for i, lic in enumerate(["CC0-1.0", "public-domain", "CC-BY-SA-4.0"])
+        for i, (lic, tpl) in enumerate(
+            [("CC0-1.0", "cc-zero"), ("public-domain", "PD-self"), ("CC-BY-SA-4.0", "cc-by-sa-4.0")]
+        )
     ]
     assert image_problems({"generations": gens}) == []
 
