@@ -458,7 +458,7 @@ approved:
   - &t160elroq
     release: 4
     file: shortlist_scores.json
-    approved_by: "PR #PENDING (T-160 gate)"
+    approved_by: "PR #196 (T-160 gate)"
     reason: "T-160: OpenEV 'Base' is the Elroq 85 (77 kWh net, 581 km). With the hold removed and `source_names: {openev: [Base]}` on skoda-elroq-gen1-85 it joins that row; its 150 kW is withheld because Škoda's cited 210 kW wins (validation.csv: 'power contradicts the cited maker power'). The row gains 11 charging fields (AC 11 kW, DC 185 kW claim, 10-80 % 25.9 min), which lifts its score bands (e.g. daily-driver not-enough-data -> shortlist). No skoda-elroq-gen1-base row is built."
     id: skoda-elroq-gen1-85
     field: "scores.*"
@@ -468,7 +468,7 @@ approved:
   - &t160zkxz
     release: 4
     file: catalogue.json
-    approved_by: "PR #PENDING (T-160 gate)"
+    approved_by: "PR #196 (T-160 gate)"
     reason: "T-160: Stellantis media (Peugeot em-en 03 Apr 2025; Peugeot UK MY2024 E-2008 release; Opel DE 28 Oct 2024 + Opel DE price list Feb 2026) show the 100 kW / 50 kWh version still on sale after the 2023 facelift, so the rows' end year opens. Measured: same-staging build of the T-160 ZKXZ branch, 3 blocking lines, these three."
     id: peugeot-e-208-p21-50kwh
     field: year_end
