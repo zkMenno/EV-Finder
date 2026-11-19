@@ -118,7 +118,7 @@ profiles:
     bonuses:
       - id: newest-version
         points: 4
-        rule: "Newest model year of a model that also appears in an older version (same model, later battery/charging update)."
+        rule: "Newest model year within the same trim line (same model and drivetrain, similar power) that also appears in an older version: a later battery/charging update, not a new cheaper or faster trim (Decision 088)."
         evidence: "G6 2025 (A) vs 2024 (C); EV6 2024 (A) vs 2021 (C); IONIQ 5 2024 (B) vs 2022 (C)."
       - id: lfp-daily-100
         points: 2
@@ -138,7 +138,7 @@ profiles:
         evidence: "Zeekr 7X: 'Quite chubby for B roads', C-tier despite 1,330 km/h charging."
       - id: older-version
         points: -6
-        rule: "An older version of a model that has a newer, better-charging version on the list."
+        rule: "An older version in the same trim line (same model and drivetrain, similar power) as a newer, better-charging version on the list (Decision 088)."
         evidence: "Same pairs as newest-version."
 
     filter_presets:   # preselected in Explore, shown as removable chips "Set by your profile"

@@ -1688,6 +1688,19 @@ variants:
       power_kw: 100
     notes: "Stellantis (Citroën France) 12.06.2020: 75 kWh, 27 modules, up to 330 km WLTP, M and XL bodies only, 100 kW. Citroën UK 18.03.2024: 75 kWh (68 kWh usable), up to 217 miles WLTP; Citroën Germany (2024): up to 350 km, 20 km more than before."
     confidence: low
+  # T-156: Ford's 2026 update raises the E-Tourneo Courier's usable battery from 43 to 46 kWh
+  # (Ford of Europe, 16.02.2026). Its own row from 2026; the 2024-2025 car stays on Open EV Data's
+  # 'Base' row (ford-e-tourneo-courier-gen1-base, 43 kWh / 288 km from Ford, T-151).
+  # Figures that ship: data/manual/specs/t156-courier-spacetourer.yaml.
+  - generation_id: ford-e-tourneo-courier-gen1
+    id: ford-e-tourneo-courier-gen1-46kwh
+    name: "46 kWh (2026 update)"
+    years: [2026, null]
+    drivetrain: fwd
+    specs:
+      battery_kwh_net: 46
+    notes: "Ford of Europe 16.02.2026 ('What's New: E-Tourneo Courier 2026'): usable battery 43 -> 46 kWh, up to 320 km WLTP, 10-80 % in 26 min on a 100 kW DC charger. Power not restated by Ford for the update, so left out."
+    confidence: low
   - generation_id: fiat-500e-312
     id: fiat-500e-312-24kwh
     name: "500e (US)"

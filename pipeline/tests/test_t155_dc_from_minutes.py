@@ -72,16 +72,28 @@ def test_a_curve_still_beats_the_minutes() -> None:
     assert row["dc_minutes_10_80"] == 18.0  # the sourced time is kept as is
 
 
-def test_minutes_above_the_peak_go_to_review_not_the_row() -> None:
+def test_minutes_above_the_peak_go_to_review_and_the_default_curve_fills_in() -> None:
+    """T-161 (T-155 nit 4): 84 kWh in 18 min = 196 kW > the 150 kW peak. The time goes to review
+    and the row falls back to the default curve from the peak (an estimate), not to nothing."""
     row, problems = _row(
         [
             _fact("battery_kwh_net", 84, "kWh"),
+            _fact("wltp_range_km", 507, "km"),
             _fact("dc_peak_kw", 150, "kW", source="eea"),
             _fact("dc_minutes_10_80", 18, "min", source="manual"),
         ]
     )
-    assert row["dc_avg_10_80_kw"] is None and row["dc_km_per_20min"] is None
-    assert [p.field for p in problems] == ["dc_avg_10_80_kw"]
+    assert [p.field for p in problems] == ["dc_minutes_10_80"]
+    assert "196.0 kW" in problems[0].reason and "default curve" in problems[0].reason
+    assert row["dc_curve_status"] == "default"
+    assert row["dc_avg_10_80_kw"] is not None and row["dc_avg_10_80_kw"] <= 150
+    assert row["dc_minutes_10_80"] != 18.0  # the default curve's time, not the cited one
+    pv = row["provenance"]
+    assert pv["dc_avg_10_80_kw"]["estimate"] is True
+    assert pv["dc_minutes_10_80"]["estimate"] is True
+    assert "manual" not in pv["dc_minutes_10_80"]["source_ids"]
+    assert row["dc_km_per_20min"] is not None
+    assert provenance_errors([row]) == []
 
 
 def test_minutes_without_battery_give_nothing() -> None:
