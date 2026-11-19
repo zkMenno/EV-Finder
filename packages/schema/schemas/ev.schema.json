@@ -199,6 +199,10 @@
         "image": {
           "$ref": "#/$defs/GenerationImage",
           "description": "One photo per generation (Decision 081, 083). Optional: absent until sourced."
+        },
+        "popularity": {
+          "$ref": "#/$defs/GenerationPopularity",
+          "description": "Optional: absent when no registration data matched this generation."
         }
       }
     },
@@ -216,21 +220,68 @@
             "additionalProperties": false,
             "required": ["width", "path", "bytes", "sha256"],
             "properties": {
-              "width": { "type": "integer", "minimum": 1 },
-              "path": { "type": "string", "minLength": 1, "description": "Release-relative, e.g. images/<generation_id>-<sha8>-800.webp" },
-              "bytes": { "type": "integer", "minimum": 1 },
-              "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Release-relative, e.g. images/<generation_id>-<sha8>-800.webp"
+              },
+              "bytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
             }
           }
         },
-        "source": { "type": "string", "enum": ["press", "commons"] },
-        "page_url": { "type": "string", "format": "uri" },
-        "file_url": { "type": "string", "format": "uri" },
-        "licence": { "type": "string", "minLength": 1, "description": "Licence or Commons template, e.g. CC BY-SA 4.0, CC0, PD-self (Decision 083)." },
-        "author": { "type": ["string", "null"] },
-        "credit": { "type": "string", "minLength": 1 },
-        "retrieved_at": { "type": "string", "format": "date" },
-        "make_id": { "type": ["string", "null"], "description": "Maker whose press terms apply (source = press)." }
+        "source": {
+          "type": "string",
+          "enum": ["press", "commons"]
+        },
+        "page_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "file_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "licence": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Licence or Commons template, e.g. CC BY-SA 4.0, CC0, PD-self (Decision 083)."
+        },
+        "author": {
+          "type": ["string", "null"]
+        },
+        "credit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "make_id": {
+          "type": ["string", "null"],
+          "description": "Maker whose press terms apply (source = press)."
+        },
+        "licence_template": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Commons licence template seen on the file page itself, e.g. Cc-by-sa-4.0, Cc-zero, PD-self (Decision 083). Absent for press photos."
+        },
+        "licence_checked_at": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the licence template was checked on the file page (Decision 083)."
+        }
       }
     },
     "Variant": {
@@ -5695,6 +5746,11 @@
         },
         "date": {
           "type": "string"
+        },
+        "licence": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Licence of the source, SPDX id where one exists (e.g. CC-BY-4.0, ODbL-1.0) or a short name (e.g. 'maker terms'). Data rule 3: kept per source."
         }
       }
     },
@@ -5883,6 +5939,45 @@
           "type": "number",
           "minimum": 0,
           "description": "Band half-width around estimates as a share of the median (params file), e.g. 0.12."
+        }
+      }
+    },
+    "GenerationPopularity": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "How popular a generation is, for the 'Most popular' sort (T-130). Computed by the pipeline with the weights in config/popularity.yaml; every input is a traced source.",
+      "required": ["score", "rank", "registrations", "as_of", "source_ids"],
+      "properties": {
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "0-100, higher is more popular."
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1 = most popular generation in the release."
+        },
+        "registrations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Registrations counted across the sources (EU countries we read)."
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of the newest registration data used."
+        },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Source ids (as in the release's sources) the score is computed from."
         }
       }
     }

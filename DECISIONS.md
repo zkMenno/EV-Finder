@@ -965,4 +965,20 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Consequences:** T-143 (WS2, with UX for the layout). Data already in the release (`wltp_range_km`); no pipeline change. If decision 084 is not taken by the docs PR that logs people carriers, that PR uses 084 as planned.
 
+## Decision 086: Photos ship as one bundle per release
+
+**Status:** Accepted (WS0, 2026-11-19; engineering call, reversible)
+**Date:** 2026-11-19
+
+**Context:** Release 3 has 646 GitHub Release assets, 357 of them photo files (`images/`; the rest are 261 `catalogue/` files and 28 others). GitHub caps content creation at about 500 requests per hour, so a fresh release needs two runs (the second resumes, #162). Every new photo makes this worse. Asked by batch: data / release 3 (WS0 INBOX 2026-11-18 19:14 UTC).
+
+**Decision:** Release photos go into **one asset per release**, `images.tar` (uncompressed: the files are already WebP), next to the other release files.
+- The manifest lists the bundle with its size and sha256, plus every file inside it with its path and sha256 (as today), so a single photo can still be checked.
+- `ev release fetch` downloads the bundle, checks it, unpacks it into `images/` and checks each file. A release without a bundle (1 to 3) still fetches the old way.
+- Photo-only changes (#150) still make a new release; the bundle is rebuilt, never patched.
+- The data-refresh `pr` job fails early when a release would upload more than 450 assets, so a run never stops halfway on the limit. With the bundle, a release like release 3 has about 290 assets; if `catalogue/` keeps growing towards the guard, it gets the same bundle treatment (a new decision).
+- Licences are unchanged: photos stay out of the CC BY open-data download (Decision 081, 083); the bundle is a delivery format, not a dataset.
+
+**Consequences:** T-150 (WS1). `apps/web/scripts/fetch-release.mjs` (the web build's own fetcher) does not download `images/` today; once the web needs photos (T-146 row thumbnails) it unpacks the bundle the same way, flagged as a cross-lane change. Everything after the fetch reads the unpacked `images/` folder as today. Reversible: go back to one asset per file by dropping the bundle line from the manifest.
+
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
