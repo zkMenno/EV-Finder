@@ -29,7 +29,7 @@ facts:
     locator: "Versions BB1N and BB1T1 (max speed 233 km/h in RDW TGK byxc-wwua); the same 560 km / 160 Wh/km on extensions 00 to 12 (2019-01 to 2020-08)"
     confidence: medium
     claim: true
-    notes: "Refreshed cars on later extensions: 580 km (E3CD/E5CD, from ext. 13, 2020-10), 614 km (E3LD, ext. 17, 2021-04), 602 km (E5LD, ext. 23, 2022-04). Medium: one row covers 2019-2023, the figure is for 2019-2020 builds."
+    notes: "Refreshed cars on later extensions: 580 km (E3CD/E5CD, from ext. 13, 2020-10), 614 km (E3LD, ext. 17, 2021-04), 602 km (E5LD, ext. 23, 2022-04). Medium: the figure is for 2019-2020 builds; T-154 split the 2021 refresh into its own row (t154-model-3-split.yaml)."
   - variant_id: tesla-model-3-gen1-long-range
     field: consumption_kwh_100km
     value: 16.0
@@ -53,7 +53,7 @@ facts:
     locator: "Versions PP* (max speed 261 km/h in RDW TGK byxc-wwua, which the seed's 261 km/h top speed matches); the same 530 km / 166 Wh/km on extensions 00 to 12 (2019-01 to 2020-08)"
     confidence: medium
     claim: true
-    notes: "Refreshed cars on later extensions: 567 km (E3LD, ext. 13-25), 547 km (E5LD, ext. 22-35). Medium: one row covers 2019-2023, the figure is for 2019-2020 builds."
+    notes: "Refreshed cars on later extensions: 567 km (E3LD, ext. 13-25), 547 km (E5LD, ext. 22-35). Medium: the figure is for 2019-2020 builds; T-154 split the 2021 refresh into its own row (t154-model-3-split.yaml)."
   - variant_id: tesla-model-3-gen1-performance
     field: consumption_kwh_100km
     value: 16.6
