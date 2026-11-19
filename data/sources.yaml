@@ -41,6 +41,8 @@ sources:
        cdn.group.renault.com, renault.co.uk, www.skoda.co.uk, www.volkswagen-newsroom.com, volkswagen.ie, www.volkswagen.it,
        # T-151 (WS3): Citroën / Ford / Nissan press rooms
        www.media.stellantis.com, media.ford.com, europe.nissannews.com,
+       # T-156 (WS3): Ford of Europe's own news site (Ford HQ posts); Lucid's investor-relations press releases
+       www.fromtheroad.ford.com, ir.lucidmotors.com,
        # maker documents on a hosting service: host/path prefixes only, never the whole host (PR #80 review).
        # Cision company 23604 = Volvo Car Belux press releases; one Toyota Belgium price-list asset on Prezly;
        # Peugeot NL price lists on louwman.nl (dealer group): imprint "Stellantis Nederland B.V." (importer)
