@@ -225,6 +225,8 @@ def test_licence_templates_from_wikitext() -> None:
                                        "Cc-by-sa-3.0,2.5,2.0,1.0"]  # fmt: skip
     assert warning_templates(PAGE) == []
     assert warning_templates("{{copyvio|reason}}{{cc-by-4.0}}") == ["copyvio"]
+    assert warning_templates("{{Flickrreview|X|2026-01-01}}") == []  # passed review: fine
+    assert warning_templates("<!-- {{delete}} -->{{cc-by-4.0}}") == []
     yt = "{{From YouTube|1=x}}\n{{YouTube CC-BY |1= [https://www.youtube.com/watch?v=x Y]}}"
     assert licence_templates(yt) == ["YouTubeCC-BY|1=[https://www.youtube.com/watch?v=xY]"]
     assert licence_templates("{{User:Someone/CC-BY-photos}}") == []  # user wrapper: review
@@ -330,6 +332,14 @@ def test_read_templates_once_and_licence_check(tmp_path: Path) -> None:
         ("{{cc-by-4.0}}", "does not grant CC-BY-SA-4.0"),
         ("no template here", "no licence template"),
         ("{{self|cc-by-sa-4.0}}{{delete|reason=x}}", "carries delete"),
+        ("{{No permission since|month=May|year=2026}}{{self|cc-by-sa-4.0}}", "nopermission"),
+        ("{{No source since|month=May}}{{self|cc-by-sa-4.0}}", "nosource"),
+        ("{{No license since|month=May}}{{self|cc-by-sa-4.0}}", "nolicense"),
+        ("{{dw no source since|month=May}}{{self|cc-by-sa-4.0}}", "dwnosource"),
+        ("{{Personality rights}}{{self|cc-by-sa-4.0}}", "personalityrights"),
+        ("{{Flickrreview|Someone|2026-01-01|fail}}{{self|cc-by-sa-4.0}}", "flickrreview"),
+        ("<!-- {{self|cc-by-sa-4.0}} -->{{cc-by-4.0}}", "does not grant"),
+        ("<nowiki>{{self|cc-by-sa-4.0}}</nowiki>", "no licence template"),
     ],
 )
 def test_licence_check_refuses(tmp_path: Path, page: str, reason: str) -> None:

@@ -51,14 +51,23 @@ TEMPLATE_METHOD = "file page wikitext (action=raw)"
 MAX_WIKITEXT = 200_000
 _TEMPLATE = re.compile(r"\{\{\s*([^{}]+?)\s*\}\}")
 _WARNING = re.compile(
-    r"^(delete|speedydelete|copyvio|no permission|no source|no license|personality rights"
-    r"|nofop|no fop|fop-)",
+    # matched on the template name with all whitespace removed (see _template_name)
+    r"^(delete|speedydelete|copyvio|nopermission|nosource|nolicen[cs]e|dwnosource"
+    r"|personalityrights|nofop|fop-|deletionrequest)",
     re.I,
 )
+_FAILED_REVIEW = re.compile(r"^(flickrreview|licensereview|licencereview)$", re.I)
+_HIDDEN = re.compile(r"<!--.*?-->|<nowiki>.*?</nowiki>", re.S | re.I)
 
 
 def _template_name(body: str) -> str:
     return re.sub(r"\s+", "", body.split("|", 1)[0]).lower()
+
+
+def visible(wikitext: str) -> str:
+    """Wikitext without HTML comments and <nowiki> parts: a commented-out or quoted licence
+    template grants nothing (#179 review)."""
+    return _HIDDEN.sub("", wikitext)
 
 
 def licence_templates(wikitext: str) -> list[str]:
@@ -67,7 +76,7 @@ def licence_templates(wikitext: str) -> list[str]:
     or GFDL* (and TEMPLATE_ALIASES such as {{YouTube CC-BY}}) count; {{Information}}, review
     and user-page templates are ignored (a photo with only those goes to review)."""
     out: list[str] = []
-    for m in _TEMPLATE.finditer(wikitext):
+    for m in _TEMPLATE.finditer(visible(wikitext)):
         body = m.group(1)
         name = _template_name(body)
         if name == "self" or name in TEMPLATE_ALIASES or name.startswith(("cc-", "pd-", "gfdl")):
@@ -78,11 +87,16 @@ def licence_templates(wikitext: str) -> list[str]:
 
 
 def warning_templates(wikitext: str) -> list[str]:
-    return [
-        _template_name(m.group(1))
-        for m in _TEMPLATE.finditer(wikitext)
-        if _WARNING.match(_template_name(m.group(1)))
-    ]
+    """Deletion, copyright and review-failure templates on the page (lower-case names):
+    `{{No permission since|...}}` → `nopermissionsince`; a failed Flickr / licence review
+    (`{{Flickrreview|...|fail}}`) counts too."""
+    out = []
+    for m in _TEMPLATE.finditer(visible(wikitext)):
+        name = _template_name(m.group(1))
+        params = [re.sub(r"\s+", "", p).lower() for p in m.group(1).split("|")[1:]]
+        if _WARNING.match(name) or (_FAILED_REVIEW.match(name) and "fail" in params):
+            out.append(name)
+    return out
 
 
 def page_title(page_url: str) -> str | None:
@@ -138,7 +152,11 @@ def read_templates(
             except RateLimited as e:
                 rep.stopped = str(e)
                 for rest in photos[photos.index(ph) :]:
-                    if rest.source == "commons" and not template_path(cache, rest).exists():
+                    if (
+                        rest.source == "commons"
+                        and not rest.licence_template
+                        and not template_path(cache, rest).exists()
+                    ):
                         rep.failed[rest.generation_id] = f"RateLimited: {e}"
                 break
             except httpx.HTTPError as e:

@@ -194,9 +194,10 @@ def build_popularity(
             "source_ids": used,
         }
         scored.append((round(s, 1), g))
+    fields = {g: f for g, f in fields.items() if f["as_of"] is not None}  # before ranking
+    scored = [(s, g) for s, g in scored if g in fields]
     for rank, (_, g) in enumerate(sorted(scored, key=lambda t: (-t[0], t[1])), start=1):
         fields[g]["rank"] = rank
-    fields = {g: f for g, f in fields.items() if f["as_of"] is not None}
     log = {
         "generations": len(fields),
         "rank_sources": dict(rank_sources),
