@@ -190,8 +190,9 @@ def build_base(
         capture_output=True, text=True, cwd=str(tmp),
     )  # fmt: skip
     if cp.returncode != 0:
-        tail = (cp.stderr or cp.stdout).strip().splitlines()
-        why = tail[-1] if tail else f"exit {cp.returncode}"
+        lines = (cp.stderr or cp.stdout).strip().splitlines()
+        err = [ln for ln in lines if "Error" in ln.split(":")[0]]  # the exception's headline
+        why = (err[-1] if err else lines[-1]) if lines else f"exit {cp.returncode}"
         return {"status": "fail", "ref": ref, "sha": sha, "error": f"base build of {ref}: {why}"}
     out = json.loads(cp.stdout.strip().splitlines()[-1])
     return {"status": "pass", "ref": ref, "sha": sha, "dir": out["dir"], "release": out["release"]}
@@ -402,16 +403,21 @@ def verify(
     now = now or datetime.now(UTC)
     from ev_pipeline.refresh.lock import last_run, refusal
 
+    stamp = last_run(data_dir)  # before the busy check: a refresh starting in between counts
     busy = refusal(data_dir)
     if busy is not None:  # G-49: never rebuild from a staging that refresh is still writing
         rep.sections["rebuild"] = {"status": "refused", "error": busy}
         rep.fail(busy)
         return rep
-    if keep is not None and keep.exists() and any(keep.iterdir()):
+    if keep is not None and keep.exists() and (not keep.is_dir() or any(keep.iterdir())):
         rep.sections["rebuild"] = {"status": "refused", "error": f"--keep: {keep} is not empty"}
-        rep.fail(f"--keep: {keep} exists and is not empty; pick a new folder")
+        rep.fail(f"--keep: {keep} exists and is not an empty folder; pick a new folder")
         return rep
-    stamp = last_run(data_dir)
+    if keep is not None and keep.resolve().is_relative_to(data_dir.resolve()):
+        rep.sections["rebuild"] = {"status": "refused", "error": f"--keep: {keep} is in data/"}
+        rep.fail(f"--keep: {keep} is inside {data_dir}; the next verify would copy it. Pick a"
+                 " folder outside data/")  # fmt: skip
+        return rep
     latest = latest_number(data_dir)
     old_cat = None
     if latest is not None and base_release_from is None:

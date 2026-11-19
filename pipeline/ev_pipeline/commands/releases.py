@@ -383,7 +383,11 @@ def cmd_approvals(args: argparse.Namespace) -> int:
     if args.base_file:
         import yaml
 
-        base = yaml.safe_load(Path(args.base_file).read_text(encoding="utf-8"))
+        try:
+            base = yaml.safe_load(Path(args.base_file).read_text(encoding="utf-8"))
+        except (OSError, yaml.YAMLError) as e:
+            print(f"approvals: ERROR cannot read --base-file: {str(e).splitlines()[0]}")
+            return 1
     else:
         base = base_doc_from_git(REPO_ROOT, args.base) if args.base else None
     errors, warnings = check(path, base, latest)

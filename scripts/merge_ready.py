@@ -68,7 +68,12 @@ def gather(pr: int, api: Callable[[str], Any] = gh) -> dict[str, Any]:
     ahead = api(f"repos/{REPO}/compare/{head}...{base}") if behind.get("behind_by") else {}
     runs = api(f"repos/{REPO}/commits/{head}/check-runs?per_page=100")
     status = api(f"repos/{REPO}/commits/{head}/status")
-    files = api(f"repos/{REPO}/pulls/{pr}/files?per_page=100")
+    files: list[dict[str, Any]] = []
+    for page in range(1, 31):  # GitHub lists at most 3000 files; 100 per page
+        batch = api(f"repos/{REPO}/pulls/{pr}/files?per_page=100&page={page}")
+        files += batch
+        if len(batch) < 100:
+            break
     facts: dict[str, Any] = {
         "pr": pr,
         "state": p.get("state"),

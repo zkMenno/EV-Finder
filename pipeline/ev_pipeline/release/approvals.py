@@ -77,7 +77,10 @@ def base_doc_from_git(repo: Path, ref: str) -> dict[str, Any] | None:
     )
     if cp.returncode != 0:
         return None
-    doc = yaml.safe_load(cp.stdout)
+    try:
+        doc = yaml.safe_load(cp.stdout)
+    except yaml.YAMLError:
+        return None  # an unreadable base file: every entry counts as new (stricter, not looser)
     return doc if isinstance(doc, dict) else None
 
 

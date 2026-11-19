@@ -121,7 +121,7 @@ class Gather(unittest.TestCase):
             f"repos/{mr.REPO}/compare/h1...main": {"files": [{"filename": "CHATS.md"}]},
             f"repos/{mr.REPO}/commits/h1/check-runs?per_page=100": {"check_runs": GREEN},
             f"repos/{mr.REPO}/commits/h1/status": {"statuses": []},
-            f"repos/{mr.REPO}/pulls/7/files?per_page=100": [{"filename": mr.APPROVALS}],
+            f"repos/{mr.REPO}/pulls/7/files?per_page=100&page=1": [{"filename": mr.APPROVALS}],
             f"repos/{mr.REPO}/contents/{mr.APPROVALS}?ref=h1": b64("head"),
             f"repos/{mr.REPO}/contents/{mr.APPROVALS}?ref=main": b64("base"),
             f"repos/{mr.REPO}/contents/data/releases/latest?ref=main": b64("3\n"),
@@ -130,6 +130,34 @@ class Gather(unittest.TestCase):
         self.assertEqual(f["behind_by"], 1)
         self.assertEqual(f["ahead_files"], ["CHATS.md"])
         self.assertEqual(f["approvals"], {"head": "head", "base": "base", "latest": "3"})
+
+
+class Pages(unittest.TestCase):
+    def test_pr_files_are_paged(self):
+        calls = []
+
+        def api(path):
+            calls.append(path)
+            if "/files?" in path:
+                page = int(path.rsplit("page=", 1)[1])
+                n = 100 if page == 1 else 3
+                return [{"filename": f"f{page}-{i}"} for i in range(n)] + (
+                    [{"filename": mr.APPROVALS}] if page == 2 else []
+                )[: 100 - n if page == 1 else None]
+            if path.endswith("/pulls/7"):
+                return {"state": "open", "head": {"sha": "h"}, "base": {"ref": "main"}}
+            if "/compare/" in path:
+                return {"behind_by": 0}
+            if "check-runs" in path:
+                return {"check_runs": GREEN}
+            if path.endswith("/status"):
+                return {"statuses": []}
+            raise mr.GitHubError(path)  # contents: not needed for this test
+
+        f = mr.gather(7, api=api)
+        self.assertEqual(len(f["pr_files"]), 104)
+        self.assertIn(mr.APPROVALS, f["pr_files"])  # found on page 2
+        self.assertIn("approvals", f)
 
 
 class Main(unittest.TestCase):

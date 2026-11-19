@@ -29,6 +29,7 @@ Data changes (T-155). Branch protection settings (Menno's account).
 - **Changed-rule globs**: + `qa/value_guard.py`, `backtest/*`, `data/manual/*`, `data/sources.yaml`, `data/field_sources.yaml`, `config/popularity.yaml`.
 - **Refresh-lock nits**: a refused `ev refresh` says "another ev refresh is already writing data/staging …" (`busy_message(.., "refresh")`), verify keeps its wording. Every refresh that takes the lock writes `data/staging/.refresh.last` (kept after the run); verify compares it before / after the rebuild, so a short refresh that started and finished meanwhile fails the run.
 - **Docs**: docs/process/README.md §6 one line (WS0 file, cross-lane); the verify skill mentions `--base-release-from` and `--keep`.
+- Review round 1 (#195 at 9dd6ee8, PASS WITH NITS): fixed should-fix 1 (verify reads the `.refresh.last` stamp before the busy check, test) and nits 2 (`--keep` refuses a file and a folder inside data/), 3 (base-build failure shows the exception headline), 4 (`--base-file` that isn't YAML → ERROR, exit 1; unreadable git base → every entry counts as new), 6a (PR files paged). Left: data_qa.sh reads the branch's own `data/releases/latest` (merge_ready reads main's: that is the merge-time check); CI doesn't run the approvals step (ci.yml, gate change for WS0); `latest_runs` keys on job name (a dispatch re-run must replace the PR run); G-59 judges the net compare diff.
 - Follow-ups for WS0: rules.md G-52 / G-53 / G-54 / G-56 / G-57 / G-59 "Enforced by" columns can now name the tools (gate file, WS0); G-57's path.
 
 ## Review

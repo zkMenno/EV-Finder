@@ -40,7 +40,7 @@ def test_keep_refuses_a_non_empty_folder(data_dir: Path, tmp_path: Path) -> None
     keep.mkdir()
     (keep / "x").write_text("mine")
     rep = verify(data_dir, repo=tmp_path, skip_tests=True, tricky=TRICKY, now=NOW, keep=keep)
-    assert rep.status == "fail" and "not empty" in rep.failures[0]
+    assert rep.status == "fail" and "not an empty folder" in rep.failures[0]
     assert (keep / "x").read_text() == "mine"
 
 
@@ -265,3 +265,50 @@ def test_cli_exit_codes(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> N
 def test_data_qa_runs_the_approvals_check() -> None:
     sh = (REPO / "data" / "seed" / "data_qa.sh").read_text()
     assert "uv run ev release approvals" in sh
+
+
+# --- review round 1 (#195) --------------------------------------------------------------
+
+
+def test_stamp_is_read_before_the_busy_check(
+    data_dir: Path,  # noqa: F811
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A refresh that takes the lock right after verify's busy check, then finishes during the
+    rebuild, must still fail the run (the stamp is read first)."""
+    real = lock.refusal
+    state = {"n": 0}
+
+    def refusal_then_refresh(d: Path) -> str | None:
+        state["n"] += 1
+        if state["n"] == 1:  # the busy check passes; a refresh starts and stamps right after
+            out = real(d)
+            with lock.hold(d):
+                pass
+            return out
+        return real(d)
+
+    monkeypatch.setattr(lock, "refusal", refusal_then_refresh)
+    rep = verify(data_dir, repo=data_dir, skip_tests=True, tricky=TRICKY, now=NOW)
+    assert any(".refresh.last changed" in f for f in rep.failures)
+
+
+def test_keep_refuses_a_file_and_a_folder_inside_data(data_dir: Path, tmp_path: Path) -> None:  # noqa: F811
+    f = tmp_path / "afile"
+    f.write_text("x")
+    rep = verify(data_dir, repo=tmp_path, skip_tests=True, tricky=TRICKY, now=NOW, keep=f)
+    assert rep.status == "fail" and "not an empty folder" in rep.failures[0]
+    inside = data_dir / "kept"
+    rep = verify(data_dir, repo=tmp_path, skip_tests=True, tricky=TRICKY, now=NOW, keep=inside)
+    assert rep.status == "fail" and "outside data/" in rep.failures[0]
+    assert not inside.exists()
+
+
+def test_cli_bad_base_file_is_an_error(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    from ev_pipeline.cli import main
+
+    head, base = tmp_path / "head.yaml", tmp_path / "base.yaml"
+    head.write_text(yaml.safe_dump(_cfg(OLD)))
+    base.write_text("approved: [unclosed\n")
+    assert main(["release", "approvals", "--file", str(head), "--base-file", str(base)]) == 1
+    assert "ERROR cannot read --base-file" in capsys.readouterr().out
