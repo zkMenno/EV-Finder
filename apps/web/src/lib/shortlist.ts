@@ -641,12 +641,6 @@ export function rankHero(
       overBudget++;
       continue;
     }
-    // T-152: nor does an unpriced car whose prices elsewhere (else its segment's) are far over budget.
-    if (status === "unpriced" && far(row)) {
-      overBudget++;
-      farModels.add(row.model_id);
-      continue;
-    }
     const result = scoreFor(row, rp, rules);
     if (!result) {
       unscored++;
@@ -654,6 +648,13 @@ export function rankHero(
     }
     if (result.band === "ruled-out") {
       ruledOutByGate++;
+      continue;
+    }
+    // T-152: nor does an unpriced car whose prices elsewhere (else its segment's) are far over budget.
+    // Checked after the score and gate, so "left out" counts only cars that would have been shown.
+    if (status === "unpriced" && far(row)) {
+      overBudget++;
+      farModels.add(row.model_id);
       continue;
     }
     const pick = {

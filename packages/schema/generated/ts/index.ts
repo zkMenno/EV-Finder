@@ -345,6 +345,7 @@ export interface Generation {
   change_markers?: ChangeMarker[];
   years_corroboration?: GenerationYearsCorroboration;
   image?: GenerationImage;
+  popularity?: GenerationPopularity;
 }
 /**
  * Outside sources checking a generation's hand-entered years. Corroboration only: the years themselves never change (T-059).
@@ -429,6 +430,41 @@ export interface GenerationImage {
    * Maker whose press terms apply (source = press).
    */
   make_id?: string | null;
+  /**
+   * Commons licence template seen on the file page itself, e.g. Cc-by-sa-4.0, Cc-zero, PD-self (Decision 083). Absent for press photos.
+   */
+  licence_template?: string;
+  /**
+   * Date the licence template was checked on the file page (Decision 083).
+   */
+  licence_checked_at?: string;
+}
+/**
+ * Optional: absent when no registration data matched this generation.
+ */
+export interface GenerationPopularity {
+  /**
+   * 0-100, higher is more popular.
+   */
+  score: number;
+  /**
+   * 1 = most popular generation in the release.
+   */
+  rank: number;
+  /**
+   * Registrations counted across the sources (EU countries we read).
+   */
+  registrations: number;
+  /**
+   * Date of the newest registration data used.
+   */
+  as_of: string;
+  /**
+   * Source ids (as in the release's sources) the score is computed from.
+   *
+   * @minItems 1
+   */
+  source_ids: [string, ...string[]];
 }
 /**
  * Generation photo stored with the release (Decision 081, 083): downloaded once, never hotlinked; the credit line shows under the photo.
@@ -474,6 +510,14 @@ export interface GenerationImage1 {
    * Maker whose press terms apply (source = press).
    */
   make_id?: string | null;
+  /**
+   * Commons licence template seen on the file page itself, e.g. Cc-by-sa-4.0, Cc-zero, PD-self (Decision 083). Absent for press photos.
+   */
+  licence_template?: string;
+  /**
+   * Date the licence template was checked on the file page (Decision 083).
+   */
+  licence_checked_at?: string;
 }
 /**
  * This interface was referenced by `EvSchema`'s JSON-Schema
@@ -2644,6 +2688,10 @@ export interface UsedPriceSourceRef {
   url?: string;
   ref?: string;
   date?: string;
+  /**
+   * Licence of the source, SPDX id where one exists (e.g. CC-BY-4.0, ODbL-1.0) or a short name (e.g. 'maker terms'). Data rule 3: kept per source.
+   */
+  licence?: string;
 }
 /**
  * One aggregate number per country (or region), date, metric and power band. Never point-level data. Decision 012.
@@ -3542,4 +3590,34 @@ export interface UsedPricesRelease {
    */
   spread?: number;
   [k: string]: unknown;
+}
+/**
+ * How popular a generation is, for the 'Most popular' sort (T-130). Computed by the pipeline with the weights in config/popularity.yaml; every input is a traced source.
+ *
+ * This interface was referenced by `EvSchema`'s JSON-Schema
+ * via the `definition` "GenerationPopularity".
+ */
+export interface GenerationPopularity1 {
+  /**
+   * 0-100, higher is more popular.
+   */
+  score: number;
+  /**
+   * 1 = most popular generation in the release.
+   */
+  rank: number;
+  /**
+   * Registrations counted across the sources (EU countries we read).
+   */
+  registrations: number;
+  /**
+   * Date of the newest registration data used.
+   */
+  as_of: string;
+  /**
+   * Source ids (as in the release's sources) the score is computed from.
+   *
+   * @minItems 1
+   */
+  source_ids: [string, ...string[]];
 }

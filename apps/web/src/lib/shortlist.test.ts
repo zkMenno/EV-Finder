@@ -563,6 +563,15 @@ describe("budget rule (Decision 064)", async () => {
         expect(res.picks).toEqual([]);
         expect(res.unpricedFar).toBe(1);
       });
+      it("'left out' counts only cars that would have been shown: an unscored or ruled-out far car isn't counted", () => {
+        const farPrice = { price_new: { DE: { amount: 99000, currency: "EUR" as const } } };
+        const ruled = scored(row("ruled", { model_id: "ruled", generation_id: "ruled-g", ...farPrice }), "road-tripper", 10, "ruled-out");
+        const unscoredFar = row("unscored", { model_id: "unscored", generation_id: "unscored-g", ...farPrice });
+        const shown = unp("shown-far", 90, farPrice);
+        const res = rankHero([ruled, unscoredFar, shown, spring], roadTripper, q(15000), on);
+        expect(res.picks.map((p) => p.row.variant_id)).toEqual(["spring"]);
+        expect(res.unpricedFar).toBe(1);
+      });
     });
     it("the visitor's refine filters can't hide the over-budget sibling", () => {
       const dear = scored(withBands("z-dear", [model(2023, 40000)], { model_id: "z", generation_id: "z-g1", real_range_km: 200 }), "road-tripper", 60);
