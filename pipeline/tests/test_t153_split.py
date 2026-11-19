@@ -62,6 +62,7 @@ def _where(seed, rec: SourceRecord, table: dict | None = None) -> str:
     return why
 
 
+BUILT_ONLY = {"tesla-model-y-gen1-long-range-rwd"}
 E208, MY, ID4 = "peugeot-e-208-p21", "tesla-model-y-gen1", "volkswagen-id4-gen1"
 
 
@@ -114,8 +115,13 @@ def test_type_codes_from_the_record_key() -> None:
 def test_table_rows_are_valid_and_point_at_seed_generations(tmp_path: Path) -> None:
     table = load_tgk_split()
     gens = set(load_seed(REPO / "data" / "seed" / "models.yaml").generations)
+    manual, _ = load_manual_variants(REPO / "data" / "seed" / "variants.yaml")
+    seed_ids = {mv.id for mv in manual}
     for vid in table:
         assert any(vid.startswith(f"{g}-") for g in gens), vid
+        # a typo'd id would silently do nothing: every row is a seed variant or a known
+        # source-built row (OpenEV's Model Y Long Range RWD has no seed row)
+        assert vid in seed_ids or vid in BUILT_ONLY, vid
     bad = tmp_path / "t.yaml"
     bad.write_text("schema: tgk-split/v1\nvariants:\n  x: {power_30min_kw: [57]}\n")
     with pytest.raises(ValueError, match="basis"):
