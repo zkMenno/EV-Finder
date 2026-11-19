@@ -50,7 +50,9 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-42 | Merge chats claim before merging: comment "Merging (<chat link>)" on the PR before touching it; skip a PR that already has such a comment from another chat in the last 2 hours | Merge batch 2 retro (18 Nov): two merge chats raced on #124/#125 | *prose* (merge-chat prompts) | WS0 / merge chats | 2026-11-18 | 2026-11-18 |
 | G-43 | A matching or merge-logic change (`pipeline/ev_pipeline/match/**`, `pipeline/ev_pipeline/merge/**`, attachment rules) quotes a same-data rebuild diff in the PR body: old vs new code on freshly fetched staging, listing changed ids, changed rows and ± facts (recipe: PR #135) | WS1 8th retro (18 Nov): CI fixtures can't show a matching change's effect on real data; recipe in #135 | REVIEW D4 | WS1 | 2026-11-18 | — |
 | G-44 | Every 360 px check also runs once with letters ~6 % wider (CI fonts are wider than local ones) | WS2 5th retro (18 Nov): a "nit" layout fix passed locally and broke CI at 360 px (db62961) | REVIEW D8; `catalogue.spec` "wider text" test (lands with #126) | WS2 | 2026-11-18 | — |
-| G-45 | WS3 lane: run `sh data/seed/data_qa.sh` (the four CI data-qa steps; lands with PR #130, until then run those four steps by hand) before every push | WS3 retro: data-qa failures found only in CI | *prose* (WS3 lane brief); CI data-qa job stays the independent check | WS3 | 2026-11-18 | — |
+| G-45 | WS3 lane: run `sh data/seed/data_qa.sh` (runs CI's data-qa seed steps; merged with #130) before every push | WS3 retro: data-qa failures found only in CI | *prose* (WS3 lane brief); CI data-qa job stays the independent check | WS3 | 2026-11-18 | — |
+| G-46 | Local e2e / verify refuse to reuse a running server whose build differs from `.next/BUILD_ID` (kill it or start a fresh one) | Web batch retro (18 Nov): a stale `next start` on port 3100 made one e2e run test an old build | the web verify and e2e scripts (WS2 adds the check in its next batch) | WS2 | 2026-11-18 | — |
+| G-47 | An open PR keeps its passing fresh review when main moved only by log files (`workstreams/WS0/INBOX.md`, `workstreams/WS0/HANDOFF.md`, `CHATS.md`) and the PR's own files are byte-identical to the reviewed head (`git diff <reviewed-sha> HEAD -- <PR files>` is empty); CI on the new head (R0) still has to pass | Merge batch 4 retro (18 Nov): main moved 3× under #129 by inbox lines, each move cost a re-review | REVIEW R0 note; merge chats check with that `git diff` | all | 2026-11-18 | — |
 
 **Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17 · P-21 (CI budget)→G-33; the rest became G-21–G-31.
 
@@ -83,6 +85,8 @@ _None yet._
 | WS1 8th | Same-data rebuild diff in the PR body for any matching change | Accepted 2026-11-18 → G-43 (REVIEW D4) |
 | WS2 5th | Run the 360 px check with ~6 % wider letters too | Accepted 2026-11-18 → G-44 (REVIEW D8) |
 | WS3 (retro 1b) | `data/seed/data_qa.sh` before every push | Accepted 2026-11-18 → G-45 |
+
+Added later on 18 Nov: web batch → G-46 accepted; merge batch 4 → G-47 accepted (coordinator).
 
 ## Retro questions (every session end)
 1. What slowed us down? 2. What did Menno have to do by hand? 3. Which rule would have prevented it? **4. What did a check miss, and which check would have caught it?** (answer 4 adds or sharpens a row here or a REVIEW.md item).
