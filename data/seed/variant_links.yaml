@@ -23,7 +23,9 @@ links:
   - {variant_id: tesla-model-3-gen1-sr-plus, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3-sr-nca, voltage: *v400, charger_400v: *native}
   - {variant_id: tesla-model-3-gen1-sr-plus-lfp, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lfp-60, voltage: *v400, charger_400v: *native}
   - {variant_id: tesla-model-3-gen1-long-range, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-3-gen1-long-range-2021, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
   - {variant_id: tesla-model-3-gen1-performance, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
+  - {variant_id: tesla-model-3-gen1-performance-2021, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
   - {variant_id: tesla-model-y-gen1-rwd, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lfp-60, voltage: *v400, charger_400v: *native, uncertain: true, notes: "Berlin-built RWD cars reportedly used a BYD Blade LFP pack in some periods; same pack id kept."}
   - {variant_id: tesla-model-y-gen1-long-range, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
   - {variant_id: tesla-model-y-gen1-performance, platform_id: tesla-model-3-y, battery_pack_id: tesla-m3y-lr-75, voltage: *v400, charger_400v: *native}
@@ -72,6 +74,8 @@ links:
   # --- T-148: Elroq 50 / 60 ---
   - {variant_id: skoda-elroq-gen1-50, platform_id: vw-meb, battery_pack_id: meb-52, voltage: *v400, charger_400v: *native, notes: "Capacities from Škoda technical data (5 May 2025); platform cited on the Elroq generation default."}
   - {variant_id: skoda-elroq-gen1-60, platform_id: vw-meb, battery_pack_id: meb-59, voltage: *v400, charger_400v: *native, notes: "Capacities from Škoda technical data (5 May 2025); platform cited on the Elroq generation default."}
+  - {variant_id: skoda-elroq-gen1-85, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native, notes: "T-154: Škoda technical data (5 May 2025) gives 82 (77) kWh, the MEB 77 kWh pack; platform cited on the Elroq generation default."}
+  - {variant_id: skoda-elroq-gen1-rs, platform_id: vw-meb, battery_pack_id: skoda-elroq-84, voltage: *v400, charger_400v: *native, notes: "T-154: Škoda technical data (5 May 2025) gives 84 (79) kWh for the RS (not the 86 / 79 kWh meb-79 row); platform cited on the Elroq generation default."}
   - {variant_id: skoda-enyaq-gen1-60, platform_id: vw-meb, battery_pack_id: meb-58, voltage: *v400, charger_400v: *native}
   - {variant_id: skoda-enyaq-gen1-80, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
   - {variant_id: skoda-enyaq-gen1-80x-rs, platform_id: vw-meb, battery_pack_id: meb-77, voltage: *v400, charger_400v: *native}
@@ -119,6 +123,9 @@ links:
   - {variant_id: hyundai-ioniq-5-gen1-73kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-72-6, voltage: {nominal_v: 653.4, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
   - {variant_id: hyundai-ioniq-5-gen1-77kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "84 kWh pack (egmp-84) from the 2024 facelift; facelift 400 V charging reported faster."}
   - {variant_id: hyundai-ioniq-5-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "84 kWh pack (egmp-84) from the 2024 facelift."}
+  - {variant_id: kia-ev3-gen1-standard-range, platform_id: hyundai-e-gmp, battery_pack_id: kia-ev3-58, voltage: {nominal_v: 369, max_v: not-disclosed, marketing_label: not-disclosed, class_id: 400v, switchable: false}, charger_400v: *native, uncertain: true, notes: "T-154: EV3 packs are 369 V nominal (Kia UK), so 400 V class although the E-GMP platform row is 800 V. platform from Kia Germany (EV3 page names the Electric Global Modular Platform, E-GMP); pack voltage from Kia UK. Native on 400 V chargers follows the 400 V class (not read from a Kia page)."}
+  - {variant_id: kia-ev3-gen1-long-range, platform_id: hyundai-e-gmp, battery_pack_id: kia-ev3-81, voltage: {nominal_v: 343, max_v: not-disclosed, marketing_label: not-disclosed, class_id: 400v, switchable: false}, charger_400v: *native, uncertain: true, notes: "T-154: EV3 packs are 343 V nominal (Kia UK), so 400 V class although the E-GMP platform row is 800 V. see kia-ev3-gen1-standard-range."}
+  - {variant_id: kia-ev3-gen1-gt, platform_id: hyundai-e-gmp, battery_pack_id: kia-ev3-81, voltage: {nominal_v: 343, max_v: not-disclosed, marketing_label: not-disclosed, class_id: 400v, switchable: false}, charger_400v: *native, uncertain: true, notes: "T-154: EV3 packs are 343 V nominal (Kia UK), so 400 V class although the E-GMP platform row is 800 V. Kia UK lists the same 81.4 kWh / 343 V pack for the AWD (GT). See kia-ev3-gen1-standard-range."}
   - {variant_id: hyundai-ioniq-6-gen1-53kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-53, voltage: {nominal_v: not-disclosed, max_v: not-disclosed, marketing_label: "800V", class_id: 800v, switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "Nominal voltage of the 53 kWh pack not known to us; may also sit near or below 550 V."}
   - {variant_id: hyundai-ioniq-6-gen1-77kwh-rwd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
   - {variant_id: hyundai-ioniq-6-gen1-77kwh-awd, platform_id: hyundai-e-gmp, battery_pack_id: egmp-77-4, voltage: {nominal_v: 697, max_v: not-disclosed, marketing_label: "800V", switchable: false}, charger_400v: *egmp_booster, uncertain: true, notes: "400 V charger figure is a rough, software-dependent report (see E-GMP comment above)."}
@@ -149,7 +156,7 @@ links:
   - {variant_id: fiat-500e-312-24kwh, platform_id: fiat-500e-312, battery_pack_id: fiat-500e-312-24, voltage: *v400, charger_400v: *native, notes: "No DC charging (US-market car)."}
   - {variant_id: fiat-500e-332-24kwh, platform_id: fiat-500e-332, battery_pack_id: fiat-500e-332-24, voltage: *v400, charger_400v: *native}
   - {variant_id: fiat-500e-332-42kwh, platform_id: fiat-500e-332, battery_pack_id: fiat-500e-332-42, voltage: *v400, charger_400v: *native}
-  - {variant_id: fiat-500e-332-abarth, platform_id: fiat-500e-332, battery_pack_id: fiat-500e-332-42, voltage: *v400, charger_400v: *native}
+  - {variant_id: abarth-500e-gen1-base, platform_id: fiat-500e-332, battery_pack_id: fiat-500e-332-42, voltage: *v400, charger_400v: *native}
   # --- MG ---
   - {variant_id: mg-mg4-gen1-standard, platform_id: mg-msp, battery_pack_id: mg4-51-lfp, voltage: *v400, charger_400v: *native}
   - {variant_id: mg-mg4-gen1-long-range, platform_id: mg-msp, battery_pack_id: mg4-64, voltage: *v400, charger_400v: *native}

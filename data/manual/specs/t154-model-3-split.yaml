@@ -1,0 +1,55 @@
+# T-154 (catalogue batch, 2026-11-19): Tesla Model 3 gen1 split by year (2019-2020 / 2021+).
+# Cited WLTP for the two new 2021 refresh rows; the 2019-2020 rows keep T-145's figures.
+# Source `manual` (Decisions 068, 087). RDW TGK (CC0) lists every version of EU type approval
+# e4*2007/46*1293 with its WLTP figures. Registrations by first admission (RDW m9d7-ebf2, read
+# 2026-11-19): refresh variant E5LD (Shanghai) 2021 625 / 2022 823 / 2023 563 NL cars, E3LD
+# (Fremont) 2021 747 / 2022 84. Max speed 233 km/h = Long Range, 261 km/h = Performance (as T-145).
+schema: manual-facts/v1
+entered_by: ws3 (agent, T-154 catalogue batch)
+facts:
+  - variant_id: tesla-model-3-gen1-long-range-2021
+    field: wltp_range_km
+    value: 602
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*25&codevarianttgk=E5LD
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*25, variant E5LD, versions BGB1S5N / BGB1S5T1 (Tesla Model 3 Long Range AWD, CC0)"
+    retrieved: 2026-11-19
+    quote: '"codevarianttgk": "E5LD", "verbruikvolledigelekwltpbgr": "147.00", "actieradiusvolledigelekwltpbgr": "602"'
+    locator: "Variant E5LD at 233 km/h max speed (Long Range); 602 km on extensions 23 to 36"
+    confidence: medium
+    claim: true
+    notes: "E5LD is the most-registered 2021+ Long Range in NL. Other refresh versions: 614 km (E3LD Fremont, extensions 17-25), 604 km (E5LD, ext. 21-25), 580 km (E5LD / E3CD / E5CD, earlier extensions)."
+  - variant_id: tesla-model-3-gen1-long-range-2021
+    field: consumption_kwh_100km
+    value: 14.7
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*25&codevarianttgk=E5LD
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*25, variant E5LD, versions BGB1S5N / BGB1S5T1 (Tesla Model 3 Long Range AWD, CC0)"
+    retrieved: 2026-11-19
+    quote: '"verbruikvolledigelekwltpbgr": "147.00"'
+    locator: "WLTP combined, Wh/km (147 Wh/km = 14.7 kWh/100 km), the 602 km versions"
+    confidence: medium
+    claim: true
+  - variant_id: tesla-model-3-gen1-performance-2021
+    field: wltp_range_km
+    value: 567
+    unit: km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*25&codevarianttgk=E3LD
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*25, variant E3LD, versions BGP1S5N / BGP2S5N (Tesla Model 3 Performance, CC0)"
+    retrieved: 2026-11-19
+    quote: '"codevarianttgk": "E3LD", "verbruikvolledigelekwltpbgr": "165.00", "actieradiusvolledigelekwltpbgr": "567"'
+    locator: "Variant E3LD at 261 km/h max speed (Performance); 567 km on extensions 14 to 25"
+    confidence: medium
+    claim: true
+    notes: "Other refresh Performance versions: 547 km (E5LD Shanghai, ext. 22-36), 559 km (E3LD, ext. 21-25). NL registrations don't split LR from Performance by variant code, so the first refresh figure is cited."
+  - variant_id: tesla-model-3-gen1-performance-2021
+    field: consumption_kwh_100km
+    value: 16.5
+    unit: kWh/100km
+    source_url: https://opendata.rdw.nl/resource/gr7t-qfnb.json?typegoedkeuringsnummer=e4*2007/46*1293*25&codevarianttgk=E3LD
+    source_name: "RDW TGK Energiebron Uitvoering (gr7t-qfnb), EU type approval e4*2007/46*1293*25, variant E3LD, versions BGP1S5N / BGP2S5N (Tesla Model 3 Performance, CC0)"
+    retrieved: 2026-11-19
+    quote: '"verbruikvolledigelekwltpbgr": "165.00"'
+    locator: "WLTP combined, Wh/km (165 Wh/km = 16.5 kWh/100 km), the 567 km versions"
+    confidence: medium
+    claim: true

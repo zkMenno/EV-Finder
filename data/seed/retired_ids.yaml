@@ -20,3 +20,6 @@ ids:
   # T-151: the ë-SpaceTourer is split per battery; the OpenEV "Base" records (46 kWh net) are the
   # 50 kWh car.
   citroen-e-spacetourer-gen1-base: citroen-e-spacetourer-gen1-50kwh
+  # T-154: the Abarth 500e row moved from the Fiat 500e (332) generation to the Abarth model, where
+  # EEA, RDW and KilowattApp file the car.
+  fiat-500e-332-abarth: abarth-500e-gen1-base
