@@ -360,6 +360,7 @@ def guard_versions(
     merged: dict[str, dict[str, Merged]],
     facts_by_variant: Pool,
     policies: Policies,
+    originals: Pool | None = None,
 ) -> list[dict[str, Any]]:
     """T-155: keep a version's consumption and worst-case WLTP only next to a best case they
     belong with (in place; review rows):
@@ -379,6 +380,7 @@ def guard_versions(
         if best is None or best <= 0:
             continue
         pool = facts_by_variant.get(vid, [])
+        source = (originals or facts_by_variant).get(vid, pool)
         for fname in VERSION_FIELDS:
             if fname not in mv:
                 continue
@@ -386,7 +388,7 @@ def guard_versions(
             for mf in pool:
                 if mf.fact.field.value != fname or mf.source_id not in SPREAD_SOURCES:
                     continue
-                own = [v for v in _record_values(pool, mf, (WLTP,)) if v is not None]
+                own = [v for v in _record_values(source, mf, (WLTP,)) if v is not None]
                 if own and abs(own[0] - best) > OTHER_FAMILY_REL * best + EPS:
                     far[mf.fact.id] = own[0]
             for fid, own_best in sorted(far.items()):
@@ -419,7 +421,7 @@ def run_guards(
         rows += guard_mixups(merged, pool, policies)
         rows += guard_needs_backing(merged, pool, policies)
         rows += guard_impossible(merged, pool, policies)
-        rows += guard_versions(merged, pool, policies)
+        rows += guard_versions(merged, pool, policies, facts_by_variant)
         if sum(len(fs) for fs in pool.values()) == before:
             break
     seen: set[tuple[str, str, str, str]] = set()

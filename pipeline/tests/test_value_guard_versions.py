@@ -117,3 +117,20 @@ def test_qa_flags_worst_above_best() -> None:
     }
     out = impossible_values(cat, [])
     assert [(o["variant_id"], o["rule"]) for o in out] == [("a", "wltp_worst_gt_best")]
+
+
+def test_a_version_whose_wltp_another_guard_took_out_is_still_checked() -> None:
+    from ev_pipeline.qa.value_guard import guard_versions
+
+    facts = [
+        _mf("manual", "cited", "wltp_range_km", 230),
+        *_version("v50", 238, 196, 23.03),
+        *_version("v75", 339, 285, 24.68, 2019),
+    ]
+    merged = {VID: merge_variant_facts(facts, POLICIES)}
+    pool = {VID: [f for f in facts if f.fact.id != "rdw-tgk:v75:wltp_range_km"]}
+    rows = guard_versions(merged, pool, POLICIES, {VID: facts})
+    assert {(r["field"], r["value"]) for r in rows} == {
+        ("consumption_kwh_100km", 24.68),
+        ("wltp_range_km_worst", 285),
+    }
