@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from ev_pipeline.images.photos import licence_allowed
+from ev_pipeline.images.photos import licence_allowed, template_matches
 from ev_pipeline.images.store import IMAGES_DIR
 from ev_pipeline.qa.checks import Check
 
@@ -40,6 +40,27 @@ def _file_problem(release_dir: Path, manifest: dict[str, Any] | None, f: dict[st
     return ""
 
 
+TEMPLATE_RULE_FROM_RELEASE = 4
+"""T-149: releases 1-3 were built before the pipeline read CC BY templates from the file page;
+their missing templates are listed (`template_rule_not_applied`) but do not block."""
+
+
+def _template_problem(gid: str, img: dict[str, Any]) -> str:
+    template = str(img.get("licence_template") or "")
+    if img.get("source") != "commons":  # T-149 (Decision 083): template from the file page
+        return ""
+    if not template or not img.get("licence_checked_at"):
+        return f"{gid}: Commons photo without licence_template / licence_checked_at"
+    if not template_matches(str(img.get("licence")), template):
+        return f"{gid}: licence_template {template!r} does not grant {img.get('licence')!r}"
+    return ""
+
+
+def template_rule_applies(catalogue: dict[str, Any]) -> bool:
+    n = catalogue.get("release")
+    return not isinstance(n, int) or n >= TEMPLATE_RULE_FROM_RELEASE
+
+
 def image_problems(catalogue: dict[str, Any], release_dir: Path | None = None) -> list[str]:
     """Licence, credit and path rules; with `release_dir`, also that each file is stored
     there (manifest.json entry, or the local file before packaging) with the same sha256."""
@@ -54,6 +75,8 @@ def image_problems(catalogue: dict[str, Any], release_dir: Path | None = None) -
             out.append(
                 f"{gid}: licence {img.get('licence')!r} not allowed for {img.get('source')!r}"
             )
+        if template_rule_applies(catalogue) and (why := _template_problem(gid, img)):
+            out.append(why)
         if not str(img.get("credit") or "").strip():
             out.append(f"{gid}: no credit line")
         if not img.get("page_url") or not img.get("retrieved_at"):
@@ -75,9 +98,19 @@ def check_images(catalogue: dict[str, Any], release_dir: Path | None = None) -> 
     problems = image_problems(catalogue, release_dir)
     return Check(
         id="images",
-        title="Car photos: licence, credit, stored files (Decision 081)",
+        title="Car photos: licence, file-page template, credit, stored files (Decisions 081, 083)",
         blocking=True,
         status="fail" if problems else "pass",
         summary=(f"{len(problems)} problem(s) in {n} photo(s)" if problems else f"{n} photo(s) ok"),
-        details={"problems": problems[:50], "generations_with_image": n},
+        details={
+            "problems": problems[:50],
+            "generations_with_image": n,
+            "template_rule_not_applied": []
+            if template_rule_applies(catalogue)
+            else sorted(
+                str(g.get("id"))
+                for g in catalogue.get("generations") or []
+                if g.get("image") and _template_problem(str(g.get("id")), g["image"])
+            )[:50],
+        },
     )

@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import re
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -15,7 +16,7 @@ from typing import Any
 import httpx
 
 from ev_pipeline import net
-from ev_pipeline.images.photos import SOURCE_ID, Photo
+from ev_pipeline.images.photos import SOURCE_ID, Photo, template_licences, template_matches
 
 CACHE_DIR = Path("cache") / "images"
 WIDTHS = (400, 800, 1600)
@@ -36,6 +37,155 @@ def cache_key(file_url: str) -> str:
 def cached_original(cache: Path, photo: Photo) -> Path | None:
     p = cache / f"{cache_key(photo.file_url)}.bin"
     return p if p.exists() else None
+
+
+# --- licence templates (T-149, Decision 083) -------------------------------------------------
+COMMONS_PAGE_HOST = "commons.wikimedia.org"
+TEMPLATE_METHOD = "file page wikitext (action=raw)"
+_TEMPLATE = re.compile(r"\{\{\s*([^{}]+?)\s*\}\}")
+_WARNING = re.compile(
+    r"^(delete|speedydelete|copyvio|no permission|no source|no license|personality rights"
+    r"|nofop|no fop|fop-)",
+    re.I,
+)
+
+
+def _template_name(body: str) -> str:
+    return re.sub(r"\s+", "", body.split("|", 1)[0]).lower()
+
+
+def licence_templates(wikitext: str) -> list[str]:
+    """Licence templates on a Commons file page, in page order, whitespace removed:
+    `{{self|cc-by-sa-4.0}}` → `self|cc-by-sa-4.0`. Only templates named self, cc-*, pd-*
+    or GFDL* count; {{Information}} and review templates are ignored."""
+    out: list[str] = []
+    for m in _TEMPLATE.finditer(wikitext):
+        body = m.group(1)
+        name = _template_name(body)
+        if name == "self" or name.startswith(("cc-", "pd-", "gfdl")):
+            t = re.sub(r"\s+", "", body)
+            if template_licences(t) and t not in out:
+                out.append(t)
+    return out
+
+
+def warning_templates(wikitext: str) -> list[str]:
+    return [
+        _template_name(m.group(1))
+        for m in _TEMPLATE.finditer(wikitext)
+        if _WARNING.match(_template_name(m.group(1)))
+    ]
+
+
+def page_title(page_url: str) -> str | None:
+    """`https://commons.wikimedia.org/wiki/File:X.jpg` → `File:X.jpg` (None: not a file page)."""
+    from urllib.parse import unquote, urlsplit
+
+    u = urlsplit(page_url)
+    if u.hostname != COMMONS_PAGE_HOST or not u.path.startswith("/wiki/File:"):
+        return None
+    return unquote(u.path.removeprefix("/wiki/"))
+
+
+def template_path(cache: Path, photo: Photo) -> Path:
+    return cache / f"{cache_key(photo.file_url)}.licence.json"
+
+
+def read_templates(
+    photos: list[Photo],
+    cache: Path,
+    client_for: ClientFactory | None = None,
+    sleep: Callable[[float], None] = time.sleep,
+    today: Callable[[], str] | None = None,
+) -> FetchReport:
+    """Read the licence template of every Commons photo from its file page, once per file
+    (cached next to the original, so the date and the release field stay stable). A photo
+    whose photos.yaml entry already carries the template (WS3's CC0 / PD check) is skipped."""
+    cache.mkdir(parents=True, exist_ok=True)
+    rep = FetchReport([], [], {})
+    client_for = client_for or _default_client
+    today = today or (lambda: datetime.now(UTC).date().isoformat())
+    client: httpx.Client | None = None
+    try:
+        for ph in photos:
+            if ph.source != "commons" or ph.licence_template:
+                continue
+            if template_path(cache, ph).exists():
+                rep.cached.append(ph.generation_id)
+                continue
+            title = page_title(ph.page_url)
+            if title is None:
+                rep.failed[ph.generation_id] = "page_url is not a Commons file page"
+                continue
+            try:
+                client = client or client_for(SOURCE_ID["commons"])
+                r = client.get(
+                    f"https://{COMMONS_PAGE_HOST}/w/index.php",
+                    params={"title": title, "action": "raw"},
+                )
+                if r.status_code == 429:
+                    raise RateLimited(f"429 from {r.url.host}")
+                r.raise_for_status()
+                text = r.text
+            except RateLimited as e:
+                rep.stopped = str(e)
+                for rest in photos[photos.index(ph) :]:
+                    if rest.source == "commons" and not template_path(cache, rest).exists():
+                        rep.failed[rest.generation_id] = f"RateLimited: {e}"
+                break
+            except httpx.HTTPError as e:
+                rep.failed[ph.generation_id] = type(e).__name__ + ": " + str(e)[:200]
+                sleep(FETCH_SLEEP_S)
+                continue
+            doc = {
+                "page_url": ph.page_url,
+                "licence_templates": licence_templates(text),
+                "warning_templates": warning_templates(text),
+                "method": TEMPLATE_METHOD,
+                "checked_at": today(),
+            }
+            path = template_path(cache, ph)
+            path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+            rep.fetched.append(ph.generation_id)
+            sleep(FETCH_SLEEP_S)
+    finally:
+        if client is not None:
+            client.close()
+    return rep
+
+
+def licence_check(photo: Photo, cache: Path) -> tuple[dict[str, str], str]:
+    """({licence_template, licence_checked_at}, '') for the release field, or ({}, reason)
+    when the photo must stay out (T-149). Press photos need neither. Used by the build and
+    by refresh.photos_pending, so both see the same field."""
+    if photo.source != "commons":
+        return {}, ""
+    if photo.licence_template:  # WS3 read it on the file page (photos.yaml, Decision 083)
+        checked = photo.licence_checked_at
+        if checked is None:
+            return {}, "licence_checked_at missing in photos.yaml"
+        return {
+            "licence_template": photo.licence_template,
+            "licence_checked_at": checked.isoformat(),
+        }, ""
+    p = template_path(cache, photo)
+    if not p.exists():
+        return {}, "licence template not read yet (ev images fetch)"
+    try:
+        doc = json.loads(p.read_text(encoding="utf-8"))
+        found = [str(t) for t in doc.get("licence_templates") or []]
+        warnings = [str(t) for t in doc.get("warning_templates") or []]
+        checked = str(doc["checked_at"])
+    except (ValueError, KeyError, TypeError):
+        return {}, "licence template cache unreadable"
+    if warnings:
+        return {}, f"file page carries {', '.join(warnings)} (review)"
+    if not found:
+        return {}, "no licence template on the file page (review)"
+    hit = next((t for t in found if template_matches(photo.licence, t)), None)
+    if hit is None:
+        return {}, f"file page template {found[0]!r} does not grant {photo.licence} (review)"
+    return {"licence_template": hit, "licence_checked_at": checked}, ""
 
 
 @dataclass
@@ -200,6 +350,10 @@ def build_release_images(photos: list[Photo], cache: Path) -> ReleaseImages:
         if p is None:
             res.missing[ph.generation_id] = "not fetched yet (ev images fetch)"
             continue
+        lic, why = licence_check(ph, cache)
+        if why:
+            res.missing[ph.generation_id] = why
+            continue
         try:
             sizes = render_sizes(p.read_bytes(), ph.generation_id)
         except Exception as e:  # noqa: BLE001  any decoder error: skip this photo, log it
@@ -217,5 +371,5 @@ def build_release_images(photos: list[Photo], cache: Path) -> ReleaseImages:
                     "sha256": hashlib.sha256(data).hexdigest(),
                 }
             )
-        res.fields[ph.generation_id] = {"files": files, **ph.field()}
+        res.fields[ph.generation_id] = {"files": files, **ph.field(), **lic}
     return res
