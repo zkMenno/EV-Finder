@@ -6,7 +6,7 @@ Status: todo
 The next biggest gaps in the variant queue get cited seed variants, and figures trimmed under the old Decision 068 reading come back (Decision 087).
 
 ## Acceptance criteria
-- [ ] **Restore trimmed figures** (Decision 087): maker figures dropped from #156 (Audi e-tron GT) and #164 / #166 / #167 under "one figure per document" may come back, one car per document, never a whole table.
+- [ ] **Restore trimmed figures** (Decision 087): the Audi e-tron GT figures trimmed from #156 under "one figure per document" (see T-145 Handoff notes) may come back, cited per car, never a whole table.
 - [ ] **Kia EV3:** Standard, Long Range and AWD together (needs a Kia page for the AWD). Check the built drivetrain and WLTP against the seed (the 2026 two-motor data built a lone row as AWD / 583 km).
 - [ ] **Škoda Elroq 85 and RS**, after T-153's "cited power wins" merges (or with a source hold on OpenEV "Base" if T-153 is not merged when you get there; say which).
 - [ ] **Tesla Model 3 gen1:** split 2019–20 from the 2021+ refresh (WLTP 580–614 km) by year, cited.
