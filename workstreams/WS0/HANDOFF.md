@@ -1,4 +1,4 @@
-# WS0 handoff: PAUSED (2026-11-19 09:30 UTC, coordinator https://claude.ai/code/session_01JuyZEWR468Ux4ydBhjKYsp)
+# WS0 handoff: RESUMED 2026-11-19 11:15 UTC (paused 09:30–10:58 UTC, coordinator https://claude.ai/code/session_01JuyZEWR468Ux4ydBhjKYsp)
 
 **Building is paused** (Menno, 2026-11-19: limited tokens, other projects; maybe weeks). Last running work: the T-153 data batch chat (PRs #185, #186). Nothing else should be running. On resume, start with "First thing on resume" below.
 
