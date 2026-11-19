@@ -1,6 +1,6 @@
 # T-155 DC speed from cited 10–80 % minutes and three data checks
 Role: builder   Lane: pipeline/ (WS1)   Wave: launch
-Status: review (batch: data T-155, 2026-11-19)
+Status: done (merged #189, #192; WS0 2026-11-19)
 
 ## Goal
 Cars with a cited 10–80 % charge time but no curve still get a road-tripper score, and three data oddities from T-151 are checked.

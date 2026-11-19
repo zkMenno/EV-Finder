@@ -1001,6 +1001,6 @@ Engineering decisions for this repo, in a light ADR (Architectural Decision Reco
 
 **Decision:** A variant is only compared with variants of the **same trim line**: same model, same drivetrain (RWD / FWD / AWD) and power within ±15 % of each other. `newest-version` goes to the newest year within that line; `older-version` needs a newer variant in the same line that charges faster (as today). A line with one year gets neither flag.
 
-**Consequences:** T-159 (WS1). The rule's back-test (`backtest_rules.py`) must stay at or above today's band match; the R-32 evidence pairs (G6 2025 vs 2024, EV6 2024 vs 2021, IONIQ 5 2024 vs 2022) keep their flags; the e-tron GT 2024 S / RS / RS performance lose the `older-version` flag. The #184 approvals for those rows are replaced by new ones in T-159's gate PR. Reversible: group by model again.
+**Consequences:** T-161 (WS1). The rule's back-test (`backtest_rules.py`) must stay at or above today's band match; the R-32 evidence pairs (G6 2025 vs 2024, EV6 2024 vs 2021, IONIQ 5 2024 vs 2022) keep their flags; the e-tron GT 2024 S / RS / RS performance lose the `older-version` flag. The #184 approvals for those rows are replaced by new ones in T-161's gate PR. Reversible: group by model again.
 
 <!-- Agentic Scaffold v0.5.0 | https://github.com/montymerlin/agentic-scaffold-plugin -->
