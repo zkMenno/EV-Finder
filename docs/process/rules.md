@@ -61,6 +61,11 @@ Find unverified work: `git log --grep="Verified: none" --oneline` (stamp lands w
 | G-53 | `ev verify --keep <dir>` keeps its scratch build so a builder can trace where a value came from | T-151 retro (19 Nov): needed a separate scratch build because verify deletes it | `ev verify` (T-158) | WS1 | 2026-11-19 | — |
 | G-54 | `approved_changes` validation warns when an entry's `release` is ≤ the latest published release when its PR merges | T-151 retro (19 Nov): an approval scoped to an already-built release blocked main's next build | approved_changes validator (T-158) | WS1 | 2026-11-19 | — |
 | G-55 | A licence-parser change is tested on ≥10 real cached file pages plus every refusal / deletion template name | Batch #171/T-149/T-150 retro (19 Nov): a deletion-template bug passed tests that only had `{{delete}}`; the reviewer caught it | REVIEW D2 (trigger: `pipeline/ev_pipeline/images/**`) | WS1 | 2026-11-19 | — |
+| G-56 | `ev verify --base-release-from <ref>` builds the base ref on the same staging and diffs against it | T-154 retro (19 Nov): a fresh staging diffed against committed release 3 gave ~10k blocking lines | `ev verify` (T-158) | WS1 | 2026-11-19 | — |
+| G-57 | `data_qa.sh` loads `data/review/approved_changes.yaml` with `load_config`, so a bad `approved_by` fails there | T-154 retro (19 Nov): found only when the loader failed | `data_qa.sh` (T-158) | WS1 | 2026-11-19 | — |
+| G-58 | A pause goes into HANDOFF **and** the top of INBOX **and** the Status of every open task; batch chats re-read HANDOFF before opening a PR | T-156 retro (19 Nov): the pause landed mid-batch and nothing told the running chat | *prose* (WS0 + batch chats) | WS0 | 2026-11-19 | — |
+| G-59 | G-52 also passes when every commit main is ahead by touches only log files (INBOX, HANDOFF, CHATS) and GitHub says `mergeable_state: clean` (same idea as G-47) | T-153 retro (19 Nov): main moved 6× by log lines → 5 extra merge + CI rounds | *prose* until T-158 `merge_ready.sh` | WS0 | 2026-11-19 | — |
+| G-60 | A task that adds a `source_holds` entry "remove once T-xxx merges" writes the exact follow-up change into T-xxx's file | T-153 retro (19 Nov): the Elroq hold removal alone would have shipped a wrong 150 kW | *prose* (builders, WS0 briefs) | WS0 | 2026-11-19 | — |
 
 **Old P-ids** (verification chat's seed list, 17 Nov) map here: P-07→G-04/G-05 · P-08→G-09 · P-09→G-03 · P-10→G-08 · P-11→G-15/G-16 · P-12→G-10 · P-14→G-07 · P-15→G-06 · P-20→G-17 · P-21 (CI budget)→G-33; the rest became G-21–G-31.
 
@@ -108,6 +113,18 @@ Added later on 18 Nov: web batch → G-46 accepted; merge batch 4 → G-47 accep
 | Batch: T-151 | `ev verify --keep <dir>` | Accepted → G-53 (T-158) |
 | Batch: T-151 | `approved_changes` warns on a release already built | Accepted → G-54 (T-158) |
 | Batch: #171/T-149/T-150 | Licence parser tested on real file pages + every refusal template | Accepted → G-55 (REVIEW D2) |
+
+## Retro proposals processed (19 Nov 2026, afternoon)
+
+| From | Proposal | Verdict |
+|---|---|---|
+| Batch: catalogue T-154 | `ev verify --base-release-from <ref>` | Accepted → G-56 (T-158) |
+| Batch: catalogue T-154 | data_qa loads approved_changes.yaml | Accepted → G-57 (T-158) |
+| Batch: catalogue T-156 | Pause notice in INBOX top + task Status; re-read HANDOFF before PRs | Accepted → G-58 |
+| Batch: data T-153 | G-52 passes when ahead commits are log-only and `clean` | Accepted → G-59 |
+| Batch: data T-153 | Hold "remove once T-xxx" names the exact follow-up in T-xxx | Accepted → G-60 |
+| Batch: data T-155 | `ev verify` lists value_guard.py as a changed rule | Accepted → T-158 item (no new rule) |
+| Batch: data T-155 | PR-body checker recounts "main has N" claims | Parked (cost > benefit now; reviewers recount) |
 
 ## Retro questions (every session end)
 1. What slowed us down? 2. What did Menno have to do by hand? 3. Which rule would have prevented it? **4. What did a check miss, and which check would have caught it?** (answer 4 adds or sharpens a row here or a REVIEW.md item).
