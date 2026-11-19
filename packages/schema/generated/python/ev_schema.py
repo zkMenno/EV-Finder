@@ -2851,6 +2851,10 @@ class PublishedVariant(BaseModel):
     dc_peak_kw_is_claim: bool | None = Field(
         None, description='true when dc_peak_kw is a maker claim, not measured.'
     )
+    dc_speed_is_claim: bool | None = Field(
+        None,
+        description="true when dc_avg_10_80_kw, dc_minutes_10_80, dc_km_per_10min and dc_km_per_20min come from a maker claim (e.g. a cited 'as little as' 10-80 % time), not from a measured or modelled charge curve.",
+    )
     platform_id: str | None = None
     platform_name: str | None = None
     battery_pack_id: str | None = None

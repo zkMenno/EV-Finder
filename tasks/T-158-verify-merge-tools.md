@@ -1,6 +1,6 @@
 # T-158 Verify and merge tools: `ev verify --keep`, approved_changes warning, merge_ready.sh
 Role: builder   Lane: pipeline/ (WS1); scripts/merge_ready.sh (WS0-owned, built here, flag it)   Wave: launch
-Status: review (batch: data T-161 + T-158, 2026-11-19)
+Status: done (merged #195, 5a742c2; WS0 2026-11-19)
 
 ## Goal
 The merge and verify tools stop the misses the 19 Nov batches hit by hand.
