@@ -74,7 +74,7 @@ def score(e: dict, prof: dict, newest: set, older: set) -> tuple[float | None, s
         total += s * w
         wsum += w
     pts = 100 * total / wsum
-    key = (e["make"].lower(), e["model"].lower())
+    key = line_key(e)
     if key in newest and e["model_year"] == max_year[key]:
         pts += 4
         why.append("newest-version")
@@ -95,7 +95,16 @@ def score(e: dict, prof: dict, newest: set, older: set) -> tuple[float | None, s
     return round(pts, 1), band, why
 
 
-max_year: dict[tuple[str, str], int] = {}
+max_year: dict[tuple[str, str, str], int] = {}
+
+
+def line_key(e: dict) -> tuple[str, str, str]:
+    """Trim line (Decision 088) as far as the sheet shows it: make + model + drivetrain read from
+    the variant name (AWD vs RWD / 2WD). The sheet has no power column, so the pipeline's 15 %
+    power split can't be mirrored here; pairs with unknown power stay one line."""
+    v = f" {(e.get('variant') or '').lower()} "
+    dt = "awd" if " awd" in v or "dual motor" in v else "2wd" if any(t in v for t in (" rwd", " 2wd", " fwd", "single motor")) else "?"
+    return (e["make"].lower(), e["model"].lower(), dt)
 
 
 SCHEMA = HERE.parent.parent / "packages" / "schema" / "schemas" / "ev.schema.json"
@@ -149,7 +158,7 @@ def main() -> int:
     years = defaultdict(set)
     for e in picks:
         if e["model_year"]:
-            years[(e["make"].lower(), e["model"].lower())].add(e["model_year"])
+            years[line_key(e)].add(e["model_year"])
     multi = {k for k, v in years.items() if len(v) > 1}
     max_year.update({k: max(v) for k, v in years.items()})
     rows, hit, near, n = [], 0, 0, 0
