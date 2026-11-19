@@ -16,6 +16,12 @@ items:
     file: variant-candidates.csv
     summary: audi-q4-e-tron-gen1|none|multi|e=unknown | rdw-tgk | have | audi-q4-e-tron-gen1
     updated: 2026-11-19
+  vc-0173e07718:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mini-aceman-gen1|wltp|single|e=56.4-56.6 | rdw-tgk | have | mini-aceman-gen1
+    updated: 2026-11-19
   vc-02ec1bd505:
     status: done
     note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
@@ -190,6 +196,12 @@ items:
     file: variant-candidates.csv
     summary: tesla-model-s-facelift|nedc|single|e=84.2-91.1 | rdw-tgk | have | tesla-model-s-facelift
     updated: 2026-11-19
+  vc-209fc6ef3f:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: skoda-elroq-gen1|wltp|single|e=84.9-86.2 | rdw-tgk | have | skoda-elroq-gen1
+    updated: 2026-11-19
   vc-20e31b6591:
     status: done
     note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
@@ -219,6 +231,12 @@ items:
     note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
     file: variant-candidates.csv
     summary: opel-corsa-e-f|wltp|single|e=unknown | rdw-tgk | have | opel-corsa-e-f
+    updated: 2026-11-19
+  vc-25d98ab4d5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mini-aceman-gen1|wltp|single|e=43.7 | rdw-tgk | have | mini-aceman-gen1
     updated: 2026-11-19
   vc-263679e890:
     status: done
@@ -778,6 +796,12 @@ items:
     file: variant-candidates.csv
     summary: citroen-e-c3-gen1|wltp|single|e=55.7 | rdw-tgk | have | citroen-e-c3-gen1
     updated: 2026-11-19
+  vc-8ba0167da5:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: hyundai-inster-gen1|wltp|single|e=54.4-55.1 | rdw-tgk | have | hyundai-inster-gen1
+    updated: 2026-11-19
   vc-8bc0f94540:
     status: done
     note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
@@ -1000,6 +1024,12 @@ items:
     file: variant-candidates.csv
     summary: skoda-elroq-gen1|none|multi|e=unknown | rdw-tgk | have | skoda-elroq-gen1
     updated: 2026-11-19
+  vc-b1b542b1dc:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: abarth-500e-gen1|wltp|single|e=45.4 | rdw-tgk | have | abarth-500e-gen1
+    updated: 2026-11-19
   vc-b2bc7e0e57:
     status: done
     note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
@@ -1168,6 +1198,12 @@ items:
     file: variant-candidates.csv
     summary: mini-cooper-se-j01|none|single|e=unknown | rdw-tgk | have | mini-cooper-se-j01
     updated: 2026-11-19
+  vc-c968751f52:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: kia-ev3-gen1|wltp|single|e=65 | rdw-tgk | have | kia-ev3-gen1
+    updated: 2026-11-19
   vc-c97ae420cf:
     status: done
     note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
@@ -1191,6 +1227,12 @@ items:
     note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
     file: variant-candidates.csv
     summary: voyah-free-gen1|wltp|multi|e=115.5 | rdw-tgk | have | voyah-free-gen1
+    updated: 2026-11-19
+  vc-cbab9b84db:
+    status: done
+    note: 'T-153: have group (every placed version sits on one seed variant), nothing to add'
+    file: variant-candidates.csv
+    summary: mini-countryman-e-gen1|wltp|multi|e=72.7-74.2 | rdw-tgk | have | mini-countryman-e-gen1
     updated: 2026-11-19
   vc-cca7914caf:
     status: done
