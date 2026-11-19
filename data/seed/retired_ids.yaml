@@ -23,3 +23,6 @@ ids:
   # T-154: the Abarth 500e row moved from the Fiat 500e (332) generation to the Abarth model, where
   # EEA, RDW and KilowattApp file the car.
   fiat-500e-332-abarth: abarth-500e-gen1-base
+  # T-154: OpenEV's Elroq "Base" (77 kWh, 581 km) is the Elroq 85; its records are held (source_holds)
+  # and the seed Elroq 85 row replaces it.
+  skoda-elroq-gen1-base: skoda-elroq-gen1-85

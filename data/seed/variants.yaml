@@ -702,6 +702,23 @@ variants:
       seats: 5
     notes: "Dual motor. WLTP roughly 480 km."
     confidence: low
+  - generation_id: kia-ev3-gen1
+    id: kia-ev3-gen1-awd
+    name: "Long Range AWD"
+    years: [2026, null]
+    drivetrain: awd
+    specs: {}
+    cited:
+      battery_kwh_gross:
+        value: 81.4
+        source_url: https://www.kia.com/uk/new-cars/ev3/specification/
+        source_name: "Kia UK, EV3 specification page (Battery pack and Drive train tables)"
+        retrieved: 2026-11-19
+        quote: "81.4 kWh Li-ion  battery"
+        locator: "Battery pack table, column 'AWD (81.4kWh)'"
+        confidence: medium
+    notes: "Two motors, all-wheel drive, 81.4 kWh: covers both EU two-motor versions until power evidence can split them (T-153): the 195 kW AWD (150 + 45 kW, MY2027, from Apr 2026) and the 215 kW GT (Kia UK's 'AWD' column: 215 kW, 468 Nm; Kia Germany: 'Kia EV3 GT-Allradantrieb, 81,4-kWh-Batterie ... 215 kW'). No power cited because the row holds both. Years: RDW TGK two-motor variants F5E34 / F5E44 from 2026."
+    confidence: medium
   # --- T-148 (variant queue batch, 2026-11-18): ID.7 by battery. OpenEV's only ID.7 rows ("PRO", "Tour",
   # MY2024-25) carry 86 kWh net / 91 gross / 210 kW / 700 km: the Pro S figures, so the 77 kWh Pro versions
   # in RDW TGK fit no row ("no-fit", ~46k EU cars) and the Pro S ones sat on a row named Pro. ---
@@ -2613,16 +2630,18 @@ variants:
     notes: "Audi media release 13 May 2025: 370 kW (430 kW launch control), 105 / 97 kWh, up to 622 km WLTP, up to 320 kW DC. RDW type approval e1*2018/858*00005 from extension 14 (2025-04-24), variants SBMQ3CQ1 / SBMQ3CQ2. OpenEV's 'quattro' files on this generation stay held (old pack)."
     confidence: high
 
-  # --- T-154 (catalogue batch, 2026-11-19): Kia EV3 Standard Range, Long Range and GT (AWD) together ---
+  # --- T-154 (catalogue batch, 2026-11-19): Kia EV3 Standard Range, Long Range and Long Range AWD together ---
   # T-148 left the EV3 out: a lone row took the two-motor data and built as AWD. All three rows now exist
-  # at once. Battery and power cited from Kia UK's EV3 specification page (matching evidence; maker-docs
-  # values stay internal, the release takes figures from RDW / EEA / KilowattApp as before).
+  # at once, named as Kia names them, so name evidence sends US "Long Range AWD" / "Long Range GT AWD"
+  # rows to the AWD row and "Long Range FWD" to the Long Range. Battery and power cited from Kia UK's EV3
+  # specification page (matching evidence; maker-docs values stay internal).
   # RDW TGK (CC0, e6*2018/858*00331, read 2026-11-19): F5E12 = 58.3 kWh (414 km), F5E22 = 81.4 kWh
-  # (563 km), F5E34 / F5E44 = two motors (501 km, 181 Wh/km, the GT; 19 NL cars). The 195 kW AWD
-  # (150 + 45 kW, 572 km, MY2027) has no Kia page this batch could read: not seeded (T-154 Handoff notes).
+  # (563 km), F5E34 / F5E44 = two motors (501 km lower bound, 19 NL cars). Known gap: the 2026 TGK F5E22
+  # records tie Long Range vs Long Range AWD (TGK evidence has no drivetrain or power yet, T-153) and go
+  # to review, so the Long Range has no WLTP in this release; nothing is placed wrong.
   - generation_id: kia-ev3-gen1
     id: kia-ev3-gen1-standard-range
-    name: "Standard Range 58.3 kWh"
+    name: "Standard Range"
     years: [2024, null]
     drivetrain: fwd
     specs: {}
@@ -2648,7 +2667,7 @@ variants:
     confidence: medium
   - generation_id: kia-ev3-gen1
     id: kia-ev3-gen1-long-range
-    name: "Long Range 81.4 kWh"
+    name: "Long Range"
     years: [2024, null]
     drivetrain: fwd
     specs: {}
@@ -2672,32 +2691,6 @@ variants:
         confidence: high
     notes: "Front-wheel drive: Kia UK's column heading 'FWD (81.4kWh)'."
     confidence: medium
-  - generation_id: kia-ev3-gen1
-    id: kia-ev3-gen1-gt
-    name: "GT 81.4 kWh AWD"
-    years: [2026, null]
-    drivetrain: awd
-    specs: {}
-    cited:
-      battery_kwh_gross:
-        value: 81.4
-        source_url: https://www.kia.com/uk/new-cars/ev3/specification/
-        source_name: "Kia UK, EV3 specification page (Battery pack and Drive train tables)"
-        retrieved: 2026-11-19
-        quote: "81.4 kWh Li-ion  battery"
-        locator: "Battery pack table, column 'AWD (81.4kWh)' (the UK AWD is the GT trim: WLTP table row 'GT')"
-        confidence: medium
-      power_kw:
-        value: 215
-        source_url: https://www.kia.com/uk/new-cars/ev3/specification/
-        source_name: "Kia UK, EV3 specification page (Battery pack and Drive train tables)"
-        retrieved: 2026-11-19
-        quote: "215/ 5,000 ~ 9,400"
-        locator: "Drive train table, 'Max. Power, kW at rpm', column 'AWD (81.4kWh)'; 468 Nm"
-        confidence: high
-    notes: "Two motors, all-wheel drive (Kia UK column 'AWD'; Kia Germany: 'Kia EV3 GT-Allradantrieb, 81,4-kWh-Batterie ... 215 kW (292 PS)'). Years: RDW TGK two-motor variants F5E34 / F5E44 from 2026. Not the 195 kW AWD (MY2027), which is not seeded yet."
-    confidence: medium
-
   # --- T-148 (variant queue batch, 2026-11-18): first variants for generations that had none ---
   # Each car's battery (and power or WLTP where it decides a match) is cited from the maker's
   # page; everything else is left out. Years: first-admission years of the matching RDW TGK
