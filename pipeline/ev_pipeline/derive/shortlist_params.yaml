@@ -4,6 +4,10 @@
 schema: shortlist-params/v1
 model_version: "0.1"
 
+# Decision 088: newest-version / older-version compare one trim line (model + drivetrain; a new
+# line starts when power is more than this share above the line's lowest power). T-161.
+trim_line_power_gap: 0.15
+
 # Where the rules live. First existing path wins (T-066 moves them into data/taxonomy).
 rules_paths:
   - taxonomy/shortlist_rules.yaml
