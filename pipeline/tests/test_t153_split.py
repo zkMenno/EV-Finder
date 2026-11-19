@@ -10,6 +10,7 @@ with an empty table to show the rule is what decides.
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -84,12 +85,22 @@ def test_30min_power_and_type_code_split_the_stellantis_pair(seed) -> None:
 
 
 def test_a_version_no_row_fits_goes_to_review(seed) -> None:
-    """2025 ZKXZ (57 kW): the 50 kWh row ends 2023 (+1), the 51 kWh row is ZKWZ / 62 kW.
-    Before T-153 the year put it on the 51 kWh row; now it is a misfit for review."""
+    """2025 ZKXZ (57 kW) on the T-153 seed: the 50 kWh row ended 2023 (+1), the 51 kWh row is
+    ZKWZ / 62 kW. Before T-153 the year put it on the 51 kWh row; with the split it is a misfit
+    for review. T-160 opened the 50 kWh row's end year, so the old seed is rebuilt here."""
+    s, manual = seed
+    old = [replace(v, year_end=2023) if v.id == f"{E208}-50kwh" else v for v in manual]
     late = _rec("ZKXZ-K0L000", 2025)
-    assert _where(seed, late, {}) == f"{E208}-51kwh"
-    why = _where(seed, late)
+    assert _where((s, old), late, {}) == f"{E208}-51kwh"
+    why = _where((s, old), late)
     assert why.startswith(f"attach-only: {TGK_MISFIT} the type_codes (H/ZKXZ)")
+
+
+def test_t160_late_zkxz_lands_on_the_open_50kwh_row(seed) -> None:
+    """T-160: Stellantis kept the 100 kW / 50 kWh e-208 on sale after the 2023 facelift, so
+    the seed row runs on and the 2025 ZKXZ (57 kW) version places on it by the split."""
+    late = _rec("ZKXZ-K0L000", 2025)
+    assert _where(seed, late) == f"{E208}-50kwh"
 
 
 def test_top_speed_splits_model_y_long_range_and_performance(seed) -> None:
