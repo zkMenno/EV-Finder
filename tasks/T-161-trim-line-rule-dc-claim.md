@@ -1,16 +1,16 @@
 # T-161 Trim-line version rule (Decision 088), minutes-derived DC marked as a claim, manual terms wording
 Role: builder   Lane: pipeline/derive, data/sources.yaml (WS1); cross-lane, flag them: approvals in `config/approved_changes.yaml` and the `rule:` text in `data/editorial/shortlist_rules.yaml` (WS3 files)   Wave: launch
-Status: todo
+Status: review (batch: data T-161 + T-158, 2026-11-19; gate #194, data PR after it)
 
 ## Goal
 A new entry trim no longer marks higher trims as "older", DC figures derived from a maker's "as little as" minutes are labelled as such, and the sources file matches Decision 087.
 
 ## Acceptance criteria
-- [ ] **Decision 088:** `version_flags` in `pipeline/ev_pipeline/derive/shortlist.py` compares the same trim line as Decision 088 defines it (lines per model + drivetrain, new line at > 15 % above the line's lowest power; unknown drivetrain or power → no flag). Update its docstring and the public `rule:` text of `newest-version` / `older-version` in `data/editorial/shortlist_rules.yaml` to say "same trim line". Back-test (`backtest_rules.py`) at or above today; the R-32 pairs (G6, EV6, IONIQ 5) keep their flags; e-tron GT 2024 S / RS / RS performance lose `older-version`. Approvals for moved scores in their own gate PR, scoped to a release not yet built (G-54).
-- [ ] **Minutes-derived DC** (T-155 review should-fix 1): DC fields derived from a cited 10–80 % time carry the same "maker claim" marking that maker figures get today (find how the release marks them). If that needs a schema field, stop and write the exact field in WS0's INBOX; WS0 adds it.
-- [ ] **T-155 nits 4–5:** a cited 10–80 % time that implies more than the stated peak falls back to the default curve with a review line; the web popularity port's half-rounding / id filter matches the web (`popularity.ts`).
-- [ ] **Wording:** `data/sources.yaml` `manual` terms say Decision 087 (any number of single facts per car; never a whole table, range table or price list).
-- [ ] Same-data rebuild diff (G-43), `ev verify --base main` in the PR body; tests with fixtures.
+- [x] **Decision 088:** `version_flags` in `pipeline/ev_pipeline/derive/shortlist.py` compares the same trim line as Decision 088 defines it (lines per model + drivetrain, new line at > 15 % above the line's lowest power; unknown drivetrain or power → no flag). Update its docstring and the public `rule:` text of `newest-version` / `older-version` in `data/editorial/shortlist_rules.yaml` to say "same trim line". Back-test (`backtest_rules.py`) at or above today; the R-32 pairs (G6, EV6, IONIQ 5) keep their flags; e-tron GT 2024 S / RS / RS performance lose `older-version`. Approvals for moved scores in their own gate PR, scoped to a release not yet built (G-54).
+- [ ] **Minutes-derived DC** (blocked on the schema field: WS0 INBOX 2026-11-19 14:25 UTC, `dc_speed_is_claim`) (T-155 review should-fix 1): DC fields derived from a cited 10–80 % time carry the same "maker claim" marking that maker figures get today (find how the release marks them). If that needs a schema field, stop and write the exact field in WS0's INBOX; WS0 adds it.
+- [x] **T-155 nits 4–5:** a cited 10–80 % time that implies more than the stated peak falls back to the default curve with a review line; the web popularity port's half-rounding / id filter matches the web (`popularity.ts`).
+- [x] **Wording:** `data/sources.yaml` `manual` terms say Decision 087 (any number of single facts per car; never a whole table, range table or price list).
+- [x] Same-data rebuild diff (G-43), `ev verify --base main` in the PR body; tests with fixtures.
 
 ## Inputs
 Decision 038, 087, 088; WS0 INBOX 2026-11-19 09:15 (ask 2, 3) and 10:38 (ask 1); T-155 Handoff notes.
@@ -19,5 +19,13 @@ Decision 038, 087, 088; WS0 INBOX 2026-11-19 09:15 (ask 2, 3) and 10:38 (ask 1);
 Matching (T-159). New seed variants (T-160).
 
 ## Handoff notes
+- **Trim lines** (`derive/shortlist.py` `trim_lines`, `version_flags`): per model + drivetrain (rwd / fwd / awd only), sorted by power; a variant > `trim_line_power_gap` (0.15, `shortlist_params.yaml`, gate #194) above the current line's lowest power starts a new line. No year, drivetrain outside the three, or power missing / not a positive number → in no line, no flag. Same-staging rebuild (main a50af5f vs branch, each with its own code, 2026-11-19 staging): only `shortlist_scores.json` moves, 0 catalogue changes; 48 blocking band lines on 17 ids + the 3 e-tron GT ids → approved in #194 (0 blocking). e-tron GT 2024 S 59.0 → 69.0, RS 62.2 → 72.2 (both now newest-version over the 2023 gen1 RS in their line), RS performance 54.1 → 60.1 (own line). R-32 pairs: G6 2025 newest kept; IONIQ 5 facelift base newest / gen1 77 RWD older kept; EV6 2024 vs 2021 had no flags on main either.
+- 🟡 **EV6 facelift rows have no `power_kw`** (84 kWh RWD / AWD), so they are never compared; the AWD loses main's model-wide newest-version (46.6 → 42.6, not-enough-data either way). WS3: a Kia power citation brings the R-32 EV6 pair back.
+- **Back-test** (`data/editorial/backtest_rules.py`, WS3 file, cross-lane): the sheet has no power column, so it mirrors Decision 088 as far as it can: make + model + drivetrain read from the variant name (AWD / dual motor vs RWD / 2WD / FWD / single motor). Model Y 2022 LR AWD no longer counts as "older" than the 2024 / 2025 RWD rows. 24/30 → **25/30 (80 % → 83 %)**, within one band 30/30; the R-32 pairs keep their flags. MG4 64 vs 77 kWh stays one line in the sheet (power unknown there).
+- **Rule text** (`data/editorial/shortlist_rules.yaml`, WS3 file, cross-lane): `newest-version` / `older-version` say "same trim line (same model and drivetrain, similar power)"; `apps/web/src/config/shortlist-rules.generated.json` regenerated (`node scripts/shortlist-rules.mjs --check` passes; WS2 file, cross-lane, generated).
+- **Minutes above the peak** (T-155 nit 4, `derive/rows.py` `_charging`): a cited 10–80 % time that implies an average above the row's `dc_peak_kw` now goes to validation.csv as a `dc_minutes_10_80` line ("… implies X kW; default curve used") and the row falls back to the default curve from the peak (estimate). Before: the row got no DC average at all. No real row hits it on today's staging.
+- **Popularity port** (T-155 nit 5, `backtest/popularity.py`): model ids filtered with popularity.mjs `ID_RE`, non-finite scores dropped, scores rounded half-up like `Math.round(x * 10) / 10` (`js_round1`). Spearman on the rebuild unchanged at 0.953.
+- **`manual` terms** (`data/sources.yaml`): Decision 068 widened by 087: any number of single facts per car per document, never a whole spec table, range table or price list. `node apps/web/scripts/sources.mjs` → no diff.
+- **Claim mark**: not built. The only claim mark in a release is `dc_peak_kw_is_claim`; `FieldProvenance` forbids extra keys → schema ask `PublishedVariant.dc_speed_is_claim` in WS0 INBOX (14:25 UTC). Then: set it in `_charging` when `_dc_from_minutes` and the minutes fact's `claim` is true.
 
 ## Review

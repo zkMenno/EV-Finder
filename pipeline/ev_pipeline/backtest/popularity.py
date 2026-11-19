@@ -20,6 +20,8 @@ for comparison when it had this section.
 
 from __future__ import annotations
 
+import math
+import re
 from pathlib import Path
 from statistics import median
 from typing import Any
@@ -30,6 +32,12 @@ from ev_pipeline.derive.popularity import CONFIG_FILE, PICKS_FILE, parse_config,
 
 TOP40_FILE = Path("seed") / "top40.yaml"  # under data/
 WORST_LISTED = 10
+ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")  # popularity.mjs ID_RE
+
+
+def js_round1(x: float) -> float:
+    """One decimal as JavaScript's Math.round(x * 10) / 10 (half rounds up, not to even)."""
+    return math.floor(x * 10 + 0.5) / 10
 
 
 def _load(path: Path) -> dict[str, Any] | None:
@@ -44,7 +52,9 @@ def model_scores(top40: dict[str, Any] | None) -> dict[str, float]:
     doc = top40 or {}
     for m in [*(doc.get("models") or []), *(doc.get("seed_models_outside_top") or [])]:
         mid, s = (m or {}).get("model_id"), (m or {}).get("score_pct")
-        if not isinstance(mid, str) or isinstance(s, bool) or not isinstance(s, int | float):
+        if not isinstance(mid, str) or not ID_RE.match(mid):
+            continue
+        if isinstance(s, bool) or not isinstance(s, int | float) or not math.isfinite(s):
             continue
         if s < 0:
             continue
@@ -84,7 +94,7 @@ def web_ranking(
         if share is None and pick is None:
             continue
         s = 100 * (wr * (share / top if share is not None and top > 0 else 0) + wp * (pick or 0))
-        out[gid] = round(s / (wr + wp), 1)
+        out[gid] = js_round1(s / (wr + wp))
     return out
 
 
