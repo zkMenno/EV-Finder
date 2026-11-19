@@ -453,3 +453,25 @@ approved:
     field: "price_new.NL.amount"
     change: cleared
   - {<<: *t156, file: used_prices.json, id: ford-e-tourneo-courier-gen1-base, field: "*", change: removed}
+  # T-160: Elroq OpenEV "Base" joins the Elroq 85 seed row (alias + hold removal in one change).
+  # Measured: same-staging builds (2026-11-19) of main vs the T-160 Elroq branch, 18 blocking lines, all below.
+  - &t160elroq
+    release: 4
+    file: shortlist_scores.json
+    approved_by: "PR #PENDING (T-160 gate)"
+    reason: "T-160: OpenEV 'Base' is the Elroq 85 (77 kWh net, 581 km). With the hold removed and `source_names: {openev: [Base]}` on skoda-elroq-gen1-85 it joins that row; its 150 kW is withheld because Škoda's cited 210 kW wins (validation.csv: 'power contradicts the cited maker power'). The row gains 11 charging fields (AC 11 kW, DC 185 kW claim, 10-80 % 25.9 min), which lifts its score bands (e.g. daily-driver not-enough-data -> shortlist). No skoda-elroq-gen1-base row is built."
+    id: skoda-elroq-gen1-85
+    field: "scores.*"
+    change: changed
+  # T-160: the 100 kW / 50 kWh e-208, e-2008 and Corsa rows run on past 2023 (Stellantis documents:
+  # the version stayed on sale after the 2023 facelift), so RDW TGK ZKXZ versions 2025-26 land on them.
+  - &t160zkxz
+    release: 4
+    file: catalogue.json
+    approved_by: "PR #PENDING (T-160 gate)"
+    reason: "T-160: Stellantis media (Peugeot em-en 03 Apr 2025; Peugeot UK MY2024 E-2008 release; Opel DE 28 Oct 2024 + Opel DE price list Feb 2026) show the 100 kW / 50 kWh version still on sale after the 2023 facelift, so the rows' end year opens. Measured: same-staging build of the T-160 ZKXZ branch, 3 blocking lines, these three."
+    id: peugeot-e-208-p21-50kwh
+    field: year_end
+    change: cleared
+  - {<<: *t160zkxz, id: peugeot-e-2008-p24-50kwh}
+  - {<<: *t160zkxz, id: opel-corsa-e-f-50kwh}
