@@ -17,8 +17,10 @@ def _stored_files(release_dir: Path) -> dict[str, dict[str, Any]] | None:
     m = release_dir / "manifest.json"
     if not m.exists():
         return None
-    doc = json.loads(m.read_text(encoding="utf-8"))
-    return {str(f.get("path")): f for f in doc.get("files") or []}
+    from ev_pipeline.release.publish import manifest_paths
+
+    # Decision 086: photos sit inside the images.tar bundle; its members count as stored.
+    return manifest_paths(json.loads(m.read_text(encoding="utf-8")))
 
 
 def _file_problem(release_dir: Path, manifest: dict[str, Any] | None, f: dict[str, Any]) -> str:
