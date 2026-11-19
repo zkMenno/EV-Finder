@@ -2495,6 +2495,16 @@ variants:
     specs: {}
     notes: "WLTP not in Audi's release; the release takes it from the RDW type approval (608 km in the 2026-11-18 build)."
     confidence: high
+  # T-154 (2026-11-19): the 2025 entry version (RDW TGK variants SBMQ3C*, NL name 'E-TRON GT').
+  # Figures are cited Audi facts in data/manual/specs/t154-e-tron-gt.yaml (source manual, Decision 087).
+  - generation_id: audi-e-tron-gt-facelift
+    id: audi-e-tron-gt-facelift-quattro
+    name: "e-tron GT quattro (2025 entry version)"
+    years: [2025, null]
+    drivetrain: awd
+    specs: {}
+    notes: "Audi media release 13 May 2025: 370 kW (430 kW launch control), 105 / 97 kWh, up to 622 km WLTP, up to 320 kW DC. RDW type approval e1*2018/858*00005 from extension 14 (2025-04-24), variants SBMQ3CQ1 / SBMQ3CQ2. OpenEV's 'quattro' files on this generation stay held (old pack)."
+    confidence: high
 
   # --- T-148 (variant queue batch, 2026-11-18): first variants for generations that had none ---
   # Each car's battery (and power or WLTP where it decides a match) is cited from the maker's

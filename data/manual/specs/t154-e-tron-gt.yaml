@@ -1,0 +1,313 @@
+# T-154 (catalogue batch, 2026-11-19): Audi e-tron GT 2024 update, generation audi-e-tron-gt-facelift.
+#  1. Figures trimmed from #156 under the old "one figure per car per document" reading come back
+#     (Decision 087: any number of single facts per car from one maker document, never a whole table).
+#  2. The 2025 entry version "e-tron GT quattro" (RDW TGK variants SBMQ3C*, NL name 'E-TRON GT')
+#     gets its own seed row (audi-e-tron-gt-facelift-quattro) with Audi's figures.
+# Source `manual` (Decisions 068, 087). Every value was read on the document named, on the date given.
+# Conventions, as in t145-cited-maker-facts.yaml: power_kw = Audi's normal maximum (launch-control
+# figures only in the locator); WLTP and consumption = the best-equipment end of Audi's range
+# ("up to" figure). accel_0_100_s = Audi's quickest stated figure (launch control), because that is
+# the only 0-100 figure Audi states for the entry version; the normal-mode figure is in each locator.
+# Audi's own data sheets: S and RS performance status 10/01/26 (uploads.audi.com, linked from the
+# audi.com model pages); RS status 09/06/2024 (Audi MediaCenter, the sheet T-145 cited).
+schema: manual-facts/v1
+entered_by: ws3 (agent, T-154 catalogue batch)
+facts:
+  # --- S e-tron GT (435 kW) ----------------------------------------------------------------
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: battery_kwh_net
+    value: 97
+    unit: kWh
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1391/file_en/086ccaba000dff5b2356c64762667387000f86a3/eTD-Audi-S_e-tron-GT-435kW_261001.pdf
+    source_name: "Audi technical data 'Audi S e-tron GT 435 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-s-e-tron-gt-16049)"
+    retrieved: 2026-11-19
+    quote: 'Gross / net battery capacity in kWh 105 / 97'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: battery_kwh_gross
+    value: 105
+    unit: kWh
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1391/file_en/086ccaba000dff5b2356c64762667387000f86a3/eTD-Audi-S_e-tron-GT-435kW_261001.pdf
+    source_name: "Audi technical data 'Audi S e-tron GT 435 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-s-e-tron-gt-16049)"
+    retrieved: 2026-11-19
+    quote: 'Gross / net battery capacity in kWh 105 / 97'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: ac_kw
+    value: 11
+    unit: kW
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1391/file_en/086ccaba000dff5b2356c64762667387000f86a3/eTD-Audi-S_e-tron-GT-435kW_261001.pdf
+    source_name: "Audi technical data 'Audi S e-tron GT 435 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-s-e-tron-gt-16049)"
+    retrieved: 2026-11-19
+    quote: 'Max. charging capacity AC / DC in kW 11 / 320'
+    locator: "Drivetrain / transmission / battery (no optional 22 kW AC listed for the S on this sheet: 'optional - / 320')"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: wltp_range_km
+    value: 609
+    unit: km
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1391/file_en/086ccaba000dff5b2356c64762667387000f86a3/eTD-Audi-S_e-tron-GT-435kW_261001.pdf
+    source_name: "Audi technical data 'Audi S e-tron GT 435 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-s-e-tron-gt-16049)"
+    retrieved: 2026-11-19
+    quote: 'Electrical range, combined in km (mi) 563 – 609'
+    locator: "Performance / range; 609 = the best equipment (the 'up to' figure, as for the RS's 599)"
+    confidence: high
+    claim: true
+    notes: "RDW plates gave 571 km in the 2026-11-18 build (T-145); field_sources ranks RDW first, so the release may keep 571."
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: top_speed_kmh
+    value: 245
+    unit: km/h
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1391/file_en/086ccaba000dff5b2356c64762667387000f86a3/eTD-Audi-S_e-tron-GT-435kW_261001.pdf
+    source_name: "Audi technical data 'Audi S e-tron GT 435 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-s-e-tron-gt-16049)"
+    retrieved: 2026-11-19
+    quote: 'Top speed in km/h (mph) 245 (152.2)'
+    locator: "Performance / range"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: accel_0_100_s
+    value: 3.4
+    unit: s
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1391/file_en/086ccaba000dff5b2356c64762667387000f86a3/eTD-Audi-S_e-tron-GT-435kW_261001.pdf
+    source_name: "Audi technical data 'Audi S e-tron GT 435 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-s-e-tron-gt-16049)"
+    retrieved: 2026-11-19
+    locator: "Performance / range: 'Electrical acceleration in launch control mode, 0–100 km/h (62.1 mph) in s 3.4'; without launch control 3.6"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-s
+    field: length_mm
+    value: 4997
+    unit: mm
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1391/file_en/086ccaba000dff5b2356c64762667387000f86a3/eTD-Audi-S_e-tron-GT-435kW_261001.pdf
+    source_name: "Audi technical data 'Audi S e-tron GT 435 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-s-e-tron-gt-16049)"
+    retrieved: 2026-11-19
+    locator: "Dimensions: 'Vehicle length from – to in mm 4997 – 5004'; 4997 = the shortest"
+    confidence: high
+    claim: true
+  # --- RS e-tron GT (500 kW): the sheet T-145 cited for power, WLTP, consumption, DC ---------
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: battery_kwh_net
+    value: 97
+    unit: kWh
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-19
+    quote: 'Gross / net battery capacity in kWh 105 / 97'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: battery_kwh_gross
+    value: 105
+    unit: kWh
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-19
+    quote: 'Gross / net battery capacity in kWh 105 / 97'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: ac_kw
+    value: 11
+    unit: kW
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-19
+    quote: 'Max. charging capacity AC / DC in kW 11 / 320'
+    locator: "Drivetrain / transmission / battery (an optional 22 kW AC charger is listed as available later)"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: top_speed_kmh
+    value: 250
+    unit: km/h
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-19
+    quote: 'Top speed in km/h (mph) 250 (155.3) (governed)'
+    locator: "Performance / range"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: accel_0_100_s
+    value: 2.8
+    unit: s
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-19
+    locator: "Performance / range: 'Electrical acceleration in launch control mode, 0-100 km/h (62.1 mph) in s 2.8'; without launch control 3.1"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs
+    field: length_mm
+    value: 4997
+    unit: mm
+    source_url: https://uploads.audi-mediacenter.com/system/production/car_motorizations/1237/file_en/1bc6c25d021edf80ecf5289e69fe15cc1e5351ec/eTD-Audi-RS-e-tron-GT-500kW_240906.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT 500 kW', program for Germany, status 09/06/2024 (Audi MediaCenter)"
+    retrieved: 2026-11-19
+    locator: "Dimensions: 'Vehicle length from - to in mm 4997 - 5004'; 4997 = the shortest"
+    confidence: high
+    claim: true
+  # --- RS e-tron GT performance (550 kW) -----------------------------------------------------
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: battery_kwh_net
+    value: 97
+    unit: kWh
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1392/file_en/91bfc69ec55530e277b5023245b77c1c82772920/eTD-Audi-RS-e-tron-GT-performance-550kW_261001.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT performance 550 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-rs-e-tron-gt-performance-16050)"
+    retrieved: 2026-11-19
+    quote: 'Gross / net battery capacity in kWh 105 / 97'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: battery_kwh_gross
+    value: 105
+    unit: kWh
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1392/file_en/91bfc69ec55530e277b5023245b77c1c82772920/eTD-Audi-RS-e-tron-GT-performance-550kW_261001.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT performance 550 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-rs-e-tron-gt-performance-16050)"
+    retrieved: 2026-11-19
+    quote: 'Gross / net battery capacity in kWh 105 / 97'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: ac_kw
+    value: 11
+    unit: kW
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1392/file_en/91bfc69ec55530e277b5023245b77c1c82772920/eTD-Audi-RS-e-tron-GT-performance-550kW_261001.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT performance 550 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-rs-e-tron-gt-performance-16050)"
+    retrieved: 2026-11-19
+    quote: 'Max. charging capacity AC / DC in kW 11 / 320'
+    locator: "Drivetrain / transmission / battery"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: wltp_range_km
+    value: 592
+    unit: km
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1392/file_en/91bfc69ec55530e277b5023245b77c1c82772920/eTD-Audi-RS-e-tron-GT-performance-550kW_261001.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT performance 550 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-rs-e-tron-gt-performance-16050)"
+    retrieved: 2026-11-19
+    quote: 'Electrical range, combined in km (mi) 533 – 592'
+    locator: "Performance / range; 592 = the best equipment"
+    confidence: high
+    claim: true
+    notes: "The RDW type approval gave 608 km in the 2026-11-18 build (T-145), above Audi's 592: one of the two is for other equipment; field_sources ranks RDW first."
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: top_speed_kmh
+    value: 250
+    unit: km/h
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1392/file_en/91bfc69ec55530e277b5023245b77c1c82772920/eTD-Audi-RS-e-tron-GT-performance-550kW_261001.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT performance 550 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-rs-e-tron-gt-performance-16050)"
+    retrieved: 2026-11-19
+    quote: 'Top speed in km/h (mph) 250 (155.3)'
+    locator: "Performance / range"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: accel_0_100_s
+    value: 2.5
+    unit: s
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1392/file_en/91bfc69ec55530e277b5023245b77c1c82772920/eTD-Audi-RS-e-tron-GT-performance-550kW_261001.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT performance 550 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-rs-e-tron-gt-performance-16050)"
+    retrieved: 2026-11-19
+    locator: "Performance / range: 'Electrical acceleration in launch control mode, 0–100 km/h (62.1 mph) in s 2.5'; without launch control 2.9"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-rs-performance
+    field: length_mm
+    value: 4997
+    unit: mm
+    source_url: https://uploads.audi.com/system/production/car_motorizations/1392/file_en/91bfc69ec55530e277b5023245b77c1c82772920/eTD-Audi-RS-e-tron-GT-performance-550kW_261001.pdf
+    source_name: "Audi technical data 'Audi RS e-tron GT performance 550 kW', program for Germany, status 10/01/26 (linked from audi.com/en/audi-rs-e-tron-gt-performance-16050)"
+    retrieved: 2026-11-19
+    locator: "Dimensions: 'Vehicle length from – to in mm 4997 – 5004'; 4997 = the shortest"
+    confidence: high
+    claim: true
+  # --- e-tron GT quattro (2025 entry version, 370 kW; RDW SBMQ3C*) ----------------------------
+  - variant_id: audi-e-tron-gt-facelift-quattro
+    field: power_kw
+    value: 370
+    unit: kW
+    source_url: https://www.audi.com/en/media-releases/entering-the-premium-class-audi-e-tron-gt-quattro-combines-emotional-design-performance-and-comfort-16660
+    source_name: "Audi media release 'Entering the premium class: Audi e-tron GT quattro combines emotional design, performance, and comfort' (13 May 2025, audi.com)"
+    retrieved: 2026-11-19
+    quote: 'The vehicle has a system output of 370 kW (430 kW with Launch Control).'
+    locator: "Second paragraph; 430 kW launch control not used: we keep the normal maximum"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-quattro
+    field: battery_kwh_net
+    value: 97
+    unit: kWh
+    source_url: https://www.audi.com/en/media-releases/entering-the-premium-class-audi-e-tron-gt-quattro-combines-emotional-design-performance-and-comfort-16660
+    source_name: "Audi media release 'Entering the premium class: Audi e-tron GT quattro combines emotional design, performance, and comfort' (13 May 2025, audi.com)"
+    retrieved: 2026-11-19
+    quote: 'a gross battery capacity of 105 kWh (net 97 kWh)'
+    locator: "Second paragraph"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-quattro
+    field: battery_kwh_gross
+    value: 105
+    unit: kWh
+    source_url: https://www.audi.com/en/media-releases/entering-the-premium-class-audi-e-tron-gt-quattro-combines-emotional-design-performance-and-comfort-16660
+    source_name: "Audi media release 'Entering the premium class: Audi e-tron GT quattro combines emotional design, performance, and comfort' (13 May 2025, audi.com)"
+    retrieved: 2026-11-19
+    quote: 'a gross battery capacity of 105 kWh (net 97 kWh)'
+    locator: "Second paragraph"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-quattro
+    field: wltp_range_km
+    value: 622
+    unit: km
+    source_url: https://www.audi.com/en/media-releases/entering-the-premium-class-audi-e-tron-gt-quattro-combines-emotional-design-performance-and-comfort-16660
+    source_name: "Audi media release 'Entering the premium class: Audi e-tron GT quattro combines emotional design, performance, and comfort' (13 May 2025, audi.com)"
+    retrieved: 2026-11-19
+    quote: 'a range of up to 622 kilometers (386.5 mi)'
+    locator: "Second paragraph; 'up to' = the best equipment"
+    confidence: high
+    claim: true
+    notes: "RDW TGK (gr7t-qfnb, variants SBMQ3CQ1 / SBMQ3CQ2, read 2026-11-19) gives 494-644 km for every version; neither end is used here."
+  - variant_id: audi-e-tron-gt-facelift-quattro
+    field: consumption_kwh_100km
+    value: 17.8
+    unit: kWh/100km
+    source_url: https://www.audi.com/en/media-releases/entering-the-premium-class-audi-e-tron-gt-quattro-combines-emotional-design-performance-and-comfort-16660
+    source_name: "Audi media release 'Entering the premium class: Audi e-tron GT quattro combines emotional design, performance, and comfort' (13 May 2025, audi.com)"
+    retrieved: 2026-11-19
+    quote: 'Electric power consumption (combined): 19.3–17.8 kWh/100 km'
+    locator: "Consumption footnote; 17.8 = the best equipment"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-quattro
+    field: dc_peak_kw
+    value: 320
+    unit: kW
+    source_url: https://www.audi.com/en/media-releases/entering-the-premium-class-audi-e-tron-gt-quattro-combines-emotional-design-performance-and-comfort-16660
+    source_name: "Audi media release 'Entering the premium class: Audi e-tron GT quattro combines emotional design, performance, and comfort' (13 May 2025, audi.com)"
+    retrieved: 2026-11-19
+    quote: 'up to 320 kW charging capacity'
+    locator: "Summary bullets ('Staying power') and charging paragraph"
+    confidence: high
+    claim: true
+  - variant_id: audi-e-tron-gt-facelift-quattro
+    field: accel_0_100_s
+    value: 4.0
+    unit: s
+    source_url: https://www.audi.com/en/media-releases/entering-the-premium-class-audi-e-tron-gt-quattro-combines-emotional-design-performance-and-comfort-16660
+    source_name: "Audi media release 'Entering the premium class: Audi e-tron GT quattro combines emotional design, performance, and comfort' (13 May 2025, audi.com)"
+    retrieved: 2026-11-19
+    quote: '0 to 100 km/h in 4.0 seconds with up to 430 kW (585 PS) in Launch Control mode'
+    locator: "Summary bullets ('Quick off the mark'); no figure without launch control in this release"
+    confidence: high
+    claim: true
