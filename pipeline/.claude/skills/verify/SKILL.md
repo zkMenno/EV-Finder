@@ -18,6 +18,9 @@ Any change under `pipeline/ev_pipeline/{match,merge,derive,release,qa}/`, `*_par
    Use a scratch `EV_DATA_DIR` when you don't want to touch your checkout's data/.
 2. **Run** `cd pipeline && uv run ev verify` (it refuses while `ev refresh` is writing
    staging, G-49: wait for the refresh) (add `--data-dir` for a scratch data dir).
+   Fresh staging but the committed N-1 is older? Add `--base-release-from origin/main`: it builds
+   main on the same staging and diffs against that, so only this branch's changes show (G-56).
+   Add `--keep <new dir>` to keep the scratch build and trace where a value came from (G-53).
    It writes `pipeline/verify-report.md` (git-ignored) and exits 1 on any failure:
    rebuild failed, tests failed, release diff blocking, or a PR body claim that doesn't match.
 3. **Read the report**, in this order:
