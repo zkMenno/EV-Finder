@@ -105,4 +105,14 @@ def test_taycan_2024_versions_leave_the_pre_update_rows(seed):
     assert _where(seed, new, table={}) == "porsche-taycan-gen1-4s"
     why = _where(seed, new)
     assert why.startswith("attach-only: " + TGK_MISFIT) and "type_codes" in why
-    assert _where(seed, _tgk("|JB22|", 2022)) == "porsche-taycan-gen1-4s"
+    assert _where(seed, _tgk("|JB22|1141000", 2022)) == "porsche-taycan-gen1-4s"
+
+
+def test_taycan_rows_take_only_their_own_battery(seed):
+    # The 4th digit of the uitvoering code is the pack (fresh review #199): x0x0000 =
+    # Performance Battery (base row, 71 kWh net), x1x1000 = Performance Battery Plus (4S row).
+    assert _where(seed, _tgk("|JA12|1040000", 2022)) == "porsche-taycan-gen1-base"
+    big = _where(seed, _tgk("|JA12|1041000", 2022))  # 520 km, 102 kWh drawn
+    assert big.startswith("attach-only: " + TGK_MISFIT) and "type_codes" in big
+    small_4s = _where(seed, _tgk("|JB22|1050000", 2022))  # 429 km, 84.5 kWh drawn
+    assert small_4s.startswith("attach-only: " + TGK_MISFIT) and "type_codes" in small_4s

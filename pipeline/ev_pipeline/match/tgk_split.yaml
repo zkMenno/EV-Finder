@@ -2,7 +2,8 @@
 #
 # Read by match/matcher.py (`tgk_split_pool`). Per seed variant id (the candidate root; its
 # year bands share the entry), the values that variant's RDW TGK versions carry:
-#   type_codes      the TGK variant code, or the uitvoering prefix before "-" (e.g. ZKXZ)
+#   type_codes      the TGK variant code, or the uitvoering prefix before "-" (e.g. ZKXZ);
+#                   "A+B" = both the variant code A and the uitvoering code B (T-159)
 #   power_30min_kw  TGK 30-minute power (one motor; never peak power, Decision 023)
 #   top_speed_kmh   TGK top speed
 #   motors          2 = dual motor: its TGK versions never state a 30-minute power (one
@@ -152,23 +153,28 @@ variants:
   audi-e-tron-ge-s:
     type_codes: [XBMQ3Q1, SBMQ3Q1]
     basis: "rdw-tgk 2026-11-19: E-TRON S / E-TRON S SPORTBACK versions, 210 km/h, WLTP 393 km"
-  # Porsche Taycan: the seed has one generation; its rows (OpenEV MY2023-25, 4S 463 km) are the
-  # pre-2024 car. TGK variant codes with second letter A-E are the 2020-23 versions, M-S the 2024
-  # update (4S JN22 / CN22 / SN22 676 km, Turbo S JP22 / CP22 / SP22 665 km; T-155 guard held
-  # them on the 4S / Turbo S rows). The 2024 versions now fit no row: review. Turbo GT is 2024-
-  # only (JR22 / JS22). Taycan 4 (CA22 / CM22 / JM22) and GTS (JE22 / SE22 / JQ22) have no row.
+  # Porsche Taycan: the seed has one generation; its rows (OpenEV MY2023-25: base 71 kWh net,
+  # 4S 83.7 kWh net, 4S 463 km) are the pre-2024 car. TGK variant codes with second letter A-E
+  # are the 2020-23 versions, M-S the 2024 update (e.g. 4S JN22 / CN22 / SN22 676 km, Turbo S
+  # JP22 / CP22 / SP22 665 km, Turbo JO22 / SO22; T-155 guard held them on the 4S / Turbo S
+  # rows): they now fit no row (review). Turbo GT is 2024-only (JR22 / JS22). Taycan 4 (CA22 /
+  # CM22 / JM22) and GTS (JE22 / SE22 / JQ22) have no row.
+  # The 4th digit of the 2020-23 uitvoering code is the pack: x0x0000 = Performance Battery
+  # (85-89 kWh drawn: base 451 / 464 km, 4S 429 / 472 km), x1x1000 = Performance Battery Plus
+  # (99-103 kWh drawn). Base and 4S rows are listed as variant + uitvoering pairs (fresh review
+  # #199: JA12 alone put the base's PB+ 520 / 541 km versions on the 71 kWh row).
   porsche-taycan-gen1-base:
-    type_codes: [JA12, SA12]
-    basis: "rdw-tgk 2026-11-19: TAYCAN (RWD) JA12 / SA12 versions, 230 km/h, 2021-22"
+    type_codes: [JA12+1040000, JA12+1050000, JA12+1140000, JA12+1150000, SA12+1140000, SA12+1150000]
+    basis: "rdw-tgk 2026-11-19: TAYCAN (RWD) JA12 / SA12 versions with the Performance Battery (uitvoering x0x0000), WLTP 451-464 km, 85.8-87 kWh drawn, 2021-22"
   porsche-taycan-gen1-4s:
-    type_codes: [JB22, CB22, SB22]
-    basis: "rdw-tgk 2026-11-19: TAYCAN 4S JB22 / CB22 (Cross Turismo) / SB22 (Sport Turismo) versions, 2020-23"
+    type_codes: [JB22+1041000, JB22+1051000, JB22+1141000, JB22+1151000, CB22+1041000, CB22+1051000, CB22+1141000, CB22+1151000, SB22+1141000, SB22+1151000]
+    basis: "rdw-tgk 2026-11-19: TAYCAN 4S JB22 / CB22 (Cross Turismo) / SB22 (Sport Turismo) versions with the Performance Battery Plus (uitvoering x1x1000), WLTP 465-545 km, 99.8-103 kWh drawn, 2020-23"
   porsche-taycan-gen1-turbo:
     type_codes: [JC22, CC22, SC22]
-    basis: "rdw-tgk 2026-11-19: TAYCAN TURBO JC22 / CC22 / SC22 versions, 2020-23"
+    basis: "rdw-tgk 2026-11-19: TAYCAN TURBO JC22 / CC22 / SC22 versions (all Performance Battery Plus), 2020-23"
   porsche-taycan-gen1-turbo-s:
     type_codes: [JD22, CD22, SD22]
-    basis: "rdw-tgk 2026-11-19: TAYCAN TURBO S JD22 / CD22 / SD22 versions, 2020-24"
+    basis: "rdw-tgk 2026-11-19: TAYCAN TURBO S JD22 / CD22 / SD22 versions (all Performance Battery Plus), 2020-24"
   porsche-taycan-gen1-turbo-gt:
     type_codes: [JR22, JS22]
     basis: "rdw-tgk 2026-11-19: TAYCAN TURBO GT JR22 / JS22 versions (290 / 305 km/h), 2024-"
