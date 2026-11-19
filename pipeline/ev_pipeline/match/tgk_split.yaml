@@ -95,6 +95,10 @@ variants:
   # Kia EV6 facelift (2024-): F5E12 = 63 kWh (not seeded, stays unplaced), F5E22 = 84 kWh one
   # motor (30-min 56 kW, WLTP 560-582 km), F5E44 = two motors (no 30-min power, 188 km/h,
   # WLTP 522 km), F5E64 = GT (260 km/h, not seeded: ruled out of both, review).
+  # T-160: the 63 kWh RWD row (Kia DE press kit / price list): F5E12 = 63 kWh, one motor.
+  kia-ev6-facelift-63kwh-rwd:
+    type_codes: [F5E12]
+    basis: "rdw-tgk 2026-11-19: F5E12 versions, 30-min 42 kW, 185 km/h, WLTP 428 km"
   kia-ev6-facelift-84kwh-rwd:
     type_codes: [F5E22]
     basis: "rdw-tgk 2026-11-19: F5E22 versions, 30-min 56 kW, 185 km/h, WLTP 560-582 km"
