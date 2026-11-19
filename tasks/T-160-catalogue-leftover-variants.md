@@ -6,7 +6,7 @@ Status: todo
 The biggest no-variant groups left after T-154 get cited seed variants, so their EU registrations land on real rows.
 
 ## Acceptance criteria
-- [ ] **Elroq, first and in ONE change** (T-153 ask 0): add `source_names: {openev: [Base]}` to `skoda-elroq-gen1-85` **and** remove the OpenEV Elroq "Base" source hold from T-154 (#183). Never one without the other: the hold removal alone builds a `skoda-elroq-gen1-base` row with the wrong 150 kW. Show before / after rows (Elroq 85 keeps Škoda's 210 kW).
+- [ ] **Elroq, first and in ONE change** (T-153 ask 0): add `source_names: {openev: [Base]}` to `skoda-elroq-gen1-85` **and** remove the OpenEV Elroq "Base" source hold from T-154 (#183). Never one without the other: the hold removal alone builds a `skoda-elroq-gen1-base` row with the wrong 150 kW. After-check in the PR body: no `skoda-elroq-gen1-base` row in the build, and the validation row shows OpenEV 150 kW withheld vs Škoda's cited 210 kW on the Elroq 85.
 - [ ] **ZKXZ 2025–26 versions** (T-153 ask 1): e-208 / Corsa / e-2008 versions with the 100 kW motor now go to review because the 50 kWh rows end 2023: extend the rows' years or add the 2025–26 variant, cited.
 - [ ] **Tesla Model S facelift 75D** (T-153 ask 2, the one G-48 hit): seed says RWD, build says AWD; fix the seed from a Tesla document.
 - [ ] **Mazda MX-30** (EV, 35.5 kWh): seed variant(s) from Mazda documents.
