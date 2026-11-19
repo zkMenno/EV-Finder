@@ -53,3 +53,7 @@ One named chat, the **coordinator**; every other chat is a throwaway batch chat 
 | batch: catalogue (2026-11-18) | WS3 catalogue batch: T-136 seed guards, cited facts (Tesla M3 WLTP, e-tron GT facelift), #128 credit lines, coverage script (T-144, T-145) | https://claude.ai/code/session_01JuyZEWGsTtmLd5JyqNkefK | 2026-11-18 |
 | batch: variant queue (2026-11-18) | WS3: variant candidate review queue (data/review/variant-candidates.csv), biggest EU registrations first (T-148) | https://claude.ai/code/session_01JuyZEXkdc6m6bZgzVV874S | 2026-11-18 |
 | WS0 (coordinator, 2026-11-18/19) | Coordinator: release 3 schema #171, Decision 086, T-149–T-152 briefs | https://claude.ai/code/session_01JuyZEU6vsVM15dKZLB6n6K | 2026-11-18 |
+| batch: T-152 | WS2: no far-too-expensive unpriced fill-ins at a small budget (T-152) | https://claude.ai/code/session_01JuyZETaUYebGPuMx1hecJs | 2026-11-19 |
+| batch: T-151 (2026-11-19) | WS3: ë-SpaceTourer 50/75 split, e-Tourneo Courier Ford facts, Leaf 62 kWh merge, Ioniq 5 facelift battery/WLTP (T-151) | https://claude.ai/code/session_01JuyZEWYDTfurC8UVp9w9ew | 2026-11-19 |
+| batch: T-149 / T-150 (2026-11-19) | WS1 + merges: #171, gate #165, gate #172, T-150 #173 (photo bundle), T-149 #179 (popularity, licences, templates) | https://claude.ai/code/session_01JuyZETPZUUpdfhHpfB9Pef | 2026-11-19 |
+| batch: data T-153 (2026-11-19) | WS1 + merges: #175, gate #176, T-153 variant split evidence, G-48–G-50 checks | https://claude.ai/code/session_01JuyZEX99QgTw4AD6jgjZaL | 2026-11-19 |

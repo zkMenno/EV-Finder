@@ -8,7 +8,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from ev_pipeline.images.photos import load_photos
-from ev_pipeline.images.store import CACHE_DIR, fetch_originals
+from ev_pipeline.images.store import CACHE_DIR, fetch_originals, read_templates
 from ev_pipeline.match.seed import load_seed
 from ev_pipeline.refresh.runner import write_run_log
 from ev_pipeline.release.build import default_data_dir
@@ -31,8 +31,9 @@ def cmd_images(args: argparse.Namespace) -> int:
     }
     if args.action == "fetch":
         rep = fetch_originals(photos, data_dir / CACHE_DIR)
-        log["outputs"] = rep.log()
-        log["outcome"] = "partial" if rep.failed else "ok"
+        tpl = read_templates(photos, data_dir / CACHE_DIR)  # T-149: licence template per file
+        log["outputs"] = {**rep.log(), "licence_templates": tpl.log()}
+        log["outcome"] = "partial" if (rep.failed or tpl.failed) else "ok"
         write_run_log(data_dir, log, started)
     print(json.dumps(log, indent=1, ensure_ascii=False))
     return 1 if (args.action == "check" and problems) else 0

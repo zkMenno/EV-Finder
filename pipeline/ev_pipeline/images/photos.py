@@ -46,7 +46,16 @@ Versions 2.0-3.0 also exist as country ports (e.g. CC-BY-SA-3.0-DE); 4.0 has non
 COMMONS_FREE_LICENCES = ("CC0-1.0", "public-domain")
 """Decision 083: CC0 and worldwide public domain, only with an allowed file-page template."""
 ALLOWED_TEMPLATES = frozenset(
-    {"cc-zero", "self|cc-zero", "pd-self", "self|pd-self", "pd-author", "pd-old-100"}
+    {
+        "cc-zero",
+        "self|cc-zero",
+        "pd-self",
+        "self|pd-self",
+        "pd-author",
+        "pd-old",
+        "pd-old-70",
+        "pd-old-100",
+    }
 )
 """Normalised (lowercase, no spaces) Commons templates; mirrors ALLOWED_TEMPLATES in
 data/images/tools/check_templates.py (a test keeps the two equal)."""
@@ -68,6 +77,10 @@ class Photo:
     credit: str
     retrieved_at: date
     make_id: str | None = None
+    # Decision 083 / T-149: the template WS3 read on the file page (CC0 / PD picks); CC BY
+    # photos get theirs from `ev images fetch` (store.read_templates).
+    licence_template: str | None = None
+    licence_checked_at: date | None = None
 
     def field(self) -> dict[str, Any]:
         """The release field without `files` (added once the sizes exist)."""
@@ -80,7 +93,14 @@ class Photo:
             "credit": self.credit,
             "retrieved_at": self.retrieved_at.isoformat(),
             "make_id": self.make_id,
-        }
+        } | (
+            {
+                "licence_template": self.licence_template,
+                "licence_checked_at": self.licence_checked_at.isoformat(),
+            }
+            if self.licence_template and self.licence_checked_at
+            else {}
+        )
 
 
 @dataclass(frozen=True)
@@ -102,6 +122,48 @@ def normalise_template(template: str) -> str:
 def template_allowed(template: str) -> bool:
     t = normalise_template(template)
     return t in ALLOWED_TEMPLATES and not REFUSED_TEMPLATE.match(t.removeprefix("self|"))
+
+
+_CC_TEMPLATE = re.compile(r"^(cc-by(?:-sa)?)-([0-9.,]+?)(\+)?(-[a-z]{2})?(?:-migrated)?$")
+CC_VERSIONS = ("1.0", "2.0", "2.5", "3.0", "4.0")
+TEMPLATE_ALIASES: dict[str, frozenset[str]] = {
+    # Commons {{YouTube CC-BY}}: YouTube's only Creative Commons option is CC BY 3.0.
+    "youtubecc-by": frozenset({"cc-by-3.0"}),
+}
+"""Commons licence templates whose name is not the licence itself (normalised name -> tokens)."""
+
+
+def template_licences(template: str) -> set[str]:
+    """Licence tokens a Commons template grants, normalised: `self|GFDL|cc-by-sa-4.0` →
+    {gfdl, cc-by-sa-4.0}; `cc-by-sa-3.0,2.5,2.0` → one token per version; `self` and
+    named parameters (`migration=...`, `author=...`) are dropped."""
+    out: set[str] = set()
+    for part in normalise_template(template).split("|"):
+        if not part or part == "self" or "=" in part:
+            continue
+        m = _CC_TEMPLATE.match(part)
+        if part in TEMPLATE_ALIASES:
+            out |= TEMPLATE_ALIASES[part]
+        elif m:
+            base, versions, port = m.group(1), m.group(2), m.group(4) or ""
+            vs = [v for v in versions.split(",") if v]
+            if m.group(3) and len(vs) == 1 and vs[0] in CC_VERSIONS:  # "2.0+" = or later
+                vs = [v for v in CC_VERSIONS if float(v) >= float(vs[0])]
+            out |= {f"{base}-{v}{port}" for v in vs}
+        else:
+            out.add(part)
+    return out
+
+
+def template_matches(licence: str, template: str) -> bool:
+    """True when the file-page template grants the licence the photo ships under (T-149:
+    a CC BY photo with a stray template, or a CC0 photo with a CC BY template, is refused)."""
+    tokens = template_licences(template)
+    if licence == "CC0-1.0":
+        return "cc-zero" in tokens
+    if licence == "public-domain":
+        return any(template_allowed(t) and t != "cc-zero" for t in tokens)
+    return licence.lower() in tokens
 
 
 def _free_licence_problem(raw: dict[str, Any], today: date) -> str:
@@ -184,6 +246,10 @@ def parse_photos(
             bad(f"licence {licence!r} not allowed for {source} photos (Decisions 081, 083)")
         elif licence in COMMONS_FREE_LICENCES and (why := _free_licence_problem(raw, today)):
             bad(why)
+        elif raw.get("licence_template") and not template_matches(
+            licence, str(raw["licence_template"])
+        ):
+            bad(f"licence_template {raw['licence_template']!r} does not grant {licence} (T-149)")
         elif not credit:
             bad("empty credit line")
         elif not _https(raw.get("page_url")) or not _https(raw.get("file_url")):
@@ -205,6 +271,10 @@ def parse_photos(
                     credit=credit,
                     retrieved_at=retrieved,
                     make_id=str(make_id) if make_id else None,
+                    licence_template=str(raw["licence_template"])
+                    if raw.get("licence_template")
+                    else None,
+                    licence_checked_at=_date(raw.get("licence_checked_at")),
                 )
             )
     return photos, problems

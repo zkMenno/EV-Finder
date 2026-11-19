@@ -27,6 +27,13 @@ in_git:
   - diff.json
   - retired_ids.json
 
+# Decision 086 (T-150): folders shipped as one uncompressed tar asset each, so a release stays
+# under GitHub's ~500 uploads/hour. The manifest lists the tar (size + sha256) and every file in
+# it (path + size + sha256); `ev release fetch` unpacks and checks each file.
+bundles:
+  - folder: images/
+    path: images.tar
+
 # Per-generation split (page speed): one index plus one file per generation.
 split:
   index: catalogue/index.json

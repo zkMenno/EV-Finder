@@ -1,6 +1,6 @@
 # T-150 Ship release photos as one bundle (Decision 086)
 Role: builder   Lane: pipeline (WS1) + one cross-lane file in apps/web   Wave: launch
-Status: todo
+Status: review (batch chat https://claude.ai/code/session_01JuyZETPZUUpdfhHpfB9Pef, 2026-11-19)
 
 ## Goal
 A fresh release uploads in one run: photos go into one `images.tar` asset per release (Decision 086).
@@ -21,5 +21,14 @@ Decision 086; #162 (resumable upload); #150 (photo-only releases); WS0 INBOX 202
 New photos. Image sizes or formats.
 
 ## Handoff notes
+- Gate PR #172 (asset guard 450 + `ev verify` in the data PR body) is separate; merge it right before this one (release 3 has 646 assets, so the guard alone would stop every release).
+- `data/releases/publish.yaml: bundles` names the bundled folders (today `images/` → `images.tar`). `package` writes a deterministic uncompressed tar (sorted, mtime 0, owner 0, mode 0644) and one manifest entry with `bundle: {folder, files: [{path, bytes, sha256}]}`; the photos are no longer separate assets. `catalogue/` can get the same treatment with one more line (Decision 086 says: new decision first).
+- `ev release fetch` / `ensure_local`: download the tar, check it, unpack only the listed members (regular files, under the folder, each sha256-checked); a lost photo is re-unpacked from the kept tar without a download. `only={"images/"}` or a photo path picks the bundle. Releases 1–3 have no bundle entry and fetch exactly as before (test).
+- Image QA (`images/qa._stored_files`) counts bundle members as stored files.
+- Measured on a copy of release 3 repackaged with this code: **646 → 290 assets**, 357 photos in a 29.3 MB `images.tar`, every member's sha256 identical to release 3's files.
+- `apps/web/scripts/fetch-release.mjs` left alone: it fetches only `CATALOGUE_FILES` (no `images/`), and T-146 (row thumbnails) is still `todo`. When T-146 needs photos, it unpacks `images.tar` the same way (cross-lane; flag in WS0 INBOX then).
+- `gh-publish-release.sh` needed no change: it uploads `manifest.files[]`, which now holds the tar instead of the photos.
 
 ## Review
+- 2026-11-19, fresh subagent (no build context), REVIEW.md from origin/main. Round 1 on e2a8de3: pass; should-fix: re-packaging an old (unbundled) release rewrote its manifest (order + layout); nits: non-dict bundle entry → AttributeError, tar re-downloaded when only the tar is lost, dot-files skipped by `write_bundle`. Round 2 on 6d5f15f: **pass**: R0 green, R1 none, R3 only additions; release 3 copy re-packages to a byte-identical manifest (646 assets, no tar); fresh build: 290 assets, 1 bundle, `verify()` = [], idempotent. Remaining nits: a release first packaged without photos stays unbundled on a hand re-package; `bundled_cfg` duplicate.
+- Gate PR #172 reviewed in the same rounds: pass on ddf1633, merged as ac623d1.
